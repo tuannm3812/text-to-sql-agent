@@ -15,8 +15,8 @@ from .config import (
     RAG_SYNONYMS,
     STOPWORDS,
 )
-from .schema import get_schema_chunk_cache_info, get_schema_chunks
-from .types import SchemaChunk, SchemaRetrievalResult
+from .schema import get_schema_chunk_cache_info, get_schema_chunks_and_plain_ddl
+from .types import SchemaChunk, SchemaRetrievalResult, render_schema_text
 
 
 def _tokenize_for_rag(text: str) -> list[str]:
@@ -78,15 +78,6 @@ def _cosine_vector_similarity(left: list[float], right: list[float]) -> float:
     if not left or not right:
         return 0.0
     return sum(a * b for a, b in zip(left, right, strict=False))
-
-
-def _schema_prompt_chars(chunks: list[SchemaChunk]) -> int:
-    parts: list[str] = []
-    for chunk in chunks:
-        parts.append(chunk.ddl)
-        for column, values in (chunk.value_hints or {}).items():
-            parts.append(f"-- {column}: {', '.join(values)}")
-    return len("\n\n".join(parts))
 
 
 def decompose_question(question: str) -> dict[str, list[str]]:
@@ -205,13 +196,17 @@ def retrieve_schema_context(
         derived from the question, and retrieval statistics.
     """
     before_cache = get_schema_chunk_cache_info()
-    chunks = get_schema_chunks(db_path)
+    chunks, plain_ddl = get_schema_chunks_and_plain_ddl(db_path)
     after_cache = get_schema_chunk_cache_info()
     cache_hit = after_cache.hits > before_cache.hits
     query_tokens = _tokenize_for_rag(question)
     expanded_tokens = _expand_query_tokens(query_tokens)
     decomposed_terms = decompose_question(question)
-    full_schema_chars = _schema_prompt_chars(chunks)
+    # Both baselines are `len()` of a string a pipeline path really sends: plain full
+    # DDL is the RAG-off prompt's schema text, and the full rendering is RAG on with
+    # `top_k <= 0`. The sent size is `len(result.schema_text)` itself.
+    plain_ddl_chars = len(plain_ddl)
+    ddl_with_hints_chars = len(render_schema_text(chunks))
 
     if not chunks:
         return SchemaRetrievalResult(
@@ -220,19 +215,19 @@ def retrieve_schema_context(
             expanded_tokens,
             top_k,
             decomposed_terms=decomposed_terms,
-            full_schema_chars=full_schema_chars,
+            plain_ddl_chars=plain_ddl_chars,
+            ddl_with_hints_chars=ddl_with_hints_chars,
             cache_hit=cache_hit,
         )
     if top_k <= 0:
-        retrieved_schema_chars = _schema_prompt_chars(chunks)
         return SchemaRetrievalResult(
             chunks,
             query_tokens,
             expanded_tokens,
             top_k,
             decomposed_terms=decomposed_terms,
-            full_schema_chars=full_schema_chars,
-            retrieved_schema_chars=retrieved_schema_chars,
+            plain_ddl_chars=plain_ddl_chars,
+            ddl_with_hints_chars=ddl_with_hints_chars,
             cache_hit=cache_hit,
         )
 
@@ -356,15 +351,14 @@ def retrieve_schema_context(
             frontier = next_frontier
 
     selected = sorted(selected, key=lambda c: (-c.score, c.table_name))
-    retrieved_schema_chars = _schema_prompt_chars(selected)
     return SchemaRetrievalResult(
         selected,
         query_tokens,
         expanded_tokens,
         top_k,
         decomposed_terms=decomposed_terms,
-        full_schema_chars=full_schema_chars,
-        retrieved_schema_chars=retrieved_schema_chars,
+        plain_ddl_chars=plain_ddl_chars,
+        ddl_with_hints_chars=ddl_with_hints_chars,
         cache_hit=cache_hit,
     )
 

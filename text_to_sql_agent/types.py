@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any
 
@@ -92,6 +93,40 @@ class SchemaChunk:
         return f"{self.schema_name}.{self.table_name}" if self.schema_name else self.table_name
 
 
+def render_schema_text(chunks: Sequence[SchemaChunk]) -> str:
+    """Render chunks as the schema text a RAG-on prompt carries: DDL, then value hints.
+
+    The single rendering behind `SchemaRetrievalResult.schema_text` and its
+    `ddl_with_hints_chars` baseline, so a size and the text it measures cannot drift.
+    This is what the model receives; changing a byte of it changes every RAG-on prompt.
+    """
+    parts: list[str] = []
+    for chunk in chunks:
+        parts.append(chunk.ddl)
+        if chunk.value_hints:
+            parts.append(
+                "\n".join(
+                    f"-- {column} sample values: {', '.join(values)}"
+                    for column, values in sorted(chunk.value_hints.items())
+                )
+            )
+    return "\n\n".join(parts)
+
+
+def _signed_pct(change: int, baseline: int) -> float | None:
+    """`change` as a percent of `baseline`, one decimal place; `None` for an empty baseline."""
+    if baseline <= 0:
+        return None
+    return round(change / baseline * 100, 1)
+
+
+def _size_change(baseline: int, change: int) -> str:
+    """`"<baseline> chars; change <+n> chars (<+p>%)"` for the retrieval report."""
+    pct = _signed_pct(change, baseline)
+    pct_text = "n/a" if pct is None else f"{pct:+.1f}%"
+    return f"{baseline} chars; change {change:+d} chars ({pct_text})"
+
+
 @dataclass(frozen=True)
 class SchemaRetrievalResult:
     """The chunks retrieved for a question, plus the terms and stats behind them.
@@ -103,8 +138,10 @@ class SchemaRetrievalResult:
         top_k: The requested chunk limit that produced this result.
         decomposed_terms: The question broken into aggregations, filters,
             and comparisons, as returned by `decompose_question`.
-        full_schema_chars: Character count of the entire schema's prompt text.
-        retrieved_schema_chars: Character count of the retrieved chunks' text.
+        plain_ddl_chars: `len()` of plain full DDL, `schema.get_schema(dsn)` - exactly
+            the schema text the RAG-off path sends.
+        ddl_with_hints_chars: `len()` of `render_schema_text` over every chunk - full
+            DDL plus value hints, exactly what RAG on sends with `top_k=0`.
         cache_hit: Whether the underlying schema-chunk cache was hit.
         strategy: Name of the retrieval strategy that produced this result.
     """
@@ -114,33 +151,46 @@ class SchemaRetrievalResult:
     expanded_tokens: list[str]
     top_k: int
     decomposed_terms: dict[str, list[str]] | None = None
-    full_schema_chars: int = 0
-    retrieved_schema_chars: int = 0
+    plain_ddl_chars: int = 0
+    ddl_with_hints_chars: int = 0
     cache_hit: bool = False
     strategy: str = "hybrid-bm25-embedding-semantic-values-graph"
 
     @property
     def schema_text(self) -> str:
         """DDL and value hints for the retrieved chunks, formatted for a prompt."""
-        parts: list[str] = []
-        for chunk in self.chunks:
-            parts.append(chunk.ddl)
-            if chunk.value_hints:
-                parts.append(
-                    "\n".join(
-                        f"-- {column} sample values: {', '.join(values)}"
-                        for column, values in sorted(chunk.value_hints.items())
-                    )
-                )
-        return "\n\n".join(parts)
+        return render_schema_text(self.chunks)
 
     @property
-    def prompt_savings_pct(self) -> float:
-        """Percentage reduction in prompt schema size vs. the full schema."""
-        if self.full_schema_chars <= 0:
-            return 0.0
-        saved = max(0, self.full_schema_chars - self.retrieved_schema_chars)
-        return round((saved / self.full_schema_chars) * 100, 1)
+    def sent_schema_chars(self) -> int:
+        """`len(schema_text)`: characters of schema text the RAG-on path sends."""
+        return len(self.schema_text)
+
+    @property
+    def change_vs_plain_ddl_chars(self) -> int:
+        """Signed change of the sent text against plain full DDL; positive is growth.
+
+        This is the change from the shipped RAG-off path, which sends plain full DDL.
+        """
+        return self.sent_schema_chars - self.plain_ddl_chars
+
+    @property
+    def change_vs_plain_ddl_pct(self) -> float | None:
+        """`change_vs_plain_ddl_chars` as a percent of plain full DDL; `None` if empty."""
+        return _signed_pct(self.change_vs_plain_ddl_chars, self.plain_ddl_chars)
+
+    @property
+    def change_vs_ddl_with_hints_chars(self) -> int:
+        """Signed change of the sent text against full DDL plus hints; positive is growth.
+
+        Both sides carry value hints, so this isolates the effect of table selection.
+        """
+        return self.sent_schema_chars - self.ddl_with_hints_chars
+
+    @property
+    def change_vs_ddl_with_hints_pct(self) -> float | None:
+        """`change_vs_ddl_with_hints_chars` as a percent of that baseline; `None` if empty."""
+        return _signed_pct(self.change_vs_ddl_with_hints_chars, self.ddl_with_hints_chars)
 
     @property
     def report(self) -> str:
@@ -151,8 +201,14 @@ class SchemaRetrievalResult:
             f"Schema RAG strategy: {self.strategy}",
             f"Query tokens: {', '.join(self.query_tokens) or '(none)'}",
             f"Expanded tokens: {', '.join(self.expanded_tokens) or '(none)'}",
-            f"Prompt schema chars: {self.retrieved_schema_chars}/{self.full_schema_chars} "
-            f"saved={self.prompt_savings_pct}%",
+            "Schema text size (characters of schema text, not provider tokens; "
+            "a positive change is growth):",
+            f"- sent: {self.sent_schema_chars} chars",
+            "- vs plain full DDL, what RAG off sends: "
+            + _size_change(self.plain_ddl_chars, self.change_vs_plain_ddl_chars),
+            "- vs full DDL plus value hints, all tables: "
+            + _size_change(self.ddl_with_hints_chars, self.change_vs_ddl_with_hints_chars)
+            + "; isolates table selection",
             f"Cache hit: {self.cache_hit}",
             "",
             "Query decomposition:",

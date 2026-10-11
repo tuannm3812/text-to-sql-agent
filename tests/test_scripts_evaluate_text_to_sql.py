@@ -12,7 +12,9 @@ transform between here and the file. Every test here points `--out-dir` at a
 from __future__ import annotations
 
 import json
+import sqlite3
 import sys
+from contextlib import closing
 from pathlib import Path
 from unittest.mock import patch
 
@@ -122,3 +124,85 @@ def test_main_does_not_write_a_dsn_password_to_the_results_csv(tmp_path: Path) -
 
     md_text = (out_dir / "evaluation_gold.md").read_text(encoding="utf-8")
     assert "hunter2" not in md_text
+
+
+# --- Signed schema-size columns (Codex review 2026-10-12, P2 item 1) -------------------
+
+
+def _one_table_case(tmp_path: Path) -> dict:
+    """Codex's one-table reproduction: 29 chars of plain DDL, 72 sent under RAG."""
+    db_path = tmp_path / "one.db"
+    with closing(sqlite3.connect(db_path)) as conn:
+        conn.execute("CREATE TABLE t (status TEXT)")
+        conn.execute("INSERT INTO t VALUES ('active')")
+        conn.execute("INSERT INTO t VALUES ('inactive')")
+        conn.commit()
+    return {
+        "id": "one-table",
+        "dataset": "fixture",
+        "difficulty": "easy",
+        "question": "status",
+        "db_path": str(db_path),
+        "gold_sql": "SELECT status FROM t ORDER BY status",
+        "expected_tables": ["t"],
+    }
+
+
+def test_rows_carry_signed_size_columns_under_new_names(tmp_path: Path) -> None:
+    row = script.evaluate_case(
+        _one_table_case(tmp_path),
+        mode="gold",
+        provider="ollama",
+        model_name="unused",
+        use_rag=True,
+        rag_top_k=6,
+    )
+
+    assert "prompt_saved_pct" not in row, "the old name must not change meaning silently"
+    assert row[script.CHANGE_VS_PLAIN_DDL] == round((72 - 29) / 29 * 100, 1)
+    assert row[script.CHANGE_VS_DDL_WITH_HINTS] == 0.0
+
+
+def test_markdown_names_units_baselines_and_shows_growth(tmp_path: Path) -> None:
+    case = _one_table_case(tmp_path)
+    cases_path = tmp_path / "cases.json"
+    cases_path.write_text(json.dumps([case]), encoding="utf-8")
+    out_dir = tmp_path / "results"
+    argv = ["evaluate_text_to_sql.py", "--cases", str(cases_path), "--out-dir", str(out_dir)]
+    with patch.object(sys, "argv", argv):
+        script.main()
+
+    md_text = (out_dir / "evaluation_gold.md").read_text(encoding="utf-8")
+    assert "characters of schema text (not provider tokens)" in md_text
+    assert "average change vs plain full DDL, what RAG off sends: +148.3%" in md_text
+    assert "average change vs full DDL plus value hints, all tables: +0.0%" in md_text
+    assert "| +148.3% |" in md_text
+    assert "saved" not in md_text.lower()
+    header = (out_dir / "evaluation_gold.csv").read_text(encoding="utf-8").splitlines()[0]
+    assert script.CHANGE_VS_PLAIN_DDL in header
+    assert "prompt_saved_pct" not in header
+
+
+def test_resume_from_a_csv_with_the_old_column_re_evaluates(tmp_path: Path) -> None:
+    case = _one_table_case(tmp_path)
+    cases_path = tmp_path / "cases.json"
+    cases_path.write_text(json.dumps([case]), encoding="utf-8")
+    out_dir = tmp_path / "results"
+    out_dir.mkdir()
+    (out_dir / "evaluation_gold.csv").write_text(
+        "id,execution_ok,prompt_saved_pct\none-table,True,0.0\n", encoding="utf-8"
+    )
+    argv = [
+        "evaluate_text_to_sql.py",
+        "--cases",
+        str(cases_path),
+        "--out-dir",
+        str(out_dir),
+        "--resume",
+    ]
+    with patch.object(sys, "argv", argv):
+        script.main()
+
+    header = (out_dir / "evaluation_gold.csv").read_text(encoding="utf-8").splitlines()[0]
+    assert script.CHANGE_VS_PLAIN_DDL in header
+    assert "prompt_saved_pct" not in header

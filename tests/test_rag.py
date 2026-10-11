@@ -1,6 +1,13 @@
 from __future__ import annotations
 
+import sqlite3
+from contextlib import closing
+from pathlib import Path
+
+import pytest
+
 import text_to_sql_agent as agent
+from text_to_sql_agent import SchemaRetrievalResult
 
 
 def test_retrieve_schema_chunks_selects_relevant_tables(
@@ -38,3 +45,149 @@ def test_retrieve_relevant_schema_returns_only_selected_ddl(customers_courses_db
 
     assert "CREATE TABLE customers" in schema
     assert "CREATE TABLE courses" not in schema
+
+
+# --- Prompt-size accounting (Codex review 2026-10-12, P2 item 1) -----------------------
+#
+# Every count must be `len()` of a string the pipeline actually sends: plain full DDL is
+# what RAG off sends (`get_schema`), full DDL plus value hints is what RAG on sends with
+# `top_k=0`, and the sent text is `schema_text`. The strings below are written out by hand
+# rather than rebuilt with the code under test.
+
+
+def _write_db(path: Path, statements: list[str]) -> str:
+    with closing(sqlite3.connect(path)) as conn:
+        for statement in statements:
+            conn.execute(statement)
+        conn.commit()
+    return str(path)
+
+
+@pytest.fixture
+def one_table_with_hints_db(tmp_path: Path) -> str:
+    """Codex's reproduction: one text column whose two values become value hints."""
+    return _write_db(
+        tmp_path / "one.db",
+        [
+            "CREATE TABLE t (status TEXT)",
+            "INSERT INTO t VALUES ('active')",
+            "INSERT INTO t VALUES ('inactive')",
+        ],
+    )
+
+
+@pytest.fixture
+def two_tables_with_hints_db(tmp_path: Path) -> str:
+    """Two unrelated tables, each with value hints, so `top_k=1` keeps only one."""
+    return _write_db(
+        tmp_path / "two.db",
+        [
+            "CREATE TABLE orders (order_id INTEGER PRIMARY KEY, status TEXT)",
+            "CREATE TABLE courses (course_id INTEGER PRIMARY KEY, course_name TEXT)",
+            "INSERT INTO orders VALUES (1, 'awaiting_payment')",
+            "INSERT INTO orders VALUES (2, 'cancelled_by_customer')",
+            "INSERT INTO orders VALUES (3, 'delivered')",
+            "INSERT INTO orders VALUES (4, 'pending')",
+            "INSERT INTO courses VALUES (1, 'Algebra')",
+            "INSERT INTO courses VALUES (2, 'Biology')",
+        ],
+    )
+
+
+def test_one_table_with_hints_reports_growth_against_plain_ddl(
+    one_table_with_hints_db: str,
+) -> None:
+    plain = "CREATE TABLE t (status TEXT);"
+    sent = plain + "\n\n-- status sample values: active, inactive"
+    assert (len(plain), len(sent)) == (29, 72)
+
+    context = agent.retrieve_schema_context(one_table_with_hints_db, "status", top_k=6)
+
+    assert agent.get_schema(one_table_with_hints_db) == plain
+    assert context.schema_text == sent
+    assert context.plain_ddl_chars == 29
+    assert context.sent_schema_chars == 72
+    assert context.ddl_with_hints_chars == 72
+    assert context.change_vs_plain_ddl_chars == 43
+    assert context.change_vs_plain_ddl_pct == 148.3
+    assert context.change_vs_ddl_with_hints_chars == 0
+    assert context.change_vs_ddl_with_hints_pct == 0.0
+
+
+def test_the_old_clamped_savings_figure_is_gone(one_table_with_hints_db: str) -> None:
+    context = agent.retrieve_schema_context(one_table_with_hints_db, "status", top_k=6)
+
+    for removed in (
+        "prompt_savings_pct",
+        "full_schema_chars",
+        "retrieved_schema_chars",
+    ):
+        assert not hasattr(context, removed), removed
+
+
+def test_selection_shrinks_against_ddl_with_hints_but_grows_against_plain_ddl(
+    two_tables_with_hints_db: str,
+) -> None:
+    orders_ddl = "CREATE TABLE orders (order_id INTEGER PRIMARY KEY, status TEXT);"
+    courses_ddl = "CREATE TABLE courses (course_id INTEGER PRIMARY KEY, course_name TEXT);"
+    orders_hints = (
+        "-- status sample values: awaiting_payment, cancelled_by_customer, delivered, pending"
+    )
+    courses_hints = "-- course_name sample values: Algebra, Biology"
+    plain = f"{courses_ddl}\n\n{orders_ddl}"
+    with_hints = f"{courses_ddl}\n\n{courses_hints}\n\n{orders_ddl}\n\n{orders_hints}"
+    sent = f"{orders_ddl}\n\n{orders_hints}"
+
+    context = agent.retrieve_schema_context(two_tables_with_hints_db, "order status", top_k=1)
+
+    assert [chunk.table_name for chunk in context.chunks] == ["orders"]
+    assert agent.get_schema(two_tables_with_hints_db) == plain
+    assert context.schema_text == sent
+    assert context.plain_ddl_chars == len(plain)
+    assert context.ddl_with_hints_chars == len(with_hints)
+    assert context.sent_schema_chars == len(sent)
+    # Table selection saves characters against everything RAG could have sent ...
+    assert context.change_vs_ddl_with_hints_chars == len(sent) - len(with_hints) < 0
+    assert context.change_vs_ddl_with_hints_pct == round(
+        (len(sent) - len(with_hints)) / len(with_hints) * 100, 1
+    )
+    # ... yet still sends more than RAG off does, because the hints outweigh the table cut.
+    assert context.change_vs_plain_ddl_chars == len(sent) - len(plain) > 0
+    assert context.change_vs_plain_ddl_pct == round((len(sent) - len(plain)) / len(plain) * 100, 1)
+
+
+def test_top_k_zero_sends_exactly_full_ddl_plus_hints(two_tables_with_hints_db: str) -> None:
+    context = agent.retrieve_schema_context(two_tables_with_hints_db, "anything", top_k=0)
+
+    assert context.sent_schema_chars == len(context.schema_text)
+    assert context.sent_schema_chars == context.ddl_with_hints_chars
+    assert context.change_vs_ddl_with_hints_chars == 0
+    assert context.change_vs_ddl_with_hints_pct == 0.0
+    assert context.plain_ddl_chars == len(agent.get_schema(two_tables_with_hints_db))
+
+
+def test_without_hints_plain_ddl_equals_ddl_with_hints(customers_sales_courses_db: str) -> None:
+    context = agent.retrieve_schema_context(customers_sales_courses_db, "sales", top_k=0)
+
+    assert all(not chunk.value_hints for chunk in context.chunks)
+    assert context.schema_text == agent.get_schema(customers_sales_courses_db)
+    assert context.plain_ddl_chars == context.ddl_with_hints_chars == context.sent_schema_chars
+
+
+def test_report_names_its_units_and_both_baselines(one_table_with_hints_db: str) -> None:
+    report = agent.retrieve_schema_context(one_table_with_hints_db, "status", top_k=6).report
+
+    assert "characters of schema text, not provider tokens" in report
+    assert "sent: 72 chars" in report
+    assert "plain full DDL, what RAG off sends: 29 chars; change +43 chars (+148.3%)" in report
+    assert "full DDL plus value hints, all tables: 72 chars; change +0 chars (+0.0%)" in report
+    assert "saved=" not in report
+
+
+def test_percent_changes_are_undefined_against_an_empty_baseline() -> None:
+    empty = SchemaRetrievalResult(chunks=[], query_tokens=[], expanded_tokens=[], top_k=3)
+
+    assert empty.sent_schema_chars == 0
+    assert empty.change_vs_plain_ddl_chars == 0
+    assert empty.change_vs_plain_ddl_pct is None
+    assert empty.change_vs_ddl_with_hints_pct is None
