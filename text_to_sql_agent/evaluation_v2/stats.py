@@ -107,3 +107,18 @@ def paired_bootstrap_ci(
         raise ValueError(f"paired runs differ in length: {len(new)} vs {len(old)}")
     diffs = [float(bool(a)) - float(bool(b)) for a, b in zip(new, old, strict=True)]
     return _interval(diffs, resamples=resamples, seed=seed)
+
+
+def paired_mean_ci(
+    new: Sequence[float], old: Sequence[float], *, resamples: int = 10_000, seed: int = 0
+) -> Interval:
+    """95 % percentile-bootstrap interval for ``mean(new - old)`` of per-case quantities.
+
+    The unbounded counterpart of ``paired_bootstrap_ci``, for tokens or latency: the values are
+    used as they are, not coerced to a correct/not-correct indicator. Same pairing, same
+    resampling, same meaning. Raises ``ValueError`` on empty input or unequal lengths.
+    """
+    if len(new) != len(old):
+        raise ValueError(f"paired runs differ in length: {len(new)} vs {len(old)}")
+    diffs = [float(a) - float(b) for a, b in zip(new, old, strict=True)]
+    return _interval(diffs, resamples=resamples, seed=seed)

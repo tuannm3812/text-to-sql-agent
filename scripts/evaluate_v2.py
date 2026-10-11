@@ -6,6 +6,7 @@
     uv run python scripts/evaluate_v2.py --suite bird_dev --mode llm ... --resume DIR
     uv run python scripts/evaluate_v2.py --gate gold --suite demo safety
     uv run python scripts/evaluate_v2.py --gate regression --new DIR --baseline DIR
+    uv run python scripts/evaluate_v2.py --compare --new DIR --baseline DIR [--out FILE]
 
 `--gate gold` runs each suite in gold mode into a temporary directory (or `--out-root`) and
 judges it by spec §4.4: valid references self-match, every `reference_invalid` ID is on
@@ -16,6 +17,14 @@ suite and settings (spec §4.5) and fails on a real EX drop: a paired 95 % inter
 below zero, or a point drop of 5 points or more. Exit 0 pass, 1 fail, 2 refused (incompatible,
 incomplete, uncitable, case IDs differ).
 
+`--compare` measures a controlled experiment instead of judging it: two complete runs that
+differ in exactly one of `use_rag`, `rag_top_k`, `evidence`, `ollama_think` or `model` (the
+code and the prompt may differ too). It prints a paired comparison as Markdown - EX overall and
+by difficulty with helped and hurt counts, safety accuracy, tokens, latency - to stdout, or to
+`--out FILE`. An uncitable run is compared and flagged. Exit 0 compared, 2 refused (no factor,
+use `--gate regression`; more than one, or one outside that list; incomplete or unreadable; case
+IDs differ). It never writes under `evaluation/results/` unless `--out` points there.
+
 Each run writes `<out-root>/<run id>/{manifest.json,cases.csv,report.md}`; nothing is ever
 overwritten. `--resume DIR` continues an incomplete run in place and is refused - exit code
 2, naming the fields - unless the same arguments reproduce the saved identity.
@@ -25,8 +34,8 @@ error anywhere else. It defaults to `off`: the 512-token output cap is the SQL a
 budget, and thinking spent inside it can leave no answer. The value is part of the run
 identity, so `-think-off` or `-think-on` appears in the directory name.
 
-Exit codes: 0 every run complete (or every gate passed); 1 a run is incomplete (outages) or a
-gate failed; 2 refused.
+Exit codes: 0 every run complete (or every gate passed, or the comparison was made); 1 a run is
+incomplete (outages) or a gate failed; 2 refused.
 """
 
 from __future__ import annotations
@@ -46,6 +55,11 @@ from text_to_sql_agent.config import (  # noqa: E402 - import must follow the sy
     DEFAULT_RAG_TOP_K,
 )
 from text_to_sql_agent.dsn import redact_dsn  # noqa: E402
+from text_to_sql_agent.evaluation_v2.compare import (  # noqa: E402
+    ComparisonRefused,
+    compare_runs,
+    render_comparison,
+)
 from text_to_sql_agent.evaluation_v2.contract import SuiteError  # noqa: E402
 from text_to_sql_agent.evaluation_v2.gates import (  # noqa: E402
     FLOOR_POINTS,
@@ -114,9 +128,27 @@ def build_parser() -> argparse.ArgumentParser:
         help="where result directories are written (default: evaluation/results; "
         "with --gate, a temporary directory)",
     )
-    parser.add_argument("--new", type=Path, metavar="DIR", help="--gate regression: the new run")
     parser.add_argument(
-        "--baseline", type=Path, metavar="DIR", help="--gate regression: the baseline run"
+        "--compare",
+        action="store_true",
+        help="compare --new with --baseline, two runs that differ in exactly one deliberate "
+        "setting, and print a paired comparison as Markdown",
+    )
+    parser.add_argument(
+        "--new", type=Path, metavar="DIR", help="--gate regression or --compare: the new run"
+    )
+    parser.add_argument(
+        "--baseline",
+        type=Path,
+        metavar="DIR",
+        help="--gate regression or --compare: the baseline run",
+    )
+    parser.add_argument(
+        "--out",
+        type=Path,
+        metavar="FILE",
+        default=None,
+        help="--compare only: write the Markdown here instead of to stdout",
     )
     parser.add_argument("--suites-dir", type=Path, default=DEFAULT_SUITES_DIR)
     return parser
@@ -242,18 +274,51 @@ def _regression(args: argparse.Namespace, parser: argparse.ArgumentParser) -> in
     return 0 if result.passed else 1
 
 
+def _compare(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
+    if args.new is None or args.baseline is None:
+        parser.error("--compare needs --new DIR and --baseline DIR")
+    try:
+        text = render_comparison(compare_runs(args.new, args.baseline))
+    except ComparisonRefused as exc:
+        print(f"comparison refused: {redact_dsn(str(exc))}", file=sys.stderr)
+        for name, new_value, old_value in exc.differences:
+            print(
+                f"  {name}: new {redact_dsn(new_value)!r} vs baseline {redact_dsn(old_value)!r}",
+                file=sys.stderr,
+            )
+        return 2
+    if args.out is None:
+        sys.stdout.write(text)
+        return 0
+    try:
+        args.out.write_text(text, encoding="utf-8")
+    except OSError as exc:
+        print(f"comparison not written: {exc}", file=sys.stderr)
+        return 2
+    print(f"comparison written to {args.out}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     # Before `--mode` defaults to gold: a flag that is never sent must not reach an identity.
     if args.ollama_think is not None and (args.mode != "llm" or args.provider != "ollama"):
         parser.error("--ollama-think applies only to --mode llm --provider ollama")
+    if args.compare:
+        if args.gate is not None or args.suite or args.mode is not None:
+            parser.error("--compare reads two run directories: no --suite, --mode or --gate")
+        if args.resume is not None:
+            parser.error("--compare reads two finished run directories: no --resume")
+        return _compare(args, parser)
+    if args.out is not None:
+        parser.error("--out applies only to --compare")
     if args.gate == "regression":
         if args.suite or args.mode is not None:
             parser.error("--gate regression compares two run directories: no --suite or --mode")
         return _regression(args, parser)
     if args.new is not None or args.baseline is not None:
-        parser.error("--new and --baseline apply only to --gate regression")
+        parser.error("--new and --baseline apply only to --gate regression and --compare")
     if args.mode is None:
         args.mode = "gold"
     if not args.suite:
