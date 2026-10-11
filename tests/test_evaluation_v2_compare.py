@@ -413,6 +413,150 @@ def test_other_counts(tmp_path: Path) -> None:
     assert "| Generation failures | 1 | 0 |" in text
 
 
+# --- the RAG attribution arms --------------------------------------------------------------
+#
+# (A) plain full DDL: RAG off, recording the default `rag_top_k` it never reads;
+# (B) full DDL plus value hints: RAG on, `rag_top_k=0`; (C) selected tables: RAG on, k=6.
+
+
+def test_rag_off_against_rag_on_k0_ignores_the_unused_top_k(tmp_path: Path) -> None:
+    old = make_run(tmp_path, "old", _flags({0, 1}, 4), use_rag=False, rag_top_k=6)
+    new = make_run(tmp_path, "new", _flags({0, 1, 2}, 4), use_rag=True, rag_top_k=0)
+    comparison = compare_runs(new, old)
+
+    assert (comparison.factor, comparison.old_value, comparison.new_value) == (
+        "use_rag",
+        "False",
+        "True",
+    )
+    assert comparison.inert == (("rag_top_k", "0", "6"),)
+    text = render_comparison(comparison)
+    assert text.startswith(
+        "# Schema context: RAG off (plain DDL) (baseline) vs RAG on, k=0 "
+        "(all tables: full DDL plus value hints) (new)\n"
+    )
+    assert "| use_rag | `False` | `True` |" in text
+    assert "| rag_top_k | `6` (unused: RAG off) | `0` |" in text
+    assert "the RAG-off run's `rag_top_k` is unused" in text
+
+
+def test_the_unused_top_k_is_named_on_whichever_side_has_rag_off(tmp_path: Path) -> None:
+    old = make_run(tmp_path, "old", _flags({0}, 4), use_rag=True, rag_top_k=6)
+    new = make_run(tmp_path, "new", _flags({0}, 4), use_rag=False, rag_top_k=3)
+    text = render_comparison(compare_runs(new, old))
+
+    assert text.startswith(
+        "# Schema context: RAG on, k=6 (selected tables: DDL plus value hints) (baseline) "
+        "vs RAG off (plain DDL) (new)\n"
+    )
+    assert "| rag_top_k | `6` | `3` (unused: RAG off) |" in text
+
+
+def test_a_top_k_difference_with_rag_on_both_sides_is_still_the_factor(tmp_path: Path) -> None:
+    old = make_run(tmp_path, "old", _flags({0}, 4), use_rag=True, rag_top_k=6)
+    new = make_run(tmp_path, "new", _flags({0}, 4), use_rag=True, rag_top_k=0)
+    comparison = compare_runs(new, old)
+
+    assert (comparison.factor, comparison.old_value, comparison.new_value) == (
+        "rag_top_k",
+        "6",
+        "0",
+    )
+    assert comparison.inert == ()
+    assert render_comparison(comparison).startswith("# `rag_top_k`: 6 (baseline) vs 0 (new)\n")
+
+
+def test_a_use_rag_only_pair_renders_as_before(tmp_path: Path) -> None:
+    comparison = compare_runs(*_pair(tmp_path))
+    assert comparison.inert == ()
+    text = render_comparison(comparison)
+    assert text.startswith("# `use_rag`: True (baseline) vs False (new)\n")
+    assert "rag_top_k" not in text
+
+
+@pytest.mark.parametrize(
+    ("identity", "named"),
+    [
+        ({"use_rag": False, "rag_top_k": 0, "evidence": True}, "evidence, use_rag, rag_top_k$"),
+        ({"rag_top_k": 0, "evidence": True}, "evidence, rag_top_k$"),
+        ({"use_rag": False, "model": "other"}, "model, use_rag$"),
+        ({"use_rag": False, "max_rows": 5}, "use_rag, max_rows$"),
+    ],
+)
+def test_other_two_factor_pairs_are_still_refused(
+    tmp_path: Path, identity: dict[str, Any], named: str
+) -> None:
+    new, old = _pair(tmp_path, **identity)
+    with pytest.raises(ComparisonRefused, match=f"differ in: {named}"):
+        compare_runs(new, old)
+
+
+# --- whether the pair is controlled (Codex review 2026-10-12, item 3) ----------------------
+
+
+def _second_line(text: str) -> str:
+    return text.split("\n")[2]
+
+
+def test_a_controlled_pair_says_so_near_the_top(tmp_path: Path) -> None:
+    text = render_comparison(compare_runs(*_pair(tmp_path)))
+    assert _second_line(text) == "**Controlled: same commit, clean trees and same prompt.**"
+
+
+@pytest.mark.parametrize(
+    ("identity", "line"),
+    [
+        (
+            {"commit": "b" * 40},
+            "**Not controlled: `commit` differs, so this measures the setting and those "
+            "changes together.**",
+        ),
+        (
+            {"prompt_sha256": "q" * 64},
+            "**Not controlled: `prompt_sha256` differs, so this measures the setting and those "
+            "changes together.**",
+        ),
+        (
+            {"dirty": True},
+            "**Not controlled: the new run's tree was dirty, so this measures the setting and "
+            "those changes together.**",
+        ),
+        (
+            {"commit": "b" * 40, "dirty": True, "prompt_sha256": "q" * 64},
+            "**Not controlled: `commit` differs; the new run's tree was dirty; `prompt_sha256` "
+            "differs, so this measures the setting and those changes together.**",
+        ),
+    ],
+)
+def test_an_uncontrolled_pair_names_what_else_changed(
+    tmp_path: Path, identity: dict[str, Any], line: str
+) -> None:
+    new, old = _pair(tmp_path, use_rag=False, **identity)
+    comparison = compare_runs(new, old)
+    assert _second_line(render_comparison(comparison)) == line
+
+
+def test_two_dirty_trees_are_not_controlled(tmp_path: Path) -> None:
+    old = make_run(tmp_path, "old", _flags({0}, 4), dirty=True)
+    new = make_run(tmp_path, "new", _flags({0}, 4), dirty=True, use_rag=False)
+    text = render_comparison(compare_runs(new, old))
+    assert _second_line(text).startswith("**Not controlled: both runs' trees were dirty, ")
+
+
+def test_an_uncontrolled_pair_still_exits_zero(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    new, old = _pair(tmp_path, use_rag=False, commit="b" * 40)
+    assert cli.main(["--compare", "--baseline", str(old), "--new", str(new)]) == 0
+    assert "**Not controlled: `commit` differs" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("name", ["bird_dev", "demo", "spider_dev"])
+def test_the_committed_g8_comparisons_are_controlled(name: str) -> None:
+    text = (_RESULTS / "rag_ablation" / f"{name}.md").read_text(encoding="utf-8")
+    assert _second_line(text) == "**Controlled: same commit, clean trees and same prompt.**"
+
+
 def _without_ollama_think(run_dir: Path) -> Path:
     """Rewrite ``run_dir``'s manifest as a runner from before ``ollama_think`` wrote it."""
     path = run_dir / MANIFEST_FILE

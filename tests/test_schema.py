@@ -131,3 +131,60 @@ def test_a_path_free_fingerprint_would_collide_across_dsns_without_the_dsn_in_th
     assert chunks_b[0].value_hints == {"name": ["db-b"]}, (
         "a fingerprint-only cache key would have returned db-a's value hints for db-b"
     )
+
+
+def test_plain_ddl_for_prompt_sizing_is_cached_with_the_chunks(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Measuring the RAG-off baseline must not cost each question a catalogue query.
+
+    `retrieve_schema_context` reports the plain full DDL's size, so it needs
+    `raw_schema()`. That read is cached on the chunks' own `(dsn, fingerprint)` key:
+    repeated questions read it once, a schema change reads it again, and a second DSN
+    with the same fingerprint gets its own DDL rather than the first one's.
+    """
+    calls: list[str] = []
+    fingerprints = {"db-a": ("v1",), "db-b": ("v1",)}
+
+    class _CountingEngine:
+        def __init__(self, dsn: str) -> None:
+            self._dsn = dsn
+
+        def schema_fingerprint(self) -> tuple[object, ...]:
+            return fingerprints[self._dsn]
+
+        def schema_chunks(self) -> list[SchemaChunk]:
+            return [
+                SchemaChunk(
+                    table_name="t",
+                    ddl="CREATE TABLE t (a TEXT);",
+                    columns=["a"],
+                    foreign_tables=[],
+                    search_text="t a",
+                )
+            ]
+
+        def raw_schema(self) -> str:
+            calls.append(self._dsn)
+            return f"CREATE TABLE t (a TEXT); -- {self._dsn} {fingerprints[self._dsn][0]}"
+
+    monkeypatch.setattr(schema, "open_engine", lambda dsn: _CountingEngine(dsn))
+    schema._cached_schema_chunks.cache_clear()
+    schema._cached_raw_schema.cache_clear()
+
+    first = agent.retrieve_schema_context("db-a", "a", top_k=6)
+    second = agent.retrieve_schema_context("db-a", "a", top_k=6)
+    assert calls == ["db-a"], "the second question must reuse the cached DDL"
+    assert (
+        first.plain_ddl_chars
+        == second.plain_ddl_chars
+        == len("CREATE TABLE t (a TEXT); -- db-a v1")
+    )
+
+    other = agent.retrieve_schema_context("db-b", "a", top_k=6)
+    assert calls == ["db-a", "db-b"], "a different DSN must not share a cache entry"
+    assert other.plain_ddl_chars == len("CREATE TABLE t (a TEXT); -- db-b v1")
+
+    fingerprints["db-a"] = ("v2",)
+    agent.retrieve_schema_context("db-a", "a", top_k=6)
+    assert calls == ["db-a", "db-b", "db-a"], "a schema change must invalidate the DDL"

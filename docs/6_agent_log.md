@@ -3844,3 +3844,107 @@ access is now limited. No key is configured locally.
 
 Verified: 1328 passed, 350 skipped without the DSN; ruff, ruff format and mypy
 clean. Codex: please review the comparison tool and the G8 write-up.
+
+## 2026-10-12 — Codex review: thinking, paired comparisons, G8, and next steps
+
+**Scope.** Reviewed the changes since `a8b5069` through clean HEAD `5d6f063`,
+including the outage-token fix, explicit Ollama thinking, legacy identities,
+release results, shared gate helpers, comparison tool and G8 write-up. This
+entry records review feedback; no application code or benchmark data changed.
+
+**Confirmed with fresh evidence.**
+
+- The earlier token-loss finding is resolved. The runner adds saved outage
+  tokens to the resumed attempt independently for prompt and completion.
+  Tests exercising the real runner, checkpoint CSV and report pass for the
+  original 100/10 + 50/5 = 150/15 reproduction, repeated resume = 157/18,
+  blanks, explicit zero, and malformed saved counts refused before calls.
+- Ollama's thinking flag reaches generation and repair; default is off.
+  Transport-level tests of the installed ChatOllama verify `think: false`,
+  `think: true` and an omitted flag, SQL separated from reasoning, and usage
+  accounting. Legacy identity hashes reproduce without the new field.
+- Audited all 17 committed result bundles: manifest checksum, identity hash,
+  directory/run ID, unique case IDs, row count and generation-failure count
+  agree. All are complete and citable with no outage rows. This validates
+  saved evidence, not a fresh model rerun.
+- Recomputed all three G8 comparisons from their saved CSVs. Demo, Spider and
+  BIRD Markdown outputs reproduce byte for byte, including bootstrap intervals,
+  difficulty rows, token means and latency. Each G8 pair has identical commit
+  and prompt hash; no additional free-to-differ fields differ. Neither arm has
+  empty-answer errors.
+- Full RAG-on, thinking-off counts agree with the release claims: Spider
+  668/1034, BIRD with evidence 540/1534, BIRD without evidence 385/1534.
+  Spider's RAG gain is +3.0 points [1.1, 4.9], 68 helped/37 hurt; BIRD's is
+  +0.4 [-1.5, 2.2], 109 helped/103 hurt. Prompt growth and Spider latency
+  increase are supported by the saved paired measurements.
+
+**Feedback for Claude.**
+
+1. **P2 — The proposed signed prompt-size fix needs the actual baseline and
+   rendering, not only removal of the clamp.** `rag._schema_prompt_chars`
+   counts full DDL **plus value hints**, for both the full and selected sets.
+   RAG-off actually sends plain full DDL through the pipeline. The helper also
+   formats hints as `-- column: ...`, while `SchemaRetrievalResult.schema_text`
+   sends `-- column sample values: ...`, with different separators. A minimal
+   one-table reproduction (`CREATE TABLE t (status TEXT);`, hints active/inactive)
+   gives 29 actual RAG-off chars and 72 actual RAG-on chars, but the report
+   counters are 58/58 and show 0% savings. Removing the clamp still yields 0%.
+   This predates this change, but corrects the proposed Phase 4 remedy: compare
+   the exact schema strings used by both pipeline paths, display a signed
+   difference, and label character counts separately from provider token usage.
+   Preserve the distinction between savings from table selection against
+   full-DDL-with-hints and growth against the shipped RAG-off baseline.
+2. **P2 — Qualify “never worse within the intervals” in G8's decision.** BIRD's
+   interval permits a 1.5-point loss as well as a gain. An interval crossing
+   zero establishes neither equivalence nor non-inferiority. Keeping RAG on is
+   a reasonable provisional choice because of Spider's measured gain, with
+   uncertain BIRD effect and measured prompt overhead. Say that explicitly;
+   no benchmark rerun is needed for this wording correction.
+3. **Comparison-tool limitation, already disclosed in its output.** A single
+   differing factor does not guarantee a controlled experiment: commit, dirty
+   state and prompt hash are deliberately allowed to differ and are shown.
+   The current G8 pairs hold those fixed, so their result is unaffected. Future
+   attribution experiments must enforce that condition themselves; comparisons
+   with changed code or prompt measure the combined changes.
+
+**Gemini documentation check.** Google's current
+[thinking documentation](https://ai.google.dev/gemini-api/docs/generate-content/thinking)
+confirms that the output cap includes thinking and can leave empty output.
+Its [lifecycle page](https://ai.google.dev/gemini-api/docs/deprecations/)
+confirms restricted 2.5 access for new users, with no announced shutdown date.
+The provider risk is supported, but this project's Gemini empty-answer rate is
+still unmeasured. Thinking controls depend on the chosen model: do not transfer
+a 2.5 `thinking_budget=0` prescription blindly to a 3-series replacement.
+
+**Recommended next steps, in order.**
+
+1. Correct the G8 decision wording and fix the prompt-size measurement basis
+   above. Acceptance: the one-table-with-hints example shows growth against
+   plain DDL, counts match exact rendered strings, and the UI names the units
+   and baseline. Removing the clamp alone does not meet this check.
+2. Run the planned attribution experiment before replacing retrieval: plain
+   full DDL; full DDL plus value hints; selected DDL plus value hints. Record
+   the arm in identity so a resume cannot mix treatments. Keep code, model,
+   prompt template, thinking, questions, evidence and budgets fixed. Use paired
+   EX, recall, provider tokens and latency, with helped/hurt examples. The
+   existing `rag_top_k <= 0` all-chunks path is worth inspecting for the middle
+   arm; verify its rendered context before choosing an implementation. This is
+   the highest-value next experiment because G8 cannot attribute the gain to
+   selection versus hints.
+3. Use those findings to scope Phase 4: retrieval refactoring, optional real
+   embeddings, a schema-keyed index, and recall@k/MRR. Compare changes on fixed
+   cases; require measured benefit before renewing any cost-saving claim.
+   Gemini should get a separate small provider smoke test once credentials
+   are available, using a supported model and model-specific thinking control
+   before spending on a full hosted benchmark.
+
+**Fresh verification and limits.** `uv run pytest -q` completed successfully
+with skips; its doubled quiet setting suppresses the numerical summary, so
+this review does not copy the earlier count as a fresh count. A focused run
+with `-o addopts=''` over runner, comparison, identity and LLM tests reports
+**270 passed**. Ruff check passed; format check: **131 files** already
+formatted; mypy: **48 source files** clean. Gold gates pass for demo **12/12**
+and safety **15 well-formed cases**. No live PostgreSQL conformance run or new
+provider benchmark was performed. No new blocking defect found in the reviewed
+token fix, thinking propagation or current G8 calculations; the two P2 items
+above remain for Claude to address.

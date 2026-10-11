@@ -13,7 +13,14 @@ exactly such a pair, made on purpose. ``compare_runs`` measures it instead of ju
 2. The runs must differ in exactly one *factor*, one of ``FACTORS``, among the fields the gate
    checks (``gates.compatible``: the identity minus ``FREE_TO_DIFFER``, plus ``mode``). No
    difference is a regression question; two, or one outside ``FACTORS``, is no controlled
-   comparison. ``commit``, ``dirty`` and ``prompt_sha256`` may still differ, and are shown.
+   comparison - with one exception, ``use_rag`` together with ``rag_top_k``. Only the RAG path
+   reads ``rag_top_k``: ``pipeline.ask_database*`` passes it to retrieval only when ``use_rag``
+   is set, and the runner's schema recall returns before reading it when it is not. A RAG-off
+   run still records the default, so RAG off against RAG on at ``rag_top_k=0`` would otherwise
+   be refused as two factors; there the off side's value is shown and marked unused.
+   ``commit``, ``dirty`` and ``prompt_sha256`` may still differ, and are shown; the output's
+   second line says whether they are held fixed (same commit, clean trees, same prompt) or
+   names what else changed, since a pair that differs there measures those changes too.
 3. Cases align by id exactly as the gate aligns them (``gates.aligned_ids``), in the same
    order, so the paired EX interval here and the gate's agree.
 
@@ -61,6 +68,9 @@ from text_to_sql_agent.evaluation_v2.stats import Interval, paired_mean_ci
 
 # The settings a controlled comparison may vary, one at a time.
 FACTORS: tuple[str, ...] = ("use_rag", "rag_top_k", "evidence", "ollama_think", "model")
+# Read only on the RAG path, so a difference in it beside a `use_rag` difference is no factor.
+UNUSED_WITHOUT_RAG = "rag_top_k"
+CONTROLLED = "Controlled: same commit, clean trees and same prompt."
 
 
 class ComparisonRefused(ValueError):
@@ -147,7 +157,10 @@ class Comparison:
     """Everything ``render_comparison`` prints, computed once.
 
     ``also_differ`` holds ``(field, new, baseline)`` for each of ``FREE_TO_DIFFER`` that
-    differs: allowed, and shown. ``ex`` is ``None`` when no case is answerable (the ``safety``
+    differs: allowed, and shown. ``inert`` holds ``(field, new, baseline)`` for a setting that
+    differs but that one side never reads - ``rag_top_k`` when the factor is ``use_rag``.
+    ``uncontrolled`` names what else changed between the runs (commit, a dirty tree, prompt);
+    empty for a controlled pair. ``ex`` is ``None`` when no case is answerable (the ``safety``
     suite); ``safety`` is ``None`` when none is non-answerable, or the runs are gold runs.
     """
 
@@ -155,6 +168,8 @@ class Comparison:
     new_value: str
     old_value: str
     also_differ: tuple[tuple[str, str, str], ...]
+    inert: tuple[tuple[str, str, str], ...]
+    uncontrolled: tuple[str, ...]
     suite: str
     subset: str
     mode: str
@@ -175,7 +190,8 @@ def _load(directory: Path, label: str) -> tuple[Manifest, dict[str, Row]]:
         raise ComparisonRefused(str(exc)) from exc
 
 
-def _factor(new: Manifest, old: Manifest) -> str:
+def _factor(new: Manifest, old: Manifest) -> tuple[str, tuple[str, ...]]:
+    """``(factor, inert fields)``: the one setting varied, and any difference nothing reads."""
     differing = compatible(new, old)
     differences = tuple(
         (name, field_value(new, name, old), field_value(old, name, new)) for name in differing
@@ -185,13 +201,36 @@ def _factor(new: Manifest, old: Manifest) -> str:
             "the runs differ in no setting (at most in commit, dirty or prompt_sha256): "
             "that is a regression question, so use --gate regression"
         )
-    if len(differing) > 1 or differing[0] not in FACTORS:
+    inert = tuple(
+        name for name in differing if name == UNUSED_WITHOUT_RAG and "use_rag" in differing
+    )
+    varied = [name for name in differing if name not in inert]
+    if len(varied) > 1 or varied[0] not in FACTORS:
         raise ComparisonRefused(
             f"a comparison varies exactly one of {', '.join(FACTORS)}; these runs differ in: "
             + ", ".join(describe_field(name, new, old) for name in differing),
             differences,
         )
-    return differing[0]
+    return varied[0], inert
+
+
+def _uncontrolled(new: Manifest, old: Manifest) -> tuple[str, ...]:
+    """What besides the settings may have changed between the runs; empty when nothing did."""
+    a, b = new.identity, old.identity
+    dirty = {
+        (True, False): "the new run's tree was dirty",
+        (False, True): "the baseline run's tree was dirty",
+        (True, True): "both runs' trees were dirty",
+    }.get((a.dirty, b.dirty))
+    return tuple(
+        reason
+        for reason in (
+            "`commit` differs" if a.commit != b.commit else None,
+            dirty,
+            "`prompt_sha256` differs" if a.prompt_sha256 != b.prompt_sha256 else None,
+        )
+        if reason is not None
+    )
 
 
 def _side(manifest: Manifest, rows: Sequence[Row]) -> RunSide:
@@ -291,7 +330,7 @@ def compare_runs(new_dir: Path, baseline_dir: Path) -> Comparison:
     """
     new_manifest, new_rows = _load(new_dir, "new")
     old_manifest, old_rows = _load(baseline_dir, "baseline")
-    factor = _factor(new_manifest, old_manifest)
+    factor, inert = _factor(new_manifest, old_manifest)
     try:
         ids = aligned_ids(new_rows, old_rows)
     except RegressionRefused as exc:
@@ -335,6 +374,15 @@ def compare_runs(new_dir: Path, baseline_dir: Path) -> Comparison:
         new_value=field_value(new_manifest, factor, old_manifest),
         old_value=field_value(old_manifest, factor, new_manifest),
         also_differ=also_differ,
+        inert=tuple(
+            (
+                name,
+                field_value(new_manifest, name, old_manifest),
+                field_value(old_manifest, name, new_manifest),
+            )
+            for name in inert
+        ),
+        uncontrolled=_uncontrolled(new_manifest, old_manifest),
         suite=new_manifest.identity.suite,
         subset=new_manifest.identity.subset,
         mode=new_manifest.mode,
@@ -476,26 +524,68 @@ def _other_section(comparison: Comparison) -> list[str]:
     ]
 
 
+def _schema_context(use_rag: str, rag_top_k: str) -> str:
+    """One arm of a RAG-off against RAG-on pair, named by the schema text it sends."""
+    if use_rag != "True":
+        return "RAG off (plain DDL)"
+    if int(rag_top_k) <= 0:
+        return f"RAG on, k={rag_top_k} (all tables: full DDL plus value hints)"
+    return f"RAG on, k={rag_top_k} (selected tables: DDL plus value hints)"
+
+
+def _title(c: Comparison) -> str:
+    if not c.inert:
+        return f"# `{c.factor}`: {c.old_value} (baseline) vs {c.new_value} (new)"
+    (_, new_k, old_k), *_ = c.inert
+    return (
+        f"# Schema context: {_schema_context(c.old_value, old_k)} (baseline) vs "
+        f"{_schema_context(c.new_value, new_k)} (new)"
+    )
+
+
+def _control_line(c: Comparison) -> str:
+    if not c.uncontrolled:
+        return f"**{CONTROLLED}**"
+    return (
+        f"**Not controlled: {'; '.join(c.uncontrolled)}, so this measures the setting and "
+        "those changes together.**"
+    )
+
+
+def _differ_sentence(c: Comparison) -> str:
+    if not c.inert:
+        return (
+            f"The runs differ in `{c.factor}` and in no other setting the regression gate checks."
+        )
+    return (
+        f"The runs differ in `{c.factor}`. They also record different `{UNUSED_WITHOUT_RAG}` "
+        f"values, but the RAG-off run's `{UNUSED_WITHOUT_RAG}` is unused - with RAG off the "
+        "pipeline sends plain full DDL and retrieves nothing - so it is no second factor. They "
+        "differ in no other setting the regression gate checks."
+    )
+
+
 def render_comparison(comparison: Comparison) -> str:
     """The comparison as Markdown. Deterministic: the same inputs give the same bytes."""
     c = comparison
     old, new = c.old, c.new
     lines = [
-        f"# `{c.factor}`: {c.old_value} (baseline) vs {c.new_value} (new)",
+        _title(c),
+        "",
+        _control_line(c),
         "",
         f"- Baseline: `{old.run_id}` at commit `{old.commit}`",
         f"- New: `{new.run_id}` at commit `{new.commit}`",
         "",
         f"Suite `{c.suite}`, subset `{c.subset}`, mode `{c.mode}`: {c.cases} cases, paired by "
-        f"id. The runs differ in `{c.factor}` and in no other setting the regression gate "
-        "checks.",
+        f"id. {_differ_sentence(c)}",
         "",
         "| | Baseline | New |",
         "|---|---|---|",
         f"| Citable | {_citable(old)} | {_citable(new)} |",
         f"| Cases | {old.cases} | {new.cases} |",
     ]
-    lines += [f"| {name} | `{old_v}` | `{new_v}` |" for name, old_v, new_v in _rows(c)]
+    lines += [f"| {name} | {old_v} | {new_v} |" for name, old_v, new_v in _rows(c)]
     lines.append("")
     if c.also_differ:
         names = ", ".join(f"`{name}`" for name, _, _ in c.also_differ)
@@ -543,7 +633,20 @@ def render_comparison(comparison: Comparison) -> str:
 
 
 def _rows(comparison: Comparison) -> list[tuple[str, str, str]]:
-    """``(field, baseline, new)`` for the factor and every free-to-differ field that differs."""
-    rows = [(comparison.factor, comparison.old_value, comparison.new_value)]
-    rows += [(name, old_v, new_v) for name, new_v, old_v in comparison.also_differ]
+    """``(field, baseline, new)`` table cells for the factor and the other differing fields.
+
+    The other fields are any unused setting and every free-to-differ field that differs; an
+    unused value is marked on the side that ignores it.
+    """
+    c = comparison
+    rows = [(c.factor, f"`{c.old_value}`", f"`{c.new_value}`")]
+    for name, new_v, old_v in c.inert:
+        rows.append(
+            (
+                name,
+                f"`{old_v}`" + ("" if c.old_value == "True" else " (unused: RAG off)"),
+                f"`{new_v}`" + ("" if c.new_value == "True" else " (unused: RAG off)"),
+            )
+        )
+    rows += [(name, f"`{old_v}`", f"`{new_v}`") for name, new_v, old_v in c.also_differ]
     return rows

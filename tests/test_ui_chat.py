@@ -75,3 +75,26 @@ def test_the_apps_ollama_call_sends_think_false(customers_db: str, recording_oll
     assert result.ok, result.error
     assert sql_text == "SELECT name FROM customers"
     assert recording_ollama.reasoning == [False]
+
+
+def test_rag_on_shows_the_sent_schema_and_a_report_naming_units(customers_db: str) -> None:
+    schema_text, report = chat._schema_display(
+        customers_db, "list customers", use_rag=True, rag_top_k=3
+    )
+
+    assert schema_text is not None and "CREATE TABLE customers" in schema_text
+    assert report is not None
+    assert "characters of schema text, not provider tokens" in report
+    assert "plain full DDL, what RAG off sends" in report
+
+
+def test_rag_off_shows_plain_ddl_and_no_retrieval_report(customers_db: str) -> None:
+    """The sample-question path used to show a retrieval report even with RAG off."""
+    from text_to_sql_agent import get_schema
+
+    schema_text, report = chat._schema_display(
+        customers_db, "list customers", use_rag=False, rag_top_k=3
+    )
+
+    assert schema_text == get_schema(customers_db)
+    assert report is None

@@ -21,6 +21,26 @@ RETRYABLE_ERROR_MARKERS = (
     "rate",
 )
 
+# Signed percent change in characters of schema text (not provider tokens) of the
+# retrieved schema text against each baseline; positive is growth. These replace
+# `prompt_saved_pct`, which counted a different rendering, compared against full DDL
+# *plus* hints rather than what RAG off sends, and clamped growth to 0. The old name is
+# not reused with a flipped sign: earlier CSVs under `evaluation/results/` keep it with
+# its old meaning, and a reader comparing files must not mistake one for the other.
+CHANGE_VS_PLAIN_DDL = "schema_chars_change_vs_plain_ddl_pct"
+CHANGE_VS_DDL_WITH_HINTS = "schema_chars_change_vs_ddl_with_hints_pct"
+
+
+def _pct_cell(value: float | None) -> float | str:
+    """A CSV cell for a signed percent; blank when the baseline was empty."""
+    return "" if value is None else value
+
+
+def _mean_pct(rows: list[dict[str, Any]], column: str) -> str:
+    """Signed mean of a percent column over the rows that have one, e.g. ``+12.5%``."""
+    values = [float(row[column]) for row in rows if row.get(column, "") != ""]
+    return f"{sum(values) / len(values):+.1f}%" if values else "n/a"
+
 
 def _run_gold(case: dict[str, Any]) -> tuple[str, agent.QueryResult]:
     return agent.run_gold(case)
@@ -115,7 +135,8 @@ def evaluate_case(
         "value_match": score.value_match,
         "exact_result_match": score.exact_match,
         "schema_table_recall": table_recall,
-        "prompt_saved_pct": rag_context.prompt_savings_pct,
+        CHANGE_VS_PLAIN_DDL: _pct_cell(rag_context.change_vs_plain_ddl_pct),
+        CHANGE_VS_DDL_WITH_HINTS: _pct_cell(rag_context.change_vs_ddl_with_hints_pct),
         "cache_hit": rag_context.cache_hit,
         "expected_tables": ", ".join(sorted(expected_tables)),
         "retrieved_tables": ", ".join(sorted(retrieved_tables)),
@@ -143,9 +164,6 @@ def write_markdown(rows: list[dict[str, Any]], output_path: Path) -> None:
         float(row["schema_table_recall"]) for row in rows if row["schema_table_recall"] != ""
     ]
     avg_recall = round(sum(recall_values) / len(recall_values), 3) if recall_values else 0
-    avg_prompt_saved = (
-        round(sum(float(row["prompt_saved_pct"]) for row in rows) / total, 1) if total else 0
-    )
 
     lines = [
         "# Text-to-SQL Evaluation Results",
@@ -157,18 +175,25 @@ def write_markdown(rows: list[dict[str, Any]], output_path: Path) -> None:
         f"- Row match: {row_match}/{total}",
         f"- Exact result match: {exact}/{total}",
         f"- Average schema table recall: {avg_recall}",
-        f"- Average prompt schema saved: {avg_prompt_saved}%",
+        "- Schema text size of the retrieved schema, in characters of schema text "
+        "(not provider tokens); a positive change is growth:",
+        "  - average change vs plain full DDL, what RAG off sends: "
+        f"{_mean_pct(rows, CHANGE_VS_PLAIN_DDL)}",
+        "  - average change vs full DDL plus value hints, all tables: "
+        f"{_mean_pct(rows, CHANGE_VS_DDL_WITH_HINTS)}",
         f"- Average latency: {avg_latency} ms",
         "",
         "| Case | Dataset | Difficulty | Safe | Executed | Value Match | Row Match | "
-        "Exact Match | Schema Recall | Prompt Saved | Latency ms |",
+        "Exact Match | Schema Recall | Schema Chars vs Plain DDL | Latency ms |",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in rows:
+        change = row[CHANGE_VS_PLAIN_DDL]
+        change_text = "n/a" if change == "" else f"{float(change):+.1f}%"
         lines.append(
             "| {id} | {dataset} | {difficulty} | {safe_sql} | {execution_ok} | "
             "{value_match} | {row_match} | {exact_result_match} | {schema_table_recall} | "
-            "{prompt_saved_pct}% | {latency_ms} |".format(**row)
+            "{change_text} | {latency_ms} |".format(change_text=change_text, **row)
         )
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -208,9 +233,15 @@ def main() -> None:
     existing_rows: dict[str, dict[str, Any]] = {}
     if args.resume and csv_path.exists():
         with csv_path.open(newline="", encoding="utf-8") as f:
-            for row in csv.DictReader(f):
-                if row.get("execution_ok") == "True":
-                    existing_rows[row["id"]] = row
+            reader = csv.DictReader(f)
+            if CHANGE_VS_PLAIN_DDL not in (reader.fieldnames or []):
+                # A CSV written before the signed size columns has `prompt_saved_pct`
+                # instead; mixing the two would write a file whose header fits neither.
+                print(f"{csv_path} predates {CHANGE_VS_PLAIN_DDL}; re-evaluating every case.")
+            else:
+                for row in reader:
+                    if row.get("execution_ok") == "True":
+                        existing_rows[row["id"]] = row
 
     rows: list[dict[str, Any]] = []
     for index, case in enumerate(cases):

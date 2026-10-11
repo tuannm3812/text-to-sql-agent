@@ -63,6 +63,26 @@ def _run_query(
         )
 
 
+def _schema_display(
+    db_path: str, question: str, *, use_rag: bool, rag_top_k: int
+) -> tuple[str | None, str | None]:
+    """`(schema_text, rag_report)` for the turn: the schema text its path sent.
+
+    RAG on shows the retrieved schema text and the retrieval report, whose sizes
+    are measured against plain full DDL and full DDL plus value hints. RAG off
+    sends plain full DDL and retrieves nothing, so it shows that DDL and no report:
+    a report would describe a retrieval the turn never made. A failure to read the
+    schema hides both rather than failing the turn.
+    """
+    try:
+        if use_rag:
+            rag_context = backend.retrieve_schema_context(db_path, question, top_k=rag_top_k)
+            return rag_context.schema_text, rag_context.report
+        return backend.get_schema(db_path), None
+    except Exception:
+        return None, None
+
+
 def render_sample_question(settings: Settings) -> None:
     """Render the active demo's blurb and its one-click sample question.
 
@@ -95,18 +115,12 @@ def render_sample_question(settings: Settings) -> None:
                     rag_top_k=settings.rag_top_k,
                 )
             df_out = result_to_dataframe(result) if result.columns else None
-            rag_report = None
-            schema_text = None
-            try:
-                rag_context = backend.retrieve_schema_context(
-                    str(Path(demo["path"]).resolve()),
-                    sample_prompt,
-                    top_k=settings.rag_top_k,
-                )
-                rag_report = rag_context.report
-                schema_text = rag_context.schema_text
-            except Exception:
-                pass
+            schema_text, rag_report = _schema_display(
+                str(Path(demo["path"]).resolve()),
+                sample_prompt,
+                use_rag=settings.use_rag,
+                rag_top_k=settings.rag_top_k,
+            )
             st.session_state.messages.append(
                 {
                     "role": "assistant",
@@ -192,21 +206,12 @@ def render_chat(settings: Settings) -> None:
         if result.columns:
             df_out = result_to_dataframe(result)
 
-        schema_text: str | None = None
-        rag_report: str | None = None
-        try:
-            if settings.use_rag:
-                rag_context = backend.retrieve_schema_context(
-                    settings.db_path,
-                    prompt.strip(),
-                    top_k=settings.rag_top_k,
-                )
-                schema_text = rag_context.schema_text
-                rag_report = rag_context.report
-            else:
-                schema_text = backend.get_schema(settings.db_path)
-        except Exception:
-            pass
+        schema_text, rag_report = _schema_display(
+            settings.db_path,
+            prompt.strip(),
+            use_rag=settings.use_rag,
+            rag_top_k=settings.rag_top_k,
+        )
 
         st.session_state.messages.append(
             {

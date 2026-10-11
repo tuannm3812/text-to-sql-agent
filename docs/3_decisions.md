@@ -10,8 +10,13 @@ selection from value hints. Paired comparisons of runs that differ in one
 deliberate setting go through `scripts/evaluate_v2.py --compare`, which refuses
 any pair differing in more than one setting.
 
-**Ruled out:** Turning RAG off by default, since it was never worse within the
-intervals and was better on Spider. Keeping the cost claim, since every suite
+**Ruled out:** Turning RAG off by default. The choice to keep it on is
+provisional: it rests on Spider's measured gain, while BIRD's interval
+[-1.5, +2.2] allows a small loss as well as a gain and so shows neither
+equivalence nor non-inferiority, and the prompt overhead is measured.
+(Corrected 2026-10-12 after Codex's review; the entry first said RAG was
+"never worse within the intervals", which BIRD's interval does not
+support.) Keeping the cost claim, since every suite
 measured contradicts it. Extending the regression gate to compare settings: it
 is a verdict on the same measurement, and keeping it strict is what makes its
 verdict mean something.

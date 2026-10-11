@@ -57,8 +57,11 @@ Full tool output per suite: [demo](rag_ablation/demo.md),
 
 ## Decision
 
-- **Keep RAG on as the default.** It is never worse within the intervals, and
-  it is better on Spider.
+- **Keep RAG on as the default, provisionally.** It is better on Spider by a
+  measured margin. On BIRD the interval [-1.5, +2.2] allows a small loss as
+  well as a gain, so it shows neither equivalence nor non-inferiority; the
+  BIRD effect is uncertain, and the prompt overhead is real. (Corrected
+  2026-10-12: this line first said "never worse within the intervals".)
 - **Withdraw the cost claim.** The README no longer says RAG improves prompt
   size, latency or cost. On every suite measured it costs prompt tokens. A
   saving on schemas much larger than BIRD's is plausible but unmeasured.

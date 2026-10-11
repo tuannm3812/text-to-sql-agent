@@ -56,6 +56,34 @@ def get_schema_chunks(db_path: str) -> list[SchemaChunk]:
     return list(_cached_schema_chunks(db_path, fingerprint))
 
 
+@lru_cache(maxsize=32)
+def _cached_raw_schema(dsn: str, _fingerprint: tuple[object, ...]) -> str:
+    return open_engine(dsn).raw_schema()
+
+
+def get_schema_chunks_and_plain_ddl(db_path: str) -> tuple[list[SchemaChunk], str]:
+    """Return `get_schema_chunks(db_path)` and `get_schema(db_path)`, both cached.
+
+    Retrieval needs plain full DDL only to measure what the RAG-off path would have
+    sent. Both values are cached on the same `(dsn, engine.schema_fingerprint())`
+    key, read from a single fingerprint, so measuring that baseline costs a question
+    no catalogue query beyond the one it already made: the DDL is read once per
+    schema version, exactly as the chunks are. `get_schema` itself stays uncached,
+    so the RAG-off path is unchanged.
+
+    Args:
+        db_path: Filesystem path (or DSN) to the database.
+
+    Returns:
+        `(chunks, plain_ddl)`, where `plain_ddl` is the string `get_schema` returns.
+    """
+    fingerprint = open_engine(db_path).schema_fingerprint()
+    return (
+        list(_cached_schema_chunks(db_path, fingerprint)),
+        _cached_raw_schema(db_path, fingerprint),
+    )
+
+
 def get_schema_chunk_cache_info() -> _CacheInfo:
     """Return `lru_cache` hit/miss statistics for the schema chunk cache."""
     return _cached_schema_chunks.cache_info()
