@@ -412,11 +412,24 @@ than refusing them (reported separately, not counted as correct). It declined
 five of the six questions about data the schema does not hold, and answered
 the sixth with a substitute metric.
 
-**Spider and BIRD.** Full dev-set release runs (1,034 Spider and 1,534 BIRD
-questions, BIRD with and without its evidence hints) are **in progress** with
-thinking off; the contract reserves this table for full sets. The routine
-200-case verification runs are committed and are harness evidence, not
-release results. With thinking off:
+**Spider and BIRD.** Full dev-set release runs, same model and settings,
+thinking off, on commit `7708295`. EX here is this contract's typed comparison
+of result sets, so it is not directly comparable with leaderboard figures
+computed by each benchmark's own scorer.
+
+| Benchmark (dev set) | Questions | EX | EX by difficulty | Run |
+|---|---:|---|---|---|
+| Spider 1.0 | 1,034 | **64.6%** [61.6, 67.5] | easy 84.3, medium 65.9, hard 58.6, extra 38.0 | [report](evaluation/results/2026-10-10T071608_spider_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_a8ebee81_e6c2/report.md) |
+| BIRD, with evidence hints | 1,534 | **35.2%** [32.9, 37.6] | simple 43.1, moderate 29.1, challenging 17.3 | [report](evaluation/results/2026-10-10T080619_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_22491cc9_3ef9/report.md) |
+| BIRD, without evidence hints | 1,534 | **25.1%** [22.9, 27.3] | simple 34.2, moderate 16.3, challenging 8.2 | [report](evaluation/results/2026-10-10T104806_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_886c714f_c734/report.md) |
+
+Paired on the same questions, BIRD's evidence hints add 10.1 points [8.1,
+12.1]. Against the earlier full Spider run at the model's default thinking,
+thinking off adds 8.5 points [5.8, 11.3]. No run had an outage or an empty
+answer. Mean time per question was 2.9 s on Spider and 6.2 s on BIRD.
+
+The routine 200-case verification runs are committed as harness evidence,
+not release results. With thinking off:
 [Spider subset](evaluation/results/2026-10-10T061944_spider_dev_subset200_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_bd62bfcf_0b75/report.md),
 [BIRD with evidence](evaluation/results/2026-10-10T063015_bird_dev_subset200_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_e80d4f09_0030/report.md),
 [BIRD without evidence](evaluation/results/2026-10-10T065415_bird_dev_subset200_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_4b63f372_687b/report.md).

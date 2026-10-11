@@ -11,16 +11,14 @@ On 2026-10-10 Ollama thinking became an explicit setting, off by default, after
 it was found to leave many answers empty (`docs/3_decisions.md`). Remaining, in
 order:
 
-1. **Full release runs, in progress.** `spider_dev` full and `bird_dev` full
-   with evidence on and off, with thinking off, at
-   `--work-limit 1000000000 --max-rows 100000`. Started 2026-10-10 from a
-   clean pinned worktree on commit `7708295`. At the measured 3-7 s per case
-   they need about 7-8 hours; the harness resumes after any interruption. Only
-   then may the README carry Spider/BIRD headline tables. The earlier runs at
-   the model's default thinking are history: the Spider dev full run is
-   committed in `509998b`, and the BIRD run stopped at 1,289 of 1,534 cases
-   and is not committed.
-2. **Gate G8, the RAG on/off ablation.** `cases.csv` now records the
+1. **Full release runs: done 2026-10-11.** Spider dev and BIRD dev with
+   evidence on and off, thinking off, commit `7708295`, committed in `a4ce1eb`
+   and tabled in the README. The earlier runs at the model's default thinking
+   are history: the Spider dev full run in `509998b`; the BIRD run stopped at
+   1,289 of 1,534 cases is not committed.
+2. **Gate G8, the RAG on/off ablation: in progress.** RAG-off runs of demo,
+   Spider dev and BIRD dev with evidence started 2026-10-11 on `7708295`,
+   paired with the committed RAG-on runs. `cases.csv` now records the
    provider's prompt and completion tokens per case, summed over generation,
    repairs, retries and resumed outages, so the ablation can report cost as
    well as accuracy. Ollama's prompt count stays the same when a prompt prefix
@@ -29,11 +27,18 @@ order:
    comparison for one deliberate difference. The thinking comparison was
    computed with the harness's own paired bootstrap from a one-off script;
    G8 should make that a committed tool and re-derive it.
-3. **Gemini may starve the same way. Unverified.** The Gemini call also caps
-   output at 512 tokens, and `gemini-2.5-flash` also thinks by default. Check
-   with a key whether its thinking counts against that cap and leaves empty
-   answers on harder questions. If it does, disable it the same way
-   (`thinking_budget=0`) and record the setting in the run identity.
+3. **Gemini: same flaw by design, rate unmeasured; blocked on a key.**
+   Google's thinking docs (checked 2026-10-11) say `max_output_tokens` includes
+   thought tokens, and `gemini-2.5-flash` thinks dynamically by default. The
+   Gemini call caps output at 512 and sets no thinking budget, and the SDK's
+   `response.text` is empty when only thought parts come back. So a hard
+   question can return no SQL, as with Ollama. The installed SDK supports
+   `ThinkingConfig(thinking_budget=0)`. No key is configured locally, so the
+   empty-answer rate is not measured. With a key: run demo and a sample of
+   hard BIRD questions, then disable thinking and record it in the run
+   identity. Also: Google's deprecations page now limits 2.5-model access to
+   users who used them before and recommends 3.5 Flash-Lite or 3.8 Flash, so
+   the hosted demo's default `gemini-2.5-flash` may fail for a fresh key.
 4. **Carried forward, not fixed:** a database changed *during* an uninterrupted
    session is not detected (the fingerprint is taken at start and resume), and
    SQLite `-wal`/`-shm` side files are not hashed; schema recall uses a second
