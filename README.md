@@ -24,7 +24,7 @@ The SQL is never hidden from the user, and every answer can show which tables we
 
 ![Generated SQL for the query above](docs/screenshots/03-generated-sql.png)
 
-![Schema RAG retrieval report showing retrieval strategy, scores, and prompt savings](docs/screenshots/04-schema-rag-report.png)
+![Schema RAG retrieval report showing retrieval strategy, scores, and the schema-text size (screenshot predates the 2026-10-12 signed size report)](docs/screenshots/04-schema-rag-report.png)
 
 </details>
 

@@ -44,12 +44,19 @@ order:
 
 ## Phase 4 — Real RAG (next)
 
-**Measure before replacing (from G8).** Add an arm that sends full DDL plus
-value hints, so the Spider gain can be credited to table selection or to the
-hints. Make the retrieval report show the signed prompt change: `prompt_savings_pct`
-in `types.py` clamps at zero, so it shows 0 % when RAG grows the prompt, which G8
-found on every suite. A prompt saving is only plausible on schemas much larger
-than BIRD's, so any Phase 4 claim about cost needs such a schema in the suite.
+**Measure before replacing (from G8).** The attribution arm, full DDL plus
+value hints (RAG on, `--rag-top-k 0`), is running on `7708295`, so the Spider
+gain can be credited to table selection or to the hints. The retrieval report's
+prompt size was fixed on 2026-10-12 (`21d15a0`): signed character changes
+against plain DDL and against full DDL plus hints, counted from the exact
+strings sent. A prompt saving is only plausible on schemas much larger than
+BIRD's, so any Phase 4 claim about cost needs such a schema in the suite.
+
+**The MVP notebook reads fields that `21d15a0` removed** (`full_schema_chars`,
+`retrieved_schema_chars`, `prompt_savings_pct`, and the v1 `prompt_saved_pct`
+column). Its saved outputs stand as evidence and were not touched, but a re-run
+at HEAD would fail. Any future re-run must update those cells first, and per
+`docs/0_coding_standards.md` a code change there means a full re-run.
 
 Decompose `retrieve_schema_context`'s 182-line body into named, individually
 testable signal functions with weights in config. Replace the hashed

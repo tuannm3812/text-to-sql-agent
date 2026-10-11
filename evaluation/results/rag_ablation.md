@@ -68,8 +68,10 @@ Full tool output per suite: [demo](rag_ablation/demo.md),
 - **Phase 4 must attribute the gain.** Before replacing the retrieval, add an
   arm with full DDL plus value hints. That separates table selection from the
   hints, and shows which one earns the Spider gain. The app's retrieval report
-  also clamps "prompt savings" at zero, so it shows 0 % when RAG grows the
-  prompt. It should report the signed change.
+  also clamped "prompt savings" at zero against the wrong baseline, so it
+  showed 0 % when RAG grew the prompt. Fixed 2026-10-12 (`21d15a0`): it now
+  reports signed character changes against plain DDL and against full DDL
+  plus hints, counted from the exact strings sent.
 
 ## Reproduce
 
