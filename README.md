@@ -74,13 +74,21 @@ At question time, the backend:
 8. expands through foreign-key neighbors so joinable tables are included
 9. sends only the selected schema snippets to the LLM
 
-This improves:
+What it was measured to do (gate G8, 2026-10-11,
+[`evaluation/results/rag_ablation.md`](evaluation/results/rag_ablation.md)),
+against sending the full DDL with no hints:
 
-- prompt size for larger databases
-- latency and cost
-- table selection accuracy
-- privacy, because only metadata is retrieved
-- explainability, because selected tables, value hints, prompt savings, and schema recall are reported
+- execution accuracy: +3.0 points on Spider dev [+1.1, +4.9]; no measurable
+  difference on BIRD dev (+0.4 [-1.5, +2.2])
+- table selection: mean schema recall of 1.000 on Spider and 0.995 on BIRD
+- prompt size: **larger, not smaller**, by 21 % on Spider and 6 % on BIRD,
+  because at these schema sizes the value hints add more text than leaving
+  out tables removes; a saving on much larger schemas is plausible but not
+  measured
+
+It also keeps row data out of the prompt, since only metadata and
+low-cardinality value hints are retrieved, and it makes each answer
+explainable: selected tables, value hints and schema recall are reported.
 
 In the Streamlit sidebar you can toggle schema RAG and adjust how many tables are retrieved. Each answer also includes an optional retrieval report showing selected tables, scores, matched terms, and graph-expansion reasons.
 
@@ -427,6 +435,11 @@ Paired on the same questions, BIRD's evidence hints add 10.1 points [8.1,
 12.1]. Against the earlier full Spider run at the model's default thinking,
 thinking off adds 8.5 points [5.8, 11.3]. No run had an outage or an empty
 answer. Mean time per question was 2.9 s on Spider and 6.2 s on BIRD.
+
+**RAG on versus off (gate G8).** The same runs repeated with schema RAG off
+show RAG adding 3.0 points on Spider and nothing measurable on BIRD, while
+making the prompt larger; see
+[`evaluation/results/rag_ablation.md`](evaluation/results/rag_ablation.md).
 
 The routine 200-case verification runs are committed as harness evidence,
 not release results. With thinking off:

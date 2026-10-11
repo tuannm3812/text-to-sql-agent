@@ -78,6 +78,13 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   which runs the PostgreSQL suite, is green. The Spider and BIRD full release
   runs with thinking off are in progress from a pinned worktree, not this
   checkout.
+- 2026-10-11: Spider and BIRD full release runs committed and tabled in the
+  README (Spider dev 64.6%, BIRD dev 35.2% with evidence, 25.1% without).
+  Gate G8 done: schema RAG adds 3.0 points on Spider, nothing measurable on
+  BIRD, and makes the prompt larger (`evaluation/results/rag_ablation.md`).
+  `scripts/evaluate_v2.py --compare` pairs runs that differ in one setting.
+  `1328` passed / `350` skipped without the DSN. Next: Phase 4, starting with
+  the full-DDL-plus-hints arm (`docs/4_next_steps.md`).
 
 ## Open risks
 
