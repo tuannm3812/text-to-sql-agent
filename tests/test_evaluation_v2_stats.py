@@ -125,3 +125,18 @@ def test_bootstrap_mean_ci_keeps_fractional_values() -> None:
     assert bootstrap_mean_ci([0.25] * 5).width == 0.0
     with pytest.raises(ValueError):
         bootstrap_mean_ci([])
+
+
+def test_paired_mean_ci_keeps_magnitudes_and_pairing() -> None:
+    from text_to_sql_agent.evaluation_v2.stats import paired_mean_ci
+
+    # Not coerced to bools: a constant difference of 30 is an interval of exactly 30.
+    iv = paired_mean_ci([130.0, 50.0, 7.0], [100.0, 20.0, -23.0])
+    assert (iv.point, iv.low, iv.high, iv.n) == (30.0, 30.0, 30.0, 3)
+    varied = paired_mean_ci([10.0, 0.0, 5.0, 2.0], [0.0, 0.0, 1.0, 2.0], seed=4)
+    assert varied.point == pytest.approx(3.5) and varied.low <= 3.5 <= varied.high
+    assert varied == paired_mean_ci([10.0, 0.0, 5.0, 2.0], [0.0, 0.0, 1.0, 2.0], seed=4)
+    with pytest.raises(ValueError):
+        paired_mean_ci([1.0], [1.0, 2.0])
+    with pytest.raises(ValueError):
+        paired_mean_ci([], [])
