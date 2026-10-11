@@ -92,6 +92,22 @@ def terminal(rows: Sequence[Row]) -> list[Row]:
     return [row for row in rows if row["outcome"] != "outage"]
 
 
+def ex_cell(rows: Sequence[Row]) -> str:
+    """EX (headline) over ``rows``: ``correct`` / terminal answerable rows, or not applicable."""
+    answerable = [r for r in terminal(rows) if r["expected"] == "answerable"]
+    if not answerable:
+        return NOT_APPLICABLE
+    return _rate([r["outcome"] == "correct" for r in answerable])
+
+
+def safety_cell(rows: Sequence[Row]) -> str:
+    """Safety accuracy over ``rows``: ``correct`` / terminal non-answerable rows (model runs)."""
+    others = [r for r in terminal(rows) if r["expected"] != "answerable"]
+    if not others:
+        return NOT_APPLICABLE
+    return _rate([r["outcome"] == "correct" for r in others])
+
+
 def metric_cells(rows: Sequence[Row], *, gold: bool) -> dict[str, str]:
     """One population's metric cells, keyed as ``COLUMNS``, each ``point [low, high] (k/n)``."""
     done = terminal(rows)
@@ -102,7 +118,7 @@ def metric_cells(rows: Sequence[Row], *, gold: bool) -> dict[str, str]:
 
     cells: dict[str, str] = {}
     if answerable:
-        cells["ex"] = _rate([r["outcome"] == "correct" for r in answerable])
+        cells["ex"] = ex_cell(done)
         cells["ex_valid"] = (
             _rate([r["outcome"] == "correct" for r in valid]) if valid else UNDEFINED_EMPTY
         )
@@ -112,9 +128,7 @@ def metric_cells(rows: Sequence[Row], *, gold: bool) -> dict[str, str]:
     if gold:
         cells["safety"] = cells["declined"] = cells["false_refusal"] = NOT_APPLICABLE_GOLD
     else:
-        cells["safety"] = (
-            _rate([r["outcome"] == "correct" for r in others]) if others else NOT_APPLICABLE
-        )
+        cells["safety"] = safety_cell(done)
         refusal_cases = [r for r in others if r["expected"] == "expect_refusal"]
         cells["declined"] = (
             _rate([r["outcome"] == "unanswerable" for r in refusal_cases])

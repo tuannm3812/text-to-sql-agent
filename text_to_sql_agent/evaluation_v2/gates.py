@@ -271,7 +271,8 @@ def compatible(new: Manifest, old: Manifest) -> list[str]:
     return differing
 
 
-def _field_value(manifest: Manifest, name: str, other: Manifest) -> str:
+def field_value(manifest: Manifest, name: str, other: Manifest) -> str:
+    """``manifest``'s value of identity field ``name`` (or ``mode``) as one short string."""
     if name == "mode":
         return manifest.mode
     if name == "database_fingerprint":
@@ -284,7 +285,8 @@ def _field_value(manifest: Manifest, name: str, other: Manifest) -> str:
     return str(getattr(manifest.identity, name))
 
 
-def _describe(name: str, new: Manifest, old: Manifest) -> str:
+def describe_field(name: str, new: Manifest, old: Manifest) -> str:
+    """``name``, plus which databases changed when it is ``database_fingerprint``."""
     if name == "database_fingerprint":
         changes = fingerprint_changes(
             old.identity.database_fingerprint, new.identity.database_fingerprint
@@ -293,7 +295,16 @@ def _describe(name: str, new: Manifest, old: Manifest) -> str:
     return name
 
 
-def _load_run(directory: Path, label: str) -> tuple[Manifest, dict[str, Row]]:
+def load_run(
+    directory: Path, label: str, *, require_citable: bool = True
+) -> tuple[Manifest, dict[str, Row]]:
+    """A run's manifest and its ``cases.csv`` rows by ``id``, after every consistency check.
+
+    Refused (``RegressionRefused``, the message prefixed with ``label``) when the files cannot
+    be read, the run is not ``complete``, it is not citable and ``require_citable`` is set, a
+    ``generation_failure`` cell is one the runner never writes, a case id repeats, or the row
+    count disagrees with the manifest's ``case_count``.
+    """
     try:
         manifest = Manifest.from_dict(read_manifest(directory / MANIFEST_FILE))
         rows = read_rows(directory / CASES_FILE)
@@ -306,7 +317,7 @@ def _load_run(directory: Path, label: str) -> tuple[Manifest, dict[str, Row]]:
         )
     # A regression verdict is a kind of citation, so the spec's "only a complete, citable run
     # may be cited" applies to both sides.
-    if not manifest.citable:
+    if require_citable and not manifest.citable:
         raise RegressionRefused(
             f"{label} run {directory} is not citable: {manifest.citable_reason}"
         )
@@ -330,7 +341,33 @@ def _load_run(directory: Path, label: str) -> tuple[Manifest, dict[str, Row]]:
     return manifest, by_id
 
 
-def _paired(ids: list[str], new: dict[str, Row], old: dict[str, Row]) -> PairedChange | None:
+def aligned_ids(new_rows: dict[str, Row], old_rows: dict[str, Row]) -> list[str]:
+    """The shared case ids in pairing order (sorted), once both runs agree on them.
+
+    Refused when the id sets differ (naming the ids on each side) or the runs disagree on a
+    case's ``expected``.
+    """
+    only_new, only_old = (
+        sorted(new_rows.keys() - old_rows.keys()),
+        sorted(old_rows.keys() - new_rows.keys()),
+    )
+    if only_new or only_old:
+        raise RegressionRefused(
+            f"case IDs differ: {len(only_new)} only in the new run [{format_ids(only_new)}], "
+            f"{len(only_old)} only in the baseline [{format_ids(only_old)}]"
+        )
+
+    ids = sorted(new_rows)
+    disagree = [i for i in ids if new_rows[i]["expected"] != old_rows[i]["expected"]]
+    if disagree:
+        raise RegressionRefused(
+            f"the runs disagree on 'expected' for {len(disagree)} case(s): {format_ids(disagree)}"
+        )
+    return ids
+
+
+def paired_change(ids: list[str], new: dict[str, Row], old: dict[str, Row]) -> PairedChange | None:
+    """``new - old`` on ``outcome == "correct"`` over ``ids``, in that order; ``None`` if empty."""
     if not ids:
         return None
     new_flags = [new[i]["outcome"] == "correct" for i in ids]
@@ -358,43 +395,28 @@ def regression_gate(new_dir: Path, old_dir: Path) -> GateResult:
         RegressionRefused: A run is unreadable, incomplete or uncitable, the pair is
             incompatible, the case IDs differ, or no answerable case remains to compare.
     """
-    new_manifest, new_rows = _load_run(new_dir, "new")
-    old_manifest, old_rows = _load_run(old_dir, "baseline")
+    new_manifest, new_rows = load_run(new_dir, "new")
+    old_manifest, old_rows = load_run(old_dir, "baseline")
 
     differing = compatible(new_manifest, old_manifest)
     if differing:
         raise RegressionRefused(
             "incompatible runs, differing in: "
-            + ", ".join(_describe(name, new_manifest, old_manifest) for name in differing),
+            + ", ".join(describe_field(name, new_manifest, old_manifest) for name in differing),
             tuple(
                 (
                     name,
-                    _field_value(new_manifest, name, old_manifest),
-                    _field_value(old_manifest, name, new_manifest),
+                    field_value(new_manifest, name, old_manifest),
+                    field_value(old_manifest, name, new_manifest),
                 )
                 for name in differing
             ),
         )
-    only_new, only_old = (
-        sorted(new_rows.keys() - old_rows.keys()),
-        sorted(old_rows.keys() - new_rows.keys()),
-    )
-    if only_new or only_old:
-        raise RegressionRefused(
-            f"case IDs differ: {len(only_new)} only in the new run [{format_ids(only_new)}], "
-            f"{len(only_old)} only in the baseline [{format_ids(only_old)}]"
-        )
-
-    ids = sorted(new_rows)
-    disagree = [i for i in ids if new_rows[i]["expected"] != old_rows[i]["expected"]]
-    if disagree:
-        raise RegressionRefused(
-            f"the runs disagree on 'expected' for {len(disagree)} case(s): {format_ids(disagree)}"
-        )
+    ids = aligned_ids(new_rows, old_rows)
     answerable = [i for i in ids if new_rows[i]["expected"] == "answerable"]
     others = [i for i in ids if new_rows[i]["expected"] != "answerable"]
 
-    ex = _paired(answerable, new_rows, old_rows)
+    ex = paired_change(answerable, new_rows, old_rows)
     if ex is None:
         raise RegressionRefused("no answerable case to compare; the verdict rests on EX")
     if all(
@@ -404,7 +426,7 @@ def regression_gate(new_dir: Path, old_dir: Path) -> GateResult:
             f"every answerable case is reference_invalid in both runs ({len(answerable)}): "
             "with no valid reference the comparison measures nothing"
         )
-    safety = None if new_manifest.mode == "gold" else _paired(others, new_rows, old_rows)
+    safety = None if new_manifest.mode == "gold" else paired_change(others, new_rows, old_rows)
 
     # Integer arithmetic: a drop of exactly 5 points must not depend on float rounding.
     net_drop = ex.old_correct - ex.new_correct
