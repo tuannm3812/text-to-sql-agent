@@ -2,6 +2,30 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-11 — schema RAG stays on; its cost claim is withdrawn (gate G8)
+
+**Chosen:** Schema RAG stays the default. The README no longer says it improves
+prompt size, latency or cost, and the next RAG work must first separate table
+selection from value hints. Paired comparisons of runs that differ in one
+deliberate setting go through `scripts/evaluate_v2.py --compare`, which refuses
+any pair differing in more than one setting.
+
+**Ruled out:** Turning RAG off by default, since it was never worse within the
+intervals and was better on Spider. Keeping the cost claim, since every suite
+measured contradicts it. Extending the regression gate to compare settings: it
+is a verdict on the same measurement, and keeping it strict is what makes its
+verdict mean something.
+
+**Why:** Gate G8 repeated the release runs with `--no-rag` on commit `7708295`,
+same model, prompt, cases and budget (`evaluation/results/rag_ablation.md`).
+RAG on minus off, paired: Spider dev +3.0 points [+1.1, +4.9], most of it on
+extra-hard questions; BIRD dev with evidence +0.4 [-1.5, +2.2]. The prompt grew
+by 21 % on Spider and 6 % on BIRD, because the value hints add more text than
+leaving out tables removes at these schema sizes. Mean schema recall was 1.000
+on Spider and 0.995 on BIRD, so retrieval rarely drops a needed table. The
+RAG-off arm sends full DDL without hints, so the Spider gain cannot yet be
+credited to selection or to hints.
+
 ## 2026-10-10 — Ollama thinking is an explicit setting, off by default
 
 **Chosen:** Every Ollama call sets the think flag, and it is off unless a caller

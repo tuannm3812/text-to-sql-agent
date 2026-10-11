@@ -1,0 +1,2636 @@
+suite,id,hardness,expected,outcome,generated_sql,error,latency_ms,schema_recall,retrieved_tables,attempts,prompt_tokens,completion_tokens,generation_failure
+spider_dev,0,easy,answerable,correct,"SELECT COUNT(*) AS singer_count FROM ""singer"";",,2089.44,,,1,1037,12,
+spider_dev,1,easy,answerable,correct,SELECT COUNT(*) AS total_singers FROM singer;,,1640.30,,,1,1038,11,
+spider_dev,2,medium,answerable,correct,"SELECT Name, Country, Age FROM singer ORDER BY Age DESC;",,1682.34,,,1,1049,14,
+spider_dev,3,medium,answerable,correct,"SELECT Name, Country, Age FROM singer ORDER BY Age DESC;",,1690.98,,,1,1048,14,
+spider_dev,4,medium,answerable,correct,"SELECT AVG(Age) AS Average_Age, MIN(Age) AS Minimum_Age, MAX(Age) AS Maximum_Age FROM singer WHERE LOWER(Country) = 'france';",,2981.15,,,1,1046,40,
+spider_dev,5,medium,answerable,wrong,"SELECT AVG(Age) AS Average_Age, MIN(Age) AS Minimum_Age, MAX(Age) AS Maximum_Age FROM singer WHERE LOWER(Country) = 'french';",,2983.15,,,1,1045,40,
+spider_dev,6,medium,answerable,wrong,"SELECT Name AS Song_Name, Song_release_year FROM singer ORDER BY Age ASC LIMIT 1;",,2097.27,,,1,1045,20,
+spider_dev,7,medium,answerable,wrong,"SELECT s.Name AS Song_Name, s.Song_release_year
+FROM singer s
+WHERE s.Age = (SELECT MIN(Age) FROM singer);",,2558.65,,,1,1046,31,
+spider_dev,8,easy,answerable,correct,SELECT DISTINCT Country FROM singer WHERE Age > 20;,,1629.19,,,1,1045,13,
+spider_dev,9,easy,answerable,correct,SELECT DISTINCT Country FROM singer WHERE Age > 20;,,1646.81,,,1,1044,13,
+spider_dev,10,medium,answerable,correct,"SELECT Country, COUNT(*) AS singer_count FROM singer GROUP BY Country;",,1872.46,,,1,1042,15,
+spider_dev,11,medium,answerable,correct,"SELECT Country, COUNT(*) AS singer_count FROM singer GROUP BY Country;",,1780.42,,,1,1038,15,
+spider_dev,12,hard,answerable,correct,"SELECT s.Song_Name
+FROM singer s
+WHERE s.Age > (SELECT AVG(Age) FROM singer);",,2147.32,,,1,1041,24,
+spider_dev,13,hard,answerable,correct,"SELECT s.Song_Name
+FROM singer s
+WHERE s.Age > (SELECT AVG(Age) FROM singer);",,2168.21,,,1,1044,24,
+spider_dev,14,medium,answerable,correct,"SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000;",,2113.19,,,1,1054,23,
+spider_dev,15,medium,answerable,correct,"SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000;",,2144.11,,,1,1055,23,
+spider_dev,16,medium,answerable,wrong,"SELECT MAX(Capacity) AS max_capacity, AVG(Average) AS avg_average FROM stadium;",,2034.07,,,1,1042,21,
+spider_dev,17,medium,answerable,correct,"SELECT AVG(Capacity) AS Average_Capacity, MAX(Capacity) AS Maximum_Capacity FROM stadium;",,2296.47,,,1,1041,26,
+spider_dev,18,medium,answerable,correct,"SELECT Name, Capacity FROM stadium WHERE Average = (SELECT MAX(Average) FROM stadium);",,1993.32,,,1,1044,19,
+spider_dev,19,medium,answerable,correct,"SELECT Name, Capacity FROM stadium WHERE Average = (SELECT MAX(Average) FROM stadium);",,1953.14,,,1,1045,19,
+spider_dev,20,medium,answerable,correct,"SELECT COUNT(*) AS concert_count FROM concert WHERE LOWER(Year) IN ('2014', '2015');",,2255.37,,,1,1049,27,
+spider_dev,21,medium,answerable,correct,"SELECT COUNT(*) AS concert_count FROM concert WHERE Year IN ('2014', '2015');",,2205.02,,,1,1047,24,
+spider_dev,22,medium,answerable,wrong,"SELECT s.Name AS Stadium_Name, COUNT(c.concert_ID) AS Number_of_Concerts
+FROM stadium s
+LEFT JOIN concert c ON s.Stadium_ID = c.Stadium_ID
+GROUP BY s.Stadium_ID, s.Name;",,4163.08,,,1,1043,50,
+spider_dev,23,medium,answerable,wrong,"SELECT s.Stadium_ID, COUNT(c.concert_ID) AS concert_count
+FROM stadium s
+LEFT JOIN concert c ON s.Stadium_ID = c.Stadium_ID
+GROUP BY s.Stadium_ID;",,3083.79,,,1,1040,43,
+spider_dev,24,extra,answerable,wrong,"SELECT s.Name AS Stadium_Name, s.Capacity
+FROM stadium s
+JOIN concert c ON s.Stadium_ID = c.Stadium_ID
+WHERE strftime('%Y', c.Year) >= '2014'
+GROUP BY s.Stadium_ID, s.Name, s.Capacity
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,4277.41,,,1,1051,70,
+spider_dev,25,extra,answerable,wrong,"SELECT s.Name, s.Capacity
+FROM stadium s
+JOIN concert c ON s.Stadium_ID = c.Stadium_ID
+WHERE strftime('%Y', c.Year) > '2013'
+GROUP BY s.Stadium_ID
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,4032.40,,,1,1050,60,
+spider_dev,26,hard,answerable,wrong,"SELECT Year, COUNT(*) AS concert_count FROM concert GROUP BY Year ORDER BY concert_count DESC LIMIT 1;",,2149.33,,,1,1038,23,
+spider_dev,27,hard,answerable,correct,SELECT Year FROM concert GROUP BY Year ORDER BY COUNT(*) DESC LIMIT 1;,,1752.46,,,1,1040,17,
+spider_dev,28,hard,answerable,correct,"SELECT s.Name 
+FROM stadium s
+LEFT JOIN concert c ON s.Stadium_ID = c.Stadium_ID
+WHERE c.concert_ID IS NULL;",,2515.62,,,1,1038,32,
+spider_dev,29,hard,answerable,correct,"SELECT s.Name 
+FROM stadium s
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM concert c
+    WHERE c.Stadium_ID = s.Stadium_ID
+);",,2686.68,,,1,1041,37,
+spider_dev,30,hard,answerable,wrong,SELECT DISTINCT Country FROM singer WHERE Age > 40 OR Age < 30;,,1817.26,,,1,1050,19,
+spider_dev,31,hard,answerable,wrong,"SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT DISTINCT c.Stadium_ID FROM concert c WHERE strftime('%Y', c.Year) = '2014');",,2541.69,,,1,1049,35,
+spider_dev,32,hard,answerable,wrong,"SELECT s.Name 
+FROM stadium s
+WHERE s.Stadium_ID NOT IN (
+    SELECT c.Stadium_ID
+    FROM concert c
+    WHERE strftime('%Y', c.Year) = '2014'
+);",,3409.62,,,1,1050,48,
+spider_dev,33,medium,answerable,correct,"SELECT c.concert_Name, c.Theme, COUNT(sic.Singer_ID) AS singer_count
+FROM concert c
+LEFT JOIN singer_in_concert sic ON c.concert_ID = sic.concert_ID
+GROUP BY c.concert_ID;",,3328.61,,,1,1047,50,
+spider_dev,34,medium,answerable,correct,"SELECT c.concert_Name, c.Theme, COUNT(si.Singer_ID) AS Number_of_Singers
+FROM concert c
+LEFT JOIN singer_in_concert si ON c.concert_ID = si.concert_ID
+GROUP BY c.concert_ID;",,3311.01,,,1,1045,51,
+spider_dev,35,medium,answerable,wrong,"SELECT s.Name, COUNT(*) AS concert_count
+FROM singer s
+LEFT JOIN singer_in_concert sic ON s.Singer_ID = sic.Singer_ID
+GROUP BY s.Singer_ID;",,2810.90,,,1,1041,40,
+spider_dev,36,medium,answerable,wrong,"SELECT s.Name, COUNT(sc.concert_ID) AS Number_Of_Concerts
+FROM singer s
+LEFT JOIN singer_in_concert sc ON s.Singer_ID = sc.Singer_ID
+GROUP BY s.Singer_ID;",,3117.67,,,1,1045,47,
+spider_dev,37,hard,answerable,wrong,"SELECT s.Name
+FROM singer s
+JOIN singer_in_concert sic ON s.Singer_ID = sic.Singer_ID
+JOIN concert c ON sic.concert_ID = c.concert_ID
+WHERE strftime('%Y', c.Year) = '2014';",,3541.86,,,1,1044,55,
+spider_dev,38,hard,answerable,correct,"SELECT s.Name
+FROM singer s
+JOIN singer_in_concert sic ON s.Singer_ID = sic.Singer_ID
+JOIN concert c ON sic.concert_ID = c.concert_ID
+WHERE LOWER(c.Year) = '2014';",,3339.65,,,1,1049,52,
+spider_dev,39,medium,answerable,correct,"SELECT s.Name, s.Country
+FROM singer s
+WHERE LOWER(s.Song_Name) LIKE '%hey%';",,2038.23,,,1,1051,24,
+spider_dev,40,medium,answerable,correct,"SELECT Name, Country FROM singer WHERE LOWER(Song_Name) LIKE '%hey%';",,1772.59,,,1,1055,18,
+spider_dev,41,extra,answerable,correct,"SELECT Name, Location FROM stadium WHERE Stadium_ID IN (SELECT DISTINCT Stadium_ID FROM concert WHERE Year = '2014') AND Stadium_ID IN (SELECT DISTINCT Stadium_ID FROM concert WHERE Year = '2015');",,3130.40,,,1,1059,47,
+spider_dev,42,extra,answerable,correct,"SELECT Name, Location FROM stadium WHERE Stadium_ID IN (SELECT DISTINCT Stadium_ID FROM concert WHERE Year = '2014') AND Stadium_ID IN (SELECT DISTINCT Stadium_ID FROM concert WHERE Year = '2015');",,3186.12,,,1,1058,47,
+spider_dev,43,hard,answerable,correct,"SELECT COUNT(*) AS concert_count FROM ""concert"" WHERE ""Stadium_ID"" = (SELECT MAX(""Capacity"") FROM ""stadium"");",,2359.48,,,1,1044,29,
+spider_dev,44,hard,answerable,correct,"SELECT COUNT(*) AS concert_count FROM ""concert"" WHERE ""Stadium_ID"" = (SELECT MAX(""Capacity"") FROM ""stadium"");",,2298.50,,,1,1046,29,
+spider_dev,45,easy,answerable,correct,SELECT COUNT(*) AS pet_count FROM Pets WHERE weight > 10;,,1712.52,,,1,945,16,
+spider_dev,46,easy,answerable,correct,SELECT COUNT(*) AS pet_count FROM Pets WHERE weight > 10;,,1647.13,,,1,943,16,
+spider_dev,47,medium,answerable,correct,SELECT MIN(weight) AS weight FROM Pets WHERE PetType = 'dog';,,1680.13,,,1,939,16,
+spider_dev,48,medium,answerable,correct,SELECT weight FROM Pets WHERE PetType = 'dog' AND pet_age = (SELECT MIN(pet_age) FROM Pets WHERE PetType = 'dog');,,2436.93,,,1,939,32,
+spider_dev,49,medium,answerable,wrong,"SELECT PetType, MAX(weight) AS max_weight FROM Pets GROUP BY PetType;",,1988.89,,,1,949,18,
+spider_dev,50,medium,answerable,wrong,"SELECT PetType, MAX(weight) AS max_weight
+FROM Pets
+GROUP BY PetType;",,1867.17,,,1,943,20,
+spider_dev,51,medium,answerable,correct,SELECT COUNT(*) AS pet_count FROM Has_Pet JOIN Student ON Has_Pet.StuID = Student.StuID WHERE Student.Age > 20;,,2575.35,,,1,946,33,
+spider_dev,52,medium,answerable,correct,SELECT COUNT(*) AS pet_count FROM Has_Pet JOIN Student ON Has_Pet.StuID = Student.StuID WHERE Student.Age > 20;,,2671.50,,,1,948,33,
+spider_dev,53,hard,answerable,correct,SELECT COUNT(*) AS count FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID JOIN Student ON Has_Pet.StuID = Student.StuID WHERE LOWER(Pets.PetType) = 'dog' AND LOWER(Student.Sex) = 'f';,,3756.02,,,1,948,60,
+spider_dev,54,hard,answerable,correct,SELECT COUNT(*) AS count FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID JOIN Student ON Has_Pet.StuID = Student.StuID WHERE LOWER(Pets.PetType) = 'dog' AND LOWER(Student.Sex) = 'f';,,3900.48,,,1,941,60,
+spider_dev,55,easy,answerable,correct,SELECT COUNT(DISTINCT PetType) AS pet_type_count FROM Pets;,,1682.22,,,1,940,16,
+spider_dev,56,easy,answerable,correct,SELECT COUNT(DISTINCT PetType) AS count FROM Pets;,,1569.52,,,1,940,14,
+spider_dev,57,extra,answerable,correct,SELECT Fname FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE LOWER(PetType) LIKE '%cat%' OR LOWER(PetType) LIKE '%dog%');,,3527.66,,,1,944,53,
+spider_dev,58,extra,answerable,correct,SELECT Fname FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE LOWER(PetType) LIKE '%cat%' OR LOWER(PetType) LIKE '%dog%');,,3543.93,,,1,949,53,
+spider_dev,59,extra,answerable,correct,SELECT Fname FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet WHERE PetID IN (SELECT PetID FROM Pets WHERE PetType = 'cat')) AND StuID IN (SELECT StuID FROM Has_Pet WHERE PetID IN (SELECT PetID FROM Pets WHERE PetType = 'dog'));,,4078.24,,,1,945,64,
+spider_dev,60,extra,answerable,correct,SELECT Fname FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet WHERE PetID IN (SELECT PetID FROM Pets WHERE PetType = 'cat')) AND StuID IN (SELECT StuID FROM Has_Pet WHERE PetID IN (SELECT PetID FROM Pets WHERE PetType = 'dog'));,,3989.11,,,1,947,64,
+spider_dev,61,extra,answerable,correct,"SELECT Major, Age FROM Student WHERE StuID NOT IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE PetType = 'cat');",,2887.62,,,1,946,41,
+spider_dev,62,extra,answerable,wrong,"SELECT StuID, LName, Fname, Major, Age FROM Student WHERE StuID NOT IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE PetType = 'cat');",,3295.94,,,1,953,50,
+spider_dev,63,hard,answerable,correct,SELECT StuID FROM Student WHERE StuID NOT IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE PetType = 'cat');,,2788.41,,,1,944,40,
+spider_dev,64,hard,answerable,correct,SELECT StuID FROM Student WHERE StuID NOT IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE LOWER(PetType) = 'cat');,,3054.43,,,1,946,43,
+spider_dev,65,extra,answerable,wrong,"SELECT Fname, Age
+FROM Student
+WHERE StuID IN (
+    SELECT StuID
+    FROM Has_Pet
+    JOIN Pets ON Has_Pet.PetID = Pets.PetID
+    WHERE LOWER(Pets.PetType) = 'dog'
+)
+AND StuID NOT IN (
+    SELECT StuID
+    FROM Has_Pet
+    JOIN Pets ON Has_Pet.PetID = Pets.PetID
+    WHERE LOWER(Pets.PetType) = 'cat'
+);",,6348.72,,,1,953,108,
+spider_dev,66,extra,answerable,wrong,SELECT Fname FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE PetType = 'dog') AND StuID NOT IN (SELECT StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE PetType = 'cat');,,4426.94,,,1,950,73,
+spider_dev,67,medium,answerable,correct,"SELECT PetType, weight FROM Pets WHERE pet_age = (SELECT MIN(pet_age) FROM Pets);",,1942.35,,,1,941,22,
+spider_dev,68,medium,answerable,correct,"SELECT PetType, weight FROM Pets ORDER BY pet_age ASC LIMIT 1;",,1966.58,,,1,947,17,
+spider_dev,69,medium,answerable,correct,"SELECT PetID, weight FROM Pets WHERE pet_age > 1;",,1732.78,,,1,947,15,
+spider_dev,70,medium,answerable,correct,"SELECT PetID, weight FROM Pets WHERE pet_age > 1;",,1622.96,,,1,947,15,
+spider_dev,71,medium,answerable,wrong,"SELECT PetType, AVG(pet_age) AS avg_age, MAX(pet_age) AS max_age FROM Pets GROUP BY PetType;",,2278.70,,,1,943,29,
+spider_dev,72,medium,answerable,wrong,"SELECT PetType, AVG(pet_age) AS avg_age, MAX(pet_age) AS max_age FROM Pets GROUP BY PetType;",,2312.13,,,1,943,29,
+spider_dev,73,medium,answerable,wrong,"SELECT PetType, AVG(weight) AS avg_weight FROM Pets GROUP BY PetType;",,1802.37,,,1,940,18,
+spider_dev,74,medium,answerable,wrong,"SELECT PetType, AVG(weight) AS avg_weight FROM Pets GROUP BY PetType;",,1773.96,,,1,942,18,
+spider_dev,75,medium,answerable,correct,"SELECT Fname, Age FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet);",,1936.77,,,1,944,21,
+spider_dev,76,medium,answerable,correct,"SELECT DISTINCT Fname, Age FROM Student INNER JOIN Has_Pet ON Student.StuID = Has_Pet.StuID;",,2280.13,,,1,947,27,
+spider_dev,77,medium,answerable,correct,"SELECT h.PetID 
+FROM Has_Pet h
+JOIN Student s ON h.StuID = s.StuID
+WHERE LOWER(s.LName) = 'smith';",,4629.63,,,1,1955,57,
+spider_dev,78,medium,answerable,correct,"SELECT Has_Pet.PetID 
+FROM Has_Pet 
+JOIN Student ON Has_Pet.StuID = Student.StuID 
+WHERE LOWER(Student.LName) = LOWER('Smith');",,2842.06,,,1,949,40,
+spider_dev,79,medium,answerable,wrong,"SELECT StuID, COUNT(PetID) AS num_pets FROM Has_Pet GROUP BY StuID;",,2027.30,,,1,947,23,
+spider_dev,80,medium,answerable,wrong,"SELECT StuID, COUNT(PetID) AS pet_count FROM Has_Pet GROUP BY StuID;",,2011.31,,,1,952,22,
+spider_dev,81,medium,answerable,correct,"SELECT Fname, Sex FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet GROUP BY StuID HAVING COUNT(*) > 1);",,2469.83,,,1,946,32,
+spider_dev,82,medium,answerable,correct,"SELECT Fname, Sex FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet GROUP BY StuID HAVING COUNT(*) > 1);",,2459.64,,,1,950,32,
+spider_dev,83,hard,answerable,correct,SELECT LName FROM Student WHERE StuID IN (SELECT StuID FROM Has_Pet WHERE PetID IN (SELECT PetID FROM Pets WHERE PetType = 'cat' AND pet_age = 3));,,2929.35,,,1,948,42,
+spider_dev,84,hard,answerable,correct,SELECT LName FROM Student JOIN Has_Pet ON Student.StuID = Has_Pet.StuID JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE LOWER(PetType) = 'cat' AND pet_age = 3;,,3411.10,,,1,950,53,
+spider_dev,85,extra,answerable,correct,"SELECT AVG(Age) AS avg_age
+FROM Student
+WHERE StuID NOT IN (SELECT StuID FROM Has_Pet);",,2175.00,,,1,944,27,
+spider_dev,86,extra,answerable,correct,SELECT AVG(Age) AS avg_age FROM Student WHERE StuID NOT IN (SELECT StuID FROM Has_Pet);,,2072.05,,,1,946,25,
+spider_dev,87,easy,answerable,correct,SELECT COUNT(*) AS continent_count FROM continents;,,1578.87,,,1,1085,10,
+spider_dev,88,easy,answerable,correct,SELECT COUNT(*) AS continent_count FROM continents;,,1424.99,,,1,1086,10,
+spider_dev,89,medium,answerable,correct,"SELECT c.ContId, c.Continent, COUNT(co.CountryId) AS country_count
+FROM continents c
+LEFT JOIN countries co ON c.ContId = co.Continent
+GROUP BY c.ContId;",,3086.06,,,1,1100,42,
+spider_dev,90,medium,answerable,correct,"SELECT c.ContId, c.Continent, COUNT(DISTINCT co.CountryId) AS country_count
+FROM continents c
+LEFT JOIN countries co ON c.ContId = co.Continent
+GROUP BY c.ContId;",,3080.09,,,1,1096,45,
+spider_dev,91,easy,answerable,correct,SELECT COUNT(*) AS country_count FROM countries;,,1381.56,,,1,1085,10,
+spider_dev,92,easy,answerable,correct,SELECT COUNT(*) AS country_count FROM countries;,,1428.97,,,1,1084,10,
+spider_dev,93,medium,answerable,correct,"SELECT cm.FullName AS MakerFullName, cm.Id AS MakerId, COUNT(cn.Model) AS NumberOfModels
+FROM car_makers cm
+JOIN model_list ml ON cm.Id = ml.Maker
+JOIN car_names cn ON ml.ModelId = cn.MakeId
+GROUP BY cm.Id, cm.FullName;",,4038.29,,,1,1098,61,
+spider_dev,94,medium,answerable,wrong,"SELECT cm.Id, cm.FullName, COUNT(cn.Model) AS ModelCount
+FROM car_makers cm
+LEFT JOIN car_names cn ON cm.Id = cn.MakeId
+GROUP BY cm.Id, cm.FullName;",,3125.54,,,1,1100,43,
+spider_dev,95,hard,answerable,wrong,"SELECT cn.Model, CAST(c.Horsepower AS INTEGER) AS Horsepower
+FROM cars_data c
+JOIN car_names cn ON c.Id = cn.MakeId
+ORDER BY CAST(c.Horsepower AS INTEGER) ASC
+LIMIT 1;",,8640.18,,,1,2301,132,
+spider_dev,96,hard,answerable,wrong,SELECT c.Model FROM car_names c JOIN cars_data d ON c.MakeId = d.Id ORDER BY CAST(d.Horsepower AS REAL) ASC LIMIT 1;,,2501.91,,,1,1093,34,
+spider_dev,97,extra,answerable,correct,SELECT cn.Model FROM car_names AS cn JOIN cars_data AS cd ON cn.MakeId = cd.Id WHERE CAST(cd.Weight AS REAL) < (SELECT AVG(CAST(Weight AS REAL)) FROM cars_data);,,4906.22,,,1,2245,62,
+spider_dev,98,extra,answerable,correct,SELECT Model FROM car_names WHERE EXISTS (SELECT 1 FROM cars_data c2 WHERE c2.Id = car_names.MakeId AND CAST(c2.Weight AS REAL) < (SELECT AVG(CAST(Weight AS REAL)) FROM cars_data));,,3275.20,,,1,1094,49,
+spider_dev,99,extra,answerable,wrong,"SELECT DISTINCT c.Make AS maker_name
+FROM car_names c
+JOIN car_makers m ON c.MakeId = m.Id
+WHERE EXISTS (
+    SELECT 1 
+    FROM cars_data cd 
+    WHERE cd.Id = c.MakeId 
+    AND strftime('%Y', cd.Year) = '1970'
+);",,4182.88,,,1,1099,69,
+spider_dev,100,extra,answerable,wrong,"SELECT DISTINCT c.Maker AS Car_Maker_Name
+FROM car_makers c
+JOIN car_names cn ON c.Id = cn.MakeId
+JOIN cars_data cd ON cn.MakeId = cd.Id
+WHERE cd.Year = 1970;",,3362.97,,,1,1099,52,
+spider_dev,101,extra,answerable,wrong,"SELECT cn.Make, MIN(c.Year) AS EarliestYear
+FROM car_names cn
+JOIN cars_data c ON cn.MakeId = c.Id
+GROUP BY cn.Make;",,2662.46,,,1,1096,36,
+spider_dev,102,extra,answerable,wrong,"SELECT cm.Maker, MIN(c.Year) AS EarliestYear
+FROM cars_data c
+JOIN car_names cn ON c.Id = cn.MakeId
+JOIN car_makers cm ON cn.MakeId = cm.Id
+GROUP BY cm.Maker
+ORDER BY EarliestYear ASC
+LIMIT 1;",,7685.91,,,1,2298,124,
+spider_dev,103,hard,answerable,correct,SELECT DISTINCT cn.Model FROM car_names cn JOIN cars_data cd ON cn.MakeId = cd.Id WHERE CAST(cd.Year AS INTEGER) > 1980;,,2580.71,,,1,1093,34,
+spider_dev,104,hard,answerable,wrong,SELECT Model FROM car_names WHERE MakeId IN (SELECT Id FROM cars_data WHERE CAST(Year AS INTEGER) > 1980);,,2398.51,,,1,1095,30,
+spider_dev,105,hard,answerable,wrong,"SELECT c.Continent, COUNT(DISTINCT cm.Id) AS maker_count
+FROM countries c
+JOIN car_makers cm ON c.CountryId = cm.Country
+GROUP BY c.Continent;",,2962.61,,,1,1097,40,
+spider_dev,106,hard,answerable,error,"SELECT c.Continent, COUNT(DISTINCT cm.Id) AS CarMakersCount
+FROM continents c
+JOIN countries co ON c.ContId = co.Continent
+JOIN car_makers cm ON co.CountryId = cm.Country
+GROUP BY c.Content;",OperationalError: no such column: c.Content,7168.07,,,1,2288,108,
+spider_dev,107,extra,answerable,wrong,SELECT CountryName FROM countries GROUP BY CountryName ORDER BY COUNT(*) DESC LIMIT 1;,,1934.49,,,1,1094,19,
+spider_dev,108,extra,answerable,wrong,SELECT CountryName FROM countries GROUP BY Continent ORDER BY COUNT(*) DESC LIMIT 1;,,1817.74,,,1,1092,18,
+spider_dev,109,medium,answerable,wrong,"SELECT cm.FullName AS MakerFullName, COUNT(cn.Model) AS CarModelCount
+FROM car_makers cm
+JOIN model_list ml ON cm.Id = ml.Maker
+JOIN car_names cn ON ml.ModelId = cn.MakeId
+GROUP BY cm.Id;",,3700.07,,,1,1099,53,
+spider_dev,110,medium,answerable,wrong,"SELECT 
+    cm.Id AS MakerId,
+    cm.FullName AS MakerFullName,
+    COUNT(cn.Model) AS NumberOfModels
+FROM car_makers cm
+JOIN car_names cn ON cm.Id = cn.MakeId
+GROUP BY cm.Id, cm.FullName;",,3575.92,,,1,1104,54,
+spider_dev,111,medium,answerable,wrong,"SELECT AVG(CAST(""Accelerate"" AS REAL)) AS ""accelerate"" FROM ""cars_data"" WHERE LOWER(""Make"") = 'amc' AND LOWER(""Model"") = 'hornet sportabout (sw)';",,3216.08,,,1,1096,47,
+spider_dev,112,medium,answerable,wrong,"SELECT AVG(CAST(""Accelerate"" AS REAL)) AS acceleration FROM ""cars_data"" WHERE LOWER(""Model"") LIKE '%amc hornet sportabout%';",,2586.10,,,1,1096,34,
+spider_dev,113,medium,answerable,wrong,SELECT COUNT(*) AS maker_count FROM car_makers WHERE LOWER(Country) = 'france';,,1669.12,,,1,1088,21,
+spider_dev,114,medium,answerable,wrong,SELECT COUNT(*) AS maker_count FROM car_makers WHERE LOWER(Country) = 'france';,,1997.74,,,1,1090,21,
+spider_dev,115,hard,answerable,wrong,SELECT COUNT(DISTINCT cn.Model) AS model_count FROM car_names cn JOIN car_makers cm ON cn.MakeId = cm.Id WHERE LOWER(cm.Country) = 'usa';,,3022.05,,,1,1089,37,
+spider_dev,116,hard,answerable,wrong,SELECT COUNT(*) AS car_model_count FROM car_names JOIN car_makers ON car_names.MakeId = car_makers.Id WHERE LOWER(car_makers.Country) = 'united states';,,3007.37,,,1,1093,38,
+spider_dev,117,easy,answerable,correct,SELECT AVG(CAST(MPG AS REAL)) AS avg_mpg FROM cars_data WHERE Cylinders = 4;,,2270.11,,,1,1097,25,
+spider_dev,118,easy,answerable,correct,SELECT AVG(CAST(MPG AS REAL)) AS avg_mpg FROM cars_data WHERE Cylinders = 4;,,2186.30,,,1,1095,25,
+spider_dev,119,medium,answerable,correct,SELECT MIN(CAST(Weight AS REAL)) AS Smallest_Weight FROM cars_data WHERE Cylinders = 8 AND Year = 1974;,,2703.25,,,1,1099,34,
+spider_dev,120,medium,answerable,correct,SELECT MIN(cars_data.Weight) AS min_weight FROM cars_data WHERE cars_data.Cylinders = 8 AND cars_data.Year = 1974;,,2799.26,,,1,1099,34,
+spider_dev,121,medium,answerable,wrong,"SELECT DISTINCT cm.Maker, cn.Model FROM car_names cn JOIN car_makers cm ON cn.MakeId = cm.Id;",,1977.57,,,1,1087,26,
+spider_dev,122,medium,answerable,wrong,"SELECT ""car_names"".""Make"", ""car_names"".""Model"" FROM ""car_names"";",,1623.42,,,1,1086,19,
+spider_dev,123,medium,answerable,correct,"SELECT DISTINCT c.CountryName, c.CountryId
+FROM countries c
+JOIN car_makers cm ON c.CountryId = cm.Country;",,2351.83,,,1,1095,28,
+spider_dev,124,medium,answerable,correct,"SELECT DISTINCT c.CountryName, c.CountryId
+FROM countries c
+JOIN car_makers cm ON c.CountryId = cm.Country;",,2272.09,,,1,1095,28,
+spider_dev,125,easy,answerable,wrong,"SELECT COUNT(*) AS count FROM ""cars_data"" WHERE CAST(""Horsepower"" AS REAL) > 150;",,2222.35,,,1,1095,27,
+spider_dev,126,easy,answerable,wrong,SELECT COUNT(*) AS count FROM cars_data WHERE CAST(Horsepower AS REAL) > 150;,,2016.89,,,1,1095,23,
+spider_dev,127,medium,answerable,wrong,"SELECT Year, AVG(CAST(Weight AS REAL)) AS Average_Weight FROM cars_data GROUP BY Year;",,2032.70,,,1,1089,23,
+spider_dev,128,medium,answerable,wrong,"SELECT Year, AVG(CAST(Weight AS REAL)) AS Average_Weight
+FROM cars_data
+GROUP BY Year;",,2210.89,,,1,1090,25,
+spider_dev,129,extra,answerable,wrong,"SELECT c.CountryName
+FROM countries c
+JOIN car_makers cm ON c.CountryId = cm.Country
+GROUP BY c.CountryId
+HAVING COUNT(cm.Id) >= 3;",,2981.63,,,1,1091,39,
+spider_dev,130,extra,answerable,wrong,"SELECT c.CountryName
+FROM countries c
+JOIN car_makers cm ON c.Continent = cm.Country
+GROUP BY c.CountryName
+HAVING COUNT(cm.Id) >= 3;",,2815.57,,,1,1094,39,
+spider_dev,131,extra,answerable,wrong,"SELECT MAX(CAST(Horsepower AS REAL)) AS MaxHorsepower, car_names.Make 
+FROM cars_data 
+JOIN car_names ON cars_data.Id = car_names.MakeId 
+WHERE Cylinders = 3;",,5597.69,,,1,2263,77,
+spider_dev,132,extra,answerable,wrong,"SELECT MAX(CAST(Horsepower AS REAL)) AS MaxHorsepower, car_names.Make 
+FROM cars_data 
+JOIN car_names ON cars_data.Id = car_names.MakeId 
+WHERE Cylinders = 3 AND Horsepower IS NOT NULL;",,6379.55,,,1,2275,89,
+spider_dev,133,hard,answerable,wrong,"SELECT cn.Model, cd.MPG FROM car_names cn JOIN cars_data cd ON cn.MakeId = cd.Id ORDER BY CAST(cd.MPG AS REAL) DESC LIMIT 1;",,4733.24,,,1,2257,58,
+spider_dev,134,hard,answerable,wrong,SELECT Model FROM car_names JOIN cars_data ON car_names.MakeId = cars_data.Id ORDER BY CAST(MPG AS REAL) DESC LIMIT 1;,,2455.79,,,1,1089,31,
+spider_dev,135,easy,answerable,correct,SELECT AVG(CAST(Horsepower AS REAL)) AS avg_horsepower FROM cars_data WHERE CAST(Year AS INTEGER) < 1980;,,2688.47,,,1,1094,33,
+spider_dev,136,easy,answerable,correct,SELECT AVG(CAST(Horsepower AS REAL)) AS avg_horsepower FROM cars_data WHERE CAST(Year AS INTEGER) < 1980;,,2608.19,,,1,1095,33,
+spider_dev,137,medium,answerable,correct,"SELECT AVG(CAST(c.""Edispl"" AS REAL)) AS avg_edispl
+FROM ""cars_data"" c
+JOIN ""car_names"" cn ON c.""Id"" = cn.""MakeId""
+WHERE LOWER(cn.""Model"") LIKE '%volvo%';",,3715.10,,,1,1094,57,
+spider_dev,138,medium,answerable,wrong,"SELECT AVG(CAST(c.""Edispl"" AS REAL)) AS avg_edispl
+FROM ""cars_data"" c
+JOIN ""car_names"" cn ON c.""Id"" = cn.""MakeId""
+JOIN ""car_makers"" cm ON cn.""MakeId"" = cm.""Id""
+WHERE LOWER(cm.""Maker"") LIKE '%volvo%';",,4725.13,,,1,1091,76,
+spider_dev,139,medium,answerable,wrong,"SELECT Cylinders, MAX(Accelerate) AS Max_Accelerate FROM cars_data GROUP BY Cylinders;",,2248.38,,,1,1090,27,
+spider_dev,140,medium,answerable,wrong,"SELECT Cylinders, MAX(Accelerate) AS Max_Accelerate FROM cars_data GROUP BY Cylinders;",,2303.08,,,1,1090,27,
+spider_dev,141,hard,answerable,wrong,"SELECT Model, COUNT(MakeId) AS version_count FROM car_names GROUP BY Model ORDER BY version_count DESC LIMIT 1;",,4566.24,,,1,2245,52,
+spider_dev,142,hard,answerable,wrong,"SELECT car_names.Model, COUNT(cars_data.Id) AS version_count 
+FROM cars_data 
+INNER JOIN car_names ON cars_data.Id = car_names.MakeId 
+GROUP BY car_names.Model 
+ORDER BY version_count DESC 
+LIMIT 1;",,5298.08,,,1,2239,75,
+spider_dev,143,easy,answerable,correct,SELECT COUNT(*) AS count FROM cars_data WHERE Cylinders > 4;,,1724.69,,,1,1089,17,
+spider_dev,144,easy,answerable,correct,SELECT COUNT(*) AS car_count FROM cars_data WHERE Cylinders > 4;,,1823.53,,,1,1092,18,
+spider_dev,145,easy,answerable,correct,SELECT COUNT(*) AS total_cars FROM cars_data WHERE Year = 1980;,,1975.14,,,1,1091,20,
+spider_dev,146,easy,answerable,correct,SELECT COUNT(*) AS total_cars FROM cars_data WHERE Year = 1980;,,1937.34,,,1,1092,20,
+spider_dev,147,medium,answerable,wrong,SELECT COUNT(*) AS count FROM car_names WHERE Make = (SELECT Maker FROM car_makers WHERE FullName = 'American Motor Company');,,2271.05,,,1,1095,27,
+spider_dev,148,medium,answerable,wrong,SELECT COUNT(*) AS model_count FROM car_names WHERE Make = 'American Motor Company';,,1814.98,,,1,1095,18,
+spider_dev,149,medium,answerable,wrong,"SELECT Maker, Id FROM car_makers WHERE Id IN (SELECT MakeId FROM car_names GROUP BY MakeId HAVING COUNT(*) > 3);",,2400.01,,,1,1096,31,
+spider_dev,150,medium,answerable,wrong,"SELECT Maker, Id FROM car_makers WHERE Id IN (SELECT MakeId FROM car_names GROUP BY MakeId HAVING COUNT(*) > 3);",,2399.87,,,1,1095,31,
+spider_dev,151,extra,answerable,wrong,"SELECT DISTINCT cn.Model
+FROM car_names cn
+JOIN car_makers cm ON cn.MakeId = cm.Id
+WHERE LOWER(cm.FullName) LIKE '%general motors%'
+   OR (cn.Model IS NOT NULL AND EXISTS (
+        SELECT 1 FROM cars_data cd
+        WHERE cd.Id = cn.MakeId
+          AND CAST(cd.Weight AS REAL) > 3500
+    ));",,5260.02,,,1,1102,82,
+spider_dev,152,extra,answerable,wrong,"SELECT DISTINCT cn.Model AS Model
+FROM cars_data c
+JOIN car_names cn ON c.Id = cn.MakeId
+JOIN car_makers cm ON cn.MakeId = cm.Id
+WHERE LOWER(cm.Maker) = 'general motors' OR c.Weight > 3500;",,7551.01,,,1,2304,118,
+spider_dev,153,easy,answerable,correct,SELECT DISTINCT Year FROM cars_data WHERE Weight >= 3000 AND Weight <= 4000;,,2124.49,,,1,1104,24,
+spider_dev,154,easy,answerable,correct,SELECT DISTINCT Year FROM cars_data WHERE Weight < 4000 AND Weight > 3000;,,2253.98,,,1,1112,24,
+spider_dev,155,medium,answerable,correct,SELECT Horsepower FROM cars_data WHERE Accelerate = (SELECT MAX(Accelerate) FROM cars_data);,,2441.34,,,1,1091,23,
+spider_dev,156,medium,answerable,correct,SELECT Horsepower FROM cars_data ORDER BY CAST(Accelerate AS REAL) DESC LIMIT 1;,,1988.98,,,1,1091,22,
+spider_dev,157,extra,answerable,error,SELECT Cylinders FROM cars_data WHERE MakeId = (SELECT Id FROM car_names WHERE Model = 'volvo' AND Accelerate = (SELECT MIN(Accelerate) FROM cars_data WHERE MakeId = (SELECT Id FROM car_names WHERE Model = 'volvo'))),OperationalError: no such column: MakeId,8646.56,,,1,2290,142,
+spider_dev,158,extra,answerable,error,SELECT Cylinders FROM cars_data WHERE MakeId = (SELECT Id FROM car_makers WHERE Maker = 'volvo') AND Accelerate = (SELECT MIN(Accelerate) FROM cars_data WHERE MakeId = (SELECT Id FROM car_makers WHERE Maker = 'volvo'));,OperationalError: no such column: MakeId,8005.41,,,1,2292,129,
+spider_dev,159,hard,answerable,wrong,SELECT COUNT(*) AS count FROM cars_data WHERE CAST(Horsepower AS REAL) < Accelerate;,,1903.80,,,1,1094,21,
+spider_dev,160,hard,answerable,wrong,SELECT COUNT(*) AS count FROM cars_data WHERE CAST(Horsepower AS REAL) < (SELECT MAX(CAST(Horsepower AS REAL)) FROM cars_data) AND CAST(Accelerate AS REAL) > (SELECT MIN(CAST(Accelerate AS REAL)) FROM cars_data);,,3655.00,,,1,1097,59,
+spider_dev,161,medium,answerable,wrong,"SELECT COUNT(*) AS country_count FROM ( SELECT c.CountryName, COUNT(DISTINCT cm.Id) AS maker_count FROM countries c JOIN car_makers cm ON c.Continent = cm.Country WHERE cm.Country IS NOT NULL GROUP BY c.CountryName HAVING maker_count > 2 );",,3631.91,,,1,1090,58,
+spider_dev,162,medium,answerable,wrong,"SELECT COUNT(*) AS country_count FROM (
+    SELECT CountryName 
+    FROM countries 
+    JOIN car_makers c ON countries.CountryId = c.Country 
+    GROUP BY CountryName 
+    HAVING COUNT(DISTINCT c.Id) > 2
+);",,6522.03,,,1,2270,97,
+spider_dev,163,easy,answerable,correct,SELECT COUNT(*) AS count FROM cars_data WHERE Cylinders > 6;,,1449.29,,,1,1088,17,
+spider_dev,164,easy,answerable,correct,SELECT COUNT(*) AS car_count FROM cars_data WHERE Cylinders > 6;,,1743.64,,,1,1092,18,
+spider_dev,165,extra,answerable,correct,SELECT car_names.Model FROM cars_data JOIN car_names ON cars_data.Id = car_names.MakeId WHERE Cylinders = 4 ORDER BY Horsepower DESC LIMIT 1;,,4796.06,,,1,2250,58,
+spider_dev,166,extra,answerable,wrong,"SELECT car_names.Model, cars_data.Horsepower 
+FROM cars_data 
+JOIN car_names ON cars_data.Id = car_names.MakeId 
+WHERE Cylinders = 4 
+ORDER BY Horsepower DESC 
+LIMIT 1;",,5378.01,,,1,2255,72,
+spider_dev,167,extra,answerable,error,"SELECT 
+    Id AS MakeId,
+    Make
+FROM 
+    car_names
+WHERE 
+    Cylinders <= 3
+    AND (
+        SELECT Horsepower 
+        FROM cars_data 
+        WHERE Id = car_names.MakeId
+    ) > (
+        SELECT MIN(Horsepower) 
+        FROM cars_data
+    );",OperationalError: no such column: cn.Cylinders,10420.58,,,1,2328,179,
+spider_dev,168,extra,answerable,wrong,"SELECT 
+    Id AS MakeId,
+    Model AS Name
+FROM car_names
+JOIN cars_data ON car_names.MakeId = cars_data.Id
+WHERE Cylinders < 4
+AND Horsepower != (
+    SELECT MIN(Horsepower)
+    FROM cars_data
+);",,3773.19,,,1,1107,60,
+spider_dev,169,medium,answerable,wrong,"SELECT MAX(CASE WHEN Cylinders = 8 THEN CAST(MPG AS REAL) ELSE NULL END) AS max_mpg_8_cyl, MAX(CASE WHEN Year < 1980 THEN CAST(MPG AS REAL) ELSE NULL END) AS max_mpg_pre_1980 FROM cars_data;",,4158.69,,,1,1102,68,
+spider_dev,170,medium,answerable,wrong,SELECT MAX(CAST(MPG AS REAL)) AS max_mpg FROM cars_data WHERE CAST(MPG AS REAL) = (SELECT MAX(CAST(MPG AS REAL)) FROM cars_data WHERE Cylinders = 8 OR Year < 1980);,,3463.46,,,1,1103,54,
+spider_dev,171,extra,answerable,wrong,SELECT Model FROM car_names JOIN cars_data ON car_names.MakeId = cars_data.Id WHERE CAST(cars_data.Weight AS INTEGER) < 3500 AND Make NOT IN (SELECT Maker FROM car_makers WHERE LOWER(FullName) LIKE '%ford motor company%');,,6255.60,,,1,2272,91,
+spider_dev,172,extra,answerable,wrong,SELECT Model FROM car_names JOIN cars_data ON car_names.MakeId = cars_data.Id WHERE CAST(cars_data.Weight AS INTEGER) < 3500 AND LOWER(car_names.Make) != 'ford';,,4906.58,,,1,2268,63,
+spider_dev,173,hard,answerable,error,SELECT CountryName FROM countries WHERE Continent NOT IN (SELECT DISTINCT c.Continent FROM car_makers c);,OperationalError: no such column: c.Continent,4610.17,,,1,2254,63,
+spider_dev,174,hard,answerable,correct,"SELECT c.CountryName
+FROM countries c
+LEFT JOIN car_makers cm ON c.CountryId = cm.Country
+WHERE cm.Country IS NULL;",,2091.90,,,1,1091,30,
+spider_dev,175,extra,answerable,wrong,"SELECT Id, Maker FROM car_makers WHERE Id IN (SELECT MakeId FROM car_names GROUP BY MakeId HAVING COUNT(*) >= 2) AND Id IN (SELECT CountryId FROM countries GROUP BY CountryId HAVING COUNT(*) > 3);",,3405.48,,,1,1106,52,
+spider_dev,176,extra,answerable,wrong,"SELECT 
+    cm.Id AS MakerId,
+    cm.Maker AS MakerName
+FROM 
+    car_makers cm
+INNER JOIN 
+    model_list ml ON cm.Id = ml.Maker
+GROUP BY 
+    cm.Id, cm.Maker
+HAVING 
+    COUNT(DISTINCT ml.Model) >= 2
+    AND COUNT(*) > 3;",,4485.94,,,1,1104,76,
+spider_dev,177,extra,answerable,wrong,"SELECT CountryId, CountryName 
+FROM countries 
+WHERE Continent IN (
+    SELECT c.Continent 
+    FROM countries c
+    JOIN car_makers cm ON c.CountryId = cm.Country
+    GROUP BY c.Continent 
+    HAVING COUNT(cm.Id) > 3
+) OR CountryId IN (
+    SELECT cm.Country 
+    FROM car_makers cm
+    JOIN model_list ml ON cm.Id = ml.Maker
+    WHERE ml.Model LIKE '%fiat%'
+);",,5693.35,,,1,1105,102,
+spider_dev,178,extra,answerable,wrong,"SELECT CountryId, CountryName FROM countries WHERE Continent IN (SELECT DISTINCT c.Continent FROM car_makers cm JOIN countries c ON cm.Country = c.CountryId GROUP BY c.Continent HAVING COUNT(*) > 3) OR CountryId IN (SELECT cm.Id FROM car_makers cm JOIN model_list ml ON cm.Id = ml.Maker WHERE LOWER(ml.Model) LIKE '%fiat%');",,10515.88,,,1,2337,173,
+spider_dev,179,easy,answerable,correct,SELECT Country FROM airlines WHERE LOWER(Airline) = LOWER('JetBlue Airways');,,1329.77,,,1,926,18,
+spider_dev,180,easy,answerable,wrong,"SELECT Airline, Country FROM airlines WHERE LOWER(Airline) = LOWER('Jetblue Airways');",,1408.30,,,1,922,21,
+spider_dev,181,easy,answerable,correct,SELECT Abbreviation FROM airlines WHERE LOWER(Airline) = LOWER('JetBlue Airways');,,1363.73,,,1,925,20,
+spider_dev,182,easy,answerable,correct,SELECT Abbreviation FROM airlines WHERE LOWER(Airline) = LOWER('Jetblue Airways');,,1482.44,,,1,921,20,
+spider_dev,183,medium,answerable,correct,"SELECT Airline, Abbreviation FROM airlines WHERE LOWER(Country) = 'usa';",,1331.03,,,1,925,19,
+spider_dev,184,medium,answerable,correct,"SELECT Airline, Abbreviation FROM airlines WHERE LOWER(Country) = 'usa';",,1342.77,,,1,927,19,
+spider_dev,185,medium,answerable,correct,"SELECT AirportCode, AirportName FROM airports WHERE City = 'Anthony';",,1164.98,,,1,925,15,
+spider_dev,186,medium,answerable,correct,"SELECT AirportCode, AirportName FROM airports WHERE LOWER(City) = LOWER('Anthony');",,1350.69,,,1,928,19,
+spider_dev,187,easy,answerable,correct,SELECT COUNT(*) AS airline_count FROM airlines;,,890.55,,,1,920,10,
+spider_dev,188,easy,answerable,correct,SELECT COUNT(*) AS total_airlines FROM airlines;,,944.90,,,1,921,11,
+spider_dev,189,easy,answerable,correct,SELECT COUNT(*) AS airport_count FROM airports;,,909.40,,,1,920,10,
+spider_dev,190,easy,answerable,correct,SELECT COUNT(*) AS airport_count FROM airports;,,899.72,,,1,920,10,
+spider_dev,191,easy,answerable,correct,SELECT COUNT(*) AS total_flights FROM flights;,,955.67,,,1,920,11,
+spider_dev,192,easy,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights;,,893.37,,,1,919,10,
+spider_dev,193,easy,answerable,correct,SELECT Airline FROM airlines WHERE LOWER(Abbreviation) = LOWER('UAL');,,1270.33,,,1,920,18,
+spider_dev,194,easy,answerable,correct,SELECT Airline FROM airlines WHERE LOWER(Abbreviation) = LOWER('UAL');,,1320.96,,,1,921,18,
+spider_dev,195,easy,answerable,correct,SELECT COUNT(*) AS count FROM airlines WHERE LOWER(Country) = LOWER('usa');,,1284.87,,,1,920,18,
+spider_dev,196,easy,answerable,correct,SELECT COUNT(*) AS airline_count FROM airlines WHERE LOWER(Country) = 'usa';,,1389.73,,,1,922,18,
+spider_dev,197,medium,answerable,wrong,"SELECT City, Country FROM airports WHERE AirportName LIKE '%Alton%';",,1191.07,,,1,924,16,
+spider_dev,198,medium,answerable,wrong,"SELECT City, Country FROM airports WHERE AirportName LIKE '%Alton%';",,1194.12,,,1,924,16,
+spider_dev,199,easy,answerable,correct,SELECT AirportName FROM airports WHERE AirportCode = 'AKO';,,1080.76,,,1,924,14,
+spider_dev,200,easy,answerable,correct,SELECT AirportName FROM airports WHERE AirportCode = 'AKO';,,1118.62,,,1,925,14,
+spider_dev,201,easy,answerable,correct,"SELECT AirportName 
+FROM airports 
+WHERE LOWER(City) = LOWER('aberdeen');",,1323.56,,,1,924,19,
+spider_dev,202,easy,answerable,correct,"SELECT AirportName 
+FROM airports 
+WHERE City = 'Aberdeen';",,1187.80,,,1,922,16,
+spider_dev,203,easy,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE SourceAirport = 'APG';,,1243.43,,,1,922,17,
+spider_dev,204,easy,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE SourceAirport = 'APG';,,1221.39,,,1,924,17,
+spider_dev,205,easy,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE DestAirport = 'ATO';,,1191.56,,,1,921,16,
+spider_dev,206,easy,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE DestAirport = 'ATO';,,1200.57,,,1,922,16,
+spider_dev,207,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE SourceAirport IN (SELECT AirportCode FROM airports WHERE LOWER(City) = LOWER('Aberdeen'));,,1922.67,,,1,921,31,
+spider_dev,208,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE SourceAirport LIKE '%Aberdeen%';,,1323.45,,,1,922,19,
+spider_dev,209,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE DestAirport IN (SELECT AirportCode FROM airports WHERE City = 'Aberdeen');,,1827.92,,,1,921,27,
+spider_dev,210,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE DestAirport IN (SELECT AirportCode FROM airports WHERE City = 'Aberdeen');,,1734.65,,,1,922,27,
+spider_dev,211,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights f JOIN airports src ON f.SourceAirport = src.AirportCode JOIN airports dst ON f.DestAirport = dst.AirportCode WHERE LOWER(src.City) = LOWER('Aberdeen') AND LOWER(dst.City) = LOWER('Ashley');,,3353.10,,,1,932,60,
+spider_dev,212,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE SourceAirport = 'Aberdeen' AND DestAirport = 'Ashley';,,1690.82,,,1,922,26,
+spider_dev,213,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE Airline = (SELECT uid FROM airlines WHERE LOWER(Airline) = LOWER('JetBlue Airways'));,,1927.01,,,1,925,31,
+spider_dev,214,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights JOIN airlines ON flights.Airline = airlines.uid WHERE LOWER(airlines.Airline) LIKE '%jetblue%';,,2037.94,,,1,922,34,
+spider_dev,215,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights f JOIN airlines a ON f.Airline = a.uid WHERE LOWER(a.Airline) LIKE '%united%' AND f.DestAirport = 'ASY';,,2925.78,,,1,926,42,
+spider_dev,216,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE DestAirport = 'ASY' AND Airline IN (SELECT uid FROM airlines WHERE LOWER(Airline) LIKE '%united%');,,2259.52,,,1,926,37,
+spider_dev,217,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights f JOIN airlines a ON f.Airline = a.uid WHERE LOWER(a.Airline) = LOWER('United Airlines') AND f.SourceAirport = 'AHD';,,2546.03,,,1,927,43,
+spider_dev,218,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE Airline = (SELECT uid FROM airlines WHERE LOWER(Airline) = 'united airlines') AND SourceAirport = 'AHD';,,2258.74,,,1,926,38,
+spider_dev,219,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights f JOIN airlines a ON f.Airline = a.uid JOIN airports ap ON f.DestAirport = ap.AirportCode WHERE LOWER(a.Airline) = LOWER('United Airlines') AND LOWER(ap.City) LIKE '%aberdeen%';,,3252.78,,,1,926,59,
+spider_dev,220,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights f JOIN airlines a ON f.Airline = a.uid JOIN airports dest ON f.DestAirport = dest.AirportCode WHERE LOWER(a.Airline) = 'united airlines' AND LOWER(dest.City) = 'aberdeen';,,3194.38,,,1,925,58,
+spider_dev,221,extra,answerable,wrong,"SELECT SourceAirport AS City, COUNT(*) AS FlightCount FROM flights GROUP BY SourceAirport ORDER BY FlightCount DESC LIMIT 1;",,1693.85,,,1,922,27,
+spider_dev,222,extra,answerable,wrong,"SELECT SourceAirport AS City, COUNT(*) AS Frequency FROM flights GROUP BY SourceAirport ORDER BY Frequency DESC LIMIT 1;",,1700.88,,,1,922,25,
+spider_dev,223,extra,answerable,wrong,"SELECT SourceAirport AS City, COUNT(*) AS DepartureCount FROM flights GROUP BY SourceAirport ORDER BY DepartureCount DESC LIMIT 1;",,1823.76,,,1,922,29,
+spider_dev,224,extra,answerable,wrong,"SELECT SourceAirport AS City, COUNT(*) AS Frequency FROM flights GROUP BY SourceAirport ORDER BY Frequency DESC LIMIT 1;",,1588.66,,,1,922,25,
+spider_dev,225,extra,answerable,wrong,"SELECT DestAirport AS AirportCode
+FROM flights
+GROUP BY DestAirport
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,1660.37,,,1,927,26,
+spider_dev,226,extra,answerable,wrong,"SELECT DestAirport AS AirportCode
+FROM flights
+GROUP BY DestAirport
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,1662.40,,,1,926,26,
+spider_dev,227,extra,answerable,wrong,"SELECT DestAirport AS AirportCode, COUNT(*) AS FlightCount FROM flights GROUP BY DestAirport ORDER BY FlightCount ASC LIMIT 1;",,1754.08,,,1,927,28,
+spider_dev,228,extra,answerable,correct,"SELECT AirportCode FROM airports GROUP BY AirportCode HAVING COUNT(*) = (SELECT MIN(FlightCount) FROM (SELECT SourceAirport AS AirportCode, COUNT(*) AS FlightCount FROM flights GROUP BY SourceAirport UNION ALL SELECT DestAirport AS AirportCode, COUNT(*) AS FlightCount FROM flights GROUP BY DestAirport));",,3439.45,,,1,924,63,
+spider_dev,229,extra,answerable,wrong,"SELECT Airline, COUNT(*) AS flight_count FROM flights GROUP BY Airline ORDER BY flight_count DESC LIMIT 1;",,1658.33,,,1,921,25,
+spider_dev,230,extra,answerable,wrong,"SELECT Airline, COUNT(*) AS FlightCount FROM flights GROUP BY Airline ORDER BY FlightCount DESC LIMIT 1;",,1596.37,,,1,920,25,
+spider_dev,231,extra,answerable,wrong,"SELECT a.Abbreviation, a.Country 
+FROM airlines a 
+LEFT JOIN flights f ON a.uid = f.Airline 
+GROUP BY a.uid 
+ORDER BY COUNT(f.FlightNo) ASC 
+LIMIT 1;",,4377.29,,,1,1924,70,
+spider_dev,232,extra,answerable,wrong,"SELECT Airline, Abbreviation, Country
+FROM airlines
+WHERE uid = (
+    SELECT f.Airline
+    FROM flights f
+    GROUP BY f.Airline
+    ORDER BY COUNT(*) ASC
+    LIMIT 1
+);",,2851.48,,,1,934,52,
+spider_dev,233,medium,answerable,correct,SELECT DISTINCT Airline FROM flights WHERE SourceAirport = 'AHD';,,1131.18,,,1,927,15,
+spider_dev,234,medium,answerable,correct,SELECT Airline FROM flights WHERE SourceAirport = 'AHD';,,1079.23,,,1,924,14,
+spider_dev,235,medium,answerable,correct,SELECT DISTINCT Airline FROM flights WHERE DestAirport = 'AHD';,,1159.51,,,1,926,15,
+spider_dev,236,medium,answerable,correct,SELECT Airline FROM flights WHERE DestAirport = 'AHD';,,1099.07,,,1,924,14,
+spider_dev,237,extra,answerable,correct,"SELECT Airline FROM flights WHERE SourceAirport IN ('APG', 'CVO') GROUP BY Airline HAVING COUNT(DISTINCT SourceAirport) = 2;",,2143.43,,,1,931,35,
+spider_dev,238,extra,answerable,correct,"SELECT Airline FROM flights WHERE SourceAirport IN ('APG', 'CVO') GROUP BY Airline HAVING COUNT(DISTINCT SourceAirport) = 2;",,2237.34,,,1,927,35,
+spider_dev,239,extra,answerable,correct,SELECT Airline FROM flights WHERE SourceAirport = 'CVO' AND Airline NOT IN (SELECT Airline FROM flights WHERE SourceAirport = 'APG'),,1996.38,,,1,932,33,
+spider_dev,240,extra,answerable,correct,SELECT Airline FROM flights WHERE SourceAirport = 'CVO' EXCEPT SELECT Airline FROM flights WHERE SourceAirport = 'APG';,,1804.87,,,1,928,29,
+spider_dev,241,medium,answerable,correct,SELECT Airline FROM airlines WHERE uid IN (SELECT Airline FROM flights GROUP BY Airline HAVING COUNT(*) >= 10);,,1753.25,,,1,925,28,
+spider_dev,242,medium,answerable,wrong,"SELECT Airline, COUNT(*) AS FlightCount FROM flights GROUP BY Airline HAVING COUNT(*) >= 10;",,1618.88,,,1,923,25,
+spider_dev,243,medium,answerable,correct,SELECT Airline FROM airlines WHERE uid IN (SELECT Airline FROM flights GROUP BY Airline HAVING COUNT(*) < 200);,,1797.21,,,1,926,29,
+spider_dev,244,medium,answerable,wrong,"SELECT Airline, COUNT(*) AS FlightCount FROM flights GROUP BY Airline HAVING COUNT(*) < 200;",,1986.04,,,1,924,26,
+spider_dev,245,medium,answerable,correct,SELECT FlightNo FROM flights WHERE Airline = (SELECT uid FROM airlines WHERE LOWER(Airline) = LOWER('United Airlines'));,,1761.63,,,1,924,27,
+spider_dev,246,medium,answerable,correct,"SELECT f.FlightNo
+FROM flights f
+JOIN airlines a ON f.Airline = a.uid
+WHERE LOWER(a.Airline) LIKE '%united%';",,2187.26,,,1,922,36,
+spider_dev,247,easy,answerable,correct,SELECT FlightNo FROM flights WHERE SourceAirport = 'APG';,,1103.11,,,1,926,14,
+spider_dev,248,easy,answerable,correct,SELECT FlightNo FROM flights WHERE SourceAirport = 'APG';,,1111.83,,,1,924,14,
+spider_dev,249,easy,answerable,correct,SELECT FlightNo FROM flights WHERE DestAirport = 'APG';,,1112.06,,,1,926,14,
+spider_dev,250,easy,answerable,correct,SELECT FlightNo FROM flights WHERE DestAirport = 'APG';,,1094.14,,,1,924,14,
+spider_dev,251,medium,answerable,correct,"SELECT f.FlightNo
+FROM flights f
+JOIN airports a ON f.SourceAirport = a.AirportCode
+WHERE LOWER(a.City) LIKE '%aberdeen%';",,2130.75,,,1,927,36,
+spider_dev,252,medium,answerable,correct,"SELECT f.FlightNo
+FROM flights f
+JOIN airports a ON f.SourceAirport = a.AirportCode
+WHERE LOWER(a.City) LIKE '%aberdeen%';",,2118.09,,,1,923,36,
+spider_dev,253,medium,answerable,correct,"SELECT f.FlightNo
+FROM flights f
+JOIN airports a ON f.DestAirport = a.AirportCode
+WHERE LOWER(a.City) = 'aberdeen';",,2236.30,,,1,927,36,
+spider_dev,254,medium,answerable,correct,"SELECT f.FlightNo
+FROM flights f
+JOIN airports a ON f.DestAirport = a.AirportCode
+WHERE LOWER(a.City) LIKE '%aberdeen%';",,2199.48,,,1,923,37,
+spider_dev,255,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE DestAirport IN (SELECT AirportCode FROM airports WHERE City LIKE '%Aberdeen%' OR City LIKE '%Abilene%');,,2104.02,,,1,929,36,
+spider_dev,256,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE DestAirport IN (SELECT AirportCode FROM airports WHERE City LIKE '%Aberdeen%' OR City LIKE '%Abilene%');,,2150.19,,,1,924,36,
+spider_dev,257,hard,answerable,correct,"SELECT AirportName 
+FROM airports 
+WHERE AirportCode NOT IN (SELECT DISTINCT SourceAirport FROM flights) 
+AND AirportCode NOT IN (SELECT DISTINCT DestAirport FROM flights);",,2091.87,,,1,928,35,
+spider_dev,258,hard,answerable,wrong,"SELECT AirportCode, AirportName 
+FROM airports 
+WHERE AirportCode NOT IN (SELECT DISTINCT SourceAirport FROM flights) 
+AND AirportCode NOT IN (SELECT DISTINCT DestAirport FROM flights);",,2246.44,,,1,923,38,
+spider_dev,259,easy,answerable,correct,SELECT COUNT(*) AS total_employees FROM employee;,,1170.62,,,1,998,11,
+spider_dev,260,easy,answerable,correct,"SELECT COUNT(*) AS employee_count FROM ""employee"";",,1151.44,,,1,997,11,
+spider_dev,261,easy,answerable,wrong,"SELECT Name, Age FROM employee ORDER BY Age ASC;",,1199.96,,,1,1002,12,
+spider_dev,262,easy,answerable,correct,SELECT Name FROM employee ORDER BY Age ASC;,,1097.11,,,1,1005,10,
+spider_dev,263,medium,answerable,wrong,"SELECT City, COUNT(*) AS Number_of_Employees FROM employee GROUP BY City;",,1486.24,,,1,1002,18,
+spider_dev,264,medium,answerable,wrong,"SELECT City, COUNT(*) AS employee_count FROM employee GROUP BY City;",,1323.64,,,1,1001,15,
+spider_dev,265,medium,answerable,correct,SELECT City FROM employee WHERE Age < 30 GROUP BY City HAVING COUNT(*) > 1;,,1687.50,,,1,1007,22,
+spider_dev,266,medium,answerable,correct,SELECT City FROM employee WHERE Age < 30 GROUP BY City HAVING COUNT(*) > 1;,,1689.70,,,1,1007,22,
+spider_dev,267,medium,answerable,wrong,"SELECT Location, COUNT(*) AS shop_count FROM shop GROUP BY Location;",,1337.14,,,1,1001,15,
+spider_dev,268,medium,answerable,wrong,"SELECT Location, COUNT(*) AS shop_count FROM shop GROUP BY Location;",,1325.18,,,1,1001,15,
+spider_dev,269,medium,answerable,correct,"SELECT Manager_name, District FROM shop WHERE Number_products = (SELECT MAX(Number_products) FROM shop);",,1646.38,,,1,1009,21,
+spider_dev,270,medium,answerable,correct,"SELECT Manager_name, District FROM shop WHERE Number_products = (SELECT MAX(Number_products) FROM shop);",,1618.07,,,1,1010,21,
+spider_dev,271,medium,answerable,correct,"SELECT MIN(Number_products) AS min_products, MAX(Number_products) AS max_products FROM shop;",,1615.84,,,1,1004,20,
+spider_dev,272,medium,answerable,correct,"SELECT MIN(Number_products) AS min_products, MAX(Number_products) AS max_products FROM shop;",,1647.32,,,1,1006,20,
+spider_dev,273,medium,answerable,correct,"SELECT Name, Location, District FROM shop ORDER BY Number_products DESC;",,1391.35,,,1,1010,15,
+spider_dev,274,medium,answerable,wrong,"SELECT Name, Location, District, Number_products FROM shop ORDER BY Number_products DESC;",,1591.40,,,1,1015,18,
+spider_dev,275,hard,answerable,correct,SELECT Name FROM shop WHERE Number_products > (SELECT AVG(Number_products) FROM shop);,,1545.12,,,1,1009,18,
+spider_dev,276,hard,answerable,correct,SELECT Name FROM shop WHERE Number_products > (SELECT AVG(Number_products) FROM shop);,,1522.56,,,1,1008,18,
+spider_dev,277,extra,answerable,correct,"SELECT e.Name
+FROM employee e
+JOIN evaluation ev ON e.Employee_ID = ev.Employee_ID
+GROUP BY e.Employee_ID, e.Name
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2538.72,,,1,1007,40,
+spider_dev,278,extra,answerable,correct,"SELECT e.Name
+FROM employee e
+JOIN evaluation ev ON e.Employee_ID = ev.Employee_ID
+GROUP BY e.Employee_ID, e.Name
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2574.13,,,1,1007,40,
+spider_dev,279,hard,answerable,correct,"SELECT e.Name
+FROM employee e
+JOIN evaluation ev ON e.Employee_ID = ev.Employee_ID
+ORDER BY ev.Bonus DESC
+LIMIT 1;",,2372.20,,,1,1006,32,
+spider_dev,280,hard,answerable,correct,"SELECT e.Name
+FROM employee e
+JOIN evaluation ev ON e.Employee_ID = ev.Employee_ID
+ORDER BY ev.Bonus DESC
+LIMIT 1;",,2194.35,,,1,1005,32,
+spider_dev,281,hard,answerable,correct,SELECT Name FROM employee WHERE Employee_ID NOT IN (SELECT CAST(Employee_ID AS TEXT) FROM evaluation);,,1635.24,,,1,1006,21,
+spider_dev,282,hard,answerable,correct,SELECT Name FROM employee WHERE Employee_ID NOT IN (SELECT CAST(Employee_ID AS TEXT) FROM evaluation);,,1640.95,,,1,1005,21,
+spider_dev,283,extra,answerable,wrong,"SELECT s.Name AS Shop_Name, COUNT(h.Employee_ID) AS Employee_Count
+FROM shop s
+JOIN hiring h ON s.Shop_ID = h.Shop_ID
+GROUP BY s.Shop_ID, s.Name
+ORDER BY Employee_Count DESC
+LIMIT 1;",,3280.96,,,1,1008,55,
+spider_dev,284,extra,answerable,wrong,"SELECT s.Name AS Shop_Name, COUNT(h.Employee_ID) AS Employee_Count
+FROM shop s
+JOIN hiring h ON s.Shop_ID = h.Shop_ID
+GROUP BY s.Shop_ID
+ORDER BY Employee_Count DESC
+LIMIT 1;",,3129.64,,,1,1005,52,
+spider_dev,285,hard,answerable,wrong,SELECT Name FROM shop WHERE Shop_ID NOT IN (SELECT Employee_ID FROM hiring);,,1428.23,,,1,1005,17,
+spider_dev,286,hard,answerable,wrong,SELECT Name FROM shop WHERE Shop_ID NOT IN (SELECT Employee_ID FROM hiring);,,1447.77,,,1,1003,17,
+spider_dev,287,medium,answerable,wrong,"SELECT s.Name AS Shop_Name, COUNT(h.Employee_ID) AS Number_of_Employees FROM hiring h INNER JOIN shop s ON h.Shop_ID = s.Shop_ID GROUP BY s.Shop_ID, s.Name;",,2990.38,,,1,1009,46,
+spider_dev,288,medium,answerable,wrong,"SELECT s.Name AS Shop_Name, COUNT(h.Employee_ID) AS Number_Of_Employees
+FROM shop s
+LEFT JOIN hiring h ON s.Shop_ID = h.Shop_ID
+GROUP BY s.Shop_ID;",,2821.13,,,1,1010,46,
+spider_dev,289,easy,answerable,correct,SELECT SUM(Bonus) AS Total_Bonus FROM evaluation;,,1271.86,,,1,1001,13,
+spider_dev,290,easy,answerable,correct,SELECT SUM(Bonus) AS Total_Bonus FROM evaluation;,,1251.43,,,1,1004,13,
+spider_dev,291,easy,answerable,correct,"SELECT * FROM ""hiring"";",,1014.43,,,1,1000,8,
+spider_dev,292,easy,answerable,correct,"SELECT * FROM ""hiring"";",,1040.63,,,1,1000,8,
+spider_dev,293,hard,answerable,correct,SELECT District FROM shop WHERE Number_products < 3000 AND Number_products > 10000;,,1824.33,,,1,1019,25,
+spider_dev,294,hard,answerable,wrong,"SELECT DISTINCT ""District""
+FROM ""shop""
+WHERE ""Number_products"" < 3000
+   OR ""Number_products"" > 10000;",,2493.08,,,1,1023,38,
+spider_dev,295,easy,answerable,correct,"SELECT COUNT(DISTINCT ""Location"") AS location_count FROM ""shop"";",,1432.69,,,1,1000,16,
+spider_dev,296,easy,answerable,correct,"SELECT COUNT(DISTINCT ""shop"".""Location"") AS count FROM ""shop"";",,1418.85,,,1,1000,17,
+spider_dev,297,easy,answerable,correct,SELECT COUNT(*) AS document_count FROM Documents;,,1128.89,,,1,1025,10,
+spider_dev,298,easy,answerable,correct,SELECT COUNT(*) AS document_count FROM Documents;,,1119.01,,,1,1024,10,
+spider_dev,299,medium,answerable,correct,"SELECT Document_ID, Document_Name, Document_Description FROM Documents;",,1271.02,,,1,1032,13,
+spider_dev,300,medium,answerable,correct,"SELECT Document_ID, Document_Name, Document_Description FROM Documents;",,1253.15,,,1,1031,13,
+spider_dev,301,medium,answerable,correct,"SELECT Document_Name, Template_ID FROM Documents WHERE LOWER(Document_Description) LIKE '%w%';",,1551.25,,,1,1039,19,
+spider_dev,302,medium,answerable,correct,"SELECT Document_Name, Template_ID FROM Documents WHERE LOWER(Document_Description) LIKE '%w%';",,1547.86,,,1,1035,19,
+spider_dev,303,medium,answerable,correct,"SELECT Document_ID, Template_ID, Document_Description FROM Documents WHERE LOWER(Document_Name) = LOWER('Robbin CV');",,1773.47,,,1,1036,24,
+spider_dev,304,medium,answerable,correct,"SELECT Document_ID, Template_ID, Document_Description FROM Documents WHERE LOWER(Document_Name) = LOWER('Robbin CV');",,1792.57,,,1,1038,24,
+spider_dev,305,easy,answerable,correct,"SELECT COUNT(DISTINCT t.Template_ID) AS template_count
+FROM Documents d
+JOIN Templates t ON d.Template_ID = t.Template_ID;",,2066.37,,,1,1027,30,
+spider_dev,306,easy,answerable,wrong,SELECT COUNT(DISTINCT t.Template_Type_Code) AS template_count FROM Templates t;,,1811.58,,,1,1028,18,
+spider_dev,307,medium,answerable,correct,SELECT COUNT(*) AS document_count FROM Documents d JOIN Templates t ON d.Template_ID = t.Template_ID WHERE LOWER(t.Template_Type_Code) = LOWER('PPT');,,2704.21,,,1,1032,34,
+spider_dev,308,medium,answerable,correct,SELECT COUNT(*) AS document_count FROM Documents d JOIN Templates t ON d.Template_ID = t.Template_ID WHERE LOWER(t.Template_Type_Code) LIKE '%ppt%';,,4473.30,,,1,2138,66,
+spider_dev,309,medium,answerable,wrong,"SELECT T.Template_ID, COUNT(D.DOCUMENT_ID) AS Document_Count
+FROM Templates T
+LEFT JOIN Documents D ON T.Template_ID = D.Template_ID
+GROUP BY T.Template_ID;",,2479.44,,,1,1030,39,
+spider_dev,310,medium,answerable,correct,"SELECT Template_ID, COUNT(*) AS Usage_Count
+FROM Documents
+GROUP BY Template_ID;",,1559.71,,,1,1038,19,
+spider_dev,311,extra,answerable,correct,"SELECT t.Template_ID, t.Template_Type_Code
+FROM Templates t
+JOIN Documents d ON t.Template_ID = d.Template_ID
+GROUP BY t.Template_ID
+ORDER BY COUNT(DISTINCT d.Document_ID) DESC
+LIMIT 1;",,5332.23,,,1,2143,82,
+spider_dev,312,extra,answerable,error,"SELECT Template_ID, Template_Type_Code
+FROM Templates
+GROUP BY Template_ID
+ORDER BY COUNT(Documents.Document_ID) DESC
+LIMIT 1;",OperationalError: ambiguous column name: Template_ID,4839.58,,,1,2148,75,
+spider_dev,313,easy,answerable,wrong,SELECT Template_ID FROM Templates WHERE Template_ID IN (SELECT Document_ID FROM Paragraphs GROUP BY Document_ID HAVING COUNT(*) > 1);,,2032.24,,,1,1032,29,
+spider_dev,314,easy,answerable,correct,"SELECT T.Template_ID 
+FROM Templates T
+JOIN Documents D ON T.Template_ID = D.Template_ID
+GROUP BY T.Template_ID
+HAVING COUNT(DISTINCT D.Document_ID) > 1;",,4511.15,,,1,2132,65,
+spider_dev,315,hard,answerable,wrong,SELECT Template_ID FROM Templates WHERE Template_ID NOT IN (SELECT DISTINCT Document_ID FROM Paragraphs);,,1613.98,,,1,1029,20,
+spider_dev,316,hard,answerable,wrong,SELECT Template_ID FROM Templates WHERE Template_ID NOT IN (SELECT DISTINCT Document_ID FROM Paragraphs);,,1605.17,,,1,1032,20,
+spider_dev,317,easy,answerable,correct,SELECT COUNT(*) AS template_count FROM Templates;,,1124.70,,,1,1025,10,
+spider_dev,318,easy,answerable,correct,SELECT COUNT(*) AS template_count FROM Templates;,,1149.83,,,1,1024,10,
+spider_dev,319,medium,answerable,correct,"SELECT Template_ID, Version_Number, Template_Type_Code FROM Templates;",,1435.90,,,1,1033,14,
+spider_dev,320,medium,answerable,correct,"SELECT Template_ID, Version_Number, Template_Type_Code FROM Templates;",,1346.63,,,1,1033,14,
+spider_dev,321,easy,answerable,correct,SELECT DISTINCT Template_Type_Code FROM Templates;,,1117.97,,,1,1028,9,
+spider_dev,322,easy,answerable,correct,SELECT DISTINCT Template_Type_Code FROM Ref_Template_Types;,,1245.16,,,1,1026,12,
+spider_dev,323,medium,answerable,correct,"SELECT Template_ID FROM Templates WHERE LOWER(Template_Type_Code) IN ('pp', 'ppt');",,1633.21,,,1,1033,20,
+spider_dev,324,medium,answerable,correct,"SELECT Template_ID FROM Templates WHERE LOWER(Template_Type_Code) IN ('pp', 'ppt');",,1622.57,,,1,1032,20,
+spider_dev,325,easy,answerable,correct,SELECT COUNT(*) AS count FROM Templates WHERE LOWER(Template_Type_Code) = LOWER('CV');,,1618.93,,,1,1027,20,
+spider_dev,326,easy,answerable,correct,SELECT COUNT(*) AS template_count FROM Templates WHERE LOWER(Template_Type_Code) = LOWER('CV');,,1658.59,,,1,1028,21,
+spider_dev,327,medium,answerable,correct,"SELECT Version_Number, Template_Type_Code FROM Templates WHERE Version_Number > 5;",,1465.67,,,1,1038,17,
+spider_dev,328,medium,answerable,correct,"SELECT Version_Number, Template_Type_Code FROM Templates WHERE Version_Number > 5;",,1475.91,,,1,1037,17,
+spider_dev,329,medium,answerable,correct,"SELECT 
+    rt.Template_Type_Code,
+    COUNT(t.Template_ID) AS Template_Count
+FROM Ref_Template_Types rt
+LEFT JOIN Templates t ON rt.Template_Type_Code = t.Template_Type_Code
+GROUP BY rt.Template_Type_Code;",,2998.46,,,1,1030,49,
+spider_dev,330,medium,answerable,correct,"SELECT 
+    rt.Template_Type_Code,
+    COUNT(t.Template_ID) AS Template_Count
+FROM Ref_Template_Types rt
+LEFT JOIN Templates t ON rt.Template_Type_Code = t.Template_Type_Code
+GROUP BY rt.Template_Type_Code;",,2958.02,,,1,1034,49,
+spider_dev,331,hard,answerable,wrong,"SELECT Template_Type_Code, COUNT(*) AS Template_Count
+FROM Templates
+GROUP BY Template_Type_Code
+ORDER BY Template_Count DESC
+LIMIT 1;",,2107.43,,,1,1028,31,
+spider_dev,332,hard,answerable,correct,"SELECT Template_Type_Code
+FROM Templates
+GROUP BY Template_Type_Code
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,1843.59,,,1,1033,25,
+spider_dev,333,easy,answerable,correct,"SELECT Template_Type_Code
+FROM Templates
+GROUP BY Template_Type_Code
+HAVING COUNT(*) < 3;",,1795.66,,,1,1029,23,
+spider_dev,334,easy,answerable,correct,"SELECT Template_Type_Code
+FROM Templates
+GROUP BY Template_Type_Code
+HAVING COUNT(*) < 3;",,1781.11,,,1,1033,23,
+spider_dev,335,medium,answerable,wrong,"SELECT MIN(T.Version_Number) AS Smallest_Version_Number, T.Template_Type_Code
+FROM Templates T
+GROUP BY T.Template_Type_Code;",,2018.72,,,1,1029,29,
+spider_dev,336,medium,answerable,wrong,"SELECT MIN(T.Version_Number) AS Lowest_Version_Number, T.Template_Type_Code
+FROM Templates T
+GROUP BY T.Template_Type_Code;",,2043.63,,,1,1032,28,
+spider_dev,337,medium,answerable,correct,"SELECT t.Template_Type_Code
+FROM Documents d
+JOIN Templates t ON d.Template_ID = t.Template_ID
+WHERE LOWER(d.Document_Name) LIKE '%data base%';",,2287.98,,,1,1037,35,
+spider_dev,338,medium,answerable,correct,"SELECT t.Template_Type_Code
+FROM Documents d
+JOIN Templates t ON d.Template_ID = t.Template_ID
+WHERE LOWER(d.Document_Name) LIKE '%data base%';",,2282.11,,,1,1036,35,
+spider_dev,339,medium,answerable,correct,"SELECT DISTINCT d.Document_Name
+FROM Documents d
+JOIN Templates t ON d.Template_ID = t.Template_ID
+WHERE LOWER(t.Template_Type_Code) = LOWER('BK');",,2648.81,,,1,1030,35,
+spider_dev,340,medium,answerable,correct,SELECT Document_Name FROM Documents WHERE Template_ID IN (SELECT Template_ID FROM Templates WHERE Template_Type_Code = 'BK');,,1815.05,,,1,1032,24,
+spider_dev,341,medium,answerable,wrong,"SELECT 
+    rt.Template_Type_Code,
+    COUNT(DISTINCT d.Document_ID) AS Document_Count
+FROM 
+    Ref_Template_Types rt
+LEFT JOIN 
+    Templates t ON rt.Template_Type_Code = t.Template_Type_Code
+LEFT JOIN 
+    Documents d ON t.Template_ID = d.Template_ID
+GROUP BY 
+    rt.Template_Type_Code;",,4112.27,,,1,1032,73,
+spider_dev,342,medium,answerable,wrong,"SELECT 
+    rt.Template_Type_Code,
+    rt.Template_Type_Description,
+    COUNT(DISTINCT d.Document_ID) AS Document_Count
+FROM Ref_Template_Types rt
+LEFT JOIN Templates t ON rt.Template_Type_Code = t.Template_Type_Code
+LEFT JOIN Documents d ON t.Template_ID = d.Template_ID
+GROUP BY rt.Template_Type_Code, rt.Template_Type_Description;",,4319.90,,,1,1034,77,
+spider_dev,343,extra,answerable,wrong,"SELECT T.Template_Type_Code, COUNT(D.DOCUMENT_ID) AS Document_Count
+FROM Templates T
+JOIN Documents D ON T.Template_ID = D.Template_ID
+GROUP BY T.Template_Type_Code
+ORDER BY Document_Count DESC
+LIMIT 1;",,2992.31,,,1,1030,50,
+spider_dev,344,extra,answerable,wrong,"SELECT Template_Type_Code
+FROM Templates
+GROUP BY Template_Type_Code
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,1827.71,,,1,1033,25,
+spider_dev,345,hard,answerable,correct,"SELECT Template_Type_Code
+FROM Ref_Template_Types
+WHERE Template_Type_Code NOT IN (
+    SELECT DISTINCT T.Template_Type_Code
+    FROM Templates T
+    JOIN Documents D ON T.Template_ID = D.Template_ID
+);",,2856.65,,,1,1031,47,
+spider_dev,346,hard,answerable,correct,"SELECT Template_Type_Code
+FROM Ref_Template_Types
+WHERE Template_Type_Code NOT IN (
+    SELECT DISTINCT T.Template_Type_Code
+    FROM Templates T
+    JOIN Documents D ON T.Template_ID = D.Template_ID
+);",,2884.14,,,1,1033,47,
+spider_dev,347,medium,answerable,correct,"SELECT Template_Type_Code, Template_Type_Description FROM Ref_Template_Types;",,1353.00,,,1,1026,15,
+spider_dev,348,medium,answerable,correct,"SELECT Template_Type_Code, Template_Type_Description FROM Ref_Template_Types;",,1362.23,,,1,1030,15,
+spider_dev,349,easy,answerable,correct,"SELECT Template_Type_Description 
+FROM Ref_Template_Types 
+WHERE LOWER(Template_Type_Code) = LOWER('AD');",,1807.48,,,1,1031,24,
+spider_dev,350,easy,answerable,correct,"SELECT Template_Type_Description 
+FROM Ref_Template_Types 
+WHERE LOWER(Template_Type_Code) = LOWER('AD');",,1766.40,,,1,1032,24,
+spider_dev,351,easy,answerable,correct,SELECT Template_Type_Code FROM Ref_Template_Types WHERE LOWER(Template_Type_Description) = LOWER('Book');,,1675.66,,,1,1031,22,
+spider_dev,352,easy,answerable,correct,SELECT Template_Type_Code FROM Ref_Template_Types WHERE LOWER(Template_Type_Description) = LOWER('Book');,,1679.14,,,1,1032,22,
+spider_dev,353,medium,answerable,correct,"SELECT DISTINCT RT.Template_Type_Description
+FROM Templates T
+JOIN Documents D ON T.Template_ID = D.Template_ID
+JOIN Ref_Template_Types RT ON T.Template_Type_Code = RT.Template_Type_Code;",,4384.47,,,1,2135,65,
+spider_dev,354,medium,answerable,wrong,"SELECT DISTINCT t.Template_Details AS Description
+FROM Templates t
+JOIN Documents d ON t.Template_ID = d.Template_ID;",,1816.36,,,1,1032,25,
+spider_dev,355,medium,answerable,wrong,SELECT Template_ID FROM Templates WHERE LOWER(Template_Type_Code) IN (SELECT Template_Type_Code FROM Ref_Template_Types WHERE LOWER(Template_Type_Description) = LOWER('Presentation'));,,3882.93,,,1,2120,54,
+spider_dev,356,medium,answerable,wrong,SELECT Template_ID FROM Templates WHERE LOWER(Template_Details) LIKE '%presentation%';,,1468.13,,,1,1030,17,
+spider_dev,357,easy,answerable,correct,SELECT COUNT(*) AS Total_Paragraphs FROM Paragraphs;,,1394.96,,,1,1024,14,
+spider_dev,358,easy,answerable,correct,SELECT COUNT(*) AS paragraph_count FROM Paragraphs;,,1206.82,,,1,1024,11,
+spider_dev,359,medium,answerable,correct,SELECT COUNT(*) AS paragraph_count FROM Paragraphs WHERE Document_ID = (SELECT Document_ID FROM Documents WHERE LOWER(Document_Name) = LOWER('Summer Show'));,,2190.41,,,1,1030,31,
+spider_dev,360,medium,answerable,correct,SELECT COUNT(*) AS paragraph_count FROM Paragraphs WHERE Document_ID = (SELECT Document_ID FROM Documents WHERE LOWER(Document_Name) = LOWER('summer show'));,,2192.74,,,1,1031,31,
+spider_dev,361,medium,answerable,wrong,"SELECT Paragraph_ID, Document_ID, Paragraph_Text, Other_Details 
+FROM Paragraphs 
+WHERE LOWER(Paragraph_Text) LIKE '%korea%';",,2106.10,,,1,1030,30,
+spider_dev,362,medium,answerable,wrong,SELECT Paragraph_Text AS Details FROM Paragraphs WHERE LOWER(Paragraph_Text) LIKE '%korea%';,,1642.54,,,1,1034,21,
+spider_dev,363,medium,answerable,correct,"SELECT Paragraph_ID, Paragraph_Text FROM Paragraphs WHERE Document_ID = (SELECT Document_ID FROM Documents WHERE LOWER(Document_Name) = LOWER('welcome to ny'));",,2169.25,,,1,1034,32,
+spider_dev,364,medium,answerable,correct,"SELECT Paragraph_ID, Paragraph_Text FROM Paragraphs WHERE Document_ID = (SELECT Document_ID FROM Documents WHERE LOWER(Document_Name) LIKE '%welcome to ny%');",,2182.64,,,1,1035,32,
+spider_dev,365,medium,answerable,correct,SELECT Paragraph_Text FROM Paragraphs WHERE Document_ID = (SELECT Document_ID FROM Documents WHERE LOWER(Document_Name) = 'customer reviews');,,2120.21,,,1,1029,27,
+spider_dev,366,medium,answerable,correct,SELECT Paragraph_Text FROM Paragraphs WHERE Document_ID IN (SELECT Document_ID FROM Documents WHERE LOWER(Document_Name) = LOWER('Customer reviews'));,,2073.03,,,1,1033,28,
+spider_dev,367,medium,answerable,wrong,"SELECT d.Document_ID, COUNT(p.Paragraph_ID) AS Paragraph_Count
+FROM Documents d
+LEFT JOIN Paragraphs p ON d.Document_ID = p.Document_ID
+GROUP BY d.Document_ID
+ORDER BY d.Document_ID;",,7295.14,,,1,2154,87,
+spider_dev,368,medium,answerable,wrong,"SELECT Document_ID, COUNT(*) AS Paragraph_Count
+FROM Documents
+GROUP BY Document_ID
+ORDER BY Document_ID;",,4570.62,,,1,2142,51,
+spider_dev,369,medium,answerable,wrong,"SELECT d.Document_ID, d.Document_Name, COUNT(p.Paragraph_ID) AS Paragraph_Count
+FROM Documents d
+LEFT JOIN Paragraphs p ON d.Document_ID = p.Document_ID
+GROUP BY d.Document_ID, d.Document_Name;",,6853.09,,,1,2149,90,
+spider_dev,370,medium,answerable,wrong,"SELECT d.Document_ID, d.Document_Name, COUNT(p.Paragraph_ID) AS Paragraph_Count
+FROM Documents d
+LEFT JOIN Paragraphs p ON d.Document_ID = p.Document_ID
+GROUP BY d.Document_ID, d.Document_Name;",,6301.15,,,1,2159,90,
+spider_dev,371,easy,answerable,correct,SELECT Document_ID FROM Paragraphs GROUP BY Document_ID HAVING COUNT(*) >= 2;,,1668.12,,,1,1028,19,
+spider_dev,372,easy,answerable,correct,SELECT Document_ID FROM Paragraphs GROUP BY Document_ID HAVING COUNT(*) >= 2;,,1659.18,,,1,1032,19,
+spider_dev,373,extra,answerable,wrong,"SELECT d.Document_ID, d.Document_Name, COUNT(p.Paragraph_ID) AS Paragraph_Count
+FROM Documents d
+JOIN Paragraphs p ON d.Document_ID = p.Document_ID
+GROUP BY d.Document_ID, d.Document_Name
+ORDER BY Paragraph_Count DESC
+LIMIT 1;",,7145.92,,,1,2154,108,
+spider_dev,374,extra,answerable,correct,"SELECT Document_ID, Document_Name
+FROM Documents
+ORDER BY (
+    SELECT COUNT(*)
+    FROM Paragraphs
+    WHERE Paragraphs.Document_ID = Documents.Document_ID
+) DESC
+LIMIT 1;",,2805.18,,,1,1031,43,
+spider_dev,375,hard,answerable,wrong,SELECT Document_ID FROM Documents ORDER BY (SELECT COUNT(*) FROM Paragraphs WHERE Paragraphs.Document_ID = Documents.Document_ID) ASC LIMIT 1;,,3968.80,,,1,2117,48,
+spider_dev,376,hard,answerable,wrong,SELECT Document_ID FROM Documents ORDER BY (SELECT COUNT(*) FROM Paragraphs WHERE Paragraphs.Document_ID = Documents.Document_ID) ASC LIMIT 1;,,2215.53,,,1,1030,30,
+spider_dev,377,easy,answerable,correct,SELECT Document_ID FROM Documents WHERE Document_ID IN (SELECT Document_ID FROM Paragraphs GROUP BY Document_ID HAVING COUNT(*) BETWEEN 1 AND 2);,,2305.39,,,1,1031,32,
+spider_dev,378,easy,answerable,correct,SELECT Document_ID FROM Paragraphs GROUP BY Document_ID HAVING COUNT(*) BETWEEN 1 AND 2;,,1751.41,,,1,1031,22,
+spider_dev,379,hard,answerable,wrong,"SELECT Document_ID, Paragraph_Text FROM Paragraphs WHERE LOWER(Paragraph_Text) LIKE '%brazil%' OR LOWER(Paragraph_Text) LIKE '%ireland%';",,2395.69,,,1,1033,33,
+spider_dev,380,hard,answerable,wrong,SELECT Document_ID FROM Paragraphs WHERE LOWER(Paragraph_Text) LIKE '%brazil%' AND LOWER(Paragraph_Text) LIKE '%ireland%';,,2717.21,,,1,1037,30,
+spider_dev,381,easy,answerable,correct,SELECT COUNT(*) AS teacher_count FROM teacher;,,1131.84,,,1,919,10,
+spider_dev,382,easy,answerable,correct,SELECT COUNT(*) AS total_count FROM teacher;,,1038.21,,,1,921,10,
+spider_dev,383,easy,answerable,correct,SELECT Name FROM teacher ORDER BY CAST(Age AS INTEGER) ASC;,,1359.20,,,1,924,15,
+spider_dev,384,easy,answerable,correct,SELECT Name FROM teacher ORDER BY CAST(Age AS INTEGER) ASC;,,1366.66,,,1,925,15,
+spider_dev,385,medium,answerable,correct,"SELECT Age, Hometown FROM teacher;",,995.98,,,1,922,9,
+spider_dev,386,medium,answerable,wrong,"SELECT Name, Age, Hometown FROM teacher;",,1038.02,,,1,923,11,
+spider_dev,387,easy,answerable,wrong,SELECT Name FROM teacher WHERE LOWER(Hometown) != LOWER('Little Lever Urban District');,,1351.56,,,1,929,18,
+spider_dev,388,easy,answerable,wrong,SELECT Name FROM teacher WHERE LOWER(Hometown) != LOWER('Little Lever Urban District');,,1515.29,,,1,931,18,
+spider_dev,389,medium,answerable,correct,SELECT Name FROM teacher WHERE Age = '32' OR Age = '33';,,1609.58,,,1,928,19,
+spider_dev,390,medium,answerable,correct,SELECT Name FROM teacher WHERE Age = '32' OR Age = '33';,,1591.87,,,1,932,19,
+spider_dev,391,medium,answerable,correct,SELECT Hometown FROM teacher ORDER BY CAST(Age AS INTEGER) ASC LIMIT 1;,,1614.77,,,1,922,19,
+spider_dev,392,medium,answerable,correct,SELECT Hometown FROM teacher WHERE CAST(Age AS INTEGER) = (SELECT MIN(CAST(Age AS INTEGER)) FROM teacher);,,2125.84,,,1,920,27,
+spider_dev,393,medium,answerable,correct,"SELECT Hometown, COUNT(*) AS Teacher_Count FROM teacher GROUP BY Hometown;",,1833.80,,,1,927,17,
+spider_dev,394,medium,answerable,correct,"SELECT Hometown, COUNT(*) AS teacher_count FROM teacher GROUP BY Hometown;",,2208.04,,,1,923,17,
+spider_dev,395,hard,answerable,correct,SELECT Hometown FROM teacher GROUP BY Hometown ORDER BY COUNT(*) DESC LIMIT 1;,,1469.24,,,1,921,19,
+spider_dev,396,hard,answerable,wrong,"SELECT Hometown, COUNT(*) AS count FROM teacher GROUP BY Hometown ORDER BY count DESC LIMIT 1;",,1621.47,,,1,924,23,
+spider_dev,397,easy,answerable,correct,SELECT Hometown FROM teacher GROUP BY Hometown HAVING COUNT(*) >= 2;,,1367.33,,,1,924,18,
+spider_dev,398,easy,answerable,correct,SELECT Hometown FROM teacher GROUP BY Hometown HAVING COUNT(*) >= 2;,,1338.95,,,1,926,18,
+spider_dev,399,medium,answerable,correct,"SELECT t.Name, c.Course
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+JOIN course c ON ca.Course_ID = c.Course_ID;",,2431.81,,,1,926,40,
+spider_dev,400,medium,answerable,correct,"SELECT t.Name, c.Course
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+JOIN course c ON ca.Course_ID = c.Course_ID;",,2458.64,,,1,926,40,
+spider_dev,401,hard,answerable,correct,"SELECT t.Name, c.Course
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+JOIN course c ON ca.Course_ID = c.Course_ID
+ORDER BY t.Name ASC;",,2765.90,,,1,935,46,
+spider_dev,402,hard,answerable,correct,"SELECT t.Name, c.Course
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+JOIN course c ON ca.Course_ID = c.Course_ID
+ORDER BY t.Name ASC;",,2901.08,,,1,936,46,
+spider_dev,403,hard,answerable,correct,"SELECT t.Name 
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+JOIN course c ON ca.Course_ID = c.Course_ID
+WHERE LOWER(c.Course) LIKE '%math%';",,3111.91,,,1,924,47,
+spider_dev,404,hard,answerable,correct,SELECT t.Name FROM teacher t JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID JOIN course c ON ca.Course_ID = c.Course_ID WHERE LOWER(c.Course) LIKE '%math%';,,2852.54,,,1,925,43,
+spider_dev,405,medium,answerable,wrong,"SELECT t.Name, COUNT(ca.Course_ID) AS Course_Count
+FROM teacher t
+LEFT JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+GROUP BY t.Teacher_ID;",,2868.82,,,1,925,42,
+spider_dev,406,medium,answerable,correct,"SELECT t.Name, COUNT(ca.Course_ID) AS Course_Count
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+GROUP BY t.Teacher_ID;",,2586.00,,,1,928,41,
+spider_dev,407,medium,answerable,correct,SELECT Name FROM teacher WHERE Teacher_ID IN (SELECT Course_Arrange.Teacher_ID FROM course_arrange GROUP BY Teacher_ID HAVING COUNT(*) >= 2);,,2537.01,,,1,924,34,
+spider_dev,408,medium,answerable,wrong,SELECT Name FROM teacher WHERE Teacher_ID IN (SELECT Course_ID FROM course_arrange GROUP BY Teacher_ID HAVING COUNT(*) >= 2);,,2052.65,,,1,927,29,
+spider_dev,409,hard,answerable,correct,SELECT Name FROM teacher WHERE Teacher_ID NOT IN (SELECT DISTINCT Teacher_ID FROM course_arrange);,,1586.09,,,1,927,20,
+spider_dev,410,hard,answerable,correct,"SELECT t.Name
+FROM teacher t
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM course_arrange ca
+    WHERE ca.Teacher_ID = t.Teacher_ID
+);",,2501.66,,,1,927,39,
+spider_dev,411,easy,answerable,correct,SELECT COUNT(*) AS visitor_count FROM visitor WHERE Age < 30;,,1313.29,,,1,943,16,
+spider_dev,412,medium,answerable,correct,SELECT Name FROM visitor WHERE Level_of_membership > 4 ORDER BY Level_of_membership DESC;,,1536.01,,,1,959,19,
+spider_dev,413,easy,answerable,correct,"SELECT AVG(""Age"") AS avg_age FROM ""visitor"" WHERE ""Level_of_membership"" <= 4;",,1615.91,,,1,950,23,
+spider_dev,414,medium,answerable,correct,"SELECT Name, Level_of_membership FROM visitor WHERE Level_of_membership > 4 ORDER BY Age DESC;",,1676.70,,,1,960,21,
+spider_dev,415,medium,answerable,correct,"SELECT ""Museum_ID"", ""Name"" FROM ""museum"" ORDER BY ""Num_of_Staff"" DESC LIMIT 1;",,1983.57,,,1,947,27,
+spider_dev,416,easy,answerable,wrong,"SELECT AVG(Num_of_Staff) AS avg_staff FROM museum WHERE strftime('%Y', Open_Year) < '2009';",,1919.52,,,1,952,30,
+spider_dev,417,medium,answerable,wrong,"SELECT ""Open_Year"", ""Num_of_Staff"" FROM ""museum"" WHERE LOWER(""Name"") = LOWER('Plaza Museum');",,1927.05,,,1,947,29,
+spider_dev,418,hard,answerable,wrong,"SELECT Name FROM museum WHERE Num_of_Staff > (SELECT MIN(Num_of_Staff) FROM museum WHERE strftime('%Y', Open_Year) > '2010');",,2440.11,,,1,957,38,
+spider_dev,419,medium,answerable,correct,"SELECT visitor.ID, visitor.Name, visitor.Age
+FROM visitor
+JOIN visit ON visitor.ID = visit.visitor_ID
+GROUP BY visitor.ID
+HAVING COUNT(visit.Museum_ID) > 1;",,2708.75,,,1,949,43,
+spider_dev,420,extra,answerable,wrong,"SELECT visitor.ID, visitor.Name, visitor.Level_of_membership
+FROM visitor
+JOIN visit ON visitor.ID = visit.visitor_ID
+ORDER BY visit.Total_spent DESC
+LIMIT 1;",,2493.18,,,1,958,39,
+spider_dev,421,extra,answerable,correct,"SELECT ""Museum_ID"", ""Name"" FROM (SELECT ""museum"".""Museum_ID"", ""museum"".""Name"", COUNT(*) AS visit_count FROM ""visit"" INNER JOIN ""museum"" ON ""visit"".""Museum_ID"" = ""museum"".""Museum_ID"" GROUP BY ""visit"".""Museum_ID"" ORDER BY visit_count DESC LIMIT 1);",,4217.30,,,1,945,73,
+spider_dev,422,hard,answerable,correct,SELECT Name FROM museum WHERE Museum_ID NOT IN (SELECT DISTINCT Museum_ID FROM visit);,,1420.37,,,1,945,18,
+spider_dev,423,hard,answerable,correct,"SELECT v.Name, v.Age
+FROM visitor v
+JOIN visit vis ON v.ID = vis.visitor_ID
+ORDER BY vis.Num_of_Ticket DESC
+LIMIT 1;",,2267.46,,,1,948,37,
+spider_dev,424,medium,answerable,correct,"SELECT AVG(""Num_of_Ticket"") AS avg_tickets, MAX(""Num_of_Ticket"") AS max_tickets FROM ""visit"";",,1797.16,,,1,946,27,
+spider_dev,425,medium,answerable,correct,"SELECT SUM(v.Total_spent) AS total_ticket_expense
+FROM visit v
+JOIN visitor vis ON v.visitor_ID = vis.ID
+WHERE vis.Level_of_membership = 1;",,2394.87,,,1,948,39,
+spider_dev,426,extra,answerable,wrong,"SELECT v.Name
+FROM visitor v
+JOIN visit vis ON v.ID = vis.visitor_ID
+JOIN museum m ON vis.Museum_ID = m.Museum_ID
+WHERE (strftime('%Y', m.Open_Year) < '2009')
+   AND (strftime('%Y', m.Open_Year) > '2011');",,4163.14,,,1,962,73,
+spider_dev,427,extra,answerable,wrong,"SELECT COUNT(*) AS visitor_count FROM ( SELECT DISTINCT v.ID FROM `visitor` v LEFT JOIN `visit` vis ON v.ID = vis.visitor_ID LEFT JOIN `museum` m ON vis.Museum_ID = m.Museum_ID WHERE strftime('%Y', m.Open_Year) > 2010 OR m.Museum_ID IS NULL );",,4220.00,,,1,951,72,
+spider_dev,428,medium,answerable,correct,SELECT COUNT(*) AS count FROM museum WHERE (Open_Year > '2013' OR Open_Year < '2008');,,2068.93,,,1,951,31,
+spider_dev,429,easy,answerable,correct,SELECT COUNT(*) AS total_players FROM players;,,1468.11,,,1,1154,10,
+spider_dev,430,easy,answerable,correct,SELECT COUNT(*) AS player_count FROM players;,,1474.73,,,1,1153,10,
+spider_dev,431,easy,answerable,correct,SELECT COUNT(*) AS total_matches FROM matches;,,1459.52,,,1,1154,10,
+spider_dev,432,easy,answerable,correct,SELECT COUNT(*) AS match_count FROM matches;,,1451.84,,,1,1153,10,
+spider_dev,433,medium,answerable,correct,"SELECT first_name, birth_date FROM players WHERE LOWER(country_code) = LOWER('USA');",,1889.66,,,1,1164,19,
+spider_dev,434,medium,answerable,correct,"SELECT p.first_name, p.birth_date
+FROM players p
+WHERE LOWER(p.country_code) = 'usa';",,2122.00,,,1,1161,24,
+spider_dev,435,medium,answerable,correct,"SELECT AVG(loser_age) AS avg_loser_age, AVG(winner_age) AS avg_winner_age FROM matches;",,2160.57,,,1,1159,25,
+spider_dev,436,medium,answerable,correct,"SELECT AVG(loser_age) AS avg_loser_age, AVG(winner_age) AS avg_winner_age FROM matches;",,2156.84,,,1,1159,25,
+spider_dev,437,easy,answerable,correct,SELECT AVG(winner_rank) AS avg_winner_rank FROM matches;,,1641.94,,,1,1157,14,
+spider_dev,438,easy,answerable,correct,SELECT AVG(winner_rank) AS avg_winner_rank FROM matches;,,1616.52,,,1,1158,14,
+spider_dev,439,easy,answerable,wrong,SELECT MAX(loser_rank) AS highest_losing_rank FROM matches;,,1684.53,,,1,1157,15,
+spider_dev,440,easy,answerable,wrong,SELECT MAX(loser_rank) AS best_losers_rank FROM matches;,,1702.14,,,1,1158,16,
+spider_dev,441,easy,answerable,correct,"SELECT COUNT(DISTINCT ""country_code"") AS distinct_country_codes FROM players;",,1774.26,,,1,1158,17,
+spider_dev,442,easy,answerable,correct,SELECT COUNT(DISTINCT LOWER(country_code)) AS distinct_countries FROM players;,,1972.63,,,1,1156,16,
+spider_dev,443,easy,answerable,correct,"SELECT COUNT(DISTINCT LOWER(""loser_name"")) AS count FROM matches;",,1763.28,,,1,1156,16,
+spider_dev,444,easy,answerable,correct,"SELECT COUNT(DISTINCT LOWER(""loser_name"")) AS count FROM matches;",,1770.13,,,1,1155,16,
+spider_dev,445,easy,answerable,wrong,"SELECT ""tourney_name"" FROM matches GROUP BY ""tourney_name"", ""tourney_id"" HAVING COUNT(*) > 10;",,2529.65,,,1,1162,30,
+spider_dev,446,easy,answerable,correct,SELECT tourney_name FROM matches GROUP BY tourney_name HAVING COUNT(*) > 10;,,2009.47,,,1,1162,21,
+spider_dev,447,hard,answerable,wrong,"SELECT DISTINCT winner_name
+FROM matches
+WHERE year = 2013 OR year = 2016;",,2284.40,,,1,1169,26,
+spider_dev,448,hard,answerable,correct,SELECT winner_name FROM matches WHERE year = 2013 OR year = 2016 GROUP BY winner_name HAVING COUNT(DISTINCT CASE WHEN year = 2013 THEN winner_id END) > 0 AND COUNT(DISTINCT CASE WHEN year = 2016 THEN winner_id END) > 0;,,4433.06,,,1,1169,72,
+spider_dev,449,medium,answerable,correct,"SELECT COUNT(*) AS match_count FROM matches WHERE year IN (2013, 2016);",,2106.42,,,1,1170,24,
+spider_dev,450,medium,answerable,correct,"SELECT COUNT(*) AS match_count FROM matches WHERE year IN (2013, 2016);",,2167.48,,,1,1165,24,
+spider_dev,451,extra,answerable,correct,"SELECT ""country_code"", ""first_name""
+FROM players
+WHERE ""player_id"" IN (
+    SELECT ""winner_id""
+    FROM matches
+    WHERE ""tourney_name"" LIKE '%WTA Championships%'
+)
+AND ""player_id"" IN (
+    SELECT ""winner_id""
+    FROM matches
+    WHERE ""tourney_name"" LIKE '%Australian Open%'
+);",,4997.02,,,1,1171,82,
+spider_dev,452,extra,answerable,wrong,"SELECT p.first_name, p.country_code
+FROM matches m
+JOIN players p ON m.winner_id = p.player_id
+WHERE LOWER(m.tourney_name) LIKE '%wta championships%'
+  AND m.winner_id IN (
+    SELECT winner_id
+    FROM matches
+    WHERE LOWER(tourney_name) LIKE '%australian open%'
+  )",,4725.07,,,1,1169,76,
+spider_dev,453,medium,answerable,wrong,"SELECT p.first_name, p.country_code
+FROM players p
+ORDER BY strftime('%Y-%m-%d', p.birth_date) ASC
+LIMIT 1;",,2696.47,,,1,1159,34,
+spider_dev,454,medium,answerable,wrong,"SELECT p.first_name, p.country_code
+FROM players p
+ORDER BY strftime('%Y-%m-%d', p.birth_date) ASC
+LIMIT 1;",,2573.49,,,1,1160,34,
+spider_dev,455,medium,answerable,reference_invalid,"SELECT first_name, last_name FROM players ORDER BY birth_date;",OperationalError: Could not decode to UTF-8 column 'last_name' with text 'Treyes Albarrac��N',3327.73,,,1,2399,28,
+spider_dev,456,medium,answerable,reference_invalid,"SELECT first_name || ' ' || last_name AS full_name, birth_date FROM players ORDER BY birth_date;",OperationalError: Could not decode to UTF-8 column 'last_name' with text 'Treyes Albarrac��N',4461.82,,,1,2407,46,
+spider_dev,457,medium,answerable,correct,"SELECT first_name, last_name FROM players WHERE LOWER(hand) = 'l' ORDER BY birth_date;",,2067.15,,,1,1169,22,
+spider_dev,458,medium,answerable,wrong,"SELECT first_name || ' ' || last_name AS full_name, birth_date
+FROM players
+WHERE LOWER(hand) = 'left'
+ORDER BY birth_date;",,2604.24,,,1,1164,34,
+spider_dev,459,hard,answerable,wrong,"SELECT p.first_name, p.country_code
+FROM players p
+JOIN rankings r ON p.player_id = r.player_id
+GROUP BY p.player_id
+ORDER BY SUM(r.tours) DESC
+LIMIT 1;",,3482.32,,,1,1165,45,
+spider_dev,460,hard,answerable,wrong,"SELECT p.first_name, p.country_code
+FROM players p
+JOIN rankings r ON p.player_id = r.player_id
+GROUP BY p.player_id
+ORDER BY SUM(r.tours) DESC
+LIMIT 1;",,3409.04,,,1,1163,45,
+spider_dev,461,hard,answerable,wrong,"SELECT year AS match_year, COUNT(*) AS match_count FROM matches GROUP BY year ORDER BY match_count DESC LIMIT 1;",,2216.15,,,1,1158,26,
+spider_dev,462,hard,answerable,wrong,"SELECT year, COUNT(*) AS match_count FROM matches GROUP BY year ORDER BY match_count DESC LIMIT 1;",,2056.86,,,1,1154,23,
+spider_dev,463,hard,answerable,wrong,"SELECT winner_name, SUM(winner_rank_points) AS total_rank_points
+FROM matches
+GROUP BY winner_id
+ORDER BY total_rank_points DESC
+LIMIT 1;",,2878.77,,,1,1162,35,
+spider_dev,464,hard,answerable,wrong,"SELECT winner_name, SUM(winner_rank_points) AS total_rank_points
+FROM matches
+GROUP BY winner_id
+ORDER BY total_rank_points DESC
+LIMIT 1;",,2728.34,,,1,1171,35,
+spider_dev,465,hard,answerable,correct,"SELECT p.first_name || ' ' || p.last_name AS winner_name
+FROM matches m
+JOIN players p ON m.winner_id = p.player_id
+WHERE LOWER(m.tourney_name) LIKE '%australian%'
+ORDER BY m.winner_rank_points DESC
+LIMIT 1;",,3974.78,,,1,1168,60,
+spider_dev,466,hard,answerable,correct,"SELECT winner_name
+FROM matches
+WHERE LOWER(tourney_name) LIKE '%australian open%'
+ORDER BY winner_rank_points DESC
+LIMIT 1;",,2643.57,,,1,1167,33,
+spider_dev,467,medium,answerable,wrong,"SELECT 
+  loser_name AS loser_name,
+  winner_name AS winner_name
+FROM matches
+ORDER BY minutes DESC
+LIMIT 1;",,2493.69,,,1,1165,30,
+spider_dev,468,medium,answerable,correct,"SELECT winner_name AS ""Winner"", loser_name AS ""Loser"" FROM matches ORDER BY minutes DESC LIMIT 1;",,2151.34,,,1,1163,25,
+spider_dev,469,medium,answerable,wrong,"SELECT p.first_name, AVG(r.ranking) AS avg_ranking
+FROM players p
+JOIN rankings r ON p.player_id = r.player_id
+GROUP BY p.player_id;",,3111.10,,,1,1159,38,
+spider_dev,470,medium,answerable,wrong,"SELECT p.first_name, AVG(r.ranking) AS avg_ranking
+FROM players p
+JOIN rankings r ON p.player_id = r.player_id
+GROUP BY p.player_id;",,3045.57,,,1,1161,38,
+spider_dev,471,medium,answerable,wrong,"SELECT p.first_name, SUM(r.ranking_points) AS total_ranking_points
+FROM players p
+JOIN rankings r ON p.player_id = r.player_id
+GROUP BY p.player_id;",,3197.12,,,1,1160,40,
+spider_dev,472,medium,answerable,wrong,"SELECT p.first_name, SUM(r.ranking_points) AS total_ranking_points
+FROM players p
+JOIN rankings r ON p.player_id = r.player_id
+GROUP BY p.player_id;",,3169.98,,,1,1162,40,
+spider_dev,473,medium,answerable,wrong,"SELECT country_code, COUNT(*) AS player_count FROM players GROUP BY country_code;",,1802.48,,,1,1156,17,
+spider_dev,474,medium,answerable,wrong,"SELECT country_code, COUNT(*) AS player_count FROM players GROUP BY country_code;",,1827.56,,,1,1155,17,
+spider_dev,475,hard,answerable,correct,"SELECT country_code AS code FROM (SELECT country_code, COUNT(*) AS player_count FROM players GROUP BY country_code ORDER BY player_count DESC LIMIT 1);",,2516.72,,,1,1161,32,
+spider_dev,476,hard,answerable,correct,SELECT country_code FROM players GROUP BY country_code ORDER BY COUNT(*) DESC LIMIT 1;,,1929.96,,,1,1159,19,
+spider_dev,477,easy,answerable,correct,SELECT country_code FROM players GROUP BY country_code HAVING COUNT(*) > 50;,,1943.09,,,1,1161,19,
+spider_dev,478,easy,answerable,correct,SELECT country_code FROM players GROUP BY country_code HAVING COUNT(*) > 50;,,1976.28,,,1,1161,19,
+spider_dev,479,medium,answerable,wrong,"SELECT ""ranking_date"", SUM(""tours"") AS total_tours FROM rankings GROUP BY ""ranking_date"";",,2209.15,,,1,1158,23,
+spider_dev,480,medium,answerable,wrong,"SELECT ""ranking_date"", SUM(""tours"") AS total_tours FROM rankings GROUP BY ""ranking_date"";",,2179.62,,,1,1158,23,
+spider_dev,481,medium,answerable,wrong,"SELECT strftime('%Y', tourney_date) AS year, COUNT(*) AS match_count FROM matches GROUP BY year;",,2170.78,,,1,1157,24,
+spider_dev,482,medium,answerable,wrong,"SELECT strftime('%Y', tourney_date) AS year, COUNT(*) AS match_count FROM matches GROUP BY year;",,2143.16,,,1,1156,24,
+spider_dev,483,medium,answerable,correct,"SELECT winner_name, winner_rank FROM ( SELECT winner_name, winner_rank, winner_age AS age FROM matches ORDER BY age ASC LIMIT 3 )",,2513.82,,,1,1162,30,
+spider_dev,484,medium,answerable,correct,"SELECT winner_name, winner_rank FROM ( SELECT winner_name, winner_rank, winner_age AS age FROM matches ORDER BY age ASC LIMIT 3 )",,2487.66,,,1,1162,30,
+spider_dev,485,medium,answerable,wrong,"SELECT COUNT(DISTINCT m.winner_id) AS count
+FROM matches m
+WHERE LOWER(m.tourney_name) LIKE '%wta championships%'
+  AND EXISTS (
+    SELECT 1
+    FROM players p
+    WHERE p.player_id = m.winner_id
+      AND LOWER(p.hand) = 'left'
+  );",,4512.65,,,1,1163,71,
+spider_dev,486,medium,answerable,wrong,SELECT COUNT(*) AS count FROM matches WHERE surface = 'Hard' AND winner_hand = 'L';,,2084.54,,,1,1162,21,
+spider_dev,487,hard,answerable,wrong,"SELECT p.first_name, p.country_code, p.birth_date
+FROM players p
+JOIN matches m ON p.player_id = m.winner_id
+WHERE p.player_id = (
+    SELECT MAX(m2.winner_rank_points)
+    FROM matches m2
+);",,3726.18,,,1,1170,56,
+spider_dev,488,hard,answerable,correct,"SELECT p.first_name, p.country_code, p.birth_date
+FROM players p
+JOIN matches m ON p.player_id = m.winner_id
+GROUP BY p.player_id
+ORDER BY SUM(m.winner_rank_points) DESC
+LIMIT 1;",,3622.79,,,1,1172,52,
+spider_dev,489,medium,answerable,wrong,"SELECT 
+  hand,
+  COUNT(*) AS player_count
+FROM players
+GROUP BY hand;",,2060.41,,,1,1157,21,
+spider_dev,490,medium,answerable,wrong,"SELECT 
+  ""hand"",
+  COUNT(*) AS player_count
+FROM players
+GROUP BY ""hand"";",,2130.18,,,1,1157,23,
+spider_dev,491,easy,answerable,correct,SELECT COUNT(*) AS captured_ships FROM ship WHERE LOWER(disposition_of_ship) LIKE '%captured%';,,1602.24,,,1,969,23,
+spider_dev,492,medium,answerable,correct,"SELECT name, tonnage FROM ship ORDER BY LOWER(name) DESC;",,1193.59,,,1,976,15,
+spider_dev,493,medium,answerable,wrong,"SELECT name, date, result FROM ""battle"";",,1006.86,,,1,970,11,
+spider_dev,494,medium,answerable,correct,"SELECT MAX(killed) AS max_death_toll, MIN(killed) AS min_death_toll FROM death;",,1663.84,,,1,970,24,
+spider_dev,495,easy,answerable,correct,SELECT AVG(death.injured) AS avg_injuries FROM death;,,1177.58,,,1,970,15,
+spider_dev,496,medium,answerable,wrong,"SELECT SUM(d.killed) AS total_killed, SUM(d.injured) AS total_injured FROM death d JOIN ship s ON d.caused_by_ship_id = s.id WHERE LOWER(s.tonnage) LIKE '%t%';",,2885.84,,,1,976,49,
+spider_dev,497,medium,answerable,correct,"SELECT ""name"", ""result"" FROM ""battle"" WHERE LOWER(""bulgarian_commander"") != LOWER('Boril');",,1857.80,,,1,981,28,
+spider_dev,498,medium,answerable,wrong,"SELECT b.id, b.name FROM battle b JOIN ship s ON b.id = s.lost_in_battle WHERE LOWER(s.ship_type) LIKE '%brig%';",,2162.66,,,1,980,34,
+spider_dev,499,hard,answerable,correct,"SELECT b.id, b.name
+FROM battle b
+JOIN ship s ON b.id = s.lost_in_battle
+JOIN death d ON s.id = d.caused_by_ship_id
+GROUP BY b.id, b.name
+HAVING SUM(d.killed) > 10;",,3433.14,,,1,981,60,
+spider_dev,500,extra,answerable,wrong,"SELECT caused_by_ship_id AS ship_id, name, SUM(injured) AS total_injuries
+FROM death
+JOIN ship ON death.caused_by_ship_id = ship.id
+GROUP BY caused_by_ship_id
+ORDER BY total_injuries DESC
+LIMIT 1;",,3172.70,,,1,972,55,
+spider_dev,501,medium,answerable,correct,"SELECT DISTINCT b.name FROM ""battle"" AS b WHERE LOWER(b.bulgarian_commander) = LOWER('Kaloyan') AND LOWER(b.latin_commander) = LOWER('Baldwin I');",,2611.12,,,1,986,43,
+spider_dev,502,easy,answerable,correct,SELECT COUNT(DISTINCT result) AS count FROM battle;,,1190.77,,,1,969,13,
+spider_dev,503,extra,answerable,correct,SELECT COUNT(*) AS count FROM battle WHERE id NOT IN (SELECT DISTINCT b.id FROM battle b JOIN ship s ON b.id = s.lost_in_battle WHERE LOWER(s.tonnage) = LOWER('225'));,,2924.12,,,1,975,47,
+spider_dev,504,extra,answerable,wrong,"SELECT b.name, b.date
+FROM battle b
+JOIN ship s ON b.id = s.lost_in_battle
+WHERE LOWER(s.name) LIKE '%lettice%' OR LOWER(s.name) LIKE '%hms atalanta%';",,2971.34,,,1,987,49,
+spider_dev,505,extra,answerable,wrong,"SELECT name, result, bulgarian_commander FROM battle WHERE id IN (SELECT b.id FROM battle b JOIN ship s ON b.id = s.lost_in_battle WHERE s.location LIKE '%English Channel%' AND s.lost_in_battle = 0);",,3283.87,,,1,981,55,
+spider_dev,506,medium,answerable,correct,SELECT note FROM death WHERE LOWER(note) LIKE '%east%';,,1197.39,,,1,973,14,
+spider_dev,507,medium,answerable,wrong,"SELECT address_id, line_1, line_2 FROM Addresses;",,2649.79,,,1,1701,15,
+spider_dev,508,medium,answerable,correct,"SELECT line_1 AS first_line, line_2 AS second_line FROM Addresses;",,1878.74,,,1,1698,18,
+spider_dev,509,easy,answerable,correct,SELECT COUNT(*) AS total_courses FROM Courses;,,1486.94,,,1,1695,10,
+spider_dev,510,easy,answerable,correct,SELECT COUNT(*) AS course_count FROM Courses;,,1464.73,,,1,1693,10,
+spider_dev,511,easy,answerable,wrong,"SELECT course_name, course_description FROM Courses WHERE LOWER(course_name) LIKE '%math%';",,1949.38,,,1,1694,19,
+spider_dev,512,easy,answerable,correct,"SELECT course_description AS description
+FROM Courses
+WHERE LOWER(course_name) LIKE '%math%';",,1970.30,,,1,1697,20,
+spider_dev,513,easy,answerable,correct,SELECT zip_postcode FROM Addresses WHERE LOWER(city) = 'port chelsea';,,1970.08,,,1,1701,17,
+spider_dev,514,easy,answerable,correct,SELECT zip_postcode FROM Addresses WHERE LOWER(city) = 'port chelsea';,,1856.75,,,1,1696,17,
+spider_dev,515,extra,answerable,wrong,"SELECT 
+    d.department_id,
+    d.department_name,
+    COUNT(DISTINCT dp.degree_program_id) AS degree_count
+FROM Departments d
+JOIN Degree_Programs dp ON d.department_id = dp.department_id
+GROUP BY d.department_id, d.department_name
+ORDER BY degree_count DESC
+LIMIT 1;",,4582.93,,,1,1702,67,
+spider_dev,516,extra,answerable,correct,"SELECT d.department_name, d.department_id
+FROM Departments d
+JOIN Degree_Programs dp ON d.department_id = dp.department_id
+GROUP BY d.department_id
+ORDER BY COUNT(dp.degree_program_id) DESC
+LIMIT 1;",,3567.18,,,1,1703,48,
+spider_dev,517,easy,answerable,correct,SELECT COUNT(DISTINCT dp.department_id) AS department_count FROM Degree_Programs dp;,,1991.35,,,1,1694,19,
+spider_dev,518,easy,answerable,wrong,SELECT COUNT(DISTINCT d.department_name) AS department_count FROM Departments d;,,1886.42,,,1,1694,17,
+spider_dev,519,easy,answerable,correct,SELECT COUNT(DISTINCT dp.degree_summary_name) AS count FROM Degree_Programs dp;,,1931.11,,,1,1695,19,
+spider_dev,520,easy,answerable,wrong,SELECT COUNT(DISTINCT degree_program_id) AS count FROM Degree_Programs;,,1820.18,,,1,1694,17,
+spider_dev,521,medium,answerable,correct,SELECT COUNT(*) AS degree_count FROM Degree_Programs JOIN Departments ON Degree_Programs.department_id = Departments.department_id WHERE LOWER(Departments.department_name) LIKE '%engineering%';,,5279.01,,,1,3455,59,
+spider_dev,522,medium,answerable,correct,SELECT COUNT(*) AS degree_count FROM Degree_Programs JOIN Departments ON Degree_Programs.department_id = Departments.department_id WHERE LOWER(Departments.department_name) LIKE '%engineering%';,,4974.44,,,1,3455,59,
+spider_dev,523,medium,answerable,correct,"SELECT section_name, section_description FROM Sections;",,1465.82,,,1,1698,10,
+spider_dev,524,medium,answerable,correct,"SELECT section_name, section_description FROM Sections;",,1466.25,,,1,1698,10,
+spider_dev,525,medium,answerable,wrong,"SELECT c.course_id, c.course_name
+FROM Courses c
+WHERE c.course_id IN (
+    SELECT sc.course_id
+    FROM Sections sc
+    GROUP BY sc.course_id
+    HAVING COUNT(*) <= 2
+);",,3489.41,,,1,1702,49,
+spider_dev,526,medium,answerable,wrong,"SELECT c.course_id, c.course_name
+FROM Courses c
+WHERE (SELECT COUNT(*) FROM Sections s WHERE s.course_id = c.course_id) < 2;",,2829.98,,,1,1703,35,
+spider_dev,527,easy,answerable,correct,SELECT section_name FROM Sections ORDER BY section_name DESC;,,1595.02,,,1,1698,12,
+spider_dev,528,easy,answerable,correct,SELECT section_name FROM Sections ORDER BY section_name DESC;,,1564.25,,,1,1699,12,
+spider_dev,529,extra,answerable,wrong,"SELECT 
+    s.semester_id,
+    s.semester_name,
+    COUNT(se.student_enrolment_id) AS registration_count
+FROM Semesters s
+JOIN Student_Enrolment se ON s.semester_id = se.semester_id
+GROUP BY s.semester_id, s.semester_name
+ORDER BY registration_count DESC
+LIMIT 1;",,4777.74,,,1,1705,75,
+spider_dev,530,extra,answerable,wrong,"SELECT 
+    s.semester_id,
+    s.semester_name,
+    COUNT(se.student_id) AS student_count
+FROM Semesters s
+JOIN Student_Enrolment se ON s.semester_id = se.semester_id
+GROUP BY s.semester_id, s.semester_name
+ORDER BY student_count DESC
+LIMIT 1;",,4622.72,,,1,1706,72,
+spider_dev,531,medium,answerable,wrong,SELECT department_description FROM Departments WHERE LOWER(department_name) LIKE '%the computer%';,,1901.68,,,1,1702,18,
+spider_dev,532,medium,answerable,correct,SELECT department_description FROM Departments WHERE LOWER(department_name) LIKE '%computer%';,,1838.00,,,1,1702,17,
+spider_dev,533,medium,answerable,wrong,"SELECT 
+    s.student_id AS id,
+    s.first_name,
+    s.middle_name,
+    s.last_name
+FROM Students s
+JOIN Student_Enrolment se ON s.student_id = se.student_id
+GROUP BY s.student_id
+HAVING COUNT(DISTINCT se.degree_program_id) = 2;",,4437.11,,,1,1713,69,
+spider_dev,534,medium,answerable,wrong,"SELECT 
+    s.first_name,
+    s.middle_name,
+    s.last_name,
+    s.student_id
+FROM Students s
+JOIN Student_Enrolment se ON s.student_id = se.student_id
+GROUP BY s.student_id
+HAVING COUNT(DISTINCT se.degree_program_id) = 2;",,4538.55,,,1,1717,67,
+spider_dev,535,hard,answerable,wrong,"SELECT s.first_name, s.middle_name, s.last_name
+FROM Students s
+JOIN Student_Enrolment se ON s.student_id = se.student_id
+JOIN Degree_Programs dp ON se.degree_program_id = dp.degree_program_id
+WHERE LOWER(dp.degree_summary_name) LIKE '%bachelor%';",,4604.79,,,1,1707,63,
+spider_dev,536,hard,answerable,wrong,"SELECT s.first_name, s.middle_name, s.last_name
+FROM Students s
+JOIN Student_Enrolment se ON s.student_id = se.student_id
+JOIN Degree_Programs dp ON se.degree_program_id = dp.degree_program_id
+WHERE LOWER(dp.degree_summary_name) LIKE '%bachelor%';",,4388.57,,,1,1707,63,
+spider_dev,537,extra,answerable,wrong,"SELECT 
+    dp.degree_summary_name AS program_name,
+    COUNT(se.student_enrolment_id) AS student_count
+FROM Degree_Programs dp
+JOIN Student_Enrolment se ON dp.degree_program_id = se.degree_program_id
+GROUP BY dp.degree_program_id, dp.degree_summary_name
+ORDER BY student_count DESC
+LIMIT 1;",,4740.40,,,1,1701,72,
+spider_dev,538,extra,answerable,wrong,"SELECT dp.degree_summary_name, COUNT(*) AS student_count
+FROM Degree_Programs dp
+JOIN Student_Enrolment se ON dp.degree_program_id = se.degree_program_id
+GROUP BY dp.degree_program_id, dp.degree_summary_name
+ORDER BY student_count DESC
+LIMIT 1;",,8697.86,,,1,3506,119,
+spider_dev,539,extra,answerable,correct,"SELECT dp.degree_program_id, dp.degree_summary_name
+FROM Degree_Programs dp
+JOIN Student_Enrolment se ON dp.degree_program_id = se.degree_program_id
+GROUP BY dp.degree_program_id
+ORDER BY COUNT(se.student_enrolment_id) DESC
+LIMIT 1;",,6636.87,,,1,3488,89,
+spider_dev,540,extra,answerable,correct,"SELECT 
+    dp.degree_program_id AS program_id,
+    dp.degree_summary_name AS summary
+FROM Degree_Programs dp
+JOIN Student_Enrolment se ON dp.degree_program_id = se.degree_program_id
+GROUP BY dp.degree_program_id, dp.degree_summary_name
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,4398.86,,,1,1705,67,
+spider_dev,541,extra,answerable,wrong,"SELECT 
+    s.student_id AS ""student id"",
+    s.first_name,
+    s.middle_name,
+    s.last_name,
+    COUNT(*) AS ""number of enrollments""
+FROM Students s
+JOIN Student_Enrolment se ON s.student_id = se.student_id
+GROUP BY s.student_id
+ORDER BY ""number of enrollments"" DESC
+LIMIT 1;",,5243.78,,,1,1721,82,
+spider_dev,542,extra,answerable,wrong,"SELECT 
+    s.first_name,
+    s.middle_name,
+    s.last_name,
+    s.student_id,
+    COUNT(*) AS enrollment_count
+FROM Students s
+JOIN Student_Enrolment se ON s.student_id = se.student_id
+GROUP BY s.student_id
+ORDER BY enrollment_count DESC
+LIMIT 1;",,4604.76,,,1,1719,70,
+spider_dev,543,hard,answerable,correct,"SELECT semester_name
+FROM Semesters
+WHERE semester_id NOT IN (
+    SELECT DISTINCT semester_id
+    FROM Student_Enrolment
+);",,2568.17,,,1,1702,31,
+spider_dev,544,hard,answerable,correct,"SELECT s.semester_name
+FROM Semesters s
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Student_Enrolment se
+    WHERE se.semester_id = s.semester_id
+);",,3225.57,,,1,1699,44,
+spider_dev,545,easy,answerable,correct,"SELECT DISTINCT c.course_name
+FROM Courses c
+JOIN Student_Enrolment_Courses sec ON c.course_id = sec.course_id;",,2430.08,,,1,1703,29,
+spider_dev,546,easy,answerable,correct,"SELECT DISTINCT c.course_name
+FROM Courses c
+JOIN Student_Enrolment_Courses sec ON c.course_id = sec.course_id;",,2458.94,,,1,1700,29,
+spider_dev,547,extra,answerable,wrong,"SELECT c.course_name, COUNT(*) AS enrollment_count
+FROM Courses c
+JOIN Student_Enrolment_Courses sec ON c.course_id = sec.course_id
+GROUP BY c.course_id
+ORDER BY enrollment_count DESC
+LIMIT 1;",,3834.15,,,1,1701,50,
+spider_dev,548,extra,answerable,wrong,"SELECT c.course_name, COUNT(*) AS student_count
+FROM Courses c
+JOIN Student_Enrolment_Courses sec ON c.course_id = sec.course_id
+GROUP BY c.course_id, c.course_name
+ORDER BY student_count DESC
+LIMIT 1;",,3738.86,,,1,1700,54,
+spider_dev,549,extra,answerable,wrong,"SELECT s.last_name
+FROM Students s
+JOIN Addresses a ON s.current_address_id = a.address_id
+WHERE LOWER(a.state_province_county) = 'north carolina'
+AND s.student_id NOT IN (
+    SELECT DISTINCT student_id
+    FROM Student_Enrolment
+);",,4209.43,,,1,1712,61,
+spider_dev,550,extra,answerable,wrong,"SELECT s.last_name
+FROM Students s
+WHERE LOWER(s.current_address_id) = 'NULL' OR s.current_address_id IS NULL
+  AND LOWER(s.permanent_address_id) = 'NULL' OR s.permanent_address_id IS NULL;",,3762.69,,,1,1709,53,
+spider_dev,551,medium,answerable,wrong,"SELECT transcript_id, transcript_date
+FROM Transcripts
+WHERE transcript_id IN (
+    SELECT transcript_id
+    FROM Transcript_Contents
+    GROUP BY transcript_id
+    HAVING COUNT(*) >= 2
+);",,3292.85,,,1,1703,45,
+spider_dev,552,medium,answerable,wrong,"SELECT transcript_id, transcript_date
+FROM Transcripts
+WHERE transcript_id IN (
+    SELECT transcript_id
+    FROM Transcript_Contents
+    GROUP BY transcript_id
+    HAVING COUNT(*) >= 2
+);",,3276.25,,,1,1704,45,
+spider_dev,553,medium,answerable,correct,"SELECT s.cell_mobile_number AS phone_number
+FROM Students s
+WHERE LOWER(s.first_name) = 'timmothy' AND LOWER(s.last_name) = 'ward';",,2880.40,,,1,1708,36,
+spider_dev,554,medium,answerable,wrong,"SELECT s.cell_mobile_number 
+FROM Students s
+WHERE LOWER(s.first_name) = 'timmothy' AND LOWER(s.last_name) = 'ward';",,2656.98,,,1,1702,33,
+spider_dev,555,medium,answerable,correct,"SELECT first_name, middle_name, last_name FROM Students ORDER BY date_first_registered ASC LIMIT 1;",,2101.15,,,1,1706,22,
+spider_dev,556,medium,answerable,correct,"SELECT first_name, middle_name, last_name
+FROM Students
+WHERE date_first_registered = (
+    SELECT MIN(date_first_registered)
+    FROM Students
+);",,2738.09,,,1,1704,34,
+spider_dev,557,medium,answerable,correct,"SELECT first_name, middle_name, last_name
+FROM Students
+WHERE date_left IS NOT NULL
+ORDER BY date_first_registered ASC
+LIMIT 1;",,2713.04,,,1,1707,32,
+spider_dev,558,medium,answerable,correct,"SELECT s.first_name, s.middle_name, s.last_name
+FROM Students s
+WHERE s.date_left IS NOT NULL
+ORDER BY s.date_first_registered ASC
+LIMIT 1;",,2956.96,,,1,1703,38,
+spider_dev,559,easy,answerable,correct,"SELECT s.first_name
+FROM Students s
+WHERE LOWER(s.permanent_address_id) != LOWER(s.current_address_id);",,2311.12,,,1,1707,26,
+spider_dev,560,easy,answerable,correct,"SELECT s.first_name
+FROM Students s
+WHERE LOWER(s.permanent_address_id) != LOWER(s.current_address_id);",,2335.95,,,1,1707,26,
+spider_dev,561,extra,answerable,refused,"SELECT 
+    a.address_id,
+    a.line_1,
+    a.line_2,
+    a.line_3,
+    COUNT(s.student_id) AS student_count
+FROM Addresses a
+JOIN Students s ON LOWER(a.country) = LOWER(s.current_address_id) -- This join is incorrect based on schema; fixing logic below
+WHERE s.date_left IS NULL
+GROUP BY a.address_id
+ORDER BY student_count DESC
+LIMIT 1;
+
+-- Correction: The previous thought process had a flawed join condition. Let's re-evaluate the correct join path.
+-- Students table has `current_address_id` which is a foreign key to `Addresses(address_id)`.
+-- So the join should be ON s.current_address_id = a.address_id.
+-- Also, need to handle NULLs in address lines if they exist, but the schema says VARCHAR(255), so they might be empty strings or NULL. The prompt asks for ""all lines"", so we select them directly.
+
+SELECT 
+    a.address_id,
+    COALESCE(a.line_1, '') AS line_1,
+    COALESCE(a.line_2, '') AS line_2,
+    COALESCE(a.line_3, '') AS line_3,
+    COUNT(s.student_id) AS student_count
+FROM Addresses a
+JOIN Students s ON a.address_id = s.current_address_id
+WHERE s.date_left IS NULL
+GROUP BY a.address_id
+ORDER BY student_count DESC
+LIMIT 1;",BLOCKED_UNSAFE_SQL,16969.12,,,1,1705,314,
+spider_dev,562,extra,answerable,wrong,"SELECT address_id AS id, line_1, line_2
+FROM Addresses
+WHERE address_id IN (
+    SELECT current_address_id
+    FROM Students
+    GROUP BY current_address_id
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+)
+UNION ALL
+SELECT address_id AS id, line_1, line_2
+FROM Addresses
+WHERE address_id IN (
+    SELECT permanent_address_id
+    FROM Students
+    GROUP BY permanent_address_id
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+);",,7092.60,,,1,1708,112,
+spider_dev,563,easy,answerable,correct,"SELECT AVG(strftime('%Y-%m-%d', transcript_date)) AS avg_transcript_print_date FROM Transcripts;",,2247.39,,,1,1696,25,
+spider_dev,564,easy,answerable,correct,"SELECT AVG(strftime('%Y-%m-%d', transcript_date)) AS avg_transcript_date FROM Transcripts;",,2196.41,,,1,1694,24,
+spider_dev,565,medium,answerable,correct,"SELECT transcript_date AS release_date, other_details AS details FROM Transcripts ORDER BY transcript_date ASC LIMIT 1;",,2236.34,,,1,1700,24,
+spider_dev,566,medium,answerable,correct,"SELECT MIN(transcripts.transcript_date) AS earliest_transcript_date, transcripts.other_details
+FROM Transcripts;",,4552.15,,,1,3483,51,
+spider_dev,567,easy,answerable,correct,SELECT COUNT(*) AS total_transcripts FROM Transcripts;,,1572.41,,,1,1693,12,
+spider_dev,568,easy,answerable,correct,SELECT COUNT(*) AS transcript_count FROM Transcripts;,,1540.40,,,1,1693,11,
+spider_dev,569,medium,answerable,wrong,"SELECT MAX(strftime('%Y-%m-%d', transcript_date)) AS last_transcript_release_date FROM Transcripts;",,2226.63,,,1,1695,25,
+spider_dev,570,medium,answerable,correct,SELECT MAX(transcript_date) AS last_transcript_release_date FROM Transcripts;,,1814.04,,,1,1694,17,
+spider_dev,571,hard,answerable,wrong,"SELECT 
+    student_course_id AS ""course enrollment id"",
+    COUNT(DISTINCT transcript_id) AS ""times shown in different transcripts""
+FROM Transcript_Contents
+GROUP BY student_course_id;",,3098.05,,,1,1709,42,
+spider_dev,572,hard,answerable,wrong,"SELECT 
+    student_course_id AS enrollment_id,
+    COUNT(DISTINCT transcript_id) AS max_transcript_count
+FROM Transcript_Contents
+GROUP BY student_course_id
+ORDER BY max_transcript_count DESC
+LIMIT 1;",,3473.31,,,1,1711,49,
+spider_dev,573,extra,answerable,wrong,"SELECT transcript_date, transcript_id
+FROM Transcripts
+ORDER BY (SELECT COUNT(*) FROM Transcript_Contents WHERE Transcript_Contents.transcript_id = Transcripts.transcript_id) ASC
+LIMIT 1;",,5417.02,,,1,3479,67,
+spider_dev,574,extra,answerable,wrong,"SELECT transcript_id, transcript_date
+FROM Transcripts
+ORDER BY (SELECT COUNT(*) FROM Transcript_Contents WHERE Transcript_Contents.transcript_id = Transcripts.transcript_id) ASC
+LIMIT 1;",,5462.09,,,1,3473,67,
+spider_dev,575,extra,answerable,wrong,"SELECT 
+    s.semester_name,
+    SUM(CASE WHEN dp.degree_summary_name LIKE '%Master%' THEN 1 ELSE 0 END) AS master_enrolments,
+    SUM(CASE WHEN dp.degree_summary_name LIKE '%Bachelor%' THEN 1 ELSE 0 END) AS bachelor_enrolments
+FROM Semesters s
+JOIN Student_Enrolment se ON s.semester_id = se.semester_id
+JOIN Degree_Programs dp ON se.degree_program_id = dp.degree_program_id
+GROUP BY s.semester_id, s.semester_name;",,6885.80,,,1,1701,116,
+spider_dev,576,extra,answerable,wrong,"SELECT s.semester_id
+FROM Semesters s
+JOIN Student_Enrolment se ON s.semester_id = se.semester_id
+JOIN Degree_Programs dp ON se.degree_program_id = dp.degree_program_id
+JOIN Departments d ON dp.department_id = d.department_id
+WHERE LOWER(d.department_name) LIKE '%masters%'
+  AND s.semester_id IN (
+    SELECT se2.semester_id
+    FROM Student_Enrolment se2
+    JOIN Degree_Programs dp2 ON se2.degree_program_id = dp2.degree_program_id
+    JOIN Departments d2 ON dp2.department_id = d2.department_id
+    WHERE LOWER(d2.department_name) LIKE '%bachelors%'
+  )",,8647.07,,,1,1705,149,
+spider_dev,577,easy,answerable,correct,"SELECT COUNT(DISTINCT s.current_address_id) AS address_count
+FROM Students s;",,1935.22,,,1,1697,19,
+spider_dev,578,easy,answerable,wrong,"SELECT DISTINCT a.*
+FROM Addresses a
+JOIN Students s ON a.address_id = s.current_address_id;",,2482.28,,,1,1698,23,
+spider_dev,579,easy,answerable,wrong,"SELECT first_name, last_name FROM Students ORDER BY last_name DESC, first_name DESC;",,1967.92,,,1,1699,19,
+spider_dev,580,easy,answerable,wrong,"SELECT first_name, last_name, middle_name, other_student_details FROM Students ORDER BY last_name DESC, first_name DESC;",,2318.11,,,1,1701,26,
+spider_dev,581,easy,answerable,unanswerable,SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;,UNANSWERABLE_WITH_GIVEN_SCHEMA,1730.98,,,1,1692,15,
+spider_dev,582,easy,answerable,correct,SELECT section_description AS description FROM Sections WHERE LOWER(section_name) LIKE '%h%';,,1881.89,,,1,1697,18,
+spider_dev,583,hard,answerable,error,SELECT first_name FROM Students WHERE LOWER(country) = LOWER('haiti') OR cell_mobile_number = '09700166582';,OperationalError: no such column: Addresses.country,5619.55,,,1,3514,70,
+spider_dev,584,hard,answerable,wrong,"SELECT DISTINCT s.first_name
+FROM Students s
+WHERE LOWER(s.email_address) = '' OR s.cell_mobile_number = '09700166582' OR LOWER(s.ssn) = '' OR s.other_student_details = '' OR s.middle_name = '' OR s.last_name = '' OR s.date_first_registered IS NULL OR s.date_left IS NULL;",,5241.85,,,1,1719,79,
+spider_dev,585,easy,answerable,correct,SELECT Title FROM Cartoon ORDER BY Title;,,4430.00,,,1,1026,9,
+spider_dev,586,easy,answerable,correct,SELECT Title FROM Cartoon ORDER BY Title;,,1197.71,,,1,1027,9,
+spider_dev,587,easy,answerable,correct,SELECT Title FROM Cartoon WHERE LOWER(Directed_by) = LOWER('ben jones');,,1582.40,,,1,1025,18,
+spider_dev,588,easy,answerable,correct,"SELECT ""Title"" FROM ""Cartoon"" WHERE LOWER(""Directed_by"") = LOWER('Ben Jones');",,1763.88,,,1,1028,22,
+spider_dev,589,easy,answerable,correct,SELECT COUNT(*) AS count FROM Cartoon WHERE LOWER(Written_by) = LOWER('Joseph Kuhr');,,1739.25,,,1,1027,21,
+spider_dev,590,easy,answerable,correct,SELECT COUNT(*) AS cartoon_count FROM Cartoon WHERE LOWER(Written_by) = LOWER('Joseph Kuhr');,,1769.36,,,1,1029,22,
+spider_dev,591,medium,answerable,wrong,"SELECT Title, Directed_by, Original_air_date FROM Cartoon ORDER BY Original_air_date;",,1561.73,,,1,1028,18,
+spider_dev,592,medium,answerable,correct,"SELECT Title, Directed_by FROM Cartoon ORDER BY Original_air_date;",,1349.51,,,1,1033,14,
+spider_dev,593,medium,answerable,correct,SELECT Title FROM Cartoon WHERE LOWER(Directed_by) = LOWER('Ben Jones') OR LOWER(Directed_by) = LOWER('Brandon Vietti');,,2216.26,,,1,1034,30,
+spider_dev,594,medium,answerable,correct,"SELECT ""Title"" FROM ""Cartoon"" WHERE LOWER(""Directed_by"") = LOWER('Ben Jones') OR LOWER(""Directed_by"") = LOWER('Brandon Vietti');",,2494.63,,,1,1032,35,
+spider_dev,595,hard,answerable,correct,"SELECT Country, COUNT(*) AS num_channels FROM TV_Channel GROUP BY Country ORDER BY num_channels DESC LIMIT 1;",,2043.57,,,1,1036,24,
+spider_dev,596,hard,answerable,correct,"SELECT Country, COUNT(*) AS channel_count
+FROM TV_Channel
+GROUP BY Country
+ORDER BY channel_count DESC
+LIMIT 1;",,2179.47,,,1,1034,28,
+spider_dev,597,medium,answerable,correct,"SELECT COUNT(DISTINCT ""series_name"") AS different_series_names, COUNT(DISTINCT ""Content"") AS different_contents FROM ""TV_Channel"";",,2268.24,,,1,1031,30,
+spider_dev,598,medium,answerable,correct,"SELECT COUNT(DISTINCT ""series_name"") AS series_count, COUNT(DISTINCT ""Content"") AS content_count FROM ""TV_Channel"";",,2155.54,,,1,1030,29,
+spider_dev,599,easy,answerable,correct,"SELECT ""Content"" FROM ""TV_Channel"" WHERE LOWER(""series_name"") = LOWER('sky radio');",,1831.50,,,1,1030,22,
+spider_dev,600,easy,answerable,correct,"SELECT ""Content"" FROM ""TV_Channel"" WHERE LOWER(""series_name"") = 'sky radio';",,1777.73,,,1,1026,21,
+spider_dev,601,easy,answerable,correct,"SELECT ""Package_Option"" FROM ""TV_Channel"" WHERE LOWER(""series_name"") = LOWER('sky radio');",,1936.73,,,1,1031,24,
+spider_dev,602,easy,answerable,correct,"SELECT ""Package_Option"" FROM ""TV_Channel"" WHERE LOWER(""series_name"") = LOWER('sky radio');",,1942.70,,,1,1032,24,
+spider_dev,603,easy,answerable,correct,"SELECT COUNT(*) AS count FROM ""TV_Channel"" WHERE LOWER(""Language"") = LOWER('English');",,1758.80,,,1,1024,21,
+spider_dev,604,easy,answerable,correct,"SELECT COUNT(*) AS count FROM ""TV_Channel"" WHERE LOWER(""Language"") = LOWER('english');",,1794.20,,,1,1025,21,
+spider_dev,605,hard,answerable,correct,"SELECT Language, COUNT(*) AS num_channels
+FROM TV_Channel
+GROUP BY Language
+ORDER BY num_channels ASC
+LIMIT 1;",,2471.49,,,1,1034,28,
+spider_dev,606,hard,answerable,correct,"SELECT Language, COUNT(*) AS channel_count
+FROM TV_Channel
+GROUP BY Language
+ORDER BY channel_count ASC
+LIMIT 1;",,2250.16,,,1,1035,28,
+spider_dev,607,medium,answerable,correct,"SELECT Language, COUNT(*) AS channel_count FROM TV_Channel GROUP BY Language;",,1545.73,,,1,1028,16,
+spider_dev,608,medium,answerable,correct,"SELECT Language, COUNT(*) AS channel_count FROM TV_Channel GROUP BY Language;",,1589.06,,,1,1030,16,
+spider_dev,609,medium,answerable,correct,"SELECT tcs.series_name
+FROM Cartoon tc
+JOIN TV_Channel tcs ON tc.Channel = tcs.id
+WHERE LOWER(tc.Title) LIKE '%the rise of the blue beetle!%';",,2830.78,,,1,1042,40,
+spider_dev,610,medium,answerable,wrong,"SELECT tcs.series_name
+FROM Cartoon tc
+JOIN TV_Channel tcs ON tc.Channel = tcs.id
+WHERE LOWER(tc.Title) = 'the rise of the blue beetle';",,2665.56,,,1,1037,38,
+spider_dev,611,medium,answerable,correct,"SELECT c.Title
+FROM Cartoon c
+JOIN TV_Channel tc ON c.Channel = tc.id
+WHERE LOWER(tc.series_name) = 'sky radio';",,2269.40,,,1,1035,31,
+spider_dev,612,medium,answerable,correct,"SELECT c.Title
+FROM Cartoon c
+JOIN TV_Channel tc ON c.Channel = tc.id
+WHERE LOWER(tc.series_name) LIKE '%sky radio%';",,2311.97,,,1,1039,32,
+spider_dev,613,easy,answerable,wrong,"SELECT ""Episode"" FROM ""TV_series"" ORDER BY CAST(""Rating"" AS REAL) DESC;",,1748.48,,,1,1027,21,
+spider_dev,614,easy,answerable,wrong,"SELECT Episode, Rating FROM TV_series ORDER BY CAST(Rating AS REAL) DESC;",,1586.28,,,1,1026,18,
+spider_dev,615,medium,answerable,correct,"SELECT Episode, Rating FROM ""TV_series"" ORDER BY CAST(Rating AS REAL) DESC LIMIT 3;",,1816.69,,,1,1035,23,
+spider_dev,616,medium,answerable,correct,"SELECT Episode, Rating FROM TV_series ORDER BY CAST(Rating AS REAL) DESC LIMIT 3;",,1711.95,,,1,1035,21,
+spider_dev,617,medium,answerable,wrong,"SELECT MIN(Share) AS min_share, MAX(Share) AS max_share FROM ""TV_series"";",,1764.23,,,1,1026,22,
+spider_dev,618,medium,answerable,correct,"SELECT MAX(Share) AS max_share, MIN(Share) AS min_share FROM ""TV_series"";",,1776.74,,,1,1028,22,
+spider_dev,619,easy,answerable,correct,"SELECT Air_Date FROM ""TV_series"" WHERE Episode = 'A Love of a Lifetime';",,1647.16,,,1,1033,19,
+spider_dev,620,easy,answerable,correct,SELECT Air_Date FROM TV_series WHERE Episode = 'A Love of a Lifetime';,,1533.71,,,1,1029,17,
+spider_dev,621,easy,answerable,correct,"SELECT Weekly_Rank FROM ""TV_series"" WHERE Episode = 'A Love of a Lifetime';",,1728.78,,,1,1032,20,
+spider_dev,622,easy,answerable,correct,SELECT Weekly_Rank FROM TV_series WHERE Episode = 'A Love of a Lifetime';,,1597.01,,,1,1031,18,
+spider_dev,623,medium,answerable,wrong,"SELECT t2.series_name
+FROM ""Cartoon"" t1
+JOIN ""TV_Channel"" t2 ON t1.Channel = t2.id
+WHERE LOWER(t1.Title) = LOWER('A Love of a Lifetime');",,6410.10,,,1,2172,93,
+spider_dev,624,medium,answerable,wrong,SELECT tc.series_name FROM TV_Channel tc JOIN Cartoon c ON tc.id = c.Channel WHERE c.Title = 'A Love of a Lifetime';,,4586.50,,,1,2146,64,
+spider_dev,625,medium,answerable,wrong,"SELECT t3.""Episode""
+FROM ""Cartoon"" t1
+JOIN ""TV_Channel"" t2 ON t1.""Channel"" = t2.""id""
+JOIN ""TV_series"" t3 ON t2.""id"" = t3.""Channel""
+WHERE LOWER(t2.""series_name"") = 'sky radio';",,7622.86,,,1,2162,118,
+spider_dev,626,medium,answerable,correct,SELECT Episode FROM TV_series WHERE Channel IN (SELECT id FROM TV_Channel WHERE LOWER(series_name) = LOWER('Sky Radio'));,,3528.90,,,1,2116,43,
+spider_dev,627,medium,answerable,wrong,"SELECT Directed_by, COUNT(*) AS cartoon_count FROM Cartoon GROUP BY Directed_by;",,1491.08,,,1,1029,17,
+spider_dev,628,medium,answerable,wrong,"SELECT Directed_by AS Director, COUNT(*) AS Cartoon_Count FROM Cartoon GROUP BY Directed_by;",,1647.33,,,1,1024,19,
+spider_dev,629,medium,answerable,wrong,"SELECT ""Production_code"", ""Channel"" FROM ""Cartoon"" ORDER BY strftime('%Y-%m-%d', ""Original_air_date"") DESC LIMIT 1;",,2667.59,,,1,1029,34,
+spider_dev,630,medium,answerable,correct,"SELECT ""Production_code"", ""Channel"" FROM ""Cartoon"" ORDER BY ""Original_air_date"" DESC LIMIT 1;",,2036.18,,,1,1031,26,
+spider_dev,631,medium,answerable,wrong,"SELECT 
+    t2.""Package_Option"" AS ""package_choice"",
+    t2.""series_name"" AS ""series_name""
+FROM 
+    ""TV_Channel"" t2
+WHERE 
+    LOWER(t2.""Hight_definition_TV"") LIKE '%high%';",,3667.90,,,1,1033,57,
+spider_dev,632,medium,answerable,wrong,"SELECT ""Package_Option"", ""series_name""
+FROM ""TV_Channel""
+WHERE ""Hight_definition_TV"" = 'Yes';",,2329.62,,,1,1037,29,
+spider_dev,633,medium,answerable,correct,"SELECT DISTINCT T.Country
+FROM Cartoon C
+JOIN TV_Channel T ON C.Channel = T.id
+WHERE LOWER(C.Written_by) LIKE '%todd casey%';",,2525.52,,,1,1030,36,
+spider_dev,634,medium,answerable,correct,"SELECT DISTINCT T.Country
+FROM Cartoon C
+JOIN TV_Channel T ON C.Channel = T.id
+WHERE LOWER(C.Written_by) LIKE '%todd casey%';",,2527.08,,,1,1032,36,
+spider_dev,635,hard,answerable,correct,"SELECT DISTINCT t.""Country""
+FROM ""TV_Channel"" AS t
+WHERE t.""Country"" NOT IN (
+    SELECT tc.""Country""
+    FROM ""Cartoon"" AS c
+    JOIN ""TV_Channel"" AS tc ON c.""Channel"" = tc.""id""
+    WHERE LOWER(c.""Written_by"") LIKE '%todd casey%'
+);",,9479.17,,,1,2179,153,
+spider_dev,636,hard,answerable,wrong,SELECT DISTINCT Country FROM TV_Channel WHERE id NOT IN (SELECT Channel FROM Cartoon WHERE Written_by = LOWER('Todd Casey'));,,1924.69,,,1,1030,25,
+spider_dev,637,extra,answerable,wrong,"SELECT DISTINCT T1.series_name, T1.Country
+FROM TV_Channel AS T1
+JOIN Cartoon AS T2 ON T1.id = T2.Channel
+WHERE LOWER(T2.Directed_by) LIKE '%ben jones%' OR LOWER(T2.Directed_by) LIKE '%michael chang%';",,3864.44,,,1,1039,62,
+spider_dev,638,extra,answerable,wrong,"SELECT 
+    ""series_name"",
+    ""Country""
+FROM ""TV_Channel""
+WHERE ""id"" IN (
+    SELECT DISTINCT ""Channel""
+    FROM ""Cartoon""
+    WHERE LOWER(""Directed_by"") = LOWER('Ben Jones')
+)
+OR ""id"" IN (
+    SELECT DISTINCT ""Channel""
+    FROM ""Cartoon""
+    WHERE LOWER(""Directed_by"") = LOWER('Michael Chang')
+);",,5506.06,,,1,1042,93,
+spider_dev,639,medium,answerable,correct,"SELECT ""Pixel_aspect_ratio_PAR"", ""Country"" FROM ""TV_Channel"" WHERE LOWER(""Language"") != LOWER('English');",,2023.34,,,1,1033,26,
+spider_dev,640,medium,answerable,correct,"SELECT ""Pixel_aspect_ratio_PAR"", ""Country"" FROM ""TV_Channel"" WHERE LOWER(""Language"") != LOWER('English');",,2141.66,,,1,1036,26,
+spider_dev,641,easy,answerable,wrong,"SELECT ""id"" FROM ""TV_Channel"" WHERE ""Country"" IN (SELECT ""Country"" FROM ""TV_Channel"" GROUP BY ""Country"" HAVING COUNT(*) > 2);",,2774.65,,,1,1034,38,
+spider_dev,642,easy,answerable,wrong,SELECT id FROM TV_Channel WHERE id IN (SELECT Channel FROM TV_series GROUP BY Channel HAVING COUNT(*) > 2),,2068.74,,,1,1033,26,
+spider_dev,643,hard,answerable,correct,"SELECT ""id"" FROM ""TV_Channel"" WHERE ""id"" NOT IN (SELECT DISTINCT ""Channel"" FROM ""Cartoon"" WHERE LOWER(""Directed_by"") = LOWER('Ben Jones'));",,2702.41,,,1,1033,39,
+spider_dev,644,hard,answerable,correct,"SELECT ""id"" FROM ""TV_Channel"" WHERE ""id"" NOT IN (SELECT DISTINCT ""Cartoon"".""Channel"" FROM ""Cartoon"" WHERE LOWER(""Directed_by"") = LOWER('Ben Jones'));",,2884.29,,,1,1035,42,
+spider_dev,645,hard,answerable,correct,"SELECT ""Package_Option"" FROM ""TV_Channel"" WHERE ""id"" NOT IN (SELECT DISTINCT ""Channel"" FROM ""Cartoon"" WHERE LOWER(""Directed_by"") = LOWER('Ben Jones'));",,2924.35,,,1,1035,41,
+spider_dev,646,hard,answerable,correct,"SELECT ""Package_Option"" FROM ""TV_Channel"" WHERE ""id"" NOT IN (SELECT DISTINCT ""Channel"" FROM ""Cartoon"" WHERE LOWER(""Directed_by"") = LOWER('Ben Jones'));",,2911.61,,,1,1036,41,
+spider_dev,647,easy,answerable,correct,"SELECT COUNT(*) AS player_count FROM ""poker_player"";",,1119.54,,,1,896,13,
+spider_dev,648,easy,answerable,correct,"SELECT COUNT(*) AS player_count FROM ""poker_player"";",,1097.02,,,1,896,13,
+spider_dev,649,easy,answerable,correct,SELECT Earnings FROM poker_player ORDER BY Earnings DESC;,,1270.94,,,1,899,13,
+spider_dev,650,easy,answerable,correct,SELECT Earnings FROM poker_player ORDER BY Earnings DESC;,,1142.33,,,1,902,13,
+spider_dev,651,medium,answerable,correct,"SELECT Final_Table_Made, Best_Finish FROM poker_player;",,1171.79,,,1,902,14,
+spider_dev,652,medium,answerable,correct,"SELECT Final_Table_Made, Best_Finish FROM poker_player;",,1166.73,,,1,903,14,
+spider_dev,653,easy,answerable,correct,"SELECT AVG(Earnings) AS Average_Earnings FROM ""poker_player"";",,1269.50,,,1,898,16,
+spider_dev,654,easy,answerable,correct,"SELECT AVG(Earnings) AS Average_Earnings FROM ""poker_player"";",,1257.47,,,1,898,16,
+spider_dev,655,medium,answerable,correct,SELECT Money_Rank FROM poker_player ORDER BY Earnings DESC LIMIT 1;,,1361.26,,,1,903,17,
+spider_dev,656,medium,answerable,correct,SELECT Money_Rank FROM poker_player ORDER BY Earnings DESC LIMIT 1;,,1318.41,,,1,901,17,
+spider_dev,657,easy,answerable,correct,SELECT MAX(Final_Table_Made) AS max_final_tables FROM poker_player WHERE Earnings < 200000;,,1977.64,,,1,913,28,
+spider_dev,658,easy,answerable,correct,"SELECT MAX(Final_Table_Made) AS max_final_tables_made
+FROM poker_player
+WHERE Earnings < 200000;",,2148.08,,,1,911,32,
+spider_dev,659,easy,answerable,correct,SELECT p.Name FROM people p JOIN poker_player pp ON p.People_ID = pp.People_ID;,,1558.44,,,1,897,22,
+spider_dev,660,easy,answerable,correct,"SELECT p.Name 
+FROM people p
+JOIN poker_player pp ON p.People_ID = pp.People_ID;",,1667.59,,,1,898,24,
+spider_dev,661,medium,answerable,correct,SELECT Name FROM people WHERE People_ID IN (SELECT People_ID FROM poker_player WHERE Earnings > 300000);,,1873.65,,,1,909,28,
+spider_dev,662,medium,answerable,correct,"SELECT p.Name
+FROM people p
+JOIN poker_player pp ON p.People_ID = pp.People_ID
+WHERE pp.Earnings > 300000;",,2357.68,,,1,907,37,
+spider_dev,663,medium,answerable,correct,"SELECT p.Name
+FROM people p
+JOIN poker_player pp ON p.People_ID = pp.People_ID
+ORDER BY pp.Final_Table_Made ASC;",,2209.10,,,1,905,34,
+spider_dev,664,medium,answerable,wrong,"SELECT p.Name, COUNT(pp.Final_Table_Made) AS Final_Table_Count
+FROM people p
+JOIN poker_player pp ON p.People_ID = pp.People_ID
+GROUP BY p.People_ID
+ORDER BY Final_Table_Count ASC;",,3179.33,,,1,909,51,
+spider_dev,665,hard,answerable,correct,"SELECT p.""Birth_Date"" FROM ""people"" AS p INNER JOIN ""poker_player"" AS pp ON p.""People_ID"" = pp.""People_ID"" ORDER BY pp.""Earnings"" ASC LIMIT 1;",,2815.30,,,1,903,46,
+spider_dev,666,hard,answerable,correct,"SELECT p.""Birth_Date""
+FROM ""people"" p
+JOIN ""poker_player"" pp ON p.""People_ID"" = pp.""People_ID""
+ORDER BY pp.""Earnings"" ASC
+LIMIT 1;",,2866.09,,,1,902,47,
+spider_dev,667,hard,answerable,correct,"SELECT p.""Money_Rank"" FROM ""poker_player"" p JOIN ""people"" pe ON p.""People_ID"" = pe.""People_ID"" WHERE pe.""Height"" = (SELECT MAX(""Height"") FROM ""people"");",,2875.68,,,1,900,48,
+spider_dev,668,hard,answerable,correct,"SELECT p.""Money_Rank""
+FROM ""poker_player"" p
+JOIN ""people"" pe ON p.""People_ID"" = pe.""People_ID""
+ORDER BY pe.""Height"" DESC
+LIMIT 1;",,2918.05,,,1,902,47,
+spider_dev,669,medium,answerable,correct,"SELECT AVG(p.Earnings) AS Average_Earnings
+FROM poker_player p
+JOIN people pe ON p.People_ID = pe.People_ID
+WHERE pe.Height > 200;",,2578.38,,,1,906,40,
+spider_dev,670,medium,answerable,correct,"SELECT AVG(p.Earnings) AS Average_Earnings
+FROM poker_player p
+JOIN people pe ON p.People_ID = pe.People_ID
+WHERE CAST(pe.Height AS REAL) > 200;",,2620.29,,,1,904,44,
+spider_dev,671,medium,answerable,correct,SELECT p.Name FROM people p JOIN poker_player pp ON p.People_ID = pp.People_ID ORDER BY pp.Earnings DESC;,,1837.41,,,1,902,28,
+spider_dev,672,medium,answerable,correct,"SELECT p.Name
+FROM people p
+JOIN poker_player pp ON p.People_ID = pp.People_ID
+ORDER BY pp.Earnings DESC;",,2366.58,,,1,901,31,
+spider_dev,673,medium,answerable,correct,"SELECT Nationality, COUNT(*) AS Count FROM people GROUP BY Nationality;",,1218.51,,,1,906,16,
+spider_dev,674,medium,answerable,correct,"SELECT Nationality, COUNT(*) AS Count FROM people GROUP BY Nationality;",,1230.22,,,1,898,16,
+spider_dev,675,hard,answerable,wrong,"SELECT Nationality, COUNT(*) AS count FROM people GROUP BY Nationality ORDER BY count DESC LIMIT 1;",,1511.83,,,1,898,23,
+spider_dev,676,hard,answerable,correct,SELECT Nationality FROM people GROUP BY Nationality ORDER BY COUNT(*) DESC LIMIT 1;,,1352.73,,,1,900,19,
+spider_dev,677,easy,answerable,correct,SELECT Nationality FROM people GROUP BY Nationality HAVING COUNT(*) >= 2;,,1368.25,,,1,903,18,
+spider_dev,678,easy,answerable,correct,SELECT Nationality FROM people GROUP BY Nationality HAVING COUNT(*) >= 2;,,1294.53,,,1,902,18,
+spider_dev,679,medium,answerable,correct,"SELECT Name, Birth_Date FROM people ORDER BY Name ASC;",,1112.88,,,1,904,13,
+spider_dev,680,medium,answerable,correct,"SELECT Name, Birth_Date FROM people ORDER BY Name;",,1025.14,,,1,907,12,
+spider_dev,681,easy,answerable,correct,SELECT Name FROM people WHERE LOWER(Nationality) != LOWER('Russia');,,1213.64,,,1,900,16,
+spider_dev,682,easy,answerable,correct,SELECT Name FROM people WHERE LOWER(Nationality) != 'russia';,,1203.53,,,1,901,16,
+spider_dev,683,hard,answerable,correct,SELECT Name FROM people WHERE People_ID NOT IN (SELECT People_ID FROM poker_player);,,1475.50,,,1,900,18,
+spider_dev,684,hard,answerable,correct,SELECT Name FROM people WHERE People_ID NOT IN (SELECT People_ID FROM poker_player);,,1542.87,,,1,901,18,
+spider_dev,685,easy,answerable,correct,"SELECT COUNT(DISTINCT LOWER(""Nationality"")) AS ""distinct_nationalities"" FROM ""people"";",,1578.17,,,1,897,22,
+spider_dev,686,easy,answerable,correct,"SELECT COUNT(DISTINCT LOWER(""Nationality"")) AS nationality_count FROM ""people"";",,1414.16,,,1,897,18,
+spider_dev,687,easy,answerable,wrong,SELECT COUNT(DISTINCT state) AS total_states FROM VOTES;,,1363.68,,,1,959,15,
+spider_dev,688,medium,answerable,correct,"SELECT contestant_number, contestant_name FROM CONTESTANTS ORDER BY contestant_name DESC;",,1427.98,,,1,966,17,
+spider_dev,689,medium,answerable,correct,"SELECT vote_id, phone_number, state FROM VOTES;",,1193.62,,,1,966,13,
+spider_dev,690,medium,answerable,correct,"SELECT MAX(area_code) AS max_area_code, MIN(area_code) AS min_area_code FROM AREA_CODE_STATE;",,1756.61,,,1,964,24,
+spider_dev,691,easy,answerable,wrong,"SELECT MAX(strftime('%Y-%m-%d', created)) AS last_date FROM VOTES WHERE LOWER(state) = LOWER('CA');",,2002.49,,,1,966,29,
+spider_dev,692,easy,answerable,correct,SELECT contestant_name FROM CONTESTANTS WHERE LOWER(contestant_name) != LOWER('Jessie Alloway');,,1580.67,,,1,970,23,
+spider_dev,693,medium,answerable,correct,"SELECT DISTINCT state, strftime('%Y-%m-%d %H:%M:%S', created) AS create_time FROM VOTES;",,1830.69,,,1,965,28,
+spider_dev,694,medium,answerable,correct,"SELECT c.contestant_number, c.contestant_name
+FROM CONTESTANTS c
+JOIN VOTES v ON c.contestant_number = v.contestant_number
+GROUP BY c.contestant_number, c.contestant_name
+HAVING COUNT(*) >= 2;",,3315.27,,,1,970,59,
+spider_dev,695,extra,answerable,correct,"SELECT contestant_number, contestant_name FROM ( SELECT v.contestant_number, c.contestant_name, COUNT(*) AS vote_count FROM VOTES v JOIN CONTESTANTS c ON v.contestant_number = c.contestant_number GROUP BY v.contestant_number ORDER BY vote_count ASC LIMIT 1 )",,3487.49,,,1,976,64,
+spider_dev,696,medium,answerable,correct,SELECT COUNT(*) AS vote_count FROM VOTES WHERE LOWER(state) = LOWER('NY') OR LOWER(state) = LOWER('CA');,,1800.69,,,1,968,28,
+spider_dev,697,extra,answerable,wrong,SELECT COUNT(*) AS total_unvoted_contestants FROM (SELECT COUNT(DISTINCT c.contestant_number) AS unvoted_count FROM CONTESTANTS c LEFT JOIN VOTES v ON c.contestant_number = v.contestant_number WHERE v.vote_id IS NULL);,,3298.89,,,1,961,59,
+spider_dev,698,extra,answerable,wrong,"SELECT state AS area_code
+FROM VOTES
+GROUP BY state
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,1665.94,,,1,965,25,
+spider_dev,699,medium,answerable,correct,"SELECT v.created, v.state, v.phone_number
+FROM VOTES v
+JOIN CONTESTANTS c ON v.contestant_number = c.contestant_number
+WHERE LOWER(c.contestant_name) = LOWER('Tabatha Gehling');",,2869.21,,,1,979,51,
+spider_dev,700,extra,answerable,wrong,"SELECT DISTINCT v.state AS area_code
+FROM VOTES v
+JOIN CONTESTANTS c ON v.contestant_number = c.contestant_number
+WHERE LOWER(c.contestant_name) = LOWER('tabatha gehling')
+   OR LOWER(c.contestant_name) = LOWER('kelly clauss');",,3648.29,,,1,979,66,
+spider_dev,701,medium,answerable,correct,SELECT contestant_name FROM CONTESTANTS WHERE LOWER(contestant_name) LIKE '%al%';,,1542.79,,,1,968,20,
+spider_dev,702,easy,answerable,correct,SELECT Name FROM country WHERE IndepYear > 1950;,,1666.69,,,1,1233,15,
+spider_dev,703,easy,answerable,correct,SELECT Name FROM country WHERE IndepYear > 1950;,,1615.14,,,1,1231,15,
+spider_dev,704,easy,answerable,wrong,SELECT COUNT(*) AS count FROM country WHERE LOWER(GovernmentForm) LIKE '%republic%';,,1840.13,,,1,1227,20,
+spider_dev,705,easy,answerable,wrong,SELECT COUNT(*) AS count FROM country WHERE LOWER(GovernmentForm) LIKE '%republic%';,,1850.66,,,1,1225,20,
+spider_dev,706,easy,answerable,correct,SELECT SUM(SurfaceArea) AS TotalSurfaceArea FROM country WHERE Region = 'Caribbean';,,1887.53,,,1,1229,20,
+spider_dev,707,easy,answerable,correct,SELECT SUM(SurfaceArea) AS total_surface_area FROM country WHERE Region = 'Caribbean';,,1858.00,,,1,1231,20,
+spider_dev,708,easy,answerable,correct,SELECT Continent FROM country WHERE LOWER(Name) = LOWER('anguilla');,,1660.57,,,1,1223,15,
+spider_dev,709,easy,answerable,correct,SELECT Continent FROM country WHERE LOWER(Name) = LOWER('Anguilla');,,1703.14,,,1,1227,16,
+spider_dev,710,medium,answerable,correct,SELECT co.Region FROM city c JOIN country co ON c.CountryCode = co.Code WHERE LOWER(c.Name) = 'kabul';,,4647.81,,,1,2516,54,
+spider_dev,711,medium,answerable,wrong,"SELECT c.CountryCode, co.Region FROM city c JOIN country co ON c.CountryCode = co.Code WHERE LOWER(c.Name) = 'kabul';",,4284.05,,,1,2500,48,
+spider_dev,712,extra,answerable,correct,SELECT Language FROM countrylanguage WHERE CountryCode = 'ABW' AND Percentage = (SELECT MAX(Percentage) FROM countrylanguage WHERE CountryCode = 'ABW');,,2586.81,,,1,1225,34,
+spider_dev,713,extra,answerable,correct,SELECT Language FROM countrylanguage WHERE CountryCode = (SELECT Code FROM country WHERE Name = 'Aruba') AND Percentage = (SELECT MAX(Percentage) FROM countrylanguage WHERE CountryCode = (SELECT Code FROM country WHERE Name = 'Aruba'));,,3465.80,,,1,1224,50,
+spider_dev,714,medium,answerable,correct,"SELECT Population AS population, LifeExpectancy AS life_expectancy FROM country WHERE LOWER(Name) = 'brazil';",,2119.44,,,1,1226,24,
+spider_dev,715,medium,answerable,wrong,"SELECT Country.Name AS CountryName, Population AS Population, LifeExpectancy AS LifeExpectancy FROM country WHERE LOWER(Name) = 'brazil';",,2385.76,,,1,1225,30,
+spider_dev,716,medium,answerable,wrong,"SELECT Region, Population FROM country WHERE LOWER(Name) = 'angola';",,1714.63,,,1,1224,16,
+spider_dev,717,medium,answerable,wrong,"SELECT Region, Population FROM country WHERE LOWER(Name) = 'angola';",,1678.13,,,1,1227,16,
+spider_dev,718,easy,answerable,correct,SELECT AVG(LifeExpectancy) AS AverageLifeExpectancy FROM country WHERE Region = 'Central Africa';,,2035.14,,,1,1231,22,
+spider_dev,719,easy,answerable,correct,SELECT AVG(LifeExpectancy) AS AverageLifeExpectancy FROM country WHERE Region = 'Central Africa';,,2111.03,,,1,1228,22,
+spider_dev,720,hard,answerable,correct,SELECT Name FROM country WHERE Continent = 'Asia' AND LifeExpectancy IS NOT NULL ORDER BY LifeExpectancy ASC LIMIT 1;,,2302.02,,,1,1230,28,
+spider_dev,721,hard,answerable,correct,SELECT Name FROM country WHERE Continent = 'Asia' AND LifeExpectancy IS NOT NULL ORDER BY LifeExpectancy ASC LIMIT 1;,,2305.54,,,1,1229,28,
+spider_dev,722,medium,answerable,correct,"SELECT SUM(c.Population) AS TotalPopulation, MAX(c.GNP) AS MaxGNP FROM country c WHERE c.Continent = 'Asia';",,2437.09,,,1,1227,31,
+spider_dev,723,medium,answerable,correct,"SELECT SUM(Population) AS total_population, MAX(GNP) AS max_gnp FROM country WHERE Continent = 'Asia';",,2224.99,,,1,1232,27,
+spider_dev,724,medium,answerable,wrong,"SELECT AVG(c.LifeExpectancy) AS avg_life_expectancy
+FROM country c
+WHERE LOWER(c.Continent) = 'africa'
+  AND LOWER(c.GovernmentForm) LIKE '%republic%';",,3069.18,,,1,1229,45,
+spider_dev,725,medium,answerable,wrong,"SELECT AVG(LifeExpectancy) AS AverageLifeExpectancy
+FROM country
+WHERE Continent = 'Africa'
+  AND GovernmentForm LIKE '%republic%';",,2517.35,,,1,1229,34,
+spider_dev,726,medium,answerable,correct,SELECT SUM(CASE WHEN Continent = 'Asia' THEN SurfaceArea ELSE 0 END) + SUM(CASE WHEN Continent = 'Europe' THEN SurfaceArea ELSE 0 END) AS TotalSurfaceArea FROM country;,,3003.00,,,1,1228,44,
+spider_dev,727,medium,answerable,correct,"SELECT SUM(SurfaceArea) AS TotalSurfaceArea FROM country WHERE Continent IN ('Asia', 'Europe');",,2011.98,,,1,1228,22,
+spider_dev,728,easy,answerable,correct,SELECT SUM(Population) AS total_population FROM city WHERE District = 'Gelderland';,,1945.89,,,1,1224,20,
+spider_dev,729,easy,answerable,correct,SELECT SUM(Population) AS TotalPopulation FROM city WHERE District = 'Gelderland';,,1915.32,,,1,1225,20,
+spider_dev,730,medium,answerable,correct,"SELECT AVG(CASE WHEN LOWER(`GovernmentForm`) LIKE '%us%territory%' THEN `GNP` END) AS avg_gnp, SUM(CASE WHEN LOWER(`GovernmentForm`) LIKE '%us%territory%' THEN `Population` END) AS total_population FROM `country`;",,3788.54,,,1,1233,59,
+spider_dev,731,medium,answerable,wrong,"SELECT AVG(CASE WHEN c.Name LIKE '%US%' THEN c.GNP END) AS mean_gnp, SUM(CASE WHEN c.Name LIKE '%US%' THEN c.Population END) AS total_population FROM country c;",,3088.11,,,1,1231,46,
+spider_dev,732,easy,answerable,correct,SELECT COUNT(DISTINCT Language) AS unique_languages FROM countrylanguage;,,1655.60,,,1,1225,15,
+spider_dev,733,easy,answerable,correct,SELECT COUNT(DISTINCT Language) AS distinct_languages FROM countrylanguage;,,1634.79,,,1,1227,15,
+spider_dev,734,easy,answerable,correct,"SELECT COUNT(DISTINCT GovernmentForm) AS government_count
+FROM country
+WHERE Continent = 'Africa';",,1958.07,,,1,1224,22,
+spider_dev,735,easy,answerable,correct,SELECT COUNT(DISTINCT GovernmentForm) AS government_form_count FROM country WHERE Continent = 'Africa';,,1934.00,,,1,1226,21,
+spider_dev,736,medium,answerable,error,SELECT COUNT(*) AS total_languages FROM countrylanguage WHERE LOWER(countrylanguage.Language) LIKE '%aruba%' OR LOWER(countrylanguage.CountryName) LIKE '%aruba%';,OperationalError: no such column: country.Name,5396.49,,,1,2531,66,
+spider_dev,737,medium,answerable,error,SELECT COUNT(*) AS language_count FROM countrylanguage WHERE LOWER(countrylanguage.Language) LIKE '%aruba%' OR LOWER(countrylanguage.CountryName) LIKE '%aruba%';,OperationalError: no such column: country.Name,5314.79,,,1,2525,66,
+spider_dev,738,medium,answerable,correct,SELECT COUNT(*) AS official_languages FROM countrylanguage WHERE CountryCode = 'AFG' AND IsOfficial = 'T';,,2322.09,,,1,1223,25,
+spider_dev,739,medium,answerable,correct,SELECT COUNT(*) AS official_languages_count FROM countrylanguage WHERE CountryCode = (SELECT Code FROM country WHERE Name = 'Afghanistan') AND IsOfficial = 'T';,,2776.05,,,1,1224,34,
+spider_dev,740,extra,answerable,wrong,"SELECT Country.Name AS CountryName, COUNT(DISTINCT CountryLanguage.Language) AS LanguageCount
+FROM country
+JOIN countrylanguage ON country.Code = countrylanguage.CountryCode
+GROUP BY country.Code
+ORDER BY LanguageCount DESC
+LIMIT 1;",,3775.05,,,1,1229,50,
+spider_dev,741,extra,answerable,wrong,"SELECT Country.Name AS NationName, COUNT(DISTINCT countrylanguage.Language) AS LanguageCount
+FROM country
+JOIN countrylanguage ON country.Code = countrylanguage.CountryCode
+GROUP BY country.Code
+ORDER BY LanguageCount DESC
+LIMIT 1;",,3625.78,,,1,1229,50,
+spider_dev,742,extra,answerable,wrong,"SELECT Continent, COUNT(DISTINCT Language) AS language_count
+FROM countrylanguage
+JOIN country ON countrylanguage.CountryCode = country.Code
+GROUP BY country.Continent
+ORDER BY language_count DESC
+LIMIT 1;",,6543.62,,,1,2531,89,
+spider_dev,743,extra,answerable,wrong,"SELECT Continent, COUNT(DISTINCT Language) AS LanguageCount
+FROM countrylanguage
+JOIN country ON countrylanguage.CountryCode = country.Code
+GROUP BY Continent
+ORDER BY LanguageCount DESC
+LIMIT 1;",,3101.08,,,1,1222,43,
+spider_dev,744,easy,answerable,correct,SELECT COUNT(DISTINCT c.Code) AS count FROM country c JOIN countrylanguage cl1 ON c.Code = cl1.CountryCode AND LOWER(cl1.Language) = 'english' JOIN countrylanguage cl2 ON c.Code = cl2.CountryCode AND LOWER(cl2.Language) = 'dutch';,,3936.82,,,1,1224,61,
+spider_dev,745,easy,answerable,wrong,SELECT COUNT(*) AS nation_count FROM countrylanguage WHERE LOWER(Language) = 'english' AND Language IN (SELECT Language FROM countrylanguage WHERE LOWER(Language) = 'dutch');,,2686.34,,,1,1227,36,
+spider_dev,746,extra,answerable,wrong,"SELECT c.Name AS CountryName
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE LOWER(cl.Language) = 'english'
+   OR LOWER(cl.Language) = 'french';",,3170.46,,,1,1227,45,
+spider_dev,747,extra,answerable,correct,"SELECT c.Name AS NationName
+FROM country c
+JOIN countrylanguage cl1 ON c.Code = cl1.CountryCode AND LOWER(cl1.Language) = 'english'
+JOIN countrylanguage cl2 ON c.Code = cl2.CountryCode AND LOWER(cl2.Language) = 'french'
+WHERE cl1.IsOfficial = 'T' OR cl2.IsOfficial = 'T';",,4762.66,,,1,1227,79,
+spider_dev,748,extra,answerable,correct,"SELECT c.Name
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE cl.IsOfficial = 'T'
+  AND (cl.Language = 'English' OR cl.Language = 'French')
+GROUP BY c.Name, c.Code
+HAVING COUNT(DISTINCT cl.Language) = 2;",,4257.78,,,1,1230,68,
+spider_dev,749,extra,answerable,wrong,"SELECT c.Name
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE cl.IsOfficial = 'T'
+  AND (LOWER(cl.Language) = LOWER('english') OR LOWER(cl.Language) = LOWER('french'));",,3601.17,,,1,1228,53,
+spider_dev,750,medium,answerable,correct,SELECT COUNT(DISTINCT c.Continent) AS num_continents FROM country c JOIN countrylanguage cl ON c.Code = cl.CountryCode WHERE LOWER(cl.Language) = 'chinese';,,2807.19,,,1,1227,38,
+spider_dev,751,medium,answerable,correct,"SELECT COUNT(DISTINCT c.Continent) AS continent_count
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE LOWER(cl.Language) LIKE '%chinese%';",,2895.98,,,1,1221,41,
+spider_dev,752,hard,answerable,wrong,"SELECT CountryCode, Name AS Region FROM country JOIN countrylanguage ON country.Code = countrylanguage.CountryCode WHERE LOWER(countrylanguage.Language) = 'english' OR LOWER(countrylanguage.Language) = 'dutch';",,5124.62,,,1,2513,65,
+spider_dev,753,hard,answerable,error,"SELECT Region, SUM(CASE WHEN Language IN ('Dutch', 'English') THEN Percentage ELSE 0 END) AS Total_Percentage
+FROM countrylanguage
+GROUP BY Region;",OperationalError: no such column: cl.Region,6931.82,,,1,2521,98,
+spider_dev,754,extra,answerable,wrong,"SELECT DISTINCT c.Name AS CountryName
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE (cl.Language = 'English' AND cl.IsOfficial = 'T')
+   OR (cl.Language = 'Dutch' AND cl.IsOfficial = 'T');",,4052.63,,,1,1229,60,
+spider_dev,755,extra,answerable,wrong,"SELECT c.Name AS CountryName, cl.Language, cl.IsOfficial
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE (cl.Language = 'English' AND cl.IsOfficial = 'T')
+   OR (cl.Language = 'Dutch' AND cl.IsOfficial = 'T');",,4291.06,,,1,1227,66,
+spider_dev,756,extra,answerable,wrong,"SELECT Language, SUM(Percentage) AS Total_Percentage
+FROM countrylanguage
+WHERE (SELECT Continent FROM country WHERE Code = countrylanguage.CountryCode) LIKE '%asia%'
+GROUP BY Language
+ORDER BY Total_Percentage DESC
+LIMIT 1;",,3695.85,,,1,1226,51,
+spider_dev,757,extra,answerable,correct,SELECT Language FROM countrylanguage JOIN country ON countrylanguage.CountryCode = country.Code WHERE country.Continent = 'Asia' GROUP BY Language ORDER BY SUM(Percentage) DESC LIMIT 1;,,5267.07,,,1,2526,64,
+spider_dev,758,hard,answerable,correct,"SELECT Language
+FROM countrylanguage
+WHERE CountryCode IN (
+    SELECT Code
+    FROM country
+    WHERE GovernmentForm = 'Republic'
+)
+GROUP BY Language
+HAVING COUNT(*) = 1;",,3257.67,,,1,1227,45,
+spider_dev,759,hard,answerable,wrong,"SELECT cl.Language
+FROM countrylanguage cl
+JOIN country c ON cl.CountryCode = c.Code
+WHERE c.GovernmentForm LIKE '%republic%'
+GROUP BY cl.Language, cl.CountryCode
+HAVING COUNT(DISTINCT cl.CountryCode) = 1;",,3747.04,,,1,1229,55,
+spider_dev,760,extra,answerable,correct,"SELECT c.Name AS CityName, c.Population
+FROM city c
+JOIN countrylanguage cl ON c.CountryCode = cl.CountryCode
+WHERE LOWER(cl.Language) = 'english'
+ORDER BY c.Population DESC
+LIMIT 1;",,3435.39,,,1,1226,50,
+spider_dev,761,extra,answerable,correct,"SELECT c.Name AS CityName, c.Population
+FROM city c
+JOIN countrylanguage cl ON c.CountryCode = cl.CountryCode
+WHERE LOWER(cl.Language) = 'english'
+ORDER BY c.Population DESC
+LIMIT 1;",,3602.31,,,1,1225,50,
+spider_dev,762,hard,answerable,correct,"SELECT Name, Population, LifeExpectancy FROM country WHERE Continent = 'Asia' AND SurfaceArea = (SELECT MAX(SurfaceArea) FROM country WHERE Continent = 'Asia');",,2762.67,,,1,1232,36,
+spider_dev,763,hard,answerable,correct,"SELECT Name, Population, LifeExpectancy FROM country WHERE Continent = 'Asia' AND SurfaceArea = (SELECT MAX(SurfaceArea) FROM country WHERE Continent = 'Asia');",,2736.69,,,1,1233,36,
+spider_dev,764,extra,answerable,wrong,"SELECT AVG(LifeExpectancy) AS AverageLifeExpectancy
+FROM country
+WHERE Code IN (
+    SELECT CountryCode
+    FROM countrylanguage
+    WHERE Language = 'English' AND IsOfficial = 'T'
+);",,3318.95,,,1,1231,48,
+spider_dev,765,extra,answerable,wrong,"SELECT AVG(LifeExpectancy) AS mean_life_expectancy
+FROM country
+WHERE Code IN (
+    SELECT CountryCode
+    FROM countrylanguage
+    WHERE Language = 'English' AND IsOfficial = 'T'
+);",,3378.28,,,1,1231,48,
+spider_dev,766,extra,answerable,wrong,"SELECT SUM(c.Population) AS total_population
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE LOWER(cl.Language) != 'english';",,2826.00,,,1,1232,36,
+spider_dev,767,extra,answerable,wrong,"SELECT SUM(c.Population) AS total_population
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+WHERE LOWER(cl.Language) != 'english';",,2905.72,,,1,1227,36,
+spider_dev,768,medium,answerable,correct,"SELECT cl.Language 
+FROM countrylanguage cl
+JOIN country c ON cl.CountryCode = c.Code
+WHERE LOWER(c.HeadOfState) = 'beatrix' AND cl.IsOfficial = 'T';",,2996.47,,,1,1232,41,
+spider_dev,769,medium,answerable,correct,"SELECT cl.Language
+FROM countrylanguage cl
+JOIN country c ON cl.CountryCode = c.Code
+WHERE LOWER(c.HeadOfState) = 'beatrix' AND cl.IsOfficial = 'T';",,3019.68,,,1,1235,41,
+spider_dev,770,medium,answerable,correct,"SELECT COUNT(DISTINCT cl.Language) AS total_unique_official_languages
+FROM countrylanguage cl
+JOIN country c ON cl.CountryCode = c.Code
+WHERE c.IndepYear < 1930
+AND cl.IsOfficial = 'T';",,3799.52,,,1,1238,53,
+spider_dev,771,medium,answerable,wrong,"SELECT SUM(CASE WHEN IsOfficial = 'T' THEN 1 ELSE 0 END) AS total_official_languages
+FROM countrylanguage
+WHERE CountryCode IN (
+    SELECT Code
+    FROM country
+    WHERE IndepYear < 1930
+);",,3979.38,,,1,1236,56,
+spider_dev,772,hard,answerable,wrong,"SELECT c.Name AS CountryName, c.SurfaceArea
+FROM country c
+WHERE c.SurfaceArea > (
+    SELECT MAX(c2.SurfaceArea)
+    FROM country c2
+    WHERE c2.Continent = 'Europe'
+);",,3759.12,,,1,1230,50,
+spider_dev,773,hard,answerable,wrong,"SELECT c.Name AS CountryName, c.SurfaceArea
+FROM country c
+WHERE c.SurfaceArea > (
+    SELECT MAX(c2.SurfaceArea)
+    FROM country c2
+    WHERE c2.Continent = 'Europe'
+);",,3661.28,,,1,1228,50,
+spider_dev,774,extra,answerable,wrong,"SELECT c.Name AS CountryName, c.Population
+FROM country c
+WHERE c.Continent = 'Africa'
+AND c.Population < (
+    SELECT MIN(c2.Population)
+    FROM country c2
+    WHERE c2.Continent = 'Asia'
+);",,4179.27,,,1,1232,59,
+spider_dev,775,extra,answerable,wrong,"SELECT c.Name AS CountryName, c.Population
+FROM country c
+WHERE c.Continent = 'Africa'
+AND c.Population < (
+    SELECT MIN(c2.Population)
+    FROM country c2
+    WHERE c2.Continent = 'Asia'
+);",,4128.84,,,1,1230,59,
+spider_dev,776,extra,answerable,wrong,"SELECT c.Name AS CountryName, c.Population
+FROM country c
+WHERE c.Continent = 'Asia'
+  AND c.Population > (
+    SELECT MAX(c2.Population)
+    FROM country c2
+    WHERE c2.Continent = 'Africa'
+  );",,4116.40,,,1,1230,61,
+spider_dev,777,extra,answerable,wrong,"SELECT c.Name AS CountryName, c.Population
+FROM country c
+WHERE c.Continent = 'Asia'
+  AND c.Population > (
+    SELECT MAX(c2.Population)
+    FROM country c2
+    WHERE c2.Continent = 'Africa'
+  );",,4076.72,,,1,1233,61,
+spider_dev,778,hard,answerable,wrong,SELECT CountryCode FROM countrylanguage WHERE LOWER(Language) != 'english';,,1731.79,,,1,1228,15,
+spider_dev,779,hard,answerable,wrong,SELECT CountryCode FROM countrylanguage WHERE LOWER(Language) != 'english';,,1692.32,,,1,1227,15,
+spider_dev,780,easy,answerable,wrong,SELECT CountryCode FROM countrylanguage WHERE LOWER(Language) != 'english';,,1694.35,,,1,1230,15,
+spider_dev,781,easy,answerable,wrong,SELECT CountryCode FROM countrylanguage WHERE LOWER(Language) != 'english';,,1684.07,,,1,1233,15,
+spider_dev,782,hard,answerable,correct,SELECT Code FROM country WHERE GovernmentForm != 'Republic' AND (SELECT COUNT(*) FROM countrylanguage WHERE CountryCode = country.Code AND Language = 'English') = 0;,,2726.26,,,1,1235,36,
+spider_dev,783,hard,answerable,wrong,SELECT Code FROM country WHERE GovernmentForm NOT LIKE '%Republic%' AND Code NOT IN (SELECT CountryCode FROM countrylanguage WHERE Language = 'English');,,4930.17,,,1,2540,61,
+spider_dev,784,extra,answerable,wrong,"SELECT c.Name AS CityName, co.Name AS CountryName
+FROM city c
+JOIN country co ON c.CountryCode = co.Code
+JOIN countrylanguage cl ON co.Code = cl.CountryCode
+WHERE co.Continent = 'Europe'
+  AND (cl.IsOfficial = 'T' AND cl.Language != 'English')
+  OR (cl.IsOfficial = 'F' AND cl.Language != 'English');",,5142.05,,,1,1229,85,
+spider_dev,785,extra,answerable,wrong,"SELECT c.Name
+FROM city c
+JOIN country co ON c.CountryCode = co.Code
+JOIN countrylanguage cl ON co.Code = cl.CountryCode
+WHERE co.Continent = 'Europe'
+  AND (cl.IsOfficial = 'T' OR cl.Language <> 'English')
+  AND cl.Language = 'English';",,9399.58,,,1,2584,143,
+spider_dev,786,hard,answerable,wrong,"SELECT DISTINCT c.Name AS CityName
+FROM city c
+JOIN country co ON c.CountryCode = co.Code
+JOIN countrylanguage cl ON co.Code = cl.CountryCode
+WHERE co.Continent = 'Asia'
+  AND cl.Language = 'Chinese'
+  AND cl.IsOfficial = 'T';",,4147.54,,,1,1229,63,
+spider_dev,787,hard,answerable,correct,"SELECT DISTINCT c.Name AS CityName
+FROM city c
+JOIN country co ON c.CountryCode = co.Code
+JOIN countrylanguage cl ON co.Code = cl.CountryCode
+WHERE co.Continent = 'Asia'
+  AND cl.Language = 'Chinese'
+  AND cl.IsOfficial = 'T';",,4407.96,,,1,1234,63,
+spider_dev,788,medium,answerable,wrong,"SELECT Name, IndepYear, SurfaceArea FROM country WHERE Population = (SELECT MIN(Population) FROM country);",,2233.39,,,1,1234,24,
+spider_dev,789,medium,answerable,wrong,"SELECT Name, IndepYear, SurfaceArea FROM country WHERE Population = (SELECT MIN(Population) FROM country);",,2227.96,,,1,1235,24,
+spider_dev,790,medium,answerable,wrong,"SELECT c.Population, c.Name, c.HeadOfState 
+FROM country c 
+WHERE c.SurfaceArea = (SELECT MAX(SurfaceArea) FROM country);",,2677.65,,,1,1231,33,
+spider_dev,791,medium,answerable,correct,"SELECT Name, Population, HeadOfState FROM country WHERE SurfaceArea = (SELECT MAX(SurfaceArea) FROM country);",,2212.96,,,1,1234,25,
+spider_dev,792,medium,answerable,wrong,"SELECT c.Name AS CountryName, COUNT(cl.Language) AS NumberOfLanguages
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+GROUP BY c.Name
+HAVING COUNT(cl.Language) >= 3;",,3375.97,,,1,1236,47,
+spider_dev,793,medium,answerable,wrong,"SELECT c.Name AS CountryName, COUNT(DISTINCT cl.Language) AS LanguageCount
+FROM country c
+JOIN countrylanguage cl ON c.Code = cl.CountryCode
+GROUP BY c.Name
+HAVING LanguageCount > 2;",,3500.80,,,1,1238,48,
+spider_dev,794,extra,answerable,wrong,"SELECT District, COUNT(*) AS CityCount
+FROM city
+WHERE Population > (SELECT AVG(Population) FROM city)
+GROUP BY District;",,2603.91,,,1,1234,31,
+spider_dev,795,extra,answerable,wrong,"SELECT District, COUNT(*) AS CityCount
+FROM city
+WHERE Population > (SELECT AVG(Population) FROM city)
+GROUP BY District;",,2634.53,,,1,1234,31,
+spider_dev,796,medium,answerable,wrong,"SELECT GovernmentForm, SUM(Population) AS TotalPopulation
+FROM country
+WHERE LifeExpectancy IS NOT NULL
+GROUP BY GovernmentForm
+HAVING AVG(LifeExpectancy) > 72;",,3255.28,,,1,1238,43,
+spider_dev,797,medium,answerable,wrong,"SELECT GovernmentForm, SUM(Population) AS TotalPopulation
+FROM country
+WHERE LifeExpectancy > 72
+GROUP BY GovernmentForm;",,2547.82,,,1,1244,31,
+spider_dev,798,medium,answerable,wrong,"SELECT Continent, AVG(LifeExpectancy) AS AvgLifeExpectancy, SUM(Population) AS TotalPopulation
+FROM country
+WHERE LifeExpectancy IS NOT NULL
+GROUP BY Continent
+HAVING AVG(LifeExpectancy) < 72;",,3564.12,,,1,1238,53,
+spider_dev,799,medium,answerable,wrong,"SELECT Continent, SUM(Population) AS TotalPopulation, AVG(LifeExpectancy) AS AverageLifeExpectancy
+FROM country
+WHERE LifeExpectancy IS NOT NULL
+GROUP BY Continent
+HAVING AVG(LifeExpectancy) < 72;",,3527.96,,,1,1247,53,
+spider_dev,800,medium,answerable,correct,"SELECT Name, SurfaceArea FROM country ORDER BY SurfaceArea DESC LIMIT 5;",,1755.91,,,1,1231,17,
+spider_dev,801,medium,answerable,correct,"SELECT Name, SurfaceArea FROM country ORDER BY SurfaceArea DESC LIMIT 5;",,1505.78,,,1,1228,17,
+spider_dev,802,medium,answerable,correct,SELECT Name FROM country ORDER BY Population DESC LIMIT 3;,,1322.41,,,1,1228,13,
+spider_dev,803,medium,answerable,correct,SELECT Name FROM country ORDER BY Population DESC LIMIT 3;,,1304.03,,,1,1226,13,
+spider_dev,804,medium,answerable,correct,SELECT Name FROM country ORDER BY Population ASC LIMIT 3;,,1569.66,,,1,1229,13,
+spider_dev,805,medium,answerable,correct,SELECT Name FROM country ORDER BY Population ASC LIMIT 3;,,1571.49,,,1,1229,13,
+spider_dev,806,easy,answerable,correct,SELECT COUNT(*) AS country_count FROM country WHERE Continent = 'Asia';,,1567.64,,,1,1222,15,
+spider_dev,807,easy,answerable,correct,SELECT COUNT(*) AS country_count FROM country WHERE Continent = 'Asia';,,1447.89,,,1,1223,15,
+spider_dev,808,medium,answerable,correct,SELECT Name FROM country WHERE Continent = 'Europe' AND Population = 80000;,,1985.03,,,1,1241,21,
+spider_dev,809,medium,answerable,correct,SELECT Name FROM country WHERE Continent = 'Europe' AND Population = 80000;,,2041.88,,,1,1237,21,
+spider_dev,810,hard,answerable,wrong,"SELECT SUM(Population) AS TotalPopulation, AVG(SurfaceArea) AS AverageArea FROM country WHERE Continent = 'North America' AND SurfaceArea > 3000;",,2968.77,,,1,1242,38,
+spider_dev,811,hard,answerable,wrong,"SELECT SUM(Population) AS TotalPopulation, AVG(SurfaceArea) AS AverageSurfaceArea FROM country WHERE Continent = 'North America' AND SurfaceArea > 3000;",,2946.80,,,1,1242,39,
+spider_dev,812,easy,answerable,wrong,"SELECT Name, Population FROM city WHERE Population BETWEEN 160000 AND 900000;",,2220.85,,,1,1239,26,
+spider_dev,813,easy,answerable,correct,SELECT Name FROM city WHERE Population BETWEEN 160000 AND 900000;,,2145.47,,,1,1241,24,
+spider_dev,814,hard,answerable,correct,SELECT Language FROM countrylanguage GROUP BY Language ORDER BY COUNT(*) DESC LIMIT 1;,,1719.22,,,1,1226,18,
+spider_dev,815,hard,answerable,correct,SELECT Language FROM countrylanguage GROUP BY Language ORDER BY COUNT(*) DESC LIMIT 1;,,1569.31,,,1,1226,18,
+spider_dev,816,medium,answerable,wrong,"SELECT CountryCode, Language, Percentage
+FROM countrylanguage
+WHERE (CountryCode, Percentage) IN (
+    SELECT CountryCode, MAX(Percentage)
+    FROM countrylanguage
+    GROUP BY CountryCode
+);",,3070.23,,,1,1230,45,
+spider_dev,817,medium,answerable,wrong,"SELECT CountryCode, Language FROM countrylanguage WHERE Percentage = (SELECT MAX(Percentage) FROM countrylanguage WHERE CountryCode = countrylanguage.CountryCode);",,2392.46,,,1,1240,30,
+spider_dev,818,extra,answerable,wrong,"SELECT COUNT(*) AS total_countries
+FROM countrylanguage
+WHERE Language = 'Spanish'
+  AND Percentage = (
+    SELECT MAX(Percentage)
+    FROM countrylanguage
+    WHERE Language = 'Spanish'
+  );",,3226.36,,,1,1233,47,
+spider_dev,819,extra,answerable,wrong,SELECT COUNT(*) AS count FROM countrylanguage WHERE LOWER(Language) = 'spanish' AND Percentage > 50;,,2137.09,,,1,1229,25,
+spider_dev,820,medium,answerable,wrong,SELECT CountryCode FROM countrylanguage WHERE Language = 'Spanish' AND Percentage = (SELECT MAX(Percentage) FROM countrylanguage WHERE Language = 'Spanish');,,2423.48,,,1,1232,31,
+spider_dev,821,medium,answerable,wrong,SELECT CountryCode FROM countrylanguage WHERE Language = 'Spanish' AND Percentage > (SELECT MAX(Percentage) FROM countrylanguage c2 WHERE c2.CountryCode = countrylanguage.CountryCode);,,2740.84,,,1,1229,38,
+spider_dev,822,easy,answerable,correct,SELECT COUNT(*) AS conductor_count FROM conductor;,,1253.20,,,1,1049,10,
+spider_dev,823,easy,answerable,correct,SELECT COUNT(*) AS conductor_count FROM conductor;,,1230.02,,,1,1049,10,
+spider_dev,824,easy,answerable,correct,SELECT Name FROM conductor ORDER BY Age ASC;,,1176.28,,,1,1054,10,
+spider_dev,825,easy,answerable,correct,SELECT Name FROM conductor ORDER BY Age;,,1118.89,,,1,1054,9,
+spider_dev,826,easy,answerable,correct,SELECT Name FROM conductor WHERE LOWER(Nationality) != LOWER('usa');,,1435.00,,,1,1057,16,
+spider_dev,827,easy,answerable,correct,SELECT Name FROM conductor WHERE LOWER(Nationality) != LOWER('usa');,,1427.64,,,1,1057,16,
+spider_dev,828,easy,answerable,wrong,"SELECT Record_Company, Year_of_Founded FROM orchestra ORDER BY Year_of_Founded DESC;",,1641.14,,,1,1061,20,
+spider_dev,829,easy,answerable,wrong,"SELECT Record_Company, Year_of_Founded FROM orchestra ORDER BY Year_of_Founded DESC;",,1623.92,,,1,1061,20,
+spider_dev,830,easy,answerable,correct,"SELECT AVG(""show"".""Attendance"") AS average_attendance FROM ""show"";",,1413.59,,,1,1050,16,
+spider_dev,831,easy,answerable,correct,"SELECT AVG(""show"".""Attendance"") AS average_attendance FROM ""show"";",,1408.08,,,1,1050,16,
+spider_dev,832,medium,answerable,wrong,"SELECT MAX(CAST(Share AS REAL)) AS max_share, MIN(CAST(Share AS REAL)) AS min_share FROM performance WHERE Type != 'Live final';",,2310.02,,,1,1059,34,
+spider_dev,833,medium,answerable,wrong,"SELECT MAX(CASE WHEN LOWER(Share) = 'null' THEN NULL ELSE CAST(Share AS REAL) END) AS max_share, MIN(CASE WHEN LOWER(Share) = 'null' THEN NULL ELSE CAST(Share AS REAL) END) AS min_share FROM performance WHERE LOWER(Type) != 'live final';",,3858.39,,,1,1060,66,
+spider_dev,834,easy,answerable,correct,"SELECT COUNT(DISTINCT LOWER(""Nationality"")) AS nationality_count FROM ""conductor"";",,1575.98,,,1,1052,19,
+spider_dev,835,easy,answerable,correct,"SELECT COUNT(DISTINCT LOWER(""Nationality"")) AS nationality_count FROM ""conductor"";",,1594.24,,,1,1053,19,
+spider_dev,836,easy,answerable,correct,SELECT Name FROM conductor ORDER BY Year_of_Work DESC;,,1296.61,,,1,1055,12,
+spider_dev,837,easy,answerable,wrong,"SELECT Name, Year_of_Work FROM conductor ORDER BY Year_of_Work DESC;",,1456.67,,,1,1061,16,
+spider_dev,838,medium,answerable,correct,SELECT Name FROM conductor ORDER BY Year_of_Work DESC LIMIT 1;,,1387.63,,,1,1055,15,
+spider_dev,839,medium,answerable,correct,SELECT Name FROM conductor ORDER BY Year_of_Work DESC LIMIT 1;,,1409.08,,,1,1058,15,
+spider_dev,840,medium,answerable,correct,"SELECT c.Name AS Conductor_Name, o.Orchestra AS Orchestra_Name
+FROM conductor c
+JOIN orchestra o ON c.Conductor_ID = o.Conductor_ID;",,2361.82,,,1,1056,34,
+spider_dev,841,medium,answerable,correct,"SELECT c.Name AS Conductor_Name, o.Orchestra AS Orchestra_Name
+FROM conductor c
+JOIN orchestra o ON c.Conductor_ID = o.Conductor_ID;",,2388.05,,,1,1063,34,
+spider_dev,842,medium,answerable,correct,SELECT Name FROM conductor WHERE Conductor_ID IN (SELECT Conductor_ID FROM orchestra GROUP BY Conductor_ID HAVING COUNT(*) > 1);,,2161.81,,,1,1057,30,
+spider_dev,843,medium,answerable,correct,SELECT Name FROM conductor WHERE Conductor_ID IN (SELECT Conductor_ID FROM orchestra GROUP BY Conductor_ID HAVING COUNT(*) > 1);,,2164.84,,,1,1058,30,
+spider_dev,844,extra,answerable,wrong,"SELECT c.Name
+FROM conductor c
+JOIN orchestra o ON c.Conductor_ID = o.Conductor_ID
+GROUP BY c.Conductor_ID, c.Name
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2674.05,,,1,1058,43,
+spider_dev,845,extra,answerable,wrong,"SELECT c.Name
+FROM conductor c
+JOIN orchestra o ON c.Conductor_ID = o.Conductor_ID
+GROUP BY c.Conductor_ID, c.Name
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2727.69,,,1,1057,43,
+spider_dev,846,medium,answerable,wrong,"SELECT c.Name
+FROM conductor c
+JOIN orchestra o ON c.Conductor_ID = o.Conductor_ID
+WHERE strftime('%Y', o.Year_of_Founded) > '2008';",,2633.89,,,1,1062,41,
+spider_dev,847,medium,answerable,wrong,"SELECT DISTINCT c.Name
+FROM conductor c
+JOIN orchestra o ON c.Conductor_ID = o.Conductor_ID
+WHERE strftime('%Y', o.Year_of_Founded) > '2008';",,2724.76,,,1,1064,42,
+spider_dev,848,medium,answerable,correct,"SELECT Record_Company, COUNT(*) AS orchestra_count FROM orchestra GROUP BY Record_Company;",,1597.00,,,1,1056,19,
+spider_dev,849,medium,answerable,correct,"SELECT Record_Company, COUNT(*) AS orchestra_count FROM orchestra GROUP BY Record_Company;",,1593.54,,,1,1052,19,
+spider_dev,850,medium,answerable,wrong,"SELECT Major_Record_Format, COUNT(*) AS count FROM orchestra GROUP BY Major_Record_Format ORDER BY count ASC;",,1723.55,,,1,1056,22,
+spider_dev,851,medium,answerable,wrong,"SELECT Major_Record_Format, COUNT(*) AS Frequency
+FROM orchestra
+GROUP BY Major_Record_Format
+ORDER BY Frequency DESC;",,1846.16,,,1,1057,25,
+spider_dev,852,hard,answerable,correct,SELECT Record_Company FROM orchestra GROUP BY Record_Company ORDER BY COUNT(*) DESC LIMIT 1;,,1655.42,,,1,1055,21,
+spider_dev,853,hard,answerable,correct,SELECT Record_Company FROM orchestra GROUP BY Record_Company ORDER BY COUNT(*) DESC LIMIT 1;,,1685.93,,,1,1056,21,
+spider_dev,854,hard,answerable,correct,"SELECT o.Orchestra
+FROM orchestra o
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM performance p
+    WHERE p.Orchestra_ID = o.Orchestra_ID
+);",,2493.41,,,1,1053,38,
+spider_dev,855,hard,answerable,correct,SELECT o.Orchestra FROM orchestra o LEFT JOIN performance p ON o.Orchestra_ID = p.Orchestra_ID WHERE p.Performance_ID IS NULL;,,2185.13,,,1,1054,30,
+spider_dev,856,hard,answerable,wrong,"SELECT 
+    CASE WHEN o.Year_of_Founded < 2003 THEN 'Before 2003' ELSE 'After 2003' END AS Era,
+    o.Record_Company
+FROM orchestra o
+WHERE (o.Year_of_Founded < 2003 OR o.Year_of_Founded > 2003)
+AND o.Record_Company IS NOT NULL;",,5063.28,,,1,1065,86,
+spider_dev,857,hard,answerable,wrong,"SELECT DISTINCT o.Record_Company
+FROM orchestra o
+WHERE (o.Year_of_Founded < 2003 OR o.Year_of_Founded > 2003)
+AND EXISTS (
+    SELECT 1
+    FROM orchestra o2
+    WHERE o2.Record_Company = o.Record_Company
+    AND (o2.Year_of_Founded < 2003 OR o2.Year_of_Founded > 2003)
+);",,5787.18,,,1,1071,98,
+spider_dev,858,medium,answerable,correct,SELECT COUNT(*) AS count FROM orchestra WHERE LOWER(Major_Record_Format) = LOWER('CD') OR LOWER(Major_Record_Format) = LOWER('DVD');,,2279.07,,,1,1059,32,
+spider_dev,859,medium,answerable,wrong,SELECT COUNT(*) AS count FROM orchestra WHERE LOWER(Major_Record_Format) LIKE '%cd%' OR LOWER(Major_Record_Format) LIKE '%dvd%';,,2315.49,,,1,1058,32,
+spider_dev,860,medium,answerable,correct,"SELECT strftime('%Y', p.Date) AS Year
+FROM performance p
+JOIN orchestra o ON p.Orchestra_ID = o.Orchestra_ID
+GROUP BY strftime('%Y', p.Date), o.Orchestra_ID
+HAVING COUNT(*) > 1;",,3320.72,,,1,1059,52,
+spider_dev,861,medium,answerable,correct,"SELECT strftime('%Y', Year_of_Founded) AS Year_of_Founding
+FROM orchestra
+WHERE Orchestra_ID IN (
+    SELECT Orchestra_ID
+    FROM performance
+    GROUP BY Orchestra_ID
+    HAVING COUNT(*) > 1
+);",,3555.78,,,1,1059,51,
+spider_dev,862,easy,answerable,correct,SELECT COUNT(*) AS count FROM Highschooler;,,979.74,,,1,904,11,
+spider_dev,863,easy,answerable,correct,SELECT COUNT(*) AS count FROM Highschooler;,,936.74,,,1,904,11,
+spider_dev,864,medium,answerable,correct,"SELECT name, grade FROM Highschooler;",,926.29,,,1,907,10,
+spider_dev,865,medium,answerable,correct,"SELECT name, grade FROM Highschooler;",,889.66,,,1,908,10,
+spider_dev,866,easy,answerable,correct,SELECT grade FROM Highschooler;,,818.12,,,1,906,8,
+spider_dev,867,easy,answerable,wrong,"SELECT name, grade FROM Highschooler;",,925.66,,,1,906,10,
+spider_dev,868,easy,answerable,correct,SELECT grade FROM Highschooler WHERE LOWER(name) = 'kyle';,,1230.33,,,1,902,16,
+spider_dev,869,easy,answerable,correct,SELECT grade FROM Highschooler WHERE LOWER(name) = 'kyle';,,1201.72,,,1,907,16,
+spider_dev,870,easy,answerable,correct,SELECT name FROM Highschooler WHERE grade = 10;,,1087.48,,,1,910,14,
+spider_dev,871,easy,answerable,correct,SELECT name FROM Highschooler WHERE grade = 10;,,1077.25,,,1,911,14,
+spider_dev,872,easy,answerable,correct,SELECT ID FROM Highschooler WHERE LOWER(name) = LOWER('Kyle');,,1190.14,,,1,907,16,
+spider_dev,873,easy,answerable,correct,SELECT ID FROM Highschooler WHERE LOWER(name) = 'kyle';,,1167.85,,,1,902,16,
+spider_dev,874,medium,answerable,correct,"SELECT COUNT(*) AS count FROM Highschooler WHERE grade IN (9, 10);",,1367.35,,,1,912,20,
+spider_dev,875,medium,answerable,correct,"SELECT COUNT(*) AS count FROM Highschooler WHERE grade IN (9, 10);",,1368.18,,,1,912,20,
+spider_dev,876,medium,answerable,correct,"SELECT grade, COUNT(*) AS count FROM Highschooler GROUP BY grade;",,1183.60,,,1,907,16,
+spider_dev,877,medium,answerable,correct,"SELECT grade, COUNT(*) AS count FROM Highschooler GROUP BY grade;",,1170.26,,,1,906,16,
+spider_dev,878,hard,answerable,wrong,"SELECT grade, COUNT(*) AS count FROM Highschooler GROUP BY grade ORDER BY count DESC LIMIT 1;",,1498.73,,,1,905,23,
+spider_dev,879,hard,answerable,correct,SELECT grade FROM Highschooler GROUP BY grade ORDER BY COUNT(*) DESC LIMIT 1;,,1320.50,,,1,909,19,
+spider_dev,880,easy,answerable,correct,SELECT grade FROM Highschooler GROUP BY grade HAVING COUNT(*) >= 4;,,1268.43,,,1,908,18,
+spider_dev,881,easy,answerable,correct,SELECT grade FROM Highschooler GROUP BY grade HAVING COUNT(*) >= 4;,,1280.64,,,1,907,18,
+spider_dev,882,medium,answerable,correct,"SELECT student_id, COUNT(*) AS num_friends FROM Friend GROUP BY student_id;",,1212.75,,,1,908,17,
+spider_dev,883,medium,answerable,wrong,"SELECT 
+    h.ID AS student_id,
+    h.name AS student_name,
+    COUNT(f.friend_id) AS friend_count
+FROM Highschooler h
+LEFT JOIN Friend f ON h.ID = f.student_id
+GROUP BY h.ID, h.name;",,3018.76,,,1,904,55,
+spider_dev,884,medium,answerable,wrong,"SELECT 
+    h.name,
+    COUNT(f.friend_id) AS num_friends
+FROM Highschooler h
+LEFT JOIN Friend f ON h.ID = f.student_id
+GROUP BY h.ID, h.name;",,2554.80,,,1,910,44,
+spider_dev,885,medium,answerable,wrong,"SELECT 
+    h.name,
+    COUNT(f.friend_id) AS friend_count
+FROM Highschooler h
+LEFT JOIN Friend f ON h.ID = f.student_id
+GROUP BY h.ID, h.name;",,2548.81,,,1,913,44,
+spider_dev,886,extra,answerable,correct,SELECT name FROM Highschooler WHERE ID IN (SELECT student_id FROM Friend GROUP BY student_id ORDER BY COUNT(*) DESC LIMIT 1);,,1816.24,,,1,913,29,
+spider_dev,887,extra,answerable,correct,SELECT name FROM Highschooler WHERE ID IN (SELECT student_id FROM Friend GROUP BY student_id ORDER BY COUNT(*) DESC LIMIT 1);,,1807.87,,,1,909,29,
+spider_dev,888,medium,answerable,correct,SELECT name FROM Highschooler WHERE ID IN (SELECT student_id FROM Friend GROUP BY student_id HAVING COUNT(*) >= 3);,,1814.26,,,1,911,28,
+spider_dev,889,medium,answerable,correct,SELECT name FROM Highschooler WHERE ID IN (SELECT student_id FROM Friend GROUP BY student_id HAVING COUNT(*) >= 3);,,1734.94,,,1,912,28,
+spider_dev,890,hard,answerable,correct,"SELECT f.name 
+FROM Friend fr
+JOIN Highschooler f ON fr.friend_id = f.ID
+WHERE LOWER(fr.student_id) = (SELECT ID FROM Highschooler WHERE LOWER(name) = 'kyle');",,4523.15,,,1,1893,77,
+spider_dev,891,hard,answerable,correct,"SELECT DISTINCT f.name 
+FROM Friend fr
+JOIN Highschooler f ON fr.friend_id = f.ID
+JOIN Highschooler h ON fr.student_id = h.ID
+WHERE LOWER(h.name) = 'kyle';",,2732.54,,,1,908,46,
+spider_dev,892,medium,answerable,correct,SELECT COUNT(*) AS friend_count FROM Friend JOIN Highschooler ON Friend.student_id = Highschooler.ID WHERE LOWER(Highschooler.name) = 'kyle';,,3456.66,,,1,1872,53,
+spider_dev,893,medium,answerable,correct,SELECT COUNT(*) AS friend_count FROM Friend JOIN Highschooler ON Friend.student_id = Highschooler.ID WHERE LOWER(Highschooler.name) = 'kyle';,,3363.16,,,1,1866,53,
+spider_dev,894,hard,answerable,wrong,SELECT ID FROM Highschooler WHERE ID NOT IN (SELECT student_id FROM Friend UNION SELECT friend_id FROM Friend);,,1528.33,,,1,908,24,
+spider_dev,895,hard,answerable,wrong,SELECT ID FROM Highschooler WHERE ID NOT IN (SELECT student_id FROM Friend UNION SELECT friend_id FROM Friend);,,1549.26,,,1,910,24,
+spider_dev,896,hard,answerable,wrong,SELECT name FROM Highschooler WHERE ID NOT IN (SELECT DISTINCT student_id FROM Friend UNION SELECT DISTINCT friend_id FROM Friend);,,1894.52,,,1,910,26,
+spider_dev,897,hard,answerable,wrong,SELECT name FROM Highschooler WHERE ID NOT IN (SELECT student_id FROM Friend UNION SELECT friend_id FROM Friend);,,1551.17,,,1,907,24,
+spider_dev,898,hard,answerable,wrong,SELECT DISTINCT student_id AS id FROM Friend WHERE friend_id IN (SELECT ID FROM Highschooler) AND student_id IN (SELECT ID FROM Highschooler) UNION SELECT DISTINCT liked_id AS id FROM Likes WHERE student_id IN (SELECT ID FROM Highschooler) AND liked_id IN (SELECT ID FROM Highschooler);,,3581.38,,,1,914,66,
+spider_dev,899,hard,answerable,wrong,SELECT student_id FROM Friend WHERE student_id IN (SELECT student_id FROM Likes) AND student_id IN (SELECT friend_id FROM Friend);,,1784.82,,,1,910,28,
+spider_dev,900,hard,answerable,correct,"SELECT DISTINCT H.name
+FROM Highschooler H
+JOIN Friend F ON H.ID = F.student_id
+JOIN Likes L ON H.ID = L.liked_id;",,2240.02,,,1,913,35,
+spider_dev,901,hard,answerable,correct,SELECT name FROM Highschooler WHERE ID IN (SELECT student_id FROM Friend) AND ID IN (SELECT liked_id FROM Likes);,,1763.64,,,1,912,27,
+spider_dev,902,medium,answerable,correct,"SELECT student_id, COUNT(*) AS like_count FROM Likes GROUP BY student_id;",,1252.23,,,1,906,17,
+spider_dev,903,medium,answerable,correct,"SELECT student_id, COUNT(*) AS like_count FROM Likes GROUP BY student_id;",,1202.68,,,1,905,17,
+spider_dev,904,medium,answerable,wrong,"SELECT 
+    h.name,
+    COUNT(l.student_id) AS num_likes
+FROM Highschooler h
+JOIN Likes l ON h.ID = l.liked_id
+GROUP BY h.ID, h.name;",,2495.66,,,1,914,44,
+spider_dev,905,medium,answerable,correct,"SELECT name, COUNT(*) AS num_likes FROM Likes JOIN Highschooler ON student_id = ID GROUP BY student_id;",,1636.34,,,1,916,25,
+spider_dev,906,extra,answerable,wrong,SELECT name FROM Highschooler WHERE ID = (SELECT liked_id FROM Likes GROUP BY liked_id ORDER BY COUNT(*) DESC LIMIT 1);,,1761.90,,,1,913,29,
+spider_dev,907,extra,answerable,wrong,SELECT name FROM Highschooler WHERE ID = (SELECT liked_id FROM Likes GROUP BY liked_id ORDER BY COUNT(*) DESC LIMIT 1);,,1780.25,,,1,907,29,
+spider_dev,908,medium,answerable,correct,SELECT name FROM Highschooler WHERE ID IN (SELECT student_id FROM Likes GROUP BY student_id HAVING COUNT(*) >= 2);,,3627.14,,,1,1888,57,
+spider_dev,909,medium,answerable,correct,SELECT name FROM Highschooler WHERE ID IN (SELECT student_id FROM Likes GROUP BY student_id HAVING COUNT(*) >= 2);,,1781.26,,,1,910,28,
+spider_dev,910,hard,answerable,correct,SELECT name FROM Highschooler WHERE grade > 5 AND ID IN (SELECT student_id FROM Friend GROUP BY student_id HAVING COUNT(*) >= 2);,,4092.90,,,1,1909,67,
+spider_dev,911,hard,answerable,correct,SELECT name FROM Highschooler WHERE grade > 5 AND ID IN (SELECT student_id FROM Friend GROUP BY student_id HAVING COUNT(*) >= 2);,,4267.74,,,1,1915,67,
+spider_dev,912,medium,answerable,error,SELECT COUNT(*) AS total_likes FROM Likes WHERE LOWER(liked_name) = LOWER('Kyle');,OperationalError: no such column: Highschooler.name,3461.72,,,1,1867,53,
+spider_dev,913,medium,answerable,correct,SELECT COUNT(*) AS total_likes FROM Likes JOIN Highschooler ON Likes.liked_id = Highschooler.ID WHERE LOWER(Highschooler.name) = 'kyle';,,3652.22,,,1,1881,56,
+spider_dev,914,hard,answerable,wrong,"SELECT AVG(H.grade) AS avg_grade
+FROM Highschooler H
+JOIN Friend F ON H.ID = F.student_id;",,1764.30,,,1,908,27,
+spider_dev,915,hard,answerable,wrong,"SELECT AVG(H.grade) AS avg_grade
+FROM Highschooler H
+JOIN Friend F ON H.ID = F.student_id;",,1735.21,,,1,907,27,
+spider_dev,916,extra,answerable,wrong,SELECT MIN(grade) AS min_grade FROM Highschooler WHERE ID NOT IN (SELECT friend_id FROM Friend);,,1546.25,,,1,907,24,
+spider_dev,917,extra,answerable,wrong,"SELECT MIN(grade) AS lowest_grade
+FROM Highschooler
+WHERE ID NOT IN (SELECT DISTINCT student_id FROM Friend)
+AND ID NOT IN (SELECT DISTINCT friend_id FROM Friend);",,2316.59,,,1,910,40,
+spider_dev,918,hard,answerable,wrong,"SELECT state AS ""State"" FROM ( SELECT DISTINCT state FROM Owners UNION ALL SELECT DISTINCT state FROM Professionals ) WHERE state IN ( SELECT state FROM Owners INTERSECT SELECT state FROM Professionals );",,3137.26,,,1,1493,38,
+spider_dev,919,hard,answerable,wrong,"SELECT DISTINCT o.state AS owner_state, p.state AS professional_state
+FROM Owners o
+JOIN Professionals p ON o.state = p.state;",,2266.32,,,1,1493,29,
+spider_dev,920,hard,answerable,correct,"SELECT AVG(CAST(d.age AS REAL)) AS average_age
+FROM Dogs d
+WHERE d.dog_id IN (
+    SELECT DISTINCT t.dog_id
+    FROM Treatments t
+);",,2918.51,,,1,1498,41,
+spider_dev,921,hard,answerable,wrong,"SELECT AVG(CAST(d.age AS REAL)) AS average_age
+FROM Dogs d
+JOIN Treatments t ON d.dog_id = t.dog_id;",,2616.37,,,1,1495,33,
+spider_dev,922,extra,answerable,wrong,"SELECT professional_id, last_name, cell_number
+FROM Professionals
+WHERE state = 'IN' OR professional_id IN (
+    SELECT professional_id
+    FROM Treatments
+    GROUP BY professional_id
+    HAVING COUNT(*) > 2
+);",,3569.12,,,1,1514,52,
+spider_dev,923,extra,answerable,wrong,"SELECT professional_id, last_name, cell_number
+FROM Professionals
+WHERE state = LOWER('indiana')
+   OR professional_id IN (
+       SELECT professional_id
+       FROM Treatments
+       GROUP BY professional_id
+       HAVING COUNT(*) > 2
+   );",,3700.04,,,1,1510,57,
+spider_dev,924,hard,answerable,wrong,"SELECT d.name
+FROM Dogs d
+WHERE d.dog_id IN (
+    SELECT t.dog_id
+    FROM Treatments t
+    WHERE t.cost_of_treatment <= 1000.0
+)
+OR d.dog_id NOT IN (
+    SELECT t.dog_id
+    FROM Treatments t
+);",,4423.78,,,1,1505,71,
+spider_dev,925,hard,answerable,wrong,"SELECT d.name
+FROM Dogs d
+JOIN Owners o ON d.owner_id = o.owner_id
+WHERE o.owner_id NOT IN (
+    SELECT DISTINCT dog_owner_id
+    FROM (
+        SELECT d.owner_id AS dog_owner_id, SUM(t.cost_of_treatment) AS total_cost
+        FROM Dogs d
+        JOIN Treatments t ON d.dog_id = t.dog_id
+        GROUP BY d.owner_id
+        HAVING SUM(t.cost_of_treatment) > 1000
+    )
+);",,6228.62,,,1,1507,110,
+spider_dev,926,hard,answerable,correct,"SELECT DISTINCT 
+    CASE 
+        WHEN LOWER(first_name) NOT IN (SELECT LOWER(name) FROM Dogs) THEN first_name
+    END AS first_name
+FROM Professionals
+UNION
+SELECT DISTINCT 
+    CASE 
+        WHEN LOWER(first_name) NOT IN (SELECT LOWER(name) FROM Dogs) THEN first_name
+    END AS first_name
+FROM Owners;",,4443.55,,,1,1500,74,
+spider_dev,927,hard,answerable,wrong,"SELECT DISTINCT LOWER(first_name) AS first_name
+FROM Professionals
+UNION
+SELECT DISTINCT LOWER(first_name) AS first_name
+FROM Owners
+EXCEPT
+SELECT DISTINCT LOWER(name) AS first_name
+FROM Dogs;",,3028.13,,,1,1502,45,
+spider_dev,928,extra,answerable,wrong,"SELECT professional_id AS id, first_name || ' ' || last_name AS role, email_address AS email
+FROM Professionals
+WHERE professional_id NOT IN (
+    SELECT DISTINCT professional_id
+    FROM Treatments
+);",,3023.91,,,1,1503,45,
+spider_dev,929,extra,answerable,correct,"SELECT professional_id AS id, role_code AS role, email_address AS email FROM Professionals WHERE professional_id NOT IN (SELECT DISTINCT professional_id FROM Treatments);",,2436.18,,,1,1503,32,
+spider_dev,930,extra,answerable,correct,"SELECT o.owner_id, o.first_name, o.last_name
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id
+GROUP BY o.owner_id
+ORDER BY COUNT(d.dog_id) DESC
+LIMIT 1;",,5803.01,,,1,3074,79,
+spider_dev,931,extra,answerable,correct,"SELECT owner_id, first_name, last_name
+FROM Owners
+WHERE owner_id = (
+    SELECT owner_id
+    FROM Dogs
+    GROUP BY owner_id
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+);",,3234.84,,,1,1502,48,
+spider_dev,932,medium,answerable,correct,"SELECT professional_id, role_code AS role, first_name
+FROM Professionals
+WHERE professional_id IN (
+    SELECT professional_id
+    FROM Treatments
+    GROUP BY professional_id
+    HAVING COUNT(*) >= 2
+);",,3242.15,,,1,1504,48,
+spider_dev,933,medium,answerable,correct,"SELECT professional_id AS id, role_code AS role, first_name
+FROM Professionals
+WHERE professional_id IN (
+    SELECT professional_id
+    FROM Treatments
+    GROUP BY professional_id
+    HAVING COUNT(*) >= 2
+);",,3276.40,,,1,1504,50,
+spider_dev,934,extra,answerable,correct,"SELECT b.breed_name
+FROM Breeds b
+JOIN Dogs d ON b.breed_code = d.breed_code
+GROUP BY b.breed_code
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,3087.31,,,1,1495,43,
+spider_dev,935,extra,answerable,correct,"SELECT b.breed_name
+FROM Breeds b
+JOIN Dogs d ON b.breed_code = d.breed_code
+GROUP BY b.breed_code
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2980.64,,,1,1497,43,
+spider_dev,936,extra,answerable,correct,"SELECT owner_id, last_name FROM ( SELECT d.owner_id, o.last_name, COUNT(t.treatment_id) AS treatment_count FROM Dogs d JOIN Owners o ON d.owner_id = o.owner_id LEFT JOIN Treatments t ON d.dog_id = t.dog_id GROUP BY d.owner_id ORDER BY treatment_count DESC LIMIT 1 );",,4419.94,,,1,1505,70,
+spider_dev,937,extra,answerable,wrong,"SELECT owner_id, last_name FROM (
+    SELECT d.owner_id, o.last_name, SUM(t.cost_of_treatment) AS total_cost
+    FROM Dogs d
+    JOIN Owners o ON d.owner_id = o.owner_id
+    JOIN Treatments t ON d.dog_id = t.dog_id
+    GROUP BY d.owner_id, o.last_name
+    ORDER BY total_cost DESC
+    LIMIT 1
+);",,5396.60,,,1,1506,89,
+spider_dev,938,extra,answerable,correct,"SELECT tt.treatment_type_description
+FROM Treatment_Types tt
+JOIN Treatments t ON tt.treatment_type_code = t.treatment_type_code
+GROUP BY tt.treatment_type_code
+ORDER BY SUM(t.cost_of_treatment) ASC
+LIMIT 1;",,3581.38,,,1,1499,54,
+spider_dev,939,extra,answerable,correct,"SELECT tt.treatment_type_description
+FROM Treatment_Types tt
+JOIN Treatments t ON tt.treatment_type_code = t.treatment_type_code
+GROUP BY tt.treatment_type_code
+ORDER BY SUM(t.cost_of_treatment) ASC
+LIMIT 1;",,3606.23,,,1,1498,54,
+spider_dev,940,extra,answerable,wrong,"SELECT owner_id, zip_code
+FROM Owners
+WHERE owner_id IN (
+    SELECT dog.owner_id
+    FROM Dogs dog
+    JOIN Charges charge ON charge.charge_type = 'Adoption Fee'
+    GROUP BY dog.owner_id
+    ORDER BY SUM(charge.charge_amount) DESC
+    LIMIT 1
+);",,4277.22,,,1,1506,69,
+spider_dev,941,extra,answerable,correct,"SELECT o.owner_id, o.zip_code
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id
+JOIN Treatments t ON d.dog_id = t.dog_id
+GROUP BY o.owner_id
+ORDER BY SUM(t.cost_of_treatment) DESC
+LIMIT 1;",,3884.73,,,1,1506,62,
+spider_dev,942,medium,answerable,wrong,"SELECT professional_id, cell_number
+FROM Professionals
+WHERE professional_id IN (
+    SELECT professional_id
+    FROM Treatments
+    GROUP BY professional_id
+    HAVING COUNT(DISTINCT treatment_type_code) >= 2
+);",,3289.38,,,1,1502,49,
+spider_dev,943,medium,answerable,wrong,"SELECT professional_id, cell_number
+FROM Professionals
+WHERE professional_id IN (
+    SELECT professional_id
+    FROM Treatments
+    GROUP BY professional_id
+    HAVING COUNT(DISTINCT treatment_type_code) >= 2
+);",,3267.97,,,1,1501,49,
+spider_dev,944,extra,answerable,wrong,"SELECT first_name, last_name
+FROM Professionals
+WHERE professional_id IN (
+    SELECT T.professional_id
+    FROM Treatments T
+    WHERE T.cost_of_treatment < (
+        SELECT AVG(cost_of_treatment)
+        FROM Treatments
+    )
+);",,3717.79,,,1,1503,58,
+spider_dev,945,extra,answerable,wrong,"SELECT p.first_name, p.last_name
+FROM Professionals p
+JOIN Treatments t ON p.professional_id = t.professional_id
+WHERE t.cost_of_treatment < (SELECT AVG(cost_of_treatment) FROM Treatments);",,3244.49,,,1,1505,48,
+spider_dev,946,medium,answerable,correct,"SELECT 
+    T.date_of_treatment AS treatment_date,
+    P.first_name AS professional_first_name
+FROM Treatments T
+JOIN Professionals P ON T.professional_id = P.professional_id;",,2937.66,,,1,1502,42,
+spider_dev,947,medium,answerable,correct,"SELECT 
+    t.date_of_treatment AS date,
+    p.first_name AS operating_professional_first_name
+FROM Treatments t
+JOIN Professionals p ON t.professional_id = p.professional_id;",,3009.85,,,1,1498,43,
+spider_dev,948,medium,answerable,correct,"SELECT t.cost_of_treatment, tt.treatment_type_description
+FROM Treatments t
+JOIN Treatment_Types tt ON t.treatment_type_code = tt.treatment_type_code;",,2797.60,,,1,1496,37,
+spider_dev,949,medium,answerable,wrong,"SELECT 
+    tt.treatment_type_description,
+    t.cost_of_treatment
+FROM Treatments t
+JOIN Treatment_Types tt ON t.treatment_type_code = tt.treatment_type_code;",,4834.43,,,1,3057,64,
+spider_dev,950,medium,answerable,wrong,"SELECT o.first_name, o.last_name, s.size_description AS dog_size
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id
+JOIN Sizes s ON d.size_code = s.size_code;",,3065.93,,,1,1502,45,
+spider_dev,951,medium,answerable,wrong,"SELECT o.first_name, o.last_name, s.size_description AS dog_size
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id
+JOIN Sizes s ON d.size_code = s.size_code;",,3051.04,,,1,1501,45,
+spider_dev,952,medium,answerable,correct,"SELECT o.first_name, d.name 
+FROM Dogs d
+JOIN Owners o ON d.owner_id = o.owner_id;",,2143.85,,,1,1497,25,
+spider_dev,953,medium,answerable,correct,"SELECT o.first_name, d.name
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id;",,2111.49,,,1,1496,25,
+spider_dev,954,extra,answerable,wrong,"SELECT d.name, t.date_of_treatment
+FROM Dogs d
+JOIN Breeds b ON d.breed_code = b.breed_code
+JOIN Treatments t ON d.dog_id = t.dog_id
+WHERE b.breed_code IN (
+    SELECT breed_code
+    FROM Breeds
+    GROUP BY breed_code
+    HAVING COUNT(*) = 1
+);",,4815.90,,,1,1501,79,
+spider_dev,955,extra,answerable,wrong,"SELECT d.name, t.date_of_treatment
+FROM Dogs d
+JOIN Breeds b ON d.breed_code = b.breed_code
+JOIN Treatments t ON d.dog_id = t.dog_id
+WHERE LOWER(b.breed_name) IN (
+    SELECT breed_name
+    FROM Breeds
+    GROUP BY breed_name
+    HAVING COUNT(*) = (
+        SELECT MIN(count)
+        FROM (
+            SELECT COUNT(*) AS count
+            FROM Breeds
+            GROUP BY breed_name
+        )
+    )
+);",,6496.97,,,1,1499,114,
+spider_dev,956,medium,answerable,correct,"SELECT o.first_name, d.name
+FROM Dogs d
+JOIN Owners o ON d.owner_id = o.owner_id
+WHERE LOWER(o.state) = 'virginia';",,2694.99,,,1,1506,36,
+spider_dev,957,medium,answerable,correct,"SELECT o.first_name, d.name
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id
+WHERE LOWER(o.state) = 'virginia';",,2680.17,,,1,1500,36,
+spider_dev,958,medium,answerable,wrong,"SELECT d.date_arrived, d.date_departed
+FROM Dogs d
+INNER JOIN Treatments t ON d.dog_id = t.dog_id;",,2473.22,,,1,1502,32,
+spider_dev,959,medium,answerable,correct,"SELECT d.date_arrived, d.date_departed
+FROM Dogs d
+WHERE d.dog_id IN (
+    SELECT DISTINCT t.dog_id
+    FROM Treatments t
+);",,2788.58,,,1,1499,39,
+spider_dev,960,extra,answerable,wrong,"SELECT o.last_name
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id
+ORDER BY CAST(d.age AS REAL) DESC
+LIMIT 1;",,2678.65,,,1,1495,36,
+spider_dev,961,extra,answerable,wrong,"SELECT o.last_name
+FROM Dogs d
+JOIN Owners o ON d.owner_id = o.owner_id
+ORDER BY CAST(d.age AS REAL) ASC
+LIMIT 1;",,2643.88,,,1,1497,36,
+spider_dev,962,medium,answerable,correct,"SELECT email_address
+FROM Professionals
+WHERE LOWER(state) = LOWER('hawaii') OR LOWER(state) = LOWER('wisconsin');",,2289.09,,,1,1502,28,
+spider_dev,963,medium,answerable,correct,"SELECT email_address
+FROM Professionals
+WHERE LOWER(state) = LOWER('hawaii') OR LOWER(state) = LOWER('wisconsin');",,2267.12,,,1,1503,28,
+spider_dev,964,medium,answerable,wrong,"SELECT dog_id, date_arrived, date_departed FROM Dogs;",,1677.33,,,1,1497,15,
+spider_dev,965,medium,answerable,correct,"SELECT date_arrived, date_departed FROM Dogs;",,1538.18,,,1,1496,12,
+spider_dev,966,easy,answerable,correct,SELECT COUNT(DISTINCT d.dog_id) AS dog_count FROM Dogs d INNER JOIN Treatments t ON d.dog_id = t.dog_id;,,2616.86,,,1,1491,33,
+spider_dev,967,easy,answerable,correct,"SELECT COUNT(DISTINCT d.dog_id) AS dog_count
+FROM Dogs d
+JOIN Treatments t ON d.dog_id = t.dog_id;",,2626.06,,,1,1494,34,
+spider_dev,968,easy,answerable,correct,SELECT COUNT(DISTINCT professional_id) AS count FROM Treatments;,,1704.38,,,1,1493,15,
+spider_dev,969,easy,answerable,correct,SELECT COUNT(DISTINCT professional_id) AS count FROM Treatments;,,1677.18,,,1,1494,15,
+spider_dev,970,medium,answerable,wrong,"SELECT first_name, last_name, role_code, street, city, state FROM Professionals WHERE LOWER(city) LIKE '%west%';",,2211.42,,,1,1507,27,
+spider_dev,971,medium,answerable,correct,"SELECT role_code, street, city, state FROM Professionals WHERE LOWER(city) LIKE '%west%';",,1940.23,,,1,1506,21,
+spider_dev,972,medium,answerable,correct,"SELECT first_name, last_name, email_address
+FROM Owners
+WHERE LOWER(state) LIKE '%north%';",,2056.42,,,1,1507,23,
+spider_dev,973,medium,answerable,correct,"SELECT first_name, last_name, email_address
+FROM Owners
+WHERE LOWER(state) LIKE '%north%';",,2053.06,,,1,1507,23,
+spider_dev,974,hard,answerable,correct,SELECT COUNT(*) AS count FROM Dogs WHERE CAST(age AS REAL) < (SELECT AVG(CAST(age AS REAL)) FROM Dogs);,,2228.85,,,1,1493,27,
+spider_dev,975,hard,answerable,correct,SELECT COUNT(*) AS dog_count FROM Dogs WHERE CAST(age AS REAL) < (SELECT AVG(CAST(age AS REAL)) FROM Dogs);,,2270.63,,,1,1495,28,
+spider_dev,976,medium,answerable,wrong,SELECT MAX(cost_of_treatment) AS most_recent_treatment_cost FROM Treatments;,,1799.90,,,1,1492,18,
+spider_dev,977,medium,answerable,wrong,SELECT MAX(cost_of_treatment) AS cost FROM Treatments ORDER BY date_of_treatment DESC LIMIT 1;,,2096.60,,,1,1494,24,
+spider_dev,978,extra,answerable,correct,SELECT COUNT(*) AS count FROM Dogs WHERE dog_id NOT IN (SELECT DISTINCT dog_id FROM Treatments);,,2029.75,,,1,1493,22,
+spider_dev,979,extra,answerable,correct,SELECT COUNT(*) AS dog_count FROM Dogs WHERE dog_id NOT IN (SELECT DISTINCT dog_id FROM Treatments);,,2065.94,,,1,1496,23,
+spider_dev,980,extra,answerable,correct,SELECT COUNT(*) AS owner_count FROM Owners WHERE owner_id NOT IN (SELECT DISTINCT owner_id FROM Dogs);,,2035.69,,,1,1493,22,
+spider_dev,981,extra,answerable,correct,SELECT COUNT(*) AS owner_count FROM Owners WHERE owner_id NOT IN (SELECT DISTINCT owner_id FROM Dogs);,,2035.26,,,1,1498,22,
+spider_dev,982,extra,answerable,correct,SELECT COUNT(*) AS count FROM Professionals WHERE professional_id NOT IN (SELECT DISTINCT professional_id FROM Treatments);,,2044.18,,,1,1494,22,
+spider_dev,983,extra,answerable,correct,SELECT COUNT(*) AS professional_count FROM Professionals WHERE professional_id NOT IN (SELECT DISTINCT professional_id FROM Treatments);,,2088.11,,,1,1495,23,
+spider_dev,984,medium,answerable,correct,"SELECT name, age, weight FROM Dogs WHERE abandoned_yn = '1';",,1801.55,,,1,1512,17,
+spider_dev,985,medium,answerable,correct,"SELECT d.name, d.age, d.weight
+FROM Dogs d
+WHERE LOWER(d.abandoned_yn) = '1';",,2238.03,,,1,1517,27,
+spider_dev,986,easy,answerable,wrong,"SELECT AVG(CAST(strftime('%Y', date_of_birth) - strftime('%Y', 'now') AS INTEGER)) AS average_age FROM Dogs;",,2577.76,,,1,1493,31,
+spider_dev,987,easy,answerable,wrong,"SELECT AVG(CAST(strftime('%Y', 'now') - strftime('%Y', date_of_birth) AS REAL)) AS average_age FROM Dogs;",,2450.36,,,1,1492,31,
+spider_dev,988,easy,answerable,wrong,"SELECT MAX(CAST(strftime('%Y', date_of_birth) AS INTEGER)) - CAST(strftime('%Y', 'now') AS INTEGER) AS age FROM Dogs;",,2609.87,,,1,1492,35,
+spider_dev,989,easy,answerable,wrong,"SELECT MAX(CAST(strftime('%Y', date_of_birth) AS INTEGER)) - CAST(strftime('%Y', 'now') AS INTEGER) AS age
+FROM Dogs;",,2641.99,,,1,1492,36,
+spider_dev,990,medium,answerable,correct,"SELECT charge_type, SUM(charge_amount) AS total_cost FROM Charges GROUP BY charge_type;",,1912.73,,,1,1498,20,
+spider_dev,991,medium,answerable,correct,"SELECT charge_type, charge_amount FROM Charges;",,1421.67,,,1,1491,10,
+spider_dev,992,easy,answerable,correct,SELECT MAX(charge_amount) AS max_charge_amount FROM Charges;,,1616.71,,,1,1493,14,
+spider_dev,993,easy,answerable,correct,SELECT MAX(charge_amount) AS max_charge_amount FROM Charges;,,1729.58,,,1,1495,14,
+spider_dev,994,medium,answerable,correct,"SELECT email_address AS email, cell_number AS cell_phone, home_phone AS home_phone FROM Professionals;",,1958.26,,,1,1497,21,
+spider_dev,995,medium,answerable,wrong,"SELECT first_name, last_name, email_address, cell_number, home_phone FROM Professionals;",,1891.34,,,1,1497,19,
+spider_dev,996,medium,answerable,wrong,"SELECT DISTINCT b.breed_name, s.size_description
+FROM Breeds b
+CROSS JOIN Sizes s;",,2075.38,,,1,1495,23,
+spider_dev,997,medium,answerable,wrong,"SELECT DISTINCT b.breed_name, s.size_description
+FROM Dogs d
+JOIN Breeds b ON d.breed_code = b.breed_code
+JOIN Sizes s ON d.size_code = s.size_code;",,3086.54,,,1,1495,43,
+spider_dev,998,medium,answerable,wrong,"SELECT p.first_name, tt.treatment_type_description
+FROM Professionals p
+JOIN Treatments t ON p.professional_id = t.professional_id
+JOIN Treatment_Types tt ON t.treatment_type_code = tt.treatment_type_code;",,3261.11,,,1,1502,49,
+spider_dev,999,medium,answerable,wrong,"SELECT 
+    p.first_name AS professional_first_name,
+    tt.treatment_type_description AS treatment_description
+FROM Professionals p
+JOIN Treatments t ON p.professional_id = t.professional_id
+JOIN Treatment_Types tt ON t.treatment_type_code = tt.treatment_type_code;",,3868.97,,,1,1499,60,
+spider_dev,1000,easy,answerable,correct,SELECT COUNT(*) AS total_singers FROM singer;,,6370.51,,,1,891,11,
+spider_dev,1001,easy,answerable,correct,"SELECT COUNT(*) AS singer_count FROM ""singer"";",,1026.02,,,1,892,12,
+spider_dev,1002,easy,answerable,correct,SELECT Name FROM singer ORDER BY Net_Worth_Millions ASC;,,1101.49,,,1,897,14,
+spider_dev,1003,easy,answerable,correct,SELECT Name FROM singer ORDER BY Net_Worth_Millions ASC;,,1104.52,,,1,897,14,
+spider_dev,1004,medium,answerable,correct,"SELECT ""Birth_Year"", ""Citizenship"" FROM ""singer"";",,1257.70,,,1,895,17,
+spider_dev,1005,medium,answerable,correct,"SELECT Birth_Year, Citizenship FROM singer;",,879.01,,,1,897,10,
+spider_dev,1006,easy,answerable,correct,SELECT Name FROM singer WHERE LOWER(Citizenship) != LOWER('france');,,1467.86,,,1,897,18,
+spider_dev,1007,easy,answerable,wrong,SELECT Name FROM singer WHERE LOWER(Citizenship) != 'french';,,1267.89,,,1,898,17,
+spider_dev,1008,medium,answerable,correct,SELECT Name FROM singer WHERE Birth_Year = 1948 OR Birth_Year = 1949;,,1662.32,,,1,907,26,
+spider_dev,1009,medium,answerable,correct,SELECT Name FROM singer WHERE Birth_Year = 1948 OR Birth_Year = 1949;,,1626.65,,,1,909,26,
+spider_dev,1010,medium,answerable,correct,SELECT Name FROM singer ORDER BY Net_Worth_Millions DESC LIMIT 1;,,1224.16,,,1,898,17,
+spider_dev,1011,medium,answerable,correct,SELECT Name FROM singer ORDER BY Net_Worth_Millions DESC LIMIT 1;,,1224.92,,,1,898,17,
+spider_dev,1012,medium,answerable,correct,"SELECT Citizenship, COUNT(*) AS singer_count FROM singer GROUP BY Citizenship;",,1126.40,,,1,899,15,
+spider_dev,1013,medium,answerable,correct,"SELECT Citizenship, COUNT(*) AS Count FROM singer GROUP BY Citizenship;",,1097.29,,,1,897,14,
+spider_dev,1014,hard,answerable,wrong,"SELECT Citizenship, COUNT(*) AS Count FROM singer GROUP BY Citizenship ORDER BY Count DESC LIMIT 1;",,1506.64,,,1,894,21,
+spider_dev,1015,hard,answerable,correct,SELECT Citizenship FROM singer GROUP BY Citizenship ORDER BY COUNT(*) DESC LIMIT 1;,,1246.98,,,1,893,17,
+spider_dev,1016,medium,answerable,correct,"SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth
+FROM singer
+GROUP BY Citizenship;",,1641.21,,,1,900,26,
+spider_dev,1017,medium,answerable,correct,"SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth
+FROM singer
+GROUP BY Citizenship;",,1656.74,,,1,896,26,
+spider_dev,1018,medium,answerable,correct,"SELECT s.Title, si.Name FROM song s JOIN singer si ON s.Singer_ID = si.Singer_ID;",,1558.26,,,1,894,24,
+spider_dev,1019,medium,answerable,wrong,"SELECT s.Name AS Singer_Name, so.Title AS Song_Title FROM ""song"" so JOIN ""singer"" s ON so.Singer_ID = s.Singer_ID;",,2059.42,,,1,894,35,
+spider_dev,1020,medium,answerable,correct,"SELECT DISTINCT s.Name
+FROM singer s
+JOIN song so ON s.Singer_ID = so.Singer_ID
+WHERE so.Sales > 300000;",,2162.70,,,1,905,37,
+spider_dev,1021,medium,answerable,correct,SELECT DISTINCT s.Name FROM singer s JOIN song so ON s.Singer_ID = so.Singer_ID WHERE so.Sales > 300000;,,2012.42,,,1,906,34,
+spider_dev,1022,medium,answerable,correct,SELECT Name FROM singer WHERE Singer_ID IN (SELECT Singer_ID FROM song GROUP BY Singer_ID HAVING COUNT(*) > 1);,,1668.81,,,1,897,27,
+spider_dev,1023,medium,answerable,correct,SELECT Name FROM singer WHERE Singer_ID IN (SELECT Singer_ID FROM song GROUP BY Singer_ID HAVING COUNT(*) > 1);,,1734.64,,,1,899,27,
+spider_dev,1024,medium,answerable,correct,"SELECT s.Name, SUM(so.Sales) AS Total_Sales
+FROM singer s
+JOIN song so ON s.Singer_ID = so.Singer_ID
+GROUP BY s.Singer_ID;",,2336.20,,,1,898,40,
+spider_dev,1025,medium,answerable,correct,"SELECT s.Name, SUM(so.Sales) AS Total_Sales
+FROM singer s
+JOIN song so ON s.Singer_ID = so.Singer_ID
+GROUP BY s.Singer_ID;",,2405.10,,,1,899,40,
+spider_dev,1026,hard,answerable,correct,SELECT Name FROM singer WHERE Singer_ID NOT IN (SELECT DISTINCT Singer_ID FROM song);,,1290.48,,,1,897,18,
+spider_dev,1027,hard,answerable,correct,"SELECT ""Name"" AS sname FROM ""singer"" WHERE ""Singer_ID"" NOT IN (SELECT ""Singer_ID"" FROM ""song"");",,1948.00,,,1,900,32,
+spider_dev,1028,hard,answerable,wrong,SELECT Citizenship FROM singer WHERE Birth_Year < 1945 AND Birth_Year > 1955;,,1664.96,,,1,908,26,
+spider_dev,1029,hard,answerable,wrong,SELECT DISTINCT Citizenship FROM singer WHERE Birth_Year < 1945 AND Birth_Year > 1955;,,1749.52,,,1,913,27,
+spider_dev,1030,easy,answerable,correct,SELECT COUNT(*) AS total_features FROM Other_Available_Features;,,1834.50,,,1,1365,15,
+spider_dev,1031,medium,answerable,correct,"SELECT ft.feature_type_name
+FROM Other_Available_Features f
+JOIN Ref_Feature_Types ft ON f.feature_type_code = ft.feature_type_code
+WHERE LOWER(f.feature_name) LIKE '%aircon%';",,6364.95,,,1,2823,92,
+spider_dev,1032,medium,answerable,correct,"SELECT property_type_description 
+FROM Ref_Property_Types;",,1493.02,,,1,1368,12,
+spider_dev,1033,hard,answerable,wrong,"SELECT property_name
+FROM Properties
+WHERE LOWER(property_type_code) IN ('house', 'apartment')
+AND room_count > 1;",,2359.18,,,1,1375,30,

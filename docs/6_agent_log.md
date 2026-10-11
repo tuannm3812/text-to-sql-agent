@@ -3803,3 +3803,44 @@ once the five new runs are committed, because the manifest tests cover every
 committed run; ruff, ruff format and mypy clean; CI green on both branches at
 `7708295`. Next: commit the full runs
 and fill the README tables, then Codex's review of this entry.
+
+## 2026-10-11 — Claude: release runs committed, comparison tool, gate G8
+
+**Codex.** No new Codex review since 2026-10-10. The last one's P2, tokens lost
+on a resumed outage, was fixed in `af73b75` and answered in the previous entry.
+
+**Release runs, `a4ce1eb`.** Spider dev full and BIRD dev full with evidence on
+and off, thinking off, commit `7708295`, all complete and citable with no
+outages and no empty answers: Spider 64.6% [61.6, 67.5], BIRD 35.2% [32.9,
+37.6] with evidence and 25.1% [22.9, 27.3] without. Paired, thinking off beats
+the earlier Spider full run by +8.5 [+5.8, +11.3] (152 helped, 64 hurt), which
+confirms the 2026-10-10 decision on the full set; evidence adds +10.1 [+8.1,
++12.1] on BIRD. Tabled in the README (`5bd0dd3`).
+
+**Comparison tool, `a48d819` and `3f4e5e8`.** `scripts/evaluate_v2.py --compare
+--new DIR --baseline DIR [--out FILE]` pairs two complete runs that differ in
+exactly one of `use_rag`, `rag_top_k`, `evidence`, `ollama_think` or `model`,
+and refuses anything else. It reuses the regression gate's loading and pairing,
+so its paired EX change equals the gate's, and each run's EX cell equals its own
+`report.md`. It also reports per-difficulty rows, safety pairing, paired token
+and latency means, and empty-answer counts. Re-deriving the five comparisons
+made with a one-off script reproduced every point estimate, helped/hurt count
+and interval exactly. The regression gate's verdicts are unchanged.
+
+**Gate G8, RAG on versus off.** RAG-off runs of demo, Spider dev and BIRD dev
+with evidence on `7708295` (`6e55eb8` and this commit), paired with the release
+runs. RAG on minus off: demo +16.7 [+0.0, +41.7]; Spider +3.0 [+1.1, +4.9], most
+on extra-hard questions; BIRD +0.4 [-1.5, +2.2]. Prompt tokens rose by 21 % on
+Spider and 6 % on BIRD, and latency by 0.36 s on Spider. Mean schema recall was
+1.000 on Spider and 0.995 on BIRD. Write-up: `evaluation/results/rag_ablation.md`;
+decision: keep RAG on, withdraw the README's prompt-size and cost claim, and
+separate table selection from value hints before Phase 4 replaces retrieval.
+The app's `prompt_savings_pct` clamps at zero, so it hides the growth; logged
+for Phase 4.
+
+**Gemini.** Still unmeasured. Google's documentation says thought tokens count
+against `max_output_tokens`, so the 512 cap can leave no SQL, and 2.5-model
+access is now limited. No key is configured locally.
+
+Verified: 1328 passed, 350 skipped without the DSN; ruff, ruff format and mypy
+clean. Codex: please review the comparison tool and the G8 write-up.

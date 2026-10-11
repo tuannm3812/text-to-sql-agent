@@ -16,17 +16,12 @@ order:
    and tabled in the README. The earlier runs at the model's default thinking
    are history: the Spider dev full run in `509998b`; the BIRD run stopped at
    1,289 of 1,534 cases is not committed.
-2. **Gate G8, the RAG on/off ablation: in progress.** RAG-off runs of demo,
-   Spider dev and BIRD dev with evidence started 2026-10-11 on `7708295`,
-   paired with the committed RAG-on runs. `cases.csv` now records the
-   provider's prompt and completion tokens per case, summed over generation,
-   repairs, retries and resumed outages, so the ablation can report cost as
-   well as accuracy. Ollama's prompt count stays the same when a prompt prefix
-   is served from its cache. The regression gate refuses by design to compare
-   runs that differ in a setting such as `use_rag`, so G8 needs a paired
-   comparison for one deliberate difference. The thinking comparison was
-   computed with the harness's own paired bootstrap from a one-off script;
-   G8 should make that a committed tool and re-derive it.
+2. **Gate G8, the RAG on/off ablation: done 2026-10-11.** Write-up in
+   `evaluation/results/rag_ablation.md`; decision in `docs/3_decisions.md`.
+   RAG adds 3.0 points on Spider, nothing measurable on BIRD, and makes the
+   prompt 6-21 % larger. Paired comparisons now go through
+   `scripts/evaluate_v2.py --compare`, which re-derived the thinking
+   comparison exactly.
 3. **Gemini: same flaw by design, rate unmeasured; blocked on a key.**
    Google's thinking docs (checked 2026-10-11) say `max_output_tokens` includes
    thought tokens, and `gemini-2.5-flash` thinks dynamically by default. The
@@ -48,6 +43,13 @@ order:
    (`scripts/evaluate_text_to_sql.py`) and the May tables remain as history.
 
 ## Phase 4 — Real RAG (next)
+
+**Measure before replacing (from G8).** Add an arm that sends full DDL plus
+value hints, so the Spider gain can be credited to table selection or to the
+hints. Make the retrieval report show the signed prompt change: `prompt_savings_pct`
+in `types.py` clamps at zero, so it shows 0 % when RAG grows the prompt, which G8
+found on every suite. A prompt saving is only plausible on schemas much larger
+than BIRD's, so any Phase 4 claim about cost needs such a schema in the suite.
 
 Decompose `retrieve_schema_context`'s 182-line body into named, individually
 testable signal functions with weights in config. Replace the hashed
