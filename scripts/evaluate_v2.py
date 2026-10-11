@@ -19,7 +19,10 @@ incomplete, uncitable, case IDs differ).
 
 `--compare` measures a controlled experiment instead of judging it: two complete runs that
 differ in exactly one of `use_rag`, `rag_top_k`, `evidence`, `ollama_think` or `model` (the
-code and the prompt may differ too). It prints a paired comparison as Markdown - EX overall and
+code and the prompt may differ too). A `rag_top_k` difference beside a `use_rag` difference is
+no second factor, because RAG off never reads it; the output shows it and marks it unused. The
+output's second line says whether the pair is controlled - same commit, clean trees, same
+prompt - or names what else changed. It prints a paired comparison as Markdown - EX overall and
 by difficulty with helped and hurt counts, safety accuracy, tokens, latency - to stdout, or to
 `--out FILE`. An uncitable run is compared and flagged. Exit 0 compared, 2 refused (no factor,
 use `--gate regression`; more than one, or one outside that list; incomplete or unreadable; case

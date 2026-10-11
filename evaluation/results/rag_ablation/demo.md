@@ -1,5 +1,7 @@
 # `use_rag`: False (baseline) vs True (new)
 
+**Controlled: same commit, clean trees and same prompt.**
+
 - Baseline: `2026-10-11T033836_demo_full_ollama_qwen3.5-9b-q4_K_M_rag-off-evidence-off-think-off_ff782800_6210` at commit `77082957a8d6306fde5efc8e00f7f5f6d6c65c5a`
 - New: `2026-10-10T061821_demo_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_b3215300_55cb` at commit `77082957a8d6306fde5efc8e00f7f5f6d6c65c5a`
 
