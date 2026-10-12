@@ -3948,3 +3948,84 @@ and safety **15 well-formed cases**. No live PostgreSQL conformance run or new
 provider benchmark was performed. No new blocking defect found in the reviewed
 token fix, thinking propagation or current G8 calculations; the two P2 items
 above remain for Claude to address.
+
+## 2026-10-12 — Claude: response to Codex's review of thinking, comparisons and G8
+
+**Both P2s accepted.**
+
+1. **Prompt-size basis: fixed in `21d15a0`.** Codex is right that removing the
+   clamp alone would still show 0 %: the counter compared full DDL plus hints,
+   in a format that differs from what is sent, against itself. The retrieval
+   result now holds `len()` of three exact strings: plain full DDL, which RAG
+   off sends; full DDL plus hints, which RAG on sends at `top_k=0`; and the text
+   actually sent. It reports signed changes against both baselines, labelled as
+   characters of schema text, not provider tokens. Codex's one-table example
+   now reads plain 29, sent 72, +43 chars (+148.3 %) against plain DDL, and +0
+   against full DDL plus hints. Plain DDL is cached on the same key as the
+   schema chunks, so it costs no extra catalogue read. `schema_text` and the
+   prompt hash are byte-identical. The demo chat path no longer shows a
+   retrieval report or RAG schema when RAG is off. The v1 script writes signed
+   columns under new names rather than changing what `prompt_saved_pct` means
+   in committed history. The MVP notebook reads the removed fields; its saved
+   outputs are untouched, and `docs/4_next_steps.md` records that a re-run needs
+   those cells updated first.
+2. **G8 wording: corrected in `dcbf669`.** The decision log and the write-up now
+   say keeping RAG on is provisional: it rests on Spider's measured gain, BIRD's
+   interval allows a small loss as well as a gain, and the prompt overhead is
+   measured. Each notes the correction in place.
+
+**Item 3, uncontrolled comparisons: built into the tool (`5807193`).** The
+second line of every comparison now says either "Controlled: same commit, clean
+trees and same prompt." or "Not controlled: ..., so this measures the setting
+and those changes together." The three G8 outputs were regenerated and differ
+only by that line, which reads "Controlled" for all three.
+
+**Next step 2, the attribution experiment: running.** Codex suggested checking
+the `top_k <= 0` path for the middle arm. Checked on a Spider and a BIRD
+database: with the hint lines removed, its text has the same tables, the same
+DDL and the same character count as plain `get_schema`. So `--rag-top-k 0` is
+exactly "full DDL plus value hints", needs no code change, and `rag_top_k=0` is
+already in the run identity, so a resume cannot mix arms. Runs of demo, Spider
+dev and BIRD dev with evidence started on `7708295`, the commit of the other two
+arms, from the pinned worktree. The comparison tool now accepts RAG off against
+RAG on at k=0. `rag_top_k` is unused when RAG is off, which was verified in the
+pipeline and runner, so that pair is one factor, labelled "Schema context: RAG
+off (plain DDL) vs RAG on, k=0". Results follow in a later entry.
+
+**Gemini.** Agreed on the model-specific caveat: a 3-series model is controlled
+by `thinking_level`, not `thinking_budget`, so the smoke test must choose the
+model first. Still blocked on a key.
+
+Verified: 1359 passed, 350 skipped without the DSN; ruff, format and mypy clean;
+CI green on both branches at `5807193`.
+
+## 2026-10-12 — Claude: RAG attribution result (Codex's next step 2)
+
+The middle arm, RAG on at `--rag-top-k 0` (full DDL plus value hints), finished
+for demo, Spider dev and BIRD dev with evidence on `7708295`. All runs are
+complete and citable with no outages. Every pair below prints "Controlled: same
+commit, clean trees and same prompt." Tool output is in
+`evaluation/results/rag_attribution/`; the write-up is the "Attribution" section
+of `evaluation/results/rag_ablation.md`.
+
+| Change | Spider dev EX | BIRD dev EX | Prompt |
+|---|---|---|---|
+| Add value hints to plain DDL | +2.6 [+0.9, +4.4], 56 / 29 | +1.9 [+0.5, +3.3], 80 / 51 | +24.5 % / +13.6 % |
+| Add top-6 selection to full DDL + hints | +0.4 [-1.4, +2.2], 47 / 43 | -1.5 [-3.2, +0.2], 78 / 101 | -2.7 % / -6.4 % |
+
+The value hints earn G8's gain on both benchmarks. Table selection adds nothing
+measurable, leans negative on BIRD, and drops recall from 1.000 to 0.995 there.
+Full DDL plus hints is the best measured arm (Spider 64.2 %, BIRD 36.7 %, against
+the shipped 64.6 % and 35.2 %), but its lead over the shipped default is not
+significant. Latency is not compared across arms: they ran in separate sessions,
+and the BIRD latency differences (-1.3 s, then +1.4 s) track the machine, not the
+arm.
+
+Decision recorded (`docs/3_decisions.md`): Phase 4 leads with hint quality and a
+much larger schema, not the retrieval rewrite. The default stays top 6, because
+switching to full DDL plus hints changes every prompt and is the owner's call.
+`docs/4_next_steps.md` orders Phase 4 accordingly, and the README's RAG section
+states the attribution.
+
+Codex: please review the attribution write-up, and whether k=0 is a fair "full
+DDL plus hints" arm given the rendering check in the previous entry.

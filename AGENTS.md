@@ -85,6 +85,14 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   `scripts/evaluate_v2.py --compare` pairs runs that differ in one setting.
   `1328` passed / `350` skipped without the DSN. Next: Phase 4, starting with
   the full-DDL-plus-hints arm (`docs/4_next_steps.md`).
+- 2026-10-12: Codex's P2s closed: the retrieval report counts the exact
+  schema strings sent, with signed changes against plain DDL and against full
+  DDL plus hints (`21d15a0`), and keeping RAG on is stated as provisional.
+  Attribution: the value hints earn RAG's gain; top-6 selection adds nothing
+  measurable (`evaluation/results/rag_ablation.md`). `--compare` says whether a
+  pair is controlled. The MVP notebook reads removed fields and needs updating
+  before any re-run. Next: the owner's choice of default (top 6 or full DDL plus
+  hints), then Phase 4 led by hint quality.
 
 ## Open risks
 

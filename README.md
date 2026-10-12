@@ -24,7 +24,7 @@ The SQL is never hidden from the user, and every answer can show which tables we
 
 ![Generated SQL for the query above](docs/screenshots/03-generated-sql.png)
 
-![Schema RAG retrieval report showing retrieval strategy, scores, and prompt savings](docs/screenshots/04-schema-rag-report.png)
+![Schema RAG retrieval report showing retrieval strategy, scores, and the schema-text size (screenshot predates the 2026-10-12 signed size report)](docs/screenshots/04-schema-rag-report.png)
 
 </details>
 
@@ -80,7 +80,10 @@ against sending the full DDL with no hints:
 
 - execution accuracy: +3.0 points on Spider dev [+1.1, +4.9]; no measurable
   difference on BIRD dev (+0.4 [-1.5, +2.2])
-- table selection: mean schema recall of 1.000 on Spider and 0.995 on BIRD
+- table selection: mean schema recall of 1.000 on Spider and 0.995 on BIRD;
+  a follow-up arm (2026-10-12) shows the value hints earn the accuracy gain
+  (+2.6 points on Spider, +1.9 on BIRD) while choosing tables adds nothing
+  measurable (+0.4 on Spider, -1.5 on BIRD, both intervals spanning zero)
 - prompt size: **larger, not smaller**, by 21 % on Spider and 6 % on BIRD,
   because at these schema sizes the value hints add more text than leaving
   out tables removes; a saving on much larger schemas is plausible but not
