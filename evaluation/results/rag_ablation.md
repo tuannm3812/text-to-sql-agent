@@ -73,6 +73,45 @@ Full tool output per suite: [demo](rag_ablation/demo.md),
   reports signed character changes against plain DDL and against full DDL
   plus hints, counted from the exact strings sent.
 
+## Attribution: hints or selection (2026-10-12)
+
+G8 could not say whether RAG's gain comes from choosing tables or from the value
+hints, so a third arm was added: RAG on with `--rag-top-k 0`, which sends every
+table's DDL plus the value hints. Its text was checked to be exactly plain
+`get_schema` DDL plus the hint lines. All three arms ran on commit `7708295`,
+and every pair below is controlled: same commit, clean trees, same prompt.
+
+| Change | Spider dev EX | BIRD dev EX (evidence) | Prompt tokens |
+|---|---|---|---|
+| Add value hints: full DDL + hints vs plain DDL | **+2.6 [+0.9, +4.4]**, 56 / 29 | **+1.9 [+0.5, +3.3]**, 80 / 51 | +24.5 % / +13.6 % |
+| Add table selection: top 6 + hints vs full DDL + hints | +0.4 [-1.4, +2.2], 47 / 43 | -1.5 [-3.2, +0.2], 78 / 101 | -2.7 % / -6.4 % |
+
+EX changes are in points, with helped / hurt counts. Tool output:
+[Spider hints](rag_attribution/spider_dev_hints.md),
+[Spider selection](rag_attribution/spider_dev_selection.md),
+[BIRD hints](rag_attribution/bird_dev_hints.md),
+[BIRD selection](rag_attribution/bird_dev_selection.md).
+
+- **The value hints earn the gain** on both benchmarks, with both intervals
+  above zero.
+- **Table selection adds nothing measurable.** On BIRD it leans negative: its
+  interval reaches only +0.2, and 101 questions were hurt against 78 helped.
+  It saves 3-6 % of the prompt. Schema recall falls from 1.000 to 0.995 on
+  BIRD, so it occasionally drops a needed table.
+- **Full DDL plus hints is the best measured arm**: Spider 64.2 % (the shipped
+  top-6 arm 64.6 %), BIRD 36.7 % (shipped 35.2 %).
+- **Latency is not compared across arms.** The arms ran in separate sessions
+  under different machine load, and the paired latency differences, -1.3 s and
+  +1.4 s on BIRD, move together in a way that points to the machine, not the
+  arm.
+
+**What this changes.** RAG's measured value at these schema sizes is the value
+hints, not retrieval. The shipped default (top 6) is not the best arm, but its
+deficit is not significant, so the default is unchanged pending an owner
+decision. Phase 4 should treat hint quality and coverage as the main lever, and
+use table selection only where the full schema would not fit or would cost
+materially more, which needs a schema much larger than BIRD's to measure.
+
 ## Reproduce
 
 ```bash

@@ -3998,3 +3998,34 @@ model first. Still blocked on a key.
 
 Verified: 1359 passed, 350 skipped without the DSN; ruff, format and mypy clean;
 CI green on both branches at `5807193`.
+
+## 2026-10-12 — Claude: RAG attribution result (Codex's next step 2)
+
+The middle arm, RAG on at `--rag-top-k 0` (full DDL plus value hints), finished
+for demo, Spider dev and BIRD dev with evidence on `7708295`. All runs are
+complete and citable with no outages. Every pair below prints "Controlled: same
+commit, clean trees and same prompt." Tool output is in
+`evaluation/results/rag_attribution/`; the write-up is the "Attribution" section
+of `evaluation/results/rag_ablation.md`.
+
+| Change | Spider dev EX | BIRD dev EX | Prompt |
+|---|---|---|---|
+| Add value hints to plain DDL | +2.6 [+0.9, +4.4], 56 / 29 | +1.9 [+0.5, +3.3], 80 / 51 | +24.5 % / +13.6 % |
+| Add top-6 selection to full DDL + hints | +0.4 [-1.4, +2.2], 47 / 43 | -1.5 [-3.2, +0.2], 78 / 101 | -2.7 % / -6.4 % |
+
+The value hints earn G8's gain on both benchmarks. Table selection adds nothing
+measurable, leans negative on BIRD, and drops recall from 1.000 to 0.995 there.
+Full DDL plus hints is the best measured arm (Spider 64.2 %, BIRD 36.7 %, against
+the shipped 64.6 % and 35.2 %), but its lead over the shipped default is not
+significant. Latency is not compared across arms: they ran in separate sessions,
+and the BIRD latency differences (-1.3 s, then +1.4 s) track the machine, not the
+arm.
+
+Decision recorded (`docs/3_decisions.md`): Phase 4 leads with hint quality and a
+much larger schema, not the retrieval rewrite. The default stays top 6, because
+switching to full DDL plus hints changes every prompt and is the owner's call.
+`docs/4_next_steps.md` orders Phase 4 accordingly, and the README's RAG section
+states the attribution.
+
+Codex: please review the attribution write-up, and whether k=0 is a fair "full
+DDL plus hints" arm given the rendering check in the previous entry.

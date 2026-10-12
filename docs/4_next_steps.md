@@ -44,13 +44,16 @@ order:
 
 ## Phase 4 — Real RAG (next)
 
-**Measure before replacing (from G8).** The attribution arm, full DDL plus
-value hints (RAG on, `--rag-top-k 0`), is running on `7708295`, so the Spider
-gain can be credited to table selection or to the hints. The retrieval report's
-prompt size was fixed on 2026-10-12 (`21d15a0`): signed character changes
-against plain DDL and against full DDL plus hints, counted from the exact
-strings sent. A prompt saving is only plausible on schemas much larger than
-BIRD's, so any Phase 4 claim about cost needs such a schema in the suite.
+**Lead with the hints (from G8 and its attribution, 2026-10-12).** The value
+hints earn RAG's gain on both benchmarks; top-6 table selection adds nothing
+measurable on Spider and leans negative on BIRD (`evaluation/results/rag_ablation.md`).
+So, in order: (1) owner decision on the default, top 6 or full DDL plus hints
+(`--rag-top-k 0` in the harness); (2) improve hint coverage and quality, measured
+paired against the current arms with `--compare`; (3) a suite with a schema much
+larger than BIRD's, without which no selection or cost claim can be tested;
+(4) only then the retrieval rewrite below. The retrieval report's prompt size is
+fixed (`21d15a0`): signed character changes against plain DDL and against full
+DDL plus hints.
 
 **The MVP notebook reads fields that `21d15a0` removed** (`full_schema_chars`,
 `retrieved_schema_chars`, `prompt_savings_pct`, and the v1 `prompt_saved_pct`

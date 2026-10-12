@@ -2,6 +2,28 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-12 — RAG's gain is the value hints; Phase 4 leads with hints, not retrieval
+
+**Chosen:** Phase 4 treats value-hint quality and coverage as the main lever.
+Table selection is kept for schemas that would not fit or would cost materially
+more in full, and a cost claim for it needs such a schema in the suite. The
+shipped default stays top 6 for now; switching to full DDL plus hints is an
+owner decision.
+
+**Ruled out:** Replacing retrieval with real embeddings as Phase 4's first
+step, since selection is not where the measured gain is. Switching the default
+to full DDL plus hints now: it is the best measured arm, but its lead over the
+default (Spider -0.4, BIRD +1.5 points, both intervals spanning zero) is not
+significant, and it changes what every user's prompt contains.
+
+**Why:** A third arm, RAG on at `top_k=0` (every table's DDL plus value hints,
+checked to equal plain DDL plus the hint lines), ran on commit `7708295` beside
+the G8 arms, every pair controlled
+(`evaluation/results/rag_ablation.md`, "Attribution"). Adding the hints to
+plain DDL: Spider +2.6 points [+0.9, +4.4], BIRD +1.9 [+0.5, +3.3]. Adding
+top-6 selection on top: Spider +0.4 [-1.4, +2.2], BIRD -1.5 [-3.2, +0.2], with a
+3-6 % smaller prompt and recall falling to 0.995 on BIRD.
+
 ## 2026-10-11 — schema RAG stays on; its cost claim is withdrawn (gate G8)
 
 **Chosen:** Schema RAG stays the default. The README no longer says it improves
