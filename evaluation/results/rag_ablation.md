@@ -50,8 +50,11 @@ Full tool output per suite: [demo](rag_ablation/demo.md),
 2. **Prompt size.** RAG never shrinks the prompt here. It grows it by 6 % on
    BIRD and 21 % on Spider. On schemas of this size, the value hints add more
    text than leaving out tables removes. Completion tokens do not change.
-3. **Latency.** RAG adds 0.36 s per question on Spider and nothing measurable
-   on BIRD.
+3. **Latency, descriptive only.** The RAG-on Spider run averaged 0.36 s more
+   per question than the RAG-off run, and BIRD showed no clear difference. The
+   two arms ran in separate sessions, so machine load may explain these
+   differences; they are not causal estimates. (Caveat added 2026-10-12 after
+   Codex's review.)
 4. **Table selection.** Retrieval keeps the tables the reference query needs:
    mean schema recall is 1.000 on Spider and demo and 0.995 on BIRD.
 
@@ -98,17 +101,21 @@ EX changes are in points, with helped / hurt counts. Tool output:
   interval reaches only +0.2, and 101 questions were hurt against 78 helped.
   It saves 3-6 % of the prompt. Schema recall falls from 1.000 to 0.995 on
   BIRD, so it occasionally drops a needed table.
-- **Full DDL plus hints is the best measured arm**: Spider 64.2 % (the shipped
-  top-6 arm 64.6 %), BIRD 36.7 % (shipped 35.2 %).
-- **Latency is not compared across arms.** The arms ran in separate sessions
-  under different machine load, and the paired latency differences, -1.3 s and
-  +1.4 s on BIRD, move together in a way that points to the machine, not the
-  arm.
+- **No arm wins across both benchmarks.** Point estimates favour full DDL plus
+  hints on BIRD (36.7 % against the shipped top-6 arm's 35.2 %) and the shipped
+  arm on Spider (64.6 % against 64.2 %). Neither paired selection interval
+  excludes zero, so the trade-off is uncertain, not settled either way.
+- **Latency is not compared across arms.** The arms ran in separate sessions,
+  so the paired latency differences on BIRD, -1.3 s and then +1.4 s, are
+  descriptive. Varying machine load is a plausible explanation, not one these
+  result files prove.
 
 **What this changes.** RAG's measured value at these schema sizes is the value
-hints, not retrieval. The shipped default (top 6) is not the best arm, but its
-deficit is not significant, so the default is unchanged pending an owner
-decision. Phase 4 should treat hint quality and coverage as the main lever, and
+hints, not retrieval. Neither the shipped default (top 6) nor full DDL plus
+hints is demonstrated better across both benchmarks, so the default is unchanged
+pending an owner decision. (Corrected 2026-10-12 after Codex's review: this
+section first called full DDL plus hints the best arm and the default's gap a
+deficit.) Phase 4 should treat hint quality and coverage as the main lever, and
 use table selection only where the full schema would not fit or would cost
 materially more, which needs a schema much larger than BIRD's to measure.
 

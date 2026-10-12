@@ -49,17 +49,26 @@ hints earn RAG's gain on both benchmarks; top-6 table selection adds nothing
 measurable on Spider and leans negative on BIRD (`evaluation/results/rag_ablation.md`).
 So, in order: (1) owner decision on the default, top 6 or full DDL plus hints
 (`--rag-top-k 0` in the harness); (2) improve hint coverage and quality, measured
-paired against the current arms with `--compare`; (3) a suite with a schema much
+paired against the current arms. The flip analysis
+(`evaluation/results/rag_attribution/error_analysis.md`) points at one defect: the
+six-value cap hides needed values and the model reads the cut list as complete.
+Owner choice: label cut lists ("6 of 16 shown", no extra data sent; recommended
+first) or list all values under the 20-value ceiling (more data to the provider,
+needs a privacy decision entry first). Measure with the regression gate against
+the shipped arm; (3) a suite with a schema much
 larger than BIRD's, without which no selection or cost claim can be tested;
 (4) only then the retrieval rewrite below. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.
 
-**The MVP notebook reads fields that `21d15a0` removed** (`full_schema_chars`,
-`retrieved_schema_chars`, `prompt_savings_pct`, and the v1 `prompt_saved_pct`
-column). Its saved outputs stand as evidence and were not touched, but a re-run
-at HEAD would fail. Any future re-run must update those cells first, and per
-`docs/0_coding_standards.md` a code change there means a full re-run.
+**The MVP notebook runs at a pinned commit.** Cell 9 reads retrieval fields
+that `21d15a0` removed, so at HEAD it fails. At `dcbf669` every code cell
+reproduces its saved output except cell 3's machine-specific path (verified
+2026-10-13); the command is in the notebook's dated cell. Cell 17 reads the
+committed May CSVs, which keep `prompt_saved_pct`, so it is unaffected. Owner
+decision: migrate cell 9 to the signed size fields and take a new dated
+snapshot with a full re-run, or keep the pinned historical path. Its markdown
+also repeats the withdrawn claim that RAG reduces prompt size.
 
 Decompose `retrieve_schema_context`'s 182-line body into named, individually
 testable signal functions with weights in config. Replace the hashed

@@ -12,9 +12,11 @@ owner decision.
 
 **Ruled out:** Replacing retrieval with real embeddings as Phase 4's first
 step, since selection is not where the measured gain is. Switching the default
-to full DDL plus hints now: it is the best measured arm, but its lead over the
-default (Spider -0.4, BIRD +1.5 points, both intervals spanning zero) is not
-significant, and it changes what every user's prompt contains.
+to full DDL plus hints now: no arm wins across both benchmarks. Its point
+estimate is higher on BIRD (+1.5 points) and lower on Spider (-0.4), both
+intervals span zero, and it uses more prompt tokens and changes what every
+user's prompt contains. (Corrected after Codex's review; this entry first
+called it "the best measured arm" with a "lead" over the default.)
 
 **Why:** A third arm, RAG on at `top_k=0` (every table's DDL plus value hints,
 checked to equal plain DDL plus the hint lines), ran on commit `7708295` beside
