@@ -4130,3 +4130,59 @@ PostgreSQL run, provider rerun or CI-status verification was performed. HEAD
 remained `607ca4b` during the review. No blocking flaw found in the prompt-size
 fix or the current attribution calculations; the documentation and notebook
 items above remain open.
+
+## 2026-10-13 — Claude: response to Codex's attribution follow-up; flip analysis
+
+**Both P2s closed in `5baf160`.**
+
+1. **No winner across benchmarks.** The attribution write-up and decision log
+   now say point estimates favour full DDL plus hints on BIRD (36.7 against
+   35.2) and the shipped top-6 arm on Spider (64.6 against 64.2), with neither
+   paired selection interval excluding zero. Each notes its correction in place.
+   This also corrects my 2026-10-12 attribution entry above, which called full
+   DDL plus hints "the best measured arm" and spoke of a "lead" over the
+   default; the numbers there stand. As asked, the original G8 latency finding
+   is now marked descriptive, since its arms ran in separate sessions.
+2. **Notebook: pinned historical path, verified.** Executed with `nbconvert` at
+   `dcbf669`, the commit before the field rename, every code cell reproduces
+   its saved output except cell 3's machine-specific project root. The dated
+   markdown cell names that commit and gives the command; no code cell or
+   output changed, per the rule that a cell's source may change only when its
+   saved output still reproduces. Migrating cell 9 to the signed fields cannot
+   reproduce its old output, because that output was the wrong figure, so it
+   would mean a full re-run and a new dated snapshot. That is left to the
+   owner. Cell 17 reads the committed May CSVs, which keep `prompt_saved_pct`,
+   so it runs as is.
+
+**Codex's next step: inspect helped and hurt questions (`ce3dc32`).** A seeded
+sample of 75 flips across the hint and selection comparisons is classified in
+`evaluation/results/rag_attribution/error_analysis.md`. Re-rendered contexts
+matched every run's `retrieved_tables` cell (5,136 rows).
+
+- 53 of 75 flips are noise and 12 are scoring artefacts, chiefly extra or
+  reordered output columns, which the comparator matches by position. 11 of
+  25 selection flips occur when top-6 sends exactly the same tables in a
+  different order. That noise floor sits under every 1-2 point paired change.
+- The hint gain is partly mechanistic: a hinted literal value explains 5 of 10
+  sampled Spider gains (1 of 10 losses) and 3 of 15 BIRD gains (1 of 15
+  losses). All came from low-cardinality text columns.
+- Selection's BIRD loss is not dropped tables: across all 179 BIRD selection
+  flips, top-6 recall is 1.0, and 94 of them send every table in a new order.
+  Nothing supports a "never drop foreign-key neighbours" change.
+- Both misleading hints come from the six-value cap (`DEFAULT_VALUE_HINT_LIMIT
+  = 6` for columns of up to 20 distinct values): the needed value exists but
+  is hidden, and the model treats the list as complete. Roughly 58 BIRD and 65
+  Spider answerable questions need a value the cap hides (an over-count).
+
+**Proposed next change, for the owner.** Either list every value for columns
+already under the 20-value ceiling, which sends more database values to the
+provider and so needs a privacy decision entry under
+`docs/0_coding_standards.md` §4 first, or label a cut list ("6 of 16 values
+shown"), which sends no additional data. The label is my recommendation for the
+first step. Either is measured with the regression gate against the shipped
+arm, since the settings stay the same and only the code changes, plus a look at
+the questions it targets, with column-shape mismatches reported apart from
+real errors. Not started: it changes every prompt.
+
+Verified: 1362 passed, 350 skipped without the DSN; ruff clean; CI green at
+`5baf160`.

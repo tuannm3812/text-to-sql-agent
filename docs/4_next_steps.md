@@ -49,7 +49,13 @@ hints earn RAG's gain on both benchmarks; top-6 table selection adds nothing
 measurable on Spider and leans negative on BIRD (`evaluation/results/rag_ablation.md`).
 So, in order: (1) owner decision on the default, top 6 or full DDL plus hints
 (`--rag-top-k 0` in the harness); (2) improve hint coverage and quality, measured
-paired against the current arms with `--compare`; (3) a suite with a schema much
+paired against the current arms. The flip analysis
+(`evaluation/results/rag_attribution/error_analysis.md`) points at one defect: the
+six-value cap hides needed values and the model reads the cut list as complete.
+Owner choice: label cut lists ("6 of 16 shown", no extra data sent; recommended
+first) or list all values under the 20-value ceiling (more data to the provider,
+needs a privacy decision entry first). Measure with the regression gate against
+the shipped arm; (3) a suite with a schema much
 larger than BIRD's, without which no selection or cost claim can be tested;
 (4) only then the retrieval rewrite below. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
