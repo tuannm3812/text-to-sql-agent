@@ -87,7 +87,12 @@ reworked anyway" — see `docs/superpowers/specs/2026-09-10-refactor-roadmap.md`
   rewrite the notebook's cells (and would if fix-on-save is enabled in an
   editor), silently invalidating the saved outputs. The notebook is only safe
   today because it happens to be lint-clean; this is not configured away,
-  only documented.
+  only documented. Its runnable path is pinned: since `21d15a0` (2026-10-12)
+  cell 9 reads retrieval fields that no longer exist, so the notebook runs at
+  commit `dcbf669`, where every code cell reproduces its saved output except
+  cell 3's machine-specific path (verified 2026-10-13; command in the
+  notebook's dated cell). Migrating cell 9 to the signed size fields would
+  change its output and so require a full re-run and a new dated snapshot.
 
 - **`[tool.ruff] force-exclude = true`, plus `[tool.ruff.format] exclude` for
   the notebook.** Ruff ignores its own `exclude`/`format.exclude` when a path

@@ -55,11 +55,14 @@ larger than BIRD's, without which no selection or cost claim can be tested;
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.
 
-**The MVP notebook reads fields that `21d15a0` removed** (`full_schema_chars`,
-`retrieved_schema_chars`, `prompt_savings_pct`, and the v1 `prompt_saved_pct`
-column). Its saved outputs stand as evidence and were not touched, but a re-run
-at HEAD would fail. Any future re-run must update those cells first, and per
-`docs/0_coding_standards.md` a code change there means a full re-run.
+**The MVP notebook runs at a pinned commit.** Cell 9 reads retrieval fields
+that `21d15a0` removed, so at HEAD it fails. At `dcbf669` every code cell
+reproduces its saved output except cell 3's machine-specific path (verified
+2026-10-13); the command is in the notebook's dated cell. Cell 17 reads the
+committed May CSVs, which keep `prompt_saved_pct`, so it is unaffected. Owner
+decision: migrate cell 9 to the signed size fields and take a new dated
+snapshot with a full re-run, or keep the pinned historical path. Its markdown
+also repeats the withdrawn claim that RAG reduces prompt size.
 
 Decompose `retrieve_schema_context`'s 182-line body into named, individually
 testable signal functions with weights in config. Replace the hashed
