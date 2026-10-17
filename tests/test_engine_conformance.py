@@ -171,6 +171,13 @@ def test_schema_chunks_expose_tables_columns_and_foreign_keys(engine) -> None:
     assert "customers" in chunks["sales"].foreign_tables
 
 
+def test_value_hints_come_with_their_column_totals(engine) -> None:
+    """The renderer labels a cut list from these totals, so every engine must supply them."""
+    customers = {c.table_name: c for c in engine.schema_chunks()}["customers"]
+    assert customers.value_hints == {"name": ["Alice", "Bob"]}
+    assert customers.value_hint_totals == {"name": 2}
+
+
 def test_raw_schema_mentions_every_table(engine) -> None:
     schema = engine.raw_schema()
     assert "customers" in schema

@@ -63,6 +63,8 @@ class SchemaChunk:
             qualified spelling. SQLite and DuckDB leave it empty, meaning
             `default_schema`, exactly as before.
         value_hints: Sample distinct values per low-cardinality text column.
+        value_hint_totals: How many non-blank distinct values each hinted column
+            has, so a cut list can say so (`6 of 16 shown`); `None` when unknown.
         score: Relevance score assigned during retrieval; `0.0` until scored.
         matched_terms: Query terms that matched this chunk, once scored.
         match_reasons: Human-readable explanations of why this chunk matched.
@@ -76,6 +78,7 @@ class SchemaChunk:
     schema_name: str = ""
     home_schema: str = ""
     value_hints: dict[str, list[str]] | None = None
+    value_hint_totals: dict[str, int] | None = None
     score: float = 0.0
     matched_terms: list[str] | None = None
     match_reasons: list[str] | None = None
@@ -104,13 +107,20 @@ def render_schema_text(chunks: Sequence[SchemaChunk]) -> str:
     for chunk in chunks:
         parts.append(chunk.ddl)
         if chunk.value_hints:
+            totals = chunk.value_hint_totals or {}
             parts.append(
                 "\n".join(
-                    f"-- {column} sample values: {', '.join(values)}"
+                    f"-- {column} sample values{_shown_label(len(values), totals.get(column))}: "
+                    f"{', '.join(values)}"
                     for column, values in sorted(chunk.value_hints.items())
                 )
             )
     return "\n\n".join(parts)
+
+
+def _shown_label(shown: int, total: int | None) -> str:
+    """` (6 of 16 shown)` for a cut list, else empty, so a complete list renders as before."""
+    return f" ({shown} of {total} shown)" if total is not None and total > shown else ""
 
 
 def _signed_pct(change: int, baseline: int) -> float | None:

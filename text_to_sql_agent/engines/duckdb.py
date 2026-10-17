@@ -135,8 +135,14 @@ def _value_hints_for_table(
     *,
     max_cardinality: int = DEFAULT_VALUE_HINT_MAX_CARDINALITY,
     limit: int = DEFAULT_VALUE_HINT_LIMIT,
-) -> dict[str, list[str]]:
+) -> tuple[dict[str, list[str]], dict[str, int]]:
+    """`(hints, totals)`: up to `limit` values per column, and how many it has.
+
+    `totals[column]` counts the column's non-blank distinct values, the same values the
+    hint draws from, so a renderer can say a list was cut. Shown values are unchanged.
+    """
     hints: dict[str, list[str]] = {}
+    totals: dict[str, int] = {}
     quoted_table = _quote_qualified(schema_name, table_name)
     for column_name, column_type in columns:
         if column_type and not any(
@@ -160,14 +166,15 @@ def _value_hints_for_table(
             WHERE {quoted_column} IS NOT NULL
             GROUP BY {quoted_column}
             ORDER BY n DESC, {quoted_column}
-            LIMIT ?
-            """,
-            [limit],
+            """
         ).fetchall()
-        values = [str(row[0])[:60] for row in rows if str(row[0]).strip()]
+        # All rows are read (at most `max_cardinality`) so the total is known; the shown
+        # values are exactly the non-blank ones among the `limit` most frequent, as before.
+        values = [str(row[0])[:60] for row in rows[:limit] if str(row[0]).strip()]
         if values:
             hints[column_name] = values
-    return hints
+            totals[column_name] = sum(1 for row in rows if str(row[0]).strip())
+    return hints, totals
 
 
 class DuckDBEngine:
@@ -774,7 +781,9 @@ DUCKDB DIALECT (must follow):
                 typed_columns = columns_by_table.get((schema_name, table_name), [])
                 columns = [c for c, _ in typed_columns]
                 foreign_tables = sorted(fk_by_table.get((schema_name, table_name), set()))
-                value_hints = _value_hints_for_table(conn, schema_name, table_name, typed_columns)
+                value_hints, value_hint_totals = _value_hints_for_table(
+                    conn, schema_name, table_name, typed_columns
+                )
                 value_text = " ".join(value for values in value_hints.values() for value in values)
                 # The chunk's own qualified spelling leads `search_text`, not
                 # the bare name: for a default-schema table the two are the
@@ -794,6 +803,7 @@ DUCKDB DIALECT (must follow):
                         search_text=search_text,
                         schema_name="" if schema_name == self.default_schema else schema_name,
                         value_hints=value_hints,
+                        value_hint_totals=value_hint_totals,
                     )
                 )
         finally:

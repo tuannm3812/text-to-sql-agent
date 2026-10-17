@@ -14,7 +14,9 @@ Three things, none of which calls a model:
    the run's `retrieved_tables` cell. Written to `selection_contexts.csv`.
 3. **The hidden-literal target set.** Every answerable Spider and BIRD case whose gold SQL
    quotes a value of a hinted column that the six-value cap hides. Written to
-   `hidden_literal_targets.csv`, so a hint change can be scored on a set frozen before it.
+   `hidden_literal_targets.csv`, and each suite's case IDs to `evaluation/suites/
+   <suite>.hiddenlit.txt`, so a hint change can be run (`--subset hiddenlit`) and scored on a
+   set frozen before it.
 
 The literal match is a deliberately simple proxy: a quoted string in the gold SQL, with any
 leading and trailing `%` removed, equal to a hidden value ignoring case, where the gold SQL
@@ -57,6 +59,8 @@ OUT_DIR = RESULTS / "rag_attribution"
 LABELS_FILE = OUT_DIR / "flip_labels.csv"
 CONTEXTS_FILE = OUT_DIR / "selection_contexts.csv"
 TARGETS_FILE = OUT_DIR / "hidden_literal_targets.csv"
+SUITES_DIR = ROOT_DIR / "evaluation" / "suites"
+TARGET_SUBSET = "hiddenlit"  # evaluation/suites/<suite>.hiddenlit.txt, for --subset hiddenlit
 
 # Arm A: plain full DDL. Arm B: full DDL plus hints (top_k=0). Arm C: top-6 plus hints.
 ARMS: dict[str, dict[str, str]] = {
@@ -300,9 +304,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             ("suite", "id", "table", "column", "literal", "rank", "distinct"),
             ((t.suite, t.id, t.table, t.column, t.literal, t.rank, t.distinct) for t in targets),
         )
-        print(
-            f"wrote {CONTEXTS_FILE.relative_to(ROOT_DIR)} and {TARGETS_FILE.relative_to(ROOT_DIR)}"
-        )
+        for name in ARMS:
+            ids = sorted({t.id for t in targets if t.suite == name}, key=int)
+            subset = SUITES_DIR / f"{name}.{TARGET_SUBSET}.txt"
+            subset.write_text("".join(f"{case_id}\n" for case_id in ids), encoding="utf-8")
+        print(f"wrote {CONTEXTS_FILE.name}, {TARGETS_FILE.name} and the {TARGET_SUBSET} subsets")
     print("all checks passed" if ok else "A CHECK FAILED")
     return 0 if ok else 1
 

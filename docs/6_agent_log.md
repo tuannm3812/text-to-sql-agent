@@ -4332,3 +4332,30 @@ Not started: it changes every RAG-on prompt.
 Verified: `uv run pytest` **1369 passed, 350 skipped** without the DSN; ruff
 check and format (141 files) clean; mypy clean (49 files). The script's three
 checks pass against the committed runs. No provider call, no PostgreSQL run.
+
+## 2026-10-18 — Claude: partial-list hint label, on trial
+
+The owner approved the next bounded experiment Codex recommended. A cut hint
+list now says so: `-- language sample values (6 of 16 shown): ...`. A complete
+list renders exactly as before. No additional database values are sent: each
+engine still shows the non-blank values among the six most frequent, and now
+also counts the column's non-blank distinct values (`SchemaChunk.
+value_hint_totals`). The hint query reads every group instead of six, which is
+at most the 20-value ceiling. `search_text`, and so retrieval, is unchanged.
+
+Checked before any run: with the label stripped, the full-schema text of all
+31 benchmark databases is byte-identical to `7708295`'s (147 labelled columns).
+The label is accurate on the two documented cases: BIRD 381's
+`foreign_data.language` reads `6 of 16`, Spider 599's `series_name` `6 of 15`.
+The frozen target IDs are now `evaluation/suites/<suite>.hiddenlit.txt`
+(66 Spider, 49 BIRD), written by `scripts/analyse_rag_flips.py --write`.
+
+**On trial, not adopted.** It is committed so the runs carry clean provenance.
+Plan: fresh runs on `--subset hiddenlit` with the shipped settings, paired
+against the shipped arm's rows for the same IDs; then full Spider and BIRD (with
+evidence) runs compared with the regression gate. If the full paired run does
+not support it, this commit is reverted.
+
+Verified: `uv run pytest` **1373 passed, 351 skipped** without the DSN (3 new
+tests, plus one conformance test per engine; the PostgreSQL one runs in CI);
+ruff and mypy clean.

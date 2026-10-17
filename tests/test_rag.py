@@ -8,6 +8,7 @@ import pytest
 
 import text_to_sql_agent as agent
 from text_to_sql_agent import SchemaRetrievalResult
+from text_to_sql_agent.types import render_schema_text
 
 
 def test_retrieve_schema_chunks_selects_relevant_tables(
@@ -191,3 +192,42 @@ def test_percent_changes_are_undefined_against_an_empty_baseline() -> None:
     assert empty.change_vs_plain_ddl_chars == 0
     assert empty.change_vs_plain_ddl_pct is None
     assert empty.change_vs_ddl_with_hints_pct is None
+
+
+def _status_db(tmp_path: Path) -> str:
+    """`status` has 8 non-blank values, most frequent first, and a frequent blank one."""
+    db = tmp_path / "statuses.db"
+    with closing(sqlite3.connect(db)) as conn:
+        conn.execute("CREATE TABLE t (status TEXT)")
+        rows = [(f"s{i}",) for i in range(8) for _ in range(20 - i)] + [("  ",)] * 15
+        conn.executemany("INSERT INTO t VALUES (?)", rows)
+        conn.commit()
+    return str(db)
+
+
+def test_a_cut_hint_list_says_how_many_values_it_shows(tmp_path: Path) -> None:
+    context = agent.retrieve_schema_context(_status_db(tmp_path), "status", top_k=6)
+
+    # The blank value ranks among the six most frequent and is dropped, as before, so five
+    # values are shown of the column's eight non-blank ones.
+    assert context.schema_text.endswith(
+        "-- status sample values (5 of 8 shown): s0, s1, s2, s3, s4"
+    )
+    assert context.chunks[0].value_hint_totals == {"status": 8}
+
+
+def test_a_complete_hint_list_renders_without_a_label() -> None:
+    chunk = agent.SchemaChunk(
+        table_name="t",
+        ddl="CREATE TABLE t (status TEXT);",
+        columns=["status"],
+        foreign_tables=[],
+        search_text="t status",
+        value_hints={"status": ["active", "inactive"], "kind": ["a"]},
+        value_hint_totals={"status": 2},
+    )
+
+    assert render_schema_text([chunk]).splitlines()[-2:] == [
+        "-- kind sample values: a",
+        "-- status sample values: active, inactive",
+    ]

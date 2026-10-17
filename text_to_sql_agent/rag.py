@@ -302,6 +302,7 @@ def retrieve_schema_context(
                 schema_name=chunk.schema_name,
                 home_schema=chunk.home_schema,
                 value_hints=chunk.value_hints,
+                value_hint_totals=chunk.value_hint_totals,
                 score=score,
                 matched_terms=sorted(matched_terms),
                 match_reasons=reasons,
@@ -339,6 +340,7 @@ def retrieve_schema_context(
                                 schema_name=neighbor_chunk.schema_name,
                                 home_schema=neighbor_chunk.home_schema,
                                 value_hints=neighbor_chunk.value_hints,
+                                value_hint_totals=neighbor_chunk.value_hint_totals,
                                 score=max(neighbor_chunk.score, chunk.score * (0.35 / (depth + 1))),
                                 matched_terms=neighbor_chunk.matched_terms or [],
                                 match_reasons=[
