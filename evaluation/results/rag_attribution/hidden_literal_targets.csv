@@ -1,0 +1,131 @@
+suite,id,table,column,literal,rank,distinct
+spider_dev,115,countries,CountryName,usa,15,15
+spider_dev,116,countries,CountryName,usa,15,15
+spider_dev,179,airlines,Airline,jetblue airways,7,12
+spider_dev,180,airlines,Airline,jetblue airways,7,12
+spider_dev,181,airlines,Airline,jetblue airways,7,12
+spider_dev,182,airlines,Airline,jetblue airways,7,12
+spider_dev,193,airlines,Abbreviation,ual,10,12
+spider_dev,194,airlines,Abbreviation,ual,10,12
+spider_dev,213,airlines,Airline,jetblue airways,7,12
+spider_dev,214,airlines,Airline,jetblue airways,7,12
+spider_dev,215,airlines,Airline,united airlines,11,12
+spider_dev,216,airlines,Airline,united airlines,11,12
+spider_dev,217,airlines,Airline,united airlines,11,12
+spider_dev,218,airlines,Airline,united airlines,11,12
+spider_dev,219,airlines,Airline,united airlines,11,12
+spider_dev,220,airlines,Airline,united airlines,11,12
+spider_dev,245,airlines,Airline,united airlines,11,12
+spider_dev,246,airlines,Airline,united airlines,11,12
+spider_dev,303,Documents,Document_Name,robbin cv,12,15
+spider_dev,304,Documents,Document_Name,robbin cv,12,15
+spider_dev,359,Documents,Document_Name,summer show,13,15
+spider_dev,360,Documents,Document_Name,summer show,13,15
+spider_dev,363,Documents,Document_Name,welcome to ny,15,15
+spider_dev,364,Documents,Document_Name,welcome to ny,15,15
+spider_dev,403,course,Course,math,7,10
+spider_dev,404,course,Course,math,7,10
+spider_dev,511,Courses,course_name,math,9,15
+spider_dev,512,Courses,course_name,math,9,15
+spider_dev,513,Addresses,city,port chelsea,9,15
+spider_dev,514,Addresses,city,port chelsea,9,15
+spider_dev,521,Departments,department_name,engineer,7,15
+spider_dev,522,Departments,department_name,engineer,7,15
+spider_dev,549,Addresses,state_province_county,northcarolina,8,13
+spider_dev,550,Addresses,state_province_county,northcarolina,8,13
+spider_dev,553,Students,first_name,timmothy,14,15
+spider_dev,553,Students,last_name,ward,14,15
+spider_dev,554,Students,first_name,timmothy,14,15
+spider_dev,554,Students,last_name,ward,14,15
+spider_dev,581,Sections,section_name,h,8,15
+spider_dev,582,Sections,section_name,h,8,15
+spider_dev,583,Addresses,country,haiti,8,15
+spider_dev,583,Students,cell_mobile_number,09700166582,9,15
+spider_dev,584,Addresses,country,haiti,8,15
+spider_dev,584,Students,cell_mobile_number,09700166582,9,15
+spider_dev,599,TV_Channel,series_name,sky radio,14,15
+spider_dev,600,TV_Channel,series_name,sky radio,14,15
+spider_dev,601,TV_Channel,series_name,sky radio,14,15
+spider_dev,602,TV_Channel,series_name,sky radio,14,15
+spider_dev,609,Cartoon,Title,the rise of the blue beetle!,12,12
+spider_dev,610,Cartoon,Title,the rise of the blue beetle!,12,12
+spider_dev,611,TV_Channel,series_name,sky radio,14,15
+spider_dev,612,TV_Channel,series_name,sky radio,14,15
+spider_dev,625,TV_Channel,series_name,sky radio,14,15
+spider_dev,626,TV_Channel,series_name,sky radio,14,15
+spider_dev,699,CONTESTANTS,contestant_name,tabatha gehling,11,11
+spider_dev,700,CONTESTANTS,contestant_name,kelly clauss,7,11
+spider_dev,700,CONTESTANTS,contestant_name,tabatha gehling,11,11
+spider_dev,868,Highschooler,name,kyle,12,14
+spider_dev,869,Highschooler,name,kyle,12,14
+spider_dev,872,Highschooler,name,kyle,12,14
+spider_dev,873,Highschooler,name,kyle,12,14
+spider_dev,890,Highschooler,name,kyle,12,14
+spider_dev,891,Highschooler,name,kyle,12,14
+spider_dev,892,Highschooler,name,kyle,12,14
+spider_dev,893,Highschooler,name,kyle,12,14
+spider_dev,912,Highschooler,name,kyle,12,14
+spider_dev,913,Highschooler,name,kyle,12,14
+spider_dev,956,Owners,state,virginia,12,14
+spider_dev,957,Owners,state,virginia,12,14
+spider_dev,962,Owners,state,wisconsin,14,14
+spider_dev,962,Professionals,state,wisconsin,12,13
+spider_dev,963,Owners,state,wisconsin,14,14
+spider_dev,963,Professionals,state,wisconsin,12,13
+bird_dev,20,frpm,High Grade,9,11,17
+bird_dev,20,frpm,Low Grade,12,14,15
+bird_dev,67,schools,DOCType,community college district,8,12
+bird_dev,68,schools,SOC,11,17,20
+bird_dev,69,schools,DOC,31,11,12
+bird_dev,69,schools,DOCType,state special schools,11,12
+bird_dev,69,schools,SOC,31,20,20
+bird_dev,72,schools,EdOpsCode,sss,13,13
+bird_dev,73,schools,SOCType,youth authority facilities,17,20
+bird_dev,74,schools,EdOpsCode,specon,12,13
+bird_dev,90,district,A3,prague,8,8
+bird_dev,114,district,A3,prague,8,8
+bird_dev,115,district,A3,south bohemia,7,8
+bird_dev,130,district,A3,south bohemia,7,8
+bird_dev,147,district,A3,south bohemia,7,8
+bird_dev,185,district,A3,prague,8,8
+bird_dev,344,legalities,format,gladiator,10,15
+bird_dev,352,foreign_data,language,chinese simplified,7,16
+bird_dev,367,foreign_data,language,phyrexian,11,16
+bird_dev,370,foreign_data,language,russian,8,16
+bird_dev,370,set_translations,language,russian,9,10
+bird_dev,381,foreign_data,language,chinese simplified,7,16
+bird_dev,400,set_translations,language,spanish,10,10
+bird_dev,403,set_translations,language,spanish,10,10
+bird_dev,405,set_translations,language,portuguese (brazil),8,10
+bird_dev,409,legalities,format,premodern,9,15
+bird_dev,410,legalities,format,pauper,7,15
+bird_dev,432,foreign_data,language,russian,8,16
+bird_dev,432,set_translations,language,russian,9,10
+bird_dev,433,foreign_data,language,chinese simplified,7,16
+bird_dev,447,sets,type,commander,9,20
+bird_dev,458,cards,availability,"arena,mtgo",7,9
+bird_dev,465,foreign_data,language,korean,10,16
+bird_dev,465,set_translations,language,korean,7,10
+bird_dev,468,foreign_data,language,chinese simplified,7,16
+bird_dev,505,foreign_data,language,chinese simplified,7,16
+bird_dev,507,set_translations,language,portuguese (brazil),8,10
+bird_dev,513,sets,type,commander,9,20
+bird_dev,525,legalities,format,oldschool,15,15
+bird_dev,529,foreign_data,language,korean,10,16
+bird_dev,529,set_translations,language,korean,7,10
+bird_dev,1028,League,name,scotland premier league,9,11
+bird_dev,1049,League,name,scotland premier league,9,11
+bird_dev,1057,Country,name,poland,7,11
+bird_dev,1138,League,name,poland ekstraklasa,7,11
+bird_dev,1193,Examination,ANA Pattern,p,8,15
+bird_dev,1262,Examination,ANA Pattern,p,8,15
+bird_dev,1295,Examination,ANA Pattern,p,8,15
+bird_dev,1298,Examination,ANA Pattern,p,8,15
+bird_dev,1313,major,college,college of engineering,7,8
+bird_dev,1342,expense,expense_date,2019-09-04,11,17
+bird_dev,1350,expense,expense_date,2019-08-20,9,17
+bird_dev,1350,expense,expense_description,"post cards, posters",10,12
+bird_dev,1409,expense,expense_date,2019-08-20,9,17
+bird_dev,1437,expense,expense_date,2019-11-19,7,17
+bird_dev,1440,expense,expense_date,2019-11-19,7,17
+bird_dev,1460,expense,expense_description,"water, veggie tray, supplies",11,12

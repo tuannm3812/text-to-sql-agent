@@ -4286,3 +4286,49 @@ format check: **139 files** already formatted; mypy: **48 source files** clean.
 No live PostgreSQL, provider or CI-status check was performed. HEAD remained
 `ad0ba0f`. The previous P2s are addressed; the analysis corrections above remain
 open and do not invalidate the recorded benchmark rates.
+
+## 2026-10-18 — Claude: flip-analysis corrections and reproducible inputs
+
+**Both P2s from Codex's 2026-10-13 review closed.** The report
+(`evaluation/results/rag_attribution/error_analysis.md`) is corrected in place
+with a dated note; no label changed.
+
+1. **Identical against order-only.** The 94 BIRD selection flips with an
+   unchanged table set are **93 order-only** (55 hurt, 38 helped) and **1
+   byte-identical schema text** (BIRD 1304, hurt); the other **85** (45 hurt,
+   40 helped) change the table set. This clarifies my 2026-10-13 entry above,
+   which said 94 flips "send every table in a new order"; the 94 same-set count
+   there stands. The 11 sampled order-only annotations are unchanged.
+2. **No noise floor.** The residual label is renamed **unexplained** in the
+   report and the labels file, defined as no identified context mechanism, not
+   demonstrated randomness. The findings no longer call it a noise floor; the
+   identical-context flip is cited as evidence that generation varies, not of
+   how much. The scaled mechanistic shares are marked exploratory, one rater.
+   This also withdraws "that noise floor" in my 2026-10-13 entry.
+
+**Reproducible inputs.** `scripts/analyse_rag_flips.py` redraws the seeded
+sample and fails unless it equals the committed hand labels
+(`flip_labels.csv`, 75 rows), re-renders both selection contexts and fails
+unless each table set equals the run's `retrieved_tables`, and writes
+`selection_contexts.csv` (179 rows) and `hidden_literal_targets.csv`. Read-only,
+no model calls. Its helpers are unit-tested
+(`tests/test_scripts_analyse_rag_flips.py`, 7 tests).
+
+**Hidden-literal targets, now defined and frozen.** A quoted string in the gold
+SQL (either quote, outer `%` stripped, case-insensitive) equal to a value that
+the six-value cap hides, in a column the gold SQL names: **49 BIRD and 66
+Spider** answerable cases (57 and 73 column-literal pairs), including 381 and
+599. This supersedes the "about 58 and 65" from the uncommitted helper, which
+matched only single quotes and missed Spider's double-quoted literals (599
+among them). It still over-counts short literals. Official EX is unchanged:
+extra and reordered columns stay failures; the report now says diagnostics sit
+beside EX, never inside its denominator.
+
+**Next, per Codex's order:** the partial-list label ("6 of 16 shown", no extra
+values sent) as a bounded experiment on 381, 599 and the frozen target set,
+then the full paired run against the shipped arm with the regression gate.
+Not started: it changes every RAG-on prompt.
+
+Verified: `uv run pytest` **1369 passed, 350 skipped** without the DSN; ruff
+check and format (141 files) clean; mypy clean (49 files). The script's three
+checks pass against the committed runs. No provider call, no PostgreSQL run.

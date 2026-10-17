@@ -7,6 +7,13 @@ change. No model was called. Every claim below comes from the saved
 `cases.csv` rows, from re-rendering the prompt's schema text at HEAD, and from
 running the saved SQL read-only against the benchmark databases.
 
+**Corrected 2026-10-18**, after Codex's review of `ad0ba0f`. The 94 selection flips
+with an unchanged table set are 93 reordered contexts and 1 byte-identical one, not 94
+reordered ones. The residual label is renamed from "noise" to **unexplained**: it means
+no context mechanism was identified, not that the flip was shown to be random. The
+hidden-literal proxy is now defined exactly and its target set is frozen. Every count
+in this file is rebuilt by `scripts/analyse_rag_flips.py`; no label changed.
+
 ## 1. Method
 
 **Arms.** All three ran on commit `7708295` with the same model
@@ -58,8 +65,10 @@ found.** Arm A records no retrieved tables, because RAG is off.
 - **missing-table**: selection dropped a table that the gold SQL needs.
 - **extra-context**: an extra table or extra hints distracted the model,
   although the right table or column was present.
-- **noise**: the two SQL texts differ in ways the context change does not
-  plausibly explain.
+- **unexplained**: the two SQL texts differ in ways the context change does
+  not plausibly explain. This is a residual, not a measured noise floor:
+  changing the table order is itself a prompt intervention, and one generation
+  per arm cannot show that a flip is random.
 - **reference-or-scoring**: a gold-SQL quirk, an ordering or a strict
   comparison drives the flip, not the model's understanding. Here this
   includes strict projection: the losing SQL returns the gold rows but with an
@@ -67,12 +76,12 @@ found.** Arm A records no retrieved tables, because RAG is off.
   matches columns by position and count. Every such claim was checked by
   running both queries.
 
-Noise is the default. A case got a context cause only when the context
-difference plausibly explains the flip.
+Unexplained is the default. A case got a context cause only when the context
+difference plausibly explains the flip. The labels are in `flip_labels.csv`.
 
 ## 2. Summary
 
-| Group | n | useful-value | misleading-hint | missing-table | extra-context | noise | reference-or-scoring |
+| Group | n | useful-value | misleading-hint | missing-table | extra-context | unexplained | reference-or-scoring |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Hints, BIRD, helped | 15 | **3** | 0 | 0 | 0 | 9 | 3 |
 | Hints, BIRD, hurt | 15 | 0 | **1** | 0 | 0 | 13 | 1 |
@@ -86,10 +95,13 @@ Two checks over every flip, not just the sample, back up the table:
 
 - **Selection never dropped a gold table on a flipped question.** None of the
   179 BIRD selection flips (101 hurt, 78 helped) has `schema_recall` below
-  1.0 in arm C. Across all of BIRD dev, 30 of 1534 cases do. For 56 of the 101
-  hurt flips and 38 of the 78 helped flips, arm C sent exactly arm B's table
-  set, so the only change was the order of the tables. Arm C sends every
-  table on 904 of the 1534 BIRD cases.
+  1.0 in arm C. Across all of BIRD dev, 30 of 1534 cases do. For 94 of the
+  179, arm C sent arm B's full table set. In 93 of those (55 hurt, 38 helped)
+  only the order of the tables changed. In one, BIRD 1304 (hurt), arm C sent
+  the same tables in the same order, so the schema text was byte-identical.
+  The other 85 (45 hurt, 40 helped) sent a different table set. Per-case
+  results are in `selection_contexts.csv`. Arm C sends every table on 904 of
+  the 1534 BIRD cases.
 - **Using a hinted literal is lopsided toward helped flips.** This proxy asks
   whether the winning arm's SQL contains a quoted literal that the gold SQL
   also contains, that appears in some hint line, and that the losing arm's
@@ -121,20 +133,20 @@ table set as arm B, in a different order.
   - SQL: A joins `account`, so a district counts once per account; B uses
     `EXISTS`.
   - Hint: none relevant (`frequency`, `A3`, `A7`).
-  - **noise.** Duplication from the join is unrelated to the hints.
+  - **unexplained.** Duplication from the join is unrelated to the hints.
 - **174** · *What year was account owner number 130 born?*
   - SQL: A filters `client_id = 130`; B joins `disp` with
     `type = 'OWNER' AND account_id = 130`.
   - Hint: `-- type sample values: OWNER, DISPONENT` (disp).
-  - **noise**, secondary useful-value. The flip turns on `account_id` against
+  - **unexplained**, secondary useful-value. The flip turns on `account_id` against
     `client_id`. Arm C had the same hint, also wrote `'OWNER'`, and went back
     to `client_id = 130`.
 - **238** · *How many molecules have a triple bond type?*
   - SQL: A uses `bond_type LIKE '%triple%'`, which returns 0; B uses `= '#'`
     with `COUNT(DISTINCT molecule_id)`.
   - Hint: `-- bond_type sample values: -, =, #` (bond).
-  - **useful-value**, secondary noise. The evidence already says `'#'`, but A
-    ignored it and the hint backed it up. The switch to `DISTINCT` is noise:
+  - **useful-value**, secondary unexplained. The evidence already says `'#'`, but A
+    ignored it and the hint backed it up. The switch to `DISTINCT` is unexplained:
     arm C, with the same hint, dropped it.
 - **242** · *Molecules among atoms 21 to 25 that are carcinogenic*
   - SQL: both arms use the same filter; A also projects `m.label`.
@@ -149,38 +161,38 @@ table set as arm B, in a different order.
     subqueries.
   - Hint: `-- alignment sample values: Bad, Good, N/A, Neutral`. Both arms
     lowercase this column, and `publisher_name` has no hint.
-  - **noise.**
+  - **unexplained.**
 - **776** · *Hero name and race of Charles Chandler*
   - SQL: A uses a non-existent `superhero.race` column; B joins `race`.
   - Hint: `race` has no hint lines.
-  - **noise.**
+  - **unexplained.**
 - **781** · *Heights of heroes with amber eyes*
   - SQL: A compares `eye_colour_id` with `'amber'`; B joins `colour`.
   - Hint: `colour` has no hint lines.
-  - **noise.**
+  - **unexplained.**
 - **1052** · *Players under 130 weight whose preferred foot is left*
   - SQL: A matches `player_api_id` against `Player.id`.
   - Hint: `-- preferred_foot sample values: right, left`. Both arms used
     `'left'`.
-  - **noise.**
+  - **unexplained.**
 - **1224** · *Highest total bilirubin, with patient ID, sex and birthday*
   - SQL: both arms return the same values; A puts `T-BIL` last, and the gold
     SQL puts it first.
   - **reference-or-scoring.** Column order is the only difference.
 - **1304** · *Patients with normal glucose and no thrombosis*
   - SQL: A adds a spurious `"aCL IgA" IS NULL` filter.
-  - **noise.**
+  - **unexplained.**
 - **1321** · *Student_Club events Sacha Harrison attended in 2019*
   - SQL: A adds `e.type LIKE '%student_club%'`, which returns 0; B drops it.
   - Hint: `-- type sample values: Meeting, Guest Speaker, Game, Community Service, Social, Budget`
     (event).
-  - **noise**, secondary useful-value. The hint may have shown that no event
+  - **unexplained**, secondary useful-value. The hint may have shown that no event
     type matches, but it lists 6 of 8 values and supplies no literal the gold
     SQL needs.
 - **1459** · *Major of Garrett Gerke, and its department*
   - SQL: A projects `link_to_major` instead of `major_name`.
   - Hint: `major_name` has no hint.
-  - **noise.**
+  - **unexplained.**
 - **1508** · *Czech gas-station transactions over 1000*
   - SQL: A uses `LOWER(Country) = 'czech republic'`, which returns 0; B uses
     `'cze'`.
@@ -193,13 +205,13 @@ table set as arm B, in a different order.
 - **50** · *Postal street of the school with the 7th-highest math average*
   - SQL: B switches to `frpm`, orders by the FRPM percentage and drops the
     offset.
-  - **noise**, secondary reference-or-scoring. A was correct only because
+  - **unexplained**, secondary reference-or-scoring. A was correct only because
     `Street = MailStreet` for that school; both arms selected `Street`.
 - **319** · *How many elements are in bond TR001_3_4?*
   - SQL: B counts every atom of the molecule through `bond` and ignores
     `connected`.
   - Hint: none relevant (`bond_type`, `label`).
-  - **noise.**
+  - **unexplained.**
 - **381** · *Artists for cards in Chinese Simplified*
   - SQL: A joins `foreign_data.language`, as the gold SQL does; B switches to
     `set_translations`.
@@ -212,50 +224,50 @@ table set as arm B, in a different order.
     table.
 - **393** · *John Avon cards whose foil is non-powerful*
   - SQL: B drops the `cardKingdomId IS NULL` half of the `OR`.
-  - **noise.**
+  - **unexplained.**
 - **427** · *Languages of the set Archenemy (ARC)*
   - SQL: B uses `foreign_data` through `cards`, and `sets.name` instead of the
     `mcmName` the evidence names.
   - Hint: both `language` lists are present, and B picks the table whose list
     shows no Chinese.
-  - **noise.**
+  - **unexplained.**
 - **485** · *When was the ruling for 'Reminisce' created?*
   - SQL: B uses `= (subquery)`, which keeps only the first `uuid`, where A
     uses `IN`.
-  - **noise.**
+  - **unexplained.**
 - **859** · *Bruno Senna's Q1 in race 354*
   - SQL: B writes `'BRUNO'` and `'SENNA'` in upper case.
   - Hint: `drivers` has no hint lines.
-  - **noise.**
+  - **unexplained.**
 - **1008** · *Lap of Hamilton's pit stop, 2011 Australian GP*
   - SQL: B filters `circuits.name LIKE '%australia%'`, which matches nothing.
   - Hint: only `-- time sample values: ...` on races.
-  - **noise.**
+  - **unexplained.**
 - **1009** · *Each driver's pit-stop time, 2011 Australian GP*
   - SQL: B adds a `driverId` column and a redundant join to `results`.
   - **reference-or-scoring.** Without the extra column, B's 45 rows equal the
     gold's 45 (`EXCEPT` is empty).
 - **1072** · *Aaron Doran's average overall rating*
   - SQL: B joins `player_api_id = Player.id`.
-  - **noise.** Arm B made the same mistake on 1097 and arm C fixed it there.
+  - **unexplained.** Arm B made the same mistake on 1097 and arm C fixed it there.
 - **1102** · *Oldest player rated 77 on 2016-06-23*
   - SQL: B drops the join to `Player`, so the query fails to execute.
-  - **noise.**
+  - **unexplained.**
 - **1157** · *ID, sex and disease of severe-thrombosis patients*
   - SQL: B takes `Diagnosis` from `Examination` instead of from `Patient`.
   - Hint: `Diagnosis` has no hint in either table.
-  - **noise.**
+  - **unexplained.**
 - **1182** · *Lab tests in 1995 for the SJS patient first seen 1991-06-13*
   - SQL: B adds an inner join to `Examination`, which returns 0.
-  - **noise.** Arm C, which also has the hints, drops the join again.
+  - **unexplained.** Arm C, which also has the hints, drops the join again.
 - **1486** · *How many more SMEs pay in CZK than in EUR?*
   - SQL: B emits `... AS difference; FROM customers`, and the guard refuses
     it.
   - Hint: `-- Segment sample values: SME, LAM, KAM`, used correctly.
-  - **noise.**
+  - **unexplained.**
 - **1488** · *KAM customer who consumed the most*
   - SQL: B writes T-SQL `SELECT TOP 1`.
-  - **noise.**
+  - **unexplained.**
 
 ### Hints, Spider, helped (A wrong, B correct)
 
@@ -279,11 +291,11 @@ table set as arm B, in a different order.
 - **912** · *How many likes does Kyle have?*
   - SQL: A invents a `liked_name` column; B joins `Highschooler`.
   - Hint: `-- name sample values: Gabriel, Jordan, ...`, which omits Kyle.
-  - **noise**, secondary reference-or-scoring. B counts likes received, while
+  - **unexplained**, secondary reference-or-scoring. B counts likes received, while
     the gold SQL counts likes given. Both are 1.
 - **921** · *Average age of dogs that had treatments*
   - SQL: A's join duplicates dogs; B uses `IN`.
-  - **noise.**
+  - **unexplained.**
 - **922** · *Professionals in Indiana or with more than 2 treatments*
   - SQL: A uses `state = 'IN'`; B uses `'Indiana'`.
   - Hint: `-- state sample values: Connecticut, Indiana, Alabama, ...`
@@ -299,13 +311,13 @@ table set as arm B, in a different order.
     the gold only in case.
 - **958** · *Arrival and departure dates of treated dogs*
   - SQL: A drops the `DISTINCT` that the gold SQL has.
-  - **noise.**
+  - **unexplained.**
 
 ### Hints, Spider, hurt (A correct, B wrong)
 
 - **77** · *Pet ID of the student with last name Smith*
   - SQL: B returns `StuID AS PetID` from `Has_Pet`, with no join.
-  - **noise.**
+  - **unexplained.**
 - **233** · *Airlines with a flight departing from 'AHD'*
   - SQL: A's `= 'AHD'` returns no rows, the same as the gold SQL; B's
     `LIKE '%AHD%'` finds 8 airlines and adds extra columns.
@@ -313,16 +325,16 @@ table set as arm B, in a different order.
     leading space, so the gold answer is empty and A matches it by accident.
 - **391** · *Hometown of the youngest teacher*
   - SQL: B self-joins on a per-teacher `MIN` and returns every teacher.
-  - **noise.**
+  - **unexplained.**
 - **448** · *Players who won in both 2013 and 2016*
   - SQL: B writes `UNION` where the question needs `INTERSECT`.
-  - **noise.**
+  - **unexplained.**
 - **516** · *Department with the most degrees*
   - SQL: B drops the join to `Degree_Programs`.
-  - **noise.**
+  - **unexplained.**
 - **566** · *Earliest transcript date and its details*
   - SQL: B truncates the date with `strftime('%Y-%m-%d', ...)`.
-  - **noise.**
+  - **unexplained.**
 - **599** · *Content of the TV channel with series name "Sky Radio"*
   - SQL: B answers `UNANSWERABLE_WITH_GIVEN_SCHEMA`.
   - Hint: `-- series_name sample values: Classica, Hip Hop TV, MTV Classic, MTV Dance, MTV Hits, MTV Live HD`.
@@ -330,11 +342,11 @@ table set as arm B, in a different order.
     `'Sky Radio'`, and the model read the list as complete.
 - **891** · *Names of Kyle's friends*
   - SQL: B returns Kyle's own name, because the self-join is missing.
-  - **noise.**
+  - **unexplained.**
 - **941** · *Owner who spent the most on their dogs*
   - SQL: B leaks commented reasoning and a second `SELECT` into the SQL, which
     then fails to parse.
-  - **noise.** The first draft joined `Charges`, but that table is in both
+  - **unexplained.** The first draft joined `Charges`, but that table is in both
     arms' DDL.
 - **1032** · *Property type descriptions of properties*
   - SQL: B adds `property_type_code` to an otherwise identical list.
@@ -347,29 +359,29 @@ The gold tables were present in arm C for every one of these cases.
 
 - **160** · *Weekly-issuance accounts with a loan under 200000* (order-only)
   - SQL: C writes `frequency = LOWER('POPLATEK TYDNE')`, which returns 0.
-  - **noise.**
+  - **unexplained.**
 - **174** · *Birth year of account owner 130*
   - Tables: C drops `card` only.
   - SQL: C filters `client_id = 130` where B filters `account_id`.
-  - **noise.**
+  - **unexplained.**
 - **238** · *Molecules with a triple bond* (order-only)
   - SQL: C writes `COUNT(*)` instead of `COUNT(DISTINCT molecule_id)`.
-  - **noise.**
+  - **unexplained.**
 - **348** · *Rulings for Sublime Epiphany, number 74s* (order-only)
   - SQL: C adds the `date`, `name` and `number` columns.
   - **reference-or-scoring.** The rows match apart from the extra columns.
 - **472** · *Ice Age sets with an Italian translation* (order-only)
   - SQL: C applies `LOWER(setCode)` and compares it against upper-case codes.
-  - **noise.**
+  - **unexplained.**
 - **849** · *Where is the introduction of races at Barcelona-Catalunya?*
   - Tables: C sends 6 of 13 tables, with `races` ranked first and `circuits`
     third.
   - SQL: C returns `races.url` where the gold SQL uses `circuits.url`.
-  - **noise.** Both tables are in both arms, and "races" in the question fits
+  - **unexplained.** Both tables are in both arms, and "races" in the question fits
     either reading.
 - **914** · *How many drivers have no code?*
   - SQL: C writes `LOWER(code) = ''`, although the evidence says `IS NULL`.
-  - **noise.**
+  - **unexplained.**
 - **927** · *Driver with the fastest lap speed*
   - SQL: C writes `ORDER BY CAST(fastestLapSpeed AS REAL)` and adds a column.
   - **reference-or-scoring.** The gold SQL orders this TEXT column
@@ -382,77 +394,83 @@ The gold tables were present in arm C for every one of these cases.
 - **1089** · *Matches in the 2008/2009 season held in Belgium*
   - SQL: C derives the season from `date` arithmetic, which returns 0.
   - Hint: the `Match` table and its hints are present in both arms.
-  - **noise.**
+  - **unexplained.**
 - **1186** · *Behcet patients examined in 1997* (order-only)
   - SQL: C takes `Patient.Diagnosis` where the gold SQL uses
     `Examination.Diagnosis`.
-  - **noise.**
+  - **unexplained.**
 - **1256** · *Abnormal-CRP patients with no data recorded* (order-only)
   - SQL: C counts joined lab rows instead of distinct patients.
-  - **noise.**
+  - **unexplained.**
 - **1317** · *Medium-shirt members who attended Women's Soccer*
   - Tables: C drops `expense`.
   - SQL: C invents a `major.college = 'School of Business'` filter.
-  - **noise.** `major` and its hint are present in both arms.
+  - **unexplained.** `major` and its hint are present in both arms.
 - **1416** · *Business members with a Medium tee shirt*
   - SQL: B filters `college LIKE '%Business%'`, which returns 1; C follows the
     evidence with `major_name LIKE '%business%'`, which returns 2.
-  - **noise**, secondary reference-or-scoring. B matched the gold count by
+  - **unexplained**, secondary reference-or-scoring. B matched the gold count by
     coincidence.
 - **1436** · *Event links for members who paid more than 50* (order-only)
   - SQL: C joins `income` and references a non-existent `expense.event_id`.
-  - **noise.**
+  - **unexplained.**
 
 ### Selection, BIRD, helped (B wrong, C correct)
 
 - **171** · *Crime difference between East and North Bohemia in 1996*
   - Tables: C drops `loan`.
   - SQL: B invents a `date` filter on `district`.
-  - **noise.**
+  - **unexplained.**
 - **194** · *IDs and ages of gold-card owners*
   - SQL: B reverses the age subtraction.
-  - **noise.**
+  - **unexplained.**
 - **351** · *Cards with a Japanese alternative language* (order-only)
   - SQL: B omits `DISTINCT`.
-  - **noise.**
+  - **unexplained.**
 - **689** · *Last editor of post 183*
   - SQL: B joins on `LastEditorUserId`, which returns no rows.
-  - **noise.**
+  - **unexplained.**
 - **762** · *Most common superpower* (order-only)
   - SQL: B adds a count column.
   - **reference-or-scoring.**
 - **800** · *Percentage of heroes with blue eyes* (order-only)
   - SQL: B follows the evidence's wording to
     `superhero_name LIKE '%blue%'`; C joins `colour`.
-  - **noise.**
+  - **unexplained.**
 - **892** · *Driver with the most points*
   - SQL: B uses `results.points`; C uses `driverStandings`.
-  - **noise.** Both tables are present in both arms.
+  - **unexplained.** Both tables are present in both arms.
 - **1005** · *Longest pit-stop time*
   - SQL: B over-parses `duration` and produces a syntax error.
-  - **noise.**
+  - **unexplained.**
 - **1097** · *Aaron Lennox's total crossing score*
   - SQL: B joins `player_api_id = Player.id`.
-  - **noise.** This is the same mistake as 1072.
+  - **unexplained.** This is the same mistake as 1072.
 - **1182** · *Lab tests in 1995 for the SJS patient* (order-only)
   - SQL: B adds the spurious `Examination` join.
-  - **noise.**
+  - **unexplained.**
 
 ## 4. Findings
 
-- **Most of each effect is noise.** 53 of the 75 sampled flips (71 %) are
-  noise and 12 (16 %) are reference-or-scoring artefacts. Only 10 have a
-  context mechanism. The same questions flip at every byte-level prompt change
-  (174, 238, 1182). Among the 25 selection flips, 11 occur when arm C sends
-  arm B's exact table set, in a different order. That is the noise floor any
-  paired change of 1 to 2 points sits on.
+- **Most flips have no identified mechanism.** 53 of the 75 sampled flips
+  (71 %) are unexplained and 12 (16 %) are reference-or-scoring artefacts.
+  Only 10 have a context mechanism. The same questions flip at every
+  byte-level prompt change (174, 238, 1182). Among the 25 sampled selection
+  flips, 11 occur when arm C sends arm B's table set in a different order.
+  This does not measure a noise floor. Reordering is itself an intervention,
+  and a sample drawn only from flips, with one generation per arm, cannot
+  estimate how much of a 1 to 2 point change is chance. BIRD 1304 flipped
+  with a byte-identical schema text, which shows that generation varies
+  between runs but not how often or how much. Repeating an identical arm is
+  the way to measure that.
 - **The hint gain is partly mechanistic, more clearly on Spider than on
   BIRD.**
   - Useful-value explains 5 of the 10 Spider helped flips, against 1 of the 10
     hurt. It explains 3 of the 15 BIRD helped flips, against 1 of the 15 hurt.
   - Scaled to the pools, roughly 25 of Spider's net +27 cases are
-    mechanistic, against roughly 13 of BIRD's net +29. These are rough
-    figures: a 3/15 share has a 95 % interval of about 7 to 45 %.
+    mechanistic, against roughly 13 of BIRD's net +29. These are exploratory
+    estimates from one rater: a 3/15 share has a 95 % interval of about 7 to
+    45 %.
   - The literal proxy over all flips gives the same picture: a hinted literal
     decides 19 to 20 of the 80 BIRD helped flips and 1 of the 51 hurt.
   - Each useful value comes from a low-cardinality text column: a status, a
@@ -462,8 +480,9 @@ The gold tables were present in arm C for every one of these cases.
 - **Selection's BIRD loss is not explained by dropped tables.** The sample
   has no missing-table or extra-context case. Across all 179 BIRD selection
   flips, arm C's schema recall is 1.0. For 94 of the 179, arm C sent every
-  table and changed only their order. The -1.5 point result is consistent
-  with noise plus scoring artefacts. These flips give no support to a "never
+  table: 93 times in a different order, once byte-identically. The -1.5
+  point result is consistent with unattributed variation plus scoring
+  artefacts. These flips give no support to a "never
   drop foreign-key neighbours" change. At BIRD's sizes, top-6 selection
   mostly reorders the schema.
 - **Both misleading hints come from one mechanism, truncation.** On 381 and
@@ -471,9 +490,12 @@ The gold tables were present in arm C for every one of these cases.
   the needed literal is the hidden 7th or later, and the model reads the list
   as complete. On 381 it switched to the table whose list did show the value;
   on 599 it declared the question unanswerable.
-  - A crude proxy finds about 58 BIRD and 65 Spider answerable cases whose
-    gold SQL uses a literal hidden by the cap. Short literals can match by
-    accident, so the proxy over-counts.
+  - A proxy finds 49 BIRD and 66 Spider answerable cases whose gold SQL
+    quotes a value that the cap hides, in a column the gold SQL names (57 and
+    73 column-literal pairs). It includes 381 and 599. The set is frozen in
+    `hidden_literal_targets.csv`. Short literals can still match by accident,
+    so it over-counts. The earlier figures of about 58 and 65 came from an
+    uncommitted, cruder version and are superseded.
   - **The candidate supported by this evidence:** show every value when a
     column is under the existing cardinality ceiling of 20, or label a cut
     list explicitly ("6 of 16 shown"). Both are cheap, since a qualifying
@@ -483,20 +505,34 @@ The gold tables were present in arm C for every one of these cases.
     plausibly have supplied.
 - **How to measure that change.** Score it on the cases it targets, the
   truncation proxy set, as well as with the full paired run against these
-  fixed arms. Report extra-column and column-order mismatches apart from real
-  errors, since they make up 12 of the 75 flips here. Better still, repeat
+  fixed arms. Extra and reordered columns stay failures under the official
+  EX contract; they can be counted as a diagnostic beside it, never removed
+  from its denominator. They make up 12 of the 75 flips here. Better still, repeat
   each arm, because a single run cannot separate a 1-point effect from this
   model's prompt sensitivity.
 - **Limits.** The sample is small: 75 flips, at most 15 per group, so every
   share has an interval tens of points wide. There is one model
   (`qwen3.5:9b-q4_K_M`, think off) and one run per arm. One reader did the
   classification, with no second rater, and inferred mechanisms from the SQL
-  text rather than from the model. Noise is a residual category, so some
-  context effects may be hidden in it, and some cases called mechanistic may
-  be chance.
+  text rather than from the model. Unexplained is a residual category, so
+  some context effects may be hidden in it, and some cases called mechanistic
+  may be chance.
 
 ## Reproduce
 
-The sampling, re-rendering and proxy helpers are not committed. The sample
-can be rebuilt from this file's seed and its sorting rule. All of it is
-read-only and makes no model calls.
+```bash
+uv run python scripts/analyse_rag_flips.py          # check, print a summary
+uv run python scripts/analyse_rag_flips.py --write  # also rewrite the CSVs
+```
+
+It needs the benchmark databases and suites from `scripts/prepare_benchmarks.py`.
+It redraws the sample and fails unless the IDs equal `flip_labels.csv`,
+re-renders both selection contexts at HEAD and fails unless each table set
+equals the run's `retrieved_tables`, and rebuilds the hidden-literal targets.
+It is read-only and makes no model calls. Three files sit beside this report:
+
+- `flip_labels.csv`: the 75 hand labels, primary and secondary, by group.
+- `selection_contexts.csv`: each of the 179 BIRD selection flips as
+  `identical`, `order-only` or `different-set`.
+- `hidden_literal_targets.csv`: suite, case, table, column, literal, the
+  hidden value's frequency rank and the column's distinct count.
