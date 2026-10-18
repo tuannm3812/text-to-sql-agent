@@ -4615,3 +4615,9 @@ with `--compare` outputs `full_compare_*.md` and a per-database breakdown.
 Per-database intervals were computed with `stats.paired_bootstrap_ci` (seed
 0) in a one-off script, not a committed helper. Top 6 stays the default.
 Next: profile and cache retrieval, then the retrieval rewrite.
+
+## 2026-10-19 — Claude: owner decision, top 6 stays the default
+
+Recorded in `docs/3_decisions.md` after the `bird_train_large` full-suite
+results (`3a45b13`); `docs/4_next_steps.md` Phase 4 item (1) marked done. No
+code change: top 6 was already the shipped setting.

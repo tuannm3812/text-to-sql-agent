@@ -47,8 +47,8 @@ order:
 **Lead with the hints (from G8 and its attribution, 2026-10-12).** The value
 hints earn RAG's gain on both benchmarks; top-6 table selection adds nothing
 measurable on Spider and leans negative on BIRD (`evaluation/results/rag_ablation.md`).
-So, in order: (1) owner decision on the default, top 6 or full DDL plus hints
-(`--rag-top-k 0` in the harness); (2) improve hint coverage and quality, measured
+So, in order: (1) **done 2026-10-19:** the owner kept top 6 as the default over full
+DDL plus hints (`docs/3_decisions.md`); (2) improve hint coverage and quality, measured
 paired against the current arms. The flip analysis
 (`evaluation/results/rag_attribution/error_analysis.md`) points at one defect: the
 six-value cap hides needed values and the model reads the cut list as complete.
