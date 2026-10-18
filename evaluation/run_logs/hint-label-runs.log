@@ -1,0 +1,32 @@
+=== 2026-10-18 00:17:47 START --suite spider_dev --subset hiddenlit 
+spider_dev: complete, citable=True, 66 cases, 0 outage(s)
+  evaluation/results/2026-10-17T131748_spider_dev_hiddenlit_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_fe47e07e_4933
+=== 2026-10-18 00:21:31 END exit=0 --suite spider_dev --subset hiddenlit
+=== 2026-10-18 00:21:31 START --suite bird_dev --subset hiddenlit --evidence on 
+bird_dev: complete, citable=True, 49 cases, 0 outage(s)
+  evaluation/results/2026-10-17T132132_bird_dev_hiddenlit_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_42942f84_451a
+=== 2026-10-18 00:27:21 END exit=0 --suite bird_dev --subset hiddenlit --evidence on
+PHASE target DONE 2026-10-18 00:27:21
+=== 2026-10-18 00:27:38 START --suite spider_dev --subset full 
+spider_dev: complete, citable=True, 1034 cases, 0 outage(s)
+  evaluation/results/2026-10-17T132739_spider_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_8ee9d7ba_1e82
+=== 2026-10-18 01:18:53 END exit=0 --suite spider_dev --subset full
+=== 2026-10-18 01:18:53 START --suite bird_dev --subset full --evidence on 
+=== 2026-10-18 08:18:06 SKIP complete evaluation/results/2026-10-17T132739_spider_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_8ee9d7ba_1e82/
+=== 2026-10-18 08:18:06 START --suite bird_dev --subset full --evidence on --resume evaluation/results/2026-10-17T141854_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_6b49db00_e305/
+/Users/tuannm3812/Documents/GitHub/1. Study/text-to-sql-agent-release-runs/text_to_sql_agent/evaluation_v2/runner.py:981: StaleLockWarning: evaluation/results/2026-10-17T141854_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_6b49db00_e305/.lock: took over a stale lock left by pid 20863, which is no longer running on this host
+  with _session_lock(run_dir):
+bird_dev: complete, citable=True, 1534 cases, 0 outage(s)
+  evaluation/results/2026-10-17T141854_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_6b49db00_e305
+=== 2026-10-18 10:47:44 END exit=0 --suite bird_dev --subset full --evidence on
+PHASE full DONE 2026-10-18 10:47:44
+=== 2026-10-18 15:23:54 START --suite bird_dev --subset full --evidence off 
+bird_dev: complete, citable=True, 1534 cases, 0 outage(s)
+  evaluation/results/2026-10-18T042355_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_35918cc5_ad75
+=== 2026-10-18 18:06:31 END exit=0 --suite bird_dev --subset full --evidence off
+=== 2026-10-18 18:06:31 START --suite bird_train_large --subset subset200 --evidence on --rag-top-k 0 
+bird_train_large: refused: evaluation/suites/bird_train_large.jsonl: cannot read suite: [Errno 2] No such file or directory: 'evaluation/suites/bird_train_large.jsonl'
+=== 2026-10-18 18:06:31 END exit=0 --suite bird_train_large --subset subset200 --evidence on --rag-top-k 0
+=== 2026-10-18 18:06:31 START --suite bird_train_large --subset subset200 --evidence on 
+bird_train_large: refused: evaluation/suites/bird_train_large.jsonl: cannot read suite: [Errno 2] No such file or directory: 'evaluation/suites/bird_train_large.jsonl'
+=== 2026-10-18 18:06:32 END exit=0 --suite bird_train_large --subset subset200 --evidence on

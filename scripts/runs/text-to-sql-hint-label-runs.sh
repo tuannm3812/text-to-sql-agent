@@ -3,8 +3,9 @@
 # Phase "target": the hiddenlit subsets. Phase "full": Spider dev, then BIRD dev with evidence.
 # Re-running resumes an incomplete run of the same configuration; complete runs are skipped.
 export PATH="/opt/homebrew/bin:$PATH"
-cd "/Users/tuannm3812/Documents/GitHub/1. Study/text-to-sql-agent-release-runs" || exit 1
-L="hint-label-runs.log"
+R="$(cd "$(dirname "$0")/../.." && pwd)"  # the repo root
+cd "$R/.worktrees/release-runs" || exit 1
+L="$R/evaluation/run_logs/hint-label-runs.log"
 M=(--mode llm --provider ollama --model qwen3.5:9b-q4_K_M --ollama-think off --max-retries 2 --retry-base-seconds 10)
 B=(--work-limit 1000000000 --max-rows 100000)
 run() {  # $1 = glob fragment identifying the run's directory; rest = suite args
@@ -28,7 +29,7 @@ if [ "$1" = "target" ]; then
 elif [ "$1" = "bird-noev" ]; then
   run "bird_dev_full_ollama_*rag-on-k6-evidence-off-think-off" --suite bird_dev --subset full --evidence off
 elif [ "$1" = "large" ]; then  # bird_train_large subset200, the three attribution arms
-  L="large-schema-runs.log"
+  L="$R/evaluation/run_logs/large-schema-runs.log"
   run "bird_train_large_subset200_ollama_*rag-off-evidence-on-think-off" --suite bird_train_large --subset subset200 --evidence on --no-rag
   run "bird_train_large_subset200_ollama_*rag-on-k0-evidence-on-think-off" --suite bird_train_large --subset subset200 --evidence on --rag-top-k 0
   run "bird_train_large_subset200_ollama_*rag-on-k6-evidence-on-think-off" --suite bird_train_large --subset subset200 --evidence on

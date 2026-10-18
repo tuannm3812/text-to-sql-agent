@@ -2,8 +2,9 @@
 # Thinking-off re-runs of the 2026-10-09 routine runs, same arguments plus --ollama-think off.
 # Re-running this script resumes any incomplete run of the same configuration.
 export PATH="/opt/homebrew/bin:$PATH"
-cd "/Users/tuannm3812/Documents/GitHub/1. Study/text-to-sql-agent-release-runs" || exit 1
-L="think-off-subsets.log"
+R="$(cd "$(dirname "$0")/../.." && pwd)"  # the repo root
+cd "$R/.worktrees/release-runs" || exit 1
+L="$R/evaluation/run_logs/think-off-subsets.log"
 M=(--mode llm --provider ollama --model qwen3.5:9b-q4_K_M --ollama-think off --max-retries 2 --retry-base-seconds 10)
 B=(--work-limit 1000000000 --max-rows 100000)
 run() {  # $1 = glob fragment identifying the run's directory; rest = suite args

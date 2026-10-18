@@ -4564,3 +4564,20 @@ so the queue waiting on that line slept forever. The BIRD run itself was
 unaffected. The reorganize thread found and stopped the queue. Rule from now
 on: never edit a script that a running process is executing; write a new one.
 The `bird_train_large` arms have not run.
+
+## 2026-10-18 — Claude: run records and the run worktree moved into the repo
+
+The shell runners, their logs and the pinned run worktree lived beside the repo
+in `1. Study/`. They are now inside it:
+
+- Runners in `scripts/runs/`, logs in `evaluation/run_logs/` (tracked). The
+  runners find the repo from their own location instead of a hard-coded path,
+  and log to `evaluation/run_logs/`.
+- The worktree is at `.worktrees/release-runs/` (`git worktree move`, gitignored).
+- Result directories byte-identical to committed ones (14 from `7708295`, 5 from
+  `fe90991`, each checked with `diff -r`) and one incomplete think-on run are in
+  `evaluation/results/_archive/` (gitignored). Nothing was deleted except the
+  two parent-folder runner copies, after `cmp` showed them identical to these.
+- `text-to-sql-large-schema-queue.sh` no longer waits on the refresh, which is
+  done (`c5afea2`). It pins the worktree to `47284f5` and runs the three
+  `bird_train_large` arms.
