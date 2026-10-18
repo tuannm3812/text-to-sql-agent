@@ -1,0 +1,913 @@
+suite,id,hardness,expected,outcome,generated_sql,error,latency_ms,schema_recall,retrieved_tables,attempts,prompt_tokens,completion_tokens,generation_failure
+bird_train_large,1794,medium,answerable,correct,"SELECT COUNT(*) AS count FROM Player WHERE Batting_hand = (SELECT Batting_Id FROM Batting_Style WHERE LOWER(Batting_hand) = 'right-hand bat') AND SUBSTR(DOB, 1, 4) > 1985;",,11574.85,,,1,2188,54,
+bird_train_large,1798,extra,answerable,wrong,"SELECT Bowling_skill AS most_used_bowling_skill
+FROM Bowling_Style
+GROUP BY Bowling_skill
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2379.08,,,1,2145,31,
+bird_train_large,1799,medium,answerable,correct,"SELECT p.Player_Name
+FROM Match m
+JOIN Player p ON m.Man_of_the_Match = p.Player_Id
+WHERE strftime('%Y-%m-%d', m.Match_Date) = '2008-04-18';",,3301.76,,,1,2187,51,
+bird_train_large,1802,hard,answerable,correct,"SELECT MAX(M.Win_Margin) AS highest_winning_margin
+FROM Match M
+JOIN Player_Match PM ON M.Match_Id = PM.Match_Id
+JOIN Player P ON PM.Player_Id = P.Player_Id
+WHERE LOWER(P.Player_Name) = 'sc ganguly';",,3530.77,,,1,2162,56,
+bird_train_large,1803,hard,answerable,wrong,"SELECT AVG(M.Win_Margin) AS avg_winning_margin
+FROM Match M
+JOIN Player_Match PM ON M.Match_Id = PM.Match_Id
+JOIN Player P ON PM.Player_Id = P.Player_Id
+WHERE LOWER(P.Player_Name) = LOWER('SC Ganguly');",,3565.05,,,1,2175,57,
+bird_train_large,1808,medium,answerable,correct,"SELECT V.Venue_Name
+FROM Match M
+JOIN Venue V ON M.Venue_Id = V.Venue_Id
+WHERE M.Win_Margin = 138;",,2710.89,,,1,2165,39,
+bird_train_large,1817,medium,answerable,wrong,"SELECT p.Player_Name, bs.Batting_hand
+FROM Player p
+JOIN Batting_Style bs ON p.Batting_hand = bs.Batting_Id
+WHERE LOWER(p.Player_Name) = LOWER('MK Pandey');",,3302.38,,,1,2142,47,
+bird_train_large,1819,easy,answerable,wrong,"SELECT CAST(SUM(CASE WHEN v.Venue_Name LIKE '%M Chinnaswamy%' THEN 1 ELSE 0 END) AS REAL) / SUM(CASE WHEN v.Venue_Name LIKE '%Maharashtra Cricket Association%' THEN 1 ELSE 0 END) AS difference
+FROM Match m
+JOIN Venue v ON m.Venue_Id = v.Venue_Id;",,4967.90,,,1,2214,82,
+bird_train_large,1824,easy,answerable,correct,"SELECT 
+    p.Player_Id
+FROM Player p
+JOIN Season s ON p.Player_Id = s.Orange_Cap
+WHERE p.Player_Id IN (
+    SELECT s1.Orange_Cap
+    FROM Season s1
+    JOIN Season s2 ON s1.Orange_Cap = s2.Orange_Cap
+    WHERE s1.Season_Year + 1 = s2.Season_Year
+)
+GROUP BY p.Player_Id;",,5362.61,,,1,2167,95,
+bird_train_large,1833,easy,answerable,wrong,"SELECT Team_Name, SUM(CASE WHEN Team_Id = Team_1 AND Team_1 <> Match_Winner THEN 1 ELSE 0 END) + SUM(CASE WHEN Team_Id = Team_2 AND Team_2 <> Match_Winner THEN 1 ELSE 0 END) AS Total_Losses
+FROM Team
+JOIN Match ON Team.Team_Id IN (Match.Team_1, Match.Team_2)
+GROUP BY Team.Team_Id
+ORDER BY Total_Losses DESC
+LIMIT 1;",,5751.07,,,1,2191,104,
+bird_train_large,1836,hard,answerable,correct,"SELECT COUNT(*) AS player_count
+FROM Player p
+JOIN Batting_Style bs ON p.Batting_hand = bs.Batting_Id
+JOIN Country c ON p.Country_Name = c.Country_Id
+WHERE LOWER(bs.Batting_hand) = 'left-hand bat'
+  AND LOWER(c.Country_Name) = 'india';",,4139.46,,,1,2155,69,
+bird_train_large,1841,hard,answerable,correct,"SELECT T.Team_Name
+FROM Match M
+JOIN Team T ON M.Team_1 = T.Team_Id
+WHERE M.Win_Margin = (SELECT MAX(Win_Margin) FROM Match);",,2766.23,,,1,2165,40,
+bird_train_large,1842,hard,answerable,correct,"SELECT c.Country_Name
+FROM Venue v
+JOIN City ci ON v.City_Id = ci.City_Id
+JOIN Country c ON ci.Country_id = c.Country_Id
+WHERE v.Venue_Name LIKE '%St George%';",,3078.50,,,1,2154,46,
+bird_train_large,1843,extra,answerable,wrong,"SELECT p.Player_Name
+FROM Player p
+JOIN Team t ON p.Country_Name = t.Team_Id
+JOIN Player_Match pm ON p.Player_Id = pm.Player_Id
+WHERE t.Team_Name LIKE '%Mumbai Indians%'
+AND pm.Match_Id = 335990;",,3681.73,,,1,2172,60,
+bird_train_large,1851,easy,answerable,correct,SELECT COUNT(*) AS match_count FROM Match WHERE Venue_Id IN (SELECT Venue_Id FROM Venue WHERE LOWER(Venue_Name) LIKE '%newlands%');,,2438.63,,,1,2148,32,
+bird_train_large,1858,easy,answerable,correct,SELECT COUNT(*) AS count FROM Wicket_Taken WHERE Match_Id = 548335 AND Innings_No = 1;,,2288.20,,,1,2180,30,
+bird_train_large,1861,medium,answerable,correct,SELECT Match_Id FROM Wicket_Taken WHERE Kind_Out IN (SELECT Out_Id FROM Out_Type WHERE LOWER(Out_Name) LIKE '%hit wicket%');,,2467.72,,,1,2149,33,
+bird_train_large,1862,medium,answerable,correct,SELECT COUNT(*) AS count FROM Wicket_Taken WHERE Kind_Out IN (SELECT Out_Id FROM Out_Type WHERE LOWER(Out_Name) LIKE '%stumped%') AND Innings_No = 2;,,2866.00,,,1,2162,42,
+bird_train_large,1864,hard,answerable,wrong,"SELECT Player_Name, DOB
+FROM Player
+WHERE strftime('%Y', DOB) = '1977'
+  AND LOWER(Country_Name) = LOWER('England');",,2764.47,,,1,2184,39,
+bird_train_large,1871,hard,answerable,correct,"SELECT 
+    t.Team_Name,
+    COUNT(DISTINCT pm.Match_Id) AS Matches_Played
+FROM Player_Match pm
+JOIN Team t ON pm.Team_Id = t.Team_Id
+JOIN Player p ON pm.Player_Id = p.Player_Id
+WHERE LOWER(p.Player_Name) = 'ck kapugedera'
+GROUP BY t.Team_Name;",,4476.54,,,1,2160,74,
+bird_train_large,1876,medium,answerable,correct,SELECT Match_Id FROM Match WHERE Man_of_the_Match = (SELECT Player_Id FROM Player WHERE Player_Name = 'BB McCullum');,,2285.94,,,1,2140,29,
+bird_train_large,1882,medium,answerable,correct,SELECT Match_Id FROM Match WHERE Venue_Id IN (SELECT Venue_Id FROM Venue WHERE LOWER(Venue_Name) LIKE '%brabourne%');,,2393.04,,,1,2152,31,
+bird_train_large,1888,medium,answerable,wrong,"SELECT COUNT(*) AS Total_Winning_Matches
+FROM Match
+WHERE Match_Winner IN (
+    SELECT Team_Id
+    FROM Team
+    WHERE LOWER(Team_Name) LIKE '%deccan chargers%'
+);",,3160.36,,,1,2152,47,
+bird_train_large,1894,medium,answerable,wrong,"SELECT Player_Name
+FROM Player
+WHERE strftime('%Y', DOB) BETWEEN '1970' AND '1990'
+ORDER BY DOB ASC;",,2643.26,,,1,2196,37,
+bird_train_large,1895,easy,answerable,wrong,SELECT COUNT(*) AS count FROM Wicket_Taken WHERE Over_Id = 3 AND (Fielders IS NULL OR Fielders = '');,,2238.18,,,1,2161,28,
+bird_train_large,1901,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Match WHERE Win_Margin < 50 AND Win_Type = 'wickets';,,2096.70,,,1,2168,24,
+bird_train_large,1902,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Match WHERE Toss_Winner = Team_2 AND Match_Winner != Team_2;,,2147.23,,,1,2164,26,
+bird_train_large,1904,extra,answerable,correct,"SELECT v.Venue_Name
+FROM Venue v
+GROUP BY v.Venue_Id, v.Venue_Name
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2682.32,,,1,2156,36,
+bird_train_large,1907,extra,answerable,error,"SELECT 
+    p.Player_Name,
+    c.Country_Name,
+    COUNT(wt.Match_Id) AS Catches_Count
+FROM Wicket_Taken wt
+JOIN Player p ON wt.Player_Out = p.Player_Id
+JOIN Country c ON p.Country_Name = c.Country_Id
+WHERE LOWER(wt.Kind_Out) = 'caught'
+GROUP BY wt.Match_Id, wt.Over_Id, wt.Ball_Id, wt.Innings_No, wt.Player_Out, p.Player_Id, p.Player_Name, c.Country_Id, c.Country_Name
+HAVING COUNT(wt.Match_Id) > (
+    SELECT AVG(CAST(COUNT(*) AS REAL))
+    FROM Wicket_Taken wt2
+    JOIN Player p2 ON wt2.Player_Out = p2.Player_Id
+    WHERE LOWER(wt2.Kind_Out) = 'caught'
+)
+ORDER BY Catches_Count ASC;",OperationalError: misuse of aggregate function SUM(),21439.87,,,1,4593,382,
+bird_train_large,1909,medium,answerable,wrong,SELECT AVG(CASE WHEN Out_Type.Out_Id = 4 THEN Wicket_Taken.Player_Out ELSE NULL END) - AVG(CASE WHEN Out_Type.Out_Id = 3 THEN Wicket_Taken.Player_Out ELSE NULL END) AS difference_in_average_outs FROM Wicket_Taken JOIN Out_Type ON Wicket_Taken.Kind_Out = Out_Type.Out_Id;,,7662.37,,,1,4479,116,
+bird_train_large,1917,extra,answerable,wrong,"SELECT Season.Season_Year AS Year
+FROM Season
+WHERE Season.Man_of_the_Series = (
+    SELECT Player.Player_Id
+    FROM Player
+    WHERE LOWER(Player.Player_Name) LIKE '%sp narine%'
+)
+AND Season.Orange_Cap IS NOT NULL;",,8129.94,,,1,4373,115,
+bird_train_large,1919,medium,answerable,wrong,SELECT Player_Name FROM Player WHERE LOWER(Country_Name) = LOWER('Zimbabwe');,,1508.52,,,1,2142,18,
+bird_train_large,1920,easy,answerable,wrong,SELECT COUNT(*) AS count FROM Player_Match pm JOIN Player p ON pm.Player_Id = p.Player_Id WHERE LOWER(p.Batting_hand) = LOWER('Left-hand bat');,,2509.46,,,1,2144,37,
+bird_train_large,1922,medium,answerable,correct,"SELECT U.Umpire_Name
+FROM Umpire U
+JOIN Country C ON U.Umpire_Country = C.Country_Id
+WHERE LOWER(C.Country_Name) = LOWER('new zealand');",,2778.33,,,1,2152,42,
+bird_train_large,1924,extra,answerable,wrong,"SELECT Venue.Venue_Name, COUNT(*) AS Match_Count
+FROM Match
+JOIN Venue ON Match.Venue_Id = Venue.Venue_Id
+WHERE Match.Team_1 = (SELECT Team_Id FROM Team WHERE Team_Name = 'Kochi Tuskers Kerala')
+   OR Match.Team_2 = (SELECT Team_Id FROM Team WHERE Team_Name = 'Kochi Tuskers Kerala')
+GROUP BY Venue.Venue_Id, Venue.Venue_Name
+ORDER BY Match_Count DESC
+LIMIT 1;",,5751.72,,,1,2164,107,
+bird_train_large,1926,medium,answerable,wrong,"SELECT CAST(SUM(CASE WHEN Match.Win_Margin < 10 THEN 1 ELSE 0 END) AS REAL) * 100.0 / COUNT(*) AS percentage
+FROM Match
+JOIN Venue ON Match.Venue_Id = Venue.Venue_Id
+WHERE LOWER(Venue.Venue_Name) LIKE '%dr dy patil sports academy%';",,4336.66,,,1,2215,78,
+bird_train_large,1934,medium,answerable,correct,"SELECT Match_Id, Match_Date
+FROM Match
+WHERE Venue_Id IN (
+    SELECT Venue_Id
+    FROM Venue
+    WHERE Venue_Name LIKE '%Kingsmead%'
+)
+AND Match_Date IN (
+    SELECT DISTINCT Match_Date
+    FROM Match
+    WHERE Venue_Id IN (
+        SELECT Venue_Id
+        FROM Venue
+        WHERE Venue_Name LIKE '%Kingsmead%'
+    )
+)
+AND Match_Id IN (
+    SELECT Match_Id
+    FROM Match
+    WHERE Venue_Id IN (
+        SELECT Venue_Id
+        FROM Venue
+        WHERE Venue_Name LIKE '%Kingsmead%'
+    )
+);",,7414.88,,,1,2166,136,
+bird_train_large,1936,hard,answerable,error,"SELECT M.Venue_Name, C.City_Name
+FROM Match M
+JOIN Venue V ON M.Venue_Id = V.Venue_Id
+JOIN City C ON V.City_Id = C.City_Id
+WHERE M.Match_Id = 336005;",OperationalError: no such column: M.Venue_Name,6506.62,,,1,4451,114,
+bird_train_large,1939,medium,answerable,correct,"SELECT p.Player_Name
+FROM Player p
+JOIN Bowling_Style bs ON p.Bowling_skill = bs.Bowling_Id
+WHERE LOWER(bs.Bowling_skill) = 'legbreak';",,2266.39,,,1,2139,40,
+bird_train_large,1950,medium,answerable,correct,"SELECT Match_Date
+FROM Match
+ORDER BY Win_Margin DESC
+LIMIT 1;",,1474.46,,,1,2158,19,
+bird_train_large,1954,extra,answerable,correct,SELECT Team_Name FROM Team WHERE Team_Id = (SELECT Match_Winner FROM Match ORDER BY Match_Date ASC LIMIT 1);,,1788.10,,,1,2158,26,
+bird_train_large,1957,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Player WHERE LOWER(Bowling_skill) = 'legbreak';,,1367.61,,,1,2141,20,
+bird_train_large,1961,hard,answerable,correct,"SELECT Country.Country_Name
+FROM Player
+JOIN Country ON Player.Country_Name = Country.Country_Id
+ORDER BY strftime('%Y', Player.DOB) DESC, Player.DOB DESC
+LIMIT 1;",,2346.53,,,1,2141,41,
+bird_train_large,1967,medium,answerable,correct,"SELECT COUNT(*) AS match_count FROM Match WHERE strftime('%Y', Match_Date) = '2011';",,1552.26,,,1,2150,24,
+bird_train_large,1984,medium,answerable,correct,"SELECT COUNT(*) AS match_count FROM Match WHERE strftime('%Y', Match_Date) = '2008';",,1547.86,,,1,2148,24,
+bird_train_large,1985,easy,answerable,wrong,"SELECT COUNT(*) AS match_count
+FROM Ball_by_Ball
+WHERE Innings_No = 2;",,1493.91,,,1,2141,22,
+bird_train_large,1993,hard,answerable,wrong,SELECT COUNT(*) AS count FROM Player_Match WHERE Player_Id IN (SELECT Player_Id FROM Player WHERE Player_Name = LOWER('k goel')) AND Role_Id = 3;,,2291.26,,,1,2157,37,
+bird_train_large,2007,easy,answerable,correct,"SELECT (2008 - strftime('%Y', DOB)) AS age FROM Player WHERE LOWER(Player_Name) = 'sc ganguly';",,1967.19,,,1,2162,30,
+bird_train_large,2022,medium,answerable,wrong,SELECT Outcome_Type FROM Match WHERE Match_Id = 392195;,,1267.64,,,1,2132,18,
+bird_train_large,2025,easy,answerable,correct,"SELECT COUNT(DISTINCT M.Season_Id) AS season_count
+FROM Match M
+JOIN Team T ON M.Team_1 = T.Team_Id OR M.Team_2 = T.Team_Id
+WHERE LOWER(T.Team_Name) LIKE '%pune warriors%';",,2945.26,,,1,2140,54,
+bird_train_large,2034,easy,answerable,correct,SELECT CAST(SUM(CASE WHEN LOWER(Batting_Style.Batting_hand) LIKE '%left%' THEN 1 ELSE 0 END) AS REAL) * 100.0 / COUNT(*) AS percentage FROM Player JOIN Batting_Style ON Player.Batting_hand = Batting_Style.Batting_Id;,,3625.91,,,1,2176,66,
+bird_train_large,2037,easy,answerable,correct,"SELECT COUNT(*) AS total_players
+FROM Player
+WHERE strftime('%Y', DOB) BETWEEN '1970' AND '1975';",,2119.39,,,1,2175,33,
+bird_train_large,7000,medium,answerable,correct,"SELECT Product.Name AS ProductName, ProductCostHistory.StartDate AS CurrentStandardCostStartDate
+FROM Product
+JOIN ProductCostHistory ON Product.ProductID = ProductCostHistory.ProductID
+WHERE ProductCostHistory.EndDate IS NULL;",,16285.44,,,1,7988,46,
+bird_train_large,7005,medium,answerable,wrong,"SELECT 
+    p.Name AS ProductName,
+    p.ListPrice AS SellingPrice
+FROM TransactionHistory th
+JOIN Product p ON th.ProductID = p.ProductID
+WHERE th.Quantity > 10000;",,3472.87,,,1,8014,47,
+bird_train_large,7008,medium,answerable,correct,"SELECT SUM(p.ListPrice * sc.Quantity - p.StandardCost * sc.Quantity) AS TotalSalesProfit
+FROM ShoppingCartItem sc
+JOIN Product p ON sc.ProductID = p.ProductID
+WHERE sc.ShoppingCartID = '20621';",,7337.82,,,1,16102,106,
+bird_train_large,7013,easy,answerable,wrong,"SELECT 
+    p.ProductID,
+    p.Name AS ProductName,
+    (AVG(p.ListPrice) - AVG(p.StandardCost)) AS AverageProfit
+FROM Product p
+GROUP BY p.ProductID, p.Name
+HAVING (AVG(p.ListPrice) - AVG(p.StandardCost)) > 100;",,4344.62,,,1,7993,69,
+bird_train_large,7016,medium,answerable,wrong,"SELECT 
+    poh.PurchaseOrderID,
+    p.Name AS ProductName
+FROM PurchaseOrderHeader poh
+JOIN PurchaseOrderDetail pod ON poh.PurchaseOrderID = pod.PurchaseOrderID
+JOIN Product p ON pod.ProductID = p.ProductID
+WHERE pod.RejectedQty > 0;",,4060.07,,,1,7987,63,
+bird_train_large,7022,hard,answerable,wrong,"SELECT P.Name, P.ProductNumber, PV.MinOrderQty
+FROM Product P
+JOIN ProductVendor PV ON P.ProductID = PV.ProductID
+WHERE PV.MinOrderQty >= 100
+ORDER BY P.Name DESC;",,3412.98,,,1,7995,48,
+bird_train_large,7032,extra,answerable,wrong,"SELECT MAX(SalesPerson.Bonus) AS HighestBonus
+FROM SalesPerson
+JOIN Employee ON SalesPerson.BusinessEntityID = Employee.BusinessEntityID
+JOIN SalesTerritoryHistory ON SalesPerson.BusinessEntityID = SalesTerritoryHistory.BusinessEntityID
+JOIN SalesTerritory ON SalesTerritoryHistory.TerritoryID = SalesTerritory.TerritoryID
+WHERE LOWER(SalesTerritory.Name) LIKE '%canada%';",,5161.28,,,1,7980,87,
+bird_train_large,7041,hard,answerable,wrong,"SELECT JobTitle, MIN(Rate) AS MinPay
+FROM EmployeePayHistory eph
+JOIN Employee emp ON eph.BusinessEntityID = emp.BusinessEntityID
+GROUP BY emp.JobTitle
+ORDER BY MinPay ASC
+LIMIT 1;",,5759.11,,,1,16022,84,
+bird_train_large,7057,extra,answerable,correct,"SELECT MAX(Employees.Rate) AS HighestPayRate
+FROM Employee
+JOIN EmployeePayHistory Employees ON Employee.BusinessEntityID = Employees.BusinessEntityID
+WHERE Employee.SalariedFlag = 1;",,6253.30,,,1,16083,89,
+bird_train_large,7058,extra,answerable,wrong,"SELECT e.BusinessEntityID, e.VacationHours
+FROM Employee e
+JOIN EmployeePayHistory eph ON e.BusinessEntityID = eph.BusinessEntityID
+WHERE eph.PayFrequency = (
+    SELECT MAX(PayFrequency)
+    FROM EmployeePayHistory
+);",,3725.93,,,1,7984,58,
+bird_train_large,7061,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Employee WHERE CurrentFlag = 1 AND Gender = 'M';,,4208.19,,,1,16078,47,
+bird_train_large,7063,hard,answerable,wrong,"SELECT JobTitle AS ""Job Position""
+FROM Employee
+WHERE BirthDate = (
+    SELECT MIN(BirthDate)
+    FROM Employee
+);",,2530.04,,,1,7983,32,
+bird_train_large,7068,extra,answerable,correct,SELECT AdditionalContactInfo FROM Person WHERE PersonType = 'SP' AND BusinessEntityID IN (SELECT BusinessEntityID FROM Employee ORDER BY BirthDate ASC LIMIT 1);,,2703.62,,,1,8002,35,
+bird_train_large,7069,medium,answerable,wrong,"SELECT p.FirstName
+FROM Person p
+JOIN Employee e ON p.BusinessEntityID = e.BusinessEntityID
+WHERE e.Gender = 'M' AND p.NameStyle = 0
+LIMIT 1;",,5197.97,,,1,16050,67,
+bird_train_large,7072,extra,answerable,wrong,"SELECT p.LastName, p.Suffix
+FROM Person p
+JOIN Employee e ON p.BusinessEntityID = e.BusinessEntityID
+WHERE p.PersonType = 'SC'
+ORDER BY e.SickLeaveHours DESC
+LIMIT 1;",,3361.38,,,1,7990,49,
+bird_train_large,7089,medium,answerable,wrong,"SELECT CustomerID
+FROM SalesOrderHeader
+JOIN SalesOrderDetail ON SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
+WHERE OrderQty = 32 AND UnitPrice = 35;",,3275.18,,,1,7998,46,
+bird_train_large,7101,extra,answerable,wrong,"SELECT ProductID, StartDate, EndDate, StandardCost
+FROM ProductCostHistory
+WHERE ProductID IN (SELECT ProductID FROM Product WHERE WeightUnitMeasureCode = 'G')
+ORDER BY StandardCost DESC
+LIMIT 1;",,6183.32,,,1,16048,87,
+bird_train_large,7105,easy,answerable,wrong,"SELECT COUNT(*) AS EmployeeCount
+FROM EmployeePayHistory
+WHERE PayFrequency = 1 AND Rate > 50;",,2277.83,,,1,8013,26,
+bird_train_large,7106,medium,answerable,wrong,"SELECT p.FirstName || ' ' || COALESCE(p.MiddleName, '') || ' ' || p.LastName AS Full_Name
+FROM Person p
+WHERE p.BusinessEntityID = 1;",,2905.79,,,1,8003,39,
+bird_train_large,7109,easy,answerable,correct,SELECT Name FROM Department WHERE LOWER(GroupName) = LOWER('Executive General and Administration');,,1884.65,,,1,7987,18,
+bird_train_large,7110,medium,answerable,wrong,"SELECT LastName
+FROM Person
+WHERE PersonType = 'EM'
+  AND LOWER(MiddleName) LIKE LOWER('%c%');",,2324.90,,,1,7996,28,
+bird_train_large,7111,easy,answerable,correct,"SELECT COUNT(DISTINCT BusinessEntityID) AS VendorCount
+FROM ProductVendor
+WHERE AverageLeadTime = 25
+AND OnOrderQty > 0;",,5702.70,,,1,16105,77,
+bird_train_large,7114,medium,answerable,refused,"SELECT TOP 3 JobTitle, SickLeaveHours
+FROM Employee
+WHERE CurrentFlag = 1
+ORDER BY SickLeaveHours DESC;",BLOCKED_UNSAFE_SQL,2386.31,,,1,8001,29,
+bird_train_large,7119,hard,answerable,wrong,"SELECT Vendor.BusinessEntityID, Vendor.Name AS CompanyName
+FROM Vendor
+WHERE Vendor.CreditRating = 5;",,2200.66,,,1,7999,25,
+bird_train_large,7133,medium,answerable,error,SELECT COUNT(*) AS EmployeeCount FROM Employee WHERE PersonType = 'EM' AND MaritalStatus = 'S';,OperationalError: no such column: PersonType,4288.17,,,1,16043,48,
+bird_train_large,7134,hard,answerable,correct,"SELECT COUNT(CASE WHEN c.Name = 'English' THEN 1 END) - COUNT(CASE WHEN c.Name = 'Arabic' THEN 1 END) AS difference
+FROM ProductModelProductDescriptionCulture pmcdc
+JOIN Culture c ON pmcdc.CultureID = c.CultureID;",,3920.08,,,1,8027,61,
+bird_train_large,7136,medium,answerable,wrong,"SELECT 
+    e.BusinessEntityID,
+    p.FirstName,
+    p.LastName,
+    a.City,
+    a.StateProvinceID
+FROM Person p
+JOIN Employee e ON p.BusinessEntityID = e.BusinessEntityID
+JOIN BusinessEntityAddress bea ON e.BusinessEntityID = bea.BusinessEntityID
+JOIN Address a ON bea.AddressID = a.AddressID
+WHERE LOWER(a.City) LIKE '%duvall%';",,10981.62,,,1,16138,182,
+bird_train_large,7141,easy,answerable,wrong,"SELECT ExpYear FROM ""CreditCard"" WHERE CardNumber = LOWER('9648');",,1696.55,,,1,7981,20,
+bird_train_large,7142,medium,answerable,correct,"SELECT Person.BusinessEntityID 
+FROM Person 
+WHERE FirstName = 'Emma' AND LastName = 'Harris';",,1853.87,,,1,7966,23,
+bird_train_large,7166,medium,answerable,wrong,"SELECT COUNT(*) AS count FROM ""StateProvince"" WHERE CountryRegionCode IN (SELECT CountryRegionCode FROM CountryRegion WHERE Name LIKE '%France%') AND IsOnlyStateProvinceFlag = 1;",,2731.31,,,1,7999,41,
+bird_train_large,7167,medium,answerable,wrong,"SELECT 
+    th.TransactionType,
+    p.Name AS ProductName,
+    strftime('%Y-%m-%d', th.TransactionDate) AS TransactionDate
+FROM TransactionHistory th
+JOIN Product p ON th.ProductID = p.ProductID
+WHERE LOWER(p.Name) LIKE '%hl road frame - black%'
+    AND strftime('%Y-%m-%d', th.TransactionDate) = '2012-12-13';",,5514.41,,,1,8030,92,
+bird_train_large,7170,medium,answerable,correct,SELECT PreferredVendorStatus FROM Vendor WHERE BusinessEntityID = (SELECT BusinessEntityID FROM BusinessEntity WHERE rowguid = '684F328D-C185-43B9-AF9A-37ACC680D2AF');,,6858.79,,,1,16164,102,
+bird_train_large,7174,medium,answerable,error,SELECT JobTitle FROM Employee WHERE FirstName = 'Lynn' AND LastName = 'Tsoflias';,OperationalError: no such column: FirstName,4259.39,,,1,15996,53,
+bird_train_large,7181,hard,answerable,wrong,"SELECT SUM(StockedQty) AS TotalStockedQuantity
+FROM WorkOrder
+WHERE ProductID IN (
+    SELECT DISTINCT ProductID
+    FROM WorkOrderRouting
+    WHERE LocationID = 40
+);",,2977.73,,,1,7981,46,
+bird_train_large,7184,hard,answerable,wrong,"SELECT p.Name AS ProductName
+FROM Product p
+JOIN TransactionHistory t ON p.ProductID = t.ProductID
+WHERE LOWER(t.TransactionType) = 'p';",,2466.21,,,1,7967,35,
+bird_train_large,7188,extra,answerable,refused,"SELECT TOP 1 SalesPerson.FirstName, SalesPerson.LastName, CAST(SUM(SalesYTD) AS REAL) / SUM(SalesQuota) * 100 AS PercentageOfQuota
+FROM SalesPerson
+JOIN SalesPersonQuotaHistory ON SalesPerson.BusinessEntityID = SalesPersonQuotaHistory.BusinessEntityID
+WHERE strftime('%Y', SalesPersonQuotaHistory.QuotaDate) = '2013'
+GROUP BY SalesPerson.BusinessEntityID, SalesPerson.FirstName, SalesPerson.LastName
+ORDER BY PercentageOfQuota DESC;",BLOCKED_UNSAFE_SQL,6589.46,,,1,8026,114,
+bird_train_large,7190,hard,answerable,correct,"SELECT COUNT(*) AS Count
+FROM Employee e
+JOIN Person p ON e.BusinessEntityID = p.BusinessEntityID
+WHERE e.JobTitle LIKE 'Production Technician%'
+  AND e.MaritalStatus = 'S'
+  AND p.PersonType = 'VC';",,6897.91,,,1,16118,110,
+bird_train_large,7208,easy,answerable,correct,SELECT Name FROM Product WHERE ProductID = 475;,,1388.76,,,1,7970,14,
+bird_train_large,7221,hard,answerable,correct,SELECT EmailAddress FROM EmailAddress WHERE BusinessEntityID IN (SELECT BusinessEntityID FROM Employee WHERE JobTitle = 'Facilities Manager');,,2062.78,,,1,7974,28,
+bird_train_large,7232,extra,answerable,wrong,"SELECT FirstName, COUNT(*) AS Count
+FROM Person
+WHERE PersonType = LOWER('VC')
+GROUP BY FirstName
+ORDER BY Count DESC
+LIMIT 1;",,2342.20,,,1,7980,34,
+bird_train_large,7240,medium,answerable,wrong,"SELECT p.FirstName, p.LastName, cc.CardNumber
+FROM SalesOrderHeader soh
+JOIN Customer c ON soh.CustomerID = c.CustomerID
+JOIN Person p ON c.PersonID = p.BusinessEntityID
+JOIN PersonCreditCard pcc ON p.BusinessEntityID = pcc.BusinessEntityID
+JOIN CreditCard cc ON pcc.CreditCardID = cc.CreditCardID
+WHERE LOWER(soh.SalesOrderNumber) LIKE '%45793%';",,5483.18,,,1,7972,97,
+bird_train_large,7241,medium,answerable,error,"SELECT DISTINCT s.FirstName, s.LastName, st.Name AS TerritoryName
+FROM SalesPerson s
+JOIN Employee e ON s.BusinessEntityID = e.BusinessEntityID
+JOIN SalesTerritoryHistory sth ON s.BusinessEntityID = sth.BusinessEntityID
+JOIN SalesTerritory st ON sth.TerritoryID = st.TerritoryID
+WHERE st.Name LIKE '%Northwest%'
+  AND st.CountryRegionCode = 'US';",OperationalError: no such column: e.FirstName,10152.50,,,1,16098,171,
+bird_train_large,7243,medium,answerable,correct,"SELECT p.FirstName, p.MiddleName, p.LastName
+FROM SalesPerson sp
+JOIN Employee e ON sp.BusinessEntityID = e.BusinessEntityID
+JOIN Person p ON e.BusinessEntityID = p.BusinessEntityID
+JOIN SalesTerritoryHistory sth ON sp.BusinessEntityID = sth.BusinessEntityID
+WHERE sth.TerritoryID = 9
+AND (sth.EndDate IS NULL OR strftime('%Y-%m-%d', sth.EndDate) > strftime('%Y-%m-%d', 'now'));",,6061.87,,,1,7989,108,
+bird_train_large,7245,medium,answerable,wrong,"SELECT 
+    AVG(CASE WHEN LOWER(Gender) = 'm' THEN Rate END) AS MaleAvgRate,
+    AVG(CASE WHEN LOWER(Gender) = 'f' THEN Rate END) AS FemaleAvgRate,
+    (AVG(CASE WHEN LOWER(Gender) = 'f' THEN Rate END) - AVG(CASE WHEN LOWER(Gender) = 'm' THEN Rate END)) AS Diff
+FROM EmployeePayHistory
+JOIN Employee ON EmployeePayHistory.BusinessEntityID = Employee.BusinessEntityID
+WHERE LOWER(Employee.Gender) IN ('m', 'f');",,13126.59,,,1,16174,223,
+bird_train_large,7254,extra,answerable,wrong,"SELECT 
+    d.GroupName,
+    d.Name AS DepartmentName,
+    COUNT(e.BusinessEntityID) AS WorkerCount
+FROM Department d
+LEFT JOIN EmployeeDepartmentHistory edh ON d.DepartmentID = edh.DepartmentID
+LEFT JOIN Employee e ON edh.BusinessEntityID = e.BusinessEntityID
+GROUP BY d.DepartmentID, d.GroupName, d.Name
+ORDER BY WorkerCount ASC
+LIMIT 1;",,5040.25,,,1,7996,88,
+bird_train_large,7257,hard,answerable,correct,"SELECT 
+    p.BusinessEntityID AS EmployeeID,
+    strftime('%Y', e.HireDate) - strftime('%Y', e.BirthDate) AS AgeAtHire
+FROM PurchaseOrderHeader poh
+JOIN Employee e ON poh.EmployeeID = e.BusinessEntityID
+JOIN Person p ON e.BusinessEntityID = p.BusinessEntityID
+WHERE poh.TotalDue - poh.Freight > 0
+ORDER BY (poh.TotalDue - poh.Freight) DESC
+LIMIT 1;",,5946.98,,,1,8021,104,
+bird_train_large,7259,extra,answerable,wrong,"SELECT p.Name AS ProductName, (p.ListPrice - p.StandardCost) AS Profit
+FROM Product p
+JOIN ProductReview pr ON p.ProductID = pr.ProductID
+WHERE pr.ReviewerName LIKE '%John Smith%'
+  AND pr.Rating = 5
+ORDER BY Profit DESC
+LIMIT 1;",,3842.17,,,1,8001,66,
+bird_train_large,7263,extra,answerable,error,"SELECT 
+    ProductName,
+    ProductClass,
+    DaysToManufacture
+FROM (
+    SELECT 
+        p.Name AS ProductName,
+        p.Class AS ProductClass,
+        p.DaysToManufacture,
+        ROW_NUMBER() OVER (PARTITION BY p.Class ORDER BY p.Rating DESC) AS RankInClass
+    FROM Product p
+    WHERE p.Class = 'M'
+)
+WHERE RankInClass = 1;",OperationalError: no such column: p.Rating,10916.24,,,1,16187,194,
+bird_train_large,7273,hard,answerable,wrong,"SELECT 
+    Vendor.Name AS VendorName,
+    MAX(PurchaseOrderDetail.OrderQty - PurchaseOrderDetail.ReceivedQty) AS MaxDifference
+FROM PurchaseOrderDetail
+JOIN PurchaseOrderHeader ON PurchaseOrderDetail.PurchaseOrderID = PurchaseOrderHeader.PurchaseOrderID
+JOIN Vendor ON PurchaseOrderHeader.VendorID = Vendor.BusinessEntityID
+GROUP BY Vendor.Name;",,4381.15,,,1,8017,77,
+bird_train_large,7284,extra,answerable,wrong,"SELECT MAX(ReviewCount) AS MaxReviews
+FROM (
+    SELECT COUNT(*) AS ReviewCount
+    FROM ProductReview pr
+    JOIN Product p ON pr.ProductID = p.ProductID
+    WHERE p.FinishedGoodsFlag = 1
+    GROUP BY pr.ProductID
+);",,3617.87,,,1,7993,60,
+bird_train_large,7289,medium,answerable,wrong,"SELECT DISTINCT e.EmailAddress
+FROM ProductReview pr
+JOIN Product p ON pr.ProductID = p.ProductID
+JOIN Person pe ON pr.ReviewerName = pe.FirstName || ' ' || pe.LastName
+JOIN EmailAddress e ON pe.BusinessEntityID = e.BusinessEntityID
+WHERE LOWER(p.Class) = 'h';",,6477.28,,,1,16057,99,
+bird_train_large,7291,medium,answerable,wrong,"SELECT pd.Name AS ProductName, pd.ProductNumber AS ProductNumber
+FROM Product pd
+JOIN ProductDescription pdd ON pd.ProductID = pdd.ProductDescriptionID
+WHERE LOWER(pd.Name) LIKE '%headset ball bearings%';",,6098.60,,,1,16038,89,
+bird_train_large,7295,hard,answerable,wrong,"SELECT DISTINCT v.Name AS VendorName, v.PurchasingWebServiceURL AS WebsitePurchasingLink
+FROM Vendor v
+JOIN ProductVendor pv ON v.BusinessEntityID = pv.BusinessEntityID
+JOIN Product p ON pv.ProductID = p.ProductID
+WHERE LOWER(p.Name) LIKE '%hex nut 5%';",,3982.23,,,1,7988,66,
+bird_train_large,7314,extra,answerable,error,"SELECT JobTitle, FirstName, LastName, HireDate
+FROM Employee
+WHERE DepartmentID IN (
+    SELECT DepartmentID
+    FROM Department
+    WHERE Name LIKE '%Shipping%' OR Name LIKE '%Receiving%'
+)
+AND strftime('%Y', HireDate) = '2009';",OperationalError: no such column: FirstName,7664.04,,,1,16098,124,
+bird_train_large,7316,extra,answerable,error,"SELECT 
+    e.DepartmentID,
+    SUM(eh.Rate) / COUNT(DISTINCT eh.BusinessEntityID) AS AverageHourlyPayRate
+FROM EmployeeDepartmentHistory eh
+JOIN Employee e ON eh.BusinessEntityID = e.BusinessEntityID
+WHERE eh.EndDate IS NULL
+GROUP BY e.DepartmentID;",OperationalError: no such column: e.DepartmentID,8083.47,,,1,16128,132,
+bird_train_large,7317,extra,answerable,wrong,"SELECT MAX(Rate) AS HighestPayRate
+FROM EmployeePayHistory
+WHERE BusinessEntityID IN (
+    SELECT BusinessEntityID
+    FROM Employee
+    WHERE JobTitle != 'Chief Executive Officer'
+);",,3040.11,,,1,8006,45,
+bird_train_large,7318,extra,answerable,error,"SELECT Vendor.Name, AVG(PurchaseOrderDetail.AverageLeadTime) AS AvgLeadTime
+FROM Vendor
+JOIN PurchaseOrderDetail ON Vendor.BusinessEntityID = PurchaseOrderDetail.BusinessEntityID
+WHERE PurchaseOrderDetail.ProductID = 319
+GROUP BY Vendor.Name
+ORDER BY AvgLeadTime ASC
+LIMIT 1;",OperationalError: no such column: PurchaseOrderDetail.AverageLeadTime,8420.09,,,1,16060,136,
+bird_train_large,7323,easy,answerable,wrong,"SELECT AVG(strftime('%Y', 'now') - strftime('%Y', Employee.HireDate)) AS AverageAge
+FROM Employee;",,2036.24,,,1,7983,28,
+bird_train_large,7324,easy,answerable,correct,"SELECT CAST(SUM(CASE WHEN JobTitle = 'Sales Representative' THEN 1 ELSE 0 END) AS REAL) * 100.0 / COUNT(*) AS PercentageOfSalesRepresentatives
+FROM Employee;",,2985.51,,,1,7997,46,
+bird_train_large,7332,extra,answerable,refused,"SELECT TOP 1 JobTitle
+FROM Employee
+WHERE Gender = 'M' AND MaritalStatus = 'M'
+ORDER BY BirthDate ASC;",BLOCKED_UNSAFE_SQL,2284.55,,,1,7996,32,
+bird_train_large,7333,hard,answerable,wrong,"SELECT p.ProductNumber, v.Name AS VendorName
+FROM Product p
+JOIN ProductVendor pv ON p.ProductID = pv.ProductID
+JOIN Vendor v ON pv.BusinessEntityID = v.BusinessEntityID
+WHERE p.ProductNumber = 'WB-H098';",,3327.28,,,1,7967,55,
+bird_train_large,7337,easy,answerable,correct,"SELECT ProductSubcategoryID 
+FROM ProductSubcategory 
+ORDER BY ProductSubcategoryID 
+LIMIT 3;",,1932.76,,,1,7968,23,
+bird_train_large,7352,medium,answerable,wrong,"SELECT COUNT(*) AS ShipmentCount
+FROM PurchaseOrderHeader poh
+JOIN ShipMethod sm ON poh.ShipMethodID = sm.ShipMethodID
+WHERE LOWER(sm.Name) LIKE '%truck%';",,2702.96,,,1,7982,40,
+bird_train_large,7353,medium,answerable,wrong,"SELECT sr.Name AS SalesReasonName, soh.SalesOrderID
+FROM SalesOrderHeader soh
+JOIN SalesOrderHeaderSalesReason sohr ON soh.SalesOrderID = sohr.SalesOrderID
+JOIN SalesReason sr ON sohr.SalesReasonID = sr.SalesReasonID
+WHERE LOWER(soh.SalesOrderNumber) LIKE '%43718%' OR soh.SalesOrderID = 43718;",,5117.01,,,1,7978,92,
+bird_train_large,7357,extra,answerable,refused,"SELECT TOP 5 ProductID, SUM(OrderQty) AS TotalOrderQty
+FROM SalesOrderDetail
+GROUP BY ProductID
+ORDER BY TotalOrderQty DESC;",BLOCKED_UNSAFE_SQL,2362.44,,,1,7978,34,
+bird_train_large,7368,extra,answerable,refused,"SELECT TOP 1 Name AS ProductName, Rating AS ReviewScore
+FROM ProductReview
+ORDER BY Rating DESC, ProductReviewID ASC;",BLOCKED_UNSAFE_SQL,2114.65,,,1,7982,29,
+bird_train_large,7369,hard,answerable,wrong,"SELECT MAX(Rate) AS SecondHighestSalaryPerHour
+FROM EmployeePayHistory
+WHERE PayFrequency = 1
+AND Rate < (
+    SELECT MAX(Rate)
+    FROM EmployeePayHistory
+    WHERE PayFrequency = 1
+);",,3264.77,,,1,7996,52,
+bird_train_large,7380,extra,answerable,wrong,"SELECT 
+    ProductID,
+    Name AS ProductName,
+    (ListPrice - StandardCost) AS ProfitPerItem,
+    DaysToManufacture,
+    CASE WHEN EXISTS (SELECT 1 FROM ProductReview WHERE ProductReview.ProductID = Product.ProductID) THEN (SELECT MAX(Rating) FROM ProductReview WHERE ProductReview.ProductID = Product.ProductID) ELSE 'N/A' END AS Rating
+FROM Product
+WHERE DaysToManufacture = (SELECT MIN(DaysToManufacture) FROM Product)
+ORDER BY ProfitPerItem DESC;",,11318.79,,,1,16187,198,
+bird_train_large,7385,medium,answerable,wrong,"SELECT SUM((p.ListPrice - p.StandardCost) * 2) AS Profit
+FROM Product p
+JOIN ProductSubcategory ps ON p.ProductSubcategoryID = ps.ProductSubcategoryID
+WHERE LOWER(p.Class) LIKE '%high%'
+  AND LOWER(ps.Name) LIKE '%road%'
+  AND LOWER(p.Color) LIKE '%black%'
+  AND p.Size = '58';",,4688.31,,,1,8019,82,
+bird_train_large,7394,extra,answerable,wrong,"SELECT (ListPrice - StandardCost) AS profit
+FROM Product P
+JOIN ProductReview PR ON P.ProductID = PR.ProductID
+WHERE PR.ReviewerName = 'David'
+ORDER BY PR.Rating DESC, PR.ProductReviewID ASC
+LIMIT 1 OFFSET 1;",,3570.05,,,1,8009,59,
+bird_train_large,7398,easy,answerable,correct,SELECT COUNT(*) AS Count FROM SpecialOffer WHERE LOWER(Type) = LOWER('Excess Inventory');,,1652.78,,,1,7987,20,
+bird_train_large,7400,hard,answerable,refused,"SELECT TOP 3 SpecialOfferID, Description, DiscountPct
+FROM SpecialOffer
+WHERE Category = 'reseller'
+ORDER BY DiscountPct DESC;",BLOCKED_UNSAFE_SQL,2476.94,,,1,7997,34,
+bird_train_large,7403,easy,answerable,correct,"SELECT MIN(SafetyStockLevel) AS MinInventoryQuantity
+FROM Product
+WHERE LOWER(Name) LIKE '%chainring%';",,2029.05,,,1,7988,26,
+bird_train_large,7406,medium,answerable,correct,SELECT COUNT(*) AS Count FROM Person WHERE PersonType = 'SC' AND Title = 'Mr.';,,1807.26,,,1,7988,22,
+bird_train_large,7413,hard,answerable,wrong,"SELECT strftime('%Y', '2025-12-31') AS error;",,2765.63,,,1,7980,21,
+bird_train_large,7416,hard,answerable,correct,"SELECT COUNT(DISTINCT DepartmentID) AS DepartmentCount
+FROM EmployeeDepartmentHistory
+WHERE BusinessEntityID = (
+    SELECT BusinessEntityID
+    FROM Person
+    WHERE FirstName = 'David' AND LastName = 'Bradley'
+);",,3241.70,,,1,7964,51,
+bird_train_large,7428,hard,answerable,unanswerable,SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;,UNANSWERABLE_WITH_GIVEN_SCHEMA,1541.09,,,1,7989,15,
+bird_train_large,7429,extra,answerable,correct,"SELECT COUNT(*) AS ProductCount
+FROM SpecialOfferProduct sop
+JOIN SpecialOffer so ON sop.SpecialOfferID = so.SpecialOfferID
+JOIN Product p ON sop.ProductID = p.ProductID
+JOIN ProductSubcategory ps ON p.ProductSubcategoryID = ps.ProductSubcategoryID
+JOIN ProductCategory pc ON ps.ProductCategoryID = pc.ProductCategoryID
+WHERE so.Description LIKE '%LL Road Frame Sale%'
+  AND pc.Name = 'Clothing';",,5995.82,,,1,7983,94,
+bird_train_large,7443,hard,answerable,refused,"SELECT TOP 1 ProductName AS ProductWithMostProfit, Profit
+FROM (
+    SELECT 
+        p.Name AS ProductName,
+        (p.ListPrice - p.StandardCost) AS Profit
+    FROM Product p
+    WHERE p.ListPrice > p.StandardCost
+    ORDER BY Profit DESC
+) AS RankedProducts;",BLOCKED_UNSAFE_SQL,4154.49,,,1,7977,68,
+bird_train_large,7446,hard,answerable,wrong,"SELECT Product.Name, Product.ProductNumber, ProductPhoto.LargePhotoFileName
+FROM Product
+JOIN ProductProductPhoto ON Product.ProductID = ProductProductPhoto.ProductID
+JOIN ProductPhoto ON ProductProductPhoto.ProductPhotoID = ProductPhoto.ProductPhotoID
+WHERE ProductPhoto.LargePhoto IS NOT NULL;",,3580.20,,,1,7978,59,
+bird_train_large,7452,extra,answerable,wrong,"SELECT Name, StandardCost FROM Product WHERE StandardCost < (SELECT AVG(StandardCost) FROM Product);",,1781.99,,,1,7988,22,
+bird_train_large,7454,easy,answerable,wrong,"SELECT COUNT(*) AS product_count FROM ProductProductPhoto WHERE ""Primary"" = 0;",,1658.40,,,1,7984,19,
+bird_train_large,7467,medium,answerable,wrong,"SELECT DISTINCT p.Name AS ProductName, l.Name AS LocationName
+FROM Product p
+JOIN ProductInventory pi ON p.ProductID = pi.ProductID
+JOIN Location l ON pi.LocationID = l.LocationID
+WHERE p.ProductNumber = '810';",,4235.49,,,1,7970,54,
+bird_train_large,7470,medium,answerable,wrong,"SELECT wo.WorkOrderID, wo.ProductID, p.Name AS ProductName
+FROM WorkOrder wo
+JOIN Product p ON wo.ProductID = p.ProductID
+WHERE LOWER(p.Name) LIKE '%down tube%';",,3356.22,,,1,7980,45,
+bird_train_large,7641,extra,answerable,wrong,"SELECT 
+    m.firstName,
+    m.lastName,
+    m.birthYear,
+    m.birthMon,
+    m.birthDay,
+    c.year,
+    c.tmID,
+    t.name AS team_name
+FROM Coaches c
+JOIN Master m ON c.coachID = m.coachID
+JOIN Teams t ON c.year = t.year AND c.tmID = t.tmID
+WHERE LOWER(c.tmID) LIKE '%mtl%'
+ORDER BY c.year;",,12306.92,,,1,3856,103,
+bird_train_large,7651,medium,answerable,correct,SELECT DISTINCT year FROM Goalies WHERE lgID = 'NHL' AND SA IS NOT NULL ORDER BY year;,,2089.04,,,1,3859,24,
+bird_train_large,7663,extra,answerable,wrong,SELECT COUNT(*) AS count FROM AwardsCoaches AC JOIN Coaches C ON AC.coachID = C.coachID JOIN Master M ON C.coachID = M.coachID WHERE AC.year > 1940 AND M.deathYear IS NOT NULL;,,3705.22,,,1,3864,56,
+bird_train_large,7674,medium,answerable,wrong,"SELECT COUNT(*) AS hof_count
+FROM HOF
+WHERE LOWER(hofID) IN (
+    SELECT playerID
+    FROM Master
+    WHERE birthMon IN ('7', '8')
+);",,3000.36,,,1,3849,44,
+bird_train_large,7698,extra,answerable,wrong,"SELECT tmID, Pts
+FROM Teams
+WHERE year = 1995
+AND lgID IN (
+    SELECT DISTINCT lgID
+    FROM GoaliesSC
+    WHERE year = 1995
+)
+ORDER BY Pts DESC
+LIMIT 1;",,4349.63,,,1,3856,60,
+bird_train_large,7704,medium,answerable,wrong,"SELECT MAX(ScoringSC.A) AS max_assists
+FROM ScoringSC
+WHERE ScoringSC.year IN (
+    SELECT year
+    FROM SeriesPost
+    WHERE round = 'Stanley Cup Finals'
+);",,3382.37,,,1,3835,48,
+bird_train_large,7707,hard,answerable,wrong,"SELECT tmID, W FROM Teams WHERE year = 2011 AND lgID IN (SELECT DISTINCT lgID FROM GoaliesSC WHERE playerID IN (SELECT DISTINCT playerID FROM GoaliesSC WHERE year = 2011) GROUP BY playerID HAVING COUNT(DISTINCT playerID) = 3);",,4372.05,,,1,3861,68,
+bird_train_large,7709,medium,answerable,wrong,"SELECT COUNT(DISTINCT year) AS count_years 
+FROM Coaches 
+WHERE coachID IN (
+    SELECT playerID 
+    FROM Master 
+    WHERE lastName = 'Waddell' AND firstName = 'Don'
+);",,3538.91,,,1,3847,48,
+bird_train_large,7714,hard,answerable,wrong,"SELECT firstName, lastName, shootCatch
+FROM Master
+WHERE playerID IN (
+    SELECT playerID
+    FROM Scoring
+    WHERE year = 1989
+      AND SHG = '7'
+);",,3565.10,,,1,3866,48,
+bird_train_large,7719,hard,answerable,wrong,"SELECT (CAST(SUM(CASE WHEN year > 2005 THEN w ELSE 0 END) AS REAL) / SUM(CASE WHEN year > 2005 THEN w + l ELSE 0 END)) - (CAST(SUM(CASE WHEN year = 2005 THEN w ELSE 0 END) AS REAL) / SUM(CASE WHEN year = 2005 THEN w + l ELSE 0 END)) AS improvement_percentage
+FROM Coaches
+WHERE tmID = 'VAN'
+  AND coachID IN (SELECT coachID FROM Master WHERE lastName LIKE '%vigneault%' AND firstName LIKE '%alain%')
+  AND year >= 2005;",,17387.35,,,1,8055,280,
+bird_train_large,7733,extra,answerable,wrong,"SELECT 
+    year AS record_year,
+    MAX(CAST((CAST(strftime('%Y', '2000') AS INTEGER) - CAST(birthYear AS INTEGER)) AS INTEGER)) AS max_age_at_record
+FROM (
+    SELECT 
+        s.year,
+        m.birthYear
+    FROM Scoring s
+    JOIN Master m ON s.playerID = m.playerID
+    WHERE s.G > 0
+) sub;",,5214.52,,,1,3865,93,
+bird_train_large,7756,extra,answerable,wrong,"SELECT name, PIM FROM Teams WHERE year = 2006 ORDER BY CAST(PIM AS INTEGER) DESC LIMIT 3;",,2283.09,,,1,3864,29,
+bird_train_large,7761,medium,answerable,wrong,"SELECT T.name, T.PIM
+FROM Teams AS T
+WHERE T.year = 1923
+AND T.rank = 2;",,2076.29,,,1,3867,31,
+bird_train_large,7762,extra,answerable,error,"SELECT tmID, W FROM TeamsPost WHERE playoff = 'Stanley Cup Finals' GROUP BY tmID ORDER BY W DESC LIMIT 1;",OperationalError: no such column: playoff,3849.66,,,1,7738,58,
+bird_train_large,7774,extra,answerable,wrong,"SELECT tmID, SUM(W) + SUM(L) + SUM(T) + CASE WHEN OTL IS NOT NULL THEN CAST(OTL AS INTEGER) ELSE 0 END AS total_games
+FROM TeamVsTeam
+WHERE year = 2000 AND oppID IN (SELECT tmID FROM Teams WHERE year = 2000 AND name LIKE '%Buffalo Sabres%')
+GROUP BY tmID
+ORDER BY total_games DESC
+LIMIT 1;",,5123.07,,,1,3860,97,
+bird_train_large,7778,medium,answerable,wrong,"SELECT tmID, year, PIM FROM TeamsPost WHERE tmID LIKE '%Montreal%' AND PIM = '49';",,1812.66,,,1,3862,28,
+bird_train_large,7801,hard,answerable,correct,"SELECT playerID AS ""Player ID"", coachID AS ""Coach ID""
+FROM Master
+WHERE playerID IS NOT NULL AND coachID IS NOT NULL;",,2041.22,,,1,3844,33,
+bird_train_large,7807,medium,answerable,unanswerable,SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;,UNANSWERABLE_WITH_GIVEN_SCHEMA,1164.19,,,1,3839,15,
+bird_train_large,7813,medium,answerable,wrong,"SELECT SUM(G) AS total_goals
+FROM Teams
+WHERE year = 1976
+  AND tmID = 'BIR'
+  AND divID = 'EW';",,2602.59,,,1,3865,39,
+bird_train_large,7817,medium,answerable,error,"SELECT tmID, birthCountry
+FROM Teams t
+JOIN Scoring s ON t.tmID = s.tmID AND t.year = s.year
+WHERE t.year = 2000
+GROUP BY t.tmID
+ORDER BY (CAST(t.W AS REAL) / NULLIF(CAST(t.L + t.T + t.OTL AS REAL), 0)) DESC
+LIMIT 1;",OperationalError: ambiguous column name: tmID,10351.39,,,1,7862,166,
+bird_train_large,8229,medium,answerable,wrong,SELECT Independence FROM politics WHERE Country = LOWER('bulgaria');,,7507.33,,,1,3878,14,
+bird_train_large,8234,medium,answerable,wrong,"SELECT e.Service * e.GDP AS Service_of_GDP
+FROM economy e
+WHERE LOWER(e.Country) = 'brazil';",,2397.09,,,1,3890,28,
+bird_train_large,8235,hard,answerable,wrong,"SELECT Country, Infant_Mortality, Population_Growth
+FROM population
+ORDER BY Infant_Mortality DESC
+LIMIT 1;",,2606.67,,,1,3882,26,
+bird_train_large,8236,medium,answerable,error,"SELECT Country, Population AS ""Population"", Population_Growth AS ""Growth""
+FROM population
+WHERE Population_Growth < 0;",OperationalError: no such column: Population,4986.11,,,1,7865,58,
+bird_train_large,8237,medium,answerable,wrong,"SELECT Country, Infant_Mortality
+FROM country c
+JOIN population p ON c.Name = p.Country
+WHERE c.Area BETWEEN 500000 AND 1000000;",,3136.94,,,1,3898,43,
+bird_train_large,8243,medium,answerable,correct,SELECT COUNT(*) AS count FROM country c JOIN ethnicGroup e ON LOWER(c.Name) = LOWER(e.Country) WHERE LOWER(e.Name) LIKE '%african%' AND c.Population > 10000000;,,3240.44,,,1,3896,48,
+bird_train_large,8245,hard,answerable,wrong,"SELECT Country, GDP FROM economy ORDER BY GDP DESC LIMIT 1;",,1647.98,,,1,3875,15,
+bird_train_large,8246,medium,answerable,wrong,SELECT COUNT(*) AS count FROM country c JOIN economy e ON LOWER(c.Name) = LOWER(e.Country) WHERE c.Population > 10000000 AND e.GDP > 500000;,,3254.93,,,1,3903,49,
+bird_train_large,8248,extra,answerable,wrong,"SELECT Country, Inflation FROM economy ORDER BY Inflation ASC LIMIT 1;",,1725.65,,,1,3876,17,
+bird_train_large,8257,medium,answerable,wrong,"SELECT COUNT(*) AS count 
+FROM organization o
+JOIN country c ON LOWER(o.Country) = LOWER(c.Name)
+WHERE c.Population < 1000000;",,2892.71,,,1,3889,39,
+bird_train_large,8260,extra,answerable,wrong,SELECT COUNT(*) AS count FROM organization WHERE Country = (SELECT Country FROM ethnicGroup GROUP BY Country ORDER BY COUNT(*) DESC LIMIT 1);,,2308.84,,,1,3882,29,
+bird_train_large,8263,medium,answerable,correct,"SELECT MAX(Infant_Mortality) AS max_infant_mortality
+FROM population
+WHERE Country IN (
+    SELECT Country
+    FROM economy
+    WHERE Inflation < 3
+);",,2883.56,,,1,3887,41,
+bird_train_large,8264,medium,answerable,correct,SELECT COUNT(*) AS count FROM country c JOIN economy e ON LOWER(c.name) = LOWER(e.country) JOIN population p ON LOWER(c.name) = LOWER(p.country) WHERE e.gdp > 1000000 AND p.population_growth > 3;,,3587.40,,,1,3917,56,
+bird_train_large,8267,extra,answerable,wrong,"SELECT AVG(Population_Growth) AS avg_population_growth_rate
+FROM population
+WHERE Country IN (
+    SELECT Country
+    FROM language
+    GROUP BY Country
+    HAVING COUNT(*) > 3
+);",,3101.95,,,1,3886,46,
+bird_train_large,8268,medium,answerable,wrong,SELECT Country FROM economy WHERE Inflation > 1.3 * (SELECT AVG(Inflation) FROM economy);,,1998.97,,,1,3922,23,
+bird_train_large,8270,extra,answerable,wrong,"SELECT religion.Name AS ReligionName, SUM(religion.Percentage) AS TotalPercentage
+FROM religion
+JOIN country ON LOWER(country.Name) = LOWER('Martinique')
+WHERE LOWER(country.Name) LIKE '%martinique%'
+GROUP BY religion.Name
+ORDER BY TotalPercentage DESC
+LIMIT 1;",,3890.17,,,1,3878,61,
+bird_train_large,8273,hard,answerable,wrong,"SELECT Country1 AS Country1_Name, Country2 AS Country2_Name, Length AS Border_Length
+FROM borders
+ORDER BY Length DESC
+LIMIT 2;",,2488.81,,,1,3887,33,
+bird_train_large,8274,extra,answerable,wrong,"SELECT Country1 AS ""Country with most neighbors""
+FROM borders
+GROUP BY Country1
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,2343.64,,,1,3883,30,
+bird_train_large,8275,medium,answerable,wrong,"SELECT c.Name
+FROM mountain m
+JOIN geo_mountain gm ON m.Name = gm.Mountain
+JOIN country c ON gm.Country = c.Name
+WHERE m.Name = 'Cerro Chirripo';",,3021.72,,,1,3889,44,
+bird_train_large,8277,medium,answerable,wrong,SELECT COUNT(*) AS mountain_quantity FROM geo_mountain WHERE LOWER(Country) = LOWER('japan');,,1967.92,,,1,3888,22,
+bird_train_large,8279,extra,answerable,error,"SELECT c1.Code AS Country1_Code, c2.Code AS Country2_Code
+FROM borders b
+JOIN country c1 ON LOWER(b.Country1) = LOWER(c1.Name)
+JOIN country c2 ON LOWER(b.Country2) = LOWER(c2.Name)
+JOIN geo_mountain gm ON LOWER(b.Country1) = LOWER(gm.Country) OR LOWER(b.Country2) = LOWER(gm.Country)
+WHERE (gm.Mountain IS NOT NULL AND gm.Mountain != '')
+ORDER BY gm.Height DESC
+LIMIT 1;",OperationalError: no such column: gm.Height,12438.27,,,1,7916,222,
+bird_train_large,8289,extra,answerable,error,"SELECT c.Name AS Country, e.Name AS Ethnic_Group, e.Percentage AS Percentage
+FROM country c
+JOIN economy ec ON c.Code = ec.Country
+JOIN ethnicGroup e ON c.Code = e.Country
+WHERE ec.Population = (
+    SELECT ec2.Population
+    FROM economy ec2
+    ORDER BY ec2.Population DESC
+    LIMIT 1 OFFSET 2
+)
+ORDER BY e.Percentage DESC
+LIMIT 1;",OperationalError: no such column: ec.Population,10472.37,,,1,7902,188,
+bird_train_large,8312,extra,answerable,wrong,"SELECT Name, Area FROM desert WHERE (SELECT Name FROM continent) = 'America' ORDER BY Area DESC LIMIT 1;",,1876.69,,,1,3884,26,
+bird_train_large,8324,medium,answerable,wrong,"SELECT c.Name AS City, p.Name AS Province, p.Capital AS Capital
+FROM city c
+JOIN province p ON c.Province = p.Name AND c.Country = p.Country
+WHERE LOWER(c.Name) = 'glenrothes';",,3054.52,,,1,3886,51,
+bird_train_large,8334,hard,answerable,error,"SELECT r.Name AS RiverName, r.Length AS Length
+FROM river r
+JOIN geo_river gr ON r.Name = gr.River
+JOIN sea s ON gr.Sea = s.Name
+WHERE LOWER(s.Name) LIKE '%mediterranean%'
+ORDER BY r.Length DESC
+LIMIT 1;",OperationalError: no such column: gr.Sea,7747.75,,,1,7865,126,
+bird_train_large,8350,medium,answerable,wrong,"SELECT r.Name 
+FROM river r
+JOIN geo_river gr ON LOWER(r.Name) = LOWER(gr.River)
+WHERE LOWER(gr.Country) = 'canada';",,2867.29,,,1,3878,36,
+bird_train_large,8358,extra,answerable,wrong,"SELECT s.Name AS SeaName, c.Name AS SurroundingCountry
+FROM sea s
+JOIN geo_sea gs ON LOWER(s.Name) = LOWER(gs.Sea)
+JOIN country c ON LOWER(c.Name) = LOWER(gs.Country)
+ORDER BY s.Depth ASC
+LIMIT 1;",,3662.65,,,1,3893,60,
+bird_train_large,8386,extra,answerable,wrong,SELECT River FROM river WHERE Sea = '540' ORDER BY Length DESC LIMIT 1;,,1755.53,,,1,3893,21,
+bird_train_large,8388,hard,answerable,correct,"SELECT m.Longitude
+FROM mountain m
+JOIN mountainOnIsland mi ON m.Name = mi.Mountain
+WHERE LOWER(m.Name) LIKE '%olympus%';",,2406.44,,,1,3885,36,
+bird_train_large,8395,hard,answerable,wrong,"SELECT Country1, Country2
+FROM borders
+WHERE Length = 803;",,1615.32,,,1,3891,19,
+bird_train_large,8398,hard,answerable,wrong,"SELECT SUM(c.Population) AS total_population
+FROM city c
+JOIN province p ON c.Province = p.Name AND c.Country = p.Country
+WHERE LOWER(p.CapProv) LIKE '%fareham%';",,2805.11,,,1,3889,44,
+bird_train_large,8404,medium,answerable,error,"SELECT MAX(r1.Length) / MIN(r2.Length) AS ratio
+FROM geo_river r1
+JOIN geo_river r2 ON 1=1
+WHERE LOWER(r1.Country) = 'tajikistan'
+AND LOWER(r2.Country) = 'tajikistan';",OperationalError: no such column: r2.Length,8103.24,,,1,7898,120,
+bird_train_large,8408,medium,answerable,wrong,"SELECT 
+    r.Name AS RiverName,
+    COUNT(DISTINCT g.Country) AS CountryCount,
+    GROUP_CONCAT(g.Province) AS Provinces
+FROM river r
+JOIN geo_river g ON r.Name = g.River
+GROUP BY r.Name
+HAVING COUNT(DISTINCT g.Country) > 1;",,4255.99,,,1,3887,71,
+bird_train_large,8426,extra,answerable,wrong,"SELECT c.Name AS Country, (c.Population / c.Area) AS Ratio_Per_Sq_Meter
+FROM country c
+JOIN religion r ON LOWER(c.Name) = LOWER(r.Country)
+WHERE LOWER(r.Name) LIKE '%hindu%'
+ORDER BY Ratio_Per_Sq_Meter ASC
+LIMIT 1;",,3896.45,,,1,3905,66,
+bird_train_large,8436,medium,answerable,wrong,"SELECT Country1 AS Nation1, Country2 AS Nation2, Length AS BorderLength
+FROM borders
+ORDER BY Length DESC
+LIMIT 1;",,2531.43,,,1,3893,31,
+bird_train_large,8441,medium,answerable,wrong,"SELECT Country, Name AS Language, Percentage
+FROM language
+WHERE LOWER(Country) = LOWER('') OR LOWER(Name) = LOWER('english')
+AND Percentage = 100;",,2969.13,,,1,3899,40,
+bird_train_large,8449,hard,answerable,wrong,"SELECT Country, Independence
+FROM politics
+ORDER BY Independence DESC
+LIMIT 3;",,1693.85,,,1,3898,18,
+bird_train_large,8455,extra,answerable,wrong,"SELECT c.Name AS Country, COUNT(DISTINCT o.Abbreviation) AS Organization_Count
+FROM country c
+JOIN organization o ON LOWER(c.Name) = LOWER(o.Country)
+WHERE c.Capital IS NOT NULL -- Assuming Capital exists implies monarchy based on schema context or just filtering non-empty if needed, but strictly speaking 'Constitutional Monarchy' isn't a column. I will assume the user implies countries with specific characteristics or simply all countries if no flag exists. However, looking at the schema, there is NO column for 'Monarchy'.
+-- Re-evaluating: The question asks for ""constitutional monarchy nations"". The schema does not have a 'Government' type column in 'country', but it has 'Government' in 'politics'.
+-- Let's check 'politics' table. It has 'Government' (TEXT). Maybe we filter by that? But the values aren't defined.
+-- Alternative interpretation: The user might be mistaken about the schema or referring to a specific subset not explicitly tagged.
+-- However, looking at the evidence hint: ""Information of growth appears in the column Established"". This refers to the 'organization' table's 'Established' date.
+-- Since I cannot filter by 'Monarchy' without a flag, and the prompt implies I should answer based on the schema...
+-- If I strictly follow the schema, I cannot filter for ""constitutional monarchy"".
+-- BUT, often in these datasets (like WorldFact), 'Government' might contain values like 'Constitutional Monarchy'. Let's try to join politics.
+-- Wait, the 'politics' table has 'Government' column.
+-- Let's assume we filter where Government contains 'Monarchy' or similar? No, that's guessing data values.
+-- Is it possible the user implies ALL countries? Or is there a specific column I missed?
+-- Scanning schema again... 'country' has 'Capital', 'Area', 'Population'. 'politics' has 'Government'.
+-- If I cannot filter for monarchy, I should probably return all organizations or state unanswerable.
+-- However, the instruction says ""If the question cannot be answered using the schema, output exactly: SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;"".
+-- Since there is no column indicating 'Monarchy', I cannot filter for it.
+-- BUT, maybe the user considers 'Capital' existence as a proxy? No.
+-- Let's look at the",,28512.80,,,1,3904,512,
+bird_train_large,8467,hard,answerable,wrong,SELECT Country1 AS Country FROM borders WHERE LOWER(Country2) = 'bulgaria' UNION SELECT Country2 AS Country FROM borders WHERE LOWER(Country1) = 'bulgaria';,,2815.65,,,1,3886,40,
+bird_train_large,8474,extra,answerable,correct,"SELECT c.Name AS Country, c.Capital
+FROM country c
+JOIN isMember im ON c.Code = im.Country
+WHERE LOWER(im.Organization) = LOWER('IFAD') AND im.Type = 'Category III';",,2995.52,,,1,3893,45,
+bird_train_large,8491,extra,answerable,wrong,"SELECT o.Name
+FROM organization o
+WHERE LOWER(o.Country) = LOWER('saudi arabia')
+ORDER BY strftime('%Y-%m-%d', o.Established) DESC
+LIMIT 1;",,2786.80,,,1,3890,44,
+bird_train_large,8501,extra,answerable,wrong,"SELECT c.Name AS Country, pol.Government AS Governance
+FROM country c
+JOIN economy e ON LOWER(c.Name) = LOWER(e.Country)
+JOIN politics pol ON LOWER(c.Name) = LOWER(pol.Country)
+WHERE e.GDP = (SELECT MIN(GDP) FROM economy);",,7245.81,,,1,7913,118,
+bird_train_large,8506,easy,answerable,wrong,"SELECT CAST(COUNT(*) AS REAL) * 100.0 / (SELECT COUNT(*) FROM country) AS percentage
+FROM politics
+WHERE strftime('%Y', Independence) = '1960';",,2741.58,,,1,3903,44,
+bird_train_large,8508,extra,answerable,wrong,"SELECT Name, Longitude, Latitude
+FROM desert
+WHERE Area > (
+    SELECT COUNT(DISTINCT Country)
+    FROM geo_desert
+    WHERE geo_desert.Desert = desert.Name
+);",,2639.61,,,1,3895,43,

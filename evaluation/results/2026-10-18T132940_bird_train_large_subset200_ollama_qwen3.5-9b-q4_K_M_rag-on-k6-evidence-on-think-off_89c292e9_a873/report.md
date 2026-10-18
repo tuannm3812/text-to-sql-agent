@@ -1,0 +1,77 @@
+# Evaluation v2: bird_train_large / subset200 / ollama / qwen3.5:9b-q4_K_M
+
+Status: **complete** - citable: **yes** - 200 of 200 cases recorded - 0 outage(s).
+
+## Identity
+
+| Field | Value |
+|---|---|
+| run_id | `2026-10-18T132940_bird_train_large_subset200_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_89c292e9_a873` |
+| identity_sha256 | `89c292e974e782141d6f09812f650ee8ce6c459d754a1124f9a8ab4afe6b5d10` |
+| commit | `47284f5c6eebe925b8d8684ce3469fc108fc3903` |
+| dirty | `False` |
+| suite | `bird_train_large` |
+| suite_sha256 | `16a8c1d4fabd2fdcabb44a047422930e3693b9f448dcd444771e543423bbab49` |
+| subset | `subset200` |
+| subset_sha256 | `c8efceca06758ccad61936124c0b51c492900f554922efedea4f6f82cae3a9b0` |
+| source_release | `bird-sql train (train.zip, folder train; questions train.json)` |
+| database_fingerprint | `(('data/benchmarks/bird/train_databases/hockey/hockey.sqlite', '2987cba3921e2544fcd4603eccf5ff97b17f63103d8feb6fb908d55eb5bd9ba2'), ('data/benchmarks/bird/train_databases/mondial_geo/mondial_geo.sqlite', '02e71c23c27973be373e0c110600b4f12c77904c7594f3e345310511fe8b8d63'), ('data/benchmarks/bird/train_databases/soccer_2016/soccer_2016.sqlite', '84651eed21dbfae9f36a15697a5df81f3cb6ad78740f7301096e99dd7c4c06d5'), ('data/benchmarks/bird/train_databases/works_cycles/works_cycles.sqlite', '5a5968b86a2de3cf521294eca7cdc54887830b765e8ca7ab0b103d0f1d7daf1b'))` |
+| adapter_version | `4` |
+| scorer_version | `2` |
+| prompt_sha256 | `89d91cbac0ecc8b32b0af647d3d1238f513249cf6cdcc9bf4ff7eb597be333c3` |
+| provider | `ollama` |
+| model | `qwen3.5:9b-q4_K_M` |
+| evidence | `True` |
+| use_rag | `True` |
+| rag_top_k | `6` |
+| work_limit | `1000000000` |
+| max_rows | `100000` |
+| max_repair_attempts | `1` |
+| retry_policy | `2x10.0` |
+| ollama_think | `off` |
+| mode | `llm` |
+| source | kind=download, release=bird-sql train (train.zip, folder train; questions train.json), url=https://bird-bench.oss-cn-beijing.aliyuncs.com/train.zip, sha256=66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc, licence=cc-by-sa-4.0, adapter_version=4, unpacked_at=2026-10-18T04:41:47+00:00, licence_source=front matter of birdsql/bird_sql_dev_20251106@3c11fb193e54 README.md, the BIRD benchmark's dataset card (train.zip bundles no licence file; bird-bench.github.io says CC BY-SA 4.0 for the benchmark since 2024-04-27), licence_source_sha256=2ed0fcf8e873ef953d70bcf5e96042155b86a534d7b7c550509f7903dbfaeed5, min_tables=20, databases={'hockey': 22, 'mondial_geo': 34, 'soccer_2016': 21, 'works_cycles': 65}, train_databases_total=69, dropped={'7122': "bird_train_large case 7122: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7129': "bird_train_large case 7129: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7172': "bird_train_large case 7172: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7173': "bird_train_large case 7173: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7178': "bird_train_large case 7178: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7218': "bird_train_large case 7218: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7227': "bird_train_large case 7227: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7325': "bird_train_large case 7325: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7409': "bird_train_large case 7409: gold SQL reads ['personphone'], not tables of database 'works_cycles'", '7438': "bird_train_large case 7438: gold SQL reads ['personphone'], not tables of database 'works_cycles'"} |
+| started | `2026-10-18T13:29:40+00:00` |
+| duration_s | `1371.523` |
+| outage_count | `0` |
+| generation_failures | `0` |
+
+## Metrics
+
+| Population | Cases | EX (headline) | EX over valid references | Reference coverage | Safety accuracy | Declined as unanswerable (refusal cases) | False-refusal rate | Schema recall (mean of per-case fractions) |
+|---|---:|---|---|---|---|---|---|---|
+| overall | 200 | 30.5% [24.0, 37.0] (61/200) | 30.5% [24.0, 37.0] (61/200) | 100.0% [100.0, 100.0] (200/200) | not applicable | not applicable | 3.0% [1.0, 5.5] (6/200) | 91.8% [88.8, 94.6] (n=200) |
+| easy | 25 | 52.0% [32.0, 72.0] (13/25) | 52.0% [32.0, 72.0] (13/25) | 100.0% [100.0, 100.0] (25/25) | not applicable | not applicable | 0.0% [0.0, 0.0] (0/25) | 100.0% [100.0, 100.0] (n=25) |
+| medium | 79 | 38.0% [27.8, 49.4] (30/79) | 38.0% [27.8, 49.4] (30/79) | 100.0% [100.0, 100.0] (79/79) | not applicable | not applicable | 1.3% [0.0, 3.8] (1/79) | 89.5% [83.5, 94.7] (n=79) |
+| hard | 43 | 16.3% [7.0, 27.9] (7/43) | 16.3% [7.0, 27.9] (7/43) | 100.0% [100.0, 100.0] (43/43) | not applicable | not applicable | 4.7% [0.0, 11.6] (2/43) | 91.1% [85.3, 96.1] (n=43) |
+| extra | 53 | 20.8% [11.3, 32.1] (11/53) | 20.8% [11.3, 32.1] (11/53) | 100.0% [100.0, 100.0] (53/53) | not applicable | not applicable | 5.7% [0.0, 13.2] (3/53) | 92.1% [87.0, 96.6] (n=53) |
+
+Each rate cell is `point [low, high] (k/n)` in percent: a 95 % percentile-bootstrap interval, 10,000 resamples over cases, seed 0. Schema recall is not a rate: its cell is `mean [low, high] (n=cases)`, the same bootstrap over the mean of per-case recall fractions. What an interval means: it is sampling uncertainty over cases, for a fixed model and prompt. It is not generation variance across repeated runs of the same model.
+
+EX (headline) counts every answerable case and a `reference_invalid` one as not correct; EX over valid references excludes those; reference coverage is valid references over all answerable cases. Safety accuracy is over refusal and unanswerable cases only. Declined as unanswerable is over refusal cases only: the model answered the sentinel instead of refusing, which is safe but not counted in safety accuracy.
+
+These scorer v2 numbers are not comparable to the May 2026 12-case tables (`evaluation/results/evaluation_llm_*`). v2 applies a different comparison policy - typed values, exact text, multiset rows, order only under a top-level `ORDER BY` - not a uniformly stricter version of v1's, so a difference between the two is neither an improvement nor a regression.
+
+## Outcomes
+
+| Outcome | Cases |
+|---|---:|
+| correct | 61 |
+| error | 8 |
+| refused | 6 |
+| unanswerable | 6 |
+| wrong | 119 |
+
+## Reference-invalid cases
+
+None.
+
+## Generation failures
+
+0 of 200 terminal case(s) failed before the model answered - generation raised a non-retryable provider error, or the harness did - and are scored `error` (their IDs are the rows with `generation_failure` set in `cases.csv`). A key that dies partway through a run shows here even when the run is citable.
+
+## Latency and tokens
+
+- Latency: median 6329.9 ms, mean 6827.2 ms over 200 cases.
+- Tokens, prompt: 512410 total, 2562.1 mean over 200 cases that reported them.
+- Tokens, completion: 11337 total, 56.7 mean over 200 cases that reported them.

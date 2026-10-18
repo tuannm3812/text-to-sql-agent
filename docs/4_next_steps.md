@@ -57,9 +57,12 @@ gate passes on both suites with no measurable change, and BIRD gains 3 of 49
 hidden-literal targets (`evaluation/results/hint_label/README.md`). Listing all
 values under the 20-value ceiling stays untested and needs a privacy decision
 entry first; (3) **done 2026-10-18:** `bird_train_large`, four BIRD train databases of
-21-65 tables (`evaluation/results/bird_train_large/README.md`); run the three
-attribution arms on its `subset200`, then the full suite, before any selection
-or cost claim; (4) only then the retrieval rewrite below. The retrieval report's prompt size is
+21-65 tables (`evaluation/results/bird_train_large/README.md`). The three
+attribution arms on its `subset200` ran 2026-10-18: top 6 beats full DDL plus
+hints by +7.0 [+2.5, +11.5] with 70 % fewer prompt tokens, and full DDL plus
+hints is -4.5 [-8.5, -0.5] below plain DDL, so selection matters at this size.
+Next: the same three arms on the full suite, before any selection or cost claim,
+then the owner's default decision; (4) only then the retrieval rewrite below. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.
 

@@ -4581,3 +4581,14 @@ in `1. Study/`. They are now inside it:
 - `text-to-sql-large-schema-queue.sh` no longer waits on the refresh, which is
   done (`c5afea2`). It pins the worktree to `47284f5` and runs the three
   `bird_train_large` arms.
+
+## 2026-10-18 — Claude: `bird_train_large` attribution arms on `subset200`
+
+Three runs at `47284f5` from `.worktrees/release-runs`, all complete, citable
+and controlled, copied into `evaluation/results/`; paired comparisons saved
+beside the suite README, where the results are tabled. Plain DDL 28.0 %, full
+DDL plus hints 23.5 %, top 6 30.5 %. Top 6 vs full DDL plus hints: +7.0
+[+2.5, +11.5], prompt -70 %. Full DDL plus hints vs plain DDL: -4.5
+[-8.5, -0.5]. Top 6 vs plain DDL: +2.5 [-3.0, +8.0], not measurable. Top 6 is
+2.1 s slower per case despite the smaller prompt; not profiled. Full-suite
+runs not started. The large-schema queue's log is in `evaluation/run_logs/`.

@@ -1,0 +1,15 @@
+=== 2026-10-18 23:59:30 preparing the worktree
+=== 2026-10-18 23:59:30 worktree at 47284f5, status:        0 dirty
+=== 2026-10-18 23:59:31 START --suite bird_train_large --subset subset200 --evidence on --no-rag 
+bird_train_large: complete, citable=True, 200 cases, 0 outage(s)
+  evaluation/results/2026-10-18T125932_bird_train_large_subset200_ollama_qwen3.5-9b-q4_K_M_rag-off-evidence-on-think-off_8b5fafe2_a92c
+=== 2026-10-19 00:13:41 END exit=0 --suite bird_train_large --subset subset200 --evidence on --no-rag
+=== 2026-10-19 00:13:41 START --suite bird_train_large --subset subset200 --evidence on --rag-top-k 0 
+bird_train_large: complete, citable=True, 200 cases, 0 outage(s)
+  evaluation/results/2026-10-18T131341_bird_train_large_subset200_ollama_qwen3.5-9b-q4_K_M_rag-on-k0-evidence-on-think-off_6bb3ad07_47dd
+=== 2026-10-19 00:29:39 END exit=0 --suite bird_train_large --subset subset200 --evidence on --rag-top-k 0
+=== 2026-10-19 00:29:39 START --suite bird_train_large --subset subset200 --evidence on 
+bird_train_large: complete, citable=True, 200 cases, 0 outage(s)
+  evaluation/results/2026-10-18T132940_bird_train_large_subset200_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_89c292e9_a873
+=== 2026-10-19 00:52:32 END exit=0 --suite bird_train_large --subset subset200 --evidence on
+PHASE large DONE 2026-10-19 00:52:32

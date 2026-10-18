@@ -64,4 +64,43 @@ material share of the prompt.
 The three attribution arms, same model and settings as the release runs:
 plain DDL (RAG off), full DDL plus hints (`--rag-top-k 0`) and the shipped
 top 6. `subset200` first, paired with `--compare`; the full suite after if the
-subset is informative. Results will be tabled here.
+subset is informative.
+
+### `subset200` results (2026-10-18, commit `47284f5`)
+
+All three runs are complete, citable and controlled (same commit, clean
+trees, same prompt), with no outages or empty answers. The runs are under
+`evaluation/results/2026-10-18T1*_bird_train_large_subset200_*`. Paired
+comparisons are in `compare_k0_vs_off.md`, `compare_k6_vs_k0.md` and
+`compare_k6_vs_off.md`.
+
+| Arm | EX (95 % CI) | Prompt tokens, mean | Schema recall | Latency, mean |
+|---|---|---:|---:|---:|
+| Plain DDL (RAG off) | 28.0 % [22.0, 34.5] (56/200) | 6,237 | n/a | 4.2 s |
+| Full DDL plus hints (`--rag-top-k 0`) | 23.5 % [17.5, 29.5] (47/200) | 8,657 | 1.000 | 4.8 s |
+| Top 6 (shipped) | 30.5 % [24.0, 37.0] (61/200) | 2,562 | 0.918 | 6.8 s |
+
+| Pair (new vs baseline) | Paired change, points | Helped / hurt |
+|---|---|---:|
+| Top 6 vs full DDL plus hints | **+7.0 [+2.5, +11.5]** | 18 / 4 |
+| Full DDL plus hints vs plain DDL | **-4.5 [-8.5, -0.5]** | 4 / 13 |
+| Top 6 vs plain DDL | +2.5 [-3.0, +8.0] | 18 / 13 |
+
+- **Selection matters here, unlike on the dev suites.** Top 6 beats full DDL
+  plus hints by 7.0 points, an interval that excludes zero, while sending
+  70 % fewer prompt tokens. Most of the gain is on medium (+13.9) and extra
+  (+9.4) questions. On Spider and BIRD dev, where every database has at most
+  14 tables, selection added nothing measurable.
+- **Adding hints to the full schema hurts at this size.** Full DDL plus hints
+  is 4.5 points below plain DDL, with the prompt 39 % larger. The dev-suite
+  attribution (hints earn RAG's gain) does not carry over to 21-65 tables.
+- **Top 6 against plain DDL is not measurable** on 200 cases (+2.5, interval
+  spans zero), and it loses 14.0 points on hard questions, where recall below
+  1.0 can drop a needed table.
+- **Top 6 is slower despite the smaller prompt** (+2.1 s against full DDL plus
+  hints). The likely cause is retrieval itself: the hashed n-gram vectors are
+  recomputed per chunk per question with no cache (the open risk in
+  `AGENTS.md`), and these schemas have many more chunks. Not yet profiled.
+
+These are `subset200` figures. The design calls for the full suite (1,222
+questions) before any selection or cost claim.

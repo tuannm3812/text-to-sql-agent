@@ -1,0 +1,909 @@
+suite,id,hardness,expected,outcome,generated_sql,error,latency_ms,schema_recall,retrieved_tables,attempts,prompt_tokens,completion_tokens,generation_failure
+bird_train_large,1794,medium,answerable,wrong,"SELECT COUNT(*) AS count FROM Player WHERE LOWER(Player.Batting_hand) = 'right-hand bat' AND SUBSTR(Player.DOB, 1, 4) > 1985;",,9768.98,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,4927,87,
+bird_train_large,1798,extra,answerable,wrong,"SELECT Bowling_skill, COUNT(*) AS player_count
+FROM Player
+GROUP BY Bowling_skill
+ORDER BY player_count DESC
+LIMIT 1;",,1992.75,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2375,29,
+bird_train_large,1799,medium,answerable,correct,"SELECT p.Player_Name
+FROM Match m
+JOIN Player p ON m.Man_of_the_Match = p.Player_Id
+WHERE strftime('%Y-%m-%d', m.Match_Date) = '2008-04-18';",,3300.48,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2417,51,
+bird_train_large,1802,hard,answerable,correct,"SELECT MAX(M.Win_Margin) AS highest_winning_margin
+FROM Match M
+JOIN Player_Match PM ON M.Match_Id = PM.Match_Id
+JOIN Player P ON PM.Player_Id = P.Player_Id
+WHERE LOWER(P.Player_Name) = 'sc ganguly';",,3454.68,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2392,56,
+bird_train_large,1803,hard,answerable,wrong,"SELECT AVG(M.Win_Margin) AS avg_winning_margin
+FROM Match M
+JOIN Player_Match PM ON M.Match_Id = PM.Match_Id
+JOIN Player P ON PM.Player_Id = P.Player_Id
+WHERE LOWER(P.Player_Name) = LOWER('SC Ganguly');",,4293.28,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2405,57,
+bird_train_large,1808,medium,answerable,correct,"SELECT V.Venue_Name
+FROM Match M
+JOIN Venue V ON M.Venue_Id = V.Venue_Id
+WHERE M.Win_Margin = 138;",,2926.42,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2395,39,
+bird_train_large,1817,medium,answerable,wrong,"SELECT p.Player_Name, bs.Batting_hand
+FROM Player p
+JOIN Batting_Style bs ON p.Batting_hand = bs.Batting_Id
+WHERE LOWER(p.Player_Name) = LOWER('MK Pandey');",,2858.12,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2372,47,
+bird_train_large,1819,easy,answerable,wrong,"SELECT CAST(SUM(CASE WHEN v.Venue_Name = 'M Chinnaswamy Stadium' THEN 1 ELSE 0 END) AS REAL) / SUM(CASE WHEN v.Venue_Name = 'Maharashtra Cricket Association Stadium' THEN 1 ELSE 0 END) AS difference
+FROM Match m
+JOIN Venue v ON m.Venue_Id = v.Venue_Id;",,4874.81,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2444,84,
+bird_train_large,1824,easy,answerable,wrong,"SELECT 
+    s1.Season_Id AS Season_1,
+    s1.Man_of_the_Series AS Player_Season_1,
+    s2.Season_Id AS Season_2,
+    s2.Man_of_the_Series AS Player_Season_2
+FROM Season s1
+JOIN Season s2 ON s1.Season_Id = s2.Season_Id - 1
+WHERE s1.Man_of_the_Series = s2.Man_of_the_Series;",,6388.72,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2397,100,
+bird_train_large,1833,easy,answerable,wrong,"SELECT Team_Name, COUNT(*) AS Loss_Count
+FROM (
+    SELECT Team_Name, Team_Id AS Team_Loss
+    FROM Team t1
+    JOIN Match m ON t1.Team_Id = m.Team_1
+    WHERE m.Team_1 <> m.Match_Winner
+    UNION ALL
+    SELECT Team_Name, Team_Id AS Team_Loss
+    FROM Team t2
+    JOIN Match m ON t2.Team_Id = m.Team_2
+    WHERE m.Team_2 <> m.Match_Winner
+) AS team_losses
+GROUP BY Team_Name, Team_Loss
+ORDER BY Loss_Count DESC
+LIMIT 1;",,8184.11,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2421,132,
+bird_train_large,1836,hard,answerable,correct,"SELECT COUNT(*) AS player_count
+FROM Player p
+JOIN Batting_Style bs ON p.Batting_hand = bs.Batting_Id
+JOIN Country c ON p.Country_Name = c.Country_Id
+WHERE LOWER(bs.Batting_hand) = 'left-hand bat'
+  AND LOWER(c.Country_Name) = 'india';",,4907.63,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2385,69,
+bird_train_large,1841,hard,answerable,correct,"SELECT T.Team_Name
+FROM Match M
+JOIN Team T ON M.Team_1 = T.Team_Id
+WHERE M.Win_Margin = (SELECT MAX(Win_Margin) FROM Match);",,3136.06,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2395,40,
+bird_train_large,1842,hard,answerable,correct,"SELECT c.Country_Name
+FROM Venue v
+JOIN City ci ON v.City_Id = ci.City_Id
+JOIN Country c ON ci.Country_id = c.Country_Id
+WHERE v.Venue_Name LIKE '%St George%';",,3165.56,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2384,46,
+bird_train_large,1843,extra,answerable,wrong,"SELECT p.Player_Name
+FROM Player p
+JOIN Team t ON p.Country_Name = t.Team_Id
+JOIN Player_Match pm ON p.Player_Id = pm.Player_Id
+WHERE t.Team_Name LIKE '%Mumbai Indians%'
+AND pm.Match_Id = 335990;",,4166.15,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2402,60,
+bird_train_large,1851,easy,answerable,correct,SELECT COUNT(*) AS match_count FROM Match WHERE Venue_Id IN (SELECT Venue_Id FROM Venue WHERE LOWER(Venue_Name) LIKE '%newlands%');,,2418.02,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2378,32,
+bird_train_large,1858,easy,answerable,correct,SELECT COUNT(*) AS count FROM Wicket_Taken WHERE Match_Id = 548335 AND Innings_No = 1;,,2509.83,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2410,30,
+bird_train_large,1861,medium,answerable,wrong,SELECT Match_Id FROM Wicket_Taken WHERE LOWER(Kind_Out) = LOWER('hit wicket');,,1828.55,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2379,22,
+bird_train_large,1862,medium,answerable,correct,SELECT COUNT(*) AS count FROM Wicket_Taken WHERE Kind_Out IN (SELECT Out_Id FROM Out_Type WHERE LOWER(Out_Name) LIKE '%stumped%') AND Innings_No = 2;,,3095.47,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2392,42,
+bird_train_large,1864,hard,answerable,wrong,"SELECT Player_Name, DOB
+FROM Player
+WHERE strftime('%Y', DOB) = '1977'
+  AND LOWER(Country_Name) = LOWER('England');",,2958.23,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2414,39,
+bird_train_large,1871,hard,answerable,wrong,"SELECT 
+    t.Team_Name,
+    COUNT(*) AS Matches_Played
+FROM Player p
+JOIN Team t ON p.Country_Name = t.Team_Id -- Note: Schema has a foreign key mismatch in the provided DDL (Player.Country_Name references Country, but query logic implies joining to Team. However, strictly following schema rules and the evidence hint ""team refers to Team_Name"", I must assume the user wants the team associated with the player. The schema shows Player_Match links Player to Team.
+JOIN Player_Match pm ON p.Player_Id = pm.Player_Id
+WHERE LOWER(p.Player_Name) = 'ck kapugedera'
+GROUP BY t.Team_Name, t.Team_Id;",,8433.28,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2390,142,
+bird_train_large,1876,medium,answerable,correct,SELECT Match_Id FROM Match WHERE Man_of_the_Match = (SELECT Player_Id FROM Player WHERE Player_Name = 'BB McCullum');,,2431.31,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2370,29,
+bird_train_large,1882,medium,answerable,correct,SELECT Match_Id FROM Match WHERE Venue_Id IN (SELECT Venue_Id FROM Venue WHERE LOWER(Venue_Name) LIKE '%brabourne%');,,2443.68,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2382,31,
+bird_train_large,1888,medium,answerable,wrong,SELECT COUNT(*) AS Total_Winning_Matches FROM Match WHERE Match_Winner IN (SELECT Team_Id FROM Team WHERE Team_Name = 'Deccan Chargers');,,2547.41,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2382,33,
+bird_train_large,1894,medium,answerable,wrong,"SELECT Player_Name
+FROM Player
+WHERE strftime('%Y', DOB) BETWEEN '1970' AND '1990'
+ORDER BY DOB ASC;",,2807.66,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2426,37,
+bird_train_large,1895,easy,answerable,wrong,SELECT COUNT(*) AS count FROM Wicket_Taken WHERE Over_Id = 3 AND (Fielders IS NULL OR Fielders = '');,,2318.00,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2391,28,
+bird_train_large,1901,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Match WHERE Win_Margin < 50 AND Win_Type = 'wickets';,,2151.29,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2398,24,
+bird_train_large,1902,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Match WHERE Toss_Winner = Team_2 AND Match_Winner != Team_2;,,2287.93,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2394,26,
+bird_train_large,1904,extra,answerable,error,"SELECT V.Venue_Name
+FROM Venue V
+GROUP BY V.Venue_Id
+ORDER BY COUNT(M.Match_Id) DESC
+LIMIT 1;",OperationalError: no such column: Match_Id,5175.97,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,4847,66,
+bird_train_large,1907,extra,answerable,error,"SELECT 
+    p.Player_Name,
+    c.Country_Name,
+    COUNT(wt.Match_Id) AS Catches_Count
+FROM Wicket_Taken wt
+JOIN Player p ON wt.Player_Out = p.Player_Id
+JOIN Country c ON p.Country_Name = c.Country_Id
+WHERE wt.Kind_Out IN (SELECT Out_Id FROM Out_Type WHERE LOWER(Out_Name) LIKE '%caught%')
+GROUP BY wt.Match_Id, wt.Over_Id, wt.Ball_Id, wt.Innings_No, wt.Player_Out
+HAVING COUNT(wt.Match_Id) > (
+    SELECT AVG(CAST(COUNT(*) AS REAL))
+    FROM Wicket_Taken wt2
+    JOIN Out_Type ot ON wt2.Kind_Out = ot.Out_Id
+    WHERE LOWER(ot.Out_Name) LIKE '%caught%'
+)
+ORDER BY Catches_Count ASC;",OperationalError: misuse of aggregate function SUM(),22162.55,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,5047,392,
+bird_train_large,1909,medium,answerable,wrong,SELECT AVG(CASE WHEN Out_Type.Out_Id = 4 THEN Wicket_Taken.Player_Out ELSE NULL END) - AVG(CASE WHEN Out_Type.Out_Id = 3 THEN Wicket_Taken.Player_Out ELSE NULL END) AS difference_in_average_outs FROM Wicket_Taken JOIN Out_Type ON Wicket_Taken.Kind_Out = Out_Type.Out_Id;,,7153.06,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,4939,116,
+bird_train_large,1917,extra,answerable,wrong,"SELECT Season_Year 
+FROM Season 
+WHERE Man_of_the_Series IS NULL 
+  AND Orange_Cap IS NOT NULL 
+  AND Purple_Cap IS NULL;",,2075.83,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2367,35,
+bird_train_large,1919,medium,answerable,wrong,"SELECT Player_Id, Player_Name FROM Player WHERE LOWER(Country_Name) = LOWER('Zimbabwe');",,1509.08,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2372,21,
+bird_train_large,1920,easy,answerable,correct,SELECT COUNT(*) AS count FROM Player WHERE LOWER(Player.Batting_hand) IN (SELECT Batting_Id FROM Batting_Style WHERE LOWER(Batting_hand) = LOWER('Left-hand bat'));,,4505.73,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,4823,67,
+bird_train_large,1922,medium,answerable,correct,"SELECT U.Umpire_Name
+FROM Umpire U
+JOIN Country C ON U.Umpire_Country = C.Country_Id
+WHERE LOWER(C.Country_Name) = LOWER('new zealand');",,2623.60,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2382,42,
+bird_train_large,1924,extra,answerable,wrong,"SELECT Venue.Venue_Name, COUNT(*) AS Match_Count
+FROM Match
+JOIN Venue ON Match.Venue_Id = Venue.Venue_Id
+WHERE Match.Team_1 = (SELECT Team_Id FROM Team WHERE Team_Name = 'Kochi Tuskers Kerala')
+   OR Match.Team_2 = (SELECT Team_Id FROM Team WHERE Team_Name = 'Kochi Tuskers Kerala')
+GROUP BY Venue.Venue_Id, Venue.Venue_Name
+ORDER BY Match_Count DESC
+LIMIT 1;",,5729.52,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2394,107,
+bird_train_large,1926,medium,answerable,wrong,"SELECT CAST(SUM(CASE WHEN Match.Win_Margin < 10 THEN 1 ELSE 0 END) AS REAL) * 100.0 / COUNT(*) AS percentage
+FROM Match
+JOIN Venue ON Match.Venue_Id = Venue.Venue_Id
+WHERE LOWER(Venue.Venue_Name) LIKE '%dr dy patil sports academy%';",,4943.21,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2445,78,
+bird_train_large,1934,medium,answerable,wrong,"SELECT M.Match_Id, M.Match_Date
+FROM Match M
+JOIN Venue V ON M.Venue_Id = V.Venue_Id
+WHERE LOWER(V.Venue_Name) LIKE '%kingsmead%'
+  AND M.Match_Date IN (
+    SELECT DATE(M2.Match_Date) + 1
+    FROM Match M2
+    WHERE M2.Venue_Id = M.Venue_Id
+      AND M2.Match_Id != M.Match_Id
+  )
+  AND M.Match_Date IN (
+    SELECT DATE(M3.Match_Date) - 1
+    FROM Match M3
+    WHERE M3.Venue_Id = M.Venue_Id
+      AND M3.Match_Id != M.Match_Id
+  );",,16408.43,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,4992,314,
+bird_train_large,1936,hard,answerable,wrong,"SELECT M.Venue_Id, V.Venue_Name, C.City_Name
+FROM Match M
+JOIN Venue V ON M.Venue_Id = V.Venue_Id
+JOIN City C ON V.City_Id = C.City_Id
+WHERE M.Match_Id = 336005;",,7102.86,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,4911,120,
+bird_train_large,1939,medium,answerable,correct,"SELECT p.Player_Name
+FROM Player p
+JOIN Bowling_Style bs ON p.Bowling_skill = bs.Bowling_Id
+WHERE LOWER(bs.Bowling_skill) = 'legbreak';",,2363.96,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2369,40,
+bird_train_large,1950,medium,answerable,correct,SELECT Match_Date FROM Match ORDER BY Win_Margin DESC LIMIT 1;,,1365.01,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2388,16,
+bird_train_large,1954,extra,answerable,correct,SELECT Team_Name FROM Team WHERE Team_Id = (SELECT Match_Winner FROM Match ORDER BY Match_Date ASC LIMIT 1);,,1869.95,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2388,26,
+bird_train_large,1957,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Player WHERE LOWER(Bowling_skill) = 'legbreak';,,1410.23,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2371,20,
+bird_train_large,1961,hard,answerable,correct,"SELECT Country.Country_Name
+FROM Player
+JOIN Country ON Player.Country_Name = Country.Country_Id
+ORDER BY strftime('%Y', Player.DOB) DESC, Player.DOB DESC
+LIMIT 1;",,2401.00,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2371,41,
+bird_train_large,1967,medium,answerable,correct,"SELECT COUNT(*) AS match_count FROM Match WHERE strftime('%Y', Match_Date) = '2011';",,1587.41,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2380,24,
+bird_train_large,1984,medium,answerable,correct,"SELECT COUNT(*) AS match_count FROM Match WHERE strftime('%Y', Match_Date) = '2008';",,1644.71,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2378,24,
+bird_train_large,1985,easy,answerable,wrong,"SELECT COUNT(DISTINCT Match_Id) AS match_count
+FROM Ball_by_Ball
+WHERE Innings_No = 2;",,1830.51,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2371,27,
+bird_train_large,1993,hard,answerable,wrong,SELECT COUNT(*) AS count FROM Player_Match WHERE Player_Id IN (SELECT Player_Id FROM Player WHERE Player_Name = 'k goel') AND Role_Id = 3;,,2375.83,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2387,36,
+bird_train_large,2007,easy,answerable,correct,"SELECT (2008 - strftime('%Y', DOB)) AS age FROM Player WHERE LOWER(Player_Name) = 'sc ganguly';",,2165.53,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2392,30,
+bird_train_large,2022,medium,answerable,wrong,SELECT Outcome_Type FROM Match WHERE Match_Id = 392195;,,1368.22,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2362,18,
+bird_train_large,2025,easy,answerable,correct,"SELECT COUNT(DISTINCT M.Season_Id) AS season_count
+FROM Match M
+JOIN Team T ON M.Team_1 = T.Team_Id OR M.Team_2 = T.Team_Id
+WHERE T.Team_Name = 'Pune Warriors';",,3168.01,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2370,51,
+bird_train_large,2034,easy,answerable,wrong,SELECT CAST(SUM(CASE WHEN LOWER(P.Batting_hand) = 'left-hand bat' THEN 1 ELSE 0 END) AS REAL) * 100.0 / COUNT(*) AS percentage FROM Player P;,,6470.34,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,4905,97,
+bird_train_large,2037,easy,answerable,correct,"SELECT COUNT(*) AS total_players FROM Player WHERE strftime('%Y', DOB) BETWEEN '1970' AND '1975';",,2108.89,1.0,"ball_by_ball, batsman_scored, batting_style, bowling_style, city, country, extra_runs, extra_type, match, out_type, outcome, player, player_match, rolee, season, team, toss_decision, umpire, venue, wicket_taken, win_by",1,2405,31,
+bird_train_large,7000,medium,answerable,wrong,"SELECT 
+    p.Name AS ProductName,
+    strftime('%Y-%m-%d', pc.StartDate) AS CurrentStandardCostStartDate
+FROM 
+    Product p
+JOIN 
+    ProductCostHistory pc ON p.ProductID = pc.ProductID
+WHERE 
+    pc.EndDate IS NULL;",,24088.01,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11474,61,
+bird_train_large,7005,medium,answerable,wrong,"SELECT 
+    p.Name AS ProductName,
+    p.ListPrice AS SellingPrice
+FROM 
+    TransactionHistory th
+JOIN 
+    Product p ON th.ProductID = p.ProductID
+WHERE 
+    th.Quantity > 10000;",,3842.74,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11500,53,
+bird_train_large,7008,medium,answerable,correct,"SELECT SUM(sc.Quantity * (p.ListPrice - p.StandardCost)) AS TotalSalesProfit
+FROM ShoppingCartItem sc
+JOIN Product p ON sc.ProductID = p.ProductID
+WHERE sc.ShoppingCartID = '20621';",,7441.07,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23074,104,
+bird_train_large,7013,easy,answerable,wrong,"SELECT 
+    p.ProductID,
+    p.Name AS ProductName,
+    (AVG(p.ListPrice) - AVG(p.StandardCost)) AS AverageProfit
+FROM 
+    Product p
+GROUP BY 
+    p.ProductID, p.Name
+HAVING 
+    (AVG(p.ListPrice) - AVG(p.StandardCost)) > 100;",,4721.18,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11479,75,
+bird_train_large,7016,medium,answerable,wrong,"SELECT 
+    poh.PurchaseOrderID,
+    p.Name AS ProductName
+FROM PurchaseOrderHeader poh
+JOIN PurchaseOrderDetail pod ON poh.PurchaseOrderID = pod.PurchaseOrderID
+JOIN Product p ON pod.ProductID = p.ProductID
+WHERE pod.RejectedQty > 0;",,4118.72,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11473,63,
+bird_train_large,7022,hard,answerable,wrong,"SELECT P.Name, P.ProductNumber, PV.MinOrderQty
+FROM Product P
+JOIN ProductVendor PV ON P.ProductID = PV.ProductID
+WHERE PV.MinOrderQty >= 100
+ORDER BY P.Name DESC;",,3366.34,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11481,48,
+bird_train_large,7032,extra,answerable,wrong,"SELECT MAX(SalesPerson.Bonus) AS HighestBonus
+FROM SalesPerson
+JOIN SalesTerritoryHistory ON SalesPerson.BusinessEntityID = SalesTerritoryHistory.BusinessEntityID
+JOIN SalesTerritory ON SalesTerritoryHistory.TerritoryID = SalesTerritory.TerritoryID
+WHERE LOWER(SalesTerritory.Name) LIKE '%canada%';",,4605.80,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11466,73,
+bird_train_large,7041,hard,answerable,error,"SELECT JobTitle, MIN(Rate) AS MinPay
+FROM EmployeePayHistory
+GROUP BY BusinessEntityID, RateChangeDate, PayFrequency
+ORDER BY MinPay ASC
+LIMIT 1;",OperationalError: no such column: Rate,6367.65,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23002,73,
+bird_train_large,7057,extra,answerable,correct,"SELECT MAX(Employees.Rate) AS HighestPayRate
+FROM Employee
+JOIN EmployeePayHistory Employees ON Employee.BusinessEntityID = Employees.BusinessEntityID
+WHERE Employee.SalariedFlag = 1;",,6766.02,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23055,89,
+bird_train_large,7058,extra,answerable,wrong,"SELECT BusinessEntityID, VacationHours
+FROM Employee
+WHERE BusinessEntityID IN (
+    SELECT BusinessEntityID
+    FROM EmployeePayHistory
+    GROUP BY BusinessEntityID
+    HAVING MAX(PayFrequency) = 2
+);",,5842.89,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23002,72,
+bird_train_large,7061,medium,answerable,wrong,SELECT COUNT(*) AS count FROM Employee WHERE CurrentFlag = 1 AND Gender = 'M';,,5129.73,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23050,47,
+bird_train_large,7063,hard,answerable,wrong,"SELECT JobTitle AS ""Job Position""
+FROM Employee
+ORDER BY strftime('%Y-%m-%d', BirthDate) ASC
+LIMIT 1;",,2663.46,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11469,32,
+bird_train_large,7068,extra,answerable,correct,SELECT AdditionalContactInfo FROM Person WHERE BusinessEntityID IN (SELECT BusinessEntityID FROM Employee WHERE JobTitle LIKE '%Sales%' AND PersonType = 'SP' ORDER BY BirthDate ASC LIMIT 1);,,3207.86,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11488,42,
+bird_train_large,7069,medium,answerable,wrong,"SELECT FirstName
+FROM Person
+WHERE NameStyle = 0 AND (SELECT Gender FROM Employee WHERE Employee.BusinessEntityID = Person.BusinessEntityID) = 'M'
+LIMIT 1;",,5234.73,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23022,63,
+bird_train_large,7072,extra,answerable,wrong,"SELECT P.LastName, P.Suffix
+FROM Person P
+JOIN Employee E ON P.BusinessEntityID = E.BusinessEntityID
+WHERE P.PersonType = 'SC'
+ORDER BY E.SickLeaveHours DESC
+LIMIT 1;",,4223.25,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11476,49,
+bird_train_large,7089,medium,answerable,wrong,"SELECT CustomerID
+FROM SalesOrderHeader
+JOIN SalesOrderDetail ON SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
+WHERE OrderQty = 32 AND UnitPrice = 35;",,3683.57,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11484,46,
+bird_train_large,7101,extra,answerable,wrong,"SELECT ProductID, StartDate, EndDate, StandardCost
+FROM ProductCostHistory
+WHERE ProductID IN (
+    SELECT ProductID
+    FROM Product
+    WHERE WeightUnitMeasureCode = 'G'
+)
+ORDER BY StandardCost DESC
+LIMIT 1;",,8068.94,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23041,115,
+bird_train_large,7105,easy,answerable,wrong,"SELECT COUNT(*) AS EmployeeCount
+FROM EmployeePayHistory
+WHERE PayFrequency = 1 AND Rate > 50;",,2863.27,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11499,26,
+bird_train_large,7106,medium,answerable,wrong,"SELECT FirstName || ' ' || MiddleName || ' ' || LastName AS Full_Name
+FROM Person
+WHERE BusinessEntityID = 1
+AND PersonType = 'EM';",,3055.80,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11489,36,
+bird_train_large,7109,easy,answerable,correct,SELECT Name FROM Department WHERE LOWER(GroupName) = LOWER('Executive General and Administration');,,1997.15,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11473,18,
+bird_train_large,7110,medium,answerable,correct,"SELECT LastName
+FROM Person
+WHERE PersonType = 'EM'
+  AND LOWER(MiddleName) LIKE 'c%';",,2501.18,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11482,27,
+bird_train_large,7111,easy,answerable,correct,"SELECT COUNT(DISTINCT p.BusinessEntityID) AS VendorCount
+FROM ProductVendor p
+WHERE p.AverageLeadTime = 25
+AND p.OnOrderQty > 0;",,3082.72,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11495,40,
+bird_train_large,7114,medium,answerable,refused,"SELECT TOP 3 
+    e.JobTitle,
+    e.SickLeaveHours
+FROM Employee e
+WHERE e.CurrentFlag = 1
+ORDER BY e.SickLeaveHours DESC;",BLOCKED_UNSAFE_SQL,3628.20,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11487,40,
+bird_train_large,7119,hard,answerable,wrong,"SELECT Vendor.Name, Vendor.AccountNumber 
+FROM Vendor 
+WHERE Vendor.CreditRating = 5;",,2123.22,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11485,21,
+bird_train_large,7133,medium,answerable,wrong,"SELECT COUNT(*) AS EmployeeCount
+FROM Employee
+WHERE MaritalStatus = 'S';",,4584.27,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23022,50,
+bird_train_large,7134,hard,answerable,correct,SELECT COUNT(*) - (SELECT COUNT(*) FROM ProductModelProductDescriptionCulture WHERE CultureID IN (SELECT CultureID FROM Culture WHERE Name = 'Arabic')) AS difference FROM ProductModelProductDescriptionCulture WHERE CultureID IN (SELECT CultureID FROM Culture WHERE Name = 'English');,,3872.86,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11513,56,
+bird_train_large,7136,medium,answerable,wrong,"SELECT p.BusinessEntityID, v.AccountNumber
+FROM Vendor v
+JOIN Person p ON v.BusinessEntityID = p.BusinessEntityID
+JOIN BusinessEntityAddress bea ON p.BusinessEntityID = bea.BusinessEntityID
+JOIN Address a ON bea.AddressID = a.AddressID
+WHERE LOWER(a.City) LIKE '%duvall%';",,4717.20,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11488,71,
+bird_train_large,7141,easy,answerable,wrong,SELECT ExpYear FROM CreditCard WHERE CardNumber = '9648';,,2051.57,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11467,17,
+bird_train_large,7142,medium,answerable,correct,SELECT BusinessEntityID FROM Person WHERE FirstName = 'Emma' AND LastName = 'Harris';,,2086.62,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11452,20,
+bird_train_large,7166,medium,answerable,wrong,"SELECT COUNT(*) AS count FROM ""StateProvince"" WHERE CountryRegionCode = 'FR' AND (IsOnlyStateProvinceFlag = 1 OR StateProvinceCode IS NULL);",,2814.16,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11485,36,
+bird_train_large,7167,medium,answerable,wrong,"SELECT 
+    th.TransactionType,
+    COUNT(*) AS Count
+FROM TransactionHistory th
+JOIN Product p ON th.ProductID = p.ProductID
+WHERE LOWER(p.Name) LIKE '%hl road frame%'
+    AND LOWER(p.Name) LIKE '%black%'
+    AND strftime('%Y-%m-%d', th.TransactionDate) = '2012-12-13'
+GROUP BY th.TransactionType;",,5435.43,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11516,89,
+bird_train_large,7170,medium,answerable,correct,SELECT PreferredVendorStatus FROM Vendor WHERE BusinessEntityID = (SELECT BusinessEntityID FROM BusinessEntity WHERE rowguid = '684F328D-C185-43B9-AF9A-37ACC680D2AF');,,7468.44,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23136,102,
+bird_train_large,7174,medium,answerable,error,SELECT JobTitle FROM Employee WHERE FirstName = 'Lynn' AND LastName = 'Tsoflias';,OperationalError: no such column: FirstName,4424.11,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,22968,53,
+bird_train_large,7181,hard,answerable,wrong,"SELECT SUM(StockedQty) AS TotalStockedQuantity
+FROM WorkOrder
+WHERE ProductID IN (
+    SELECT ProductID
+    FROM ProductInventory
+    WHERE LocationID = 40
+);",,2941.48,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11467,44,
+bird_train_large,7184,hard,answerable,wrong,"SELECT p.Name AS ProductName
+FROM Product p
+JOIN TransactionHistory th ON p.ProductID = th.ProductID
+WHERE th.TransactionType = 'P';",,2411.26,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11453,33,
+bird_train_large,7188,extra,answerable,refused,"SELECT TOP 1 
+    ep.FirstName, 
+    ep.LastName, 
+    SUM(sh.SalesQuota) AS TotalQuota2013,
+    SUM(sh.SalesYTD) AS ActualSales2013,
+    (SUM(sh.SalesYTD) * 100.0 / NULLIF(SUM(sh.SalesQuota), 0)) AS PercentageOfQuota
+FROM SalesPerson sp
+JOIN Employee ep ON sp.BusinessEntityID = ep.BusinessEntityID
+JOIN SalesPersonQuotaHistory sh ON sp.BusinessEntityID = sh.BusinessEntityID
+WHERE strftime('%Y', sh.QuotaDate) = '2013'
+GROUP BY ep.FirstName, ep.LastName, SUM(sh.SalesQuota), SUM(sh.SalesYTD)
+ORDER BY PercentageOfQuota DESC;",BLOCKED_UNSAFE_SQL,9485.62,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11512,173,
+bird_train_large,7190,hard,answerable,error,"SELECT COUNT(*) AS Count
+FROM Employee e
+JOIN Person p ON e.BusinessEntityID = p.BusinessEntityID
+WHERE e.JobTitle LIKE 'Production Technician%'
+  AND p.MaritalStatus = 'S'
+  AND p.PersonType = 'VC';",OperationalError: no such column: p.MaritalStatus,8225.71,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23090,110,
+bird_train_large,7208,easy,answerable,correct,SELECT Name FROM Product WHERE ProductID = 475;,,1553.92,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11456,14,
+bird_train_large,7221,hard,answerable,error,"SELECT p.EmailAddress 
+FROM Person p
+JOIN Employee e ON p.BusinessEntityID = e.BusinessEntityID
+WHERE e.JobTitle LIKE '%Facilities Manager%';",OperationalError: no such column: pe.EmailAddress,5602.13,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,22997,70,
+bird_train_large,7232,extra,answerable,wrong,"SELECT FirstName, COUNT(*) AS Count
+FROM Person
+WHERE PersonType = LOWER('VC')
+GROUP BY FirstName
+ORDER BY Count DESC
+LIMIT 1;",,2554.79,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11466,34,
+bird_train_large,7240,medium,answerable,wrong,"SELECT p.LastName, p.FirstName, cc.CardNumber
+FROM SalesOrderHeader soh
+JOIN Customer c ON soh.CustomerID = c.CustomerID
+JOIN Person p ON c.PersonID = p.BusinessEntityID
+JOIN PersonCreditCard pcc ON p.BusinessEntityID = pcc.BusinessEntityID
+JOIN CreditCard cc ON pcc.CreditCardID = cc.CreditCardID
+WHERE LOWER(soh.SalesOrderNumber) LIKE '%45793%';",,5867.61,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11458,97,
+bird_train_large,7241,medium,answerable,wrong,"SELECT 
+    p.FirstName,
+    p.LastName,
+    st.Name AS TerritoryName,
+    cr.Name AS CountryRegionName
+FROM SalesPerson sp
+JOIN Employee e ON sp.BusinessEntityID = e.BusinessEntityID
+JOIN Person p ON e.BusinessEntityID = p.BusinessEntityID
+JOIN SalesTerritory st ON sp.TerritoryID = st.TerritoryID
+JOIN CountryRegion cr ON st.CountryRegionCode = cr.CountryRegionCode
+WHERE LOWER(st.Name) LIKE '%northwest%'
+  AND LOWER(cr.Name) LIKE '%us%';",,6960.90,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11469,117,
+bird_train_large,7243,medium,answerable,wrong,"SELECT p.FirstName || COALESCE(p.MiddleName, '') || ' ' || p.LastName AS Full_Name
+FROM SalesPerson sp
+JOIN Employee e ON sp.BusinessEntityID = e.BusinessEntityID
+JOIN Person p ON e.BusinessEntityID = p.BusinessEntityID
+JOIN SalesTerritory st ON sp.TerritoryID = st.TerritoryID
+WHERE st.TerritoryID = 9;",,11426.40,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23078,170,
+bird_train_large,7245,medium,answerable,wrong,"SELECT 
+    CASE WHEN LOWER(Gender) = 'm' THEN AVG(Rate) END AS MaleAvgRate,
+    CASE WHEN LOWER(Gender) = 'f' THEN AVG(Rate) END AS FemaleAvgRate,
+    CASE WHEN LOWER(Gender) = 'f' THEN AVG(Rate) ELSE NULL END - 
+         CASE WHEN LOWER(Gender) = 'm' THEN AVG(Rate) ELSE NULL END AS Diff
+FROM EmployeePayHistory eph
+JOIN Employee emp ON eph.BusinessEntityID = emp.BusinessEntityID
+WHERE LOWER(emp.Gender) IN ('m', 'f');",,8490.11,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11502,127,
+bird_train_large,7254,extra,answerable,wrong,"SELECT 
+    d.GroupName,
+    d.Name AS DepartmentName,
+    COUNT(e.BusinessEntityID) AS WorkerCount
+FROM Department d
+LEFT JOIN EmployeeDepartmentHistory edh ON d.DepartmentID = edh.DepartmentID
+LEFT JOIN Employee e ON edh.BusinessEntityID = e.BusinessEntityID
+GROUP BY d.DepartmentID, d.GroupName, d.Name
+ORDER BY WorkerCount ASC
+LIMIT 1;",,6445.45,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11482,88,
+bird_train_large,7257,hard,answerable,error,"SELECT 
+    p.BusinessEntityID AS EmployeeID,
+    strftime('%Y', p.HireDate) - (strftime('%Y', p.BirthDate)) AS AgeAtHire
+FROM SalesOrderHeader soh
+JOIN Person p ON p.BusinessEntityID = soh.EmployeeID
+WHERE soh.Freight > 0
+ORDER BY (soh.TotalDue - soh.Freight) DESC
+LIMIT 1;",OperationalError: no such column: soh.EmployeeID,11995.18,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23144,187,
+bird_train_large,7259,extra,answerable,wrong,"SELECT p.Name AS ProductName, (p.ListPrice - p.StandardCost) AS Profit
+FROM Product p
+JOIN ProductReview pr ON p.ProductID = pr.ProductID
+WHERE pr.ReviewerName = 'John Smith'
+ORDER BY pr.Rating DESC
+LIMIT 1;",,3821.30,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11487,59,
+bird_train_large,7263,extra,answerable,wrong,"SELECT 
+    p.Name AS ProductName,
+    p.Class AS ProductClass,
+    MAX(pr.Rating) AS HighestRating,
+    p.DaysToManufacture AS ManufacturingDays
+FROM Product p
+JOIN ProductReview pr ON p.ProductID = pr.ProductID
+WHERE p.Class = 'M'
+GROUP BY p.ProductID, p.Name, p.Class, p.DaysToManufacture
+ORDER BY HighestRating DESC
+LIMIT 1;",,5440.14,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11510,95,
+bird_train_large,7273,hard,answerable,wrong,"SELECT 
+    Vendor.Name AS VendorName,
+    MAX(PurchaseOrderDetail.OrderQty - PurchaseOrderDetail.ReceivedQty) AS MaxDifference
+FROM PurchaseOrderHeader
+JOIN PurchaseOrderDetail ON PurchaseOrderHeader.PurchaseOrderID = PurchaseOrderDetail.PurchaseOrderID
+JOIN Vendor ON PurchaseOrderHeader.VendorID = Vendor.BusinessEntityID
+GROUP BY Vendor.Name
+ORDER BY MaxDifference DESC
+LIMIT 1;",,4998.20,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11503,87,
+bird_train_large,7284,extra,answerable,wrong,"SELECT MAX(review_count) AS max_reviews
+FROM (
+    SELECT COUNT(*) AS review_count
+    FROM ProductReview pr
+    JOIN Product p ON pr.ProductID = p.ProductID
+    WHERE p.FinishedGoodsFlag = 1
+);",,3433.38,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11479,52,
+bird_train_large,7289,medium,answerable,error,"SELECT DISTINCT p.EmailAddress
+FROM ProductReview pr
+JOIN Product p ON pr.ProductID = p.ProductID
+WHERE LOWER(p.Class) = 'h';",OperationalError: no such column: pe.EmailAddress,5264.84,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23029,71,
+bird_train_large,7291,medium,answerable,wrong,"SELECT pd.Name AS ProductName, pd.ProductNumber AS ProductNumber
+FROM Product pd
+JOIN ProductDescription pdd ON pd.ProductID = pdd.ProductDescriptionID
+WHERE LOWER(pd.Name) LIKE '%headset ball bearings%';",,6105.45,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23010,89,
+bird_train_large,7295,hard,answerable,wrong,"SELECT DISTINCT v.PurchasingWebServiceURL
+FROM Vendor v
+JOIN ProductVendor pv ON v.BusinessEntityID = pv.BusinessEntityID
+JOIN Product p ON pv.ProductID = p.ProductID
+WHERE LOWER(p.Name) LIKE '%hex nut 5%';",,3394.53,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11474,54,
+bird_train_large,7314,extra,answerable,wrong,"SELECT 
+    e.BusinessEntityID,
+    p.FirstName,
+    p.LastName,
+    e.JobTitle,
+    strftime('%Y', e.HireDate) AS HireYear
+FROM Employee e
+JOIN Person p ON e.BusinessEntityID = p.BusinessEntityID
+JOIN Department d ON e.BusinessEntityID = d.DepartmentID
+WHERE d.GroupName = 'Shipping and Receiving'
+AND strftime('%Y', e.HireDate) = '2009';",,5630.92,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11484,100,
+bird_train_large,7316,extra,answerable,wrong,"SELECT 
+    d.DepartmentID,
+    d.Name AS DepartmentName,
+    AVG(ph.Rate) AS AverageHourlyPayRate
+FROM Department d
+JOIN EmployeeDepartmentHistory edh ON d.DepartmentID = edh.DepartmentID
+JOIN Employee e ON edh.BusinessEntityID = e.BusinessEntityID
+JOIN EmployeePayHistory ph ON e.BusinessEntityID = ph.BusinessEntityID AND ph.RateChangeDate = (SELECT MAX(RateChangeDate) FROM EmployeePayHistory WHERE BusinessEntityID = e.BusinessEntityID)
+GROUP BY d.DepartmentID, d.Name;",,13168.11,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23144,229,
+bird_train_large,7317,extra,answerable,wrong,"SELECT MAX(Rate) AS HighestPayRate
+FROM EmployeePayHistory
+WHERE BusinessEntityID NOT IN (
+    SELECT BusinessEntityID
+    FROM Employee
+    WHERE JobTitle = 'Chief Executive Officer'
+);",,3075.22,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11492,46,
+bird_train_large,7318,extra,answerable,error,"SELECT Vendor.Name, AVG(PurchaseOrderDetail.AverageLeadTime) AS AverageLeadTime
+FROM Vendor
+JOIN PurchaseOrderDetail ON Vendor.BusinessEntityID = PurchaseOrderDetail.BusinessEntityID
+WHERE PurchaseOrderDetail.ProductID = 319
+GROUP BY Vendor.Name
+ORDER BY AverageLeadTime ASC
+LIMIT 1;",OperationalError: no such column: PurchaseOrderDetail.AverageLeadTime,8506.38,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23032,136,
+bird_train_large,7323,easy,answerable,wrong,"SELECT AVG(strftime('%Y', 'now') - strftime('%Y', Employee.HireDate)) AS AverageAge
+FROM Employee;",,2210.56,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11469,28,
+bird_train_large,7324,easy,answerable,correct,"SELECT CAST(SUM(CASE WHEN JobTitle LIKE '%Sales Representative%' THEN 1 ELSE 0 END) AS REAL) * 100.0 / COUNT(*) AS PercentageOfSalesRepresentatives
+FROM Employee;",,3069.73,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11483,46,
+bird_train_large,7332,extra,answerable,refused,"SELECT TOP 1 JobTitle
+FROM Employee
+WHERE Gender = 'M'
+AND MaritalStatus = 'M'
+ORDER BY BirthDate ASC;",BLOCKED_UNSAFE_SQL,2386.87,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11482,33,
+bird_train_large,7333,hard,answerable,wrong,"SELECT p.ProductNumber, v.Name AS VendorName
+FROM Product p
+JOIN ProductVendor pv ON p.ProductID = pv.ProductID
+JOIN Vendor v ON pv.BusinessEntityID = v.BusinessEntityID
+WHERE p.ProductNumber = 'WB-H098';",,3405.16,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11453,55,
+bird_train_large,7337,easy,answerable,wrong,"SELECT ProductSubcategoryID, Name 
+FROM ProductSubcategory 
+ORDER BY ProductSubcategoryID 
+LIMIT 3;",,1975.30,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11454,25,
+bird_train_large,7352,medium,answerable,wrong,"SELECT COUNT(*) AS ShipmentCount
+FROM PurchaseOrderHeader poh
+JOIN ShipMethod sm ON poh.ShipMethodID = sm.ShipMethodID
+WHERE LOWER(sm.Name) LIKE '%truck%';",,2799.84,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11468,40,
+bird_train_large,7353,medium,answerable,wrong,"SELECT sr.Name AS SalesReasonName, soh.SalesOrderID
+FROM SalesOrderHeader soh
+JOIN SalesOrderHeaderSalesReason sohr ON soh.SalesOrderID = sohr.SalesOrderID
+JOIN SalesReason sr ON sohr.SalesReasonID = sr.SalesReasonID
+WHERE LOWER(soh.SalesOrderNumber) LIKE '%43718%' OR soh.SalesOrderID = 43718;",,5497.31,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11464,92,
+bird_train_large,7357,extra,answerable,refused,"SELECT TOP 5 ProductID, SUM(OrderQty) AS TotalOrderQty
+FROM SalesOrderDetail
+GROUP BY ProductID
+ORDER BY TotalOrderQty DESC;",BLOCKED_UNSAFE_SQL,2585.77,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11464,34,
+bird_train_large,7368,extra,answerable,refused,"SELECT TOP 1 Name AS ProductName, Rating AS ReviewScore
+FROM ProductReview pr
+JOIN Product p ON pr.ProductID = p.ProductID
+ORDER BY pr.Rating DESC, pr.ProductReviewID DESC;",BLOCKED_UNSAFE_SQL,3038.66,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11468,45,
+bird_train_large,7369,hard,answerable,wrong,"SELECT MAX(SalaryPerHour) AS SecondHighestSalaryPerHour
+FROM (
+    SELECT Rate / 173.0 AS SalaryPerHour
+    FROM EmployeePayHistory
+    WHERE PayFrequency = 1
+) AS MonthlyEmployees
+ORDER BY SalaryPerHour DESC
+LIMIT 1 OFFSET 1;",,8503.99,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23068,130,
+bird_train_large,7380,extra,answerable,wrong,"SELECT 
+    ProductID,
+    Name AS ProductName,
+    ListPrice - StandardCost AS ProfitPerItem,
+    DaysToManufacture,
+    CASE WHEN EXISTS (SELECT 1 FROM ProductReview WHERE ProductReview.ProductID = Product.ProductID) THEN 'Has Reviews' ELSE 'N/A' END AS Rating
+FROM Product
+WHERE DaysToManufacture = (SELECT MIN(DaysToManufacture) FROM Product)
+ORDER BY ProfitPerItem DESC
+LIMIT 1;",,11866.09,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23161,187,
+bird_train_large,7385,medium,answerable,wrong,"SELECT SUM((p.ListPrice - p.StandardCost) * 2) AS Profit
+FROM Product p
+JOIN ProductSubcategory ps ON p.ProductSubcategoryID = ps.ProductSubcategoryID
+WHERE LOWER(p.Class) = 'h'
+  AND LOWER(ps.Name) LIKE '%road%'
+  AND LOWER(p.Color) = 'black'
+  AND p.Size = '58';",,4890.48,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11505,82,
+bird_train_large,7394,extra,answerable,wrong,"SELECT (ListPrice - StandardCost) AS Profit
+FROM Product P
+JOIN ProductReview PR ON P.ProductID = PR.ProductID
+WHERE PR.ReviewerName = 'David'
+ORDER BY PR.Rating DESC, PR.ProductReviewID ASC
+LIMIT 1 OFFSET 1;",,3765.41,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11495,59,
+bird_train_large,7398,easy,answerable,correct,SELECT COUNT(*) AS Count FROM SpecialOffer WHERE LOWER(Type) = LOWER('Excess Inventory');,,1733.61,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11473,20,
+bird_train_large,7400,hard,answerable,refused,"SELECT TOP 3 SpecialOfferID, Description, DiscountPct
+FROM SpecialOffer
+WHERE Category = 'Reseller'
+ORDER BY DiscountPct DESC;",BLOCKED_UNSAFE_SQL,2394.74,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11483,34,
+bird_train_large,7403,easy,answerable,correct,"SELECT MIN(SafetyStockLevel) AS MinInventoryQuantity
+FROM Product
+WHERE LOWER(Name) LIKE '%chainring%';",,2074.70,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11474,26,
+bird_train_large,7406,medium,answerable,correct,"SELECT COUNT(*) AS Mr_Count
+FROM Person
+WHERE PersonType = 'SC' AND Title = 'Mr.';",,2025.50,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11474,25,
+bird_train_large,7413,hard,answerable,error,"SELECT strftime('%Y', '2025-12-31') AS error_message FROM DUAL WHERE 1=0;",OperationalError: no such column: cc.BusinessEntityID,7790.41,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,23003,107,
+bird_train_large,7416,hard,answerable,correct,"SELECT COUNT(DISTINCT DepartmentID) AS DepartmentCount
+FROM EmployeeDepartmentHistory
+WHERE BusinessEntityID = (
+    SELECT BusinessEntityID
+    FROM Person
+    WHERE FirstName = 'David' AND LastName = 'Bradley'
+);",,3527.72,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11450,51,
+bird_train_large,7428,hard,answerable,unanswerable,SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;,UNANSWERABLE_WITH_GIVEN_SCHEMA,1646.53,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11475,15,
+bird_train_large,7429,extra,answerable,correct,"SELECT COUNT(*) AS ProductCount
+FROM SpecialOfferProduct sop
+JOIN SpecialOffer so ON sop.SpecialOfferID = so.SpecialOfferID
+JOIN Product p ON sop.ProductID = p.ProductID
+JOIN ProductSubcategory ps ON p.ProductSubcategoryID = ps.ProductSubcategoryID
+JOIN ProductCategory pc ON ps.ProductCategoryID = pc.ProductCategoryID
+WHERE so.Description LIKE '%LL Road Frame Sale%'
+  AND pc.Name = 'Clothing';",,6277.98,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11469,94,
+bird_train_large,7443,hard,answerable,wrong,"SELECT Name AS ProductName, ListPrice - StandardCost AS Profit
+FROM Product
+ORDER BY Profit DESC
+LIMIT 1;",,4916.23,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,22995,55,
+bird_train_large,7446,hard,answerable,wrong,"SELECT Product.Name, Product.ProductNumber, ProductPhoto.LargePhotoFileName
+FROM Product
+JOIN ProductProductPhoto ON Product.ProductID = ProductProductPhoto.ProductID
+JOIN ProductPhoto ON ProductProductPhoto.ProductPhotoID = ProductPhoto.ProductPhotoID
+WHERE ProductPhoto.LargePhoto IS NOT NULL;",,3830.39,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11464,59,
+bird_train_large,7452,extra,answerable,wrong,"SELECT Name, StandardCost FROM Product WHERE StandardCost < (SELECT AVG(StandardCost) FROM Product);",,1859.61,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11474,22,
+bird_train_large,7454,easy,answerable,wrong,"SELECT COUNT(*) AS product_count FROM ProductProductPhoto WHERE ""Primary"" = 0;",,1722.12,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11470,19,
+bird_train_large,7467,medium,answerable,wrong,"SELECT Location.Name, ProductInventory.Quantity
+FROM ProductInventory
+JOIN Location ON ProductInventory.LocationID = Location.LocationID
+WHERE ProductInventory.ProductID = 810;",,2538.59,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11456,36,
+bird_train_large,7470,medium,answerable,wrong,"SELECT wo.WorkOrderID, wo.ProductID, p.Name AS ProductName
+FROM WorkOrder wo
+JOIN Product p ON wo.ProductID = p.ProductID
+WHERE LOWER(p.Name) LIKE '%down tube%';",,3700.93,1.0,"address, addresstype, billofmaterials, businessentity, businessentityaddress, businessentitycontact, contacttype, countryregion, countryregioncurrency, creditcard, culture, currency, currencyrate, customer, department, document, emailaddress, employee, employeedepartmenthistory, employeepayhistory, jobcandidate, location, password, person, personcreditcard, phonenumbertype, product, productcategory, productcosthistory, productdescription, productdocument, productinventory, productlistpricehistory, productmodel, productmodelproductdescriptionculture, productphoto, productproductphoto, productreview, productsubcategory, productvendor, purchaseorderdetail, purchaseorderheader, salesorderdetail, salesorderheader, salesorderheadersalesreason, salesperson, salespersonquotahistory, salesreason, salestaxrate, salesterritory, salesterritoryhistory, scrapreason, shift, shipmethod, shoppingcartitem, specialoffer, specialofferproduct, stateprovince, store, transactionhistory, transactionhistoryarchive, unitmeasure, vendor, workorder, workorderrouting",1,11466,45,
+bird_train_large,7641,extra,answerable,wrong,"SELECT 
+    m.firstName,
+    m.lastName,
+    m.birthYear,
+    m.birthMon,
+    m.birthDay,
+    c.year AS coach_year,
+    c.tmID AS coach_team
+FROM Coaches c
+JOIN Master m ON c.coachID = m.coachID
+WHERE LOWER(c.tmID) = 'mtl'
+GROUP BY c.coachID
+ORDER BY COUNT(*) DESC
+LIMIT 1;",,16196.04,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6439,95,
+bird_train_large,7651,medium,answerable,correct,SELECT DISTINCT year FROM Goalies WHERE lgID = 'NHL' AND SA IS NOT NULL;,,2092.44,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6442,21,
+bird_train_large,7663,extra,answerable,wrong,SELECT COUNT(*) AS count FROM AwardsCoaches AC JOIN Coaches C ON AC.coachID = C.coachID JOIN Master M ON C.coachID = M.coachID WHERE AC.year > 1940 AND M.deathYear IS NOT NULL;,,3668.09,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6447,56,
+bird_train_large,7674,medium,answerable,wrong,"SELECT COUNT(*) AS hof_count
+FROM Master m
+JOIN HOF h ON m.hofID = h.hofID
+WHERE (m.birthMon = '7' OR m.birthMon = '8');",,3132.83,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6432,45,
+bird_train_large,7698,extra,answerable,error,"SELECT tmID, Pts
+FROM TeamsPost
+WHERE year = 1995
+ORDER BY PostSHO DESC
+LIMIT 1;",OperationalError: no such column: Pts,5176.46,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,12951,64,
+bird_train_large,7704,medium,answerable,wrong,"SELECT MAX(Scoring.A) AS max_assists
+FROM Scoring
+JOIN SeriesPost ON Scoring.year = SeriesPost.year AND Scoring.tmID = SeriesPost.tmIDWinner
+WHERE SeriesPost.round IN ('SF', 'DSF', 'QF', 'SCF', 'CSF', 'CQF')
+  AND SeriesPost.series = 'A';",,5135.22,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6418,79,
+bird_train_large,7707,hard,answerable,wrong,"SELECT SUM(CASE WHEN c.year = 2011 THEN c.W ELSE 0 END) AS total_wins
+FROM Coaches c
+WHERE c.tmID IN (
+    SELECT DISTINCT g.tmID
+    FROM Goalies g
+    WHERE g.year = 2011
+      AND g.lgID = 'NHL'
+      AND g.stint = 1
+      AND g.playerID IN (
+          SELECT playerID
+          FROM Goalies
+          WHERE year = 2011
+            AND lgID = 'NHL'
+            AND tmID = g.tmID
+            GROUP BY playerID
+            HAVING COUNT(DISTINCT playerID) = 3
+      )
+);",,22033.06,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,13126,353,
+bird_train_large,7709,medium,answerable,wrong,"SELECT COUNT(DISTINCT year) AS count_years 
+FROM Coaches 
+WHERE coachID IN (
+    SELECT playerID 
+    FROM Master 
+    WHERE lastName = 'Waddell' AND firstName = 'Don'
+);",,2827.48,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6430,48,
+bird_train_large,7714,hard,answerable,wrong,"SELECT firstName, lastName, shootCatch FROM Master WHERE playerID IN (SELECT playerID FROM Scoring WHERE year = 1989 AND SHG = '7');",,2437.27,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6449,36,
+bird_train_large,7719,hard,answerable,refused,"SELECT 
+    CASE 
+        WHEN (SELECT SUM(COALESCE(w, 0)) FROM Coaches WHERE tmID = 'VAN' AND lgID = 'NHL' AND coachID IN (SELECT coachID FROM Master WHERE firstName = 'Alain' AND lastName = 'Vigneault')) + 
+              (SELECT SUM(COALESCE(l, 0)) FROM Coaches WHERE tmID = 'VAN' AND lgID = 'NHL' AND coachID IN (SELECT coachID FROM Master WHERE firstName = 'Alain' AND lastName = 'Vigneault')) > 0
+        THEN ROUND(100.0 * ((
+            (SELECT SUM(COALESCE(w, 0)) FROM Coaches WHERE tmID = 'VAN' AND lgID = 'NHL' AND coachID IN (SELECT coachID FROM Master WHERE firstName = 'Alain' AND lastName = 'Vigneault')) / 
+            NULLIF((SELECT SUM(COALESCE(w, 0)) + COALESCE(l, 0) FROM Coaches WHERE tmID = 'VAN' AND lgID = 'NHL' AND coachID IN (SELECT coachID FROM Master WHERE firstName = 'Alain' AND lastName = 'Vigneault')), 0) - 
+            (SELECT SUM(COALESCE(w, 0)) FROM Coaches WHERE tmID = 'VAN' AND lgID = 'NHL' AND year < 2006 AND coachID IN (SELECT coachID FROM Master WHERE firstName = 'Alain' AND lastName = 'Vigneault')) / 
+            NULLIF((SELECT SUM(COALESCE(w, 0)) + COALESCE(l, 0) FROM Coaches WHERE tmID = 'VAN' AND lgID = 'NHL' AND year < 2006 AND coachID IN (SELECT coachID FROM Master WHERE firstName = 'Alain' AND lastName = 'Vigneault')), 0)
+        ), 2)
+        ELSE NULL
+    END AS winning_rate_improvement;",BLOCKED_UNSAFE_SQL,24700.78,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6524,431,
+bird_train_large,7733,extra,answerable,wrong,"SELECT 
+    MAX(scoring.G) AS max_goals,
+    (strftime('%Y', 'now') - CAST(master.birthYear AS INTEGER)) AS age_at_record
+FROM Scoring
+JOIN Master ON Scoring.playerID = Master.playerID
+WHERE Scoring.G > 0
+GROUP BY Scoring.year
+ORDER BY max_goals DESC
+LIMIT 1;",,4277.48,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6448,76,
+bird_train_large,7756,extra,answerable,wrong,"SELECT name, PIM FROM Teams WHERE year = 2006 ORDER BY PIM DESC LIMIT 3;",,1964.68,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6447,25,
+bird_train_large,7761,medium,answerable,wrong,"SELECT SUM(TeamVsTeam.L) AS total_penalty_minutes
+FROM TeamVsTeam
+JOIN Teams ON TeamVsTeam.year = Teams.year AND TeamVsTeam.tmID = Teams.tmID
+WHERE Teams.year = 1923
+  AND Teams.lgID = 'NHL'
+  AND Teams.rank = 2;",,8963.39,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,13015,141,
+bird_train_large,7762,extra,answerable,error,"SELECT tmID AS team, W AS wins FROM TeamsPost WHERE playoff = 'Stanley Cup Finals' GROUP BY tmID ORDER BY wins DESC LIMIT 1;",OperationalError: no such column: playoff,4507.73,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,12908,68,
+bird_train_large,7774,extra,answerable,wrong,"SELECT tmID, SUM(W) + SUM(L) + SUM(T) + CAST(OTL AS INTEGER) AS total_games
+FROM TeamVsTeam
+WHERE year = 2000 AND oppID IN (SELECT tmID FROM Teams WHERE year = 2000 AND name LIKE '%Buffalo Sabres%')
+GROUP BY tmID
+ORDER BY total_games DESC
+LIMIT 1;",,5603.67,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6443,85,
+bird_train_large,7778,medium,answerable,unanswerable,SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;,UNANSWERABLE_WITH_GIVEN_SCHEMA,1482.71,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6445,15,
+bird_train_large,7801,hard,answerable,correct,"SELECT playerID AS player_id, coachID AS coach_id FROM Master WHERE playerID IS NOT NULL AND coachID IS NOT NULL;",,2280.43,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6427,28,
+bird_train_large,7807,medium,answerable,unanswerable,SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;,UNANSWERABLE_WITH_GIVEN_SCHEMA,1295.35,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6422,15,
+bird_train_large,7813,medium,answerable,wrong,"SELECT SUM(G) AS total_goals
+FROM Teams
+WHERE year = 1976
+  AND tmID = 'BIR'
+  AND divID = 'EW';",,2617.09,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,6448,39,
+bird_train_large,7817,medium,answerable,error,"SELECT tmID, birthCountry
+FROM Teams t
+JOIN Scoring s ON t.tmID = s.tmID AND t.year = s.year
+WHERE t.year = 2000
+GROUP BY t.tmID
+ORDER BY (t.W * 1.0 / NULLIF(t.G, 0)) DESC
+LIMIT 1;",OperationalError: ambiguous column name: tmID,8476.36,1.0,"abbrev, awardscoaches, awardsmisc, awardsplayers, coaches, combinedshutouts, goalies, goaliessc, goaliesshootout, hof, master, scoring, scoringsc, scoringshootout, scoringsup, seriespost, teams, teamshalf, teamsplits, teamspost, teamssc, teamvsteam",1,13017,144,
+bird_train_large,8229,medium,answerable,wrong,SELECT Independence FROM politics WHERE Country = 'Bulgaria';,,7818.65,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4019,13,
+bird_train_large,8234,medium,answerable,wrong,"SELECT e.Service * e.GDP AS Service_of_GDP
+FROM economy e
+WHERE LOWER(e.Country) = 'brazil';",,2395.33,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4031,28,
+bird_train_large,8235,hard,answerable,wrong,"SELECT Country, Infant_Mortality, Population_Growth
+FROM population
+ORDER BY Infant_Mortality DESC
+LIMIT 1;",,2338.41,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4023,26,
+bird_train_large,8236,medium,answerable,error,"SELECT Country, Population AS ""Population"", Population_Growth AS ""Growth""
+FROM population
+WHERE Population_Growth < 0;",OperationalError: no such column: Population,4869.91,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,8147,58,
+bird_train_large,8237,medium,answerable,wrong,"SELECT Country, Infant_Mortality
+FROM country c
+JOIN population p ON c.Name = p.Country
+WHERE c.Area BETWEEN 500000 AND 1000000;",,3123.05,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4039,43,
+bird_train_large,8243,medium,answerable,correct,SELECT COUNT(*) AS count FROM country c JOIN ethnicGroup e ON LOWER(c.Name) = LOWER(e.Country) WHERE LOWER(e.Name) LIKE '%african%' AND c.Population > 10000000;,,3283.59,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4037,48,
+bird_train_large,8245,hard,answerable,wrong,"SELECT Country, GDP FROM economy ORDER BY GDP DESC LIMIT 1;",,2138.23,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4016,15,
+bird_train_large,8246,medium,answerable,wrong,SELECT COUNT(*) AS count FROM country c JOIN economy e ON c.Name = e.Country WHERE c.Population > 10000000 AND e.GDP > 500000;,,3355.18,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4044,45,
+bird_train_large,8248,extra,answerable,wrong,"SELECT Country, Inflation FROM economy ORDER BY Inflation ASC LIMIT 1;",,1773.08,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4017,17,
+bird_train_large,8257,medium,answerable,wrong,"SELECT COUNT(*) AS count 
+FROM organization o
+JOIN country c ON LOWER(o.Country) = LOWER(c.Name)
+WHERE c.Population < 1000000;",,2937.00,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4030,39,
+bird_train_large,8260,extra,answerable,wrong,SELECT COUNT(*) AS count FROM organization WHERE Country = (SELECT Country FROM ethnicGroup GROUP BY Country ORDER BY COUNT(*) DESC LIMIT 1);,,2564.67,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4023,29,
+bird_train_large,8263,medium,answerable,correct,"SELECT MAX(population.Infant_Mortality) AS highest_infant_mortality_rate
+FROM population
+JOIN economy ON population.Country = economy.Country
+WHERE economy.Inflation < 3;",,3133.94,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4028,38,
+bird_train_large,8264,medium,answerable,correct,"SELECT COUNT(*) AS count
+FROM country c
+JOIN economy e ON c.Name = e.Country
+JOIN population p ON c.Name = p.Country
+WHERE e.GDP > 1000000 AND p.Population_Growth > 3;",,4387.23,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4058,54,
+bird_train_large,8267,extra,answerable,wrong,"SELECT AVG(p.Population_Growth) AS avg_population_growth_rate
+FROM country c
+JOIN language l ON LOWER(c.Name) = LOWER(l.Country)
+JOIN population p ON LOWER(c.Name) = LOWER(p.Country)
+WHERE (SELECT COUNT(*) FROM language l2 WHERE LOWER(l2.Country) = LOWER(c.Name)) > 3;",,5372.12,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4027,71,
+bird_train_large,8268,medium,answerable,wrong,SELECT Country FROM economy WHERE Inflation > (SELECT AVG(Inflation) * 1.3 FROM economy);,,2061.01,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4063,23,
+bird_train_large,8270,extra,answerable,wrong,"SELECT religion.Name AS ReligionName, SUM(religion.Percentage) AS TotalPercentage
+FROM religion
+JOIN country ON religion.Country = country.Name
+WHERE LOWER(country.Name) LIKE '%martinique%'
+GROUP BY religion.Name
+ORDER BY TotalPercentage DESC
+LIMIT 1;",,3685.70,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4019,56,
+bird_train_large,8273,hard,answerable,wrong,"SELECT Country1 AS Country1_Name, Country2 AS Country2_Name, Length AS Border_Length
+FROM borders
+ORDER BY Length DESC
+LIMIT 2;",,2511.62,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4028,33,
+bird_train_large,8274,extra,answerable,wrong,SELECT Country1 AS CountryName FROM borders GROUP BY Country1 ORDER BY COUNT(*) DESC LIMIT 1;,,1981.22,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4024,22,
+bird_train_large,8275,medium,answerable,wrong,"SELECT c.Name 
+FROM mountain m
+JOIN geo_mountain gm ON m.Name = gm.Mountain
+JOIN country c ON gm.Country = c.Name
+WHERE m.Name = 'Cerro Chirripo';",,3023.81,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4030,44,
+bird_train_large,8277,medium,answerable,wrong,SELECT COUNT(*) AS mountain_quantity FROM geo_mountain WHERE LOWER(Country) = LOWER('japan');,,2004.57,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4029,22,
+bird_train_large,8279,extra,answerable,correct,"SELECT c1.Code AS Country1_Code, c2.Code AS Country2_Code
+FROM borders b
+JOIN country c1 ON LOWER(b.Country1) = LOWER(c1.Name)
+JOIN country c2 ON LOWER(b.Country2) = LOWER(c2.Name)
+WHERE EXISTS (
+    SELECT 1 
+    FROM mountain m
+    JOIN geo_mountain gm ON LOWER(m.Name) = LOWER(gm.Mountain)
+    WHERE LOWER(gm.Country) = LOWER(c1.Name) OR LOWER(gm.Country) = LOWER(c2.Name)
+    AND m.Height = (
+        SELECT MAX(m2.Height)
+        FROM mountain m2
+        JOIN geo_mountain gm2 ON LOWER(m2.Name) = LOWER(gm2.Mountain)
+        WHERE LOWER(gm2.Country) IN (LOWER(c1.Name), LOWER(c2.Name))
+    )
+)
+ORDER BY c1.Code, c2.Code;",,11941.04,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4023,194,
+bird_train_large,8289,extra,answerable,error,"SELECT 
+    c.Name AS Country,
+    e.Population AS TotalPopulation,
+    r.Name AS EthnicGroup,
+    r.Percentage AS GroupPercentage
+FROM country c
+JOIN economy e ON c.Code = e.Country
+JOIN religion r ON c.Name = r.Country
+WHERE RANK() OVER (ORDER BY c.Population DESC) = 3;",OperationalError: no such column: e.Population,9399.82,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,8166,152,
+bird_train_large,8312,extra,answerable,refused,"SELECT Name, Area FROM desert WHERE (SELECT Name FROM continent WHERE Area IS NOT NULL) IN (SELECT Continent FROM encompasses WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country WHERE Province IN (SELECT Province FROM province WHERE Country IN (SELECT Country FROM country",BLOCKED_UNSAFE_SQL,28304.32,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4025,512,
+bird_train_large,8324,medium,answerable,wrong,"SELECT c.Name AS City, p.Name AS Province, p.Capital AS Capital
+FROM city c
+JOIN province p ON c.Province = p.Name AND c.Country = p.Country
+WHERE LOWER(c.Name) = 'glenrothes';",,3597.27,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4027,51,
+bird_train_large,8334,hard,answerable,error,"SELECT MAX(r.Length) AS longest_river_length
+FROM river r
+JOIN geo_river gr ON r.Name = gr.River
+JOIN sea s ON gr.Sea = s.Name
+WHERE LOWER(s.Name) LIKE '%mediterranean%';",OperationalError: no such column: gr.Sea,7513.73,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,8136,108,
+bird_train_large,8350,medium,answerable,wrong,"SELECT r.Name 
+FROM river r
+JOIN geo_river gr ON r.Name = gr.River
+WHERE LOWER(gr.Country) = 'canada';",,2668.28,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4019,32,
+bird_train_large,8358,extra,answerable,wrong,"SELECT s.Name AS SeaName, c.Name AS SurroundingCountry
+FROM sea s
+JOIN geo_sea gs ON LOWER(s.Name) = LOWER(gs.Sea)
+JOIN country c ON LOWER(c.Name) = LOWER(gs.Country)
+WHERE s.Depth IS NOT NULL
+ORDER BY s.Depth ASC
+LIMIT 1;",,4501.64,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4034,67,
+bird_train_large,8386,extra,answerable,wrong,"SELECT r.Name AS RiverName, r.Length AS Length
+FROM river r
+JOIN sea s ON r.Sea = s.Name
+WHERE s.Depth = 540
+ORDER BY r.Length DESC
+LIMIT 1;",,3377.09,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4034,47,
+bird_train_large,8388,hard,answerable,correct,"SELECT m.Longitude AS Longitude
+FROM mountain m
+JOIN mountainOnIsland mi ON m.Name = mi.Mountain
+WHERE LOWER(m.Name) LIKE '%olympus%';",,2899.03,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4026,38,
+bird_train_large,8395,hard,answerable,wrong,"SELECT Country1, Country2
+FROM borders
+WHERE Length = 803;",,1937.95,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4032,19,
+bird_train_large,8398,hard,answerable,wrong,"SELECT SUM(c.Population) AS total_population
+FROM city c
+JOIN province p ON c.Province = p.Name AND c.Country = p.Country
+WHERE LOWER(p.CapProv) LIKE '%fareham%';",,3248.30,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4030,44,
+bird_train_large,8404,medium,answerable,error,"SELECT MAX(r1.Length) / MIN(r2.Length) AS ratio
+FROM geo_river r1
+JOIN geo_river r2 ON 1=1
+WHERE LOWER(r1.Country) = 'tajikistan'
+AND r1.River IS NOT NULL
+AND r2.River IS NOT NULL;",OperationalError: no such column: r2.Length,8599.90,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,8186,132,
+bird_train_large,8408,medium,answerable,wrong,"SELECT 
+    r.Name AS RiverName,
+    COUNT(DISTINCT g.Country) AS CountryCount,
+    GROUP_CONCAT(DISTINCT p.Name) AS Provinces
+FROM river r
+JOIN geo_river g ON r.Name = g.River
+JOIN province p ON g.Country = p.Country AND g.Province = p.Name
+GROUP BY r.Name
+HAVING COUNT(DISTINCT g.Country) > 1;",,10847.16,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,8189,181,
+bird_train_large,8426,extra,answerable,wrong,"SELECT c.Name AS Country, (c.Population / c.Area) AS Ratio
+FROM country c
+WHERE LOWER(c.Name) IN (SELECT DISTINCT r.Country FROM religion r WHERE LOWER(r.Name) LIKE '%hindu%')
+ORDER BY Ratio ASC
+LIMIT 1;",,6916.27,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,8176,101,
+bird_train_large,8436,medium,answerable,wrong,"SELECT Country1 AS Nation1, Country2 AS Nation2, Length AS BorderLength
+FROM borders
+ORDER BY Length DESC
+LIMIT 1;",,2146.68,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4034,31,
+bird_train_large,8441,medium,answerable,wrong,"SELECT Country, Name AS Language, Percentage
+FROM language
+WHERE LOWER(Country) = LOWER('english') OR (Percentage = 100 AND Name = 'English');",,2796.36,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4040,37,
+bird_train_large,8449,hard,answerable,wrong,"SELECT Country, Independence
+FROM politics
+WHERE Dependent IS NULL
+ORDER BY Independence DESC
+LIMIT 3;",,2099.52,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4039,24,
+bird_train_large,8455,extra,answerable,wrong,"SELECT c.Name AS Country, COUNT(DISTINCT o.Abbreviation) AS Organization_Count
+FROM country c
+JOIN organization o ON c.Name = o.Country
+WHERE c.Capital IS NOT NULL
+  AND strftime('%Y', o.Established) > '1907'
+GROUP BY c.Name
+ORDER BY Organization_Count DESC;",,8862.66,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,8207,148,
+bird_train_large,8467,hard,answerable,wrong,SELECT Country1 AS Country FROM borders WHERE LOWER(Country2) = 'bulgaria' UNION SELECT Country2 AS Country FROM borders WHERE LOWER(Country1) = 'bulgaria';,,2747.83,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4027,40,
+bird_train_large,8474,extra,answerable,correct,"SELECT c.Name AS Country, c.Capital
+FROM country c
+JOIN isMember im ON c.Code = im.Country
+WHERE im.Organization = 'IFAD' AND im.Type = 'Category III';",,2739.09,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4034,42,
+bird_train_large,8491,extra,answerable,wrong,"SELECT o.Name 
+FROM organization o
+JOIN country c ON LOWER(o.Country) = LOWER(c.Name)
+WHERE LOWER(c.Name) LIKE '%saudi%'
+ORDER BY strftime('%Y', o.Established) DESC, strftime('%m', o.Established) DESC, strftime('%d', o.Established) DESC
+LIMIT 1;",,4240.85,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4031,73,
+bird_train_large,8501,extra,answerable,wrong,"SELECT c.Name AS Country, p.Government AS Governance
+FROM country c
+JOIN economy e ON c.Code = e.Country
+JOIN politics p ON c.Code = p.Country
+WHERE e.GDP = (SELECT MIN(GDP) FROM economy);",,3410.48,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4047,51,
+bird_train_large,8506,easy,answerable,correct,"SELECT CAST(SUM(CASE WHEN strftime('%Y', Independence) = '1960' THEN 1 ELSE 0 END) AS REAL) * 100.0 / COUNT(*) AS percentage
+FROM politics;",,3185.33,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4044,48,
+bird_train_large,8508,extra,answerable,wrong,"SELECT Name, Longitude, Latitude
+FROM desert
+WHERE Area > 0;",,1461.43,1.0,"borders, city, continent, country, desert, economy, encompasses, ethnicgroup, geo_desert, geo_estuary, geo_island, geo_lake, geo_mountain, geo_river, geo_sea, geo_source, island, islandin, ismember, lake, language, located, locatedon, mergeswith, mountain, mountainonisland, organization, politics, population, province, religion, river, sea, target",1,4036,17,
