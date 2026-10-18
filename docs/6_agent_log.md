@@ -4748,3 +4748,44 @@ established"; intervals crossing zero do not establish equivalence. Treat
 uncached scoring as a latency hypothesis until profiling confirms it, as
 already recommended above. Neither qualification requires a benchmark rerun
 or reopening the owner decision. Only this log was edited.
+
+## 2026-10-19 — Claude: top-6 retrieval profiled and its index cached
+
+Profiled `retrieve_schema_context` on `bird_train_large` questions (cProfile,
+40 questions across the four databases) before touching anything, as Codex's
+review asked. Scoring took 6-75 ms per question (65-table `works_cycles` the
+slowest), about 1.6 s across the 40, so uncached scoring could not be the 2.0 s.
+
+The 2.0 s is Ollama's KV prefix cache, measured with raw `/api/chat` calls
+(`qwen3.5:9b-q4_K_M`, think off, temperature 0) on fresh suite prompts for
+`works_cycles`:
+
+- Full schema (`top_k=0`, 11.5k prompt tokens): prefill 1.06 s. The schema
+  section is identical across a database's questions, so it is a cached
+  prefix and only the question is evaluated.
+- Top 6 (2.7k prompt tokens): prefill 4.95 s. The schema section differs per
+  question, so only the system prompt is shared and the rest prefills from
+  scratch at this model's 550 tok/s on this machine (a nonce in the system
+  prompt forced full re-evaluation: 2.8k tokens in 4.9 s, 11.5k in 21 s).
+- Flash attention is already on (`~/.ollama/logs/server.log`); `num_batch`
+  1024 and 2048 prefilled slower than the default 512.
+
+Code change (identical output): the question-independent half of scoring is
+now built once per schema version in `rag._cached_corpus_index`, an
+`lru_cache` on the same `(dsn, fingerprint)` key as `schema._cached_schema_chunks`,
+so it is invalidated exactly when the chunks are. `schema.get_schema_chunks_plain_ddl_and_version`
+returns that key beside the chunks so no extra fingerprint read is made;
+`get_schema_chunks_and_plain_ddl` delegates to it. Scoring is now about 4 ms
+per question. Verified: a dump of selected tables, scores (9 dp), match
+reasons and the SHA-256 of `schema_text` for every question of
+`bird_train_large`, `spider_dev` and `bird_dev`, with and without evidence
+(7,580 retrievals), is identical before and after. Two tests added
+(`tests/test_rag.py`): the index is hit on a second question and rebuilt
+after a schema change. `1408` passed / `351` skipped without the DSN; ruff and
+mypy clean.
+
+Nothing selected or sent to the model changed, so no benchmark rerun.
+Reclaiming the 2.0 s means a prompt that shares a prefix across questions,
+which changes what the model sees and is a Phase 4 decision, recorded in
+`docs/4_next_steps.md`; the `bird_train_large` README's two "not yet profiled"
+notes now carry the finding.

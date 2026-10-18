@@ -98,9 +98,8 @@ comparisons are in `compare_k0_vs_off.md`, `compare_k6_vs_k0.md` and
   spans zero), and it loses 14.0 points on hard questions, where recall below
   1.0 can drop a needed table.
 - **Top 6 is slower despite the smaller prompt** (+2.1 s against full DDL plus
-  hints). The likely cause is retrieval itself: the hashed n-gram vectors are
-  recomputed per chunk per question with no cache (the open risk in
-  `AGENTS.md`), and these schemas have many more chunks. Not yet profiled.
+  hints). Profiled 2026-10-19: retrieval scoring is not the cause (see the
+  full-suite latency note below).
 
 These are `subset200` figures. The full suite below supersedes them.
 
@@ -146,7 +145,16 @@ By database (EX; paired change of top 6 against each full-schema arm):
   (-1.3 [-2.9, +0.2]). The subset's -4.5 does not hold up; the hints neither
   help nor clearly hurt at this size.
 - **Latency.** Top 6 is 2.0 s slower per question than full DDL plus hints
-  ([+1.8, +2.2] s) although its prompt is two thirds smaller, consistent with
-  uncached retrieval scoring over many chunks. Not yet profiled.
+  ([+1.8, +2.2] s) although its prompt is two thirds smaller. Profiled
+  2026-10-19 on these databases: retrieval scoring took 6-75 ms per question
+  (about 4 ms once its per-chunk index was cached), so the gap is not
+  retrieval. It is Ollama's KV prefix cache. On `works_cycles`, fresh suite
+  prompts prefilled in 1.1 s with the full schema (the 11k-token schema is a
+  shared prefix, cached once per database; only the question is new) and in
+  4.9 s with top 6 (the schema section differs per question, so 2.7k tokens
+  prefill from scratch at this model's 550 tok/s on this machine). Flash
+  attention was already on; `num_batch` 1024 and 2048 were slower than 512.
+  Reclaiming the time needs a prompt that shares a prefix across questions,
+  which would change what the model sees and so needs its own run.
 - **Recall.** Top 6 drops a gold table in some cases (mean recall 0.931). Hard
   questions show no gain (-0.8 against plain DDL), consistent with that.

@@ -111,11 +111,19 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
 - 2026-10-19: `bird_train_large` full suite, three arms at `47284f5`: top 6
   29.1 %, plain DDL 26.8 %, full DDL plus hints 25.5 %. Top 6 vs DDL plus hints
   +3.6 [+1.4, +5.8] with 69 % fewer prompt tokens, from the 65- and 34-table
-  databases. Top 6 is 2.0 s slower (uncached retrieval). The first evidence
-  that selection pays as schemas grow (`evaluation/results/bird_train_large/`).
+  databases. Top 6 is 2.0 s slower. The first evidence that selection pays as
+  schemas grow (`evaluation/results/bird_train_large/`).
+- 2026-10-19 (later): retrieval profiled. Scoring was 6-75 ms per question, not
+  the 2.0 s; the per-chunk index is now cached per schema version
+  (`rag._cached_corpus_index`, same `(dsn, fingerprint)` key as the chunks),
+  scoring is about 4 ms, and all 7,580 suite retrievals are byte-identical. The
+  2.0 s is Ollama's KV prefix cache: a top-6 prompt's schema differs per
+  question, so it prefills from scratch (2.7k tokens at 550 tok/s), while the
+  full schema is prefilled once per database. Not fixable in `rag.py` without
+  changing the prompt (`docs/4_next_steps.md`, Phase 4).
 
 ## Open risks
 
 - The RAG "embedding" in `rag.py` is a hashed bag of character n-grams, not a
-  semantic embedding, and is recomputed per chunk per question with no cache. It
-  largely duplicates the semantic signal beside it. Phase 4.
+  semantic embedding. It is computed once per schema version since 2026-10-19,
+  but it largely duplicates the semantic signal beside it. Phase 4.
