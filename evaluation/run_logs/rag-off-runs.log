@@ -1,0 +1,13 @@
+=== 2026-10-11 14:38:34 START --suite demo 
+demo: complete, citable=True, 12 cases, 0 outage(s)
+  evaluation/results/2026-10-11T033836_demo_full_ollama_qwen3.5-9b-q4_K_M_rag-off-evidence-off-think-off_ff782800_6210
+=== 2026-10-11 14:39:33 END exit=0 --suite demo
+=== 2026-10-11 14:39:33 START --suite spider_dev --subset full --work-limit 1000000000 --max-rows 100000 
+spider_dev: complete, citable=True, 1034 cases, 0 outage(s)
+  evaluation/results/2026-10-11T033934_spider_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-off-evidence-off-think-off_f934dfb5_9f67
+=== 2026-10-11 15:23:28 END exit=0 --suite spider_dev --subset full --work-limit 1000000000 --max-rows 100000
+=== 2026-10-11 15:23:28 START --suite bird_dev --subset full --evidence on --work-limit 1000000000 --max-rows 100000 
+bird_dev: complete, citable=True, 1534 cases, 0 outage(s)
+  evaluation/results/2026-10-11T042329_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-off-evidence-on-think-off_2e606bf4_a071
+=== 2026-10-11 18:02:42 END exit=0 --suite bird_dev --subset full --evidence on --work-limit 1000000000 --max-rows 100000
+ALL DONE 2026-10-11 18:02:42

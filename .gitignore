@@ -257,3 +257,15 @@ data/benchmarks/
 evaluation/suites/spider_dev.jsonl
 evaluation/suites/bird_dev.jsonl
 evaluation/suites/bird_train_large.jsonl
+
+# Evaluation run records. scripts/runs/ holds the shell runners that produced
+# the committed results, and evaluation/run_logs/ their START/END logs, which
+# are small and tracked (negating *.log above). The empty .nohup files and
+# partial log snapshots are not. _archive/ holds result directories that are
+# byte-identical to committed ones or were never completed, and .worktrees/
+# is where the pinned release-runs worktree lives.
+!evaluation/run_logs/*.log
+evaluation/run_logs/*.partial.log
+scripts/runs/*.nohup
+evaluation/results/_archive/
+.worktrees/

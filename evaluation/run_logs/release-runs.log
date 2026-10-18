@@ -1,0 +1,5 @@
+=== 2026-10-10 01:46:16 START --suite spider_dev --subset full 
+spider_dev: complete, citable=True, 1034 cases, 0 outage(s)
+  evaluation/results/2026-10-09T144616_spider_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off_39d3e0ef_8d5a
+=== 2026-10-10 07:21:24 END exit=0 --suite spider_dev --subset full
+=== 2026-10-10 07:21:24 START --suite bird_dev --subset full --evidence on 

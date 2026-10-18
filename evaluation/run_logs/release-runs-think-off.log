@@ -1,0 +1,13 @@
+=== 2026-10-10 18:16:07 START --suite spider_dev --subset full 
+spider_dev: complete, citable=True, 1034 cases, 0 outage(s)
+  evaluation/results/2026-10-10T071608_spider_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_a8ebee81_e6c2
+=== 2026-10-10 19:06:18 END exit=0 --suite spider_dev --subset full
+=== 2026-10-10 19:06:18 START --suite bird_dev --subset full --evidence on 
+bird_dev: complete, citable=True, 1534 cases, 0 outage(s)
+  evaluation/results/2026-10-10T080619_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_22491cc9_3ef9
+=== 2026-10-10 21:48:04 END exit=0 --suite bird_dev --subset full --evidence on
+=== 2026-10-10 21:48:04 START --suite bird_dev --subset full --evidence off 
+bird_dev: complete, citable=True, 1534 cases, 0 outage(s)
+  evaluation/results/2026-10-10T104806_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_886c714f_c734
+=== 2026-10-11 00:29:40 END exit=0 --suite bird_dev --subset full --evidence off
+ALL DONE 2026-10-11 00:29:40
