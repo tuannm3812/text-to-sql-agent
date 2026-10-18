@@ -5,7 +5,10 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
+from dataclasses import dataclass
+from functools import lru_cache
 from hashlib import blake2b
+from typing import TYPE_CHECKING
 
 from .config import (
     DEFAULT_RAG_EMBEDDING_WEIGHT,
@@ -15,8 +18,15 @@ from .config import (
     RAG_SYNONYMS,
     STOPWORDS,
 )
-from .schema import get_schema_chunk_cache_info, get_schema_chunks_and_plain_ddl
+from .schema import (
+    get_schema_chunk_cache_info,
+    get_schema_chunks_at,
+    get_schema_chunks_plain_ddl_and_version,
+)
 from .types import SchemaChunk, SchemaRetrievalResult, render_schema_text
+
+if TYPE_CHECKING:
+    from functools import _CacheInfo
 
 
 def _tokenize_for_rag(text: str) -> list[str]:
@@ -78,6 +88,67 @@ def _cosine_vector_similarity(left: list[float], right: list[float]) -> float:
     if not left or not right:
         return 0.0
     return sum(a * b for a, b in zip(left, right, strict=False))
+
+
+@dataclass(frozen=True)
+class _ChunkIndex:
+    """What scoring one chunk needs that does not depend on the question."""
+
+    token_counts: Counter[str]
+    doc_len: int
+    table_tokens: frozenset[str]
+    column_tokens: frozenset[str]
+    text_tokens: frozenset[str]
+    ngrams: Counter[str]
+    embedding: list[float]
+
+
+@dataclass(frozen=True)
+class _CorpusIndex:
+    """The question-independent half of scoring, one entry per chunk in chunk order."""
+
+    entries: tuple[_ChunkIndex, ...]
+    doc_freq: Counter[str]
+    avg_doc_len: float
+
+
+@lru_cache(maxsize=32)
+def _cached_corpus_index(version: tuple[object, ...]) -> _CorpusIndex:
+    """Build the scoring index for one schema version, cached on the chunks' own key.
+
+    Before 2026-10-19 every question re-tokenised, re-counted n-grams and re-hashed the
+    embedding of every chunk in the database. None of that depends on the question, so
+    it is computed once per `(dsn, fingerprint)` here and reused until the schema
+    changes - the same key and the same invalidation as `schema._cached_schema_chunks`.
+    Each value is built by exactly the call the per-question loop used to make, so the
+    scores, ranks and prompt bytes are unchanged (checked on every question of the
+    three committed suites; see `docs/6_agent_log.md`).
+    """
+    chunks = get_schema_chunks_at(version)
+    doc_tokens = [_tokenize_for_rag(chunk.search_text) for chunk in chunks]
+    doc_lengths = [len(tokens) or 1 for tokens in doc_tokens]
+    avg_doc_len = sum(doc_lengths) / len(doc_lengths)
+    doc_freq: Counter[str] = Counter()
+    for tokens in doc_tokens:
+        doc_freq.update(set(tokens))
+    entries = tuple(
+        _ChunkIndex(
+            token_counts=Counter(tokens),
+            doc_len=doc_len,
+            table_tokens=frozenset(_tokenize_for_rag(chunk.table_name)),
+            column_tokens=frozenset(_tokenize_for_rag(" ".join(chunk.columns))),
+            text_tokens=frozenset(tokens),
+            ngrams=_char_ngrams(chunk.search_text),
+            embedding=_hashed_embedding(chunk.search_text),
+        )
+        for chunk, tokens, doc_len in zip(chunks, doc_tokens, doc_lengths, strict=True)
+    )
+    return _CorpusIndex(entries=entries, doc_freq=doc_freq, avg_doc_len=avg_doc_len)
+
+
+def get_retrieval_index_cache_info() -> _CacheInfo:
+    """Return `lru_cache` hit/miss statistics for the scoring index cache."""
+    return _cached_corpus_index.cache_info()
 
 
 def decompose_question(question: str) -> dict[str, list[str]]:
@@ -196,7 +267,7 @@ def retrieve_schema_context(
         derived from the question, and retrieval statistics.
     """
     before_cache = get_schema_chunk_cache_info()
-    chunks, plain_ddl = get_schema_chunks_and_plain_ddl(db_path)
+    chunks, plain_ddl, version = get_schema_chunks_plain_ddl_and_version(db_path)
     after_cache = get_schema_chunk_cache_info()
     cache_hit = after_cache.hits > before_cache.hits
     query_tokens = _tokenize_for_rag(question)
@@ -231,23 +302,17 @@ def retrieve_schema_context(
             cache_hit=cache_hit,
         )
 
-    doc_tokens = [_tokenize_for_rag(chunk.search_text) for chunk in chunks]
-    doc_lengths = [len(tokens) or 1 for tokens in doc_tokens]
-    avg_doc_len = sum(doc_lengths) / len(doc_lengths)
+    index = _cached_corpus_index(version)
+    doc_freq = index.doc_freq
+    avg_doc_len = index.avg_doc_len
     query_ngrams = _char_ngrams(" ".join(expanded_tokens) or question)
-
-    doc_freq: Counter[str] = Counter()
-    for tokens in doc_tokens:
-        doc_freq.update(set(tokens))
 
     query_counter = Counter(expanded_tokens)
     query_embedding = _hashed_embedding(" ".join(expanded_tokens) or question)
     scored: list[SchemaChunk] = []
-    for chunk, tokens, doc_len in zip(chunks, doc_tokens, doc_lengths, strict=False):
-        token_counts = Counter(tokens)
-        table_tokens = set(_tokenize_for_rag(chunk.table_name))
-        column_tokens = set(_tokenize_for_rag(" ".join(chunk.columns)))
-        text_token_set = set(tokens)
+    for chunk, entry in zip(chunks, index.entries, strict=True):
+        token_counts = entry.token_counts
+        doc_len = entry.doc_len
 
         score = 0.0
         matched_terms: set[str] = set()
@@ -262,9 +327,9 @@ def retrieve_schema_context(
             denominator = tf + 1.5 * (1 - 0.75 + 0.75 * doc_len / avg_doc_len)
             score += idf * ((tf * 2.5) / denominator) * max(1, query_weight)
 
-        table_matches = sorted(set(expanded_tokens) & table_tokens)
-        column_matches = sorted(set(expanded_tokens) & column_tokens)
-        weak_matches = sorted(set(expanded_tokens) & text_token_set)
+        table_matches = sorted(set(expanded_tokens) & entry.table_tokens)
+        column_matches = sorted(set(expanded_tokens) & entry.column_tokens)
+        weak_matches = sorted(set(expanded_tokens) & entry.text_tokens)
         if table_matches:
             score += 8.0 * len(table_matches)
             reasons.append(f"table match: {', '.join(table_matches)}")
@@ -276,14 +341,12 @@ def retrieve_schema_context(
         if weak_matches and not (table_matches or column_matches):
             reasons.append(f"schema text match: {', '.join(weak_matches[:6])}")
 
-        semantic_score = _cosine_counter_similarity(query_ngrams, _char_ngrams(chunk.search_text))
+        semantic_score = _cosine_counter_similarity(query_ngrams, entry.ngrams)
         if semantic_score > 0:
             score += semantic_weight * semantic_score
             reasons.append(f"semantic similarity: {semantic_score:.2f}")
 
-        embedding_score = _cosine_vector_similarity(
-            query_embedding, _hashed_embedding(chunk.search_text)
-        )
+        embedding_score = _cosine_vector_similarity(query_embedding, entry.embedding)
         if embedding_score > 0:
             score += embedding_weight * embedding_score
             reasons.append(f"embedding similarity: {embedding_score:.2f}")

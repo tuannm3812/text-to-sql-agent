@@ -77,11 +77,46 @@ def get_schema_chunks_and_plain_ddl(db_path: str) -> tuple[list[SchemaChunk], st
     Returns:
         `(chunks, plain_ddl)`, where `plain_ddl` is the string `get_schema` returns.
     """
+    chunks, plain_ddl, _ = get_schema_chunks_plain_ddl_and_version(db_path)
+    return chunks, plain_ddl
+
+
+def get_schema_chunks_plain_ddl_and_version(
+    db_path: str,
+) -> tuple[list[SchemaChunk], str, tuple[object, ...]]:
+    """`get_schema_chunks_and_plain_ddl` plus the `(dsn, fingerprint)` key both are cached on.
+
+    `rag.py` caches its question-independent scoring index on that same key, so the
+    index is invalidated exactly when the chunks are and costs no fingerprint read of
+    its own (on PostgreSQL a fingerprint is a catalogue query, not a `stat`).
+
+    Args:
+        db_path: Filesystem path (or DSN) to the database.
+
+    Returns:
+        `(chunks, plain_ddl, version)`, where `version` is the `(dsn, fingerprint)`
+        tuple `get_schema_chunks_at` accepts.
+    """
     fingerprint = open_engine(db_path).schema_fingerprint()
     return (
         list(_cached_schema_chunks(db_path, fingerprint)),
         _cached_raw_schema(db_path, fingerprint),
+        (db_path, fingerprint),
     )
+
+
+def get_schema_chunks_at(version: tuple[object, ...]) -> tuple[SchemaChunk, ...]:
+    """Return the cached chunk tuple for a `version` from `get_schema_chunks_plain_ddl_and_version`.
+
+    Args:
+        version: The `(dsn, fingerprint)` tuple that function returned.
+
+    Returns:
+        The same tuple `_cached_schema_chunks` holds for that key, read without a
+        fresh fingerprint.
+    """
+    dsn, fingerprint = version
+    return _cached_schema_chunks(str(dsn), fingerprint)
 
 
 def get_schema_chunk_cache_info() -> _CacheInfo:

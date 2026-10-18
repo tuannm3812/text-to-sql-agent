@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 import text_to_sql_agent as agent
-from text_to_sql_agent import SchemaRetrievalResult
+from text_to_sql_agent import SchemaRetrievalResult, rag
 from text_to_sql_agent.types import render_schema_text
 
 
@@ -231,3 +231,33 @@ def test_a_complete_hint_list_renders_without_a_label() -> None:
         "-- kind sample values: a",
         "-- status sample values: active, inactive",
     ]
+
+
+def test_the_scoring_index_is_cached_between_questions(customers_sales_courses_db: str) -> None:
+    """A second question on the same schema must not re-index every chunk."""
+    agent.retrieve_schema_context(customers_sales_courses_db, "total sales by customer", top_k=1)
+    before = rag.get_retrieval_index_cache_info()
+    agent.retrieve_schema_context(customers_sales_courses_db, "how many courses", top_k=1)
+    after = rag.get_retrieval_index_cache_info()
+
+    assert after.hits == before.hits + 1, "the second question must hit the index cache"
+    assert after.misses == before.misses
+
+
+def test_the_scoring_index_misses_after_the_schema_changes(tmp_path: Path) -> None:
+    """The index shares the chunks' fingerprint key, so a new table is scored at once."""
+    db = tmp_path / "c.db"
+    with closing(sqlite3.connect(db)) as conn:
+        conn.execute("CREATE TABLE customers (id INTEGER, name TEXT)")
+        conn.commit()
+    agent.retrieve_schema_context(str(db), "customer name", top_k=1)
+    before = rag.get_retrieval_index_cache_info()
+
+    with closing(sqlite3.connect(db)) as conn:
+        conn.execute("CREATE TABLE invoices (id INTEGER, amount REAL, customer_id INTEGER)")
+        conn.commit()
+    context = agent.retrieve_schema_context(str(db), "invoice amount", top_k=1)
+    after = rag.get_retrieval_index_cache_info()
+
+    assert after.misses == before.misses + 1, "a changed schema must rebuild the index"
+    assert [chunk.table_name for chunk in context.chunks] == ["invoices"]
