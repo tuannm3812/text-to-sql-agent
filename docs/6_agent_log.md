@@ -4621,3 +4621,130 @@ Next: profile and cache retrieval, then the retrieval rewrite.
 Recorded in `docs/3_decisions.md` after the `bird_train_large` full-suite
 results (`3a45b13`); `docs/4_next_steps.md` Phase 4 item (1) marked done. No
 code change: top 6 was already the shipped setting.
+
+## Codex review — requested range `81da1a6..3a45b13`
+
+**Scope.** Reviewed the requested range: large-schema source/adapter, raw-SQL
+hardness, preparation and size-report tooling, shell runners, BIRD no-evidence
+refresh, and subset/full attribution results. Checkout HEAD was `b76069a`;
+its changes beyond the requested tip are documentation only. No application
+code, result data, runner or default was changed during review; only this log
+entry was appended. The recorded owner decision is not reopened here.
+
+**Suite construction verified.** Read table metadata from the cached train
+archive and rebuilt the adapter output from local raw `train.json` and real
+selected database tables. All **1222 cases**, **10 recorded drops** and the
+seeded **200 subset IDs** reproduce exactly. The four largest table counts
+are 65, 34, 22 and 21; the next is 17. Difficulty counts reproduce (152 easy,
+485 medium, 264 hard, 321 extra). Raw-SQL hardness matches all **1034 Spider
+dev** official labels, while remaining an explicitly documented approximation
+outside that parser's grammar. Rebuilding all **1534 BIRD dev** records with
+the refactored adapter produces unchanged case records.
+
+Ran the large-suite gold gate with the documented explicit execution budget:
+**PASS, 1221/1222 self-matches**, with only **7638** excepted at the row cap.
+Audited **31 committed run bundles** for manifest/identity hashes, unique IDs,
+row counts, completion and citable state; all pass. Actual large-suite database
+file hashes match every large-suite run's identity. The six large-suite runs
+also have no outages, generation failures or empty-answer errors. Each full
+arm records the same one invalid reference; it is not silently removed from
+the official denominator.
+
+**Measurements verified.** All **six** saved large-suite comparison Markdown
+files reproduce byte for byte from the CSVs and satisfy the tool's controlled-
+pair checks. Independently recomputed the full-suite per-database paired
+intervals with sorted IDs and seed 0; they match the README. In particular:
+
+| Full-suite arm | Correct |
+|---|---:|
+| Plain DDL | 328/1222 |
+| Full DDL plus hints | 312/1222 |
+| Top 6 plus hints | 356/1222 |
+
+Top 6 against full DDL plus hints is **+3.6 [1.4, 5.8] points**; against plain
+DDL it is **+2.3 [0.0, 4.6]**, borderline. The two largest databases have
+positive paired intervals against both full-schema arms; the other two do not.
+The full-suite hint effect **-1.3 [-2.9, 0.2]** does not establish the harm
+suggested by the initial subset. Prompt token reductions reproduce. The BIRD
+dev no-evidence label refresh also passes its regression gate: **385 to 390
+of 1534**, **+0.3 [-0.5, 1.1] points**. No provider was called for these checks.
+
+**Actionable feedback for Claude.**
+
+1. **P2 — The full-suite runner reports success after failed evaluations.**
+   `scripts/runs/text-to-sql-large-schema-full-runs.sh:27-33` does not capture
+   and propagate the evaluation status before logging and advancing. Its
+   `run` function ends with a successful `echo`, and the outer script always
+   prints `ALL DONE`. Reproduced the exact script in a temporary fake worktree,
+   with Git and evaluation functions stubbed and **every evaluation returning
+   7**: all three mock failures ran, each was logged as **`END exit=0`**, the
+   script printed **`ALL DONE`**, and its process returned **0**. No real
+   evaluation or worktree mutation occurred. Save the status immediately,
+   log that saved value, and propagate failure so the outer sequence cannot
+   advertise successful completion. Check sibling runners for the same pattern.
+   Acceptance: a mocked failed arm yields a nonzero process status and no
+   success completion marker. Committed results remain valid because their
+   manifests and rows were checked independently, not trusted from these logs.
+2. **P2 — The prompt-size diagnostic undercounts messages and overstates its
+   context guarantee.** `scripts/report_prompt_sizes.py:52-69` adds system,
+   question and schema lengths but omits the user-message headings and
+   separators that `generate_sql` adds. Captured the real messages with the
+   provider call mocked: large-suite case **1787** has **7100** characters of
+   system plus user text, while the script reports **7055**, omitting **45**.
+   Measure the actual message construction, then describe the chars/token
+   conversion as an estimate. A minimum ratio observed on BIRD dev is not a
+   guaranteed lower bound on tokenization for a different suite; model chat
+   framing and the completion budget matter too. Replace the README/design
+   inference that "none ... would be truncated" with the estimate's limitation
+   unless actual tokenizer/context evidence establishes that stronger claim.
+   The 45-character omission alone is much smaller than the reported margin;
+   this review found **no evidence that these saved runs were truncated**.
+   Maximum recorded per-case aggregate prompt usage is 23251 tokens in the
+   full-DDL-with-hints arm, but aggregate usage is not a recording of the
+   original untruncated token sequence and effective context configuration.
+
+**Interpretation and next steps.** Keep the supported, bounded conclusion:
+selection saves prompt tokens and improves EX against full DDL plus hints on
+these four large-schema databases, with the clearest gains on the two largest.
+This is not yet a general scaling law across schemas. Per-case bootstrap
+intervals do not measure variation across independent database schemas.
+Likewise, no training in this repository does not establish that a public BIRD
+train question was absent from the base model's pretraining; qualify "the agent
+has never seen it" accordingly in the suite notes/design.
+
+Fix failure reporting and the diagnostic wording/counter before reusing the
+runners. Then profile retrieval locally before choosing a cache change: the
+separate-session timing difference is descriptive, and recomputation of vectors
+is a hypothesis to measure rather than a proven explanation. Verify that any
+cache preserves contexts, ranks and prompt bytes and has appropriate schema
+invalidation before spending on another provider evaluation. Commit the
+per-database aggregation helper so those intervals remain reproducible without
+a one-off script. No full benchmark rerun is needed merely for the two fixes.
+
+**Fresh checks.** Full suite **1406 passed, 351 skipped**; ruff passed;
+**166 files** already formatted; mypy clean on **51 source files**. The gold
+gate and saved-data checks above passed. No live PostgreSQL, provider benchmark
+or CI-status check was performed. HEAD stayed `b76069a` throughout review.
+The two P2s are open; neither invalidates the independently reproduced EX and
+paired-comparison calculations.
+
+## Codex review addendum — full requested range `81da1a6..b76069a`
+
+Extended the review through `b76069a` as requested. Its delta from `3a45b13`
+contains only the default-decision entry, roadmap status and collaboration-log
+entry; no runtime code, tests or measurements changed. The preceding review's
+checks were already executed at this same HEAD, so their evidence applies to
+the complete range without repeating the suite.
+
+The top-6 decision's reported EX changes and token reduction agree with the
+verified full-suite comparisons. Keeping the existing default is consistent
+with that evidence; there is no additional implementation finding in this
+commit. The two P2s in the preceding entry remain open and should be addressed
+before reusing the runners or relying on the context-size diagnostic.
+
+One wording qualification in the new decision: replace "the two were
+indistinguishable" on the dev suites with "no measurable difference was
+established"; intervals crossing zero do not establish equivalence. Treat
+uncached scoring as a latency hypothesis until profiling confirms it, as
+already recommended above. Neither qualification requires a benchmark rerun
+or reopening the owner decision. Only this log was edited.
