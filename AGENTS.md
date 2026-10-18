@@ -93,6 +93,13 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   pair is controlled. The MVP notebook reads removed fields and needs updating
   before any re-run. Next: the owner's choice of default (top 6 or full DDL plus
   hints), then Phase 4 led by hint quality.
+- 2026-10-18: Flip analysis corrected and reproducible
+  (`scripts/analyse_rag_flips.py`). Cut value-hint lists now say "6 of 16
+  shown" (`fe90991`), kept by the owner: regression gate passes on Spider
+  (-0.6) and BIRD (+0.5), neither measurable; BIRD gains 3 of 49 hidden-literal
+  targets. Identical prompts proved nearly deterministic (1 of 524 BIRD SQL
+  texts changed). The README table predates the label. `1377` passed / `351`
+  skipped without the DSN.
 
 ## Open risks
 

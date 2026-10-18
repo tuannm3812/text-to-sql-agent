@@ -2,6 +2,24 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-18 — a cut value-hint list says how many values it shows
+
+**Chosen:** Keep `fe90991`: a hint list cut by the six-value cap renders as
+`-- col sample values (6 of 16 shown): ...`. Complete lists, the shown values
+and the data sent are unchanged. The owner chose to keep it after the trial.
+
+**Ruled out:** Reverting it because neither full suite moved. Listing every
+value under the 20-value ceiling instead: that sends more database values to
+the provider, needs its own privacy entry, and was not tested.
+
+**Why:** It addresses the one defect the flip analysis found, a cut list read
+as complete (BIRD 381, Spider 599), at no data cost. Paired against the shipped
+arm at `7708295`, the regression gate passes on both suites: Spider dev -0.6
+[-1.7, +0.5], BIRD dev with evidence +0.5 [-0.3, +1.4]. On the frozen
+hidden-literal targets BIRD gains 3 of 49 and loses none, and Spider is
+unchanged (`evaluation/results/hint_label/README.md`). Claims of an accuracy
+gain are not supported; this is kept as a correctness fix to the prompt.
+
 ## 2026-10-12 — RAG's gain is the value hints; Phase 4 leads with hints, not retrieval
 
 **Chosen:** Phase 4 treats value-hint quality and coverage as the main lever.

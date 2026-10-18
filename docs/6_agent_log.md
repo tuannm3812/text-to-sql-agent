@@ -4391,3 +4391,11 @@ was resumed in place with the same identity.
 
 Verified: `uv run pytest` **1377 passed, 351 skipped** without the DSN (the
 manifest tests now cover the four new runs).
+
+## 2026-10-18 — Claude: the hint label is kept
+
+The owner chose to keep `fe90991`. Recorded in `docs/3_decisions.md`, with a
+note under the README release table that its figures predate the label, plus
+the label-era Spider and BIRD-with-evidence results. BIRD without evidence was
+not re-run. `AGENTS.md` current state and `docs/4_next_steps.md` updated. No
+code changed.

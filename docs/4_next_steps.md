@@ -52,10 +52,11 @@ So, in order: (1) owner decision on the default, top 6 or full DDL plus hints
 paired against the current arms. The flip analysis
 (`evaluation/results/rag_attribution/error_analysis.md`) points at one defect: the
 six-value cap hides needed values and the model reads the cut list as complete.
-Owner choice: label cut lists ("6 of 16 shown", no extra data sent; recommended
-first) or list all values under the 20-value ceiling (more data to the provider,
-needs a privacy decision entry first). Measure with the regression gate against
-the shipped arm; (3) a suite with a schema much
+Cut lists are now labelled ("6 of 16 shown", `fe90991`, kept 2026-10-18): the
+gate passes on both suites with no measurable change, and BIRD gains 3 of 49
+hidden-literal targets (`evaluation/results/hint_label/README.md`). Listing all
+values under the 20-value ceiling stays untested and needs a privacy decision
+entry first; (3) a suite with a schema much
 larger than BIRD's, without which no selection or cost claim can be tested;
 (4) only then the retrieval rewrite below. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full

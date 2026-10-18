@@ -434,6 +434,12 @@ computed by each benchmark's own scorer.
 | BIRD, with evidence hints | 1,534 | **35.2%** [32.9, 37.6] | simple 43.1, moderate 29.1, challenging 17.3 | [report](evaluation/results/2026-10-10T080619_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_22491cc9_3ef9/report.md) |
 | BIRD, without evidence hints | 1,534 | **25.1%** [22.9, 27.3] | simple 34.2, moderate 16.3, challenging 8.2 | [report](evaluation/results/2026-10-10T104806_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_886c714f_c734/report.md) |
 
+These were measured before value-hint lists began to say when they are cut
+(`fe90991`, "6 of 16 shown"). Re-run with that label, Spider dev scored 64.0%
+and BIRD with evidence 35.7%, both inside the regression gate and neither a
+measurable change; BIRD without evidence was not re-run
+([trial results](evaluation/results/hint_label/README.md)).
+
 Paired on the same questions, BIRD's evidence hints add 10.1 points [8.1,
 12.1]. Against the earlier full Spider run at the model's default thinking,
 thinking off adds 8.5 points [5.8, 11.3]. No run had an outage or an empty
