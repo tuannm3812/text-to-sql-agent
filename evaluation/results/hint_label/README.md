@@ -73,7 +73,12 @@ corrects the mechanism on 599 and helps a few BIRD targets, and the gate passes
 on both suites. It does not move either full suite measurably. Whether to keep
 it is for the review. Keeping it changes the shipped prompt, so the README's
 release table, measured at `7708295`, would then describe the previous code.
-That covers BIRD without evidence too, which was not re-run.
+
+**Kept by the owner (2026-10-18).** BIRD dev without evidence was then re-run
+at `fe90991` (`2026-10-18T042355_..._35918cc5_ad75`, complete and citable):
+25.1 % → 25.4 % (385 → 390 of 1534), +0.3 [-0.5, +1.1], regression gate pass
+(`bird_dev_noev_gate.txt`). All three release settings now have a label-era
+run.
 
 Reproduce the target subsets with `scripts/analyse_rag_flips.py --write` and
 the verdicts with `scripts/evaluate_v2.py --gate regression --new NEW

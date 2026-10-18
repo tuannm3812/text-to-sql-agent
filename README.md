@@ -436,8 +436,9 @@ computed by each benchmark's own scorer.
 
 These were measured before value-hint lists began to say when they are cut
 (`fe90991`, "6 of 16 shown"). Re-run with that label, Spider dev scored 64.0%
-and BIRD with evidence 35.7%, both inside the regression gate and neither a
-measurable change; BIRD without evidence was not re-run
+and BIRD with evidence 35.7%; BIRD without evidence scored 25.4%
+([run](evaluation/results/2026-10-18T042355_bird_dev_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-off-think-off_35918cc5_ad75/report.md)).
+All three pass the regression gate and none is a measurable change
 ([trial results](evaluation/results/hint_label/README.md)).
 
 Paired on the same questions, BIRD's evidence hints add 10.1 points [8.1,

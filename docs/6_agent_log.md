@@ -4548,3 +4548,19 @@ Codex's and my recommended next step. Design in
 
 Verified: `uv run pytest` **1399 passed, 351 skipped** without the DSN; ruff
 and mypy clean (51 source files). No provider call was made for the suite.
+
+## 2026-10-18 — Claude: BIRD without evidence, label-era refresh
+
+`2026-10-18T042355_..._35918cc5_ad75` at `fe90991`, complete and citable,
+copied from the run worktree. Against the release run at `7708295`: 25.1 % →
+25.4 % (385 → 390 of 1534), +0.3 [-0.5, +1.1], regression gate pass. The
+README note under the release table now gives all three label-era figures.
+
+**My mistake, for the record.** I edited `text-to-sql-hint-label-runs.sh` (to
+add the `large` phase) while bash was still executing it. Bash reads a script
+incrementally, so it resumed at a shifted offset: it ran the `large` arms early
+(refused, no suite in that worktree) and never printed `PHASE bird-noev DONE`,
+so the queue waiting on that line slept forever. The BIRD run itself was
+unaffected. The reorganize thread found and stopped the queue. Rule from now
+on: never edit a script that a running process is executing; write a new one.
+The `bird_train_large` arms have not run.
