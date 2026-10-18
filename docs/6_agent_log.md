@@ -4592,3 +4592,26 @@ DDL plus hints 23.5 %, top 6 30.5 %. Top 6 vs full DDL plus hints: +7.0
 [-8.5, -0.5]. Top 6 vs plain DDL: +2.5 [-3.0, +8.0], not measurable. Top 6 is
 2.1 s slower per case despite the smaller prompt; not profiled. Full-suite
 runs not started. The large-schema queue's log is in `evaluation/run_logs/`.
+
+## 2026-10-19 — Claude: `bird_train_large` full-suite arms
+
+The three attribution arms on all 1,222 questions, run by the reorganize
+thread from `.worktrees/release-runs` at `47284f5`, are committed here with
+their run log. All complete, citable, controlled; 0 outages, empty answers or
+generation failures. Tabled in `evaluation/results/bird_train_large/README.md`
+with `--compare` outputs `full_compare_*.md` and a per-database breakdown.
+
+- Top 6 29.1 %, plain DDL 26.8 %, full DDL plus hints 25.5 %.
+- Top 6 vs full DDL plus hints: +3.6 [+1.4, +5.8], 117 / 73, prompt -68.6 %.
+- Full DDL plus hints vs plain DDL: -1.3 [-2.9, +0.2]; the subset's -4.5
+  did not hold up.
+- Top 6 vs plain DDL: +2.3 [+0.0, +4.6], borderline.
+- By database, top 6 gains 5 to 6 points on `works_cycles` (65 tables) and
+  `mondial_geo` (34), each interval excluding zero, and nothing measurable on
+  `hockey` (22) or `soccer_2016` (21).
+- Top 6 is +2.0 s [+1.8, +2.2] per question against full DDL plus hints
+  despite a two-thirds smaller prompt: likely retrieval scoring, not profiled.
+
+Per-database intervals were computed with `stats.paired_bootstrap_ci` (seed
+0) in a one-off script, not a committed helper. Top 6 stays the default.
+Next: profile and cache retrieval, then the retrieval rewrite.

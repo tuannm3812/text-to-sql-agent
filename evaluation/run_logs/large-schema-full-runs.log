@@ -1,0 +1,13 @@
+=== 2026-10-19 00:59:47 START --suite bird_train_large --subset full --evidence on --no-rag 
+bird_train_large: complete, citable=True, 1222 cases, 0 outage(s)
+  evaluation/results/2026-10-18T135948_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-off-evidence-on-think-off_3d4b6fb6_83d3
+=== 2026-10-19 02:25:34 END exit=0 --suite bird_train_large --subset full --evidence on --no-rag
+=== 2026-10-19 02:25:34 START --suite bird_train_large --subset full --evidence on --rag-top-k 0 
+bird_train_large: complete, citable=True, 1222 cases, 0 outage(s)
+  evaluation/results/2026-10-18T152535_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k0-evidence-on-think-off_7e00b59f_95a2
+=== 2026-10-19 03:47:07 END exit=0 --suite bird_train_large --subset full --evidence on --rag-top-k 0
+=== 2026-10-19 03:47:07 START --suite bird_train_large --subset full --evidence on 
+bird_train_large: complete, citable=True, 1222 cases, 0 outage(s)
+  evaluation/results/2026-10-18T164708_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_82113302_30ea
+=== 2026-10-19 05:50:13 END exit=0 --suite bird_train_large --subset full --evidence on
+ALL DONE 2026-10-19 05:50:13

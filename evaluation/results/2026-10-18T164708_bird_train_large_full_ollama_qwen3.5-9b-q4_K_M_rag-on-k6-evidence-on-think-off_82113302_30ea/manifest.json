@@ -1,0 +1,95 @@
+{
+  "commit": "47284f5c6eebe925b8d8684ce3469fc108fc3903",
+  "dirty": false,
+  "suite": "bird_train_large",
+  "suite_sha256": "16a8c1d4fabd2fdcabb44a047422930e3693b9f448dcd444771e543423bbab49",
+  "subset": "full",
+  "subset_sha256": "",
+  "source_release": "bird-sql train (train.zip, folder train; questions train.json)",
+  "database_fingerprint": [
+    [
+      "data/benchmarks/bird/train_databases/hockey/hockey.sqlite",
+      "2987cba3921e2544fcd4603eccf5ff97b17f63103d8feb6fb908d55eb5bd9ba2"
+    ],
+    [
+      "data/benchmarks/bird/train_databases/mondial_geo/mondial_geo.sqlite",
+      "02e71c23c27973be373e0c110600b4f12c77904c7594f3e345310511fe8b8d63"
+    ],
+    [
+      "data/benchmarks/bird/train_databases/soccer_2016/soccer_2016.sqlite",
+      "84651eed21dbfae9f36a15697a5df81f3cb6ad78740f7301096e99dd7c4c06d5"
+    ],
+    [
+      "data/benchmarks/bird/train_databases/works_cycles/works_cycles.sqlite",
+      "5a5968b86a2de3cf521294eca7cdc54887830b765e8ca7ab0b103d0f1d7daf1b"
+    ]
+  ],
+  "adapter_version": "4",
+  "scorer_version": "2",
+  "prompt_sha256": "89d91cbac0ecc8b32b0af647d3d1238f513249cf6cdcc9bf4ff7eb597be333c3",
+  "provider": "ollama",
+  "model": "qwen3.5:9b-q4_K_M",
+  "evidence": true,
+  "use_rag": true,
+  "rag_top_k": 6,
+  "work_limit": 1000000000,
+  "max_rows": 100000,
+  "max_repair_attempts": 1,
+  "retry_policy": "2x10.0",
+  "ollama_think": "off",
+  "identity_sha256": "82113302bdb27f2433c1102ad758af35b0994b2a626d7dff0617cad725204aad",
+  "run_id": "2026-10-18T164708_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_82113302_30ea",
+  "mode": "llm",
+  "case_count": 1222,
+  "source": {
+    "kind": "download",
+    "release": "bird-sql train (train.zip, folder train; questions train.json)",
+    "url": "https://bird-bench.oss-cn-beijing.aliyuncs.com/train.zip",
+    "sha256": "66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc",
+    "licence": "cc-by-sa-4.0",
+    "adapter_version": "4",
+    "unpacked_at": "2026-10-18T04:41:47+00:00",
+    "licence_source": "front matter of birdsql/bird_sql_dev_20251106@3c11fb193e54 README.md, the BIRD benchmark's dataset card (train.zip bundles no licence file; bird-bench.github.io says CC BY-SA 4.0 for the benchmark since 2024-04-27)",
+    "licence_source_sha256": "2ed0fcf8e873ef953d70bcf5e96042155b86a534d7b7c550509f7903dbfaeed5",
+    "min_tables": 20,
+    "databases": {
+      "hockey": 22,
+      "mondial_geo": 34,
+      "soccer_2016": 21,
+      "works_cycles": 65
+    },
+    "train_databases_total": 69,
+    "dropped": {
+      "7122": "bird_train_large case 7122: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7129": "bird_train_large case 7129: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7172": "bird_train_large case 7172: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7173": "bird_train_large case 7173: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7178": "bird_train_large case 7178: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7218": "bird_train_large case 7218: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7227": "bird_train_large case 7227: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7325": "bird_train_large case 7325: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7409": "bird_train_large case 7409: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+      "7438": "bird_train_large case 7438: gold SQL reads ['personphone'], not tables of database 'works_cycles'"
+    }
+  },
+  "started": "2026-10-18T16:47:08+00:00",
+  "duration_s": 7381.846,
+  "outage_count": 0,
+  "status": "complete",
+  "generation_failures": 0,
+  "citable": true,
+  "citable_reason": "",
+  "python": "3.13.14",
+  "packages": {
+    "duckdb": "1.5.5",
+    "google-genai": "1.75.0",
+    "langchain-core": "0.3.86",
+    "langchain-ollama": "0.3.10",
+    "pandas": "2.3.3",
+    "psycopg": "3.3.6",
+    "python-dotenv": "1.2.3",
+    "sqlglot": "27.29.0",
+    "streamlit": "1.63.0"
+  },
+  "manifest_sha256": "2936d80f5bd18409448ecc1e17e2972ec8ce652fb261b83cbbf0e9ddbca87dcd"
+}

@@ -102,5 +102,51 @@ comparisons are in `compare_k0_vs_off.md`, `compare_k6_vs_k0.md` and
   recomputed per chunk per question with no cache (the open risk in
   `AGENTS.md`), and these schemas have many more chunks. Not yet profiled.
 
-These are `subset200` figures. The design calls for the full suite (1,222
-questions) before any selection or cost claim.
+These are `subset200` figures. The full suite below supersedes them.
+
+### Full-suite results (2026-10-19, commit `47284f5`)
+
+All 1,222 questions, the same three arms and settings. Every run is complete,
+citable and controlled, with no outages, empty answers or generation
+failures. Paired comparisons are in `full_compare_k0_vs_off.md`,
+`full_compare_k6_vs_k0.md` and `full_compare_k6_vs_off.md`.
+
+| Arm | EX (95 % CI) | Prompt tokens, mean | Schema recall | Latency, mean |
+|---|---|---:|---:|---:|
+| Plain DDL (RAG off) | 26.8 % [24.4, 29.4] (328/1222) | 6,221 | n/a | 4.2 s |
+| Full DDL plus hints (`--rag-top-k 0`) | 25.5 % [23.2, 28.0] (312/1222) | 8,501 | 1.000 | 4.0 s |
+| Top 6 (shipped) | 29.1 % [26.7, 31.7] (356/1222) | 2,670 | 0.931 | 6.0 s |
+
+| Pair (new vs baseline) | Paired change, points | Helped / hurt | Prompt tokens |
+|---|---|---:|---:|
+| Top 6 vs full DDL plus hints | **+3.6 [+1.4, +5.8]** | 117 / 73 | -68.6 % |
+| Full DDL plus hints vs plain DDL | -1.3 [-2.9, +0.2] | 39 / 55 | +36.6 % |
+| Top 6 vs plain DDL | +2.3 [+0.0, +4.6] | 116 / 88 | -57.1 % |
+
+By database (EX; paired change of top 6 against each full-schema arm):
+
+| Database | Questions | Plain DDL | DDL plus hints | Top 6 | Top 6 vs hints | Top 6 vs plain |
+|---|---:|---:|---:|---:|---|---|
+| `works_cycles` (65 tables) | 464 | 23.7 % | 23.1 % | 28.7 % | **+5.6 [+1.7, +9.5]** | **+5.0 [+1.1, +8.8]** |
+| `mondial_geo` (34) | 293 | 18.8 % | 19.1 % | 25.3 % | **+6.1 [+2.0, +10.6]** | **+6.5 [+2.0, +10.9]** |
+| `hockey` (22) | 207 | 17.9 % | 17.9 % | 15.5 % | -2.4 [-6.8, +1.9] | -2.4 [-6.8, +1.9] |
+| `soccer_2016` (21) | 258 | 48.8 % | 43.4 % | 45.3 % | +1.9 [-3.1, +7.0] | -3.5 [-8.9, +1.9] |
+
+- **Selection's gain holds on the full suite, at half the subset's size.**
+  Top 6 beats full DDL plus hints by 3.6 points, an interval that excludes
+  zero, with 69 % fewer prompt tokens. The subset's +7.0 was at the high end.
+- **The gain comes from the two largest schemas.** On `works_cycles` (65
+  tables) and `mondial_geo` (34), top 6 beats both full-schema arms by 5 to 6
+  points, each interval excluding zero. On the two 21-22-table databases it
+  changes nothing measurable. Selection pays off as schemas grow, which is the
+  claim the dev suites could not test.
+- **Top 6 against plain DDL is borderline overall** (+2.3, the interval's
+  lower end at 0.0) and clear only on the two largest databases.
+- **Hints on a full large schema: no measurable harm on the full suite**
+  (-1.3 [-2.9, +0.2]). The subset's -4.5 does not hold up; the hints neither
+  help nor clearly hurt at this size.
+- **Latency.** Top 6 is 2.0 s slower per question than full DDL plus hints
+  ([+1.8, +2.2] s) although its prompt is two thirds smaller, consistent with
+  uncached retrieval scoring over many chunks. Not yet profiled.
+- **Recall.** Top 6 drops a gold table in some cases (mean recall 0.931). Hard
+  questions show no gain (-0.8 against plain DDL), consistent with that.

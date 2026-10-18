@@ -61,8 +61,12 @@ entry first; (3) **done 2026-10-18:** `bird_train_large`, four BIRD train databa
 attribution arms on its `subset200` ran 2026-10-18: top 6 beats full DDL plus
 hints by +7.0 [+2.5, +11.5] with 70 % fewer prompt tokens, and full DDL plus
 hints is -4.5 [-8.5, -0.5] below plain DDL, so selection matters at this size.
-Next: the same three arms on the full suite, before any selection or cost claim,
-then the owner's default decision; (4) only then the retrieval rewrite below. The retrieval report's prompt size is
+The full suite (2026-10-19) confirms selection at a smaller size: top 6 beats
+full DDL plus hints by +3.6 [+1.4, +5.8] with 69 % fewer prompt tokens, driven
+by the 65- and 34-table databases (+5 to +6 points each); the hint penalty
+does not hold up (-1.3 [-2.9, +0.2]). Top 6 is 2.0 s slower per question,
+which points at uncached retrieval scoring. Top 6 stays the default; (4) next,
+the retrieval rewrite below, starting by profiling and caching retrieval. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.
 

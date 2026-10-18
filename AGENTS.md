@@ -108,6 +108,11 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   rule. `scripts/report_prompt_sizes.py` checks prompts against the context
   window before a run. Next: the three attribution arms on its `subset200`.
   `1399` passed / `351` skipped without the DSN.
+- 2026-10-19: `bird_train_large` full suite, three arms at `47284f5`: top 6
+  29.1 %, plain DDL 26.8 %, full DDL plus hints 25.5 %. Top 6 vs DDL plus hints
+  +3.6 [+1.4, +5.8] with 69 % fewer prompt tokens, from the 65- and 34-table
+  databases. Top 6 is 2.0 s slower (uncached retrieval). The first evidence
+  that selection pays as schemas grow (`evaluation/results/bird_train_large/`).
 
 ## Open risks
 
