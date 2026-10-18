@@ -317,6 +317,8 @@ def test_the_committed_exception_lists() -> None:
     # #1131 past the 1B-step budget, #384 returning 228,765 rows against a 100k cap.
     assert load_exceptions(SUITES / "spider_dev.gold_exceptions.txt") == {"455", "456"}
     assert load_exceptions(SUITES / "bird_dev.gold_exceptions.txt") == {"701", "1131", "518", "384"}
+    # BIRD train #7638 returns 319,882 rows against the same cap.
+    assert load_exceptions(SUITES / "bird_train_large.gold_exceptions.txt") == {"7638"}
 
 
 # --- the command line --------------------------------------------------------------------------

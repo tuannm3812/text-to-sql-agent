@@ -1,6 +1,6 @@
-"""Download, verify, unpack and convert Spider 1.0 dev and BIRD dev into v2 suites.
+"""Download, verify, unpack and convert Spider 1.0 dev, BIRD dev and BIRD train into v2 suites.
 
-    uv run python scripts/prepare_benchmarks.py --suite spider_dev bird_dev
+    uv run python scripts/prepare_benchmarks.py --suite spider_dev bird_dev bird_train_large
     uv run python scripts/prepare_benchmarks.py --suite spider_dev bird_dev \\
         --draw-subset 200 --seed 20261008
 
@@ -56,8 +56,11 @@ from text_to_sql_agent.evaluation_v2 import Case, SuiteError, load_suite  # noqa
 from text_to_sql_agent.evaluation_v2.adapters import (  # noqa: E402
     ADAPTER_VERSION,
     BIRD_SUITE,
+    BIRD_TRAIN_LARGE_SUITE,
+    LARGE_SCHEMA_MIN_TABLES,
     SPIDER_SUITE,
     bird_to_cases,
+    bird_train_large_to_cases,
     database_path,
     draw_subset,
     spider_to_cases,
@@ -136,7 +139,30 @@ BIRD_LICENCE_SOURCE = (
     "since 2024-04-27)"
 )
 
-SUITES = ("spider_dev", "bird_dev")
+# --- BIRD train, large schemas only -------------------------------------------------------
+# bird_train_large takes the train questions whose database has at least
+# LARGE_SCHEMA_MIN_TABLES tables. train.zip is 8.9 GB; only the selected databases are
+# extracted. Table counts come from the archive's train_tables.json, so the unselected
+# databases are never unpacked, and each selected database's real tables are then read from
+# its file and checked against that count. The archive bundles no licence file; the licence
+# is the BIRD benchmark's, read from the same dev dataset card bird_dev records.
+BIRD_TRAIN_ARCHIVE = Download(
+    url="https://bird-bench.oss-cn-beijing.aliyuncs.com/train.zip",
+    sha256="66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc",
+    filename="bird_train.zip",
+)
+BIRD_TRAIN_RELEASE = "bird-sql train (train.zip, folder train; questions train.json)"
+BIRD_TRAIN_QUESTIONS_MEMBER = "train/train.json"
+BIRD_TRAIN_TABLES_MEMBER = "train/train_tables.json"
+BIRD_TRAIN_DATABASES_MEMBER = "train/train_databases.zip"
+BIRD_TRAIN_DATABASES_PREFIX = "train_databases"
+BIRD_TRAIN_LICENCE_SOURCE = (
+    f"front matter of birdsql/bird_sql_dev_20251106@{BIRD_HF_REVISION[:12]} README.md, the "
+    "BIRD benchmark's dataset card (train.zip bundles no licence file; bird-bench.github.io "
+    "says CC BY-SA 4.0 for the benchmark since 2024-04-27)"
+)
+
+SUITES = ("spider_dev", "bird_dev", "bird_train_large")
 
 
 class PrepareError(Exception):
@@ -355,6 +381,92 @@ def prepare_bird(dest: Path, archive: Path | None) -> tuple[list[Case], dict[str
     return cases, source
 
 
+def table_counts(tables_json: list[Any], suite: str) -> dict[str, int]:
+    """``db_id`` -> table count from a BIRD ``*_tables.json`` (its ``table_names_original``)."""
+    counts: dict[str, int] = {}
+    for position, entry in enumerate(tables_json):
+        if not isinstance(entry, dict) or not isinstance(entry.get("db_id"), str):
+            raise PrepareError(f"{suite}: tables.json entry {position} has no db_id")
+        names = entry.get("table_names_original")
+        if not isinstance(names, list) or not names:
+            raise PrepareError(f"{suite}: tables.json entry for '{entry['db_id']}' lists no tables")
+        counts[entry["db_id"]] = len(names)
+    return counts
+
+
+def prepare_bird_train_large(dest: Path, archive: Path | None) -> tuple[list[Case], dict[str, Any]]:
+    downloads = dest / "_downloads"
+    path = fetch(BIRD_TRAIN_ARCHIVE, downloads, override=archive)
+    card = fetch(BIRD_CARD, downloads)
+    licence = read_card_licence(card)
+    root = dest / "bird"
+    db_root = relative_to_repo(root) / BIRD_TRAIN_DATABASES_PREFIX
+    with open_zip(path) as outer, tempfile.TemporaryDirectory(dir=downloads) as tmp:
+        try:
+            raw = outer.read(BIRD_TRAIN_QUESTIONS_MEMBER)
+            train = json.loads(raw)
+            counts = table_counts(
+                json.loads(outer.read(BIRD_TRAIN_TABLES_MEMBER)), BIRD_TRAIN_LARGE_SUITE
+            )
+        except KeyError as exc:
+            raise PrepareError(f"{path}: missing expected member {exc}") from exc
+        named = database_paths(train, db_root, BIRD_TRAIN_LARGE_SUITE)
+        missing = sorted(set(named) - set(counts))
+        if missing:
+            raise PrepareError(
+                f"{BIRD_TRAIN_LARGE_SUITE}: train.json names databases absent from "
+                f"train_tables.json: {missing[:10]}"
+            )
+        selected = {
+            db_id: db_path
+            for db_id, db_path in named.items()
+            if counts[db_id] >= LARGE_SCHEMA_MIN_TABLES
+        }
+        if not selected:
+            raise PrepareError(
+                f"{BIRD_TRAIN_LARGE_SUITE}: no train database has {LARGE_SCHEMA_MIN_TABLES} "
+                "tables or more"
+            )
+        inner_path = Path(tmp) / "train_databases.zip"
+        extract_member(outer, BIRD_TRAIN_DATABASES_MEMBER, inner_path)
+        with open_zip(inner_path) as inner:
+            tables = extract_databases(inner, BIRD_TRAIN_DATABASES_PREFIX, selected)
+    for db_id, names in tables.items():
+        # SQLite's own bookkeeping table (sqlite_sequence, behind AUTOINCREMENT) is in the
+        # file but not in BIRD's listing; it is not a table the questions can ask about.
+        user_tables = [name for name in names if not name.lower().startswith("sqlite_")]
+        if len(user_tables) != counts[db_id]:
+            raise PrepareError(
+                f"{BIRD_TRAIN_LARGE_SUITE}: database '{db_id}' has {len(user_tables)} tables, "
+                f"train_tables.json says {counts[db_id]}"
+            )
+    # The adapter needs every named database listed to tell "small" from "unknown"; the
+    # unselected ones are listed by count only, with placeholder names it never reads.
+    all_tables: dict[str, list[str]] = {
+        db_id: tables.get(db_id, [f"table_{i}" for i in range(counts[db_id])]) for db_id in named
+    }
+    dropped: list[tuple[str, str]] = []
+    cases = bird_train_large_to_cases(
+        train,
+        db_root=db_root,
+        tables=all_tables,
+        min_tables=LARGE_SCHEMA_MIN_TABLES,
+        dropped=dropped,
+    )
+    for _case_id, reason in dropped:
+        print(f"dropped  {reason}")
+    root.mkdir(parents=True, exist_ok=True)
+    (root / "train.json").write_bytes(raw)
+    source = source_block(BIRD_TRAIN_ARCHIVE, BIRD_TRAIN_RELEASE, licence)
+    source["licence_source"] = BIRD_TRAIN_LICENCE_SOURCE
+    source["licence_source_sha256"] = BIRD_CARD.sha256
+    source["min_tables"] = LARGE_SCHEMA_MIN_TABLES
+    source["databases"] = {db_id: counts[db_id] for db_id in sorted(selected)}
+    source["train_databases_total"] = len(named)
+    source["dropped"] = {case_id: reason for case_id, reason in dropped}
+    return cases, source
+
+
 def write_atomically(path: Path, text: str) -> None:
     tmp = path.with_name(path.name + ".tmp")
     tmp.write_text(text, encoding="utf-8")
@@ -448,7 +560,11 @@ def summarise(suite: str, cases: list[Case]) -> None:
     print(f"         gold refused by is_safe_query: {len(refused)} {refused[:10]}")
 
 
-PREPARERS = {"spider_dev": prepare_spider, "bird_dev": prepare_bird}
+PREPARERS = {
+    "spider_dev": prepare_spider,
+    "bird_dev": prepare_bird,
+    "bird_train_large": prepare_bird_train_large,
+}
 
 
 def parse_args(argv: list[str] | None) -> argparse.Namespace:
@@ -467,7 +583,8 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
         type=Path,
         help=(
             "a manually downloaded copy of the suite's main archive (Spider: spider_data.zip; "
-            "BIRD: dev.zip), verified against the pinned SHA-256; needs exactly one --suite"
+            "BIRD dev: dev.zip; BIRD train: train.zip), verified against the pinned SHA-256; "
+            "needs exactly one --suite"
         ),
     )
     parser.add_argument(

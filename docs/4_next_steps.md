@@ -56,9 +56,10 @@ Cut lists are now labelled ("6 of 16 shown", `fe90991`, kept 2026-10-18): the
 gate passes on both suites with no measurable change, and BIRD gains 3 of 49
 hidden-literal targets (`evaluation/results/hint_label/README.md`). Listing all
 values under the 20-value ceiling stays untested and needs a privacy decision
-entry first; (3) a suite with a schema much
-larger than BIRD's, without which no selection or cost claim can be tested;
-(4) only then the retrieval rewrite below. The retrieval report's prompt size is
+entry first; (3) **done 2026-10-18:** `bird_train_large`, four BIRD train databases of
+21-65 tables (`evaluation/results/bird_train_large/README.md`); run the three
+attribution arms on its `subset200`, then the full suite, before any selection
+or cost claim; (4) only then the retrieval rewrite below. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.
 

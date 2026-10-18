@@ -40,8 +40,10 @@ suite stops being a test.
   `difficulty` field. BIRD train has no `difficulty`, so `bird_train_large`
   uses the Spider hardness rule on the gold SQL (`spider_hardness`), which the
   Spider adapter already applies; the suite's source block says so.
-- `id` is BIRD's `question_id`; `evidence` is carried verbatim; `expected` is
-  `answerable`; `expected_tables` come from the gold SQL as today.
+- BIRD train records carry no `question_id` (found on unpacking), so `id` is
+  the record's 0-based position in `train.json`, as Spider's is in `dev.json`,
+  and the filter does not renumber. `evidence` is carried verbatim; `expected`
+  is `answerable`; `expected_tables` come from the gold SQL as today.
 - `ADAPTER_VERSION` is bumped, since the adapter grows a suite.
 - `prepare_benchmarks.py` gains `prepare_bird_train_large`, following
   `prepare_bird`: fetch, verify, extract the selected databases, convert, write

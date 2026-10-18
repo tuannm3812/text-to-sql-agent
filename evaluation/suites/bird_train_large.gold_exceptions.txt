@@ -1,0 +1,1 @@
+7638  # reference returns 319,882 rows (a join of Coaches to every Teams row of the league), beyond the 100,000-row benchmark cap

@@ -248,7 +248,7 @@ data/**/*.csv
 !data/university_agent.db
 
 # Public benchmarks (evaluation contract v2). scripts/prepare_benchmarks.py
-# downloads Spider and BIRD into data/benchmarks/ and generates the two suite
+# downloads Spider and BIRD into data/benchmarks/ and generates the suite
 # files below from them; none of it is redistributed here. What is tracked
 # instead is each suite's .source.json (release, URL, SHA-256, licence) and
 # its committed .subset200.txt ID list, so a run can be tied to a release even
@@ -256,3 +256,4 @@ data/**/*.csv
 data/benchmarks/
 evaluation/suites/spider_dev.jsonl
 evaluation/suites/bird_dev.jsonl
+evaluation/suites/bird_train_large.jsonl

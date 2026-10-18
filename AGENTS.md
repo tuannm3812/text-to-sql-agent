@@ -100,6 +100,14 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   targets. Identical prompts proved nearly deterministic (1 of 524 BIRD SQL
   texts changed). The README table predates the label. `1377` passed / `351`
   skipped without the DSN.
+- 2026-10-18 (later): `bird_train_large`, the large-schema suite from BIRD
+  train (4 databases of 21-65 tables, 1,222 questions, gold gate pass,
+  `evaluation/results/bird_train_large/README.md`). Train data is gitignored
+  like the dev suites; `scripts/prepare_benchmarks.py --suite bird_train_large`
+  rebuilds it (8.9 GB download). `sql_hardness` labels raw SQL by Spider's
+  rule. `scripts/report_prompt_sizes.py` checks prompts against the context
+  window before a run. Next: the three attribution arms on its `subset200`.
+  `1399` passed / `351` skipped without the DSN.
 
 ## Open risks
 

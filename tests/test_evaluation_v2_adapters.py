@@ -485,7 +485,7 @@ def train_cases() -> list[Case]:
 
 def test_train_keeps_only_databases_at_or_above_the_table_threshold() -> None:
     cases = train_cases()
-    assert [c.id for c in cases] == ["7", "9"]
+    assert [c.id for c in cases] == ["0", "2"]  # positions in train.json, not renumbered
     assert all(c.suite == "bird_train_large" for c in cases)
     assert all(c.db_path == f"{TRAIN_ROOT.as_posix()}/wide_mini/wide_mini.sqlite" for c in cases)
 
@@ -494,7 +494,7 @@ def test_train_threshold_is_inclusive_and_the_default_is_the_module_constant() -
     at_threshold = bird_train_large_to_cases(
         train_records(), db_root=TRAIN_ROOT, tables=TRAIN_TABLES, min_tables=4
     )
-    assert [c.id for c in at_threshold] == ["7", "9"]
+    assert [c.id for c in at_threshold] == ["0", "2"]
     assert LARGE_SCHEMA_MIN_TABLES == 20
     with pytest.raises(SuiteError, match="no records"):
         bird_train_large_to_cases(train_records(), db_root=TRAIN_ROOT, tables=TRAIN_TABLES)
@@ -526,3 +526,16 @@ def test_train_cases_load_back_through_load_suite(tmp_path: Path) -> None:
     path = tmp_path / "bird_train_large.jsonl"
     path.write_text("".join(json.dumps(asdict(c)) + "\n" for c in cases))
     assert load_suite(path) == cases
+
+
+def test_train_gold_reading_a_missing_table_drops_the_record_and_says_so() -> None:
+    records = train_records()
+    records[0]["SQL"] = "SELECT COUNT(*) FROM product JOIN ghost ON ghost.id = product.product_id"
+    dropped: list[tuple[str, str]] = []
+    cases = bird_train_large_to_cases(
+        records, db_root=TRAIN_ROOT, tables=TRAIN_TABLES, min_tables=3, dropped=dropped
+    )
+    assert [c.id for c in cases] == ["2"]
+    assert len(dropped) == 1
+    assert dropped[0][0] == "0"
+    assert "gold SQL reads ['ghost']" in dropped[0][1]

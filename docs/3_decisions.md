@@ -2,6 +2,29 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-18 — a large-schema suite from BIRD train
+
+**Chosen:** `bird_train_large`: BIRD train questions on the databases with at
+least 20 tables (`works_cycles` 65, `mondial_geo` 34, `hockey` 22,
+`soccer_2016` 21; 1,222 questions). Hardness is Spider's rule counted from the
+gold SQL text, since train has no difficulty label. Ten records whose gold SQL
+reads a table the database lacks are dropped and listed in the source block.
+A gold query returning more rows than the benchmark cap is an exception with
+its measured count, as in the dev suites.
+
+**Ruled out:** LiveSQLBench-Large-v1, which ships PostgreSQL dumps only and
+withholds gold SQL behind an email request; Spider 2.0-lite's SQLite part,
+written for multi-step agents. Lowering the threshold below 20: the next
+databases have 15 to 17 tables, little more than BIRD dev's largest (14).
+
+**Why:** Every dev database has at most 14 tables, so top-6 selection sends
+most of each schema and neither its gain nor its cost could be measured
+(2026-10-11, 2026-10-12). This is the first suite where the shipped arm sends
+less than half the full rendering (`evaluation/results/bird_train_large/`).
+It is a train split; nothing here trains, and **any future fine-tune scored
+by this harness must exclude these four databases and their questions**, or
+the suite stops being a test.
+
 ## 2026-10-18 — a cut value-hint list says how many values it shows
 
 **Chosen:** Keep `fe90991`: a hint list cut by the six-value cap renders as

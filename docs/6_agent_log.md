@@ -4514,3 +4514,37 @@ regression results; the feedback above remains for Claude.
 
 Verified: `uv run pytest` **1378 passed, 351 skipped**; ruff and mypy clean.
 No provider run.
+
+## 2026-10-18 — Claude: the large-schema suite, `bird_train_large`
+
+Codex's and my recommended next step. Design in
+`docs/superpowers/specs/2026-10-18-large-schema-suite-design.md`; decision in
+`docs/3_decisions.md`; the suite's own notes in
+`evaluation/results/bird_train_large/README.md`.
+
+- **Source.** BIRD train (`train.zip`, 8.9 GB, pinned by SHA-256; the same
+  licence and dataset card as `bird_dev`). Table counts come from the
+  archive's `train_tables.json`, so only the four selected databases (140 MB)
+  are extracted. Threshold `LARGE_SCHEMA_MIN_TABLES = 20`: `works_cycles` 65,
+  `mondial_geo` 34, `hockey` 22, `soccer_2016` 21; the next database has 17.
+- **Adapter.** `bird_train_large_to_cases` shares its loop with
+  `bird_to_cases` (`ADAPTER_VERSION` 4; `bird_dev` output unchanged). Two
+  things train lacks: a `question_id`, so the ID is the record's position in
+  `train.json`; and `difficulty`, so `sql_hardness` applies Spider's rule to
+  the SQL text through a `sqlglot` parse, with the thresholds moved into
+  `hardness_from_counts`. It agrees with the official label on all 1,034
+  Spider dev queries (a test repeats the check when the data is present).
+  Ten `works_cycles` records read a `PersonPhone` table the file lacks; they
+  are dropped and listed in the source block.
+- **Validation.** Gold gate pass: 1,221 of 1,222 self-match; 7638 returns
+  319,882 rows against the 100,000-row cap and is excepted with that reason.
+  `scripts/report_prompt_sizes.py`: the largest prompt (works_cycles, full DDL
+  plus hints) is 49,417 characters, about 31k tokens at the lowest ratio
+  measured on BIRD dev (1.6 chars/token) and 13k at the median (3.9), inside
+  the 32,768-token context `ollama ps` reports. No arm would be truncated.
+  Top 6 sends at most 21,939 characters, under half the full rendering.
+- **Not run yet.** The three attribution arms on `subset200` are queued
+  behind the BIRD-without-evidence refresh, which has Ollama now.
+
+Verified: `uv run pytest` **1399 passed, 351 skipped** without the DSN; ruff
+and mypy clean (51 source files). No provider call was made for the suite.

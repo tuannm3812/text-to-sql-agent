@@ -344,3 +344,97 @@ def test_the_refused_gold_count_passes_each_case_its_own_engine(
     assert all(engine is not None for _, engine in seen)
     # One engine per database: records 1 and 2 share shop_mini.
     assert seen[1][1] is seen[2][1] and seen[0][1] is not seen[1][1]
+
+
+# --- bird_train_large ----------------------------------------------------------------------
+
+
+def bird_train_zip(tmp_path: Path, *, tables_json: list[dict[str, Any]] | None = None) -> Path:
+    """train.zip in BIRD's layout from tests/fixtures/bird_train_mini: a nested databases zip."""
+    mini = FIXTURES / "bird_train_mini"
+    inner = io.BytesIO()
+    with zipfile.ZipFile(inner, "w") as zf:
+        for db in sorted((mini / "train_databases").iterdir()):
+            zf.write(db / f"{db.name}.sqlite", f"train_databases/{db.name}/{db.name}.sqlite")
+    if tables_json is None:
+        tables_json = [
+            {
+                "db_id": "wide_mini",
+                "table_names_original": ["product", "customer", "sales_order", "order_line"],
+            },
+            {"db_id": "narrow_mini", "table_names_original": ["city"]},
+        ]
+    path = tmp_path / "train.zip"
+    with zipfile.ZipFile(path, "w") as zf:
+        zf.write(mini / "train.json", "train/train.json")
+        zf.writestr("train/train_tables.json", json.dumps(tables_json))
+        zf.writestr("train/train_databases.zip", inner.getvalue())
+    return path
+
+
+def place_bird_card(repo: Path, monkeypatch: pytest.MonkeyPatch, card: str) -> Path:
+    downloads = repo / "data" / "benchmarks" / "_downloads"
+    downloads.mkdir(parents=True, exist_ok=True)
+    readme = downloads / script.BIRD_CARD.filename
+    readme.write_text(card)
+    pin(monkeypatch, "BIRD_CARD", readme)
+    return readme
+
+
+def test_bird_train_large_end_to_end(
+    tmp_path: Path, repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    archive = bird_train_zip(tmp_path)
+    pin(monkeypatch, "BIRD_TRAIN_ARCHIVE", archive)
+    place_bird_card(repo, monkeypatch, "---\nlicense: cc-by-sa-4.0\n---\n")
+    monkeypatch.setattr(script, "LARGE_SCHEMA_MIN_TABLES", 3)
+    assert run("--suite", "bird_train_large", "--archive", str(archive)) == 0
+
+    suites = repo / "evaluation" / "suites"
+    cases = load_suite(suites / "bird_train_large.jsonl")
+    assert [c.id for c in cases] == ["0", "2"]
+    assert [c.hardness for c in cases] == ["easy", "extra"]
+    for case in cases:
+        assert case.db_path == "data/benchmarks/bird/train_databases/wide_mini/wide_mini.sqlite"
+        assert (repo / case.db_path).is_file()
+    # The small database was never extracted; only the selected one costs disk.
+    assert not (repo / "data/benchmarks/bird/train_databases/narrow_mini").exists()
+    assert (repo / "data/benchmarks/bird/train.json").read_bytes() == (
+        FIXTURES / "bird_train_mini" / "train.json"
+    ).read_bytes()
+
+    source = json.loads((suites / "bird_train_large.source.json").read_text())
+    assert list(source)[: len(REQUIRED_SOURCE_KEYS)] == REQUIRED_SOURCE_KEYS
+    assert source["licence"] == "cc-by-sa-4.0"
+    assert source["sha256"] == sha(archive)
+    assert source["min_tables"] == 3
+    assert source["databases"] == {"wide_mini": 4}
+    assert source["train_databases_total"] == 2
+
+
+def test_bird_train_large_refuses_a_table_count_that_disagrees_with_the_database(
+    tmp_path: Path, repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    archive = bird_train_zip(
+        tmp_path,
+        tables_json=[
+            {"db_id": "wide_mini", "table_names_original": ["a", "b", "c", "d", "e"]},
+            {"db_id": "narrow_mini", "table_names_original": ["city"]},
+        ],
+    )
+    pin(monkeypatch, "BIRD_TRAIN_ARCHIVE", archive)
+    place_bird_card(repo, monkeypatch, "---\nlicense: cc-by-sa-4.0\n---\n")
+    monkeypatch.setattr(script, "LARGE_SCHEMA_MIN_TABLES", 3)
+    assert run("--suite", "bird_train_large", "--archive", str(archive)) == 1
+    assert "has 4 tables, train_tables.json says 5" in capsys.readouterr().err
+    assert not (repo / "evaluation" / "suites" / "bird_train_large.jsonl").exists()
+
+
+def test_bird_train_large_refuses_a_threshold_no_database_reaches(
+    tmp_path: Path, repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    archive = bird_train_zip(tmp_path)
+    pin(monkeypatch, "BIRD_TRAIN_ARCHIVE", archive)
+    place_bird_card(repo, monkeypatch, "---\nlicense: cc-by-sa-4.0\n---\n")
+    assert run("--suite", "bird_train_large", "--archive", str(archive)) == 1
+    assert "no train database has 20 tables or more" in capsys.readouterr().err

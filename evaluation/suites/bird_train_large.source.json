@@ -1,0 +1,31 @@
+{
+  "kind": "download",
+  "release": "bird-sql train (train.zip, folder train; questions train.json)",
+  "url": "https://bird-bench.oss-cn-beijing.aliyuncs.com/train.zip",
+  "sha256": "66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc",
+  "licence": "cc-by-sa-4.0",
+  "adapter_version": "4",
+  "unpacked_at": "2026-10-18T04:41:47+00:00",
+  "licence_source": "front matter of birdsql/bird_sql_dev_20251106@3c11fb193e54 README.md, the BIRD benchmark's dataset card (train.zip bundles no licence file; bird-bench.github.io says CC BY-SA 4.0 for the benchmark since 2024-04-27)",
+  "licence_source_sha256": "2ed0fcf8e873ef953d70bcf5e96042155b86a534d7b7c550509f7903dbfaeed5",
+  "min_tables": 20,
+  "databases": {
+    "hockey": 22,
+    "mondial_geo": 34,
+    "soccer_2016": 21,
+    "works_cycles": 65
+  },
+  "train_databases_total": 69,
+  "dropped": {
+    "7122": "bird_train_large case 7122: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7129": "bird_train_large case 7129: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7172": "bird_train_large case 7172: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7173": "bird_train_large case 7173: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7178": "bird_train_large case 7178: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7218": "bird_train_large case 7218: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7227": "bird_train_large case 7227: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7325": "bird_train_large case 7325: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7409": "bird_train_large case 7409: gold SQL reads ['personphone'], not tables of database 'works_cycles'",
+    "7438": "bird_train_large case 7438: gold SQL reads ['personphone'], not tables of database 'works_cycles'"
+  }
+}

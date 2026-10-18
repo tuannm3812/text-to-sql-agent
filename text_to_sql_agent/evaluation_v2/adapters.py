@@ -230,7 +230,23 @@ def bird_to_cases(
             )
         return BIRD_HARDNESS[difficulty]
 
-    return _bird_cases(BIRD_SUITE, dev, db_root=db_root, tables=tables, hardness=hardness)
+    def case_id(position: int, record: dict[str, Any]) -> str:
+        question_id = record.get("question_id")
+        # bool is an int subclass; True is not a question ID.
+        if not isinstance(question_id, int) or isinstance(question_id, bool):
+            raise SuiteError(
+                f"{BIRD_SUITE} source record {position}: field 'question_id' must be an integer"
+            )
+        return str(question_id)
+
+    return _bird_cases(
+        BIRD_SUITE,
+        list(enumerate(dev)),
+        db_root=db_root,
+        tables=tables,
+        hardness=hardness,
+        case_id=case_id,
+    )
 
 
 def bird_train_large_to_cases(
@@ -239,16 +255,24 @@ def bird_train_large_to_cases(
     db_root: Path,
     tables: Mapping[str, Collection[str]],
     min_tables: int = LARGE_SCHEMA_MIN_TABLES,
+    dropped: list[tuple[str, str]] | None = None,
 ) -> list[Case]:
     """BIRD train records on large-schema databases as cases.
 
     A record is kept when its database has at least ``min_tables`` tables in ``tables``;
     every other record is dropped, so ``tables`` must list every database the records name.
-    BIRD train has no ``difficulty`` field, so ``hardness`` is Spider's rule counted from the
-    gold SQL text (``sql_hardness``). Everything else is as ``bird_to_cases``.
+    BIRD train records carry no ``question_id``, so ``id`` is the record's 0-based position
+    in ``train.json`` (as Spider's is in ``dev.json``), which the filter does not renumber.
+    BIRD train has no ``difficulty`` field either, so ``hardness`` is Spider's rule counted
+    from the gold SQL text (``sql_hardness``). Everything else is as ``bird_to_cases``,
+    except that a gold query reading a table its database does not have, or one that does
+    not parse, drops its record instead of failing the conversion: BIRD train is known to
+    carry such records (ten in ``works_cycles`` name a ``PersonPhone`` table the file lacks).
+    Each drop is appended to ``dropped`` as ``(id, reason)`` when a list is given, so the
+    suite's source block can record them; it is never silent.
     """
     large = {db_id for db_id, names in tables.items() if len(names) >= min_tables}
-    kept: list[dict[str, Any]] = []
+    kept: list[tuple[int, dict[str, Any]]] = []
     for position, record in enumerate(train):
         db_id = _require_str(BIRD_TRAIN_LARGE_SUITE, position, record, "db_id")
         if db_id not in tables:
@@ -256,8 +280,16 @@ def bird_train_large_to_cases(
                 f"{BIRD_TRAIN_LARGE_SUITE} source record {position}: "
                 f"no table list for database '{db_id}'"
             )
-        if db_id in large:
-            kept.append(record)
+        if db_id not in large:
+            continue
+        sql = _require_str(BIRD_TRAIN_LARGE_SUITE, position, record, "SQL")
+        try:
+            _expected_tables(BIRD_TRAIN_LARGE_SUITE, str(position), db_id, sql, tables)
+        except SuiteError as exc:
+            if dropped is not None:
+                dropped.append((str(position), str(exc)))
+            continue
+        kept.append((position, record))
 
     def hardness(position: int, record: dict[str, Any]) -> str:
         try:
@@ -266,54 +298,54 @@ def bird_train_large_to_cases(
             raise SuiteError(f"{BIRD_TRAIN_LARGE_SUITE} source record {position}: {exc}") from exc
 
     return _bird_cases(
-        BIRD_TRAIN_LARGE_SUITE, kept, db_root=db_root, tables=tables, hardness=hardness
+        BIRD_TRAIN_LARGE_SUITE,
+        kept,
+        db_root=db_root,
+        tables=tables,
+        hardness=hardness,
+        case_id=lambda position, record: str(position),
     )
 
 
 def _bird_cases(
     suite: str,
-    records: list[dict[str, Any]],
+    records: list[tuple[int, dict[str, Any]]],
     *,
     db_root: Path,
     tables: Mapping[str, Collection[str]],
     hardness: Callable[[int, dict[str, Any]], str],
+    case_id: Callable[[int, dict[str, Any]], str],
 ) -> list[Case]:
-    """BIRD-shaped records as cases, with ``hardness(position, record)`` supplying each label.
+    """BIRD-shaped ``(position, record)`` pairs as cases.
 
-    The shape is ``question_id``, ``db_id``, ``question``, ``evidence`` and ``SQL``, which
-    BIRD's dev and train files share.
+    The shape is ``db_id``, ``question``, ``evidence`` and ``SQL``, which BIRD's dev and
+    train files share; ``case_id`` and ``hardness`` supply what they do not share.
     """
     cases: list[Case] = []
-    for position, record in enumerate(records):
+    for position, record in records:
         db_id = _require_str(suite, position, record, "db_id")
         question = _require_str(suite, position, record, "question")
         sql = _require_str(suite, position, record, "SQL")
-        question_id = record.get("question_id")
-        # bool is an int subclass; True is not a question ID.
-        if not isinstance(question_id, int) or isinstance(question_id, bool):
-            raise SuiteError(
-                f"{suite} source record {position}: field 'question_id' must be an integer"
-            )
         evidence = record.get("evidence")
         if evidence is None:
             evidence = ""
         if not isinstance(evidence, str):
             raise SuiteError(f"{suite} source record {position}: field 'evidence' must be a string")
-        case_id = str(question_id)
+        this_id = case_id(position, record)
         cases.append(
             _to_case(
                 suite,
                 position,
                 {
                     "suite": suite,
-                    "id": case_id,
+                    "id": this_id,
                     "db_path": database_path(db_root, db_id, suite=suite),
                     "question": question,
                     "evidence": evidence,
                     "gold_sql": sql,
                     "hardness": hardness(position, record),
                     "expected": "answerable",
-                    "expected_tables": _expected_tables(suite, case_id, db_id, sql, tables),
+                    "expected_tables": _expected_tables(suite, this_id, db_id, sql, tables),
                 },
             )
         )
