@@ -44,10 +44,10 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from text_to_sql_agent.config import (  # noqa: E402 - import must follow the sys.path insert
-    DEFAULT_VALUE_HINT_LIMIT,
+from text_to_sql_agent.evaluation_v2 import (  # noqa: E402 - import must follow the sys.path insert
+    Case,
+    load_suite,
 )
-from text_to_sql_agent.evaluation_v2 import Case, load_suite  # noqa: E402
 from text_to_sql_agent.evaluation_v2.gates import load_run  # noqa: E402
 from text_to_sql_agent.evaluation_v2.runner import question_text, resolve_db_path  # noqa: E402
 from text_to_sql_agent.rag import retrieve_schema_context  # noqa: E402
@@ -197,8 +197,11 @@ def hidden_literal_targets(suite: str, cases: Iterable[Case]) -> list[Target]:
         chunks, _ = get_schema_chunks_and_plain_ddl(db_path)
         for chunk in chunks:
             for column, shown in sorted((chunk.value_hints or {}).items()):
-                if len(shown) < DEFAULT_VALUE_HINT_LIMIT or column.casefold() not in gold:
-                    continue  # nothing was cut, or the gold SQL never names the column
+                if column.casefold() not in gold:
+                    continue
+                # Hidden means ranked below the shown values, read from the column itself:
+                # a list shorter than the cap can still be cut, when a blank value took one
+                # of the top slots and was dropped.
                 key = (db_path, chunk.table_name, column)
                 if key not in hidden_cache:
                     values = _column_values(db_path, chunk.table_name, column)

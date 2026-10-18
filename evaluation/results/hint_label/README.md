@@ -56,11 +56,15 @@ baseline's. On those 524, **1 SQL text changed and no outcome flipped**. On the
 1010 labelled BIRD prompts, 386 SQL texts changed (26 helped, 18 hurt); on
 Spider, 184 of 1034 changed.
 
-So with this model, think off and these settings, the same prompt almost always
-gives the same SQL, a week apart, and the flips above follow the prompt change.
-This is the identical-treatment repeat that Codex suggested. It covers one
-model and one week, and BIRD 1304's earlier flip with an identical schema text
-shows that variation can still happen.
+So every observed accuracy flip is in a case whose context changed, and
+unchanged contexts were highly repeatable here, a week apart. That shows the
+results are sensitive to the change. It does not measure the label's exact
+causal share, or how much generation varies on the changed cases: the repeat
+covers only the 524 BIRD cases with no cut list, not the 1010 labelled BIRD
+cases or any Spider case, whose prompts all changed. It also covers one model
+and one week, and BIRD 1304's earlier flip with an identical schema text shows
+that variation can still happen. (Qualified 2026-10-18 after Codex's review;
+the first version said the flips "follow the prompt change".)
 
 ## Reading
 

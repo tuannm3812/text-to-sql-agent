@@ -85,3 +85,15 @@ def test_hidden_literal_targets_finds_only_values_the_cap_hides(tmp_path: Path) 
     ]
     targets = script.hidden_literal_targets("spider_dev", cases)
     assert targets == [script.Target("spider_dev", "1", "tv", "series", "rare", 8, 8)]
+
+
+def test_a_list_shortened_by_a_blank_value_can_still_hide_one(tmp_path: Path) -> None:
+    """A frequent blank takes a top-six slot and is dropped, so five are shown of eight."""
+    db = tmp_path / "status.sqlite"
+    with sqlite3.connect(db) as conn:
+        conn.execute("CREATE TABLE t (id INTEGER PRIMARY KEY, status TEXT)")
+        rows = [(f"s{i}",) for i in range(8) for _ in range(20 - i)] + [("  ",)] * 15
+        conn.executemany("INSERT INTO t (status) VALUES (?)", rows)
+    case = _case(db, "1", "SELECT id FROM t WHERE status = 's7'")
+    targets = script.hidden_literal_targets("spider_dev", [case])
+    assert targets == [script.Target("spider_dev", "1", "t", "status", "s7", 8, 8)]
