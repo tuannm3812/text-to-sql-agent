@@ -1,0 +1,4 @@
+spider_dev: regression gate PASS
+  new fe90991e vs baseline 77082957
+  EX (answerable cases; the verdict rests on this): 668/1034 -> 662/1034, change -0.6 points, 95% paired interval [-1.7, +0.5] points
+  point drop 0.6 points (floor 5; negative is an improvement); interval below zero: False; floor breached: False

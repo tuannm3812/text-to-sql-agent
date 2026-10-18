@@ -1,0 +1,124 @@
+suite,id,hardness,expected,outcome,generated_sql,error,latency_ms,schema_recall,retrieved_tables,attempts,prompt_tokens,completion_tokens,generation_failure
+spider_dev,115,hard,answerable,wrong,SELECT COUNT(*) AS count FROM model_list JOIN car_makers ON model_list.Maker = car_makers.Id WHERE LOWER(car_makers.Country) = 'usa';,,9812.82,1.0,"car_makers, car_names, cars_data, continents, countries, model_list",1,1160,34,
+spider_dev,116,hard,answerable,wrong,SELECT COUNT(*) AS car_model_count FROM model_list JOIN car_makers ON model_list.Maker = car_makers.Id WHERE LOWER(car_makers.Country) = 'united states';,,2995.08,1.0,"car_makers, car_names, cars_data, continents, countries, model_list",1,1164,38,
+spider_dev,179,easy,answerable,correct,SELECT a.Country FROM airlines a WHERE LOWER(a.Airline) = LOWER('JetBlue Airways');,,1764.60,1.0,"airlines, airports, flights",1,1015,21,
+spider_dev,180,easy,answerable,wrong,"SELECT Airline, Country FROM airlines WHERE LOWER(Airline) LIKE '%jetblue%';",,1727.15,1.0,"airlines, airports, flights",1,1011,20,
+spider_dev,181,easy,answerable,correct,SELECT Abbreviation FROM airlines WHERE LOWER(Airline) = LOWER('JetBlue Airways');,,1713.65,1.0,"airlines, airports, flights",1,1014,20,
+spider_dev,182,easy,answerable,correct,SELECT Abbreviation FROM airlines WHERE LOWER(Airline) = LOWER('Jetblue Airways');,,1729.65,1.0,"airlines, airports, flights",1,1010,20,
+spider_dev,193,easy,answerable,correct,SELECT Airline FROM airlines WHERE LOWER(Abbreviation) = LOWER('UAL');,,1598.23,1.0,"airlines, airports, flights",1,1009,18,
+spider_dev,194,easy,answerable,correct,SELECT Airline FROM airlines WHERE LOWER(Abbreviation) = LOWER('UAL');,,1622.51,1.0,"airlines, airports, flights",1,1010,18,
+spider_dev,213,medium,answerable,wrong,SELECT COUNT(*) AS flight_count FROM flights JOIN airlines ON flights.Airline = airlines.Airline WHERE LOWER(airlines.Airline) = LOWER('JetBlue Airways');,,2578.08,1.0,"airlines, airports, flights",1,1014,37,
+spider_dev,214,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights JOIN airlines ON flights.Airline = airlines.uid WHERE LOWER(airlines.Airline) LIKE '%jetblue%';,,2410.97,1.0,"airlines, airports, flights",1,1011,34,
+spider_dev,215,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights JOIN airlines ON flights.Airline = airlines.uid WHERE LOWER(airlines.Airline) LIKE '%united%' AND flights.DestAirport = 'ASY';,,2845.90,1.0,"airlines, airports, flights",1,1015,42,
+spider_dev,216,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights WHERE Airline = (SELECT uid FROM airlines WHERE LOWER(Airline) LIKE '%united%') AND DestAirport = 'ASY';,,2583.90,1.0,"airlines, airports, flights",1,1015,37,
+spider_dev,217,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights JOIN airlines ON flights.Airline = airlines.uid WHERE LOWER(airlines.Airline) LIKE '%united%' AND flights.SourceAirport = 'AHD';,,2913.56,1.0,"airlines, airports, flights",1,1016,42,
+spider_dev,218,medium,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights f JOIN airlines a ON f.Airline = a.uid WHERE a.Airline LIKE '%United%' AND f.SourceAirport = 'AHD';,,2698.05,1.0,"airlines, airports, flights",1,1015,39,
+spider_dev,219,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights JOIN airlines ON flights.Airline = airlines.uid JOIN airports ON flights.DestAirport = airports.AirportCode WHERE LOWER(airlines.Airline) LIKE '%united%' AND LOWER(City) = 'aberdeen';,,3536.89,1.0,"airlines, airports, flights",1,1015,56,
+spider_dev,220,hard,answerable,correct,SELECT COUNT(*) AS flight_count FROM flights f JOIN airlines a ON f.Airline = a.uid JOIN airports dest ON f.DestAirport = dest.AirportCode WHERE LOWER(a.Airline) LIKE '%united%' AND LOWER(dest.City) = 'aberdeen';,,3260.49,1.0,"airlines, airports, flights",1,1014,57,
+spider_dev,245,medium,answerable,correct,SELECT FlightNo FROM flights WHERE Airline = (SELECT uid FROM airlines WHERE LOWER(Airline) LIKE '%united%');,,1872.06,1.0,"airlines, airports, flights",1,1013,27,
+spider_dev,246,medium,answerable,correct,"SELECT f.FlightNo
+FROM flights f
+JOIN airlines a ON f.Airline = a.uid
+WHERE LOWER(a.Airline) LIKE '%united%';",,2293.45,1.0,"airlines, airports, flights",1,1011,36,
+spider_dev,303,medium,answerable,correct,"SELECT Document_ID, Template_ID, Document_Description FROM Documents WHERE LOWER(Document_Name) LIKE '%robbin cv%';",,2357.28,1.0,"documents, paragraphs, ref_template_types, templates",1,1175,25,
+spider_dev,304,medium,answerable,correct,"SELECT Document_ID, Template_ID, Document_Description FROM Documents WHERE LOWER(Document_Name) = LOWER('Robbin CV');",,2083.24,1.0,"documents, paragraphs, ref_template_types, templates",1,1177,24,
+spider_dev,359,medium,answerable,correct,SELECT COUNT(*) AS paragraph_count FROM Paragraphs p JOIN Documents d ON p.Document_ID = d.Document_ID WHERE LOWER(d.Document_Name) LIKE LOWER('%Summer Show%');,,4607.42,1.0,"documents, paragraphs, ref_template_types, templates",1,2400,56,
+spider_dev,360,medium,answerable,correct,SELECT COUNT(*) AS paragraph_count FROM Paragraphs p JOIN Documents d ON p.Document_ID = d.Document_ID WHERE LOWER(d.Document_Name) LIKE LOWER('%Summer Show%');,,4422.96,1.0,"documents, paragraphs, ref_template_types, templates",1,2402,56,
+spider_dev,363,medium,answerable,error,"SELECT Paragraph_ID, Paragraph_Text FROM Paragraphs WHERE LOWER(Document_Name) = LOWER('Welcome to NY');",OperationalError: no such column: Documents.Document_Name,4056.74,1.0,"documents, paragraphs, ref_template_types, templates",1,2409,48,
+spider_dev,364,medium,answerable,error,"SELECT Paragraph_ID, Paragraph_Text FROM Paragraphs WHERE LOWER(Document_Name) = LOWER('welcome to ny');",OperationalError: no such column: Documents.Document_Name,4126.78,1.0,"documents, paragraphs, ref_template_types, templates",1,2411,48,
+spider_dev,403,hard,answerable,correct,"SELECT t.Name
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+JOIN course c ON ca.Course_ID = c.Course_ID
+WHERE LOWER(c.Course) LIKE '%math%';",,2810.26,1.0,"course, course_arrange, teacher",1,1106,47,
+spider_dev,404,hard,answerable,correct,"SELECT t.Name 
+FROM teacher t
+JOIN course_arrange ca ON t.Teacher_ID = ca.Teacher_ID
+JOIN course c ON ca.Course_ID = c.Course_ID
+WHERE LOWER(c.Course) LIKE '%math%';",,2805.78,1.0,"course, course_arrange, teacher",1,1107,47,
+spider_dev,511,easy,answerable,wrong,"SELECT course_name, course_description FROM Courses WHERE LOWER(course_name) LIKE '%math%';",,2400.70,1.0,"courses, degree_programs, departments, sections, student_enrolment, student_enrolment_courses, transcript_contents, transcripts",1,1570,19,
+spider_dev,512,easy,answerable,correct,SELECT course_description FROM Courses WHERE LOWER(course_name) LIKE '%math%';,,1688.99,1.0,"courses, degree_programs, departments, sections, student_enrolment, student_enrolment_courses, transcript_contents, transcripts",1,1573,16,
+spider_dev,513,easy,answerable,correct,SELECT zip_postcode FROM Addresses WHERE LOWER(city) = 'port chelsea';,,3471.15,1.0,"addresses, courses, degree_programs, departments, sections, students",1,2133,17,
+spider_dev,514,easy,answerable,correct,SELECT zip_postcode FROM Addresses WHERE LOWER(city) = 'port chelsea';,,3175.70,1.0,"addresses, courses, degree_programs, departments, students, transcripts",1,2037,17,
+spider_dev,521,medium,answerable,correct,"SELECT COUNT(DISTINCT dp.degree_summary_name) AS degree_count
+FROM Degree_Programs dp
+JOIN Departments d ON dp.department_id = d.department_id
+WHERE LOWER(d.department_name) LIKE '%engineering%';",,5069.24,1.0,"addresses, degree_programs, departments, semesters, student_enrolment, student_enrolment_courses, students, transcript_contents, transcripts",1,2362,44,
+spider_dev,522,medium,answerable,correct,SELECT COUNT(*) AS degree_count FROM Degree_Programs WHERE LOWER(degree_program_id) IN (SELECT department_id FROM Departments WHERE LOWER(department_name) LIKE '%engineering%');,,4729.04,1.0,"addresses, courses, degree_programs, departments, semesters, student_enrolment, student_enrolment_courses, students",1,2344,36,
+spider_dev,549,extra,answerable,wrong,SELECT last_name FROM Students WHERE LOWER(current_address_id) = 'north carolina' AND student_id NOT IN (SELECT DISTINCT student_id FROM Student_Enrolment);,,7647.46,1.0,"addresses, courses, degree_programs, departments, sections, semesters, student_enrolment, students",1,4877,71,
+spider_dev,550,extra,answerable,wrong,"SELECT s.last_name
+FROM Students s
+WHERE LOWER(s.current_address_id) = 'north carolina' OR LOWER(s.permanent_address_id) = 'north carolina';",,4981.63,1.0,"addresses, courses, degree_programs, departments, sections, semesters, student_enrolment, students",1,2396,38,
+spider_dev,553,medium,answerable,correct,SELECT cell_mobile_number FROM Students WHERE LOWER(first_name) = 'timmothy' AND LOWER(last_name) = 'ward';,,4192.22,1.0,"addresses, courses, degree_programs, departments, sections, semesters, students",1,2272,27,
+spider_dev,554,medium,answerable,wrong,SELECT cell_mobile_number FROM Students WHERE LOWER(first_name) = 'timmothy' AND LOWER(last_name) = 'ward';,,4314.15,1.0,"addresses, courses, degree_programs, departments, semesters, student_enrolment, student_enrolment_courses, students, transcript_contents, transcripts",1,2469,27,
+spider_dev,581,easy,answerable,wrong,"SELECT section_name, section_description, other_details FROM Sections WHERE LOWER(section_name) = LOWER('h');",,2499.50,1.0,"courses, degree_programs, departments, sections, semesters, transcripts",1,1406,22,
+spider_dev,582,easy,answerable,correct,SELECT section_description FROM Sections WHERE LOWER(section_name) = LOWER('h');,,2110.63,1.0,"courses, degree_programs, departments, sections, semesters, transcripts",1,1411,16,
+spider_dev,583,hard,answerable,wrong,SELECT first_name FROM Students WHERE LOWER(permanent_address_id) IN (SELECT address_id FROM Addresses WHERE LOWER(country) = 'haiti') OR cell_mobile_number LIKE '%09700166582%';,,5030.85,1.0,"addresses, courses, degree_programs, departments, semesters, student_enrolment, students",1,2276,48,
+spider_dev,584,hard,answerable,wrong,"SELECT DISTINCT s.first_name
+FROM Students s
+WHERE LOWER(s.permanent_address_id) IN (
+    SELECT a.address_id
+    FROM Addresses a
+    WHERE LOWER(a.country) = 'haiti'
+)
+OR s.cell_mobile_number LIKE '%09700166582%';",,6298.83,1.0,"addresses, courses, degree_programs, departments, semesters, student_enrolment, student_enrolment_courses, students, transcript_contents, transcripts",1,2486,68,
+spider_dev,599,easy,answerable,wrong,"SELECT series_name, Content FROM TV_Channel WHERE LOWER(series_name) LIKE '%sky radio%';",,2956.40,1.0,"cartoon, tv_channel, tv_series",1,1724,20,
+spider_dev,600,easy,answerable,unanswerable,SELECT 'UNANSWERABLE_WITH_GIVEN_SCHEMA' AS error;,UNANSWERABLE_WITH_GIVEN_SCHEMA,1606.77,1.0,"cartoon, tv_channel, tv_series",1,1720,15,
+spider_dev,601,easy,answerable,correct,"SELECT ""Package_Option"" FROM ""TV_Channel"" WHERE LOWER(""series_name"") = LOWER('sky radio');",,2076.46,1.0,"cartoon, tv_channel, tv_series",1,1725,24,
+spider_dev,602,easy,answerable,correct,"SELECT ""Package_Option"" FROM ""TV_Channel"" WHERE LOWER(""series_name"") = LOWER('Sky Radio');",,2072.14,1.0,"cartoon, tv_channel, tv_series",1,1726,24,
+spider_dev,609,medium,answerable,correct,"SELECT tcs.series_name
+FROM TV_Channel tcs
+JOIN Cartoon c ON tcs.id = c.Channel
+WHERE LOWER(c.Title) LIKE '%the rise of the blue beetle!%';",,3439.12,1.0,"cartoon, tv_channel, tv_series",1,1736,40,
+spider_dev,610,medium,answerable,correct,"SELECT t1.series_name
+FROM TV_Channel t1
+JOIN Cartoon t2 ON t1.id = t2.Channel
+WHERE LOWER(t2.Title) LIKE '%the rise of the blue beetle%';",,2848.94,1.0,"cartoon, tv_channel, tv_series",1,1731,42,
+spider_dev,611,medium,answerable,correct,"SELECT c.Title
+FROM Cartoon c
+JOIN TV_Channel tc ON c.Channel = tc.id
+WHERE LOWER(tc.series_name) = 'sky radio';",,2328.14,1.0,"cartoon, tv_channel, tv_series",1,1729,31,
+spider_dev,612,medium,answerable,correct,"SELECT c.Title
+FROM Cartoon c
+JOIN TV_Channel tc ON c.Channel = tc.id
+WHERE LOWER(tc.series_name) = 'sky radio';",,2311.18,1.0,"cartoon, tv_channel, tv_series",1,1733,31,
+spider_dev,625,medium,answerable,correct,"SELECT t2.""Episode""
+FROM ""TV_Channel"" t1
+JOIN ""TV_series"" t2 ON t1.""id"" = t2.""Channel""
+WHERE LOWER(t1.""series_name"") = 'sky radio';",,3186.12,1.0,"cartoon, tv_channel, tv_series",1,1729,49,
+spider_dev,626,medium,answerable,wrong,SELECT Episode FROM TV_series WHERE LOWER(Channel) = LOWER('Sky Radio');,,4605.27,1.0,"cartoon, tv_channel, tv_series",1,3504,33,
+spider_dev,699,medium,answerable,correct,"SELECT v.created, v.state, v.phone_number
+FROM VOTES v
+JOIN CONTESTANTS c ON v.contestant_number = c.contestant_number
+WHERE LOWER(c.contestant_name) LIKE '%tabatha gehling%';",,3321.25,1.0,"area_code_state, contestants, votes",1,1033,51,
+spider_dev,700,extra,answerable,wrong,"SELECT DISTINCT ac.area_code
+FROM VOTES v
+JOIN AREA_CODE_STATE ac ON v.state = ac.state
+JOIN CONTESTANTS c1 ON v.contestant_number = c1.contestant_number AND LOWER(c1.contestant_name) = LOWER('Tabatha Gehling')
+JOIN CONTESTANTS c2 ON v.contestant_number = c2.contestant_number AND LOWER(c2.contestant_name) = LOWER('Kelly Clauss');",,10421.48,1.0,"area_code_state, contestants, votes",1,2204,192,
+spider_dev,868,easy,answerable,correct,SELECT grade FROM Highschooler WHERE LOWER(name) = 'kyle';,,1157.93,1.0,"friend, highschooler, likes",1,926,16,
+spider_dev,869,easy,answerable,correct,SELECT grade FROM Highschooler WHERE LOWER(name) = LOWER('Kyle');,,1158.39,1.0,"friend, highschooler, likes",1,931,16,
+spider_dev,872,easy,answerable,correct,SELECT ID FROM Highschooler WHERE LOWER(name) = LOWER('Kyle');,,1158.49,1.0,"friend, highschooler, likes",1,931,16,
+spider_dev,873,easy,answerable,correct,SELECT ID FROM Highschooler WHERE LOWER(name) = 'kyle';,,1153.34,1.0,"friend, highschooler, likes",1,926,16,
+spider_dev,890,hard,answerable,wrong,"SELECT h.name 
+FROM Highschooler h
+JOIN Friend f ON h.ID = f.friend_id
+WHERE LOWER(h.name) = 'kyle';",,1892.48,1.0,"friend, highschooler, likes",1,934,32,
+spider_dev,891,hard,answerable,wrong,"SELECT f.friend_id AS friend_name
+FROM Friend f
+JOIN Highschooler h ON f.student_id = h.ID
+WHERE LOWER(h.name) = 'kyle';",,2086.88,1.0,"friend, highschooler, likes",1,932,36,
+spider_dev,892,medium,answerable,correct,SELECT COUNT(*) AS friend_count FROM Friend JOIN Highschooler ON Friend.student_id = Highschooler.ID WHERE LOWER(Highschooler.name) = 'kyle';,,3455.53,1.0,"friend, highschooler, likes",1,1920,53,
+spider_dev,893,medium,answerable,correct,SELECT COUNT(*) AS friend_count FROM Friend JOIN Highschooler ON Friend.student_id = Highschooler.ID WHERE LOWER(Highschooler.name) = 'kyle';,,3500.45,1.0,"friend, highschooler, likes",1,1914,53,
+spider_dev,912,medium,answerable,wrong,SELECT COUNT(*) AS total_likes FROM Likes WHERE LOWER(student_id) IN (SELECT ID FROM Highschooler WHERE LOWER(name) = 'kyle') AND student_id IN (SELECT ID FROM Highschooler WHERE LOWER(name) = 'Kyle');,,4973.83,1.0,"friend, highschooler, likes",1,1929,85,
+spider_dev,913,medium,answerable,correct,SELECT COUNT(*) AS total_likes FROM Likes JOIN Highschooler ON Likes.liked_id = Highschooler.ID WHERE LOWER(Highschooler.name) = LOWER('Kyle');,,3695.66,1.0,"friend, highschooler, likes",1,1933,58,
+spider_dev,956,medium,answerable,correct,"SELECT o.first_name AS owner_first_name, d.name AS dog_name
+FROM Dogs d
+JOIN Owners o ON d.owner_id = o.owner_id
+WHERE LOWER(o.state) = 'virginia';",,5789.39,1.0,"breeds, dogs, owners, professionals, sizes, treatment_types, treatments",1,2904,43,
+spider_dev,957,medium,answerable,correct,"SELECT o.first_name AS owner_first_name, d.name AS dog_name
+FROM Owners o
+JOIN Dogs d ON o.owner_id = d.owner_id
+WHERE LOWER(o.state) = 'virginia';",,5828.68,1.0,"breeds, dogs, owners, professionals, sizes, treatment_types, treatments",1,2898,43,
+spider_dev,962,medium,answerable,correct,SELECT email_address FROM Professionals WHERE LOWER(state) = LOWER('hawaii') OR LOWER(state) = LOWER('wisconsin');,,5397.07,1.0,"breeds, charges, dogs, owners, professionals, sizes, treatment_types, treatments",1,2957,26,
+spider_dev,963,medium,answerable,correct,SELECT email_address FROM Professionals WHERE LOWER(state) = LOWER('hawaii') OR LOWER(state) = LOWER('wisconsin');,,4917.62,1.0,"breeds, dogs, owners, professionals, sizes, treatment_types, treatments",1,2901,26,

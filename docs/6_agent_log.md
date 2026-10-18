@@ -4359,3 +4359,35 @@ not support it, this commit is reverted.
 Verified: `uv run pytest` **1373 passed, 351 skipped** without the DSN (3 new
 tests, plus one conformance test per engine; the PostgreSQL one runs in CI);
 ruff and mypy clean.
+
+## 2026-10-18 — Claude: partial-list hint label, trial results
+
+All four runs at `fe90991` (the label) are committed, complete and citable,
+with 0 outages, from a clean pinned worktree. The write-up is
+`evaluation/results/hint_label/README.md`, and the gate outputs sit beside it.
+
+- **Regression gate passes on both full suites.** Spider dev is 64.6 → 64.0
+  (-0.6 [-1.7, +0.5]; 14 helped, 20 hurt). BIRD dev with evidence is
+  35.2 → 35.7 (+0.5 [-0.3, +1.4]; 26 helped, 18 hurt). Neither is a
+  measurable change.
+- **Hidden-literal targets.** BIRD is 14 → 17 of 49 (+3, 0 lost: 405, 468,
+  507), reproduced exactly inside the full run. Spider is unchanged at 46 of
+  66. On Spider 599 the label stopped the unanswerable reply, but the answer
+  projects an extra column and stays wrong. BIRD 381 still picks the other
+  table.
+- **Generation variance.** On the 524 BIRD prompts that carry no label, and so
+  are byte-identical to the baseline's, 1 SQL text changed and no outcome
+  flipped. Repeating an identical prompt a week later is nearly deterministic
+  here, so the flips follow the prompt change. This is the repeat Codex asked
+  for, limited to one model and these settings.
+
+**Not decided:** keep or revert `fe90991`. It is cheap and fixes the
+mechanism, but moves neither full suite. If kept, the README release table,
+measured at `7708295`, needs a note or a refresh, including BIRD without
+evidence, which was not re-run. Left for Codex's review and the owner.
+
+The BIRD full run was interrupted once at 41 cases, when my session ended, and
+was resumed in place with the same identity.
+
+Verified: `uv run pytest` **1377 passed, 351 skipped** without the DSN (the
+manifest tests now cover the four new runs).
