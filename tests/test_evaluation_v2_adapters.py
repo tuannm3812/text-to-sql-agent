@@ -19,7 +19,9 @@ import pytest
 from text_to_sql_agent.evaluation_v2 import Case, SuiteError, load_suite
 from text_to_sql_agent.evaluation_v2.adapters import (
     BIRD_HARDNESS,
+    LARGE_SCHEMA_MIN_TABLES,
     bird_to_cases,
+    bird_train_large_to_cases,
     draw_subset,
     gold_tables,
     spider_to_cases,
@@ -460,3 +462,67 @@ def test_draw_subset_rejects_duplicate_ids() -> None:
     cases = synthetic({"easy": 3})
     with pytest.raises(ValueError, match="unique"):
         draw_subset([*cases, cases[0]], size=2, seed=1)
+
+
+# --- bird_train_large ----------------------------------------------------------------------
+
+TRAIN_ROOT = FIXTURES / "bird_train_mini" / "train_databases"
+TRAIN_TABLES = {
+    "wide_mini": ["product", "customer", "sales_order", "order_line"],
+    "narrow_mini": ["city"],
+}
+
+
+def train_records() -> list[dict[str, Any]]:
+    return json.loads((REPO_ROOT / FIXTURES / "bird_train_mini" / "train.json").read_text())
+
+
+def train_cases() -> list[Case]:
+    return bird_train_large_to_cases(
+        train_records(), db_root=TRAIN_ROOT, tables=TRAIN_TABLES, min_tables=3
+    )
+
+
+def test_train_keeps_only_databases_at_or_above_the_table_threshold() -> None:
+    cases = train_cases()
+    assert [c.id for c in cases] == ["7", "9"]
+    assert all(c.suite == "bird_train_large" for c in cases)
+    assert all(c.db_path == f"{TRAIN_ROOT.as_posix()}/wide_mini/wide_mini.sqlite" for c in cases)
+
+
+def test_train_threshold_is_inclusive_and_the_default_is_the_module_constant() -> None:
+    at_threshold = bird_train_large_to_cases(
+        train_records(), db_root=TRAIN_ROOT, tables=TRAIN_TABLES, min_tables=4
+    )
+    assert [c.id for c in at_threshold] == ["7", "9"]
+    assert LARGE_SCHEMA_MIN_TABLES == 20
+    with pytest.raises(SuiteError, match="no records"):
+        bird_train_large_to_cases(train_records(), db_root=TRAIN_ROOT, tables=TRAIN_TABLES)
+
+
+def test_train_hardness_comes_from_the_gold_sql_text() -> None:
+    # No `difficulty` field in BIRD train: COUNT(*) alone is easy; three joins plus a
+    # WHERE and two columns is extra under Spider's rule.
+    assert [c.hardness for c in train_cases()] == ["easy", "extra"]
+
+
+def test_train_evidence_and_expected_tables_follow_the_bird_rules() -> None:
+    cases = train_cases()
+    assert cases[0].evidence == ""
+    assert cases[1].evidence == "a helmet refers to name = 'Helmet'"
+    assert cases[0].expected_tables == ("product",)
+    assert cases[1].expected_tables == ("customer", "order_line", "product", "sales_order")
+
+
+def test_train_record_naming_an_unlisted_database_is_rejected() -> None:
+    records = train_records()
+    records[1]["db_id"] = "nowhere"
+    with pytest.raises(SuiteError, match="no table list for database 'nowhere'"):
+        bird_train_large_to_cases(records, db_root=TRAIN_ROOT, tables=TRAIN_TABLES, min_tables=3)
+
+
+def test_train_cases_load_back_through_load_suite(tmp_path: Path) -> None:
+    cases = train_cases()
+    path = tmp_path / "bird_train_large.jsonl"
+    path.write_text("".join(json.dumps(asdict(c)) + "\n" for c in cases))
+    assert load_suite(path) == cases

@@ -141,10 +141,15 @@ def _count_others(sql: ParsedSql) -> int:
 
 def spider_hardness(sql: ParsedSql) -> Hardness:
     """The official Spider hardness of one parsed query (a ``dev.json`` record's ``sql``)."""
-    comp1 = _count_component1(sql)
-    comp2 = _count_component2(sql)
-    others = _count_others(sql)
+    return hardness_from_counts(_count_component1(sql), _count_component2(sql), _count_others(sql))
 
+
+def hardness_from_counts(comp1: int, comp2: int, others: int) -> Hardness:
+    """The official thresholds over the three component counts (``eval_hardness``'s tail).
+
+    Split out so ``sql_hardness`` can apply the same thresholds to counts taken from SQL
+    text; the counting above is unchanged.
+    """
     if comp1 <= 1 and others == 0 and comp2 == 0:
         return "easy"
     if (others <= 2 and comp1 <= 1 and comp2 == 0) or (comp1 <= 2 and others < 2 and comp2 == 0):

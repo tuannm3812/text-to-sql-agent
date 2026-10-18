@@ -1,0 +1,23 @@
+[
+  {
+    "question_id": 7,
+    "db_id": "wide_mini",
+    "question": "How many products are there?",
+    "evidence": "",
+    "SQL": "SELECT COUNT(*) FROM product"
+  },
+  {
+    "question_id": 8,
+    "db_id": "narrow_mini",
+    "question": "Which city has the most people?",
+    "evidence": null,
+    "SQL": "SELECT name FROM city ORDER BY population DESC LIMIT 1"
+  },
+  {
+    "question_id": 9,
+    "db_id": "wide_mini",
+    "question": "Name and territory of customers who ordered a helmet.",
+    "evidence": "a helmet refers to name = 'Helmet'",
+    "SQL": "SELECT DISTINCT c.name, c.territory FROM customer AS c JOIN sales_order AS o ON o.customer_id = c.customer_id JOIN order_line AS l ON l.order_id = o.order_id JOIN product AS p ON p.product_id = l.product_id WHERE p.name = 'Helmet'"
+  }
+]

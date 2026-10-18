@@ -1,4 +1,4 @@
-"""Convert Spider 1.0 dev and BIRD dev into the v2 case contract, and draw subsets.
+"""Convert Spider 1.0 dev, BIRD dev and BIRD train into the v2 case contract, and draw subsets.
 
 Pure functions on already-parsed JSON. Downloading, hashing, unpacking and opening the
 databases live in ``scripts/prepare_benchmarks.py``; nothing here touches the network or the
@@ -22,7 +22,7 @@ them must lowercase too.
 from __future__ import annotations
 
 import random
-from collections.abc import Collection, Mapping, Sequence
+from collections.abc import Callable, Collection, Mapping, Sequence
 from pathlib import Path, PurePosixPath
 from typing import Any, get_args
 
@@ -31,6 +31,7 @@ from sqlglot import exp
 from sqlglot.errors import SqlglotError
 
 from text_to_sql_agent.evaluation_v2.contract import Case, Hardness, SuiteError, _parse_record
+from text_to_sql_agent.evaluation_v2.sql_hardness import sql_hardness
 from text_to_sql_agent.safety import _names_visible_cte
 
 # Bump when a change here would alter any generated record; the run manifest records it via
@@ -38,10 +39,17 @@ from text_to_sql_agent.safety import _names_visible_cte
 # 2: expected_tables derived from the gold SQL (was always empty in 1).
 # 3: CTE names resolved per scope, by SQLite's rules: a nested CTE no longer hides an outer
 #    real table that shares its name, and a CTE body sees every sibling in its WITH list.
-ADAPTER_VERSION = "3"
+# 4: the bird_train_large suite (BIRD train questions on databases with at least
+#    LARGE_SCHEMA_MIN_TABLES tables, hardness from the gold SQL text); bird_dev is unchanged.
+ADAPTER_VERSION = "4"
 
 SPIDER_SUITE = "spider_dev"
 BIRD_SUITE = "bird_dev"
+BIRD_TRAIN_LARGE_SUITE = "bird_train_large"
+# A BIRD train database belongs to bird_train_large when it has at least this many tables.
+# Set from the real counts on 2026-10-18 (see bird_train_large.source.json); the point is
+# schemas that top-6 selection cannot send nearly whole, which every dev database is not.
+LARGE_SCHEMA_MIN_TABLES = 20
 
 # BIRD's three levels onto the contract's first three; BIRD has no "extra".
 BIRD_HARDNESS: dict[str, str] = {"simple": "easy", "moderate": "medium", "challenging": "hard"}
@@ -213,48 +221,103 @@ def bird_to_cases(
     ``BIRD_HARDNESS``; an unknown value is an error, not a default. ``tables`` maps each
     ``db_id`` to its database's real table names, for ``expected_tables``.
     """
-    cases: list[Case] = []
-    for position, record in enumerate(dev):
-        db_id = _require_str(BIRD_SUITE, position, record, "db_id")
-        question = _require_str(BIRD_SUITE, position, record, "question")
-        sql = _require_str(BIRD_SUITE, position, record, "SQL")
+
+    def hardness(position: int, record: dict[str, Any]) -> str:
         difficulty = _require_str(BIRD_SUITE, position, record, "difficulty")
+        if difficulty not in BIRD_HARDNESS:
+            raise SuiteError(
+                f"{BIRD_SUITE} source record {position}: unknown difficulty '{difficulty}'"
+            )
+        return BIRD_HARDNESS[difficulty]
+
+    return _bird_cases(BIRD_SUITE, dev, db_root=db_root, tables=tables, hardness=hardness)
+
+
+def bird_train_large_to_cases(
+    train: list[dict[str, Any]],
+    *,
+    db_root: Path,
+    tables: Mapping[str, Collection[str]],
+    min_tables: int = LARGE_SCHEMA_MIN_TABLES,
+) -> list[Case]:
+    """BIRD train records on large-schema databases as cases.
+
+    A record is kept when its database has at least ``min_tables`` tables in ``tables``;
+    every other record is dropped, so ``tables`` must list every database the records name.
+    BIRD train has no ``difficulty`` field, so ``hardness`` is Spider's rule counted from the
+    gold SQL text (``sql_hardness``). Everything else is as ``bird_to_cases``.
+    """
+    large = {db_id for db_id, names in tables.items() if len(names) >= min_tables}
+    kept: list[dict[str, Any]] = []
+    for position, record in enumerate(train):
+        db_id = _require_str(BIRD_TRAIN_LARGE_SUITE, position, record, "db_id")
+        if db_id not in tables:
+            raise SuiteError(
+                f"{BIRD_TRAIN_LARGE_SUITE} source record {position}: "
+                f"no table list for database '{db_id}'"
+            )
+        if db_id in large:
+            kept.append(record)
+
+    def hardness(position: int, record: dict[str, Any]) -> str:
+        try:
+            return sql_hardness(_require_str(BIRD_TRAIN_LARGE_SUITE, position, record, "SQL"))
+        except ValueError as exc:
+            raise SuiteError(f"{BIRD_TRAIN_LARGE_SUITE} source record {position}: {exc}") from exc
+
+    return _bird_cases(
+        BIRD_TRAIN_LARGE_SUITE, kept, db_root=db_root, tables=tables, hardness=hardness
+    )
+
+
+def _bird_cases(
+    suite: str,
+    records: list[dict[str, Any]],
+    *,
+    db_root: Path,
+    tables: Mapping[str, Collection[str]],
+    hardness: Callable[[int, dict[str, Any]], str],
+) -> list[Case]:
+    """BIRD-shaped records as cases, with ``hardness(position, record)`` supplying each label.
+
+    The shape is ``question_id``, ``db_id``, ``question``, ``evidence`` and ``SQL``, which
+    BIRD's dev and train files share.
+    """
+    cases: list[Case] = []
+    for position, record in enumerate(records):
+        db_id = _require_str(suite, position, record, "db_id")
+        question = _require_str(suite, position, record, "question")
+        sql = _require_str(suite, position, record, "SQL")
         question_id = record.get("question_id")
         # bool is an int subclass; True is not a question ID.
         if not isinstance(question_id, int) or isinstance(question_id, bool):
             raise SuiteError(
-                f"{BIRD_SUITE} source record {position}: field 'question_id' must be an integer"
-            )
-        if difficulty not in BIRD_HARDNESS:
-            raise SuiteError(
-                f"{BIRD_SUITE} source record {position}: unknown difficulty '{difficulty}'"
+                f"{suite} source record {position}: field 'question_id' must be an integer"
             )
         evidence = record.get("evidence")
         if evidence is None:
             evidence = ""
         if not isinstance(evidence, str):
-            raise SuiteError(
-                f"{BIRD_SUITE} source record {position}: field 'evidence' must be a string"
-            )
+            raise SuiteError(f"{suite} source record {position}: field 'evidence' must be a string")
         case_id = str(question_id)
         cases.append(
             _to_case(
-                BIRD_SUITE,
+                suite,
                 position,
                 {
-                    "suite": BIRD_SUITE,
+                    "suite": suite,
                     "id": case_id,
-                    "db_path": database_path(db_root, db_id, suite=BIRD_SUITE),
+                    "db_path": database_path(db_root, db_id, suite=suite),
                     "question": question,
                     "evidence": evidence,
                     "gold_sql": sql,
-                    "hardness": BIRD_HARDNESS[difficulty],
+                    "hardness": hardness(position, record),
                     "expected": "answerable",
-                    "expected_tables": _expected_tables(BIRD_SUITE, case_id, db_id, sql, tables),
+                    "expected_tables": _expected_tables(suite, case_id, db_id, sql, tables),
                 },
             )
         )
-    return _check_unique(BIRD_SUITE, cases)
+    return _check_unique(suite, cases)
 
 
 def draw_subset(cases: Sequence[Case], *, size: int, seed: int) -> list[str]:
