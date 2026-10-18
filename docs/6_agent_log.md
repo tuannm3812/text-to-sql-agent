@@ -4399,3 +4399,99 @@ note under the README release table that its figures predate the label, plus
 the label-era Spider and BIRD-with-evidence results. BIRD without evidence was
 not re-run. `AGENTS.md` current state and `docs/4_next_steps.md` updated. No
 code changed.
+
+## Codex follow-up — review through `1ca0099`
+
+**Scope.** Reviewed `ad0ba0f..1ca0099`: corrected flip analysis, reproducible
+inputs, the partial-list label across engines and retrieval, four trial runs,
+and the recorded keep decision. The checkout was clean before review. Only
+this append-only feedback entry was changed; no application fix, provider run,
+commit or default change was made.
+
+**Previous feedback addressed.** The report now separates 93 order-only flips,
+one identical context and 85 different table sets, uses "unexplained" rather
+than claiming demonstrated randomness, and withdraws the noise-floor claim.
+`scripts/analyse_rag_flips.py` and sampled labels are committed. Ran its write
+path with output paths redirected to a temporary directory: all four generated
+artifacts match the committed bytes (`selection_contexts.csv`,
+`hidden_literal_targets.csv`, and both `hiddenlit` subset files). Pools, seeded
+sample, classifications and the 66-Spider/49-BIRD target sets reproduce. The
+new target definition is documented separately from the superseded rough proxy.
+
+**Implementation checked.** Across all **31 benchmark databases / 155 tables**,
+compared the current engine's displayed hints with the actual SQLite hint
+function extracted from `7708295`: every shown value and its order is unchanged.
+There are **147** columns whose lists receive a label. Retrieval propagates
+the totals through scored chunks and foreign-key expansion; search text stays
+unchanged. The implementation counts non-blank distinct values while retaining
+the old displayed prefix, including the case where a blank consumes a top-six
+slot and the label accurately says "5 of 8 shown". Complete or unknown-total
+lists retain their previous rendering. No extra sampled values are sent.
+Live PostgreSQL behavior was not exercised in this review.
+
+**Trial evidence checked.** Audited all **24** saved result bundles: manifest
+and identity hashes, run IDs/counts, complete/citable state, outage state and
+generation-failure counts agree. Both full-suite regression gates pass when
+recomputed from saved rows:
+
+| Suite | Baseline correct | Label correct | Paired EX change, points |
+|---|---:|---:|---|
+| Spider | 668/1034 | 662/1034 | -0.6 [-1.7, +0.5] |
+| BIRD, evidence | 540/1534 | 548/1534 | +0.5 [-0.3, +1.4] |
+
+The targeted comparisons also reproduce: Spider 46/66 to 46/66, interval
+[-4.5, +4.5], one helped/one hurt; BIRD 14/49 to 17/49, +6.1 [0.0, 14.3],
+three helped/none hurt. Targeted-run outcomes match the corresponding full-run
+outcomes for every target. The results support the recorded accuracy-neutral
+prompt-clarity rationale, not a demonstrated full-suite accuracy improvement.
+The README accurately distinguishes historical release scores and the label
+trial, and explicitly states BIRD without evidence was not rerun.
+
+Re-rendering the full-suite contexts reproduces the repeat counts: BIRD has
+524 unchanged contexts (one SQL-text difference, zero accuracy flips) and
+1010 labelled contexts (386 SQL-text differences, 44 accuracy flips). All 1034
+Spider contexts change (184 SQL-text differences, 34 accuracy flips). Python
+and recorded generation/scoring dependency versions agree; the trial also
+installed optional DuckDB/psycopg drivers absent from the baseline environment.
+Those drivers are unused by these SQLite suites.
+
+**Feedback for Claude.**
+
+1. **P2 — Hidden-target detection misses truncated lists displaying fewer than
+   six values.** `scripts/analyse_rag_flips.py:200` skips a column whenever
+   `len(shown) < DEFAULT_VALUE_HINT_LIMIT`, calling that "nothing was cut".
+   But blanks are discarded *after* the six most frequent groups are chosen.
+   Reproduced with eight non-blank statuses plus a frequent whitespace value:
+   hints show s0–s4, totals say eight, and gold `WHERE status = 's7'` gets no
+   target. Bypassing only that early skip yields the expected hidden literal
+   at rank eight. Determine whether values remain hidden from the actual
+   shown values/totals instead of displayed-list length, and cover this case.
+   Recomputed both benchmark target sets with that skip bypassed: **no new
+   pairs** in either suite, so neither frozen subset nor the current trial
+   results need changing. This is a reproducibility-helper edge case, not a
+   defect in the shipped label renderer.
+2. **Qualify the causal conclusion in the repeat paragraph.** The observations
+   are correct, but "the flips above follow the prompt change" goes beyond
+   the repeat on unchanged contexts. That repeat covers 524 BIRD cases with
+   no cut lists; it is not a repeat of the 1010 labelled cases or of Spider,
+   whose prompts all changed. Say that all observed accuracy flips occur in
+   changed-context cases and unchanged contexts were highly repeatable here.
+   This supports sensitivity to the change, while leaving its exact causal
+   contribution and generation variance on changed cases unmeasured. No new
+   full run is needed merely to qualify the sentence.
+
+**Next steps.** Close the helper edge case with a focused regression test and
+qualify the repeat claim. Keep the label and the current top-6 default as
+already recorded by the owner; this review found no reason to reopen that
+decision. The next substantive retrieval work remains a larger-schema
+evaluation before an embedding rewrite or renewed cost-saving claim. Refresh
+BIRD without evidence when current-code release scores are needed, keeping its
+old result explicitly historical until then. Do not rerun the full trial just
+for the helper fix, since the frozen target sets are unaffected.
+
+**Fresh verification.** **1377 passed, 351 skipped** in the full local suite.
+Ruff passed; **146 files** already formatted; mypy clean on **49 source files**.
+Temporary reproduction outputs stayed outside the repository. No live
+PostgreSQL, provider benchmark or CI-status verification was performed. HEAD
+remained `1ca0099`. No blocking defect found in the adopted label or saved
+regression results; the feedback above remains for Claude.
