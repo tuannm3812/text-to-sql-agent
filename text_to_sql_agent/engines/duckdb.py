@@ -177,6 +177,43 @@ def _value_hints_for_table(
     return hints, totals
 
 
+def _text_values_for_table(
+    conn: duckdb.DuckDBPyConnection,
+    schema_name: str,
+    table_name: str,
+    columns: list[tuple[str, str]],
+    *,
+    max_distinct: int,
+    max_length: int,
+) -> dict[str, list[str]]:
+    """Distinct values of each text column with at most `max_distinct` of them."""
+    values_by_column: dict[str, list[str]] = {}
+    quoted_table = _quote_qualified(schema_name, table_name)
+    for column_name, column_type in columns:
+        if column_type and not any(
+            token in column_type.upper() for token in ("CHAR", "TEXT", "CLOB")
+        ):
+            continue
+        quoted_column = _quote_identifier(column_name)
+        cardinality_row = conn.execute(
+            f"SELECT COUNT(DISTINCT {quoted_column}) FROM {quoted_table} "
+            f"WHERE {quoted_column} IS NOT NULL"
+        ).fetchone()
+        cardinality = cardinality_row[0] if cardinality_row is not None else None
+        if not cardinality or cardinality > max_distinct:
+            continue
+        rows = conn.execute(
+            f"SELECT DISTINCT {quoted_column} FROM {quoted_table} "
+            f"WHERE {quoted_column} IS NOT NULL ORDER BY {quoted_column}"
+        ).fetchall()
+        values = [
+            text for (value,) in rows if (text := str(value)).strip() and len(text) <= max_length
+        ]
+        if values:
+            values_by_column[column_name] = values
+    return values_by_column
+
+
 class DuckDBEngine:
     """Read-only DuckDB backend.
 
@@ -809,6 +846,33 @@ DUCKDB DIALECT (must follow):
         finally:
             conn.close()
         return chunks
+
+    def text_values(
+        self, chunk: SchemaChunk, *, max_distinct: int, max_length: int
+    ) -> dict[str, list[str]]:
+        """See `Engine.text_values`. Reads `chunk`'s own schema, qualified, read-only."""
+        schema_name = chunk.schema_name or self.default_schema
+        conn = _connect_read_only(self.dsn)
+        try:
+            typed_columns = [
+                (column_name, data_type)
+                for column_name, data_type in conn.execute(
+                    "SELECT column_name, data_type FROM information_schema.columns "
+                    "WHERE table_catalog = current_database() "
+                    "AND table_schema = ? AND table_name = ? ORDER BY ordinal_position",
+                    [schema_name, chunk.table_name],
+                ).fetchall()
+            ]
+            return _text_values_for_table(
+                conn,
+                schema_name,
+                chunk.table_name,
+                typed_columns,
+                max_distinct=max_distinct,
+                max_length=max_length,
+            )
+        finally:
+            conn.close()
 
     def schema_fingerprint(self) -> tuple[object, ...]:
         """Return `(path, mtime_ns, size, extra_schemas)`.

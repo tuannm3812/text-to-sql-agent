@@ -178,6 +178,19 @@ def test_value_hints_come_with_their_column_totals(engine) -> None:
     assert customers.value_hint_totals == {"name": 2}
 
 
+def test_text_values_respect_the_distinct_and_length_caps(engine) -> None:
+    """Value matching reads row data, so every engine must bound what it reads the same way."""
+    chunks = {c.table_name: c for c in engine.schema_chunks()}
+
+    def values(table: str, **caps: int) -> dict[str, list[str]]:
+        return engine.text_values(chunks[table], **caps)
+
+    assert values("customers", max_distinct=10, max_length=60) == {"name": ["Alice", "Bob"]}
+    assert values("customers", max_distinct=1, max_length=60) == {}
+    assert values("customers", max_distinct=10, max_length=3) == {"name": ["Bob"]}
+    assert values("sales", max_distinct=10, max_length=60) == {}
+
+
 def test_raw_schema_mentions_every_table(engine) -> None:
     schema = engine.raw_schema()
     assert "customers" in schema

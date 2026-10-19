@@ -448,6 +448,19 @@ class Engine(Protocol):
         """
         ...
 
+    def text_values(
+        self, chunk: SchemaChunk, *, max_distinct: int, max_length: int
+    ) -> dict[str, list[str]]:
+        """Distinct values of each text column of `chunk`'s table, for question value matching.
+
+        Unlike `schema_chunks()` this reads row data beyond low-cardinality hints: every
+        text column with at most `max_distinct` distinct non-null values, each value at
+        most `max_length` characters (longer ones are left out). Nothing returned here is
+        sent to a model as is; `rag.py` sends only the values a question names
+        (`docs/3_decisions.md`, 2026-10-19). Columns with no qualifying value are absent.
+        """
+        ...
+
     def schema_fingerprint(self) -> tuple[object, ...]:
         """A value that changes when the schema changes, for cache keying."""
         ...

@@ -33,6 +33,14 @@ DEFAULT_RAG_SEMANTIC_WEIGHT = 3.0
 DEFAULT_RAG_EMBEDDING_WEIGHT = 5.0
 DEFAULT_VALUE_HINT_LIMIT = 6
 DEFAULT_VALUE_HINT_MAX_CARDINALITY = 20
+# Question value matching (`rag.match_question_values`, `docs/3_decisions.md` 2026-10-19).
+# Off by default: it reads text values beyond the low-cardinality hints and sends the
+# ones a question names, so turning it on is the owner's privacy call.
+DEFAULT_VALUE_MATCHES = False
+DEFAULT_VALUE_MATCH_MAX_DISTINCT = 50_000
+DEFAULT_VALUE_MATCH_MAX_LENGTH = 60
+DEFAULT_VALUE_MATCH_LIMIT = 10
+DEFAULT_VALUE_MATCH_COLUMNS_PER_PHRASE = 4
 
 RAG_SYNONYMS = {
     "client": ["customer", "customers"],

@@ -2,6 +2,38 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-19 — question value matching: built off by default, on trial
+
+**Chosen:** Add question value matching (`rag.match_question_values`), **off by
+default** (`DEFAULT_VALUE_MATCHES = False`). When on, every text column with at
+most 50,000 distinct values is read once per schema version
+(`Engine.text_values`), and the prompt gets one extra block listing the stored
+values of the prompt's tables that a phrase of the question names, as SQL
+literals (`-- Stored values that match words in the question:`). It is measured
+on `bird_train_large` from a trial commit that only flips the default; whether
+it ships is the owner's call.
+
+**Ruled out:** Listing every value under the 20-value ceiling, or raising the
+six-value cap: on `bird_train_large` most needed literals are not in hinted
+columns at all. Turning it on by default without the owner, since it changes
+what reaches a provider.
+
+**Why:** On the three `bird_train_large` arms at `47284f5`, 711 of 1,222
+questions filter on a string literal (892 literal predicates). 440 of those
+literals (49 %) are in text columns with more than 20 distinct values (names,
+cities, teams, stores), which never get a hint. Of the 306 the hints do show,
+238 are already in BIRD's evidence, so with evidence on the hints mostly repeat
+it. Top 6 still got the value wrong in 108 failing questions; the matcher finds
+the gold value in the prompt's tables for 65 of them, for example
+`Store.Name = 'Valley Bicycle Specialists'`, which the model called
+unanswerable. **Privacy:** this reads row data beyond the low-cardinality
+hints, which `docs/0_coding_standards.md` §4 and the brief rule out without an
+entry. What it sends is narrower than a hint: only a stored value whose words
+equal words the user typed, so the provider learns that the typed value exists
+and in which column. A one-word phrase matches only a capitalised, all-caps or
+digit-bearing word, so ordinary words do not pull in surnames. On the trial run
+everything stays on local Ollama.
+
 ## 2026-10-19 — top-6 table selection stays the default
 
 **Chosen:** Keep schema RAG on with top-6 table selection as the default. The

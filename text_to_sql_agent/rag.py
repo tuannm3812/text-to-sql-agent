@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 import re
+import unicodedata
 from collections import Counter
 from dataclasses import dataclass
 from functools import lru_cache
@@ -15,15 +16,21 @@ from .config import (
     DEFAULT_RAG_NEIGHBORS,
     DEFAULT_RAG_SEMANTIC_WEIGHT,
     DEFAULT_RAG_TOP_K,
+    DEFAULT_VALUE_MATCH_COLUMNS_PER_PHRASE,
+    DEFAULT_VALUE_MATCH_LIMIT,
+    DEFAULT_VALUE_MATCH_MAX_DISTINCT,
+    DEFAULT_VALUE_MATCH_MAX_LENGTH,
+    DEFAULT_VALUE_MATCHES,
     RAG_SYNONYMS,
     STOPWORDS,
 )
+from .engines import open_engine
 from .schema import (
     get_schema_chunk_cache_info,
     get_schema_chunks_at,
     get_schema_chunks_plain_ddl_and_version,
 )
-from .types import SchemaChunk, SchemaRetrievalResult, render_schema_text
+from .types import SchemaChunk, SchemaRetrievalResult, ValueMatch, render_schema_text
 
 if TYPE_CHECKING:
     from functools import _CacheInfo
@@ -151,6 +158,135 @@ def get_retrieval_index_cache_info() -> _CacheInfo:
     return _cached_corpus_index.cache_info()
 
 
+# The longest question phrase matched against stored values, in words.
+_MAX_PHRASE_WORDS = 5
+
+
+def _fold_accents(text: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", text)
+    return "".join(char for char in decomposed if not unicodedata.combining(char))
+
+
+def _value_key(text: str) -> str:
+    """A stored value or a question phrase, lowercased, accents folded, words space-joined."""
+    return " ".join(re.findall(r"[a-z0-9]+", _fold_accents(text).lower()))
+
+
+_ValueIndex = dict[str, tuple[tuple[str, str, str], ...]]
+
+
+@lru_cache(maxsize=4)
+def _cached_value_index(version: tuple[object, ...]) -> _ValueIndex:
+    """`_value_key(value)` to every `(table, column, value)` holding it, per schema version.
+
+    Built from `Engine.text_values` over every chunk, once per `(dsn, fingerprint)`, the
+    key the chunks use. A key shorter than three characters, all digits or a stopword is
+    left out: it would match ordinary words and numbers in almost any question.
+    """
+    dsn = str(version[0])
+    engine = open_engine(dsn)
+    index: dict[str, list[tuple[str, str, str]]] = {}
+    for chunk in get_schema_chunks_at(version):
+        values_by_column = engine.text_values(
+            chunk,
+            max_distinct=DEFAULT_VALUE_MATCH_MAX_DISTINCT,
+            max_length=DEFAULT_VALUE_MATCH_MAX_LENGTH,
+        )
+        for column, values in values_by_column.items():
+            for value in values:
+                key = _value_key(value)
+                if len(key) < 3 or key.isdigit() or key in STOPWORDS:
+                    continue
+                index.setdefault(key, []).append((chunk.qualified_name, column, value))
+    return {key: tuple(entries) for key, entries in index.items()}
+
+
+def _names_a_value(word: str, position: int) -> bool:
+    """Whether a lone question word looks like a name or code rather than an ordinary word.
+
+    A capital past the first word (`Toronto`), an all-caps code (`BOS`) or a word with a
+    digit (`P194502`). One-word phrases otherwise match too many stored values: `Hall`
+    in "Hall of Fame" is also a surname.
+    """
+    if any(char.isdigit() for char in word):
+        return True
+    if len(word) >= 2 and word.isupper():
+        return True
+    return position > 0 and word[0].isupper()
+
+
+def match_question_values(
+    index: _ValueIndex,
+    question: str,
+    tables: set[str],
+    *,
+    limit: int = DEFAULT_VALUE_MATCH_LIMIT,
+    columns_per_phrase: int = DEFAULT_VALUE_MATCH_COLUMNS_PER_PHRASE,
+) -> tuple[ValueMatch, ...]:
+    """Stored values of `tables` that a phrase of the question names, longest phrase first.
+
+    A phrase of one to five words matches a value whose `_value_key` equals the phrase's.
+    A phrase inside a longer matched phrase is skipped, so "St. Louis Blues" does not also
+    bring every "St. Louis" and "Louis". A one-word phrase must look like a name or code
+    (`_names_a_value`). Each phrase keeps at most `columns_per_phrase` columns, in table
+    and column order, and at most `limit` values are returned in all.
+
+    Args:
+        index: `_cached_value_index` for the question's database.
+        question: The text the model sees, evidence included when the run sends it.
+        tables: Qualified names of the tables the prompt carries; others are ignored.
+        limit: Most values returned.
+        columns_per_phrase: Most columns one phrase may match.
+
+    Returns:
+        One `ValueMatch` per column, in the order the question first names it.
+    """
+    words = re.findall(r"[A-Za-z0-9]+", _fold_accents(question))
+    lowered = [word.lower() for word in words]
+    taken: list[tuple[int, int]] = []
+    found: list[tuple[int, str, str, str]] = []
+    for size in range(min(_MAX_PHRASE_WORDS, len(words)), 0, -1):
+        for start in range(len(words) - size + 1):
+            end = start + size
+            if any(lo <= start and end <= hi for lo, hi in taken):
+                continue
+            phrase = lowered[start:end]
+            if all(word in STOPWORDS for word in phrase):
+                continue
+            if size == 1 and not _names_a_value(words[start], start):
+                continue
+            entries = [entry for entry in index.get(" ".join(phrase), ()) if entry[0] in tables]
+            if not entries:
+                continue
+            taken.append((start, end))
+            columns = sorted({(table, column) for table, column, _ in entries})
+            kept = set(columns[:columns_per_phrase])
+            found.extend(
+                (start, table, column, value)
+                for table, column, value in entries
+                if (table, column) in kept
+            )
+    found.sort(key=lambda item: (item[0], item[1], item[2], item[3]))
+    by_column: dict[tuple[str, str], list[str]] = {}
+    count = 0
+    for _, table, column, value in found:
+        values = by_column.setdefault((table, column), [])
+        if value in values or count >= limit:
+            continue
+        values.append(value)
+        count += 1
+    return tuple(
+        ValueMatch(table=table, column=column, values=tuple(values))
+        for (table, column), values in by_column.items()
+        if values
+    )
+
+
+def get_value_index_cache_info() -> _CacheInfo:
+    """Return `lru_cache` hit/miss statistics for the value index cache."""
+    return _cached_value_index.cache_info()
+
+
 def decompose_question(question: str) -> dict[str, list[str]]:
     """Break a question into entities, aggregations, filters, and comparisons.
 
@@ -207,6 +343,19 @@ def decompose_question(question: str) -> dict[str, list[str]]:
     }
 
 
+def _value_matches_for(
+    version: tuple[object, ...],
+    question: str,
+    chunks: list[SchemaChunk],
+    enabled: bool,
+) -> tuple[ValueMatch, ...]:
+    """`match_question_values` over the tables the prompt carries, or `()` when off."""
+    if not enabled:
+        return ()
+    tables = {chunk.qualified_name for chunk in chunks}
+    return match_question_values(_cached_value_index(version), question, tables)
+
+
 def retrieve_schema_chunks(
     db_path: str,
     question: str,
@@ -244,6 +393,7 @@ def retrieve_schema_context(
     include_neighbors: int = DEFAULT_RAG_NEIGHBORS,
     semantic_weight: float = DEFAULT_RAG_SEMANTIC_WEIGHT,
     embedding_weight: float = DEFAULT_RAG_EMBEDDING_WEIGHT,
+    value_matches: bool = DEFAULT_VALUE_MATCHES,
 ) -> SchemaRetrievalResult:
     """Score and select the schema chunks most relevant to a question.
 
@@ -261,6 +411,9 @@ def retrieve_schema_context(
         semantic_weight: Weight applied to the char-ngram similarity score.
         embedding_weight: Weight applied to the hashed-embedding similarity
             score.
+        value_matches: Also list the stored values of the selected tables that the
+            question names (`match_question_values`). Reads row data beyond the
+            value hints, so it is off unless turned on.
 
     Returns:
         A `SchemaRetrievalResult` with the selected chunks, the tokens
@@ -300,6 +453,7 @@ def retrieve_schema_context(
             plain_ddl_chars=plain_ddl_chars,
             ddl_with_hints_chars=ddl_with_hints_chars,
             cache_hit=cache_hit,
+            value_matches=_value_matches_for(version, question, chunks, value_matches),
         )
 
     index = _cached_corpus_index(version)
@@ -425,6 +579,7 @@ def retrieve_schema_context(
         plain_ddl_chars=plain_ddl_chars,
         ddl_with_hints_chars=ddl_with_hints_chars,
         cache_hit=cache_hit,
+        value_matches=_value_matches_for(version, question, selected, value_matches),
     )
 
 

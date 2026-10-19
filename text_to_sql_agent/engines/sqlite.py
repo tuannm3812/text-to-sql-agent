@@ -123,6 +123,46 @@ def _value_hints_for_table(
     return hints, totals
 
 
+def _is_text_type(column_type: str) -> bool:
+    """SQLite's text affinity test, as the value hints apply it: untyped counts as text."""
+    return not column_type or any(
+        token in column_type.upper() for token in ("CHAR", "TEXT", "CLOB")
+    )
+
+
+def _text_values_for_table(
+    conn: sqlite3.Connection,
+    table_name: str,
+    columns: list[tuple[str, str]],
+    *,
+    max_distinct: int,
+    max_length: int,
+) -> dict[str, list[str]]:
+    """Distinct values of each text column with at most `max_distinct` of them."""
+    values_by_column: dict[str, list[str]] = {}
+    quoted_table = _quote_identifier(table_name)
+    for column_name, column_type in columns:
+        if not _is_text_type(column_type):
+            continue
+        quoted_column = _quote_identifier(column_name)
+        cardinality = conn.execute(
+            f"SELECT COUNT(DISTINCT {quoted_column}) FROM {quoted_table} "
+            f"WHERE {quoted_column} IS NOT NULL"
+        ).fetchone()[0]
+        if not cardinality or cardinality > max_distinct:
+            continue
+        rows = conn.execute(
+            f"SELECT DISTINCT {quoted_column} FROM {quoted_table} "
+            f"WHERE {quoted_column} IS NOT NULL ORDER BY {quoted_column}"
+        ).fetchall()
+        values = [
+            text for (value,) in rows if (text := str(value)).strip() and len(text) <= max_length
+        ]
+        if values:
+            values_by_column[column_name] = values
+    return values_by_column
+
+
 class SQLiteEngine:
     """Read-only SQLite backend.
 
@@ -333,6 +373,26 @@ SQLITE DIALECT (must follow):
                     )
                 )
         return chunks
+
+    def text_values(
+        self, chunk: SchemaChunk, *, max_distinct: int, max_length: int
+    ) -> dict[str, list[str]]:
+        """See `Engine.text_values`. Reads through a `mode=ro` connection."""
+        uri = f"{Path(self.dsn).resolve().as_uri()}?mode=ro"
+        with closing(sqlite3.connect(uri, uri=True, timeout=5)) as conn:
+            typed_columns = [
+                (row[1], row[2] or "")
+                for row in conn.execute(
+                    f"PRAGMA table_info({_quote_identifier(chunk.table_name)})"
+                ).fetchall()
+            ]
+            return _text_values_for_table(
+                conn,
+                chunk.table_name,
+                typed_columns,
+                max_distinct=max_distinct,
+                max_length=max_length,
+            )
 
     def schema_fingerprint(self) -> tuple[object, ...]:
         """Return `(path, mtime_ns, size)`, today's `_db_cache_key` value."""

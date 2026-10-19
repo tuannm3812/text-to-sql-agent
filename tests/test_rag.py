@@ -261,3 +261,101 @@ def test_the_scoring_index_misses_after_the_schema_changes(tmp_path: Path) -> No
 
     assert after.misses == before.misses + 1, "a changed schema must rebuild the index"
     assert [chunk.table_name for chunk in context.chunks] == ["invoices"]
+
+
+# --- Question value matching (2026-10-19, off by default) ------------------------------
+#
+# On `bird_train_large` half the literals gold SQL filters on sit in text columns with more
+# than 20 distinct values, which never get a value hint. Value matching lists the stored
+# values a question names, from any text column of the tables the prompt carries.
+
+
+def _teams_db(tmp_path: Path) -> str:
+    return _write_db(
+        tmp_path / "teams.db",
+        [
+            "CREATE TABLE teams (team_id INTEGER PRIMARY KEY, name TEXT, city TEXT)",
+            "CREATE TABLE players (player_id INTEGER PRIMARY KEY, last_name TEXT, "
+            "team_id INTEGER REFERENCES teams(team_id))",
+            "CREATE TABLE venues (venue_id INTEGER PRIMARY KEY, venue_name TEXT)",
+            "INSERT INTO teams VALUES (1, 'St. Louis Blues', 'St. Louis'), "
+            "(2, 'Montreal Canadiens', 'Montréal')",
+            "INSERT INTO players VALUES (1, 'Hall', 1), (2, 'Louis', 2), (3, 'O''Neil', 1)",
+            "INSERT INTO venues VALUES (1, 'Blues Arena')",
+        ],
+    )
+
+
+def test_value_matching_is_off_by_default_and_leaves_the_text_unchanged(tmp_path: Path) -> None:
+    db = _teams_db(tmp_path)
+    question = "How many players did the St. Louis Blues have?"
+
+    default = rag.retrieve_schema_context(db, question, top_k=0)
+    on = rag.retrieve_schema_context(db, question, top_k=0, value_matches=True)
+
+    assert default.value_matches == ()
+    assert "Stored values" not in default.schema_text
+    assert on.schema_text.startswith(render_schema_text(default.chunks))
+
+
+def test_the_longest_phrase_wins_and_its_parts_are_not_matched_again(tmp_path: Path) -> None:
+    db = _teams_db(tmp_path)
+
+    result = rag.retrieve_schema_context(
+        db, "How many players did the St. Louis Blues have?", top_k=0, value_matches=True
+    )
+
+    assert result.value_matches == (
+        agent.types.ValueMatch(table="teams", column="name", values=("St. Louis Blues",)),
+    )
+    assert result.schema_text.endswith(
+        "-- Stored values that match words in the question:\n-- teams.name: 'St. Louis Blues'"
+    )
+
+
+def test_accents_fold_and_quotes_are_escaped_in_the_literal(tmp_path: Path) -> None:
+    db = _teams_db(tmp_path)
+
+    result = rag.retrieve_schema_context(
+        db, "Which team is from Montreal, and who is O'Neil?", top_k=0, value_matches=True
+    )
+
+    rendered = result.schema_text
+    assert "-- teams.city: 'Montréal'" in rendered
+    assert "-- players.last_name: 'O''Neil'" in rendered
+
+
+def test_a_lone_ordinary_word_does_not_match_a_stored_name(tmp_path: Path) -> None:
+    db = _teams_db(tmp_path)
+
+    lower = rag.retrieve_schema_context(
+        db, "who entered the hall first", top_k=0, value_matches=True
+    )
+    capital = rag.retrieve_schema_context(
+        db, "Is there a player named Hall", top_k=0, value_matches=True
+    )
+
+    assert lower.value_matches == ()
+    assert [m.values for m in capital.value_matches] == [("Hall",)]
+
+
+def test_only_tables_the_prompt_carries_are_matched() -> None:
+    index = {
+        "blues arena": (("venues", "venue_name", "Blues Arena"),),
+        "louis": (("players", "last_name", "Louis"),),
+    }
+
+    matches = rag.match_question_values(index, "Games at Blues Arena with Louis", {"players"})
+
+    assert matches == (agent.types.ValueMatch("players", "last_name", ("Louis",)),)
+
+
+def test_matches_are_capped_per_phrase_and_in_all() -> None:
+    index = {"smith": tuple((f"t{i}", "name", "Smith") for i in range(6))}
+    tables = {f"t{i}" for i in range(6)}
+
+    per_phrase = rag.match_question_values(index, "Find Smith", tables, columns_per_phrase=4)
+    capped = rag.match_question_values(index, "Find Smith", tables, limit=2)
+
+    assert [m.table for m in per_phrase] == ["t0", "t1", "t2", "t3"]
+    assert sum(len(m.values) for m in capped) == 2

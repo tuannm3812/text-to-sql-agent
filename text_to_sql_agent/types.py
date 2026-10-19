@@ -118,6 +118,38 @@ def render_schema_text(chunks: Sequence[SchemaChunk]) -> str:
     return "\n\n".join(parts)
 
 
+@dataclass(frozen=True)
+class ValueMatch:
+    """Stored values of one column that a phrase of the question names.
+
+    Attributes:
+        table: The table's `SchemaChunk.qualified_name`, the spelling a query uses.
+        column: The column name.
+        values: The stored values, exactly as stored, in the order the question names them.
+    """
+
+    table: str
+    column: str
+    values: tuple[str, ...]
+
+
+VALUE_MATCHES_HEADER = "-- Stored values that match words in the question:"
+
+
+def render_value_matches(matches: Sequence[ValueMatch]) -> str:
+    """The value-match block appended to the schema text; empty when nothing matched.
+
+    One line per column, each value as a SQL string literal, so it can be copied as is.
+    """
+    if not matches:
+        return ""
+    lines = [VALUE_MATCHES_HEADER]
+    for match in matches:
+        literals = ", ".join("'" + value.replace("'", "''") + "'" for value in match.values)
+        lines.append(f"-- {match.table}.{match.column}: {literals}")
+    return "\n".join(lines)
+
+
 def _shown_label(shown: int, total: int | None) -> str:
     """` (6 of 16 shown)` for a cut list, else empty, so a complete list renders as before."""
     return f" ({shown} of {total} shown)" if total is not None and total > shown else ""
@@ -154,6 +186,8 @@ class SchemaRetrievalResult:
             DDL plus value hints, exactly what RAG on sends with `top_k=0`.
         cache_hit: Whether the underlying schema-chunk cache was hit.
         strategy: Name of the retrieval strategy that produced this result.
+        value_matches: Stored values of the selected tables that the question names
+            (`rag.match_question_values`); empty unless value matching is on.
     """
 
     chunks: list[SchemaChunk]
@@ -165,11 +199,14 @@ class SchemaRetrievalResult:
     ddl_with_hints_chars: int = 0
     cache_hit: bool = False
     strategy: str = "hybrid-bm25-embedding-semantic-values-graph"
+    value_matches: tuple[ValueMatch, ...] = ()
 
     @property
     def schema_text(self) -> str:
-        """DDL and value hints for the retrieved chunks, formatted for a prompt."""
-        return render_schema_text(self.chunks)
+        """DDL and value hints for the retrieved chunks, then any value matches, for a prompt."""
+        text = render_schema_text(self.chunks)
+        block = render_value_matches(self.value_matches)
+        return f"{text}\n\n{block}" if block else text
 
     @property
     def sent_schema_chars(self) -> int:
@@ -238,4 +275,8 @@ class SchemaRetrievalResult:
             if chunk.value_hints:
                 for column, values in sorted(chunk.value_hints.items()):
                     lines.append(f"  value hints {column}: {', '.join(values)}")
+        if self.value_matches:
+            lines += ["", "Values matching the question:"]
+            for match in self.value_matches:
+                lines.append(f"- {match.table}.{match.column}: {', '.join(match.values)}")
         return "\n".join(lines)
