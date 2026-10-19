@@ -75,7 +75,11 @@ only the question (about 1.1 s), while a top-6 prompt differs from the start of
 its schema section, so its 2.7k tokens prefill from scratch at this model's
 550 tok/s (about 4.9 s). Flash attention is already on and `num_batch` does not
 help. Closing the gap means changing the prompt so questions share a prefix
-again, which is a Phase 4 prompt-layout decision, not a retrieval one; (5) next,
+again, which is a Phase 4 prompt-layout decision, not a retrieval one; (5) **done
+2026-10-19:** why hints do not help on `bird_train_large`: half the needed literals are in
+columns over the 20-value ceiling, and most shown ones repeat the evidence. Question value
+matching (off by default, it reads row data) reached the gold value but moved EX only
++0.4 [-0.9, +1.6] (`evaluation/results/value_matches/README.md`); owner to keep or drop it; (6) next,
 the retrieval rewrite below. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.

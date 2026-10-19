@@ -122,6 +122,14 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   full schema is prefilled once per database. Not fixable in `rag.py` without
   changing the prompt (`docs/4_next_steps.md`, Phase 4).
 
+- 2026-10-19 (later): why value hints do not help on `bird_train_large`: 49 % of
+  gold literals are in text columns over the 20-value ceiling (never hinted), and
+  78 % of shown ones are already in the evidence. Question value matching
+  (`rag.match_question_values`, `Engine.text_values`, **off by default**: it reads
+  row data) trialled at tag `trial/value-matches-on`: +0.4 [-0.9, +1.6], not
+  measurable (`evaluation/results/value_matches/`). Owner decides keep or drop.
+  `1419` passed / `352` skipped without the DSN.
+
 ## Open risks
 
 - The RAG "embedding" in `rag.py` is a hashed bag of character n-grams, not a

@@ -1,0 +1,5 @@
+=== 2026-10-19 12:15:47 START --suite bird_train_large --subset full --evidence on 
+bird_train_large: complete, citable=True, 1222 cases, 0 outage(s)
+  evaluation/results/2026-10-19T011547_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_3310c00d_5376
+=== 2026-10-19 15:18:02 END exit=0 --suite bird_train_large --subset full --evidence on
+ALL DONE 2026-10-19 15:18:02

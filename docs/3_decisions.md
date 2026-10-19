@@ -23,8 +23,8 @@ questions filter on a string literal (892 literal predicates). 440 of those
 literals (49 %) are in text columns with more than 20 distinct values (names,
 cities, teams, stores), which never get a hint. Of the 306 the hints do show,
 238 are already in BIRD's evidence, so with evidence on the hints mostly repeat
-it. Top 6 still got the value wrong in 108 failing questions; the matcher finds
-the gold value in the prompt's tables for 65 of them, for example
+it. Top 6 still got the value wrong in 108 failing questions; the matcher puts
+the gold value in the prompt's tables for 58 of them, for example
 `Store.Name = 'Valley Bicycle Specialists'`, which the model called
 unanswerable. **Privacy:** this reads row data beyond the low-cardinality
 hints, which `docs/0_coding_standards.md` §4 and the brief rule out without an
@@ -33,6 +33,13 @@ equal words the user typed, so the provider learns that the typed value exists
 and in which column. A one-word phrase matches only a capitalised, all-caps or
 digit-bearing word, so ordinary words do not pull in surnames. On the trial run
 everything stays on local Ollama.
+
+**Trial result (2026-10-19, `3acc3b6` against top 6 at `47284f5`):** no measurable
+change, +0.4 [-0.9, +1.6] points (34 helped, 29 hurt, all in the 633 prompts that
+carried a block; the other 589 produced byte-identical SQL). The gold value reached the
+SQL in 30 of 58 wrong-value questions, but only 4 became correct
+(`evaluation/results/value_matches/README.md`). It stays off by default; keeping or
+removing it is the owner's decision.
 
 ## 2026-10-19 — top-6 table selection stays the default
 

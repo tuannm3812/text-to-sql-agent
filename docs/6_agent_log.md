@@ -4836,3 +4836,25 @@ returning 7, the large-schema runner logs `END exit=7` three times, writes
 1. `scripts/compare_by_database.py` has a test. Full suite: **1418 passed,
 352 skipped**; ruff and mypy clean. Pushed together with the value-matching
 commits (`753b6e6`, `8d6dbbd`) that the other thread had left unpushed.
+
+## 2026-10-19 — Phase 4: why the value hints do not help, and a value-matching trial
+
+Diagnosis, read-only over the three `bird_train_large` full arms at `47284f5`: gold
+string literals were matched to their columns with `sqlglot` and classified against the
+rendered hints. 892 literal predicates in 711 questions: 440 in text columns over the
+20-value ceiling, 306 shown by a hint (238 of them already in the evidence), 58 hidden by
+the six-value cap, 72 on non-text columns. The model's literal casing was not the
+problem: most "mismatches" were `LOWER(col) = 'value'`.
+
+Built question value matching, off by default (`753b6e6`): `Engine.text_values` on all
+three engines with a shared conformance test (SQLite and DuckDB run here; PostgreSQL was
+skipped because the local Docker VM is out of disk, so its implementation is untested),
+`rag.match_question_values`, and a block after the schema text. Trial at `3acc3b6` (tag
+`trial/value-matches-on`, only the default flipped; not on the branch), full suite, top
+6: complete, citable, 0 outages. Regression gate pass, +0.4 [-0.9, +1.6]; 589 unchanged
+prompts gave byte-identical SQL. The 58 wrong-value targets were chosen after the
+baseline (an upper bound, not frozen): gold value in 30 SQL texts, 4 correct. Latency rose
+6.0 s to 7.5 s, not attributed (other work ran on the machine; matching itself is about
+2 ms). The trial runner got the exit-status fix from `50b96be` after it finished; its log's
+`exit=0` predates the fix, so the run was verified from the manifest (`complete`).
+`1419` passed / `352` skipped; ruff and mypy clean.
