@@ -79,6 +79,8 @@ def engine(request, tmp_path: Path):
             ).fetchall()
             for (table_name,) in extra_tables:
                 conn.execute(f'DROP TABLE IF EXISTS "{table_name}" CASCADE')
+            # `test_the_data_fingerprint_changes_on_a_row_change` inserts a third customer.
+            conn.execute("DELETE FROM customers WHERE customer_id NOT IN (1, 2)")
         return open_engine(dsn)
     raise AssertionError(f"no fixture for engine {request.param!r}")
 
@@ -129,6 +131,31 @@ def _add_table(engine, name: str) -> None:
             conn.execute(f"CREATE TABLE {name} (a INTEGER)")
         return
     raise AssertionError(f"no _add_table branch for engine {engine.name!r}")
+
+
+def _insert_customer(engine) -> None:
+    """Add a row underneath `engine` via a separate writable connection, like `_add_table`."""
+    statement = "INSERT INTO customers VALUES (3, 'Carol')"
+    if engine.name == "sqlite":
+        with sqlite3.connect(engine.dsn) as conn:
+            conn.execute(statement)
+        return
+    if engine.name == "duckdb":
+        import duckdb as duckdb_module
+
+        con = duckdb_module.connect(engine.dsn)
+        try:
+            con.execute(statement)
+        finally:
+            con.close()
+        return
+    if engine.name == "postgres":
+        import psycopg
+
+        with psycopg.connect(_as_postgres_superuser(engine.dsn), connect_timeout=5) as conn:
+            conn.execute(statement)
+        return
+    raise AssertionError(f"no _insert_customer branch for engine {engine.name!r}")
 
 
 def test_a_select_returns_rows_and_columns(engine) -> None:
@@ -189,6 +216,22 @@ def test_text_values_respect_the_distinct_and_length_caps(engine) -> None:
     assert values("customers", max_distinct=1, max_length=60) == {}
     assert values("customers", max_distinct=10, max_length=3) == {"name": ["Bob"]}
     assert values("sales", max_distinct=10, max_length=60) == {}
+
+
+def test_the_data_fingerprint_changes_on_a_row_change(engine) -> None:
+    """The value-match cache keys on it, so a row-only write must change it (Codex, 2026-10-19)."""
+    import os
+    import time
+
+    before = engine.data_fingerprint()
+    assert engine.data_fingerprint() == before, "must be stable when nothing changes"
+    _insert_customer(engine)
+    if engine.name in ("sqlite", "duckdb"):
+        # A coarse-mtime filesystem can hide a same-second write; force a later mtime.
+        os.utime(engine.dsn, ns=(time.time_ns(), time.time_ns() + 2_000_000_000))
+    if engine.name == "postgres":
+        time.sleep(1.5)  # statistics are flushed by the writing backend, at most ~1 s later
+    assert engine.data_fingerprint() != before, "must change when a row changes"
 
 
 def test_raw_schema_mentions_every_table(engine) -> None:

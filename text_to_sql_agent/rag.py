@@ -176,12 +176,15 @@ _ValueIndex = dict[str, tuple[tuple[str, str, str], ...]]
 
 
 @lru_cache(maxsize=4)
-def _cached_value_index(version: tuple[object, ...]) -> _ValueIndex:
-    """`_value_key(value)` to every `(table, column, value)` holding it, per schema version.
+def _cached_value_index(version: tuple[object, ...], _data: tuple[object, ...]) -> _ValueIndex:
+    """`_value_key(value)` to every `(table, column, value)` holding it, per data version.
 
-    Built from `Engine.text_values` over every chunk, once per `(dsn, fingerprint)`, the
-    key the chunks use. A key shorter than three characters, all digits or a stopword is
-    left out: it would match ordinary words and numbers in almost any question.
+    Built from `Engine.text_values` over every chunk, once per `(dsn, fingerprint)` - the
+    chunks' key - and `Engine.data_fingerprint()`. The values are row data, so the schema
+    key alone is not enough: PostgreSQL's schema fingerprint survives an `UPDATE`, and a
+    schema-keyed index served deleted values and missed new ones (Codex, 2026-10-19).
+    A key shorter than three characters, all digits or a stopword is left out: it would
+    match ordinary words and numbers in almost any question.
     """
     dsn = str(version[0])
     engine = open_engine(dsn)
@@ -353,7 +356,8 @@ def _value_matches_for(
     if not enabled:
         return ()
     tables = {chunk.qualified_name for chunk in chunks}
-    return match_question_values(_cached_value_index(version), question, tables)
+    data = open_engine(str(version[0])).data_fingerprint()
+    return match_question_values(_cached_value_index(version, data), question, tables)
 
 
 def retrieve_schema_chunks(

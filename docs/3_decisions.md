@@ -41,6 +41,13 @@ SQL in 30 of 58 wrong-value questions, but only 4 became correct
 (`evaluation/results/value_matches/README.md`). The owner chose on 2026-10-19 to
 keep it off by default (not removed): no measurable gain, and on would cross the privacy line.
 
+**Freshness (Codex, 2026-10-19):** the value index is row data, so it is keyed on
+`Engine.data_fingerprint()` as well as the schema key. SQLite and DuckDB use the file
+stat; PostgreSQL hashes `pg_stat_user_tables` write counters and `relfilenode`, which can
+lag another session's write by about a second and is not yet tested against a live
+server. Anyone turning matching on for a changing PostgreSQL database should check that
+path first.
+
 ## 2026-10-19 — top-6 table selection stays the default
 
 **Chosen:** Keep schema RAG on with top-6 table selection as the default. The

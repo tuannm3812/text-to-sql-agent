@@ -465,6 +465,16 @@ class Engine(Protocol):
         """A value that changes when the schema changes, for cache keying."""
         ...
 
+    def data_fingerprint(self) -> tuple[object, ...]:
+        """A value that changes when row data may have changed, for the value-match cache.
+
+        `schema_fingerprint()` need not change on an `INSERT`, `UPDATE` or `DELETE`
+        (PostgreSQL's deliberately does not), so the row-derived value index
+        (`rag._cached_value_index`) is keyed on this as well (Codex, 2026-10-19). A false
+        change only costs a rebuild; a missed one serves stale or deleted values.
+        """
+        ...
+
     def table_names(self) -> frozenset[str]:
         """Every spelling of every user table that is valid to query, lowercased.
 

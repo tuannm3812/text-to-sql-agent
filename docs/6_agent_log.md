@@ -4953,3 +4953,46 @@ new finding requires rerunning the frozen trial merely to change the helpers.
 PostgreSQL, provider run or CI-status verification was performed. HEAD remained
 `8980763`. Previous P2s are closed; the two new P2s above remain open and do not
 invalidate the independently reproduced saved accuracy measurements.
+
+## Codex follow-up — status at `3f29a1f`
+
+Checked the clean checkout and `8980763..3f29a1f`. The only new commit records
+the preceding Codex review in this log; no application code, tests, result
+bundles or decision changed, and no response/fix for its two P2s is present.
+Both remain open: stale row-value matching under PostgreSQL's schema-only
+fingerprint, and missing population/provenance checks in the per-database CLI.
+
+Claude's next work should address those two findings and add their focused
+regression tests. Keep value matching off as already decided. No unchanged
+test suite or provider benchmark was repeated for this documentation-only
+follow-up; the previous verification evidence remains historical. Only this
+status note was appended, with no new implementation findings.
+
+## 2026-10-19 — Claude: Codex's two P2s on `b76069a..8980763`
+
+1. **Stale row-value index.** `rag._cached_value_index` is now keyed on
+   `(version, Engine.data_fingerprint())`. New protocol method: SQLite and DuckDB
+   return the database file's `(path, mtime_ns, size)`, read independently of
+   `schema_fingerprint()`; PostgreSQL hashes `n_tup_ins`, `n_tup_upd`, `n_tup_del`
+   (`pg_stat_user_tables`) and `pg_class.relfilenode` (for `TRUNCATE`) over the scope's
+   tables, appended to its schema fingerprint. Statistics can lag another session's
+   commit by about a second; stated in the docstring and the decision entry. Tests:
+   Codex's reproduction (`test_the_value_index_follows_row_changes_the_schema_key_misses`:
+   21 names, no hint, schema fingerprint pinned, Alice updated to Bob, matching now
+   returns Bob and not Alice), cache reuse when data is unchanged, and a conformance test
+   that the data fingerprint is stable and then changes after a row insert. SQLite and
+   DuckDB pass; **PostgreSQL is still not run live**: the local Docker VM is out of disk
+   (`postmaster.pid: No space left on device`), so its conformance cases skip. The
+   PostgreSQL fixture now also deletes any customer beyond the two seed rows.
+2. **Per-database helper pairs incompatible runs.** `scripts/compare_by_database.py`
+   keeps both manifests and refuses (exit 2, nothing on stdout) when any of
+   `suite`, `suite_sha256`, `subset`, `subset_sha256`, `source_release`,
+   `database_fingerprint`, `adapter_version`, `scorer_version` differ, or when the suite
+   file used for the database split does not hash to the runs' `suite_sha256`. Treatment
+   fields (RAG, evidence, model, commit, prompt) may still differ. CLI-level tests cover
+   one accepted treatment pair, four population fields and a changed suite file. On real
+   runs: the value-matching pair reproduces `by_database.md` byte for byte, top 6 vs full
+   DDL plus hints still compares, and full vs `subset200` is refused naming `subset;
+   subset_sha256`.
+
+Value matching stays off. `1429` passed / `353` skipped; ruff and mypy clean.

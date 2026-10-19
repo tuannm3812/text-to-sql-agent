@@ -874,6 +874,15 @@ DUCKDB DIALECT (must follow):
         finally:
             conn.close()
 
+    def data_fingerprint(self) -> tuple[object, ...]:
+        """See `Engine.data_fingerprint`: `(path, mtime_ns, size)` of the database file.
+
+        The same stat `schema_fingerprint()` returns, read on its own so the two stay
+        separate keys: a write changes the file's mtime or size, rows included.
+        """
+        stat = Path(self.dsn).resolve().stat()
+        return (str(Path(self.dsn).resolve()), int(stat.st_mtime_ns), int(stat.st_size))
+
     def schema_fingerprint(self) -> tuple[object, ...]:
         """Return `(path, mtime_ns, size, extra_schemas)`.
 

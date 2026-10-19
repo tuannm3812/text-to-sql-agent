@@ -359,3 +359,49 @@ def test_matches_are_capped_per_phrase_and_in_all() -> None:
 
     assert [m.table for m in per_phrase] == ["t0", "t1", "t2", "t3"]
     assert sum(len(m.values) for m in capped) == 2
+
+
+def test_the_value_index_follows_row_changes_the_schema_key_misses(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Codex, 2026-10-19: PostgreSQL's schema fingerprint survives an UPDATE. A pinned schema
+    fingerprint simulates that; the data fingerprint must still refresh the matches."""
+    import os
+    import time
+
+    from text_to_sql_agent.engines.sqlite import SQLiteEngine
+
+    names = ", ".join(f"({i}, 'Person{i:02d}')" for i in range(20))
+    db = _write_db(
+        tmp_path / "people.db",
+        [
+            "CREATE TABLE people (person_id INTEGER PRIMARY KEY, name TEXT)",
+            f"INSERT INTO people VALUES {names}, (20, 'Alice')",  # 21 names: no hint
+        ],
+    )
+    monkeypatch.setattr(SQLiteEngine, "schema_fingerprint", lambda self: ("pinned",))
+    question = "Is there a person called Alice or Bob?"
+
+    def matched() -> list[str]:
+        result = rag.retrieve_schema_context(db, question, top_k=0, value_matches=True)
+        assert not result.chunks[0].value_hints
+        return [value for match in result.value_matches for value in match.values]
+
+    assert matched() == ["Alice"]
+    with closing(sqlite3.connect(db)) as conn, conn:
+        conn.execute("UPDATE people SET name = 'Bob' WHERE name = 'Alice'")
+    os.utime(db, ns=(time.time_ns(), time.time_ns() + 2_000_000_000))
+
+    assert matched() == ["Bob"]
+
+
+def test_the_value_index_is_reused_while_the_data_is_unchanged(tmp_path: Path) -> None:
+    db = _teams_db(tmp_path)
+    question = "How many players did the St. Louis Blues have?"
+    rag.retrieve_schema_context(db, question, top_k=0, value_matches=True)
+    before = rag.get_value_index_cache_info()
+
+    rag.retrieve_schema_context(db, question, top_k=0, value_matches=True)
+
+    after = rag.get_value_index_cache_info()
+    assert (after.hits, after.misses) == (before.hits + 1, before.misses)

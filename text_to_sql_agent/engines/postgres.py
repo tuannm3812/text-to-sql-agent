@@ -1571,6 +1571,39 @@ POSTGRESQL DIALECT (must follow):
         digest = hashlib.sha256(digest_input.encode()).hexdigest()
         return (tuple(search_path), tuple(sorted(self.extra_schemas)), digest)
 
+    def data_fingerprint(self) -> tuple[object, ...]:
+        """See `Engine.data_fingerprint`: write counters and storage ids of the scope's tables.
+
+        `schema_fingerprint()` hashes the catalogue only, so a row change leaves it equal.
+        This adds, per table in `_scope_schema_names`, the cumulative `n_tup_ins`,
+        `n_tup_upd` and `n_tup_del` from `pg_stat_user_tables` (readable by any role) and
+        `pg_class.relfilenode`, which a `TRUNCATE` replaces without counting deleted rows.
+        The counters are statistics: another session's committed write reaches them when
+        that backend flushes its statistics (at most about a second later on PostgreSQL 15
+        and newer), so value matching can lag a write by that much. A rolled-back write or
+        a statistics reset changes them too, which only costs a rebuild. Untested against a
+        live server so far (`docs/6_agent_log.md`, 2026-10-19).
+        """
+        with _connect_read_only(self.dsn) as conn:
+            search_path = self._pinned(conn)
+            schema_names = _scope_schema_names(
+                conn,
+                search_path=search_path,
+                extra_schemas=self.extra_schemas,
+                internal_prefixes=self.internal_prefixes,
+                internal_names=self.internal_names,
+            )
+            rows = conn.execute(
+                "SELECT st.schemaname, st.relname, st.n_tup_ins, st.n_tup_upd, st.n_tup_del, "
+                "cls.relfilenode "
+                "FROM pg_stat_user_tables st JOIN pg_class cls ON cls.oid = st.relid "
+                "WHERE st.schemaname = ANY(%s) "
+                "ORDER BY st.schemaname, st.relname",
+                (schema_names,),
+            ).fetchall()
+        digest = hashlib.sha256(repr(rows).encode()).hexdigest()
+        return (*self.schema_fingerprint(), digest)
+
     def table_names(self) -> frozenset[str]:
         """Every valid spelling of every user table, lowercased, via the cache.
 
