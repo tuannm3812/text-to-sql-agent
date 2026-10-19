@@ -4827,3 +4827,12 @@ followed in the earlier entry: retrieval was not the 2.0 s.
 Not done: a test for `compare_by_database.py`, the full test run after these
 edits (ruff and mypy are clean; the llm, pipeline and prompt-size tests pass),
 and the push. This session's usage limit ended it here.
+
+**Addendum (same day).** The runner fix is now verified Codex's way: with
+`git` and `uv` replaced by exported shell functions (which win over the
+`/opt/homebrew/bin` prefix the scripts put on `PATH`) and every evaluation
+returning 7, the large-schema runner logs `END exit=7` three times, writes
+`FAILED ... at least one run exited nonzero` instead of `ALL DONE`, and exits
+1. `scripts/compare_by_database.py` has a test. Full suite: **1418 passed,
+352 skipped**; ruff and mypy clean. Pushed together with the value-matching
+commits (`753b6e6`, `8d6dbbd`) that the other thread had left unpushed.
