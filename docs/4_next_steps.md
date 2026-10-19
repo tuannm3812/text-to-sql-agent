@@ -79,7 +79,7 @@ again, which is a Phase 4 prompt-layout decision, not a retrieval one; (5) **don
 2026-10-19:** why hints do not help on `bird_train_large`: half the needed literals are in
 columns over the 20-value ceiling, and most shown ones repeat the evidence. Question value
 matching (off by default, it reads row data) reached the gold value but moved EX only
-+0.4 [-0.9, +1.6] (`evaluation/results/value_matches/README.md`); owner to keep or drop it; (6) next,
++0.4 [-0.9, +1.6] (`evaluation/results/value_matches/README.md`); the owner kept it off; (6) next,
 the retrieval rewrite below. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.

@@ -38,8 +38,8 @@ everything stays on local Ollama.
 change, +0.4 [-0.9, +1.6] points (34 helped, 29 hurt, all in the 633 prompts that
 carried a block; the other 589 produced byte-identical SQL). The gold value reached the
 SQL in 30 of 58 wrong-value questions, but only 4 became correct
-(`evaluation/results/value_matches/README.md`). It stays off by default; keeping or
-removing it is the owner's decision.
+(`evaluation/results/value_matches/README.md`). The owner chose on 2026-10-19 to
+keep it off by default (not removed): no measurable gain, and on would cross the privacy line.
 
 ## 2026-10-19 — top-6 table selection stays the default
 
