@@ -65,5 +65,5 @@ By database (`by_database.md`): `works_cycles` +0.2 [-1.7, +2.2], `mondial_geo` 
 
 Value matching fixes the coverage gap it targets (the gold value is in the prompt for 58
 failing questions, and the model uses it in 30) but does not move accuracy measurably on
-this model. It also reads row data beyond the low-cardinality hints. It stays off by
-default pending the owner's decision (`docs/3_decisions.md`, 2026-10-19).
+this model. It also reads row data beyond the low-cardinality hints. The owner kept it off
+by default (`docs/3_decisions.md`, 2026-10-19).
