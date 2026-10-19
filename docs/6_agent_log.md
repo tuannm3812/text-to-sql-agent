@@ -4858,3 +4858,98 @@ baseline (an upper bound, not frozen): gold value in 30 SQL texts, 4 correct. La
 2 ms). The trial runner got the exit-status fix from `50b96be` after it finished; its log's
 `exit=0` predates the fix, so the run was verified from the manifest (`complete`).
 `1419` passed / `352` skipped; ruff and mypy clean.
+
+## Codex review — retrieval cache, value matching and review fixes through `8980763`
+
+**Scope.** Reviewed `b76069a..8980763`: retrieval-index caching, optional
+question value matching, engine support, the trial and decision, runner fixes,
+prompt construction/size reporting and the new per-database helper. The checkout
+was clean before review. Only this feedback entry was appended; no application
+fix, model call, benchmark rerun, default change, commit or push was made.
+Read the supplied project instructions, project standards and master standard.
+
+**Previous P2s closed with direct reproductions.** Executed the actual
+large-schema and value-matching shell runners in temporary fake worktrees with
+exported Git/evaluation functions, every evaluation returning 7. Both now log
+`END exit=7`, mark `FAILED`, exit 1 and omit the success marker. No live worktree
+was changed. The size diagnostic now shares `llm.build_user_prompt` with real
+generation: case 1787 reports **7100**, exactly matching captured system/user
+message characters, closing the former 45-character gap. Estimate limitations
+are stated. The shared prompt builder preserves the message template.
+
+**Retrieval cache checked.** Loaded the actual pre-cache `rag.py` from
+`b76069a` alongside the new implementation and compared two questions per
+database with evidence both off and on: **140 retrievals across all 35
+databases** in the three evaluated suites. Selected chunks, exact scores,
+reasons and schema text match, with value matching absent by default. Tests
+also cover cache reuse and invalidation after schema change. This independently
+checks a stratified sample, not Claude's entire reported 7580-retrieval dump.
+The new default path returns before constructing the row-value index.
+
+**Trial evidence checked.** All **32** committed bundles pass manifest and
+identity checksums, unique-ID/count checks and complete/citable-state checks.
+The tagged trial differs from `753b6e6` only by enabling the default in config;
+the shipped branch retains `DEFAULT_VALUE_MATCHES = False`. A privacy decision
+entry documents the row-data behavior, and the owner decision keeps it off.
+Recomputed the value-matching regression gate: **PASS, 356 to 361 of 1222,
++0.4 [-0.9, +1.6] points**. The per-database table reproduces byte for byte.
+Re-rendered every large-suite context with matching off/on: **633** carry a
+match block, **589** do not, all **589** unchanged-context SQL texts match,
+and the full suite has **34 helped / 29 hurt**. These counts agree with the
+write-up and support no demonstrated full-suite accuracy gain. The post-hoc
+58-target diagnostic is explicitly not a frozen test; its full mechanistic
+classification and the earlier 892-literal diagnosis were not independently
+re-derived here.
+
+**New feedback for Claude.**
+
+1. **P2 — The optional row-value index can remain stale after PostgreSQL row
+   updates.** `rag._cached_value_index` (`rag.py:178-201`) is keyed only by
+   `(dsn, schema_fingerprint)`. PostgreSQL's fingerprint hashes catalogue
+   columns, foreign keys and name resolution, not table contents; INSERT,
+   UPDATE and DELETE therefore leave this cache key unchanged. Reproduced the
+   cache behavior with SQLite and a fixed catalogue-style fingerprint: a text
+   column with **21** distinct names has no low-cardinality hints; after
+   warming a match for Alice and updating that row to Bob, a fresh engine read
+   returns Bob, while matching misses Bob and still returns deleted Alice.
+   This isolates the new value index from pre-existing hint-cache behavior.
+   Give row-derived matches a data-aware refresh/invalidation policy and test
+   row-only changes before enabling this on mutable server databases. The
+   reproduction simulates PostgreSQL's key semantics; no live PostgreSQL was
+   used. The immutable benchmark and shipped default-off path are unaffected.
+2. **P2 — The per-database helper pairs incompatible measurements silently.**
+   `scripts/compare_by_database.py:88-94` discards both loaded manifests,
+   checks only case IDs/expected flags and uses the current suite file for
+   database assignment. It never validates suite/data identity or that the
+   assignment file matches the saved suite. Using the existing synthetic-run
+   writers, supplied runs with the same two IDs but different `suite_sha256`
+   and `database_fingerprint`: the helper exits 0 and reports **+100 points**
+   under `newdb`, while the regression gate correctly rejects the pair.
+   Preserve and validate fixed population/provenance fields and the suite
+   mapping, or explicitly identify an incompatible/exploratory comparison
+   rather than emitting an ordinary paired table. Allow deliberate treatment
+   differences separately; shared IDs alone do not identify the same questions
+   and database contents. Add a CLI-level refusal test. The committed trial
+   pairs have the same population, so their reproduced tables remain valid.
+
+**Limits and next steps.** The cache optimization is consistent with unchanged
+retrieval behavior in the checks above. Raw Ollama prefill timings, the reported
+40-question profile and the causal attribution of the two-second difference
+were not rerun or independently established in this review; no provider call
+was needed to verify the cache refactor. Keep those measurements scoped to the
+reported machine and experiment, and preserve a repeatable profiling helper if
+they will drive the next prompt design.
+
+Close the helper's provenance gap before using it for further comparisons, and
+resolve/document row-cache freshness before enabling value matching on changing
+data. Keep value matching off as already decided; the trial supplies no
+measurable gain requiring that decision to be reopened. Validate the new
+`Engine.text_values` PostgreSQL path against a live least-privilege test service
+when available; local skipped tests do not verify that implementation. Neither
+new finding requires rerunning the frozen trial merely to change the helpers.
+
+**Fresh verification.** Full suite **1419 passed, 352 skipped**. Ruff passed;
+**171 files** already formatted; mypy clean on **52 source files**. No live
+PostgreSQL, provider run or CI-status verification was performed. HEAD remained
+`8980763`. Previous P2s are closed; the two new P2s above remain open and do not
+invalidate the independently reproduced saved accuracy measurements.
