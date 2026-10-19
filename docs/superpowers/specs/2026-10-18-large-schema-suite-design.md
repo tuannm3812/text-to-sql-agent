@@ -28,7 +28,9 @@ with each database's table count in `bird_train_large.source.json`. Only the
 selected databases are extracted; the rest of the 8.9 GB stays in the cached
 archive, which is pinned by SHA-256 like the others.
 
-**It is a train split, and nothing here trains.** The agent has never seen it.
+**It is a train split, and nothing here trains.** No code in this repository
+has fitted to it; the base model may have seen it in pretraining, as it may
+have seen the public dev splits.
 The decision log records that any future fine-tune (the planned Gemma work)
 must exclude these databases and questions from its training data, or this
 suite stops being a test.

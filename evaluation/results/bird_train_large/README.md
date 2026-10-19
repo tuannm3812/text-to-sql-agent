@@ -42,20 +42,27 @@ which extracts only these four (140 MB) from the 8.9 GB archive.
 
 ## It is a train split
 
-Nothing in this repository trains, so the agent has never seen these
-questions. Any future fine-tune scored by this harness must exclude these four
+Nothing in this repository trains, so no code here has fitted to these
+questions. That says nothing about the base model: BIRD train is public, and
+`qwen3.5:9b-q4_K_M` may well have seen it in pretraining, as it may have seen
+the dev splits. The suite is held out from this repository's work, not from
+the model. Any future fine-tune scored by this harness must exclude these four
 databases and their questions from its training data, or this suite stops
 being a test (`docs/3_decisions.md`, 2026-10-18).
 
 ## Prompt sizes against the context window
 
 `scripts/report_prompt_sizes.py --suite bird_train_large`, saved as
-`prompt_sizes.md`. The largest prompt is `works_cycles` with full DDL plus
-hints: 49,417 characters. At the lowest chars-per-token ratio measured on BIRD
-dev (1.6), that is about 31k tokens, inside the 32,768-token context `ollama
-ps` reports for `qwen3.5:9b-q4_K_M`; at the median ratio (3.9) it is about
-13k. No case is over budget in any arm, so none of the three attribution arms
-would be truncated. Top-6 selection sends at most 21,939 characters here, less
+`prompt_sizes.md`. It measures the system prompt plus the user message as
+`generate_sql` builds it. The largest is `works_cycles` with full DDL plus
+hints, about 49,400 characters. At the lowest chars-per-token ratio measured on
+BIRD dev (1.6) that is about 31k tokens, inside the 32,768-token context
+`ollama ps` reports for `qwen3.5:9b-q4_K_M`; at the median ratio (3.9) it is
+about 13k. The ratio is an estimate from another suite, not a bound, so the
+report is a planning check, not proof against truncation. The evidence after
+the fact is the runs themselves: the largest prompt any full-suite case
+recorded was 23,251 tokens, in the full-DDL-plus-hints arm, well inside the
+window. Top-6 selection sends at most about 21,900 characters here, less
 than half of the full rendering, which is the first setting where it saves a
 material share of the prompt.
 

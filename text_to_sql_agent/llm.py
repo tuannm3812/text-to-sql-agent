@@ -304,6 +304,22 @@ def _call_provider(
     raise ValueError("Unsupported provider. Use 'gemini' or 'ollama'.")
 
 
+def build_user_prompt(schema_text: str, user_question: str, *, engine: Engine | None = None) -> str:
+    """The user message `generate_sql` sends: the schema under its header, then the question.
+
+    Exposed so a size diagnostic measures the message as constructed, headings and
+    separators included, rather than the schema and question alone.
+    """
+    schema_header = SQLiteEngine.schema_header if engine is None else engine.schema_header
+    return f"""\
+### {schema_header}
+{schema_text}
+
+### User question
+{user_question}
+"""
+
+
 def generate_sql(
     user_question: str,
     schema_text: str,
@@ -353,14 +369,7 @@ def generate_sql(
             engine.prompt_engine_rules_block,
         )
     )
-    schema_header = SQLiteEngine.schema_header if engine is None else engine.schema_header
-    user_prompt = f"""\
-### {schema_header}
-{schema_text}
-
-### User question
-{user_question}
-"""
+    user_prompt = build_user_prompt(schema_text, user_question, engine=engine)
 
     return _call_provider(
         system_prompt,

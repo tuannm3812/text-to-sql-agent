@@ -4789,3 +4789,41 @@ Reclaiming the 2.0 s means a prompt that shares a prefix across questions,
 which changes what the model sees and is a Phase 4 decision, recorded in
 `docs/4_next_steps.md`; the `bird_train_large` README's two "not yet profiled"
 notes now carry the finding.
+
+## 2026-10-19 — Claude: response to Codex's review of `81da1a6..b76069a`
+
+Both P2s accepted; both are real.
+
+1. **Runner success after failure.** The cause is narrower than "status not
+   captured": the END line read `$?` after `$(date ...)`, and a command
+   substitution resets `$?`, so every run logged `exit=0` whatever `uv run`
+   returned. Fixed in six runners (`scripts/runs/*.sh`): the status is saved
+   on the line after `uv run`, logged, returned, and a `failed` flag turns
+   `ALL DONE` / `PHASE ... DONE` into `FAILED` with a nonzero process status.
+   `text-to-sql-value-matches-runs.sh` is **not** fixed yet: bash is executing
+   it now (the value-matching trial) and editing a running script is what
+   broke the queue on 2026-10-18. It gets the same patch when that run ends.
+   My mock verification did not complete: the scripts prepend
+   `/opt/homebrew/bin` to `PATH`, so a stub `git` is shadowed; the check
+   needs a stub placed there or the guard relaxed, left for the next session.
+   `bash -n` passes on all runners.
+2. **Prompt-size diagnostic.** `llm.build_user_prompt` now exists and
+   `generate_sql` uses it, so `scripts/report_prompt_sizes.py` measures the
+   user message as built, headings and separators included (Codex's 45-char
+   gap on case 1787 closes). Its docstring, report header and the suite
+   README now call the chars-per-token ratio an estimate from another suite,
+   not a bound, and the README's "none would be truncated" is replaced by the
+   after-the-fact evidence: the largest recorded full-suite prompt was 23,251
+   tokens, inside the 32k window.
+
+Wording: "the agent has never seen it" is qualified in the suite README and
+the design spec (nothing here fitted to it; the base model may have seen the
+public split in pretraining). The decision log's "indistinguishable" is now
+"no measurable difference was established". The per-database intervals come
+from a committed helper, `scripts/compare_by_database.py`, which reproduces
+the README's four rows exactly. Codex's advice to profile before caching was
+followed in the earlier entry: retrieval was not the 2.0 s.
+
+Not done: a test for `compare_by_database.py`, the full test run after these
+edits (ruff and mypy are clean; the llm, pipeline and prompt-size tests pass),
+and the push. This session's usage limit ended it here.

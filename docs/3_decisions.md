@@ -47,7 +47,8 @@ plain DDL (RAG off).
 than half the schema, top 6 beats full DDL plus hints by +3.6 [+1.4, +5.8]
 points (29.1 % vs 25.5 %, 1,222 questions) with 69 % fewer prompt tokens. Against
 plain DDL it is +2.3 [+0.0, +4.6]. On the dev suites (at most 14 tables) the two
-were indistinguishable (2026-10-12), so the large-schema result decides it.
+showed no measurable difference (2026-10-12; intervals spanning zero do not
+establish equivalence), so the large-schema result decides it.
 The cost is latency: top 6 is about 2 s slower per question despite the smaller
 prompt, which points at uncached retrieval scoring and is the next Phase 4 item
 (`evaluation/results/bird_train_large/README.md`).

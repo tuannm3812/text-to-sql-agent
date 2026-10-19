@@ -6,6 +6,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 R="$(cd "$(dirname "$0")/../.." && pwd)"  # the repo root
 cd "$R/.worktrees/release-runs" || exit 1
 L="$R/evaluation/run_logs/hint-label-runs.log"
+failed=0
 M=(--mode llm --provider ollama --model qwen3.5:9b-q4_K_M --ollama-think off --max-retries 2 --retry-base-seconds 10)
 B=(--work-limit 1000000000 --max-rows 100000)
 run() {  # $1 = glob fragment identifying the run's directory; rest = suite args
@@ -21,7 +22,10 @@ run() {  # $1 = glob fragment identifying the run's directory; rest = suite args
   done
   echo "=== $(date '+%F %T') START $* ${resume[*]}" >> "$L"
   uv run python scripts/evaluate_v2.py "$@" "${M[@]}" "${B[@]}" "${resume[@]}" >> "$L" 2>&1
-  echo "=== $(date '+%F %T') END exit=$? $*" >> "$L"
+  local status=$?  # before $(date) below, which would reset $?
+  echo "=== $(date '+%F %T') END exit=$status $*" >> "$L"
+  [ "$status" -eq 0 ] || failed=1
+  return "$status"
 }
 if [ "$1" = "target" ]; then
   run "spider_dev_hiddenlit_ollama_*rag-on-k6-evidence-off-think-off" --suite spider_dev --subset hiddenlit
@@ -37,4 +41,5 @@ elif [ "$1" = "full" ]; then
   run "spider_dev_full_ollama_*rag-on-k6-evidence-off-think-off" --suite spider_dev --subset full
   run "bird_dev_full_ollama_*rag-on-k6-evidence-on-think-off" --suite bird_dev --subset full --evidence on
 fi
-echo "PHASE $1 DONE $(date '+%F %T')" >> "$L"
+if [ "$failed" -eq 0 ]; then echo "PHASE $1 DONE $(date '+%F %T')" >> "$L"; else echo "PHASE $1 FAILED $(date '+%F %T'): at least one run exited nonzero" >> "$L"; fi
+exit "$failed"

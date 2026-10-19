@@ -8,6 +8,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 R="$(cd "$(dirname "$0")/../.." && pwd)"  # the repo root
 cd "$R/.worktrees/release-runs" || exit 1
 L="$R/evaluation/run_logs/large-schema-full-runs.log"
+failed=0
 M=(--mode llm --provider ollama --model qwen3.5:9b-q4_K_M --ollama-think off --max-retries 2 --retry-base-seconds 10)
 B=(--work-limit 1000000000 --max-rows 100000)
 [ "$(git rev-parse --short HEAD)" = "47284f5" ] || { echo "worktree not at 47284f5" >> "$L"; exit 1; }
@@ -25,9 +26,13 @@ run() {  # $1 = glob fragment identifying the run's directory; rest = suite args
   done
   echo "=== $(date '+%F %T') START $* ${resume[*]}" >> "$L"
   uv run python scripts/evaluate_v2.py "$@" "${M[@]}" "${B[@]}" "${resume[@]}" >> "$L" 2>&1
-  echo "=== $(date '+%F %T') END exit=$? $*" >> "$L"
+  local status=$?  # before $(date) below, which would reset $?
+  echo "=== $(date '+%F %T') END exit=$status $*" >> "$L"
+  [ "$status" -eq 0 ] || failed=1
+  return "$status"
 }
 run "bird_train_large_full_ollama_*rag-off-evidence-on-think-off" --suite bird_train_large --subset full --evidence on --no-rag
 run "bird_train_large_full_ollama_*rag-on-k0-evidence-on-think-off" --suite bird_train_large --subset full --evidence on --rag-top-k 0
 run "bird_train_large_full_ollama_*rag-on-k6-evidence-on-think-off" --suite bird_train_large --subset full --evidence on
-echo "ALL DONE $(date '+%F %T')" >> "$L"
+if [ "$failed" -eq 0 ]; then echo "ALL DONE $(date '+%F %T')" >> "$L"; else echo "FAILED $(date '+%F %T'): at least one run exited nonzero" >> "$L"; fi
+exit "$failed"
