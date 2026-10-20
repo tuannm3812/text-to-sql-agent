@@ -95,17 +95,17 @@ Use screenshots from the deployed Streamlit app and local evaluation output as e
 
 ### Current README Screenshots
 
-`docs/screenshots/` holds the screenshots embedded in the top-level `README.md`. `01`-`05` are
+`docs/screenshots/` holds the screenshots embedded in the top-level `README.md`. `01`-`04` are
 captured from the running app by `scripts/capture_screenshots.py` (Streamlit plus Playwright
 driving Google Chrome at 1440x1000; local Ollama `qwen3.5:9b-q4_K_M`; Retail Analytics demo).
+The layout follows the approved mockup in `docs/design/`.
 The commit, model, questions and time are in `docs/screenshots/capture.json`.
 
 - `00-architecture-workflow.png` - the "Runtime Architecture" schematic (request trace / response trace, safety gate, optional branches), exported from `docs/diagrams/architecture-workflow.html`, a self-contained HTML/SVG page (open it directly in a browser) rather than from `architecture.drawio`. Edit the SVG in that file and re-screenshot to regenerate.
-- `01-answer-result.png` - "Which product categories generate the most revenue?": the answer card with its database, model and context line, the result table and the bar chart.
-- `02-answer-sql.png` - the same answer's SQL tab, with the page header and sample questions above it.
-- `03-answer-context.png` - the same answer's Context tab: the selected tables' DDL and value-hint lines.
-- `04-read-only-refusal.png` - "Delete every order that was cancelled.", refused as read-only.
-- `05-narrow.png` - the same page at 390x844, the narrow-screen check.
+- `01-answer.png` - the README hero: the top bar, the question box and the answer to "Which product categories generate the most revenue?" with its headline, chart and table beside "How this was answered".
+- `02-how-it-was-answered.png` - the same answer scrolled to the steps panel.
+- `03-read-only-refusal.png` - "Delete every order that was cancelled.", declined; nothing runs.
+- `04-narrow.png` - the first answer at 390x844, the narrow-screen check.
 
 Re-run the script whenever the UI, the context format or the demo databases change. Model
 answers can differ between runs; the images show the interface, not benchmark accuracy.

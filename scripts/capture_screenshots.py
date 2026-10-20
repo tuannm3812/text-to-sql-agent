@@ -149,7 +149,7 @@ def capture(model: str, channel: str) -> dict[str, object]:
             page.set_viewport_size(NARROW)
             page.wait_for_timeout(1200)
             _scroll_top(page)
-            page.screenshot(path=OUT / "05-narrow.png", full_page=False)
+            page.screenshot(path=OUT / "04-narrow.png", full_page=False)
             page.set_viewport_size(WIDE)
             page.wait_for_timeout(1200)
 
@@ -158,7 +158,7 @@ def capture(model: str, channel: str) -> dict[str, object]:
             page.get_by_role("button", name="Ask", exact=True).click()
             _wait_for_answers(page, 2)
             _scroll_top(page)
-            page.screenshot(path=OUT / "04-read-only-refusal.png")
+            page.screenshot(path=OUT / "03-read-only-refusal.png")
             browser.close()
     finally:
         app.terminate()

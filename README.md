@@ -15,24 +15,22 @@ An evaluated portfolio prototype: ask a question in plain English, and the agent
 
 **Live demo:** https://aipa-text-to-sql-agent.streamlit.app/
 
-![The app answering "Which product categories generate the most revenue?" on the Retail Analytics demo: the result table and a bar chart, with the answer's database, model and context setting above it](docs/screenshots/01-answer-result.png)
+![Text-to-SQL Agent answering "Which product categories generate the most revenue?" on the Retail Analytics demo: a headline stated from the rows, a horizontal bar chart and table, and beside it how the answer was produced: tables picked and why, the SQL, the read-only check and the run](docs/screenshots/01-answer.png)
 
 *A real answer from a local model (Ollama, `qwen3.5:9b-q4_K_M`) on the tracked Retail Analytics demo database, captured by [`scripts/capture_screenshots.py`](scripts/capture_screenshots.py). It shows the interface, not benchmark accuracy; see [Evaluation Results](#evaluation-results).*
 
 <details>
-<summary>The SQL, the context the model was given, and a refused write</summary>
+<summary>How an answer was produced, a refused write, and the phone layout</summary>
 
-Every answer keeps the SQL it ran:
+Every answer keeps the steps that produced it, from what was recorded at the time: the tables the retrieval picked and why, the schema size sent, the SQL, the read-only check and the run. The full schema text and the retrieval report are one click away.
 
-![The SQL tab of the same answer: a SELECT joining order_items to products, summing unit price times quantity by category](docs/screenshots/02-answer-sql.png)
+![The How this was answered panel: six tables picked plus three joinable neighbours, the two the SQL used highlighted, 4,971 characters of schema sent, the SQL, the read-only check and the SQLite run](docs/screenshots/02-how-it-was-answered.png)
 
-and the exact schema text the model received, which for schema RAG is the selected tables' DDL plus sample values from low-cardinality text columns:
+A request to change data is declined and nothing runs:
 
-![The Context tab: the selected tables' CREATE TABLE statements with their sample-value comment lines](docs/screenshots/03-answer-context.png)
+![A question asking to delete cancelled orders, answered "Not run: this agent only reads data", with the model's decline and no database call](docs/screenshots/03-read-only-refusal.png)
 
-A request to change data is refused and nothing runs:
-
-![A question asking to delete cancelled orders, answered with a read-only refusal](docs/screenshots/04-read-only-refusal.png)
+<img alt="The same answer at phone width: top bar, question box and the answer in one column" src="docs/screenshots/04-narrow.png" width="320">
 
 </details>
 
@@ -197,7 +195,7 @@ See `docs/3_decisions.md`'s 2026-09-27 entries.
 streamlit run app.py
 ```
 
-The sidebar asks, in order:
+**Change**, in the top bar, opens the connection settings:
 
 1. **Database:** a demo database, a SQLite file path, an uploaded SQLite file, uploaded CSV
    files, or a connection string (`duckdb:///...`, `postgresql://...`; a bare path means
