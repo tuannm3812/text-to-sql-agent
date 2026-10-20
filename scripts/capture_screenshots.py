@@ -134,6 +134,11 @@ def capture(model: str, channel: str) -> dict[str, object]:
             _last_answer(page).get_by_role("tab", name="SQL").click()
             page.screenshot(path=OUT / "02-answer-sql.png")
             _last_answer(page).get_by_role("tab", name="Context").click()
+            # Centre the first value-hint line, so the shot shows DDL and hints together.
+            _last_answer(page).get_by_text("sample values").first.evaluate(
+                "e => e.scrollIntoView({block: 'center'})"
+            )
+            page.wait_for_timeout(500)
             page.screenshot(path=OUT / "03-answer-context.png")
 
             page.get_by_test_id("stChatInputTextArea").fill(REFUSAL)
