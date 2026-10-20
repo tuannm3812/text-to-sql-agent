@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text-to-SQL Agent mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c2430; --muted:#5d6672; --line:#dce0da; --paper:#f6f7f4; --panel:#ffffff;
+  --teal:#0e6e66; --teal-soft:#e3f0ed; --amber:#a86f08; --amber-soft:#fbf1dc;
+  --bar:#0e6e66; --bar-dim:#9cc5bf;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+h1,h2,h3,p{margin:0}
+/* top bar */
+.top{display:flex;align-items:center;gap:28px;padding:14px 40px;background:var(--panel);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.01em}
+.mark{width:30px;height:30px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font:600 13px "IBM Plex Mono"}
+.nav{display:flex;gap:4px}
+.nav a{padding:7px 14px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500}
+.nav a[aria-current]{background:var(--teal-soft);color:var(--teal)}
+.conn{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.conn b{color:var(--ink);font-weight:600}
+.conn .dot{width:8px;height:8px;border-radius:50%;background:var(--teal)}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 12px;font:500 14px "IBM Plex Sans";color:var(--ink)}
+/* workspace */
+.wrap{max-width:1240px;margin:0 auto;padding:36px 40px 60px}
+.ask{max-width:760px}
+.ask h1{font-size:30px;line-height:1.15;font-weight:700;letter-spacing:-.02em}
+.ask p.sub{color:var(--muted);margin-top:6px}
+.composer{margin-top:20px;display:flex;align-items:center;gap:10px;background:var(--panel);border:1.5px solid var(--ink);border-radius:12px;padding:8px 8px 8px 18px;font-size:17px}
+.composer span{flex:1}
+.composer .go{background:var(--ink);color:#fff;border:0;border-radius:8px;padding:9px 16px;font:600 14px "IBM Plex Sans"}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips span{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13.5px;color:var(--muted);background:var(--panel)}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+/* answer */
+.answer>*{min-width:0}
+.answer{margin-top:34px;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:24px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+.q{font-size:13.5px;color:var(--muted)}
+.headline{font-size:24px;font-weight:600;line-height:1.25;margin-top:6px;letter-spacing:-.01em}
+.headline em{font-style:normal;color:var(--teal)}
+.facts{font-size:13.5px;color:var(--muted);margin-top:6px}
+.chart{margin-top:22px}
+.chart h3{font-size:14px;font-weight:600;margin-bottom:10px}
+.row{display:grid;grid-template-columns:96px 1fr 76px;align-items:center;gap:12px;margin:7px 0;font-size:14px}
+.row .track{height:20px;background:#eef1ed;border-radius:4px;overflow:hidden}
+.row .fill{height:100%;background:var(--bar-dim);border-radius:4px}
+.row:first-of-type .fill{background:var(--bar)}
+.row .v{text-align:right;font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14px}
+th{text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 6px}
+td{border-bottom:1px solid #eef0ec;padding:8px 6px} td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.meta{font-size:12.5px;color:var(--muted);margin-top:14px}
+/* trace */
+.trace h2{font-size:16px;font-weight:600}
+.trace ol{list-style:none;margin:16px 0 0;padding:0;counter-reset:s}
+.trace li{position:relative;padding:0 0 18px 34px;counter-increment:s}
+.trace li::before{content:counter(s);position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--teal-soft);color:var(--teal);font:600 12px "IBM Plex Mono";display:grid;place-items:center}
+.trace li::after{content:"";position:absolute;left:10.5px;top:24px;bottom:2px;width:1px;background:var(--line)}
+.trace li:last-child::after{display:none}
+.trace h3{font-size:14px;font-weight:600}
+.trace p{font-size:13.5px;color:var(--muted);margin-top:2px}
+.tables{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tables span{font:500 12.5px "IBM Plex Mono";padding:3px 8px;border-radius:6px;background:#eef1ed}
+.tables span.hit{background:var(--teal-soft);color:var(--teal)}
+pre{background:#f1f3ef;border-radius:8px;padding:12px 14px;margin:8px 0 0;font-size:12.5px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+.ok{color:var(--teal);font-weight:600}
+.links{display:flex;gap:16px;font-size:13.5px;margin-top:4px}
+.links a{color:var(--teal);text-underline-offset:3px}
+.label{position:absolute;right:12px;top:72px;font:500 11px "IBM Plex Mono";color:#8b929a}
+/* narrow */
+@media (max-width:700px){
+  .top{padding:12px 16px;gap:10px 12px;flex-wrap:wrap}
+  body{overflow-x:hidden}
+  .label{position:static;text-align:center;padding:5px;background:#eef1ed}
+  .nav{order:3;width:100%}
+  .conn{margin-left:0;width:100%;justify-content:space-between}.conn .full{display:none}
+  .wrap{padding:22px 16px 40px}
+  .ask h1{font-size:23px}
+  .composer{font-size:15px}
+  .answer{grid-template-columns:1fr;margin-top:24px}
+  .card{padding:18px}
+  .row{grid-template-columns:78px 1fr 64px;gap:8px;font-size:13px}
+  .headline{font-size:20px}
+  table{display:none}
+  .trace pre{font-size:11.5px}
+}
+</style>
+</head>
+<body>
+<div class="label">Design mockup, real answer data</div>
+<header class="top">
+  <div class="brand"><div class="mark">&gt;_</div>Text-to-SQL Agent</div>
+  <nav class="nav"><a aria-current="page">Ask</a><a>Evaluation</a></nav>
+  <div class="conn"><span class="dot"></span><span><b>Retail Analytics</b><span class="full"> · SQLite · qwen3.5:9b, local</span></span><button class="btn">Change</button></div>
+</header>
+<main class="wrap">
+  <section class="ask">
+    <h1>Ask your data. Inspect the SQL.</h1>
+    <p class="sub">Questions become read-only SQL that is checked before it runs. Every answer keeps the SQL and the schema the model saw.</p>
+    <div class="composer"><span>Which product categories generate the most revenue?</span><button class="go">Ask</button></div>
+    <div class="chips"><span>Show total completed sales revenue by customer region.</span><span>Which return reasons occur most often?</span></div>
+    <p class="note">Each question is answered on its own; earlier questions are not sent.</p>
+  </section>
+
+  <section class="answer">
+    <article class="card">
+      <p class="q">Which product categories generate the most revenue?</p>
+      <h2 class="headline"><em>Electronics</em> leads with 173,366 in total revenue, more than the other four categories combined (87,754).</h2>
+      <p class="facts">5 categories · summed from order items × unit price · units as stored</p>
+      <div class="chart">
+        <h3>Total revenue by product category</h3>
+        <div class="row"><span>Electronics</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">173,366</span></div>
+        <div class="row"><span>Fashion</span><div class="track"><div class="fill" style="width:17.3%"></div></div><span class="v">29,991</span></div>
+        <div class="row"><span>Home</span><div class="track"><div class="fill" style="width:16.5%"></div></div><span class="v">28,682</span></div>
+        <div class="row"><span>Sports</span><div class="track"><div class="fill" style="width:11.3%"></div></div><span class="v">19,505</span></div>
+        <div class="row"><span>Beauty</span><div class="track"><div class="fill" style="width:5.5%"></div></div><span class="v">9,576</span></div>
+      </div>
+      <table>
+        <thead><tr><th>Category</th><th class="n">Total revenue</th></tr></thead>
+        <tbody>
+          <tr><td>Electronics</td><td class="n">173,366</td></tr>
+          <tr><td>Fashion</td><td class="n">29,991</td></tr>
+          <tr><td>Home</td><td class="n">28,682</td></tr>
+          <tr><td>Sports</td><td class="n">19,505</td></tr>
+          <tr><td>Beauty</td><td class="n">9,576</td></tr>
+        </tbody>
+      </table>
+      <p class="meta">Download CSV</p>
+    </article>
+
+    <aside class="card trace">
+      <h2>How this was answered</h2>
+      <ol>
+        <li><h3>Picked 6 of 11 tables, plus 3 joinable neighbours</h3>
+          <p>Ranked by the question's words (<span class="mono">product</span>, <span class="mono">category</span>); the SQL used the two highlighted.</p>
+          <div class="tables"><span class="hit">products</span><span class="hit">order_items</span><span>returns</span><span>inventory_snapshots</span><span>customer_support_tickets</span><span>suppliers</span><span>orders</span><span>stores</span><span>customers</span></div>
+          <p style="margin-top:8px">Sent 4,971 characters of schema: 15% less than every table with sample values.</p>
+        </li>
+        <li><h3>Wrote SQL</h3>
+<pre>SELECT category, SUM(unit_price * quantity) AS total_revenue
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY category
+ORDER BY total_revenue DESC;</pre></li>
+        <li><h3>Checked it</h3><p><span class="ok">Read-only</span>: one SELECT, no internal tables.</p></li>
+        <li><h3>Ran it on SQLite</h3><p>5 rows, under the row and work limits.</p></li>
+      </ol>
+      <div class="links"><a>Full schema sent</a><a>Retrieval report</a></div>
+    </aside>
+  </section>
+</main>
+</body>
+</html>
