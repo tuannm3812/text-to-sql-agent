@@ -23,7 +23,8 @@ was not enough for value matching, so accuracy decides.
 **Trial result (2026-10-21, `28f21bc` against top 6 at `47284f5`):** gate pass, no
 measurable change, +0.9 [-0.7, +2.4] points (51 helped, 40 hurt); held-out `subset200`
 -1.0 [-4.5, +2.5]. Every-gold-table-sent rose from 1,055 to 1,094 questions
-(`evaluation/results/scorer_signals/README.md`). The owner decides keep or revert.
+(`evaluation/results/scorer_signals/README.md`). The owner kept it (2026-10-21): retrieval is
+better at no measured accuracy cost; the recall gain is not claimed as an accuracy gain.
 
 ## 2026-10-19 — question value matching: built off by default, on trial
 
