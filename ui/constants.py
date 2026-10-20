@@ -13,6 +13,14 @@ class DemoDatabase(TypedDict):
     questions: list[str]
 
 
+# The sidebar's database sources, shared by `ui.sidebar` and `ui.uploads`.
+SOURCE_DEMO = "Demo database"
+SOURCE_PATH = "SQLite file path"
+SOURCE_UPLOAD_DB = "Upload a SQLite file"
+SOURCE_UPLOAD_CSV = "Upload CSV files"
+SOURCE_DSN = "Connection string"
+SOURCES = [SOURCE_DEMO, SOURCE_PATH, SOURCE_UPLOAD_DB, SOURCE_UPLOAD_CSV, SOURCE_DSN]
+
 GEMINI_MODELS = [
     "gemini-2.5-flash",
     "gemini-2.5-pro",
@@ -23,6 +31,7 @@ GEMINI_MODELS = [
 
 OLLAMA_MODELS = [
     "gemma3",
+    "qwen3.5:9b-q4_K_M",
     "llama3.1",
     "llama3",
     "mistral",

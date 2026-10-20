@@ -13,7 +13,7 @@ import streamlit as st
 
 import text_to_sql_agent as backend
 from ui.chat import render_chat, render_sample_question
-from ui.evaluation import render_evaluation
+from ui.evaluation import render_evaluation_view
 from ui.sidebar import render_sidebar
 from ui.styles import CHAT_CSS
 
@@ -22,7 +22,7 @@ backend.load_env()
 
 def main() -> None:
     st.set_page_config(
-        page_title="Text-to-SQL",
+        page_title="Text-to-SQL Agent",
         page_icon=":material/database:",
         layout="centered",
         initial_sidebar_state="expanded",
@@ -35,15 +35,26 @@ def main() -> None:
     settings = render_sidebar()
 
     st.markdown(
-        "<p style='font-size:1.65rem;font-weight:600;margin-bottom:0.15rem;"
-        "color:#141413;'>Text-to-SQL</p>"
-        "<p style='font-size:0.95rem;color:#6b6b6b;margin-top:0;'>"
-        "Ask questions about your connected database.</p>",
+        "<h1 class='app-title'>Text-to-SQL Agent</h1>"
+        "<p class='app-subtitle'>Ask a question in plain English. The agent writes read-only "
+        "SQL for the selected database, checks it, runs it and shows the result with the SQL "
+        "and the schema it was given.</p>",
         unsafe_allow_html=True,
     )
+    view = st.segmented_control(
+        "View",
+        ["Ask", "Evaluation"],
+        default="Ask",
+        key="main_view",
+        label_visibility="collapsed",
+    )
 
+    if view == "Evaluation":
+        render_evaluation_view(settings)
+        return
+
+    st.caption("Each question is answered on its own: earlier questions are not sent to the model.")
     render_sample_question(settings)
-    render_evaluation()
     render_chat(settings)
 
 

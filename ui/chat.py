@@ -1,4 +1,4 @@
-"""The chat surface: the demo sample question, the history replay and the input."""
+"""The question surface: sample questions, the answers so far and the input."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from typing import Any
 import streamlit as st
 
 import text_to_sql_agent as backend
-from ui.constants import DEMO_DATABASES
+from ui.constants import DEMO_DATABASES, SOURCE_DEMO
 from ui.results import render_assistant_turn, result_to_dataframe
 from ui.settings import Settings
 
@@ -116,34 +116,55 @@ def ask(prompt: str, settings: Settings, *, db_path: str, database: str) -> None
     st.session_state.messages.append(answer_turn(answer, settings, database=database))
 
 
-def render_sample_question(settings: Settings) -> None:
-    """Render the active demo's blurb and its one-click sample question.
+def _status_message(settings: Settings) -> str | None:
+    """What stops a question being asked right now, as an instruction; `None` when ready."""
+    if settings.db_path is None:
+        if settings.source == SOURCE_DEMO:
+            return "The demo database file is missing. Create it under **Advanced** in the sidebar."
+        return "Choose a database in the sidebar to start."
+    if not settings.key_ok:
+        return "Add a Gemini API key in the sidebar, or switch the provider to Ollama."
+    return None
 
-    Does nothing unless the sidebar's source is a demo database.
+
+def _queue_sample(key: str) -> None:
+    """`st.pills` callback: remember the chosen question and clear the selection."""
+    st.session_state["pending_sample"] = st.session_state.get(key)
+    st.session_state[key] = None
+
+
+def render_sample_question(settings: Settings) -> None:
+    """Offer the active demo's sample questions as one-click pills.
+
+    Does nothing unless the sidebar's source is a demo database. A click goes through
+    `ask`, the same path a typed question takes.
 
     Args:
         settings: The choices the sidebar collected for this render.
     """
-    if settings.source == "Demo database":
-        demo_name = settings.demo_name
-        demo = DEMO_DATABASES.get(demo_name, DEMO_DATABASES["University"])
-        st.markdown(f"**Active demo:** {demo_name} - {demo['description']}")
-        sample_prompt = st.selectbox(
-            "Try a sample question",
-            [""] + demo["questions"],
-            key="main_sample_question",
-            label_visibility="collapsed",
+    if settings.source != SOURCE_DEMO:
+        return
+    demo_name = settings.demo_name
+    demo = DEMO_DATABASES.get(demo_name, DEMO_DATABASES["University"])
+    ready = settings.db_path is not None and settings.key_ok
+    key = f"sample_{demo_name}"
+    st.pills(
+        f"Try a question about the {demo_name} demo ({demo['description'].lower()})",
+        demo["questions"],
+        key=key,
+        on_change=_queue_sample,
+        args=(key,),
+        disabled=not ready,
+    )
+    question = st.session_state.pop("pending_sample", None)
+    if question and ready:
+        ask(
+            str(question),
+            settings,
+            db_path=str(Path(demo["path"]).resolve()),
+            database=demo_name,
         )
-        if sample_prompt and st.button(
-            "Use sample question", type="secondary", disabled=not settings.key_ok
-        ):
-            ask(
-                sample_prompt,
-                settings,
-                db_path=str(Path(demo["path"]).resolve()),
-                database=demo_name,
-            )
-            st.rerun()
+        st.rerun()
 
 
 def render_chat(settings: Settings) -> None:
@@ -152,41 +173,24 @@ def render_chat(settings: Settings) -> None:
     Args:
         settings: The choices the sidebar collected for this render.
     """
-    if not st.session_state.messages:
-        st.session_state.messages.append(
-            {
-                "role": "assistant",
-                "kind": "text",
-                "content": (
-                    "Choose a database in the **sidebar**, then ask a question below. "
-                    "I generate read-only SQL and show results as a table."
-                ),
-            }
-        )
+    status = _status_message(settings)
+    if status is not None:
+        st.info(status, icon=":material/info:")
 
     for msg in st.session_state.messages:
         if msg["role"] == "user":
             safe = html.escape(str(msg.get("content", "")))
             st.markdown(
-                "<div class='chat-user-wrap'>"
-                "<div class='chat-user-row'>"
-                f"<div class='chat-user-bubble'>{safe}</div>"
-                "<div class='chat-user-avatar'>You</div>"
-                "</div>"
-                "</div>",
+                f"<div class='chat-user-wrap'><div class='chat-user-bubble'>{safe}</div></div>",
                 unsafe_allow_html=True,
             )
         else:
             render_assistant_turn(msg)
 
-    chat_disabled = settings.db_path is None or not settings.key_ok
-    placeholder = (
-        "Connect a database in the sidebar..."
-        if settings.db_path is None
-        else "Ask anything about your data..."
+    prompt = st.chat_input(
+        "Ask a question about the selected database",
+        disabled=status is not None,
     )
-    prompt = st.chat_input(placeholder, disabled=chat_disabled)
-
-    if prompt and settings.db_path and settings.key_ok:
+    if prompt and status is None and settings.db_path:
         ask(prompt.strip(), settings, db_path=settings.db_path, database=settings.source_label)
         st.rerun()

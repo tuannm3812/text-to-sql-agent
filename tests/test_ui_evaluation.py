@@ -232,8 +232,8 @@ def test_a_broken_suite_shows_an_error_not_a_traceback(
     monkeypatch.setattr(evaluation, "RESULTS_ROOT", tmp_path)
     monkeypatch.setattr(evaluation, "DEMO_SUITE", broken)
     at = _app().run()
-    at.selectbox(key="sb_eval_mode").select("Gold SQL baseline")
-    next(b for b in at.button if b.label == "Run benchmark").click()
+    at.radio(key="eval_mode").set_value(evaluation.GOLD_MODE)
+    at.button(key="eval_run").click()
     at.run()
     assert not at.exception
     assert any("Evaluation failed" in e.value for e in at.error)
@@ -336,7 +336,10 @@ def test_loading_never_modifies_the_directory(tmp_path: Path) -> None:
 
 
 def _app() -> AppTest:
-    return AppTest.from_file(APP, default_timeout=120)
+    """The app opened on its Evaluation view, not yet run."""
+    at = AppTest.from_file(APP, default_timeout=120)
+    at.session_state["main_view"] = "Evaluation"
+    return at
 
 
 def test_app_cold_start_renders_the_empty_viewer(
@@ -353,8 +356,8 @@ def test_app_runs_the_demo_evaluation_in_gold_mode(
 ) -> None:
     monkeypatch.setattr(evaluation, "RESULTS_ROOT", tmp_path)
     at = _app().run()
-    at.selectbox(key="sb_eval_mode").select("Gold SQL baseline")
-    next(b for b in at.button if b.label == "Run benchmark").click()
+    at.radio(key="eval_mode").set_value(evaluation.GOLD_MODE)
+    at.button(key="eval_run").click()
     at.run()
     assert not at.exception
     labels = [m.label for m in at.metric]

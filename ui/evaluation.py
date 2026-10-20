@@ -22,6 +22,7 @@ from text_to_sql_agent.evaluation_v2.contract import load_suite
 from text_to_sql_agent.evaluation_v2.identity import REPO_ROOT
 from text_to_sql_agent.evaluation_v2.manifest import read_manifest
 from text_to_sql_agent.evaluation_v2.report import COLUMNS, metric_cells
+from ui.settings import Settings
 
 GOLD_MODE = "Gold SQL baseline"
 DEMO_SUITE = REPO_ROOT / "evaluation" / "suites" / "demo.jsonl"
@@ -131,7 +132,7 @@ def load_result_directory(path: Path) -> ResultDirectory:
 
 
 def _render_result_viewer() -> None:
-    with st.expander("Load a result directory", expanded=False):
+    with st.expander("Committed benchmark runs", expanded=False):
         names = list_result_directories()
         if not names:
             st.caption(
@@ -160,12 +161,55 @@ def _summary_rows(eval_df: pd.DataFrame) -> list[dict[str, str]]:
     return [{str(k): str(v) for k, v in row.items()} for row in eval_df.to_dict("records")]
 
 
+def _render_run_controls(settings: Settings) -> None:
+    st.markdown("**Run the demo suite**")
+    st.caption(
+        "The 12-question demo suite over the three demo databases, scored by the same "
+        "evaluation code as the committed benchmark runs. Nothing is saved."
+    )
+    eval_mode = st.radio(
+        "Mode",
+        [GOLD_MODE, "Selected model"],
+        key="eval_mode",
+        horizontal=True,
+        help=(
+            "Gold SQL checks the suite itself. Selected model scores the sidebar's model "
+            "against the gold results."
+        ),
+    )
+    if st.button("Run", key="eval_run", type="primary"):
+        if eval_mode != GOLD_MODE and not settings.key_ok:
+            st.error("Add a Gemini API key in the sidebar, or switch the provider to Ollama.")
+            return
+        try:
+            with st.spinner("Running the demo suite..."):
+                st.session_state["evaluation_df"] = evaluate_cases(
+                    mode=eval_mode,
+                    provider=settings.provider,
+                    model_name=settings.model_name,
+                    use_rag=settings.use_rag,
+                    rag_top_k=settings.rag_top_k,
+                    gemini_api_key=(settings.gemini_key or None)
+                    if settings.provider == "gemini"
+                    else None,
+                )
+                st.session_state["evaluation_mode"] = eval_mode
+        except Exception as e:
+            st.error(f"Evaluation failed: {backend.redact_dsn(str(e))}")
+
+
+def render_evaluation_view(settings: Settings) -> None:
+    """The Evaluation view: run the demo suite, see its summary, browse committed runs."""
+    _render_run_controls(settings)
+    render_evaluation()
+
+
 def render_evaluation() -> None:
     """Render the last live run's summary, if one has been run, and the result viewer."""
     eval_df = st.session_state.get("evaluation_df")
     if isinstance(eval_df, pd.DataFrame) and not eval_df.empty:
         mode = st.session_state.get("evaluation_mode", "Benchmark")
-        with st.expander(f"Evaluation summary - {mode}", expanded=True):
+        with st.expander(f"Summary - {mode}", expanded=True):
             cells = metric_cells(_summary_rows(eval_df), gold=mode == GOLD_MODE)
             titles = dict(COLUMNS)
             outages = int((eval_df["outcome"] == runner.OUTAGE).sum())
@@ -196,4 +240,5 @@ __all__ = [
     "list_result_directories",
     "load_result_directory",
     "render_evaluation",
+    "render_evaluation_view",
 ]

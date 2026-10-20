@@ -1,74 +1,72 @@
-"""The page-level CSS injected once per render by `app.py`."""
+"""The page-level CSS injected once per render by `app.py`.
+
+A restrained warm-neutral palette: off-white page, a slightly darker sidebar, one muted
+accent for the user's questions. Layout stays Streamlit's own; this only adjusts colour,
+spacing and the question bubble, so narrow screens keep Streamlit's responsive stacking.
+"""
 
 from __future__ import annotations
 
 CHAT_CSS = """
 <style>
-    .stApp {
+    .stApp, [data-testid="stHeader"] {
         background: #faf9f5;
     }
     [data-testid="stSidebar"] {
-        background: #f0efe9 !important;
-        border-right: 1px solid #e8e6e1;
-    }
-    [data-testid="stHeader"] {
-        background: #faf9f5;
+        background: #f1efe8 !important;
+        border-right: 1px solid #e6e3da;
     }
     section[data-testid="stSidebar"] .block-container {
-        padding-top: 1.5rem;
+        padding-top: 1.25rem;
     }
     .main .block-container {
-        max-width: 52rem;
-        padding-top: 1.25rem;
-        padding-bottom: 4rem;
+        max-width: 54rem;
+        padding-top: 1.5rem;
+        padding-bottom: 5rem;
     }
     .stMarkdown, [data-testid="stChatMessage"] {
         font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-        color: #1f1f1f;
+        color: #1f1e1b;
+    }
+    .app-title {
+        font-size: 1.75rem;
+        font-weight: 650;
+        color: #1f1e1b;
+        margin: 0 0 0.25rem 0;
+        padding: 0;
+    }
+    .app-subtitle {
+        font-size: 0.98rem;
+        color: #5f5c55;
+        margin: 0 0 0.75rem 0;
+        max-width: 44rem;
     }
     [data-testid="stChatInput"] textarea {
-        border-radius: 1rem !important;
-        border: 1px solid #e3e0d8 !important;
+        border-radius: 0.9rem !important;
+        border: 1px solid #e0dcd2 !important;
         background: #fff !important;
-        padding-left: 1rem !important;
     }
-
-    /* Right-align user messages (content we wrap in .chat-user-wrap) */
+    [data-testid="stChatMessage"] {
+        background: #ffffff;
+        border: 1px solid #ece9e1;
+        border-radius: 0.9rem;
+        padding: 0.75rem 0.9rem;
+    }
     .chat-user-wrap {
         display: flex;
         justify-content: flex-end;
         width: 100%;
-    }
-    .chat-user-row {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
-        gap: 0.55rem;
-        width: 100%;
+        margin: 0.5rem 0;
     }
     .chat-user-bubble {
-        max-width: min(42rem, 85%);
-        background: #e9f2ff;
-        border: 1px solid #d7e6ff;
-        padding: 0.55rem 0.8rem;
-        border-radius: 1rem;
-        margin-left: auto;
+        max-width: min(40rem, 85%);
+        background: #ece7dc;
+        border: 1px solid #e0d9ca;
+        color: #1f1e1b;
+        padding: 0.55rem 0.85rem;
+        border-radius: 0.9rem;
         word-wrap: break-word;
         white-space: pre-wrap;
-    }
-    .chat-user-avatar {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 999px;
-        background: #ff4b4b;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 0.95rem;
-        flex: 0 0 auto;
-        border: 1px solid rgba(0,0,0,0.06);
     }
 </style>
 """

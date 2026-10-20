@@ -2,8 +2,12 @@
 gatherUsageStats = false
 
 [theme]
-primaryColor = "#2f6fed"
+primaryColor = "#9a6b3f"
 backgroundColor = "#faf9f5"
-secondaryBackgroundColor = "#f0efe9"
-textColor = "#1f1f1f"
+secondaryBackgroundColor = "#f1efe8"
+textColor = "#1f1e1b"
 font = "sans serif"
+
+[client]
+# No "Deploy" button: this is a local portfolio app, not a hosted one.
+toolbarMode = "viewer"

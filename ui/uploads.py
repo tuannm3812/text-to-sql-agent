@@ -13,7 +13,13 @@ from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 import text_to_sql_agent as backend
 from text_to_sql_agent import redact_dsn as redact_dsn
-from ui.constants import DEMO_DATABASES
+from ui.constants import (
+    DEMO_DATABASES,
+    SOURCE_DEMO,
+    SOURCE_DSN,
+    SOURCE_PATH,
+    SOURCE_UPLOAD_DB,
+)
 
 # `redact_dsn` is re-exported here (rather than only living in
 # `text_to_sql_agent.dsn`) so existing call sites - `ui/sidebar.py`,
@@ -53,9 +59,9 @@ def upload_digest(uploaded: UploadedFile) -> str:
 
 def active_db_path() -> str | None:
     """Resolve DB path from sidebar widgets (with caching for uploads)."""
-    source = st.session_state.get("sb_source", "Demo database")
+    source = st.session_state.get("sb_source", SOURCE_DEMO)
 
-    if source == "Demo database":
+    if source == SOURCE_DEMO:
         demo_name = st.session_state.get("sb_demo_db", "University")
         demo = DEMO_DATABASES.get(demo_name)
         if not demo:
@@ -63,14 +69,14 @@ def active_db_path() -> str | None:
         p = Path(demo["path"])
         return str(p.resolve()) if p.is_file() else None
 
-    if source == "Path on disk":
+    if source == SOURCE_PATH:
         raw = (st.session_state.get("sb_path_db") or "").strip()
         if not raw:
             return None
         p = Path(raw).expanduser()
         return str(p.resolve()) if p.is_file() else None
 
-    if source == "Upload `.db`":
+    if source == SOURCE_UPLOAD_DB:
         uf = st.session_state.get("sb_upload_db")
         if uf is None:
             return None
@@ -79,7 +85,7 @@ def active_db_path() -> str | None:
             st.session_state[key] = write_uploaded_db(uf)
         return st.session_state[key]
 
-    if source == "Connection string":
+    if source == SOURCE_DSN:
         # Read straight from session state each call rather than caching:
         # the DSN is session-only and must never be written to disk, so
         # there is no on-disk cache key to build the way the upload

@@ -94,7 +94,7 @@ def test_replacing_an_upload_with_same_name_and_size_uses_the_new_bytes(
 
     import ui.uploads as uploads
 
-    state: dict[str, object] = {"sb_source": "Upload `.db`"}
+    state: dict[str, object] = {"sb_source": uploads.SOURCE_UPLOAD_DB}
     monkeypatch.setattr(uploads, "st", SimpleNamespace(session_state=state))
 
     state["sb_upload_db"] = _FakeUpload("same.db", b"first")
@@ -115,7 +115,7 @@ def test_replacing_a_csv_with_same_name_and_size_reingests(
 
     import ui.uploads as uploads
 
-    state: dict[str, object] = {"sb_source": "Upload CSV(s)"}
+    state: dict[str, object] = {"sb_source": "Upload CSV files"}
     monkeypatch.setattr(uploads, "st", SimpleNamespace(session_state=state))
     ingested: list[list[str]] = []
 
