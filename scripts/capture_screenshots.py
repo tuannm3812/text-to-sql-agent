@@ -104,9 +104,10 @@ def _close_change(page: Page) -> None:
     page.wait_for_timeout(400)
 
 
-def _wait_for_answers(page: Page, count: int) -> None:
-    expect(page.get_by_text("How this was answered")).to_have_count(
-        count, timeout=ANSWER_TIMEOUT_MS
+def _wait_for_answer(page: Page, question: str) -> None:
+    """Wait until the answer card for `question` is on the page and the rerun is over."""
+    expect(page.locator("p.q", has_text=question).first).to_be_visible(
+        timeout=ANSWER_TIMEOUT_MS
     )
     _settle(page)
     page.wait_for_timeout(1500)  # let the chart finish drawing
@@ -135,7 +136,7 @@ def capture(model: str, channel: str) -> dict[str, object]:
             _close_change(page)
 
             page.get_by_text(QUESTION, exact=True).first.click()
-            _wait_for_answers(page, 1)
+            _wait_for_answer(page, QUESTION)
             _scroll_top(page)
             page.screenshot(path=OUT / "01-answer.png")
 
@@ -156,7 +157,7 @@ def capture(model: str, channel: str) -> dict[str, object]:
             box = page.get_by_placeholder("Ask a question about the selected database")
             box.fill(REFUSAL)
             page.get_by_role("button", name="Ask", exact=True).click()
-            _wait_for_answers(page, 2)
+            _wait_for_answer(page, REFUSAL)
             _scroll_top(page)
             page.screenshot(path=OUT / "03-read-only-refusal.png")
             browser.close()
