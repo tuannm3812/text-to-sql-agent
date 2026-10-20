@@ -47,6 +47,7 @@ import warnings
 from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal, TypeVar, get_args
@@ -197,6 +198,10 @@ class RunConfig:
     work_limit: int | None = None
     max_rows: int | None = None
     ollama_think: OllamaThink | None = None
+    # A Gemini key for this run's calls only, as the app's evaluation view passes the key a
+    # user typed. Not part of the identity (`build_identity` names its fields) and hidden
+    # from `repr`, so it cannot reach a manifest, a log line or a traceback.
+    gemini_api_key: str | None = dataclass_field(default=None, repr=False)
 
 
 @dataclass(frozen=True)
@@ -455,6 +460,7 @@ def _ask_model(
                 max_rows=config.max_rows,
                 ollama_think=think,
                 on_repair_error=repair_errors.append,
+                gemini_api_key=config.gemini_api_key,
             )
         except Exception as exc:
             # A harness-side failure outside generation (unreachable database, schema

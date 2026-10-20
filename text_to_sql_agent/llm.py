@@ -15,7 +15,7 @@ from .control import trim_prose_after_control
 from .engines import Engine
 from .engines.sqlite import SQLiteEngine
 from .env import load_env
-from .gemini_manager import get_default_gemini_manager
+from .gemini_manager import GeminiManager, get_default_gemini_manager
 
 # Placeholders swapped for one engine's prompt fragments by `_assemble_prompt`.
 # Each is unique within `_PROMPT_BODY`, so `str.replace` cannot touch anything
@@ -231,6 +231,7 @@ def _call_provider(
     model_name: str,
     provider: str,
     ollama_think: bool | None = False,
+    gemini_api_key: str | None = None,
 ) -> str:
     """Send an assembled system prompt and the user prompt to the resolved provider.
 
@@ -248,13 +249,19 @@ def _call_provider(
     comes back in `additional_kwargs["reasoning_content"]` and is never read: only
     `response.content` reaches the SQL extractor.
 
+    `gemini_api_key`, when given, is used for this call alone through a manager of its own,
+    so one app session's key never reaches the process-level manager or another session
+    (Codex, 2026-10-20). Without it the process-level manager reads the server's keys.
+
     Raises:
         ValueError: If `provider` is neither `"gemini"` nor `"ollama"`.
         ModuleNotFoundError: If the SDK required by `provider` is not installed.
     """
     if provider == "gemini":
         sdk_name, genai, genai_types = _load_gemini_sdk()
-        key_manager = get_default_gemini_manager()
+        key_manager = (
+            GeminiManager([gemini_api_key]) if gemini_api_key else get_default_gemini_manager()
+        )
 
         def generate_with_key(api_key: str) -> str:
             if sdk_name == "google-genai":
@@ -328,6 +335,7 @@ def generate_sql(
     provider: str | None = None,
     engine: Engine | None = None,
     ollama_think: bool | None = False,
+    gemini_api_key: str | None = None,
 ) -> str:
     """Call Gemini or Ollama to generate SQL from a question and schema.
 
@@ -346,6 +354,9 @@ def generate_sql(
             flag, leaving the model's own setting. Off by default because the
             512-token output cap is the SQL answer's budget, and thinking spent
             inside it can leave no SQL. Gemini ignores it.
+        gemini_api_key: A Gemini key for this call only, such as one a user typed into
+            the app; never stored or shared. `None` uses the server's configured keys.
+            Ollama ignores it.
 
     Returns:
         The generated SQL text, extracted from the model's raw response.
@@ -377,4 +388,5 @@ def generate_sql(
         model_name=model_name,
         provider=selected_provider,
         ollama_think=ollama_think,
+        gemini_api_key=gemini_api_key,
     )

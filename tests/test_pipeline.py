@@ -856,3 +856,38 @@ def test_the_generation_and_its_repair_send_the_same_think_flag(
     assert result.rows == [("Alice",)]
     assert "Repair the SQL" in recording_ollama.calls[1].user_prompt
     assert recording_ollama.reasoning == [sent, sent], "one generation, then its repair"
+
+
+def test_answer_question_returns_the_context_the_model_was_sent(
+    customers_db: str, recording_ollama: Any
+) -> None:
+    """The app shows `Answer.schema_text` beside the result, so it must be what was sent."""
+    recording_ollama.replies.extend(["SELECT name FROM customers", "SELECT name FROM customers"])
+
+    with_rag = agent.answer_question("list customers", db_path=customers_db, provider="ollama")
+    without = agent.answer_question(
+        "list customers", db_path=customers_db, provider="ollama", use_rag=False
+    )
+
+    assert with_rag.retrieval is not None
+    assert with_rag.schema_text == with_rag.retrieval.schema_text
+    assert with_rag.schema_text in recording_ollama.calls[0].user_prompt
+    assert without.retrieval is None
+    assert without.schema_text == agent.get_schema(customers_db)
+    assert (with_rag.sql, with_rag.result.rows) == ("SELECT name FROM customers", [("Alice",)])
+
+
+def test_a_runs_gemini_key_stays_out_of_its_repr() -> None:
+    from pathlib import Path
+
+    from text_to_sql_agent.evaluation_v2.runner import RunConfig
+
+    config = RunConfig(
+        suite="demo",
+        suite_path=Path("x.jsonl"),
+        mode="llm",
+        provider="gemini",
+        model="m",
+        gemini_api_key="secret-key",
+    )
+    assert "secret-key" not in repr(config)

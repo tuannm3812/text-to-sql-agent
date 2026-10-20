@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import html
 from pathlib import Path
+from typing import Any
 
-import pandas as pd
 import streamlit as st
 
 import text_to_sql_agent as backend
@@ -22,17 +22,16 @@ def _run_query(
     provider: str,
     use_rag: bool,
     rag_top_k: int,
-) -> tuple[str, backend.QueryResult]:
-    """Call the backend, turning any exception it raises into a `QueryResult` error.
+    gemini_api_key: str | None = None,
+) -> backend.Answer:
+    """Call the backend, turning any exception it raises into an `Answer` with an error.
 
-    `backend.ask_database_with_sql` talks to the configured database driver, and a
-    driver error (a PostgreSQL one, once Phase 3b adds that engine) can embed the
-    DSN it failed to reach, including its password. Left uncaught, that exception
-    would escape to Streamlit's default traceback renderer, which never sees
-    `ui.uploads.redact_dsn`. Catching it here and putting the raw exception text in
+    `backend.answer_question` talks to the configured database driver, and a driver
+    error can embed the DSN it failed to reach, including its password. Left uncaught,
+    that exception would escape to Streamlit's default traceback renderer, which never
+    sees `ui.uploads.redact_dsn`. Catching it here and putting the raw exception text in
     `QueryResult.error` routes it through the one redaction `ui.results.describe_error`
-    already applies to any unrecognised error code, instead of adding a second
-    redaction path.
+    already applies to any unrecognised error code.
 
     Args:
         prompt: The user's question.
@@ -41,46 +40,80 @@ def _run_query(
         provider: `"gemini"` or `"ollama"`.
         use_rag: Whether to retrieve a relevant schema subset.
         rag_top_k: Number of schema chunks to retrieve when `use_rag` is set.
+        gemini_api_key: This session's Gemini key, passed with the call and never
+            stored process-wide; `None` uses the server's configured keys.
 
     Returns:
-        Whatever `backend.ask_database_with_sql` returns on success, or `("",
-        QueryResult(...))` with the exception's text (not yet redacted) in `.error`
-        if it raised.
+        The backend's `Answer`, whose `schema_text` and `retrieval` are exactly what the
+        model was given; on an exception, an `Answer` with no SQL or context and the
+        exception's text (not yet redacted) in `result.error`.
     """
     try:
-        return backend.ask_database_with_sql(
+        return backend.answer_question(
             prompt,
             db_path=db_path,
             model_name=model_name,
             provider=provider,
             use_rag=use_rag,
             rag_top_k=rag_top_k,
+            gemini_api_key=gemini_api_key,
         )
     except Exception as exc:  # noqa: BLE001 - any backend/driver failure must reach
         # the page redacted, not as a raw Streamlit traceback.
-        return "", backend.QueryResult(
+        failed = backend.QueryResult(
             columns=[], rows=[], sql=None, error=f"{type(exc).__name__}: {exc}"
         )
+        return backend.Answer(sql="", result=failed, schema_text="", retrieval=None)
 
 
-def _schema_display(
-    db_path: str, question: str, *, use_rag: bool, rag_top_k: int
-) -> tuple[str | None, str | None]:
-    """`(schema_text, rag_report)` for the turn: the schema text its path sent.
+def answer_turn(answer: backend.Answer, settings: Settings, *, database: str) -> dict[str, Any]:
+    """The chat-history record of one answer, with the context it was given and by whom.
 
-    RAG on shows the retrieved schema text and the retrieval report, whose sizes
-    are measured against plain full DDL and full DDL plus value hints. RAG off
-    sends plain full DDL and retrieves nothing, so it shows that DDL and no report:
-    a report would describe a retrieval the turn never made. A failure to read the
-    schema hides both rather than failing the turn.
+    Everything shown beside the result comes from `answer` itself, so the SQL and context
+    stay the ones that produced it after the user switches database or model.
     """
-    try:
-        if use_rag:
-            rag_context = backend.retrieve_schema_context(db_path, question, top_k=rag_top_k)
-            return rag_context.schema_text, rag_context.report
-        return backend.get_schema(db_path), None
-    except Exception:
-        return None, None
+    result = answer.result
+    return {
+        "role": "assistant",
+        "kind": "result",
+        "error_text": result.error,
+        "blocked_sql": result.sql if result.error else None,
+        "df": result_to_dataframe(result) if result.columns else None,
+        "sql_text": answer.sql,
+        "schema_text": answer.schema_text or None,
+        "rag_report": answer.retrieval.report if answer.retrieval is not None else None,
+        "database": database,
+        "provider": settings.provider,
+        "model": settings.model_name,
+        "context": (f"schema RAG, top {settings.rag_top_k}" if settings.use_rag else "full schema"),
+    }
+
+
+def _model_name(settings: Settings) -> str:
+    return (settings.model_name or "").strip() or (
+        backend.DEFAULT_MODEL_NAME
+        if settings.provider == "gemini"
+        else backend.DEFAULT_OLLAMA_MODEL
+    )
+
+
+def ask(prompt: str, settings: Settings, *, db_path: str, database: str) -> None:
+    """Answer one question and append it and its answer to the chat history.
+
+    The one path for typed and sample questions alike, so both are guarded the same way.
+    """
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.spinner("Generating SQL and running the query..."):
+        answer = _run_query(
+            prompt,
+            db_path=db_path,
+            model_name=_model_name(settings),
+            provider=settings.provider,
+            use_rag=settings.use_rag,
+            rag_top_k=settings.rag_top_k,
+            gemini_api_key=(settings.gemini_key or None) if settings.provider == "gemini" else None,
+        )
+    st.session_state.messages.append(answer_turn(answer, settings, database=database))
 
 
 def render_sample_question(settings: Settings) -> None:
@@ -104,34 +137,11 @@ def render_sample_question(settings: Settings) -> None:
         if sample_prompt and st.button(
             "Use sample question", type="secondary", disabled=not settings.key_ok
         ):
-            st.session_state.messages.append({"role": "user", "content": sample_prompt})
-            with st.spinner("Generating SQL and running query..."):
-                sql_text, result = backend.ask_database_with_sql(
-                    sample_prompt,
-                    db_path=str(Path(demo["path"]).resolve()),
-                    model_name=settings.model_name,
-                    provider=settings.provider,
-                    use_rag=settings.use_rag,
-                    rag_top_k=settings.rag_top_k,
-                )
-            df_out = result_to_dataframe(result) if result.columns else None
-            schema_text, rag_report = _schema_display(
-                str(Path(demo["path"]).resolve()),
+            ask(
                 sample_prompt,
-                use_rag=settings.use_rag,
-                rag_top_k=settings.rag_top_k,
-            )
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "kind": "result",
-                    "error_text": result.error,
-                    "blocked_sql": result.sql if result.error else None,
-                    "df": df_out,
-                    "sql_text": sql_text,
-                    "schema_text": schema_text,
-                    "rag_report": rag_report,
-                }
+                settings,
+                db_path=str(Path(demo["path"]).resolve()),
+                database=demo_name,
             )
             st.rerun()
 
@@ -178,51 +188,5 @@ def render_chat(settings: Settings) -> None:
     prompt = st.chat_input(placeholder, disabled=chat_disabled)
 
     if prompt and settings.db_path and settings.key_ok:
-        st.session_state.messages.append({"role": "user", "content": prompt.strip()})
-
-        with st.spinner("Generating SQL and running query..."):
-            sql_text, result = _run_query(
-                prompt.strip(),
-                db_path=settings.db_path,
-                model_name=(settings.model_name or "").strip()
-                or (
-                    backend.DEFAULT_MODEL_NAME
-                    if settings.provider == "gemini"
-                    else backend.DEFAULT_OLLAMA_MODEL
-                ),
-                provider=settings.provider,
-                use_rag=settings.use_rag,
-                rag_top_k=settings.rag_top_k,
-            )
-
-        error_text = None
-        blocked_sql = None
-        df_out: pd.DataFrame | None = None
-
-        if result.error:
-            error_text = result.error
-            blocked_sql = result.sql
-
-        if result.columns:
-            df_out = result_to_dataframe(result)
-
-        schema_text, rag_report = _schema_display(
-            settings.db_path,
-            prompt.strip(),
-            use_rag=settings.use_rag,
-            rag_top_k=settings.rag_top_k,
-        )
-
-        st.session_state.messages.append(
-            {
-                "role": "assistant",
-                "kind": "result",
-                "error_text": error_text,
-                "blocked_sql": blocked_sql,
-                "df": df_out,
-                "sql_text": sql_text,
-                "schema_text": schema_text,
-                "rag_report": rag_report,
-            }
-        )
+        ask(prompt.strip(), settings, db_path=settings.db_path, database=settings.source_label)
         st.rerun()

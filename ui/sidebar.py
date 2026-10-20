@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import streamlit as st
@@ -64,9 +63,9 @@ def render_sidebar() -> Settings:
                     placeholder="Leave blank to use Streamlit secrets or local .env",
                     help="Session-only input. Do not commit API keys to GitHub.",
                 )
+                # Kept in this session only and passed with each call. Writing it to
+                # `os.environ` made one visitor's key every session's (Codex, 2026-10-20).
                 gemini_key = active_gemini_key(typed_key)
-                if gemini_key:
-                    os.environ["GEMINI_API_KEY"] = gemini_key
 
         key_ok = provider == "ollama" or bool(gemini_key)
         if provider == "gemini" and key_ok:
@@ -196,6 +195,7 @@ def render_sidebar() -> Settings:
                                 model_name=model_name,
                                 use_rag=use_rag,
                                 rag_top_k=rag_top_k,
+                                gemini_api_key=gemini_key or None,
                             )
                             st.session_state["evaluation_mode"] = eval_mode
                     except Exception as e:
@@ -222,4 +222,21 @@ def render_sidebar() -> Settings:
         key_ok=key_ok,
         source=str(st.session_state.get("sb_source", "Demo database")),
         demo_name=str(st.session_state.get("sb_demo_db", "University")),
+        source_label=source_label(),
     )
+
+
+def source_label() -> str:
+    """The active database as a turn records it: a name, never a local path or a password."""
+    source = st.session_state.get("sb_source", "Demo database")
+    if source == "Demo database":
+        return str(st.session_state.get("sb_demo_db", "University"))
+    if source == "Path on disk":
+        return Path(str(st.session_state.get("sb_path_db") or "")).name or "file on disk"
+    if source == "Upload `.db`":
+        uploaded = st.session_state.get("sb_upload_db")
+        return str(uploaded.name) if uploaded is not None else "uploaded file"
+    if source == "Connection string":
+        return redact_dsn((st.session_state.get("sb_dsn") or "").strip())
+    files = st.session_state.get("sb_upload_csv") or []
+    return f"{len(files)} uploaded CSV file(s)"

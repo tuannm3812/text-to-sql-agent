@@ -24,3 +24,6 @@ class Settings:
     key_ok: bool
     source: str
     demo_name: str
+    # What a turn records as its database: the demo's name, a file's name, or a DSN with
+    # any password masked. Never a full local path.
+    source_label: str = ""

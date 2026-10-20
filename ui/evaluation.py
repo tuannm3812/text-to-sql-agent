@@ -51,6 +51,7 @@ def evaluate_cases(
     model_name: str,
     use_rag: bool,
     rag_top_k: int,
+    gemini_api_key: str | None = None,
 ) -> pd.DataFrame:
     """Run the demo suite in memory and return one row per case, as `cases.csv` would hold it.
 
@@ -63,6 +64,8 @@ def evaluate_cases(
         model_name: The provider model identifier to generate with.
         use_rag: Whether to retrieve schema context before prompting.
         rag_top_k: How many table schemas to retrieve.
+        gemini_api_key: This session's Gemini key, passed to every call of the run and
+            never stored; `None` uses the server's configured keys.
 
     Returns:
         A dataframe of the runner's per-case strings (outcome, SQL, error, latency,
@@ -77,6 +80,7 @@ def evaluate_cases(
         model="gold" if gold else model_name,
         use_rag=use_rag,
         rag_top_k=rag_top_k,
+        gemini_api_key=None if gold else gemini_api_key,
     )
     rows: list[dict[str, str]] = []
     for case in load_suite(DEMO_SUITE):

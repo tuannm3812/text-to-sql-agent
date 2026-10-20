@@ -11,10 +11,10 @@ from .engines import Engine, open_engine
 from .execution import execute_query
 from .ingestion import ingest_csvs_to_db
 from .llm import generate_sql
-from .rag import retrieve_relevant_schema
+from .rag import retrieve_relevant_schema, retrieve_schema_context
 from .safety import query_refusal
 from .schema import get_schema
-from .types import QueryResult
+from .types import Answer, QueryResult
 
 
 def ask_database(
@@ -29,6 +29,7 @@ def ask_database(
     work_limit: int | None = None,
     max_rows: int | None = None,
     ollama_think: bool | None = False,
+    gemini_api_key: str | None = None,
 ) -> QueryResult:
     """End-to-end Text-to-SQL wrapper: schema retrieval, generation, safety, execution.
 
@@ -58,6 +59,8 @@ def ask_database(
             call; see `generate_sql`. Off by default, so the app's Ollama calls
             send `think: false`: the 512-token output cap is the SQL answer's
             budget. Gemini ignores it.
+        gemini_api_key: A Gemini key for this question's calls only (generation and
+            repair); see `generate_sql`. `None` uses the server's configured keys.
 
     Returns:
         A `QueryResult`. `error` is set to `UNANSWERABLE_WITH_GIVEN_SCHEMA` if
@@ -89,6 +92,7 @@ def ask_database(
             provider=provider,
             engine=engine,
             ollama_think=ollama_think,
+            gemini_api_key=gemini_api_key,
         )
 
         refusal = _sentinel_code(sql, engine=engine) or query_refusal(sql, engine=engine)
@@ -107,6 +111,7 @@ def ask_database(
                 max_repair_attempts=max_repair_attempts,
                 engine=engine,
                 ollama_think=ollama_think,
+                gemini_api_key=gemini_api_key,
             )
             if not repaired_sql:
                 raise
@@ -123,7 +128,7 @@ def ask_database(
         return QueryResult(columns=[], rows=[], error=f"{type(e).__name__}: {e}")
 
 
-def ask_database_with_sql(
+def answer_question(
     question: str,
     *,
     db_path: str = "university_agent.db",
@@ -136,8 +141,13 @@ def ask_database_with_sql(
     max_rows: int | None = None,
     ollama_think: bool | None = False,
     on_repair_error: Callable[[Exception], None] | None = None,
-) -> tuple[str, QueryResult]:
-    """Same as `ask_database`, but also returns the generated SQL for UI display.
+    gemini_api_key: str | None = None,
+) -> Answer:
+    """Same as `ask_database`, but returns the SQL and the exact schema context too.
+
+    The app keeps the returned `Answer` with the turn, so the SQL and context shown
+    beside a result are the ones that produced it, not a retrieval re-run afterwards
+    (Codex, 2026-10-20). `ask_database_with_sql` returns its `(sql, result)` part.
 
     Args:
         question: The user's natural-language question.
@@ -159,9 +169,10 @@ def ask_database_with_sql(
             this changes nothing for a caller that omits it. The evaluation
             runner passes it to tell a provider outage during repair (a 429
             on the second call) from a model that wrote bad SQL.
+        gemini_api_key: See `ask_database`.
 
     Returns:
-        A `(sql, QueryResult)` tuple. `sql` is `""` if generation itself
+        An `Answer`. Its `sql` is `""` if generation itself
         failed; otherwise it is the SQL that was attempted (repaired SQL
         replaces the original once a repair succeeds, or once a repair is
         refused - the refusal code is then about that SQL). Once execution
@@ -179,11 +190,12 @@ def ask_database_with_sql(
     engine = open_engine(db_path)
     engine.check_reachable()
 
-    schema_text = (
-        retrieve_relevant_schema(db_path, question, top_k=rag_top_k)
-        if use_rag
-        else get_schema(db_path)
-    )
+    retrieval = retrieve_schema_context(db_path, question, top_k=rag_top_k) if use_rag else None
+    schema_text = retrieval.schema_text if retrieval is not None else get_schema(db_path)
+
+    def answer(sql: str, result: QueryResult) -> Answer:
+        return Answer(sql=sql, result=result, schema_text=schema_text, retrieval=retrieval)
+
     try:
         sql = generate_sql(
             question,
@@ -192,17 +204,18 @@ def ask_database_with_sql(
             provider=provider,
             engine=engine,
             ollama_think=ollama_think,
+            gemini_api_key=gemini_api_key,
         )
     except Exception as e:
-        return "", QueryResult(columns=[], rows=[], error=f"{type(e).__name__}: {e}")
+        return answer("", QueryResult(columns=[], rows=[], error=f"{type(e).__name__}: {e}"))
 
     refusal = _sentinel_code(sql, engine=engine) or query_refusal(sql, engine=engine)
     if refusal is not None:
-        return sql, QueryResult(columns=[], rows=[], sql=sql, error=refusal)
+        return answer(sql, QueryResult(columns=[], rows=[], sql=sql, error=refusal))
 
     try:
         result = _execute(db_path, sql, work_limit=work_limit, max_rows=max_rows)
-        return result.sql or sql, result
+        return answer(result.sql or sql, result)
     except Exception as e:
         error_text = f"{type(e).__name__}: {e}"
         repaired_sql = _repair_sql(
@@ -216,6 +229,7 @@ def ask_database_with_sql(
             engine=engine,
             ollama_think=ollama_think,
             on_repair_error=on_repair_error,
+            gemini_api_key=gemini_api_key,
         )
         if repaired_sql:
             # Same contract as `ask_database`: a refused repair is reported as
@@ -224,17 +238,54 @@ def ask_database_with_sql(
                 repaired_sql, engine=engine
             )
             if repair_refusal is not None:
-                return repaired_sql, QueryResult(
-                    columns=[], rows=[], sql=repaired_sql, error=repair_refusal
+                return answer(
+                    repaired_sql,
+                    QueryResult(columns=[], rows=[], sql=repaired_sql, error=repair_refusal),
                 )
             try:
                 repaired_result = _execute(
                     db_path, repaired_sql, work_limit=work_limit, max_rows=max_rows
                 )
-                return repaired_result.sql or repaired_sql, repaired_result
+                return answer(repaired_result.sql or repaired_sql, repaired_result)
             except Exception as repaired_error:
                 error_text = f"{type(repaired_error).__name__}: {repaired_error}"
-        return sql, QueryResult(columns=[], rows=[], sql=sql, error=error_text)
+        return answer(sql, QueryResult(columns=[], rows=[], sql=sql, error=error_text))
+
+
+def ask_database_with_sql(
+    question: str,
+    *,
+    db_path: str = "university_agent.db",
+    model_name: str = DEFAULT_MODEL_NAME,
+    provider: str | None = None,
+    use_rag: bool = True,
+    rag_top_k: int = DEFAULT_RAG_TOP_K,
+    max_repair_attempts: int = 1,
+    work_limit: int | None = None,
+    max_rows: int | None = None,
+    ollama_think: bool | None = False,
+    on_repair_error: Callable[[Exception], None] | None = None,
+    gemini_api_key: str | None = None,
+) -> tuple[str, QueryResult]:
+    """`answer_question`'s `(sql, result)`: the SQL attempted and its `QueryResult`.
+
+    Every argument and every return value is as `answer_question` documents.
+    """
+    answer = answer_question(
+        question,
+        db_path=db_path,
+        model_name=model_name,
+        provider=provider,
+        use_rag=use_rag,
+        rag_top_k=rag_top_k,
+        max_repair_attempts=max_repair_attempts,
+        work_limit=work_limit,
+        max_rows=max_rows,
+        ollama_think=ollama_think,
+        on_repair_error=on_repair_error,
+        gemini_api_key=gemini_api_key,
+    )
+    return answer.sql, answer.result
 
 
 def ask_from_files(
@@ -353,6 +404,7 @@ def _repair_sql(
     engine: Engine,
     ollama_think: bool | None,
     on_repair_error: Callable[[Exception], None] | None = None,
+    gemini_api_key: str | None = None,
 ) -> str | None:
     if max_repair_attempts < 1:
         return None
@@ -379,6 +431,7 @@ Return only one corrected {dialect_name} SELECT query.
             provider=provider,
             engine=engine,
             ollama_think=ollama_think,
+            gemini_api_key=gemini_api_key,
         )
     except Exception as exc:
         if on_repair_error is not None:

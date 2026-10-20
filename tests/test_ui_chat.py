@@ -1,7 +1,7 @@
 """The chat path must not let a driver exception reach the page unredacted.
 
-`ui.chat._run_query` is the seam extracted from `render_chat`'s call to
-`backend.ask_database_with_sql`: it must catch any exception the backend raises
+`ui.chat._run_query` is the one seam both question paths (typed and sample) use to call
+`backend.answer_question`: it must catch any exception the backend raises
 and hand it to the existing `ui.results.describe_error` -> `redact_dsn` path
 instead of letting it escape to Streamlit's default traceback renderer, which
 never sees `redact_dsn`.
@@ -14,13 +14,14 @@ from unittest.mock import patch
 
 import ui.chat as chat
 from ui.results import describe_error
+from ui.settings import Settings
 
 
 def test_a_pipeline_exception_is_redacted_before_display() -> None:
     """A driver error echoing its DSN must not put a password on the page."""
     boom = RuntimeError("could not connect to postgresql://u:hunter2@db.example.com:5432/prod")
-    with patch("ui.chat.backend.ask_database_with_sql", side_effect=boom):
-        sql_text, result = chat._run_query(
+    with patch("ui.chat.backend.answer_question", side_effect=boom):
+        answer = chat._run_query(
             "list customers",
             db_path="postgresql://x",
             model_name="gemini-2.5-flash",
@@ -29,24 +30,29 @@ def test_a_pipeline_exception_is_redacted_before_display() -> None:
             rag_top_k=3,
         )
 
-    assert sql_text == ""
-    assert result.error is not None
+    assert answer.sql == ""
+    assert answer.result.error is not None
 
     # `describe_error` is exactly what `render_assistant_turn` passes to
     # `st.error`/`st.warning`, so redacting it here proves what actually
     # reaches the page, not just that an exception was caught.
-    shown = describe_error(result.error)
+    shown = describe_error(answer.result.error)
 
     assert "hunter2" not in shown
     assert "***" in shown
 
 
 def test_a_successful_call_is_returned_unchanged() -> None:
-    """The success path must not be altered by the extraction."""
-    from text_to_sql_agent import QueryResult
+    """The success path must not be altered by the seam."""
+    from text_to_sql_agent import Answer, QueryResult
 
-    expected = ("SELECT 1", QueryResult(columns=["1"], rows=[(1,)], sql="SELECT 1", error=None))
-    with patch("ui.chat.backend.ask_database_with_sql", return_value=expected):
+    expected = Answer(
+        sql="SELECT 1",
+        result=QueryResult(columns=["1"], rows=[(1,)], sql="SELECT 1", error=None),
+        schema_text="CREATE TABLE t (x);",
+        retrieval=None,
+    )
+    with patch("ui.chat.backend.answer_question", return_value=expected):
         actual = chat._run_query(
             "how many rows",
             db_path="some.db",
@@ -63,7 +69,7 @@ def test_the_apps_ollama_call_sends_think_false(customers_db: str, recording_oll
     """The app passes no think flag, so Ollama gets the backend's default: thinking off."""
     recording_ollama.replies.append("SELECT name FROM customers")
 
-    sql_text, result = chat._run_query(
+    answer = chat._run_query(
         "list customers",
         db_path=customers_db,
         model_name="qwen3.5:9b-q4_K_M",
@@ -72,29 +78,70 @@ def test_the_apps_ollama_call_sends_think_false(customers_db: str, recording_oll
         rag_top_k=3,
     )
 
-    assert result.ok, result.error
-    assert sql_text == "SELECT name FROM customers"
+    assert answer.result.ok, answer.result.error
+    assert answer.sql == "SELECT name FROM customers"
     assert recording_ollama.reasoning == [False]
 
 
-def test_rag_on_shows_the_sent_schema_and_a_report_naming_units(customers_db: str) -> None:
-    schema_text, report = chat._schema_display(
-        customers_db, "list customers", use_rag=True, rag_top_k=3
+def _settings(**overrides: Any) -> Settings:
+    values: dict[str, Any] = {
+        "provider": "ollama",
+        "model_name": "qwen3.5:9b-q4_K_M",
+        "use_rag": True,
+        "rag_top_k": 3,
+        "db_path": None,
+        "gemini_key": "",
+        "key_ok": True,
+        "source": "Demo database",
+        "demo_name": "University",
+        "source_label": "University",
+    }
+    values.update(overrides)
+    return Settings(**values)
+
+
+def test_a_turn_shows_exactly_the_schema_the_model_was_sent(
+    customers_db: str, recording_ollama: Any
+) -> None:
+    """Codex, 2026-10-20: the context used to be re-retrieved after the answer."""
+    recording_ollama.replies.append("SELECT name FROM customers")
+    answer = chat._run_query(
+        "list customers",
+        db_path=customers_db,
+        model_name="qwen3.5:9b-q4_K_M",
+        provider="ollama",
+        use_rag=True,
+        rag_top_k=3,
     )
 
-    assert schema_text is not None and "CREATE TABLE customers" in schema_text
-    assert report is not None
-    assert "characters of schema text, not provider tokens" in report
-    assert "plain full DDL, what RAG off sends" in report
+    turn = chat.answer_turn(answer, _settings(), database="customers.db")
+
+    assert turn["schema_text"] in recording_ollama.calls[0].user_prompt
+    assert "CREATE TABLE customers" in turn["schema_text"]
+    assert "characters of schema text, not provider tokens" in turn["rag_report"]
+    assert (turn["database"], turn["provider"], turn["model"]) == (
+        "customers.db",
+        "ollama",
+        "qwen3.5:9b-q4_K_M",
+    )
+    assert turn["context"] == "schema RAG, top 3"
 
 
-def test_rag_off_shows_plain_ddl_and_no_retrieval_report(customers_db: str) -> None:
-    """The sample-question path used to show a retrieval report even with RAG off."""
+def test_rag_off_records_plain_ddl_and_no_retrieval_report(
+    customers_db: str, recording_ollama: Any
+) -> None:
     from text_to_sql_agent import get_schema
 
-    schema_text, report = chat._schema_display(
-        customers_db, "list customers", use_rag=False, rag_top_k=3
+    answer = chat._run_query(
+        "list customers",
+        db_path=customers_db,
+        model_name="m",
+        provider="ollama",
+        use_rag=False,
+        rag_top_k=3,
     )
+    turn = chat.answer_turn(answer, _settings(use_rag=False), database="customers.db")
 
-    assert schema_text == get_schema(customers_db)
-    assert report is None
+    assert turn["schema_text"] == get_schema(customers_db)
+    assert turn["rag_report"] is None
+    assert turn["context"] == "full schema"

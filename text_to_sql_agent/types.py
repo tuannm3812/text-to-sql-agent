@@ -280,3 +280,21 @@ class SchemaRetrievalResult:
             for match in self.value_matches:
                 lines.append(f"- {match.table}.{match.column}: {', '.join(match.values)}")
         return "\n".join(lines)
+
+
+@dataclass(frozen=True)
+class Answer:
+    """One question's outcome together with the exact context the model was given.
+
+    Attributes:
+        sql: The SQL attempted, as `ask_database_with_sql` documents; `""` if generation
+            failed.
+        result: The execution result, or the refusal or error code.
+        schema_text: The schema text sent to the model, byte for byte.
+        retrieval: The retrieval behind `schema_text` when RAG was on, else `None`.
+    """
+
+    sql: str
+    result: QueryResult
+    schema_text: str
+    retrieval: SchemaRetrievalResult | None
