@@ -5012,3 +5012,238 @@ report's sent recall at top 6 equals the committed runs' mean `schema_recall`
 below 1.0 noted in the flip analysis). The EX split by coverage joins the three committed
 `bird_train_large` full runs. Tests for the metrics, the ranking-equals-selection property
 and the report. Not run against PostgreSQL (no ranking change there).
+
+## 2026-10-20 — Codex: `6493063..2670af6`, engine and UI review
+
+**Scope.** Reviewed the requested range (retrieval metrics and ranking extraction),
+rechecked the preceding `6493063` fixes, and extended the review to all three engine
+implementations, the pipeline/provider boundary, and the Streamlit interface. This is
+an evidence-based review, not a comprehensive security audit. No application code,
+defaults, benchmark bundles or dependencies changed; no provider requests were made.
+
+**Range findings.**
+
+1. **P2 — Unknown subset IDs silently change the measured population.**
+   `scripts/report_retrieval.py:181-184` filters with membership without validating
+   requested IDs. A temporary copy of the demo suite with `demo.typo.txt` containing
+   only `not-a-case` exits 0 and emits an ordinary report with zero cases and zero
+   metrics. A partly stale subset silently measures only its surviving IDs. Reuse the
+   runner's subset validation (which rejects unknown IDs), check suite identity, and
+   add refusal tests before using these reports to compare scorer changes.
+2. **P2 — The stated recovery ceiling is not supported by the experiment.**
+   `evaluation/results/retrieval/README.md:32-36` calls roughly 20 questions/1.6 points
+   “the most” improved recall could recover. This is an observed net difference
+   between different prompts, not an upper bound on a new selector. Rejoining the
+   167 missed-table cases gives full-hints 30 correct versus top-6 9; 22 are correct
+   only with full hints and 1 only with top-6. There are 158 top-6 failures in this
+   group. None of these counts establishes what a better selector will recover.
+   Describe the 21-case net gap as an observed comparison, remove the ceiling and
+   causal attribution of hardness losses, and evaluate any revised selector.
+
+**Previous findings.** The per-database provenance fix is implemented and its
+population/current-suite refusal tests pass: close that prior P2. The new data-key
+separation is useful, but the freshness issue is not fully closed:
+
+3. **P2 — SQLite WAL writes leave the new data fingerprint unchanged.**
+   `text_to_sql_agent/engines/sqlite.py:397-404` stats only the main database file.
+   Reproduced on a real temporary WAL database, with no patched fingerprint: create
+   `people(name)` with Alice plus 20 distinct names, checkpoint once, keep the writer
+   open, warm `retrieve_schema_context(..., top_k=0, value_matches=True)`, then commit
+   Alice -> Bob. Fresh SQL sees Bob; both fingerprints remain equal; matching still
+   returns Alice and misses Bob. Account for committed WAL changes (or adopt an
+   explicit refresh policy), with an open-writer regression test that does not force
+   `os.utime`. The current conformance test forces the main-file mtime and therefore
+   cannot establish this behavior. Optional value matching remains off; schema/hint
+   caches also merit this freshness review. PostgreSQL's new statistics-based key
+   remains unverified against a live server; its documented lag is not a freshness
+   guarantee established by this review.
+
+**Broader existing UI findings (not introduced by the requested range).**
+
+4. **P1 for shared deployments — A user's Gemini key becomes process-global.**
+   `ui/sidebar.py:67-69` writes a typed key to `os.environ`; `ui/secrets.py` and the
+   default Gemini manager then read it for other sessions. Reproduced with two
+   independent Streamlit `AppTest` sessions, a cleared temporary environment and a
+   fake key: A enters a key; B's key field is empty, but B says “key loaded” and its
+   backend manager selects A's key. No real credentials or API calls were used.
+   Pass session-scoped credentials/client configuration explicitly through the query
+   and evaluation paths; do not mutate global environment/key rotation state from a
+   user's input. Add two-session isolation and key-clearing tests. This is a blocker
+   for multi-user hosting, not evidence that any actual key was disclosed.
+5. **P2 — Replacing an upload can keep querying the previous contents.**
+   `ui/uploads.py:63-71,89-95` identifies uploads by filename and length alone.
+   A deterministic fake-upload reproduction supplies `same.db` with `first`, then
+   the same name/size with `other`: only one write occurs and the selected file still
+   contains `first`. CSV caching uses the same insufficient identity. Use a content
+   digest or reliable upload-version identifier, invalidate associated state, and
+   test same-name/same-size replacements. The reproduction tests cache selection;
+   it does not attempt to parse these dummy bytes as a database.
+
+**Engine assessment and next actions.**
+
+- SQLite has useful layered read-only controls (read-only connection, query-only,
+  authorizer), a VM work budget and row limits. Keep it as the simple demo/upload
+  path; address WAL-aware freshness before claiming mutable-data cache correctness.
+- DuckDB enforces read-only plus disabled external access and an interrupt budget.
+  Local conformance passes. Improve discoverability: the UI calls itself “Local
+  SQLite” and its path/upload controls are SQLite-specific; DuckDB requires the
+  connection-string route. Do not assume its file-stat key proves every persistence
+  mode correct merely because the simple conformance fixture passes.
+- PostgreSQL has separate role checks, schema scope/name resolution, read-only
+  transactions and statement timeouts. These are meaningful safeguards in source;
+  live behavior was not tested here. Run its least-privilege conformance, row-change
+  cache and schema-scope cases on a reachable server before closing the engine work.
+- Shared pipeline: return the exact schema/retrieval metadata alongside each result.
+  `ui.chat._schema_display` currently recomputes it after execution, so changing data
+  can make the displayed “sent” context differ from what generation used. Store
+  database/model/context identity per turn so history remains interpretable after
+  switching connections. These are architectural recommendations, not reproduced
+  race-condition findings. Unify the sample-question and ordinary-chat paths too:
+  the sample path bypasses `_run_query`'s exception wrapper.
+
+**Frontend direction.** Inspected the running Streamlit page in the browser and its
+source. The existing SQL/schema expanders and readable refusal messages are useful.
+The first screen gives provider/RAG settings priority while database selection sits
+low in the sidebar; the benchmark loader sits in the ordinary question workflow.
+Move connection selection first, keep model/retrieval settings under an advanced
+section, separate evaluation from querying, and put source/model/status on every
+answer. Make empty, truncated, blocked and disconnected states explicit. The chat
+appearance currently suggests conversational follow-ups, but each pipeline call
+receives only the current question: disclose independent-question behavior until
+contextual follow-ups are deliberately implemented. Display cloud/local routing and
+value-hint disclosure accurately; “schema only” must not imply hints contain no
+stored values. Avoid displaying retrieval scores as confidence in answer correctness.
+
+A disposable inline prototype accompanies this review: “Focused chat” preserves the
+familiar conversation layout; “SQL workspace” puts the question beside results/SQL/
+context. It includes engine/model/context selectors and simulated result states, with
+illustrative data and no live queries. It is outside the repository, not a production
+implementation. The HTML preview wrapper was generated, but visual/interaction QA
+of this prototype was not completed: automatic approval review could not authorize
+its localhost preview server because the approval service hit its usage limit. The
+existing Streamlit page was inspected successfully before that limitation.
+
+**Fresh verification at `2670af6`.** Full pytest: **1436 passed, 353 skipped**.
+Conformance: **30 passed, 15 skipped** (all 15 require the unset PostgreSQL DSN).
+Ruff passes; **179** files already formatted; mypy passes on **54** source files.
+All three saved retrieval reports (Spider dev off, BIRD dev on, BIRD train large on)
+reproduce byte for byte. The ranking refactor matches the actual `6493063` module
+for **420** retrievals across **35** databases (two questions/database, evidence
+on/off, k=3/6/10), including complete chunks and schema text. This sample independently
+supports preservation; Claude's full 18,519 comparison was not repeated. The joined
+coverage table also reproduces: covered group plain/full-hints/top-6 = 299/282/347
+correct of 1055; missed group = 29/30/9 of 167. An initial ad hoc join assumed nested
+manifest identity and failed; rerunning with the actual flat manifest format produced
+these counts. No live PostgreSQL or new provider benchmark was run.
+
+**Suggested order for the owner/Claude.** Fix session-key isolation and upload
+identity first; correct subset validation and the unsupported recovery ceiling;
+finish cache freshness with live PostgreSQL verification; then choose a UI layout.
+Keep top-6 and optional value matching defaults unchanged. For retrieval experiments,
+use these reproduced metrics to isolate scorer signals, then confirm execution
+accuracy on a frozen evaluation population before changing the shipped selector.
+
+## 2026-10-20 — Codex to Claude: portfolio UI milestone and README screenshots
+
+**Owner clarification.** This is currently a portfolio project; making it shareable
+or adding a new hosted frontend is not a priority. The owner wants a better UI,
+README screenshots, an explanation of the current milestone, and discussion here.
+Keep the existing Streamlit/Python architecture. Sites is unnecessary for this scope;
+there is no request to deploy a new Site or introduce a separate web/API stack.
+The owner selected the prototype's “Focused chat” variant; treat that as the visual
+direction, not as evidence that the mock data or proposed controls already exist.
+
+**Where we are, checked at `2670af6`.** `docs/4_next_steps.md` marks Phases 1, 2,
+3a and 3b complete: foundation/tooling, correctness/UI separation, and the SQLite,
+DuckDB and PostgreSQL engine seam. Evaluation v2 and the Spider/BIRD release runs
+are complete, as are the large-schema attribution runs. Phase 4 has started:
+retrieval profiling/caching and recall@k, coverage@k and MRR are implemented; the
+named-signal scorer rewrite, optional real semantic embeddings and persistent index
+remain roadmap work. Phase 5's structured agent loop is planned, not implemented;
+the current pipeline already has bounded SQL repair. PostgreSQL's phase completion
+is historical; it does not mean its newest data-fingerprint code was tested live in
+this review. The preceding review's five findings are still open in this checkout.
+No new implementation commits have landed since that review.
+
+**Proposed bounded milestone: portfolio UI and evidence refresh.** This is a
+presentation milestone alongside Phase 4, not a declaration that Phase 4 is done.
+Claude, please review the proposal and respond here with scope adjustments or an
+implementation plan before making a broader architectural change:
+
+1. Preserve Streamlit and the existing backend interfaces. Use Focused chat as a
+   starting point, translating it into maintainable Streamlit layout/widgets rather
+   than copying a static mock into the app. Keep the restrained warm neutral palette,
+   improve spacing and hierarchy, and ensure readable narrow-screen layouts.
+2. Put the active database/source first in the sidebar, then provider/model. Put
+   retrieval tuning and developer controls under Advanced. Make engine support
+   discoverable accurately: a bare file path still means SQLite, while DuckDB uses
+   its DSN route. Keep API inputs masked and avoid displaying credential-bearing DSNs.
+3. Give the main area a clear title, concise purpose and useful demo question choices.
+   Place Results, SQL and Context together per answer (tabs or consistent expanders),
+   with database/model identity saved for that turn. Show an aggregate chart only
+   when the result shape supports it. Explicitly say each question is independent;
+   do not imply conversational memory or a Phase 5 trace exists.
+4. Move evaluation controls/results to a separate view so they do not interrupt the
+   main question workflow. Make empty, truncated, blocked and unavailable states
+   understandable, with a specific next action. Do not add confidence percentages,
+   unmeasured timings, fictional execution stages or fake connection status.
+5. Include the two existing UI correctness fixes in the work: session-scoped Gemini
+   credentials and content-aware upload identity. Local-only use lowers immediate
+   shared-hosting exposure but does not make the global-key defect correct. Keep the
+   range-specific evaluation and cache fixes separately reviewable; do not let a
+   visual refresh hide unresolved backend findings.
+
+**README screenshot deliverables, after the working UI is implemented.** Capture
+real browser views into the existing `docs/screenshots/` directory, and update
+README references/alt text/captions in the same change:
+
+- A main hero screenshot with a successful demo question, a real result table and
+  its chart where supported. Prefer one readable full-width image over two tiny
+  screenshots placed side by side.
+- The SQL view for that same answer, with enough surrounding question/source context
+  to show how the result can be inspected.
+- The Context view with selected tables and the current signed schema-size report,
+  clearly labelled in characters rather than provider tokens.
+- A read-only refusal view demonstrating the safety boundary. An evaluation view
+  using a committed result bundle is optional if it adds useful evidence.
+
+Use the tracked synthetic demo databases, a consistent desktop viewport (for
+example 1440x1000), and actual successful app interactions. Record the app commit,
+question, database, provider/model and capture method in the log. Do not submit paid
+provider runs just to decorate the README without agreeing that scope. If a fixture
+or mocked provider is used for a deterministic UI screenshot, label that capture as
+a UI demonstration and do not present it as model-performance evidence. The current
+inline prototype contains invented illustrative counts and must not be presented as
+a screenshot of the working project. Hide local paths, credentials and unrelated
+browser content. Check the refreshed layout at a narrow viewport as well.
+
+**README content corrections to bundle with the screenshots.** Its opening copy,
+architecture steps and engine badge coverage still emphasize SQLite alone despite
+three implemented engines. The Schema RAG section says large-schema savings are
+“plausible but not measured”; the completed `bird_train_large` full comparison now
+supports 69% fewer prompt tokens and +3.6 points [1.4, 5.8] against full DDL plus
+hints, scoped to that experiment. It also says no row data is read while listing
+stored-value hints: distinguish schema metadata, bounded row-derived value hints,
+optional question-value matching (off), and result rows. Avoid blanket “privacy-safe”
+claims about categorical values. Keep older Spider/BIRD results dated and linked to
+their actual run commits rather than relabelling them as current-HEAD performance.
+The current retrieval screenshot is explicitly marked as predating the signed-size
+report; replace it with a real capture after the refresh. Consider “Text-to-SQL
+Agent” as the title and describe it as an evaluated portfolio prototype rather than
+implying enterprise production readiness.
+
+**Acceptance and handoff.** A good stopping point is a working Focused chat UI,
+regression coverage for credential/upload fixes, readable results/SQL/context and
+error states, fresh real screenshots, corrected README claims, and the applicable
+ruff/mypy/pytest checks. Maintain current retrieval defaults and measured benchmark
+artifacts. Claude: please reply with which parts you will implement, whether any
+backend return-type change is needed to preserve exact per-turn context, and how
+screenshots will be generated reproducibly. Codex can then review the resulting
+commit range and evidence here. Do not block the portfolio polish on completing
+all of Phase 4 or building Phase 5.
+
+**This turn's work.** Read current history, roadmap, next steps, README and screenshot
+inventory; appended this discussion only. Existing review notes were preserved.
+No production UI edits or new screenshots were made in this discussion turn; no
+unchanged tests or provider benchmarks were repeated. This note does not claim Claude
+has received a separate message or replied: the agent log is the requested handoff.
