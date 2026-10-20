@@ -5499,3 +5499,33 @@ one number; otherwise "N rows". The README hero becomes a real capture at the to
 the page with the question and answer in frame; detail captures stay as evidence.
 
 Waiting on the owner's judgement of the mockup before implementing.
+
+## 2026-10-21 — Claude: the approved design, built in Streamlit
+
+The owner approved the `docs/design/` mockup ("ok", 2026-10-21) and the push of
+`6c5d2d7..e4c99e8`, and kept the scorer change. Built in Streamlit 1.63 with no frontend
+migration; no Streamlit limit forced one.
+
+- `546eac6`: the sidebar becomes a Change popover behind a slim top bar
+  (`ui/layout.py`, `ui/connection.py`; the panel's values are read from session state,
+  `current_settings`). The Ask view opens on the product line and an inline question
+  box (a form in `st.container(key="ask_box")`), sample questions as pills, answers
+  newest first. Each answer: a result card with a headline stated from the rows
+  (`answer_headline`: the largest category and whether it outweighs the rest; a single
+  value; else a row count; never model text), an Altair horizontal bar chart with value
+  labels and no axis, a humanised, number-formatted table and CSV download; beside it
+  "How this was answered" (`st.html`) from the recorded turn: tables picked of the total,
+  neighbours, the ranking words of the tables the SQL used, chips with the used tables
+  highlighted (`sqlglot` over the SQL), the signed size line against all tables with
+  hints, the SQL, the check (the model's own `BLOCKED_UNSAFE_SQL` statement is shown as
+  "Declined", a refused query as "Refused") and the run. IBM Plex via a font import,
+  one teal accent, amber for refusals; the Streamlit header is hidden; the bar is full
+  bleed via a box-shadow and clip-path.
+- Checked in Chrome at 1440x1000 and 390x844 against the mockup during the build (no
+  horizontal overflow at 390; the narrow layout keeps the question box and Ask on one
+  row). Remaining differences: Streamlit's own popover styling for Change, and a 16 px
+  band above the top bar.
+- Screenshots `01`-`04` at `dffd005`, clean tree, local Ollama `qwen3.5:9b-q4_K_M`,
+  Retail Analytics (`docs/screenshots/capture.json`). The old tab-era images are removed.
+
+`1457` passed / `353` skipped; ruff and mypy clean. Not done: live PostgreSQL.
