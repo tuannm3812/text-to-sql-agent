@@ -1,0 +1,4 @@
+bird_train_large: regression gate PASS
+  new 28f21bcd vs baseline 47284f5c
+  EX (answerable cases; the verdict rests on this): 356/1222 -> 367/1222, change +0.9 points, 95% paired interval [-0.7, +2.4] points
+  point drop -0.9 points (floor 5; negative is an improvement); interval below zero: False; floor breached: False
