@@ -1,6 +1,6 @@
-# Enterprise Text-to-SQL Agent
+# Text-to-SQL Agent
 
-An AI-assisted decision support prototype that translates natural-language questions into safe, locally executed SQLite queries.
+An evaluated portfolio prototype: ask a question in plain English, and the agent writes read-only SQL for a SQLite, DuckDB or PostgreSQL database, validates it, runs it, and shows the result beside the exact SQL and schema the model was given.
 
 [![Tests](https://github.com/tuannm3812/text-to-sql-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/tuannm3812/text-to-sql-agent/actions/workflows/tests.yml)
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://aipa-text-to-sql-agent.streamlit.app/)
@@ -9,44 +9,52 @@ An AI-assisted decision support prototype that translates natural-language quest
 [![Gemini](https://img.shields.io/badge/LLM-Gemini-4285F4)](https://ai.google.dev/)
 [![Ollama](https://img.shields.io/badge/Local%20LLM-Ollama-111111)](https://ollama.com/)
 [![SQLite](https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![DuckDB](https://img.shields.io/badge/Database-DuckDB-FFF000?logo=duckdb&logoColor=black)](https://duckdb.org/)
+[![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Live demo:** https://aipa-text-to-sql-agent.streamlit.app/
 
-| Ask a question | Get a ranked, grounded answer |
-|---|---|
-| ![Chat UI with a demo database selected](docs/screenshots/01-chat-ui.png) | ![Query result table](docs/screenshots/02-query-result.png) |
+![The app answering "Which product categories generate the most revenue?" on the Retail Analytics demo: the result table and a bar chart, with the answer's database, model and context setting above it](docs/screenshots/01-answer-result.png)
+
+*A real answer from a local model (Ollama, `qwen3.5:9b-q4_K_M`) on the tracked Retail Analytics demo database, captured by [`scripts/capture_screenshots.py`](scripts/capture_screenshots.py). It shows the interface, not benchmark accuracy; see [Evaluation Results](#evaluation-results).*
 
 <details>
-<summary>See the generated SQL and the schema RAG retrieval report behind that answer</summary>
+<summary>The SQL, the context the model was given, and a refused write</summary>
 
-The SQL is never hidden from the user, and every answer can show which tables were retrieved and why:
+Every answer keeps the SQL it ran:
 
-![Generated SQL for the query above](docs/screenshots/03-generated-sql.png)
+![The SQL tab of the same answer: a SELECT joining order_items to products, summing unit price times quantity by category](docs/screenshots/02-answer-sql.png)
 
-![Schema RAG retrieval report showing retrieval strategy, scores, and the schema-text size (screenshot predates the 2026-10-12 signed size report)](docs/screenshots/04-schema-rag-report.png)
+and the exact schema text the model received, which for schema RAG is the selected tables' DDL plus sample values from low-cardinality text columns:
+
+![The Context tab: the selected tables' CREATE TABLE statements with their sample-value comment lines](docs/screenshots/03-answer-context.png)
+
+A request to change data is refused and nothing runs:
+
+![A question asking to delete cancelled orders, answered with a read-only refusal](docs/screenshots/04-read-only-refusal.png)
 
 </details>
 
 ## What It Does
 
-The app lets a user connect a local SQLite database or upload CSV files, ask a plain-English question, and receive a table of results. The LLM only receives schema metadata, not raw database rows.
+The app connects to a demo database, a SQLite file, uploaded CSV files (loaded into a temporary SQLite file), or a DuckDB or PostgreSQL connection string. A question goes to Gemini or a local Ollama model with the database's schema, and the returned SQL is validated as read-only before it runs. Each answer shows the result, the SQL and the context the model was sent, and records the database, model and retrieval setting it was answered with. Questions are answered independently: earlier questions are not sent to the model.
 
-The current branch supports two LLM backends:
+What the model sees, precisely:
 
-- Gemini API, using `GEMINI_API_KEY` or a multi-key failover set
-- Local Ollama, using a model such as `gemma3`
+- **Schema metadata:** table and column names, types, keys and `CREATE TABLE` DDL.
+- **Value hints (row-derived, bounded):** with schema RAG on, up to six of the most frequent values of each text column that has at most 20 distinct values (a status or category), labelled when the list is cut. These are stored values, so they are not schema-only.
+- **Question value matching:** built but **off**: it would send stored values that match words in the question, from any text column ([decision](docs/3_decisions.md)).
+- **Result rows:** never sent to the model; they are shown to the user only.
 
 ## Architecture
 
-1. Python extracts SQLite `CREATE TABLE` statements.
-2. Schema RAG builds table-level chunks from DDL, columns, and foreign-key relationships.
-3. The most relevant schema chunks are retrieved for the user question using hybrid lexical, semantic, and foreign-key graph signals.
-4. The user question and retrieved schema are sent to the selected LLM.
-5. The LLM returns one SQLite `SELECT` query.
-6. Python validates that the SQL is read-only and avoids SQLite internals.
-7. SQLite executes the query locally in read-only mode.
-8. Streamlit renders the result table, with an automatic bar chart when the result is a two-column `GROUP BY`-shaped answer (one category column, one numeric column).
+1. The engine for the connection (SQLite, DuckDB or PostgreSQL) reads the schema and builds one chunk per table.
+2. Schema RAG ranks the chunks for the question (lexical, character n-gram and foreign-key signals) and keeps the top tables plus their foreign-key neighbours; with RAG off, the full DDL is sent.
+3. The question and that schema text go to the selected LLM, which returns one `SELECT`.
+4. The SQL is validated as a single read-only statement in the engine's dialect and checked against database internals.
+5. The engine runs it under its own read-only guarantee, a work budget and a row cap; one repair attempt is made if it fails.
+6. Streamlit shows the result, a bar chart when the result is one category and one number, the SQL, and the exact context sent.
 
 ![Runtime architecture schematic: request trace builds context left to right, response trace validates, executes, and answers right to left, with optional key-failover, repair, and auto-chart branches](docs/screenshots/00-architecture-workflow.png)
 
@@ -54,46 +62,20 @@ For a deeper, multi-page diagram (hybrid RAG internals, the offline evaluation w
 
 ## Schema RAG
 
-The project includes an advanced local schema RAG layer. It does not read or embed row data. It only indexes:
+The retrieval layer indexes schema metadata and the bounded value hints above; it does not embed rows or call an embedding service. At question time it:
 
-- table names
-- column names
-- `CREATE TABLE` DDL
-- foreign-key neighbor tables
-- low-cardinality text value hints, such as status or grade categories
+1. tokenizes the question, adding singulars and a few business synonyms (`client -> customer`)
+2. scores each table with BM25 over its names and DDL, a down-weighted BM25 over its value hints, table and column name matches, character-trigram similarity and a hashed pseudo-embedding (weights in `text_to_sql_agent/config.py`)
+3. keeps the top six tables and adds their foreign-key neighbours
+4. reports the selected tables, their scores and reasons, and the size of the schema text sent against plain DDL and against full DDL plus hints (characters, not provider tokens)
 
-At question time, the backend:
+What it was measured to do, on `qwen3.5:9b-q4_K_M` (local Ollama), each claim scoped to its run:
 
-1. tokenizes the user question
-2. expands common business synonyms such as `client -> customer` and `revenue -> amount/sales`
-3. scores schema chunks with a BM25-style lexical ranking
-4. adds local hashed embedding similarity and character n-gram semantic similarity for fuzzy matching
-5. adds privacy-safe categorical value hints for low-cardinality text columns
-6. decomposes the question into entities, aggregations, filters, and comparisons for explainability
-7. adds stronger boosts for exact table and column matches
-8. expands through foreign-key neighbors so joinable tables are included
-9. sends only the selected schema snippets to the LLM
+- **Spider dev and BIRD dev (at most 14 tables per database; gate G8, 2026-10-11, [`rag_ablation.md`](evaluation/results/rag_ablation.md)):** +3.0 points EX on Spider [+1.1, +4.9] against full DDL, nothing measurable on BIRD. The value hints carry that gain; choosing tables adds nothing measurable there, and the prompt is larger, not smaller.
+- **Large schemas (`bird_train_large`, 21 to 65 tables, 1,222 questions, 2026-10-19, [results](evaluation/results/bird_train_large/README.md)):** top-6 selection beats full DDL plus hints by **+3.6 points [+1.4, +5.8]** with **69 % fewer prompt tokens**, from the 65- and 34-table databases.
+- **Retrieval quality** is measured without a model by [`scripts/report_retrieval.py`](scripts/report_retrieval.py) (recall@k, coverage@k, MRR; [results](evaluation/results/retrieval/README.md)).
 
-What it was measured to do (gate G8, 2026-10-11,
-[`evaluation/results/rag_ablation.md`](evaluation/results/rag_ablation.md)),
-against sending the full DDL with no hints:
-
-- execution accuracy: +3.0 points on Spider dev [+1.1, +4.9]; no measurable
-  difference on BIRD dev (+0.4 [-1.5, +2.2])
-- table selection: mean schema recall of 1.000 on Spider and 0.995 on BIRD;
-  a follow-up arm (2026-10-12) shows the value hints earn the accuracy gain
-  (+2.6 points on Spider, +1.9 on BIRD) while choosing tables adds nothing
-  measurable (+0.4 on Spider, -1.5 on BIRD, both intervals spanning zero)
-- prompt size: **larger, not smaller**, by 21 % on Spider and 6 % on BIRD,
-  because at these schema sizes the value hints add more text than leaving
-  out tables removes; a saving on much larger schemas is plausible but not
-  measured
-
-It also keeps row data out of the prompt, since only metadata and
-low-cardinality value hints are retrieved, and it makes each answer
-explainable: selected tables, value hints and schema recall are reported.
-
-In the Streamlit sidebar you can toggle schema RAG and adjust how many tables are retrieved. Each answer also includes an optional retrieval report showing selected tables, scores, matched terms, and graph-expansion reasons.
+In the app, schema RAG and the number of tables are under **Advanced** in the sidebar.
 
 ## Safety Model
 
@@ -215,16 +197,20 @@ See `docs/3_decisions.md`'s 2026-09-27 entries.
 streamlit run app.py
 ```
 
-In the sidebar you can:
+The sidebar asks, in order:
 
-- choose Gemini or Ollama
-- set the model name
-- enable or disable schema RAG
-- tune how many schema tables are retrieved
-- use an existing `.db` path
-- upload a SQLite `.db`
-- upload one or more CSV files
-- create the built-in university demo database
+1. **Database:** a demo database, a SQLite file path, an uploaded SQLite file, uploaded CSV
+   files, or a connection string (`duckdb:///...`, `postgresql://...`; a bare path means
+   SQLite). A connection string's password is never shown back.
+2. **Model:** Gemini (cloud; a typed key stays in that browser session and is sent with
+   each request) or Ollama (local).
+3. **Advanced:** schema RAG on or off, how many tables to select, and writing the demo
+   university database.
+
+The **Evaluation** view runs the 12-question demo suite with the selected model and browses
+the committed benchmark runs. Screenshots are regenerated with
+`uv run --group screenshots python scripts/capture_screenshots.py` (local Ollama and Google
+Chrome; details in `docs/screenshots/capture.json`).
 
 ## Create Demo Data
 
