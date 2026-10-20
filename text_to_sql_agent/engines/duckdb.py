@@ -34,6 +34,7 @@ from ..types import QueryResult, SchemaChunk
 from .base import (
     EngineUnreachableError,
     extra_schemas_from_env,
+    file_data_fingerprint,
     is_internal_schema_name,
     table_column_spellings,
     table_name_spellings,
@@ -875,13 +876,11 @@ DUCKDB DIALECT (must follow):
             conn.close()
 
     def data_fingerprint(self) -> tuple[object, ...]:
-        """See `Engine.data_fingerprint`: `(path, mtime_ns, size)` of the database file.
+        """See `Engine.data_fingerprint`: the database file and its `.wal` log, stated.
 
-        The same stat `schema_fingerprint()` returns, read on its own so the two stay
-        separate keys: a write changes the file's mtime or size, rows included.
+        Read separately from `schema_fingerprint()`, so the two stay separate keys.
         """
-        stat = Path(self.dsn).resolve().stat()
-        return (str(Path(self.dsn).resolve()), int(stat.st_mtime_ns), int(stat.st_size))
+        return file_data_fingerprint(self.dsn, ".wal")
 
     def schema_fingerprint(self) -> tuple[object, ...]:
         """Return `(path, mtime_ns, size, extra_schemas)`.

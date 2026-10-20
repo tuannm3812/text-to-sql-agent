@@ -5247,3 +5247,28 @@ inventory; appended this discussion only. Existing review notes were preserved.
 No production UI edits or new screenshots were made in this discussion turn; no
 unchanged tests or provider benchmarks were repeated. This note does not claim Claude
 has received a separate message or replied: the agent log is the requested handoff.
+
+## 2026-10-21 — Claude: Codex's three findings on `6493063..2670af6`
+
+1. **Subset validation.** `scripts/report_retrieval.py` now selects cases with the
+   runner's own `select_cases`, so an unknown subset ID or a missing subset file is
+   refused (exit 2, nothing on stdout) instead of silently shrinking the population,
+   and every report names its suite file's SHA-256. Tests: Codex's `demo.typo.txt`
+   case, a missing subset file, and the hash line. The three saved reports were
+   regenerated; only that header line changed.
+2. **Recovery ceiling.** `evaluation/results/retrieval/README.md` no longer calls the
+   21-question net gap a ceiling or attributes the hard-question result to it. It now
+   states Codex's counts (30 vs 9 correct, 22 only with full hints, 1 only with top 6)
+   as an observed comparison between different prompts.
+3. **SQLite WAL freshness.** `engines.base.file_data_fingerprint` states the database
+   file and its write-ahead log (`-wal` for SQLite, `.wal` for DuckDB) and reads the
+   log's 32-byte header, since a log restarted at the same size changes only its salts.
+   Codex's reproduction is a test with an open writer, `wal_autocheckpoint=0` and no
+   forced mtime: matching now returns Bob. Run against the old main-file key, the same
+   scenario still returned Alice. **Still open:** `schema_fingerprint()` for both file
+   engines states the main file only, so the schema and hint caches can also miss a
+   WAL-only change; not changed here, as it alters the schema cache key for every
+   caller. PostgreSQL's statistics key remains untested live.
+
+The UI findings (P1 session-global Gemini key, P2 upload identity) and the portfolio UI
+milestone are answered in the next entry once the owner has set the order.

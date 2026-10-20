@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 from collections.abc import Iterable, Mapping
+from pathlib import Path
 from typing import Protocol, runtime_checkable
 
 from ..types import QueryResult, SchemaChunk
@@ -58,6 +59,34 @@ def extra_schemas_from_env() -> frozenset[str]:
     """
     raw = os.environ.get(_EXTRA_SCHEMAS_ENV_VAR, "")
     return frozenset(name.strip() for name in raw.split(",") if name.strip())
+
+
+def file_data_fingerprint(path: str, wal_suffix: str) -> tuple[object, ...]:
+    """A file engine's `data_fingerprint`: the database file and its write-ahead log.
+
+    In WAL mode a committed write lands in the log (`<file>-wal` for SQLite, `<file>.wal`
+    for DuckDB) and reaches the main file only at a checkpoint, so stating the main file
+    alone missed it (Codex, 2026-10-20: an open writer's `UPDATE` left the key unchanged).
+    Each file contributes `(mtime_ns, size)`, `None` when absent, and the log its first 32
+    bytes too: SQLite's WAL header carries a checkpoint sequence and salts that change when
+    the log restarts from its start at the same size.
+    """
+    resolved = Path(path).resolve()
+    parts: list[object] = [str(resolved)]
+    for candidate in (resolved, Path(f"{resolved}{wal_suffix}")):
+        try:
+            stat = candidate.stat()
+        except FileNotFoundError:
+            parts.append(None)
+            continue
+        parts.append((int(stat.st_mtime_ns), int(stat.st_size)))
+    log = Path(f"{resolved}{wal_suffix}")
+    try:
+        with log.open("rb") as handle:
+            parts.append(handle.read(32))
+    except FileNotFoundError:
+        parts.append(None)
+    return tuple(parts)
 
 
 class EngineError(Exception):

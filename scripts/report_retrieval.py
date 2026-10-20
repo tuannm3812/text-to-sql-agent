@@ -14,7 +14,12 @@ rank is read off (`evaluation_v2.retrieval`). The report, Markdown on stdout, gi
 - both split by hardness and by database;
 - the gold tables the shipped setting drops most often, with where they ranked.
 
-Read-only; no model is called. Exit 0 always; the numbers are the result.
+The cases are chosen exactly as a run chooses them (`runner.select_cases`): a subset ID
+that is not in the suite, or a suite file holding another suite, is refused rather than
+silently dropped, and the header records the suite file's SHA-256, so two reports can be
+checked to measure the same population before they are compared.
+
+Read-only; no model is called. Exit 0 reported, 2 refused.
 """
 
 from __future__ import annotations
@@ -32,7 +37,8 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 from text_to_sql_agent.config import DEFAULT_RAG_TOP_K  # noqa: E402 - after the sys.path insert
-from text_to_sql_agent.evaluation_v2 import Case, load_suite  # noqa: E402
+from text_to_sql_agent.evaluation_v2 import Case  # noqa: E402
+from text_to_sql_agent.evaluation_v2.contract import SuiteError, suite_sha256  # noqa: E402
 from text_to_sql_agent.evaluation_v2.retrieval import (  # noqa: E402
     DEFAULT_KS,
     CaseRanks,
@@ -40,9 +46,10 @@ from text_to_sql_agent.evaluation_v2.retrieval import (  # noqa: E402
     summarise,
 )
 from text_to_sql_agent.evaluation_v2.runner import (  # noqa: E402
+    RunConfig,
     question_text,
-    read_subset_ids,
     resolve_db_path,
+    select_cases,
 )
 from text_to_sql_agent.rag import rank_schema_chunks, retrieve_schema_context  # noqa: E402
 
@@ -107,7 +114,13 @@ def _group_table(title: str, groups: dict[str, list[CaseResult]], top_k: int) ->
 
 
 def render(
-    suite: str, subset: str, results: Sequence[CaseResult], *, evidence: bool, top_k: int
+    suite: str,
+    subset: str,
+    results: Sequence[CaseResult],
+    *,
+    evidence: bool,
+    top_k: int,
+    suite_hash: str = "",
 ) -> str:
     """The Markdown report."""
     ks = tuple(sorted({*DEFAULT_KS, top_k}))
@@ -116,6 +129,8 @@ def render(
     sent_covered = sum(r.sent_covered for r in results) / len(results) if results else 0.0
     lines = [
         f"# Retrieval: `{suite}` / {subset}, evidence {'on' if evidence else 'off'}",
+        "",
+        f"Suite file SHA-256 `{suite_hash}`." if suite_hash else "",
         "",
         f"{summary.cases} cases with gold tables. Ranking = `rag.rank_schema_chunks`, before "
         f"foreign-key neighbours. Sent = `retrieve_schema_context(top_k={top_k})`, "
@@ -178,13 +193,34 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--top-k", type=int, default=DEFAULT_RAG_TOP_K)
     parser.add_argument("--suites-dir", type=Path, default=ROOT_DIR / "evaluation" / "suites")
     args = parser.parse_args(argv)
-    cases = load_suite(args.suites_dir / f"{args.suite}.jsonl")
-    if args.subset != "full":
-        wanted = set(read_subset_ids(args.suites_dir / f"{args.suite}.{args.subset}.txt"))
-        cases = [case for case in cases if case.id in wanted]
+    suite_path = args.suites_dir / f"{args.suite}.jsonl"
+    full = args.subset == "full"
+    config = RunConfig(
+        suite=args.suite,
+        suite_path=suite_path,
+        mode="gold",
+        provider="gold",
+        model="gold",
+        subset=args.subset,
+        subset_path=None if full else args.suites_dir / f"{args.suite}.{args.subset}.txt",
+    )
+    try:
+        cases = select_cases(config)
+    except (OSError, SuiteError, ValueError) as exc:
+        sys.stderr.write(f"report refused: {exc}\n")
+        return 2
     evidence = args.evidence == "on"
     results = evaluate(cases, evidence=evidence, top_k=args.top_k)
-    sys.stdout.write(render(args.suite, args.subset, results, evidence=evidence, top_k=args.top_k))
+    sys.stdout.write(
+        render(
+            args.suite,
+            args.subset,
+            results,
+            evidence=evidence,
+            top_k=args.top_k,
+            suite_hash=suite_sha256(suite_path),
+        )
+    )
     return 0
 
 

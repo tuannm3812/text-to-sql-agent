@@ -419,3 +419,34 @@ def test_selection_is_the_ranking_cut_at_top_k(customers_sales_courses_db: str) 
         c.qualified_name for c in ranking[:2]
     ]
     assert [c.score for c in ranking] == sorted((c.score for c in ranking), reverse=True)
+
+
+def test_an_open_writers_wal_commit_refreshes_the_value_index(tmp_path: Path) -> None:
+    """Codex, 2026-10-20: in WAL mode a commit stays in `-wal` until a checkpoint, so a key
+    on the main file alone kept serving the deleted value. No mtime is forced here."""
+    path = tmp_path / "wal.db"
+    writer = sqlite3.connect(path)
+    try:
+        writer.execute("PRAGMA journal_mode=WAL")
+        writer.execute("PRAGMA wal_autocheckpoint=0")
+        writer.execute("CREATE TABLE people (person_id INTEGER PRIMARY KEY, name TEXT)")
+        writer.executemany(
+            "INSERT INTO people (name) VALUES (?)",
+            [(f"Person{i:02d}",) for i in range(20)] + [("Alice",)],
+        )
+        writer.commit()
+        writer.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+        db = str(path)
+        question = "Is there a person called Alice or Bob?"
+
+        def matched() -> list[str]:
+            result = rag.retrieve_schema_context(db, question, top_k=0, value_matches=True)
+            return [value for match in result.value_matches for value in match.values]
+
+        assert matched() == ["Alice"]
+        writer.execute("UPDATE people SET name = 'Bob' WHERE name = 'Alice'")
+        writer.commit()
+
+        assert matched() == ["Bob"]
+    finally:
+        writer.close()

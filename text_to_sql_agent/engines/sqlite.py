@@ -19,7 +19,12 @@ from ..config import (
     DEFAULT_VALUE_HINT_MAX_CARDINALITY,
 )
 from ..types import QueryResult, SchemaChunk
-from .base import EngineUnreachableError, table_column_spellings, table_name_spellings
+from .base import (
+    EngineUnreachableError,
+    file_data_fingerprint,
+    table_column_spellings,
+    table_name_spellings,
+)
 
 
 def _sqlite_read_only_authorizer(action: int, *_args: Any) -> int:
@@ -395,13 +400,11 @@ SQLITE DIALECT (must follow):
             )
 
     def data_fingerprint(self) -> tuple[object, ...]:
-        """See `Engine.data_fingerprint`: `(path, mtime_ns, size)` of the database file.
+        """See `Engine.data_fingerprint`: the database file and its `-wal` log, stated.
 
-        The same stat `schema_fingerprint()` returns, read on its own so the two stay
-        separate keys: a write changes the file's mtime or size, rows included.
+        Read separately from `schema_fingerprint()`, so the two stay separate keys.
         """
-        stat = Path(self.dsn).resolve().stat()
-        return (str(Path(self.dsn).resolve()), int(stat.st_mtime_ns), int(stat.st_size))
+        return file_data_fingerprint(self.dsn, "-wal")
 
     def schema_fingerprint(self) -> tuple[object, ...]:
         """Return `(path, mtime_ns, size)`, today's `_db_cache_key` value."""

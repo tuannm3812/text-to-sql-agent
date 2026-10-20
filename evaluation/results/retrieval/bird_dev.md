@@ -1,5 +1,7 @@
 # Retrieval: `bird_dev` / full, evidence on
 
+Suite file SHA-256 `e774beb1020e7c8ee420742ae26e36e74e23fe4706a4a09ede225ead12101bde`.
+
 1534 cases with gold tables. Ranking = `rag.rank_schema_chunks`, before foreign-key neighbours. Sent = `retrieve_schema_context(top_k=6)`, neighbours included, what a run's `schema_recall` records. Percentages.
 
 | k | 1 | 2 | 3 | 4 | 6 | 8 | 10 |

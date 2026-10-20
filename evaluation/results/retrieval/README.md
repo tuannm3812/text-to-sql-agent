@@ -29,11 +29,15 @@ with the three full-suite arms at `47284f5` (EX):
 | Every gold table sent (1,055) | 28.3 % | 26.7 % | 32.9 % |
 | A gold table not sent (167) | 17.4 % | 18.0 % | 5.4 % |
 
-So selection gains about 5 points where it keeps the gold tables, and loses about 12
-points on the 14 % of questions where it drops one. That is about 20 questions (1.6
-points of the suite), the most that better recall at top 6 could recover, and where the
-"no gain on hard questions" comes from: coverage@6 is 60.6 % on hard and 62.3 % on extra
-questions against 92.8 % on easy ones.
+Observed, not causal: where top 6 sent every gold table it scored 4.6 to 6.2 points above
+the full-schema arms; where it dropped one, 12 to 13 points below them. On the 167 missed
+cases full DDL plus hints got 30 right and top 6 got 9 (22 right only with full hints, 1
+only with top 6), a net gap of 21 questions. These are different prompts on different
+cases, so the gap is a comparison, not a ceiling on what a better selector would recover;
+only a run of a revised selector can say that (corrected after Codex, 2026-10-20). Coverage
+is also lower on harder questions (coverage@6 60.6 % on hard, 62.3 % on extra, 92.8 % on
+easy), which is consistent with, but does not show, missed tables explaining top 6's lack
+of gain there.
 
 ## Why tables are missed
 
