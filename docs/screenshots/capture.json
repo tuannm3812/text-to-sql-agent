@@ -1,0 +1,21 @@
+{
+  "commit": "d806b68",
+  "dirty": false,
+  "captured": "2026-10-20T22:17:01+00:00",
+  "method": "scripts/capture_screenshots.py: streamlit + Playwright (chrome)",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "narrow_viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "database": "Retail Analytics demo (data/retail_analytics.db)",
+  "provider": "ollama",
+  "model": "qwen3.5:9b-q4_K_M",
+  "questions": [
+    "Which product categories generate the most revenue?",
+    "Delete every order that was cancelled."
+  ]
+}
