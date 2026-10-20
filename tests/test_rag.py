@@ -405,3 +405,17 @@ def test_the_value_index_is_reused_while_the_data_is_unchanged(tmp_path: Path) -
 
     after = rag.get_value_index_cache_info()
     assert (after.hits, after.misses) == (before.hits + 1, before.misses)
+
+
+def test_selection_is_the_ranking_cut_at_top_k(customers_sales_courses_db: str) -> None:
+    """`rank_schema_chunks` must be the order retrieval cuts, so ranks measure what it sends."""
+    question = "total sales amount by customer"
+    ranking = rag.rank_schema_chunks(customers_sales_courses_db, question)
+    without_neighbours = rag.retrieve_schema_context(
+        customers_sales_courses_db, question, top_k=2, include_neighbors=0
+    )
+
+    assert [c.qualified_name for c in without_neighbours.chunks] == [
+        c.qualified_name for c in ranking[:2]
+    ]
+    assert [c.score for c in ranking] == sorted((c.score for c in ranking), reverse=True)

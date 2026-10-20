@@ -346,6 +346,93 @@ def decompose_question(question: str) -> dict[str, list[str]]:
     }
 
 
+def _score_chunks(
+    chunks: list[SchemaChunk],
+    version: tuple[object, ...],
+    question: str,
+    expanded_tokens: list[str],
+    semantic_weight: float,
+    embedding_weight: float,
+) -> list[SchemaChunk]:
+    """Every chunk rescored for the question, best first: `(-score, table_name)` order.
+
+    The scored copies carry `score`, `matched_terms` and `match_reasons`. The order is the
+    ranking `retrieve_schema_context` cuts at `top_k`; when every score is 0 it is plain
+    name order, the fallback that function used to apply separately.
+    """
+    index = _cached_corpus_index(version)
+    doc_freq = index.doc_freq
+    avg_doc_len = index.avg_doc_len
+    query_ngrams = _char_ngrams(" ".join(expanded_tokens) or question)
+
+    query_counter = Counter(expanded_tokens)
+    query_embedding = _hashed_embedding(" ".join(expanded_tokens) or question)
+    scored: list[SchemaChunk] = []
+    for chunk, entry in zip(chunks, index.entries, strict=True):
+        token_counts = entry.token_counts
+        doc_len = entry.doc_len
+
+        score = 0.0
+        matched_terms: set[str] = set()
+        reasons: list[str] = []
+
+        for token, query_weight in query_counter.items():
+            if token not in token_counts:
+                continue
+            matched_terms.add(token)
+            idf = math.log(1 + (len(chunks) - doc_freq[token] + 0.5) / (doc_freq[token] + 0.5))
+            tf = token_counts[token]
+            denominator = tf + 1.5 * (1 - 0.75 + 0.75 * doc_len / avg_doc_len)
+            score += idf * ((tf * 2.5) / denominator) * max(1, query_weight)
+
+        table_matches = sorted(set(expanded_tokens) & entry.table_tokens)
+        column_matches = sorted(set(expanded_tokens) & entry.column_tokens)
+        weak_matches = sorted(set(expanded_tokens) & entry.text_tokens)
+        if table_matches:
+            score += 8.0 * len(table_matches)
+            reasons.append(f"table match: {', '.join(table_matches)}")
+            matched_terms.update(table_matches)
+        if column_matches:
+            score += 4.0 * len(column_matches)
+            reasons.append(f"column match: {', '.join(column_matches)}")
+            matched_terms.update(column_matches)
+        if weak_matches and not (table_matches or column_matches):
+            reasons.append(f"schema text match: {', '.join(weak_matches[:6])}")
+
+        semantic_score = _cosine_counter_similarity(query_ngrams, entry.ngrams)
+        if semantic_score > 0:
+            score += semantic_weight * semantic_score
+            reasons.append(f"semantic similarity: {semantic_score:.2f}")
+
+        embedding_score = _cosine_vector_similarity(query_embedding, entry.embedding)
+        if embedding_score > 0:
+            score += embedding_weight * embedding_score
+            reasons.append(f"embedding similarity: {embedding_score:.2f}")
+
+        scored.append(
+            SchemaChunk(
+                table_name=chunk.table_name,
+                ddl=chunk.ddl,
+                columns=chunk.columns,
+                foreign_tables=chunk.foreign_tables,
+                search_text=chunk.search_text,
+                # Phase 3b Task 6: a rescored copy must keep the identity of
+                # the chunk it copies. Dropping `schema_name` here would give
+                # a table outside the engine's default schema the identity of
+                # a same-named table inside it.
+                schema_name=chunk.schema_name,
+                home_schema=chunk.home_schema,
+                value_hints=chunk.value_hints,
+                value_hint_totals=chunk.value_hint_totals,
+                score=score,
+                matched_terms=sorted(matched_terms),
+                match_reasons=reasons,
+            )
+        )
+
+    return sorted(scored, key=lambda c: (-c.score, c.table_name))
+
+
 def _value_matches_for(
     version: tuple[object, ...],
     question: str,
@@ -358,6 +445,37 @@ def _value_matches_for(
     tables = {chunk.qualified_name for chunk in chunks}
     data = open_engine(str(version[0])).data_fingerprint()
     return match_question_values(_cached_value_index(version, data), question, tables)
+
+
+def rank_schema_chunks(
+    db_path: str,
+    question: str,
+    *,
+    semantic_weight: float = DEFAULT_RAG_SEMANTIC_WEIGHT,
+    embedding_weight: float = DEFAULT_RAG_EMBEDDING_WEIGHT,
+) -> list[SchemaChunk]:
+    """Every table of the database scored for the question, best first.
+
+    The same scores and order `retrieve_schema_context` cuts at `top_k` before it adds
+    foreign-key neighbours, so a retrieval metric can ask where each gold table ranks
+    (`evaluation_v2.retrieval`). Empty for a database with no tables.
+
+    Args:
+        db_path: Filesystem path (or DSN) to the database.
+        question: The text retrieval scores, evidence included when a run sends it.
+        semantic_weight: See `retrieve_schema_context`.
+        embedding_weight: See `retrieve_schema_context`.
+
+    Returns:
+        One rescored `SchemaChunk` per table in `(-score, table_name)` order.
+    """
+    chunks, _, version = get_schema_chunks_plain_ddl_and_version(db_path)
+    if not chunks:
+        return []
+    expanded_tokens = _expand_query_tokens(_tokenize_for_rag(question))
+    return _score_chunks(
+        chunks, version, question, expanded_tokens, semantic_weight, embedding_weight
+    )
 
 
 def retrieve_schema_chunks(
@@ -460,79 +578,10 @@ def retrieve_schema_context(
             value_matches=_value_matches_for(version, question, chunks, value_matches),
         )
 
-    index = _cached_corpus_index(version)
-    doc_freq = index.doc_freq
-    avg_doc_len = index.avg_doc_len
-    query_ngrams = _char_ngrams(" ".join(expanded_tokens) or question)
-
-    query_counter = Counter(expanded_tokens)
-    query_embedding = _hashed_embedding(" ".join(expanded_tokens) or question)
-    scored: list[SchemaChunk] = []
-    for chunk, entry in zip(chunks, index.entries, strict=True):
-        token_counts = entry.token_counts
-        doc_len = entry.doc_len
-
-        score = 0.0
-        matched_terms: set[str] = set()
-        reasons: list[str] = []
-
-        for token, query_weight in query_counter.items():
-            if token not in token_counts:
-                continue
-            matched_terms.add(token)
-            idf = math.log(1 + (len(chunks) - doc_freq[token] + 0.5) / (doc_freq[token] + 0.5))
-            tf = token_counts[token]
-            denominator = tf + 1.5 * (1 - 0.75 + 0.75 * doc_len / avg_doc_len)
-            score += idf * ((tf * 2.5) / denominator) * max(1, query_weight)
-
-        table_matches = sorted(set(expanded_tokens) & entry.table_tokens)
-        column_matches = sorted(set(expanded_tokens) & entry.column_tokens)
-        weak_matches = sorted(set(expanded_tokens) & entry.text_tokens)
-        if table_matches:
-            score += 8.0 * len(table_matches)
-            reasons.append(f"table match: {', '.join(table_matches)}")
-            matched_terms.update(table_matches)
-        if column_matches:
-            score += 4.0 * len(column_matches)
-            reasons.append(f"column match: {', '.join(column_matches)}")
-            matched_terms.update(column_matches)
-        if weak_matches and not (table_matches or column_matches):
-            reasons.append(f"schema text match: {', '.join(weak_matches[:6])}")
-
-        semantic_score = _cosine_counter_similarity(query_ngrams, entry.ngrams)
-        if semantic_score > 0:
-            score += semantic_weight * semantic_score
-            reasons.append(f"semantic similarity: {semantic_score:.2f}")
-
-        embedding_score = _cosine_vector_similarity(query_embedding, entry.embedding)
-        if embedding_score > 0:
-            score += embedding_weight * embedding_score
-            reasons.append(f"embedding similarity: {embedding_score:.2f}")
-
-        scored.append(
-            SchemaChunk(
-                table_name=chunk.table_name,
-                ddl=chunk.ddl,
-                columns=chunk.columns,
-                foreign_tables=chunk.foreign_tables,
-                search_text=chunk.search_text,
-                # Phase 3b Task 6: a rescored copy must keep the identity of
-                # the chunk it copies. Dropping `schema_name` here would give
-                # a table outside the engine's default schema the identity of
-                # a same-named table inside it.
-                schema_name=chunk.schema_name,
-                home_schema=chunk.home_schema,
-                value_hints=chunk.value_hints,
-                value_hint_totals=chunk.value_hint_totals,
-                score=score,
-                matched_terms=sorted(matched_terms),
-                match_reasons=reasons,
-            )
-        )
-
-    selected = sorted(scored, key=lambda c: (-c.score, c.table_name))[:top_k]
-    if all(chunk.score == 0 for chunk in selected):
-        selected = sorted(scored, key=lambda c: c.table_name)[:top_k]
+    scored = _score_chunks(
+        chunks, version, question, expanded_tokens, semantic_weight, embedding_weight
+    )
+    selected = scored[:top_k]
 
     # Keyed by `qualified_name`, not `table_name`, for the same reason
     # `foreign_tables` now holds qualified names (Phase 3b Task 6): two

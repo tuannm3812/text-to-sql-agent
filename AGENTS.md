@@ -130,6 +130,12 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   measurable (`evaluation/results/value_matches/`). Owner kept it off (2026-10-19).
   `1419` passed / `352` skipped without the DSN.
 
+- 2026-10-20: retrieval metrics, no model calls: `rag.rank_schema_chunks` exposes the
+  full ranking (18,519 retrievals unchanged) and `scripts/report_retrieval.py` reports
+  recall@k, coverage@k and MRR (`evaluation/results/retrieval/`). `bird_train_large`
+  MRR 0.853, coverage@6 72.3 %; the 167 questions where top 6 drops a gold table score
+  5.4 % EX against 17-18 % with the full schema. `1436` passed / `353` skipped.
+
 ## Open risks
 
 - The RAG "embedding" in `rag.py` is a hashed bag of character n-grams, not a

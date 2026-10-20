@@ -79,8 +79,12 @@ again, which is a Phase 4 prompt-layout decision, not a retrieval one; (5) **don
 2026-10-19:** why hints do not help on `bird_train_large`: half the needed literals are in
 columns over the 20-value ceiling, and most shown ones repeat the evidence. Question value
 matching (off by default, it reads row data) reached the gold value but moved EX only
-+0.4 [-0.9, +1.6] (`evaluation/results/value_matches/README.md`); the owner kept it off; (6) next,
-the retrieval rewrite below. The retrieval report's prompt size is
++0.4 [-0.9, +1.6] (`evaluation/results/value_matches/README.md`); the owner kept it off; (6) **started
+2026-10-20:** the retrieval rewrite below, with recall@k, coverage@k and MRR first
+(`scripts/report_retrieval.py`, `evaluation/results/retrieval/README.md`): on
+`bird_train_large` top 6 drops a gold table in 167 of 1,222 questions, where its EX
+falls to 5.4 % against 17-18 % with the full schema; next, the generic-table noise in
+the scorer. The retrieval report's prompt size is
 fixed (`21d15a0`): signed character changes against plain DDL and against full
 DDL plus hints.
 

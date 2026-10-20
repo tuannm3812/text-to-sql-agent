@@ -4996,3 +4996,19 @@ status note was appended, with no new implementation findings.
    subset_sha256`.
 
 Value matching stays off. `1429` passed / `353` skipped; ruff and mypy clean.
+
+## 2026-10-20 — Phase 4 retrieval rewrite, step 1: retrieval metrics
+
+`rag._score_chunks` is the scoring loop moved out of `retrieve_schema_context` unchanged,
+returning every chunk in `(-score, table_name)` order; the old all-zero fallback (name
+order) is that same order, so it was folded in. `rag.rank_schema_chunks` exposes it.
+Checked by dumping 18,519 retrievals (Spider dev, BIRD dev, `bird_train_large`; evidence
+on and off where a case has it; `top_k` 3, 6, 10) before and after: byte-identical
+(tables, scores to 9 places, reasons, schema-text SHA-256). New
+`evaluation_v2/retrieval.py` (recall@k, coverage@k, MRR) and
+`scripts/report_retrieval.py`; reports saved under `evaluation/results/retrieval/`. The
+report's sent recall at top 6 equals the committed runs' mean `schema_recall`
+(`bird_train_large` 0.931; BIRD dev 98.0 % fully covered, matching the 30 of 1,534 cases
+below 1.0 noted in the flip analysis). The EX split by coverage joins the three committed
+`bird_train_large` full runs. Tests for the metrics, the ranking-equals-selection property
+and the report. Not run against PostgreSQL (no ranking change there).
