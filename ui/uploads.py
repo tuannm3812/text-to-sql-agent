@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import os
 import tempfile
 import uuid
@@ -41,6 +42,15 @@ def write_uploaded_csvs(uploaded_list: list) -> list[str]:
     return paths
 
 
+def upload_digest(uploaded: UploadedFile) -> str:
+    """SHA-256 of an upload's bytes: its identity for the write cache.
+
+    Name and size are not enough: replacing `same.db` with a different file of the same
+    size kept querying the first one (Codex, 2026-10-20).
+    """
+    return hashlib.sha256(uploaded.getbuffer()).hexdigest()
+
+
 def active_db_path() -> str | None:
     """Resolve DB path from sidebar widgets (with caching for uploads)."""
     source = st.session_state.get("sb_source", "Demo database")
@@ -64,8 +74,7 @@ def active_db_path() -> str | None:
         uf = st.session_state.get("sb_upload_db")
         if uf is None:
             return None
-        sig = ("db", uf.name, getattr(uf, "size", 0))
-        key = f"_db_upload_{hash(sig)}"
+        key = f"_db_upload_{upload_digest(uf)}"
         if key not in st.session_state:
             st.session_state[key] = write_uploaded_db(uf)
         return st.session_state[key]
@@ -86,7 +95,7 @@ def active_db_path() -> str | None:
     files = st.session_state.get("sb_upload_csv")
     if not files:
         return None
-    csv_sig = tuple(sorted((f.name, getattr(f, "size", 0)) for f in files))
+    csv_sig = tuple(sorted((f.name, upload_digest(f)) for f in files))
     if st.session_state.get("_csv_sig") != csv_sig:
         try:
             csv_paths = write_uploaded_csvs(list(files))
