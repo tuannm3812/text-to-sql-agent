@@ -1,72 +1,114 @@
-"""The page-level CSS injected once per render by `app.py`.
+"""The page's visual system, injected once per render by `app.py`.
 
-A restrained warm-neutral palette: off-white page, a slightly darker sidebar, one muted
-accent for the user's questions. Layout stays Streamlit's own; this only adjusts colour,
-spacing and the question bubble, so narrow screens keep Streamlit's responsive stacking.
+IBM Plex Sans for the interface, Plex Mono only for SQL and table names (they are code).
+A cool paper base, ink text, one teal accent for "verified" and the leading bar, and
+amber kept for refusals and warnings (Codex's visual review and the approved mockup in
+`docs/design/`, 2026-10-21). Layout stays Streamlit's columns; this sets type, colour,
+spacing and the top bar.
 """
 
 from __future__ import annotations
 
 CHAT_CSS = """
 <style>
-    .stApp, [data-testid="stHeader"] {
-        background: #faf9f5;
-    }
-    [data-testid="stSidebar"] {
-        background: #f1efe8 !important;
-        border-right: 1px solid #e6e3da;
-    }
-    section[data-testid="stSidebar"] .block-container {
-        padding-top: 1.25rem;
-    }
-    .main .block-container {
-        max-width: 54rem;
-        padding-top: 1.5rem;
-        padding-bottom: 5rem;
-    }
-    .stMarkdown, [data-testid="stChatMessage"] {
-        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-        color: #1f1e1b;
-    }
-    .app-title {
-        font-size: 1.75rem;
-        font-weight: 650;
-        color: #1f1e1b;
-        margin: 0 0 0.25rem 0;
-        padding: 0;
-    }
-    .app-subtitle {
-        font-size: 0.98rem;
-        color: #5f5c55;
-        margin: 0 0 0.75rem 0;
-        max-width: 44rem;
-    }
-    [data-testid="stChatInput"] textarea {
-        border-radius: 0.9rem !important;
-        border: 1px solid #e0dcd2 !important;
-        background: #fff !important;
-    }
-    [data-testid="stChatMessage"] {
-        background: #ffffff;
-        border: 1px solid #ece9e1;
-        border-radius: 0.9rem;
-        padding: 0.75rem 0.9rem;
-    }
-    .chat-user-wrap {
-        display: flex;
-        justify-content: flex-end;
-        width: 100%;
-        margin: 0.5rem 0;
-    }
-    .chat-user-bubble {
-        max-width: min(40rem, 85%);
-        background: #ece7dc;
-        border: 1px solid #e0d9ca;
-        color: #1f1e1b;
-        padding: 0.55rem 0.85rem;
-        border-radius: 0.9rem;
-        word-wrap: break-word;
-        white-space: pre-wrap;
-    }
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+:root {
+    --ink: #1c2430; --muted: #5d6672; --line: #dce0da; --paper: #f6f7f4;
+    --panel: #ffffff; --teal: #0e6e66; --teal-soft: #e3f0ed; --amber: #a86f08;
+    --well: #eef1ed;
+}
+html, body, .stApp, [data-testid="stHeader"] { background: var(--paper); }
+.stApp, .stMarkdown, button, input, textarea {
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+}
+code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace !important; }
+[data-testid="stHeader"] { display: none; }
+.main .block-container, [data-testid="stMainBlockContainer"] {
+    max-width: 1240px; padding: 0 40px 64px;
+}
+
+/* top bar */
+/* Full-bleed bar inside the centred column: a panel-coloured shadow widens the
+   background, clip-path keeps it to the bar's own height. */
+.st-key-topbar { position: relative; padding: 12px 0; margin: 0 0 32px;
+    background: var(--panel); box-shadow: 0 0 0 100vmax var(--panel);
+    clip-path: inset(0 -100vmax -1px -100vmax); }
+.st-key-topbar::after { content: ""; position: absolute; left: -100vmax; right: -100vmax;
+    bottom: -1px; height: 1px; background: var(--line); }
+[data-testid="stMainBlockContainer"] { padding-top: 0 !important; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px;
+         letter-spacing: -0.01em; white-space: nowrap; }
+.mark { width: 30px; height: 30px; border-radius: 7px; background: var(--ink); color: #fff;
+        display: grid; place-items: center; font: 600 13px "IBM Plex Mono", monospace; }
+.conn { display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+        font-size: 14px; color: var(--muted); }
+.conn b { color: var(--ink); font-weight: 600; }
+.conn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex: none; }
+.conn .dot.off { background: var(--amber); }
+
+/* ask */
+h1.hero { font-size: 30px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em;
+          margin: 4px 0 6px; padding: 0; }
+.hero-sub { color: var(--muted); max-width: 46rem; margin: 0 0 14px; }
+.st-key-ask_box [data-baseweb="input"] { background: var(--panel); border: 1.5px solid var(--ink);
+    border-radius: 10px; }
+.st-key-ask_box input { font-size: 17px; background: var(--panel); padding: 12px 14px; }
+.st-key-ask_box [data-testid="stHorizontalBlock"] { flex-wrap: nowrap; align-items: center; }
+.st-key-ask_box [data-testid="stColumn"]:last-child { flex: 0 0 96px; min-width: 96px; }
+.st-key-ask_box button { min-height: 48px; border-radius: 10px; font-weight: 600; }
+.note { font-size: 13px; color: var(--muted); margin: 2px 0 18px; }
+
+/* answer */
+.q { font-size: 13.5px; color: var(--muted); margin: 0; }
+h2.headline { font-size: 23px; font-weight: 600; line-height: 1.3; margin: 6px 0 4px;
+              padding: 0; letter-spacing: -0.01em; }
+h2.headline em { font-style: normal; color: var(--teal); }
+h2.headline.refused { color: var(--amber); }
+.facts { font-size: 13.5px; color: var(--muted); margin: 0 0 14px; }
+.chart-title { font-size: 14px; font-weight: 600; margin: 8px 0 0; }
+
+/* how this was answered */
+.trace h2 { font-size: 16px; font-weight: 600; margin: 0; padding: 0; }
+.trace .who { font-size: 13px; color: var(--muted); margin: 2px 0 0; }
+.trace ol { list-style: none; margin: 14px 0 4px; padding: 0; counter-reset: step; }
+.trace li { position: relative; padding: 0 0 16px 34px; counter-increment: step; }
+.trace li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 22px;
+    height: 22px; border-radius: 50%; background: var(--teal-soft); color: var(--teal);
+    font: 600 12px "IBM Plex Mono", monospace; display: grid; place-items: center; }
+.trace li::after { content: ""; position: absolute; left: 10.5px; top: 24px; bottom: 2px;
+                   width: 1px; background: var(--line); }
+.trace li:last-child::after { display: none; }
+.trace h3 { font-size: 14px; font-weight: 600; margin: 0; padding: 0; }
+.trace p { font-size: 13.5px; color: var(--muted); margin: 2px 0 0; }
+.trace .size { margin-top: 8px; }
+.trace .ok { color: var(--teal); font-weight: 600; }
+.trace .bad { color: var(--amber); font-weight: 600; }
+.trace pre { background: #f1f3ef; border-radius: 8px; padding: 10px 12px; margin: 8px 0 0;
+             font-size: 12.5px; line-height: 1.55; white-space: pre-wrap;
+             overflow-wrap: anywhere; color: var(--ink); }
+.tables { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tables span { font: 500 12.5px "IBM Plex Mono", monospace; padding: 2px 8px;
+               border-radius: 6px; background: var(--well); }
+.tables span.hit { background: var(--teal-soft); color: var(--teal); }
+
+[data-testid="stVerticalBlockBorderWrapper"] { background: var(--panel); border-radius: 14px; }
+
+@media (max-width: 700px) {
+    .main .block-container, [data-testid="stMainBlockContainer"] { padding: 0 16px 40px; }
+    .st-key-topbar { margin-bottom: 22px; padding: 10px 0; }
+    .st-key-topbar [data-testid="stHorizontalBlock"] { flex-wrap: wrap; gap: 8px; }
+    .st-key-topbar [data-testid="stColumn"] { min-width: 0 !important; }
+    .st-key-topbar [data-testid="stColumn"]:nth-child(1) { flex: 1 1 calc(100% - 120px); order: 1; }
+    .st-key-topbar [data-testid="stColumn"]:nth-child(4) { flex: 0 0 110px; order: 2; }
+    .st-key-topbar [data-testid="stColumn"]:nth-child(2) {
+        flex: 0 0 auto; width: auto !important; order: 3; }
+    .st-key-topbar [data-testid="stColumn"]:nth-child(3) { flex: 1 1 0; order: 4; }
+    .st-key-ask_box [data-testid="stColumn"]:first-child { flex: 1 1 0; min-width: 0 !important; }
+    .st-key-ask_box [data-testid="stColumn"]:last-child { flex: 0 0 72px; min-width: 72px; }
+    .conn .full { display: none; }
+    h1.hero { font-size: 23px; }
+    h2.headline { font-size: 20px; }
+}
 </style>
 """

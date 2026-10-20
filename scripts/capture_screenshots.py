@@ -25,7 +25,7 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
-from playwright.sync_api import Locator, Page, ViewportSize, expect, sync_playwright
+from playwright.sync_api import Page, ViewportSize, expect, sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "screenshots"
@@ -89,27 +89,33 @@ def _settle(page: Page) -> None:
 
 
 def _choose(page: Page, label: str, option: str) -> None:
-    sidebar = page.get_by_test_id("stSidebar")
-    sidebar.get_by_label(label, exact=True).click()
+    page.get_by_label(label, exact=True).click()
     page.get_by_role("option", name=option, exact=True).click()
     _settle(page)
 
 
-def _scroll_to_question(page: Page, question: str) -> None:
-    """Put the question's bubble at the top, so its answer card is in view below it."""
-    page.locator(".chat-user-bubble", has_text=question).last.evaluate(
-        "e => e.scrollIntoView({block: 'start'})"
-    )
-    page.wait_for_timeout(500)
+def _open_change(page: Page) -> None:
+    page.get_by_role("button", name="Change").click()
+    page.wait_for_timeout(600)
 
 
-def _last_answer(page: Page) -> Locator:
-    return page.get_by_test_id("stChatMessage").last
+def _close_change(page: Page) -> None:
+    page.keyboard.press("Escape")
+    page.wait_for_timeout(400)
 
 
 def _wait_for_answers(page: Page, count: int) -> None:
-    expect(page.get_by_role("tab", name="Result")).to_have_count(count, timeout=ANSWER_TIMEOUT_MS)
+    expect(page.get_by_text("How this was answered")).to_have_count(
+        count, timeout=ANSWER_TIMEOUT_MS
+    )
+    _settle(page)
     page.wait_for_timeout(1500)  # let the chart finish drawing
+
+
+def _scroll_top(page: Page) -> None:
+    page.get_by_text("Ask your data. Inspect the SQL.").scroll_into_view_if_needed()
+    page.evaluate("document.querySelector('[data-testid=\"stMain\"]')?.scrollTo(0, 0)")
+    page.wait_for_timeout(500)
 
 
 def capture(model: str, channel: str) -> dict[str, object]:
@@ -122,37 +128,37 @@ def capture(model: str, channel: str) -> dict[str, object]:
             page = browser.new_page(viewport=WIDE, device_scale_factor=1)
             _wait_for(f"http://127.0.0.1:{port}", page)
             _settle(page)
+            _open_change(page)
             _choose(page, "Demo", DEMO)
             _choose(page, "Provider", "Ollama (local)")
             _choose(page, "Model", model)
+            _close_change(page)
 
             page.get_by_text(QUESTION, exact=True).first.click()
             _wait_for_answers(page, 1)
-            _scroll_to_question(page, QUESTION)
-            page.screenshot(path=OUT / "01-answer-result.png")
+            _scroll_top(page)
+            page.screenshot(path=OUT / "01-answer.png")
 
-            _last_answer(page).get_by_role("tab", name="SQL").click()
-            page.screenshot(path=OUT / "02-answer-sql.png")
-            _last_answer(page).get_by_role("tab", name="Context").click()
-            # Centre the first value-hint line, so the shot shows DDL and hints together.
-            _last_answer(page).get_by_text("sample values").first.evaluate(
-                "e => e.scrollIntoView({block: 'center'})"
+            page.get_by_text("How this was answered").first.evaluate(
+                "e => e.scrollIntoView({block: 'start'})"
             )
-            page.mouse.move(870, 500)
-            page.mouse.wheel(0, 300)
-            page.wait_for_timeout(800)
-            page.screenshot(path=OUT / "03-answer-context.png")
-
-            page.get_by_test_id("stChatInputTextArea").fill(REFUSAL)
-            page.keyboard.press("Enter")
-            _wait_for_answers(page, 2)
-            _scroll_to_question(page, REFUSAL)
-            page.screenshot(path=OUT / "04-read-only-refusal.png")
+            page.mouse.wheel(0, -40)
+            page.wait_for_timeout(500)
+            page.screenshot(path=OUT / "02-how-it-was-answered.png")
 
             page.set_viewport_size(NARROW)
-            page.wait_for_timeout(1000)
-            _scroll_to_question(page, REFUSAL)
-            page.screenshot(path=OUT / "05-narrow.png")
+            page.wait_for_timeout(1200)
+            _scroll_top(page)
+            page.screenshot(path=OUT / "05-narrow.png", full_page=False)
+            page.set_viewport_size(WIDE)
+            page.wait_for_timeout(1200)
+
+            box = page.get_by_placeholder("Ask a question about the selected database")
+            box.fill(REFUSAL)
+            page.get_by_role("button", name="Ask", exact=True).click()
+            _wait_for_answers(page, 2)
+            _scroll_top(page)
+            page.screenshot(path=OUT / "04-read-only-refusal.png")
             browser.close()
     finally:
         app.terminate()

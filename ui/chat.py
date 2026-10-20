@@ -1,16 +1,16 @@
-"""The question surface: sample questions, the answers so far and the input."""
+"""The Ask view: the question box, sample questions and the answers so far, newest first."""
 
 from __future__ import annotations
 
-import html
-from pathlib import Path
 from typing import Any
 
+import sqlglot
 import streamlit as st
+from sqlglot import exp
 
 import text_to_sql_agent as backend
 from ui.constants import DEMO_DATABASES, SOURCE_DEMO
-from ui.results import render_assistant_turn, result_to_dataframe
+from ui.results import render_answer, result_to_dataframe
 from ui.settings import Settings
 
 
@@ -66,23 +66,86 @@ def _run_query(
         return backend.Answer(sql="", result=failed, schema_text="", retrieval=None)
 
 
-def answer_turn(answer: backend.Answer, settings: Settings, *, database: str) -> dict[str, Any]:
-    """The chat-history record of one answer, with the context it was given and by whom.
+def _tables_in_sql(sql: str) -> set[str]:
+    """Lowercased table names the SQL reads; empty if it does not parse."""
+    try:
+        tree = sqlglot.parse_one(sql)
+    except Exception:  # noqa: BLE001 - any parse failure just means "unknown"
+        return set()
+    return {table.name.lower() for table in tree.find_all(exp.Table) if table.name}
+
+
+def _retrieval_summary(answer: backend.Answer, db_path: str) -> dict[str, Any] | None:
+    """What "How this was answered" says about table selection, from the recorded retrieval."""
+    retrieval = answer.retrieval
+    if retrieval is None:
+        return None
+    used = _tables_in_sql(answer.sql)
+    tables = []
+    terms: list[str] = []
+    used_terms: list[str] = []
+    for chunk in retrieval.chunks:
+        reasons = chunk.match_reasons or []
+        neighbour = any(reason.startswith("foreign-key neighbor") for reason in reasons)
+        is_used = chunk.qualified_name.lower() in used or chunk.table_name.lower() in used
+        for reason in reasons:
+            if reason.startswith(("table match: ", "column match: ")):
+                for term in reason.split(": ", 1)[1].split(", "):
+                    for bucket in (terms, used_terms) if is_used else (terms,):
+                        if term not in bucket:
+                            bucket.append(term)
+        tables.append(
+            {
+                "name": chunk.qualified_name,
+                "neighbour": neighbour,
+                "used": chunk.qualified_name.lower() in used or chunk.table_name.lower() in used,
+            }
+        )
+    try:
+        total: int | None = len(backend.get_schema_chunks(db_path))
+    except Exception:  # noqa: BLE001 - the count is a nicety, never a failure
+        total = None
+    return {
+        "tables": tables,
+        # The words that ranked the tables the SQL used, else every table's.
+        "terms": used_terms or terms,
+        "total_tables": total,
+        "sent_chars": retrieval.sent_schema_chars,
+        "vs_hints_pct": retrieval.change_vs_ddl_with_hints_pct,
+    }
+
+
+def answer_turn(
+    answer: backend.Answer,
+    settings: Settings,
+    *,
+    question: str,
+    database: str,
+    db_path: str,
+) -> dict[str, Any]:
+    """The history record of one question and its answer, with what it was given and by whom.
 
     Everything shown beside the result comes from `answer` itself, so the SQL and context
     stay the ones that produced it after the user switches database or model.
     """
     result = answer.result
+    try:
+        engine = backend.open_engine(db_path).name
+    except Exception:  # noqa: BLE001 - only a label
+        engine = ""
     return {
         "role": "assistant",
         "kind": "result",
+        "question": question,
         "error_text": result.error,
         "blocked_sql": result.sql if result.error else None,
         "df": result_to_dataframe(result) if result.columns else None,
         "sql_text": answer.sql,
         "schema_text": answer.schema_text or None,
         "rag_report": answer.retrieval.report if answer.retrieval is not None else None,
+        "retrieval": _retrieval_summary(answer, db_path),
         "database": database,
+        "engine": engine,
         "provider": settings.provider,
         "model": settings.model_name,
         "context": (f"schema RAG, top {settings.rag_top_k}" if settings.use_rag else "full schema"),
@@ -98,12 +161,11 @@ def _model_name(settings: Settings) -> str:
 
 
 def ask(prompt: str, settings: Settings, *, db_path: str, database: str) -> None:
-    """Answer one question and append it and its answer to the chat history.
+    """Answer one question and add it to the history, newest first on the page.
 
     The one path for typed and sample questions alike, so both are guarded the same way.
     """
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.spinner("Generating SQL and running the query..."):
+    with st.spinner("Writing SQL and running the query..."):
         answer = _run_query(
             prompt,
             db_path=db_path,
@@ -113,84 +175,81 @@ def ask(prompt: str, settings: Settings, *, db_path: str, database: str) -> None
             rag_top_k=settings.rag_top_k,
             gemini_api_key=(settings.gemini_key or None) if settings.provider == "gemini" else None,
         )
-    st.session_state.messages.append(answer_turn(answer, settings, database=database))
+    st.session_state.messages.append(
+        answer_turn(answer, settings, question=prompt, database=database, db_path=db_path)
+    )
 
 
-def _status_message(settings: Settings) -> str | None:
+def status_message(settings: Settings) -> str | None:
     """What stops a question being asked right now, as an instruction; `None` when ready."""
+    if settings.open_error:
+        return settings.open_error
     if settings.db_path is None:
         if settings.source == SOURCE_DEMO:
-            return "The demo database file is missing. Create it under **Advanced** in the sidebar."
-        return "Choose a database in the sidebar to start."
+            return "The demo database file is missing. Create it under Change, then Advanced."
+        return "Choose a database under Change to start."
     if not settings.key_ok:
-        return "Add a Gemini API key in the sidebar, or switch the provider to Ollama."
+        return "Add a Gemini API key under Change, or switch the model to Ollama."
     return None
 
 
 def _queue_sample(key: str) -> None:
-    """`st.pills` callback: remember the chosen question and clear the selection."""
-    st.session_state["pending_sample"] = st.session_state.get(key)
+    """`st.pills` callback: put the chosen question in the box and clear the selection."""
+    chosen = st.session_state.get(key)
+    if chosen:
+        st.session_state["question_box"] = chosen
+        st.session_state["pending_question"] = chosen
     st.session_state[key] = None
 
 
-def render_sample_question(settings: Settings) -> None:
-    """Offer the active demo's sample questions as one-click pills.
-
-    Does nothing unless the sidebar's source is a demo database. A click goes through
-    `ask`, the same path a typed question takes.
-
-    Args:
-        settings: The choices the sidebar collected for this render.
-    """
-    if settings.source != SOURCE_DEMO:
-        return
-    demo_name = settings.demo_name
-    demo = DEMO_DATABASES.get(demo_name, DEMO_DATABASES["University"])
-    ready = settings.db_path is not None and settings.key_ok
-    key = f"sample_{demo_name}"
-    st.pills(
-        f"Try a question about the {demo_name} demo ({demo['description'].lower()})",
-        demo["questions"],
-        key=key,
-        on_change=_queue_sample,
-        args=(key,),
-        disabled=not ready,
+def render_ask(settings: Settings) -> None:
+    """The Ask view: the product line, the question box, sample questions, then answers."""
+    st.markdown(
+        "<h1 class='hero'>Ask your data. Inspect the SQL.</h1>"
+        "<p class='hero-sub'>Questions become read-only SQL that is checked before it runs. "
+        "Every answer keeps the SQL and the schema the model saw.</p>",
+        unsafe_allow_html=True,
     )
-    question = st.session_state.pop("pending_sample", None)
-    if question and ready:
-        ask(
-            str(question),
-            settings,
-            db_path=str(Path(demo["path"]).resolve()),
-            database=demo_name,
+    status = status_message(settings)
+    ready = status is None and settings.db_path is not None
+
+    with st.container(key="ask_box"), st.form("ask_form", clear_on_submit=False, border=False):
+        box, button = st.columns([6, 1], vertical_alignment="center")
+        question = box.text_input(
+            "Question",
+            key="question_box",
+            placeholder="Ask a question about the selected database",
+            label_visibility="collapsed",
         )
-        st.rerun()
+        submitted = button.form_submit_button(
+            "Ask", type="primary", disabled=not ready, use_container_width=True
+        )
 
-
-def render_chat(settings: Settings) -> None:
-    """Render the conversation so far and handle a newly submitted question.
-
-    Args:
-        settings: The choices the sidebar collected for this render.
-    """
-    status = _status_message(settings)
+    if settings.source == SOURCE_DEMO:
+        demo = DEMO_DATABASES.get(settings.demo_name, next(iter(DEMO_DATABASES.values())))
+        key = f"sample_{settings.demo_name}"
+        st.pills(
+            "Sample questions",
+            demo["questions"],
+            key=key,
+            on_change=_queue_sample,
+            args=(key,),
+            disabled=not ready,
+            label_visibility="collapsed",
+        )
+    st.markdown(
+        "<p class='note'>Each question is answered on its own; earlier questions are not sent.</p>",
+        unsafe_allow_html=True,
+    )
     if status is not None:
         st.info(status, icon=":material/info:")
 
-    for msg in st.session_state.messages:
-        if msg["role"] == "user":
-            safe = html.escape(str(msg.get("content", "")))
-            st.markdown(
-                f"<div class='chat-user-wrap'><div class='chat-user-bubble'>{safe}</div></div>",
-                unsafe_allow_html=True,
-            )
-        else:
-            render_assistant_turn(msg)
-
-    prompt = st.chat_input(
-        "Ask a question about the selected database",
-        disabled=status is not None,
-    )
-    if prompt and status is None and settings.db_path:
-        ask(prompt.strip(), settings, db_path=settings.db_path, database=settings.source_label)
+    pending = st.session_state.pop("pending_question", None)
+    to_ask = pending or (question.strip() if submitted else "")
+    if to_ask and ready and settings.db_path:
+        ask(to_ask, settings, db_path=settings.db_path, database=settings.source_label)
         st.rerun()
+
+    for msg in reversed(st.session_state.messages):
+        if msg.get("kind") == "result":
+            render_answer(msg)

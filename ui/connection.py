@@ -1,9 +1,9 @@
-"""The sidebar: the database first, then the model, then Advanced settings.
+"""The connection panel: the database first, then the model, then Advanced settings.
 
-Order follows what a visitor decides first (Codex's portfolio UI proposal, 2026-10-20):
-which data to ask about, which model answers, and only then retrieval tuning and the
-demo-data writer, which most visitors never need. Evaluation lives in its own view
-(`ui.evaluation.render_evaluation_view`), not here.
+It opens from the top bar's Change button (`ui.layout.render_top_bar`), so the question
+and answer own the page (Codex's visual review, 2026-10-21). Order follows what a visitor
+decides first: which data to ask about, which model answers, and only then retrieval
+tuning and the demo-data writer.
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ from ui.uploads import active_db_path, redact_dsn
 
 
 def _render_database() -> None:
-    st.markdown("**1. Database**")
+    st.markdown("**Database**")
     st.radio("Source", SOURCES, key="sb_source", label_visibility="collapsed")
     source = st.session_state.get("sb_source")
 
@@ -68,9 +68,9 @@ def _render_database() -> None:
         st.caption("Each file becomes a table named after it, in a temporary SQLite file.")
 
 
-def _render_model() -> tuple[str, str, str, bool]:
-    """`(provider, model_name, gemini_key, key_ok)` for this render."""
-    st.markdown("**2. Model**")
+def _render_model() -> None:
+    """Provider, model and, for Gemini, the session-only key."""
+    st.markdown("**Model**")
     provider = st.selectbox(
         "Provider",
         ["gemini", "ollama"],
@@ -85,7 +85,6 @@ def _render_model() -> tuple[str, str, str, bool]:
     st.selectbox("Model", model_options, index=default_index, key="sb_model_choice")
     if st.session_state.get("sb_model_choice") == "Custom":
         st.text_input("Custom model name", value=default_model, key="sb_custom_model")
-    model_name = model_name_for_provider(provider)
 
     gemini_key = ""
     if provider == "gemini":
@@ -107,25 +106,24 @@ def _render_model() -> tuple[str, str, str, bool]:
         st.warning("Add a Gemini API key to ask questions.", icon=":material/key:")
     else:
         st.caption("Runs on this machine; Ollama must be running.")
-    return provider, model_name, gemini_key, key_ok
 
 
-def _render_advanced() -> tuple[bool, int]:
-    """`(use_rag, rag_top_k)`; the demo-data writer also lives here."""
+def _render_advanced() -> None:
+    """Schema RAG on or off, how many tables, and the demo-data writer."""
     with st.expander("Advanced", expanded=False):
-        use_rag = st.toggle(
+        st.toggle(
             "Select relevant tables (schema RAG)",
             value=True,
             key="sb_use_rag",
             help="Send the model only the most relevant tables, with sample values.",
         )
-        rag_top_k = st.slider(
+        st.slider(
             "Tables to select",
             min_value=1,
             max_value=12,
             value=backend.DEFAULT_RAG_TOP_K,
             key="sb_rag_top_k",
-            disabled=not use_rag,
+            disabled=not st.session_state.get("sb_use_rag", True),
         )
         st.divider()
         st.text_input(
@@ -141,43 +139,58 @@ def _render_advanced() -> tuple[bool, int]:
                 st.success("Saved.")
             except Exception as e:
                 st.error(redact_dsn(str(e)))
-    return use_rag, rag_top_k
 
 
-def render_sidebar() -> Settings:
-    """Render the whole sidebar and return the choices the body needs.
+def render_connection_panel() -> None:
+    """The panel's controls; their values live in session state under `sb_*` keys."""
+    _render_database()
+    st.divider()
+    _render_model()
+    st.divider()
+    _render_advanced()
+    if st.button("Clear answers", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
 
-    Returns:
-        The `Settings` for this render, including the database path resolved
-        from whichever source the sidebar's radio selected.
+
+def _model_state() -> tuple[str, str, str, bool]:
+    """`(provider, model_name, gemini_key, key_ok)` from session state, no widgets drawn."""
+    provider = str(st.session_state.get("sb_provider", "gemini"))
+    model_name = model_name_for_provider(provider)
+    gemini_key = (
+        active_gemini_key(str(st.session_state.get("sb_gemini_key") or ""))
+        if provider == "gemini"
+        else ""
+    )
+    return provider, model_name, gemini_key, provider == "ollama" or bool(gemini_key)
+
+
+def current_settings() -> Settings:
+    """The choices the connection panel holds, read from session state.
+
+    The panel's widgets are drawn inside a popover after the top bar reads these, so the
+    summary and the page use the values of the last run, which Streamlit has already
+    stored when a widget changed.
     """
-    with st.sidebar:
-        _render_database()
-        st.divider()
-        provider, model_name, gemini_key, key_ok = _render_model()
-        st.divider()
-        use_rag, rag_top_k = _render_advanced()
-        if st.button("Clear conversation", use_container_width=True):
-            st.session_state.messages = []
-            st.rerun()
-
+    provider, model_name, gemini_key, key_ok = _model_state()
     db_path_to_query: str | None = None
+    open_error: str | None = None
     try:
         db_path_to_query = active_db_path()
     except Exception as e:
-        st.sidebar.error(f"Could not open the database: {redact_dsn(str(e))}")
-
+        open_error = f"Could not open the database: {redact_dsn(str(e))}"
     return Settings(
         provider=provider,
         model_name=model_name,
-        use_rag=use_rag,
-        rag_top_k=rag_top_k,
+        use_rag=bool(st.session_state.get("sb_use_rag", True)),
+        rag_top_k=int(st.session_state.get("sb_rag_top_k", backend.DEFAULT_RAG_TOP_K)),
         db_path=db_path_to_query,
         gemini_key=gemini_key,
         key_ok=key_ok,
         source=str(st.session_state.get("sb_source", SOURCE_DEMO)),
-        demo_name=str(st.session_state.get("sb_demo_db", "University")),
+        demo_name=str(st.session_state.get("sb_demo_db", next(iter(DEMO_DATABASES)))),
         source_label=source_label(),
+        open_error=open_error,
     )
 
 

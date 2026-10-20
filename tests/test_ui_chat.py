@@ -114,7 +114,13 @@ def test_a_turn_shows_exactly_the_schema_the_model_was_sent(
         rag_top_k=3,
     )
 
-    turn = chat.answer_turn(answer, _settings(), database="customers.db")
+    turn = chat.answer_turn(
+        answer,
+        _settings(),
+        question="list customers",
+        database="customers.db",
+        db_path=customers_db,
+    )
 
     assert turn["schema_text"] in recording_ollama.calls[0].user_prompt
     assert "CREATE TABLE customers" in turn["schema_text"]
@@ -125,6 +131,10 @@ def test_a_turn_shows_exactly_the_schema_the_model_was_sent(
         "qwen3.5:9b-q4_K_M",
     )
     assert turn["context"] == "schema RAG, top 3"
+    assert turn["question"] == "list customers"
+    assert turn["engine"] == "sqlite"
+    assert turn["retrieval"]["tables"] == [{"name": "customers", "neighbour": False, "used": True}]
+    assert turn["retrieval"]["total_tables"] == 1
 
 
 def test_rag_off_records_plain_ddl_and_no_retrieval_report(
@@ -140,8 +150,15 @@ def test_rag_off_records_plain_ddl_and_no_retrieval_report(
         use_rag=False,
         rag_top_k=3,
     )
-    turn = chat.answer_turn(answer, _settings(use_rag=False), database="customers.db")
+    turn = chat.answer_turn(
+        answer,
+        _settings(use_rag=False),
+        question="list customers",
+        database="customers.db",
+        db_path=customers_db,
+    )
 
     assert turn["schema_text"] == get_schema(customers_db)
     assert turn["rag_report"] is None
     assert turn["context"] == "full schema"
+    assert turn["retrieval"] is None

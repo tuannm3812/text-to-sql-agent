@@ -27,3 +27,5 @@ class Settings:
     # What a turn records as its database: the demo's name, a file's name, or a DSN with
     # any password masked. Never a full local path.
     source_label: str = ""
+    # Why the selected database could not be opened, redacted; `None` when it opened.
+    open_error: str | None = None

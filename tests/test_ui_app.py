@@ -23,76 +23,106 @@ def _app() -> AppTest:
     return at
 
 
+def _trace(at: AppTest) -> str:
+    """The "How this was answered" panel's HTML (`st.html`), as one string."""
+    return "".join(element.proto.body for element in at.get("html"))
+
+
+def _turn(**overrides: object) -> dict[str, object]:
+    turn: dict[str, object] = {
+        "role": "assistant",
+        "kind": "result",
+        "question": "Which product categories generate the most revenue?",
+        "error_text": None,
+        "blocked_sql": None,
+        "df": pd.DataFrame(
+            {"category": ["Electronics", "Fashion"], "total_revenue": [173366, 29991]}
+        ),
+        "sql_text": "SELECT category, SUM(x) AS total_revenue FROM t GROUP BY category",
+        "schema_text": "CREATE TABLE products (category TEXT);",
+        "rag_report": "Schema RAG strategy: hybrid",
+        "retrieval": {
+            "tables": [
+                {"name": "products", "neighbour": False, "used": True},
+                {"name": "orders", "neighbour": True, "used": False},
+            ],
+            "terms": ["product", "category"],
+            "total_tables": 11,
+            "sent_chars": 4971,
+            "vs_hints_pct": -15.4,
+        },
+        "database": "Retail Analytics",
+        "engine": "sqlite",
+        "provider": "ollama",
+        "model": "qwen3.5:9b-q4_K_M",
+        "context": "schema RAG, top 6",
+    }
+    turn.update(overrides)
+    return turn
+
+
 def test_the_ask_view_says_what_is_missing_and_that_questions_are_independent(
     no_server_keys: None,
 ) -> None:
     at = _app()
     assert not at.exception
-    assert any("Text-to-SQL Agent" in m.value for m in at.markdown)
-    assert any("answered on its own" in c.value for c in at.caption)
-    assert any("Add a Gemini API key" in i.value for i in at.info)
+    assert any("Ask your data. Inspect the SQL." in m.value for m in at.markdown)
+    assert any("answered on its own" in m.value for m in at.markdown)
+    assert any("Add a Gemini API key under Change" in i.value for i in at.info)
     assert at.pills(key="sample_University").disabled
 
 
 def test_switching_to_ollama_clears_the_key_message(no_server_keys: None) -> None:
     at = _app()
-    at.sidebar.selectbox(key="sb_provider").select("ollama").run()
+    at.selectbox(key="sb_provider").select("ollama").run()
     assert not any("Add a Gemini API key" in i.value for i in at.info)
     assert not at.pills(key="sample_University").disabled
 
 
-def test_an_answer_shows_its_recorded_database_model_sql_and_context(
+def test_an_answer_states_its_result_and_how_it_was_answered(no_server_keys: None) -> None:
+    at = AppTest.from_file(APP, default_timeout=60)
+    at.session_state["messages"] = [_turn()]
+    at.run()
+    assert not at.exception
+    headline = next(m.value for m in at.markdown if "class='headline'" in m.value)
+    assert "<em>Electronics</em> leads with 173,366 in total revenue" in headline
+    assert "more than the other one combined (29,991)" in headline
+    trace = _trace(at)
+    assert "Picked 1 of 11 tables, plus 1 joinable neighbour" in trace
+    assert "<span class='hit'>products</span>" in trace
+    assert "Sent 4,971 characters of schema: 15% less" in trace
+    assert "SELECT category, SUM(x) AS total_revenue FROM t GROUP BY category" in trace
+    assert "Read-only" in trace and "Ran it on SQLite" in trace
+    assert "CREATE TABLE products (category TEXT);" in [c.value for c in at.code]
+
+
+def test_the_models_own_refusal_is_called_a_decline_and_nothing_runs(
     no_server_keys: None,
 ) -> None:
     at = AppTest.from_file(APP, default_timeout=60)
+    sql = "SELECT 'BLOCKED_UNSAFE_SQL' AS error;"
     at.session_state["messages"] = [
-        {"role": "user", "content": "How many students?"},
-        {
-            "role": "assistant",
-            "kind": "result",
-            "error_text": None,
-            "blocked_sql": None,
-            "df": pd.DataFrame({"major": ["CS", "Math"], "n": [3, 2]}),
-            "sql_text": "SELECT major, COUNT(*) AS n FROM students GROUP BY major",
-            "schema_text": "CREATE TABLE students (id INTEGER, major TEXT);",
-            "rag_report": "Schema RAG strategy: hybrid",
-            "database": "University",
-            "provider": "ollama",
-            "model": "qwen3.5:9b-q4_K_M",
-            "context": "schema RAG, top 6",
-        },
+        _turn(df=None, error_text="BLOCKED_UNSAFE_SQL", sql_text=sql, blocked_sql=sql)
     ]
     at.run()
     assert not at.exception
-    assert any(
-        c.value == "University · ollama qwen3.5:9b-q4_K_M · schema RAG, top 6" for c in at.caption
-    )
-    assert [t.label for t in at.tabs] == ["Result", "SQL", "Context"]
-    codes = [c.value for c in at.code]
-    assert "SELECT major, COUNT(*) AS n FROM students GROUP BY major" in codes
-    assert "CREATE TABLE students (id INTEGER, major TEXT);" in codes
-    assert any(c.value == "2 rows" for c in at.caption)
+    assert any("Not run: this agent only reads data." in m.value for m in at.markdown)
+    trace = _trace(at)
+    assert "Declined" in trace and "Nothing was sent to the database" in trace
 
 
-def test_a_refusal_is_explained_and_its_sql_kept(no_server_keys: None) -> None:
+def test_a_refused_write_is_called_refused(no_server_keys: None) -> None:
     at = AppTest.from_file(APP, default_timeout=60)
+    sql = "DELETE FROM orders"
     at.session_state["messages"] = [
-        {
-            "role": "assistant",
-            "kind": "result",
-            "error_text": "BLOCKED_UNSAFE_SQL",
-            "blocked_sql": "DELETE FROM students",
-            "df": None,
-            "sql_text": "DELETE FROM students",
-            "schema_text": "CREATE TABLE students (id INTEGER);",
-            "rag_report": None,
-            "database": "University",
-            "provider": "ollama",
-            "model": "m",
-            "context": "full schema",
-        }
+        _turn(df=None, error_text="BLOCKED_UNSAFE_SQL", sql_text=sql, blocked_sql=sql)
     ]
     at.run()
-    assert not at.exception
-    assert any("only reads data" in e.value for e in at.error)
-    assert "DELETE FROM students" in [c.value for c in at.code]
+    assert "Refused" in _trace(at) and "DELETE FROM orders" in _trace(at)
+
+
+def test_rag_off_says_the_full_schema_was_sent(no_server_keys: None) -> None:
+    at = AppTest.from_file(APP, default_timeout=60)
+    at.session_state["messages"] = [_turn(retrieval=None, rag_report=None)]
+    at.run()
+    assert "Sent the full schema" in _trace(at)

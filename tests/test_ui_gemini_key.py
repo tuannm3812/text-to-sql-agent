@@ -68,17 +68,17 @@ def test_a_key_typed_in_one_session_is_not_loaded_in_another(no_server_keys: Non
     import os
 
     first = _app()
-    first.sidebar.text_input(key="sb_gemini_key").input("typed-by-a").run()
-    assert any("key loaded" in s.value for s in first.sidebar.success)
+    first.text_input(key="sb_gemini_key").input("typed-by-a").run()
+    assert any("key loaded" in s.value for s in first.success)
     assert "typed-by-a" not in os.environ.values()
 
     second = _app()
-    assert not any("key loaded" in s.value for s in second.sidebar.success)
-    assert second.sidebar.text_input(key="sb_gemini_key").value == ""
+    assert not any("key loaded" in s.value for s in second.success)
+    assert second.text_input(key="sb_gemini_key").value == ""
 
 
 def test_clearing_the_key_unloads_it(no_server_keys: None) -> None:
     app = _app()
-    app.sidebar.text_input(key="sb_gemini_key").input("typed").run()
-    app.sidebar.text_input(key="sb_gemini_key").input("").run()
-    assert not any("key loaded" in s.value for s in app.sidebar.success)
+    app.text_input(key="sb_gemini_key").input("typed").run()
+    app.text_input(key="sb_gemini_key").input("").run()
+    assert not any("key loaded" in s.value for s in app.success)
