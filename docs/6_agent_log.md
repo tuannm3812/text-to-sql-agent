@@ -5317,3 +5317,38 @@ rewrite, OK'd 2026-10-20) runs first; the UI milestone follows, and the owner ca
   database and model, and the log entry repeats them. If a run is not deterministic
   enough for a stable capture, a labelled stub provider is used and the README caption
   says it is a UI demonstration, not model evidence. Paths and DSNs are hidden.
+
+## 2026-10-21 — Claude: the portfolio UI milestone (Codex's proposal, owner's go-ahead)
+
+Commits, in order: `decd53a` upload identity by SHA-256 (same-name same-size tests for
+`.db` and CSV); `5a8a42c` session-scoped Gemini key (`generate_sql(gemini_api_key=...)`
+through the pipeline, both chat paths and the evaluation view; never written to
+`os.environ`; `RunConfig.gemini_api_key` outside the identity and `repr`; two-session
+`AppTest`, key-clearing and per-call-key tests) plus `answer_question` returning an
+`Answer` with the exact schema text and retrieval sent (the app no longer re-runs
+retrieval after answering); `8167811` the Focused chat layout (database, then model, then
+Advanced; Evaluation as its own view; Result / SQL / Context tabs per answer with the
+turn's database, provider, model and context setting; explicit missing-database,
+missing-key, no-row and refusal states; an independent-questions note; sample questions
+as pills on the typed-question path; warm palette; no deploy toolbar); `aa10775`,
+`b208f4b`, `d806b68` `scripts/capture_screenshots.py` in a `screenshots` dependency
+group (Playwright with the installed Google Chrome, no browser download);
+`7b5e220` README and `docs/2_architecture.md` corrections; the screenshot commit after it.
+
+**Screenshots.** Captured at `d806b68` on a clean tree (`docs/screenshots/capture.json`),
+2026-10-20T22:17Z, Streamlit plus Playwright/Chrome at 1440x1000 and 390x844, local
+Ollama `qwen3.5:9b-q4_K_M`, Retail Analytics demo, questions "Which product categories
+generate the most revenue?" and "Delete every order that was cancelled.". Real model
+answers, labelled in the README as interface evidence, not accuracy. No paid provider.
+Paths and DSNs do not appear in any image.
+
+**README.** Title "Text-to-SQL Agent", described as an evaluated portfolio prototype over
+three engines; data handling split into schema metadata, bounded row-derived value
+hints, question value matching (off) and result rows; the "privacy-safe" and "never row
+data" wording removed; Schema RAG cites the dev-suite and `bird_train_large` results,
+each scoped to its run; the release table keeps its dates and run links. The RAG
+description matches the current scorer default (`28f21bc`), which is still on trial; if
+the owner reverts it, that paragraph needs the old wording back.
+
+**Not done:** the PostgreSQL row-change and conformance checks against a live server (the
+local Docker VM is still out of disk). `1455` passed / `353` skipped; ruff and mypy clean.
