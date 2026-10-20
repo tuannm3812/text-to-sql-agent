@@ -12,9 +12,12 @@ from hashlib import blake2b
 from typing import TYPE_CHECKING
 
 from .config import (
+    DEFAULT_RAG_BM25_WEIGHT,
+    DEFAULT_RAG_COLUMN_MATCH_WEIGHT,
     DEFAULT_RAG_EMBEDDING_WEIGHT,
     DEFAULT_RAG_NEIGHBORS,
     DEFAULT_RAG_SEMANTIC_WEIGHT,
+    DEFAULT_RAG_TABLE_MATCH_WEIGHT,
     DEFAULT_RAG_TOP_K,
     DEFAULT_VALUE_MATCH_COLUMNS_PER_PHRASE,
     DEFAULT_VALUE_MATCH_LIMIT,
@@ -346,54 +349,84 @@ def decompose_question(question: str) -> dict[str, list[str]]:
     }
 
 
+@dataclass(frozen=True)
+class ScoringWeights:
+    """The weight of each retrieval signal; a chunk's score is their weighted sum.
+
+    - `bm25`: BM25 of the expanded question tokens over the chunk's whole search text
+      (table name, DDL, columns, foreign tables and value-hint values).
+    - `table_match` / `column_match`: per question token equal to a token of the table's
+      name / of a column name.
+    - `semantic`: cosine of character-trigram counts.
+    - `embedding`: cosine of the hashed pseudo-embedding.
+
+    The defaults come from `config` and reproduce the scorer as it was before the signals
+    were named (2026-10-21).
+    """
+
+    bm25: float = DEFAULT_RAG_BM25_WEIGHT
+    table_match: float = DEFAULT_RAG_TABLE_MATCH_WEIGHT
+    column_match: float = DEFAULT_RAG_COLUMN_MATCH_WEIGHT
+    semantic: float = DEFAULT_RAG_SEMANTIC_WEIGHT
+    embedding: float = DEFAULT_RAG_EMBEDDING_WEIGHT
+
+
+def _bm25_signal(
+    query_counter: Counter[str], entry: _ChunkIndex, index: _CorpusIndex, chunk_count: int
+) -> tuple[float, set[str]]:
+    """BM25 (k1 1.5, b 0.75, tf scaled by 2.5) summed over the question's tokens.
+
+    A token repeated in the question counts that many times. Returns the sum and the
+    question tokens the chunk contains.
+    """
+    total = 0.0
+    matched: set[str] = set()
+    for token, query_weight in query_counter.items():
+        if token not in entry.token_counts:
+            continue
+        matched.add(token)
+        doc_freq = index.doc_freq[token]
+        idf = math.log(1 + (chunk_count - doc_freq + 0.5) / (doc_freq + 0.5))
+        tf = entry.token_counts[token]
+        denominator = tf + 1.5 * (1 - 0.75 + 0.75 * entry.doc_len / index.avg_doc_len)
+        total += idf * ((tf * 2.5) / denominator) * max(1, query_weight)
+    return total, matched
+
+
 def _score_chunks(
     chunks: list[SchemaChunk],
     version: tuple[object, ...],
     question: str,
     expanded_tokens: list[str],
-    semantic_weight: float,
-    embedding_weight: float,
+    weights: ScoringWeights,
 ) -> list[SchemaChunk]:
     """Every chunk rescored for the question, best first: `(-score, table_name)` order.
 
-    The scored copies carry `score`, `matched_terms` and `match_reasons`. The order is the
+    The score is the `weights`-weighted sum of the signals `ScoringWeights` names. The
+    scored copies carry `score`, `matched_terms` and `match_reasons`. The order is the
     ranking `retrieve_schema_context` cuts at `top_k`; when every score is 0 it is plain
     name order, the fallback that function used to apply separately.
     """
     index = _cached_corpus_index(version)
-    doc_freq = index.doc_freq
-    avg_doc_len = index.avg_doc_len
     query_ngrams = _char_ngrams(" ".join(expanded_tokens) or question)
-
     query_counter = Counter(expanded_tokens)
+    query_token_set = set(expanded_tokens)
     query_embedding = _hashed_embedding(" ".join(expanded_tokens) or question)
     scored: list[SchemaChunk] = []
     for chunk, entry in zip(chunks, index.entries, strict=True):
-        token_counts = entry.token_counts
-        doc_len = entry.doc_len
-
-        score = 0.0
-        matched_terms: set[str] = set()
         reasons: list[str] = []
+        bm25, matched_terms = _bm25_signal(query_counter, entry, index, len(chunks))
+        score = 0.0 + weights.bm25 * bm25
 
-        for token, query_weight in query_counter.items():
-            if token not in token_counts:
-                continue
-            matched_terms.add(token)
-            idf = math.log(1 + (len(chunks) - doc_freq[token] + 0.5) / (doc_freq[token] + 0.5))
-            tf = token_counts[token]
-            denominator = tf + 1.5 * (1 - 0.75 + 0.75 * doc_len / avg_doc_len)
-            score += idf * ((tf * 2.5) / denominator) * max(1, query_weight)
-
-        table_matches = sorted(set(expanded_tokens) & entry.table_tokens)
-        column_matches = sorted(set(expanded_tokens) & entry.column_tokens)
-        weak_matches = sorted(set(expanded_tokens) & entry.text_tokens)
+        table_matches = sorted(query_token_set & entry.table_tokens)
+        column_matches = sorted(query_token_set & entry.column_tokens)
+        weak_matches = sorted(query_token_set & entry.text_tokens)
         if table_matches:
-            score += 8.0 * len(table_matches)
+            score += weights.table_match * len(table_matches)
             reasons.append(f"table match: {', '.join(table_matches)}")
             matched_terms.update(table_matches)
         if column_matches:
-            score += 4.0 * len(column_matches)
+            score += weights.column_match * len(column_matches)
             reasons.append(f"column match: {', '.join(column_matches)}")
             matched_terms.update(column_matches)
         if weak_matches and not (table_matches or column_matches):
@@ -401,12 +434,12 @@ def _score_chunks(
 
         semantic_score = _cosine_counter_similarity(query_ngrams, entry.ngrams)
         if semantic_score > 0:
-            score += semantic_weight * semantic_score
+            score += weights.semantic * semantic_score
             reasons.append(f"semantic similarity: {semantic_score:.2f}")
 
         embedding_score = _cosine_vector_similarity(query_embedding, entry.embedding)
         if embedding_score > 0:
-            score += embedding_weight * embedding_score
+            score += weights.embedding * embedding_score
             reasons.append(f"embedding similarity: {embedding_score:.2f}")
 
         scored.append(
@@ -453,6 +486,7 @@ def rank_schema_chunks(
     *,
     semantic_weight: float = DEFAULT_RAG_SEMANTIC_WEIGHT,
     embedding_weight: float = DEFAULT_RAG_EMBEDDING_WEIGHT,
+    weights: ScoringWeights | None = None,
 ) -> list[SchemaChunk]:
     """Every table of the database scored for the question, best first.
 
@@ -465,6 +499,8 @@ def rank_schema_chunks(
         question: The text retrieval scores, evidence included when a run sends it.
         semantic_weight: See `retrieve_schema_context`.
         embedding_weight: See `retrieve_schema_context`.
+        weights: Every signal's weight at once, for trying a weighting; when given,
+            `semantic_weight` and `embedding_weight` are ignored.
 
     Returns:
         One rescored `SchemaChunk` per table in `(-score, table_name)` order.
@@ -473,9 +509,9 @@ def rank_schema_chunks(
     if not chunks:
         return []
     expanded_tokens = _expand_query_tokens(_tokenize_for_rag(question))
-    return _score_chunks(
-        chunks, version, question, expanded_tokens, semantic_weight, embedding_weight
-    )
+    if weights is None:
+        weights = ScoringWeights(semantic=semantic_weight, embedding=embedding_weight)
+    return _score_chunks(chunks, version, question, expanded_tokens, weights)
 
 
 def retrieve_schema_chunks(
@@ -578,9 +614,8 @@ def retrieve_schema_context(
             value_matches=_value_matches_for(version, question, chunks, value_matches),
         )
 
-    scored = _score_chunks(
-        chunks, version, question, expanded_tokens, semantic_weight, embedding_weight
-    )
+    weights = ScoringWeights(semantic=semantic_weight, embedding=embedding_weight)
+    scored = _score_chunks(chunks, version, question, expanded_tokens, weights)
     selected = scored[:top_k]
 
     # Keyed by `qualified_name`, not `table_name`, for the same reason
