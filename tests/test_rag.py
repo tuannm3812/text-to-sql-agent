@@ -450,3 +450,47 @@ def test_an_open_writers_wal_commit_refreshes_the_value_index(tmp_path: Path) ->
         assert matched() == ["Bob"]
     finally:
         writer.close()
+
+
+# --- Named signals, singulars and the value-hint weight (2026-10-21) --------------------
+
+
+def test_a_plural_in_the_question_meets_a_singular_schema_name() -> None:
+    tokens = rag._tokenize_for_rag("employees by countries, address")
+    assert "employee" in tokens and "country" in tokens
+    assert "addres" not in tokens
+
+
+def test_hint_words_weigh_less_than_a_table_named_for_the_question(tmp_path: Path) -> None:
+    """A hint full of "Sales ..." values must count for less than the table's own name."""
+    db = _write_db(
+        tmp_path / "sales.db",
+        [
+            "CREATE TABLE contact_type (contact_type_id INTEGER PRIMARY KEY, name TEXT)",
+            "CREATE TABLE sales_person (sales_person_id INTEGER PRIMARY KEY, bonus REAL)",
+            "INSERT INTO contact_type (name) VALUES ('Sales Representative'), "
+            "('Sales Manager'), ('Sales Agent'), ('Sales Associate')",
+        ],
+    )
+    question = "Which sales representative has the highest sales?"
+
+    def scores(weights: rag.ScoringWeights | None = None) -> dict[str, float]:
+        ranked = rag.rank_schema_chunks(db, question, weights=weights)
+        return {chunk.table_name: chunk.score for chunk in ranked}
+
+    old = scores(rag.ScoringWeights(bm25=1.0, schema_bm25=0.0, value_bm25=0.0))
+    new = scores()
+
+    # Two tables give BM25 little to work with, so check the direction, not a rank flip
+    # (the measured effect is in `evaluation/results/retrieval/README.md`).
+    assert new["contact_type"] < old["contact_type"]
+    assert new["sales_person"] - new["contact_type"] > old["sales_person"] - old["contact_type"]
+
+
+def test_default_weights_come_from_config() -> None:
+    weights = rag.ScoringWeights()
+    assert (weights.bm25, weights.schema_bm25, weights.value_bm25) == (
+        agent.config.DEFAULT_RAG_BM25_WEIGHT,
+        agent.config.DEFAULT_RAG_SCHEMA_BM25_WEIGHT,
+        agent.config.DEFAULT_RAG_VALUE_BM25_WEIGHT,
+    )

@@ -2,6 +2,24 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-21 — retrieval: value-hint words weighted down, plurals matched (on trial)
+
+**Chosen:** Name the scorer's signals with weights in `config` (`rag.ScoringWeights`),
+replace BM25 over the whole search text with BM25 over its schema part (weight 1) plus
+its value-hint part (weight 0.25), and give every token a naive singular. Committed as the
+default for a paired `bird_train_large` run against top 6 at `47284f5`; kept or reverted
+on that result.
+
+**Ruled out:** Linking named people to `Person` (needs row data, the line value matching
+crossed). Tuning on the whole of `bird_train_large`: the weight was chosen on the 1,022
+questions outside `subset200`, which is held out.
+
+**Why:** Value-hint words ("Sales Representative" in `ContactType`) won BM25 for
+unrelated questions, and plurals matched no schema name. Sent coverage at top 6 rose from
+84.0 % to 88.0 % on the held-out `subset200` and from 86.3 % to 89.5 % on the whole suite,
+with no loss on BIRD dev or Spider dev (`evaluation/results/retrieval/README.md`). Recall
+was not enough for value matching, so accuracy decides.
+
 ## 2026-10-19 — question value matching: built off by default, on trial
 
 **Chosen:** Add question value matching (`rag.match_question_values`), **off by

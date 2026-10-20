@@ -5272,3 +5272,19 @@ has received a separate message or replied: the agent log is the requested hando
 
 The UI findings (P1 session-global Gemini key, P2 upload identity) and the portfolio UI
 milestone are answered in the next entry once the owner has set the order.
+
+## 2026-10-21 — Phase 4 retrieval rewrite, step 2: named signals and the generic tables
+
+`3d35bd2` names the scorer's five signals (`rag.ScoringWeights`, weights in `config`) with
+the original constants: 18,519 retrievals byte-identical. Then separate BM25 over the
+schema part and the value-hint part of the search text (`_split_search_text`; the split
+applies to all 176 hinted chunks of the three suites' 297, no fallback), defaulting to
+weight 0 so the dump stayed identical, and a naive singular per token. Diagnosis on
+`works_cycles` 7330 and 7163: `ContactType`, `SpecialOffer`, `SalesTaxRate` and
+`Department` led on BM25 over hint words ("Sales ..."). Weight grid on the 1,022
+questions outside `subset200`, singulars alone and with value weights 0 to 1; 0.25
+chosen, then checked on `subset200` (held out), BIRD dev and Spider dev
+(`evaluation/results/retrieval/README.md`). The three saved reports are regenerated with
+the new default. 7330 still ranks `ContactType` first (column match on the singular
+`name` plus hint BM25), so the aggregate, not that example, is the evidence. Paired EX run
+follows from the run worktree.

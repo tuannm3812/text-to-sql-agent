@@ -16,9 +16,11 @@ from .config import (
     DEFAULT_RAG_COLUMN_MATCH_WEIGHT,
     DEFAULT_RAG_EMBEDDING_WEIGHT,
     DEFAULT_RAG_NEIGHBORS,
+    DEFAULT_RAG_SCHEMA_BM25_WEIGHT,
     DEFAULT_RAG_SEMANTIC_WEIGHT,
     DEFAULT_RAG_TABLE_MATCH_WEIGHT,
     DEFAULT_RAG_TOP_K,
+    DEFAULT_RAG_VALUE_BM25_WEIGHT,
     DEFAULT_VALUE_MATCH_COLUMNS_PER_PHRASE,
     DEFAULT_VALUE_MATCH_LIMIT,
     DEFAULT_VALUE_MATCH_MAX_DISTINCT,
@@ -39,7 +41,25 @@ if TYPE_CHECKING:
     from functools import _CacheInfo
 
 
+def _singular(token: str) -> str:
+    """A plural's naive singular (`employees` -> `employee`, `countries` -> `country`).
+
+    Deliberately crude: it only has to make a question's plural meet a schema's singular
+    name. `-ss` words (`address`) and short words are left alone.
+    """
+    if len(token) > 4 and token.endswith("ies"):
+        return token[:-3] + "y"
+    if len(token) > 3 and token.endswith("s") and not token.endswith("ss"):
+        return token[:-1]
+    return token
+
+
 def _tokenize_for_rag(text: str) -> list[str]:
+    """Lowercased word tokens, each `_`-part too, each followed by its singular if different.
+
+    The singular (2026-10-21) lets "names", "employees" or "sales" meet `name`,
+    `Employee` or `SalesPerson`'s `sale`; before it a plural matched nothing.
+    """
     tokens = re.findall(r"[a-zA-Z_][a-zA-Z0-9_]*", text.lower())
     expanded: list[str] = []
     for token in tokens:
@@ -48,7 +68,13 @@ def _tokenize_for_rag(text: str) -> list[str]:
         for part in token.split("_"):
             if part and part not in STOPWORDS:
                 expanded.append(part)
-    return expanded
+    with_singulars: list[str] = []
+    for token in expanded:
+        with_singulars.append(token)
+        singular = _singular(token)
+        if singular != token:
+            with_singulars.append(singular)
+    return with_singulars
 
 
 def _expand_query_tokens(tokens: list[str]) -> list[str]:
@@ -114,12 +140,55 @@ class _ChunkIndex:
 
 
 @dataclass(frozen=True)
+class _FieldIndex:
+    """BM25 statistics of one part of every chunk's search text, in chunk order."""
+
+    token_counts: tuple[Counter[str], ...]
+    doc_lens: tuple[int, ...]
+    doc_freq: Counter[str]
+    avg_doc_len: float
+
+
+def _field_index(texts: list[str]) -> _FieldIndex:
+    tokens = [_tokenize_for_rag(text) for text in texts]
+    doc_lens = tuple(len(t) or 1 for t in tokens)
+    doc_freq: Counter[str] = Counter()
+    for t in tokens:
+        doc_freq.update(set(t))
+    return _FieldIndex(
+        token_counts=tuple(Counter(t) for t in tokens),
+        doc_lens=doc_lens,
+        doc_freq=doc_freq,
+        avg_doc_len=sum(doc_lens) / len(doc_lens),
+    )
+
+
+def _split_search_text(chunk: SchemaChunk) -> tuple[str, str]:
+    """`(schema part, value-hint part)` of a chunk's search text.
+
+    Every engine builds `search_text` as the name, DDL, columns and foreign tables, then
+    the value-hint values joined by spaces in `value_hints` order, so the value part is
+    that join when the text ends with it.
+    """
+    values = " ".join(v for vals in (chunk.value_hints or {}).values() for v in vals)
+    if values and chunk.search_text.endswith(values):
+        return chunk.search_text[: -len(values)], values
+    return chunk.search_text, ""
+
+
+@dataclass(frozen=True)
 class _CorpusIndex:
-    """The question-independent half of scoring, one entry per chunk in chunk order."""
+    """The question-independent half of scoring, one entry per chunk in chunk order.
+
+    `doc_freq` and `avg_doc_len` are over the whole search text; `schema_field` and
+    `value_field` split it into its schema and value-hint parts (2026-10-21).
+    """
 
     entries: tuple[_ChunkIndex, ...]
     doc_freq: Counter[str]
     avg_doc_len: float
+    schema_field: _FieldIndex
+    value_field: _FieldIndex
 
 
 @lru_cache(maxsize=32)
@@ -153,7 +222,14 @@ def _cached_corpus_index(version: tuple[object, ...]) -> _CorpusIndex:
         )
         for chunk, tokens, doc_len in zip(chunks, doc_tokens, doc_lengths, strict=True)
     )
-    return _CorpusIndex(entries=entries, doc_freq=doc_freq, avg_doc_len=avg_doc_len)
+    parts = [_split_search_text(chunk) for chunk in chunks]
+    return _CorpusIndex(
+        entries=entries,
+        doc_freq=doc_freq,
+        avg_doc_len=avg_doc_len,
+        schema_field=_field_index([schema for schema, _ in parts]),
+        value_field=_field_index([values for _, values in parts]),
+    )
 
 
 def get_retrieval_index_cache_info() -> _CacheInfo:
@@ -355,6 +431,9 @@ class ScoringWeights:
 
     - `bm25`: BM25 of the expanded question tokens over the chunk's whole search text
       (table name, DDL, columns, foreign tables and value-hint values).
+    - `schema_bm25` / `value_bm25`: the same BM25 over only the schema part / only the
+      value-hint part of that text, each with its own document frequencies, so a hint's
+      values can be weighted apart from the table's own names (2026-10-21).
     - `table_match` / `column_match`: per question token equal to a token of the table's
       name / of a column name.
     - `semantic`: cosine of character-trigram counts.
@@ -365,32 +444,53 @@ class ScoringWeights:
     """
 
     bm25: float = DEFAULT_RAG_BM25_WEIGHT
+    schema_bm25: float = DEFAULT_RAG_SCHEMA_BM25_WEIGHT
+    value_bm25: float = DEFAULT_RAG_VALUE_BM25_WEIGHT
     table_match: float = DEFAULT_RAG_TABLE_MATCH_WEIGHT
     column_match: float = DEFAULT_RAG_COLUMN_MATCH_WEIGHT
     semantic: float = DEFAULT_RAG_SEMANTIC_WEIGHT
     embedding: float = DEFAULT_RAG_EMBEDDING_WEIGHT
 
 
-def _bm25_signal(
-    query_counter: Counter[str], entry: _ChunkIndex, index: _CorpusIndex, chunk_count: int
+def _bm25(
+    query_counter: Counter[str],
+    token_counts: Counter[str],
+    doc_len: int,
+    doc_freq: Counter[str],
+    avg_doc_len: float,
+    chunk_count: int,
 ) -> tuple[float, set[str]]:
     """BM25 (k1 1.5, b 0.75, tf scaled by 2.5) summed over the question's tokens.
 
     A token repeated in the question counts that many times. Returns the sum and the
-    question tokens the chunk contains.
+    question tokens the document contains.
     """
     total = 0.0
     matched: set[str] = set()
     for token, query_weight in query_counter.items():
-        if token not in entry.token_counts:
+        if token not in token_counts:
             continue
         matched.add(token)
-        doc_freq = index.doc_freq[token]
-        idf = math.log(1 + (chunk_count - doc_freq + 0.5) / (doc_freq + 0.5))
-        tf = entry.token_counts[token]
-        denominator = tf + 1.5 * (1 - 0.75 + 0.75 * entry.doc_len / index.avg_doc_len)
+        df = doc_freq[token]
+        idf = math.log(1 + (chunk_count - df + 0.5) / (df + 0.5))
+        tf = token_counts[token]
+        denominator = tf + 1.5 * (1 - 0.75 + 0.75 * doc_len / avg_doc_len)
         total += idf * ((tf * 2.5) / denominator) * max(1, query_weight)
     return total, matched
+
+
+def _field_bm25(
+    query_counter: Counter[str], field: _FieldIndex, position: int, chunk_count: int
+) -> tuple[float, set[str]]:
+    """`_bm25` of one chunk's part of the search text."""
+    return _bm25(
+        query_counter,
+        field.token_counts[position],
+        field.doc_lens[position],
+        field.doc_freq,
+        field.avg_doc_len,
+        chunk_count,
+    )
 
 
 def _score_chunks(
@@ -413,10 +513,29 @@ def _score_chunks(
     query_token_set = set(expanded_tokens)
     query_embedding = _hashed_embedding(" ".join(expanded_tokens) or question)
     scored: list[SchemaChunk] = []
-    for chunk, entry in zip(chunks, index.entries, strict=True):
+    for position, (chunk, entry) in enumerate(zip(chunks, index.entries, strict=True)):
         reasons: list[str] = []
-        bm25, matched_terms = _bm25_signal(query_counter, entry, index, len(chunks))
+        bm25, matched_terms = _bm25(
+            query_counter,
+            entry.token_counts,
+            entry.doc_len,
+            index.doc_freq,
+            index.avg_doc_len,
+            len(chunks),
+        )
         score = 0.0 + weights.bm25 * bm25
+        if weights.schema_bm25:
+            schema_bm25, matched = _field_bm25(
+                query_counter, index.schema_field, position, len(chunks)
+            )
+            score += weights.schema_bm25 * schema_bm25
+            matched_terms |= matched
+        if weights.value_bm25:
+            value_bm25, matched = _field_bm25(
+                query_counter, index.value_field, position, len(chunks)
+            )
+            score += weights.value_bm25 * value_bm25
+            matched_terms |= matched
 
         table_matches = sorted(query_token_set & entry.table_tokens)
         column_matches = sorted(query_token_set & entry.column_tokens)

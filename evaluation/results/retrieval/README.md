@@ -8,6 +8,8 @@ The ranking refactor is behaviour-preserving: 18,519 retrievals (every Spider de
 dev and `bird_train_large` question, evidence on and off, `top_k` 3, 6 and 10) gave the
 same tables, scores, reasons and schema text before and after.
 
+Scorer as of `2670af6` (before the 2026-10-21 change below):
+
 | Suite (evidence) | MRR | recall@6 | coverage@6 | coverage@10 | Sent at top 6: recall / coverage |
 |---|---:|---:|---:|---:|---:|
 | Spider dev (off) | 0.951 | 99.9 | 99.8 | 100.0 | 100.0 / 100.0 |
@@ -17,7 +19,8 @@ same tables, scores, reasons and schema text before and after.
 Coverage@k is the share of questions with every gold table in the first k. "Sent" adds
 the foreign-key neighbours, as a run does; its recall equals the runs' mean
 `schema_recall` (0.931 on `bird_train_large`, 30 of 1,534 BIRD dev cases below 1.0).
-Full tables: `spider_dev.md`, `bird_dev.md`, `bird_train_large.md`.
+The saved `spider_dev.md`, `bird_dev.md` and `bird_train_large.md` are regenerated with
+the current scorer (see the last section).
 
 ## What the misses cost on `bird_train_large`
 
@@ -58,3 +61,37 @@ Next (Phase 4 retrieval rewrite): split the scorer into named signals with their
 config, measure each signal's contribution with these metrics, and fix the generic-table
 noise first, since it needs no row data. Any change is then checked for EX against the
 top-6 run, since recall is necessary but not sufficient (the value-matching trial).
+
+## 2026-10-21: value-hint words weighted down, plurals matched
+
+Cause of the generic tables: BM25 ran over the whole search text, value-hint values
+included, so a table whose hints repeat a question word ("Sales Representative", "Sales
+Manager", "Sale" in `ContactType`, `SpecialOffer`, `Department`) outscored the tables the
+question names; "Names the Sales Representative..." put `ContactType` first with 49 points,
+nearly all BM25 on hint words. Separately, the tokenizer had no plurals, so "names",
+"employees" or "sales" never met `Name`, `Employee` or `SalesPerson`.
+
+Change (no row data beyond the existing hints): the scorer's signals are named, with
+weights in `config` (`rag.ScoringWeights`). BM25 now runs separately over the schema part
+(name, DDL, columns, foreign tables; weight 1) and the value-hint part (weight 0.25),
+each with its own document frequencies, and every token also yields a naive singular.
+
+Chosen on `bird_train_large` minus `subset200` (1,022 questions); `subset200` was held
+out. Sent coverage at top 6 (every gold table sent, neighbours included):
+
+| Setting | Tuning 1,022 | Held-out `subset200` | BIRD dev | Spider dev |
+|---|---:|---:|---:|---:|
+| Scorer at `2670af6` | 86.8 | 84.0 | 98.0 | 100.0 |
+| Singulars only | 89.3 | 87.5 | 98.5 | 100.0 |
+| Singulars, schema BM25 1, value BM25 0 | 89.3 | | | |
+| Singulars, schema BM25 1, value BM25 0.1 | 89.9 | | | |
+| **Singulars, schema BM25 1, value BM25 0.25 (chosen)** | 89.8 | 88.0 | 98.4 | 100.0 |
+| Singulars, schema BM25 1, value BM25 0.5 | 89.7 | | | |
+| Singulars, schema BM25 1, value BM25 1 | 89.2 | | | |
+
+On the whole suite MRR rises from 0.853 to 0.891 and coverage@6 from 72.3 % to 76.7 %;
+the questions with a gold table not sent fall from 167 to 128. BIRD dev and Spider dev do
+not get worse. Most of the gain is the singulars; the value weight adds little
+coverage but lifts MRR (held-out 0.857 to 0.899). Named people (`Person`, median rank 28)
+are untouched, as expected without row data. Whether any of this moves accuracy needs
+the paired run.

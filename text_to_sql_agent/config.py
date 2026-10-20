@@ -29,9 +29,13 @@ DEFAULT_MAX_VM_STEPS = 100_000
 DEFAULT_WORK_LIMIT_MS = 5_000
 DEFAULT_RAG_TOP_K = 6
 DEFAULT_RAG_NEIGHBORS = 1
-# Retrieval signal weights (`rag.ScoringWeights`). The values are the scorer's original
-# constants, named 2026-10-21 without changing any score.
-DEFAULT_RAG_BM25_WEIGHT = 1.0
+# Retrieval signal weights (`rag.ScoringWeights`), named 2026-10-21. BM25 over the whole
+# search text is replaced by BM25 over its schema part plus a quarter-weight BM25 over its
+# value-hint part, so hint words ("Sales", "Sale") stop pulling generic tables into the top
+# 6. Chosen on bird_train_large minus subset200 (`docs/3_decisions.md`, 2026-10-21).
+DEFAULT_RAG_BM25_WEIGHT = 0.0
+DEFAULT_RAG_SCHEMA_BM25_WEIGHT = 1.0
+DEFAULT_RAG_VALUE_BM25_WEIGHT = 0.25
 DEFAULT_RAG_TABLE_MATCH_WEIGHT = 8.0
 DEFAULT_RAG_COLUMN_MATCH_WEIGHT = 4.0
 DEFAULT_RAG_SEMANTIC_WEIGHT = 3.0
