@@ -138,7 +138,9 @@ def capture(model: str, channel: str) -> dict[str, object]:
             _last_answer(page).get_by_text("sample values").first.evaluate(
                 "e => e.scrollIntoView({block: 'center'})"
             )
-            page.wait_for_timeout(500)
+            page.mouse.move(870, 500)
+            page.mouse.wheel(0, 300)
+            page.wait_for_timeout(800)
             page.screenshot(path=OUT / "03-answer-context.png")
 
             page.get_by_test_id("stChatInputTextArea").fill(REFUSAL)
@@ -149,6 +151,7 @@ def capture(model: str, channel: str) -> dict[str, object]:
 
             page.set_viewport_size(NARROW)
             page.wait_for_timeout(1000)
+            _scroll_to_question(page, REFUSAL)
             page.screenshot(path=OUT / "05-narrow.png")
             browser.close()
     finally:
