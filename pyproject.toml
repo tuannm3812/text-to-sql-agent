@@ -32,6 +32,9 @@ dev = [
   "pytest>=8",
   "ruff==0.16.4",
 ]
+screenshots = [
+    "playwright>=1.50",
+]
 
 [tool.ruff]
 line-length = 100
@@ -73,7 +76,8 @@ files = ["text_to_sql_agent", "ui", "app.py", "scripts"]
 strict = true
 
 [[tool.mypy.overrides]]
-module = ["google.genai.*", "langchain_ollama.*", "sqlglot.*"]
+# playwright is only in the `screenshots` group, so CI type-checks without it.
+module = ["google.genai.*", "langchain_ollama.*", "sqlglot.*", "playwright.*"]
 ignore_missing_imports = true
 
 # Streamlit's decorated API returns Any in places strict mode cannot resolve
