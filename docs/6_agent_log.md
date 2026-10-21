@@ -5763,3 +5763,16 @@ local Ollama `qwen3.5:9b-q4_K_M`, Retail Analytics. The retake found a regressio
 font fix in `ff5fd3a`: setting ink on every button turned the Ask button's text dark on
 teal; `0dc3d45` keeps colour on the root only. Plex now renders in the real captures.
 Local font serving waits on the owner's OK to download the IBM Plex release (OFL-1.1).
+
+## 2026-10-22 — Claude: IBM Plex served locally
+
+With the owner's OK, downloaded IBM's official release assets (`@ibm/plex-sans` 1.1.0,
+9.9 MB, and `@ibm/plex-mono` 2.5.0, 6.9 MB, from github.com/IBM/plex) outside the repo and
+vendored only the Latin-1 WOFF2 files for Sans 400/500/600/700 and Mono 400/500 (144 KB)
+plus the OFL-1.1 text, in `static/fonts/` (`8670189`). `server.enableStaticServing` serves
+them; the Google Fonts import is removed. Verified in Chrome: the app requests the six
+files from `app/static/fonts/` and `document.fonts.check` is true for both families;
+with those requests blocked, the system stack renders with 0 px overflow at 1440 and 390
+(`docs/design/acceptance/report.json`). One remote request remains, Streamlit's own page
+icon from Material Symbols. README and `design.md` name the source and licence. README
+captures retaken at `8670189` on a clean tree. `1469` passed / `353` skipped.
