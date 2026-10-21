@@ -11,9 +11,12 @@ from functools import lru_cache
 from hashlib import blake2b
 from typing import TYPE_CHECKING
 
+from . import dense
 from .config import (
     DEFAULT_RAG_BM25_WEIGHT,
     DEFAULT_RAG_COLUMN_MATCH_WEIGHT,
+    DEFAULT_RAG_DENSE_MODEL,
+    DEFAULT_RAG_DENSE_WEIGHT,
     DEFAULT_RAG_EMBEDDING_WEIGHT,
     DEFAULT_RAG_NEIGHBORS,
     DEFAULT_RAG_SCHEMA_BM25_WEIGHT,
@@ -438,6 +441,8 @@ class ScoringWeights:
       name / of a column name.
     - `semantic`: cosine of character-trigram counts.
     - `embedding`: cosine of the hashed pseudo-embedding.
+    - `dense`: cosine of real sentence embeddings from a local Ollama model (`dense.py`);
+      skipped, as if 0, when Ollama or the model is unavailable (2026-10-22).
 
     The defaults come from `config` and reproduce the scorer as it was before the signals
     were named (2026-10-21).
@@ -450,6 +455,7 @@ class ScoringWeights:
     column_match: float = DEFAULT_RAG_COLUMN_MATCH_WEIGHT
     semantic: float = DEFAULT_RAG_SEMANTIC_WEIGHT
     embedding: float = DEFAULT_RAG_EMBEDDING_WEIGHT
+    dense: float = DEFAULT_RAG_DENSE_WEIGHT
 
 
 def _bm25(
@@ -512,6 +518,12 @@ def _score_chunks(
     query_counter = Counter(expanded_tokens)
     query_token_set = set(expanded_tokens)
     query_embedding = _hashed_embedding(" ".join(expanded_tokens) or question)
+    dense_scores: list[float] | None = None
+    if weights.dense:
+        vectors = dense.chunk_vectors(version, DEFAULT_RAG_DENSE_MODEL)
+        query_vector = dense.question_vector(question, DEFAULT_RAG_DENSE_MODEL)
+        if vectors is not None and query_vector is not None:
+            dense_scores = [dense.cosine(query_vector, vector) for vector in vectors]
     scored: list[SchemaChunk] = []
     for position, (chunk, entry) in enumerate(zip(chunks, index.entries, strict=True)):
         reasons: list[str] = []
@@ -560,6 +572,10 @@ def _score_chunks(
         if embedding_score > 0:
             score += weights.embedding * embedding_score
             reasons.append(f"embedding similarity: {embedding_score:.2f}")
+
+        if dense_scores is not None:
+            score += weights.dense * dense_scores[position]
+            reasons.append(f"dense similarity: {dense_scores[position]:.2f}")
 
         scored.append(
             SchemaChunk(

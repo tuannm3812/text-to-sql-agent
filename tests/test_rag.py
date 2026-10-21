@@ -494,3 +494,48 @@ def test_default_weights_come_from_config() -> None:
         agent.config.DEFAULT_RAG_SCHEMA_BM25_WEIGHT,
         agent.config.DEFAULT_RAG_VALUE_BM25_WEIGHT,
     )
+
+
+# --- Dense embeddings (2026-10-22) ------------------------------------------------------
+
+
+@pytest.mark.dense
+def test_dense_similarity_reorders_tables_and_is_skipped_without_ollama(
+    customers_courses_db: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from text_to_sql_agent import dense
+
+    def fake_embed(texts: list[str], model: str = "m") -> list[tuple[float, ...]]:
+        # "courses" points one way, everything else the other; the question matches courses.
+        return [(1.0, 0.0) if "course" in t or "class" in t else (0.0, 1.0) for t in texts]
+
+    question = "list every class"
+    dense.chunk_vectors.cache_clear()
+    dense.question_vector.cache_clear()
+    monkeypatch.setattr(dense, "embed", fake_embed)
+    with_dense = rag.rank_schema_chunks(customers_courses_db, question)
+    assert with_dense[0].table_name == "courses"
+    assert any("dense similarity: 1.00" in r for r in with_dense[0].match_reasons or [])
+
+    dense.chunk_vectors.cache_clear()
+    dense.question_vector.cache_clear()
+    monkeypatch.setattr(dense, "embed", lambda texts, model="m": None)
+    without = rag.rank_schema_chunks(customers_courses_db, question)
+    assert not any("dense" in r for c in without for r in c.match_reasons or [])
+    dense.chunk_vectors.cache_clear()
+    dense.question_vector.cache_clear()
+
+
+def test_a_table_is_embedded_as_words() -> None:
+    from text_to_sql_agent.dense import chunk_text
+    from text_to_sql_agent.types import SchemaChunk
+
+    chunk = SchemaChunk(
+        table_name="SalesPerson",
+        ddl="",
+        columns=["SalesYTD", "territory_id"],
+        foreign_tables=[],
+        search_text="",
+        value_hints={"region": ["North", "South"]},
+    )
+    assert chunk_text(chunk) == "sales person: sales ytd, territory id. North South"

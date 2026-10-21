@@ -2,6 +2,23 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-22 — retrieval: dense embeddings from a local Ollama model (on trial)
+
+**Chosen:** A dense-embedding signal (`dense.py`, `all-minilm` through Ollama's
+`/api/embed`, weight 80) beside the lexical ones, committed as the default for a paired
+`bird_train_large` run against the kept scorer at `28f21bc`. Skipped when Ollama or the
+model is unavailable, so the hosted demo and CI behave as before; tests never call it.
+
+**Ruled out:** A new Python dependency (sentence-transformers): the owner's machine already
+runs Ollama with `all-minilm`, and the standard library suffices for the HTTP call.
+Replacing the lexical scorer: a weight sweep showed pure dense ranking is worse (90.6 %
+vs 94.0 % sent coverage on the tuning questions).
+
+**Why:** Sent coverage at top 6 rose from 88.0 % to 93.5 % on the held-out `subset200`
+with no loss on BIRD or Spider dev (`evaluation/results/retrieval/README.md`). **Run
+identity caveat:** retrieval now depends on a local model the run manifest does not
+record; a run without Ollama silently scores without the signal.
+
 ## 2026-10-21 — retrieval: value-hint words weighted down, plurals matched (on trial)
 
 **Chosen:** Name the scorer's signals with weights in `config` (`rag.ScoringWeights`),

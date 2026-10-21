@@ -105,4 +105,7 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-q"
-markers = ["conformance: a guarantee every database engine must satisfy"]
+markers = [
+  "conformance: a guarantee every database engine must satisfy",
+  "dense: exercises the dense-embedding signal with fake embeddings",
+]

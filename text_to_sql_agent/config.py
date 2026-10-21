@@ -40,6 +40,10 @@ DEFAULT_RAG_TABLE_MATCH_WEIGHT = 8.0
 DEFAULT_RAG_COLUMN_MATCH_WEIGHT = 4.0
 DEFAULT_RAG_SEMANTIC_WEIGHT = 3.0
 DEFAULT_RAG_EMBEDDING_WEIGHT = 5.0
+# Dense sentence embeddings from a local Ollama model (`dense.py`), 2026-10-22 trial.
+# Skipped automatically when Ollama or the model is unavailable.
+DEFAULT_RAG_DENSE_WEIGHT = 80.0
+DEFAULT_RAG_DENSE_MODEL = "all-minilm"
 DEFAULT_VALUE_HINT_LIMIT = 6
 DEFAULT_VALUE_HINT_MAX_CARDINALITY = 20
 # Question value matching (`rag.match_question_values`, `docs/3_decisions.md` 2026-10-19).

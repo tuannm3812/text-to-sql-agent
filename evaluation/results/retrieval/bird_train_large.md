@@ -6,47 +6,47 @@ Suite file SHA-256 `16a8c1d4fabd2fdcabb44a047422930e3693b9f448dcd444771e543423bb
 
 | k | 1 | 2 | 3 | 4 | 6 | 8 | 10 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| recall@k | 46.5 | 68.7 | 78.8 | 83.7 | 88.7 | 90.9 | 92.5 |
-| coverage@k | 17.9 | 45.2 | 59.8 | 68.2 | 76.7 | 80.8 | 83.9 |
+| recall@k | 47.8 | 69.8 | 80.0 | 86.4 | 91.7 | 93.9 | 95.1 |
+| coverage@k | 18.8 | 44.5 | 60.3 | 71.8 | 81.8 | 86.8 | 89.3 |
 
-MRR 0.891. Sent at top 6: recall 94.8, every gold table sent in 89.5 % of cases.
+MRR 0.905. Sent at top 6: recall 97.1, every gold table sent in 93.9 % of cases.
 
 ## By hardness
 
 | Hardness | Cases | MRR | recall@6 | coverage@6 | sent recall | sent coverage |
 |---|---:|---:|---:|---:|---:|---:|
-| easy | 152 | 0.885 | 95.7 | 94.7 | 98.7 | 98.7 |
-| medium | 485 | 0.858 | 90.1 | 82.5 | 94.5 | 90.3 |
-| hard | 264 | 0.936 | 84.7 | 65.9 | 93.2 | 84.5 |
-| extra | 321 | 0.907 | 86.8 | 68.2 | 94.9 | 88.2 |
+| easy | 152 | 0.903 | 97.7 | 96.7 | 99.0 | 98.7 |
+| medium | 485 | 0.890 | 93.1 | 87.8 | 97.3 | 95.3 |
+| hard | 264 | 0.930 | 89.0 | 74.6 | 95.6 | 90.2 |
+| extra | 321 | 0.910 | 88.8 | 71.3 | 97.1 | 92.8 |
 
 ## By database
 
 | Database | Cases | MRR | recall@6 | coverage@6 | sent recall | sent coverage |
 |---|---:|---:|---:|---:|---:|---:|
-| works_cycles | 464 | 0.886 | 85.5 | 71.1 | 93.4 | 86.9 |
-| mondial_geo | 293 | 0.896 | 88.7 | 74.1 | 94.6 | 89.1 |
-| soccer_2016 | 258 | 0.965 | 98.3 | 95.3 | 99.9 | 99.6 |
-| hockey | 207 | 0.804 | 84.2 | 69.6 | 92.1 | 83.6 |
+| works_cycles | 464 | 0.923 | 90.6 | 80.4 | 96.3 | 92.5 |
+| mondial_geo | 293 | 0.887 | 92.6 | 79.2 | 98.4 | 95.6 |
+| soccer_2016 | 258 | 0.974 | 98.4 | 96.5 | 99.9 | 99.6 |
+| hockey | 207 | 0.807 | 84.3 | 70.0 | 93.6 | 87.9 |
 
 ## Gold tables most often not sent at top 6
 
-147 gold-table misses over 128 cases.
+80 gold-table misses over 74 cases.
 
 | Database | Table | Misses | Median rank when missed |
 |---|---|---:|---:|
-| `hockey` | `goalies` | 12 | 10.5 |
-| `hockey` | `scoring` | 12 | 10.5 |
-| `works_cycles` | `person` | 11 | 28 |
-| `mondial_geo` | `located` | 9 | 7 |
-| `works_cycles` | `emailaddress` | 8 | 13 |
-| `mondial_geo` | `politics` | 8 | 9.5 |
-| `works_cycles` | `personcreditcard` | 7 | 28 |
-| `works_cycles` | `specialofferproduct` | 6 | 10 |
-| `mondial_geo` | `encompasses` | 6 | 8 |
-| `works_cycles` | `businessentityaddress` | 5 | 9 |
-| `works_cycles` | `salesperson` | 4 | 15.5 |
-| `hockey` | `teamssc` | 4 | 8 |
-| `mondial_geo` | `city` | 4 | 14 |
-| `works_cycles` | `purchaseorderdetail` | 3 | 15 |
-| `works_cycles` | `workorder` | 3 | 32 |
+| `hockey` | `scoring` | 9 | 9 |
+| `mondial_geo` | `politics` | 7 | 12 |
+| `works_cycles` | `person` | 6 | 48.5 |
+| `hockey` | `goalies` | 4 | 12 |
+| `hockey` | `teamssc` | 4 | 7 |
+| `works_cycles` | `purchaseorderdetail` | 3 | 7 |
+| `works_cycles` | `employee` | 3 | 18 |
+| `works_cycles` | `emailaddress` | 3 | 8 |
+| `works_cycles` | `productreview` | 3 | 9 |
+| `works_cycles` | `salesorderheader` | 3 | 15 |
+| `works_cycles` | `businessentityaddress` | 3 | 14 |
+| `hockey` | `hof` | 3 | 19 |
+| `works_cycles` | `salesorderdetail` | 2 | 24 |
+| `works_cycles` | `salesperson` | 2 | 7 |
+| `works_cycles` | `personcreditcard` | 2 | 7.5 |

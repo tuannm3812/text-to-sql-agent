@@ -136,3 +136,24 @@ def recording_ollama() -> Iterator[RecordingOllama]:
     recorder = RecordingOllama()
     with patch("text_to_sql_agent.llm._load_ollama_sdk", side_effect=recorder.sdk):
         yield recorder
+
+
+@pytest.fixture(autouse=True)
+def _no_dense_embeddings(request: pytest.FixtureRequest) -> Iterator[None]:
+    """Tests never reach a local Ollama for embeddings, so results match CI exactly.
+
+    Retrieval treats an unavailable embedding model as "no dense signal", which is what
+    CI has. A test that exercises the dense path marks itself `@pytest.mark.dense` and
+    supplies its own fake embeddings.
+    """
+    if request.node.get_closest_marker("dense"):
+        yield
+        return
+    from text_to_sql_agent import dense
+
+    dense.chunk_vectors.cache_clear()
+    dense.question_vector.cache_clear()
+    with patch("text_to_sql_agent.dense.embed", return_value=None):
+        yield
+    dense.chunk_vectors.cache_clear()
+    dense.question_vector.cache_clear()

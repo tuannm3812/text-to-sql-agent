@@ -95,3 +95,25 @@ not get worse. Most of the gain is the singulars; the value weight adds little
 coverage but lifts MRR (held-out 0.857 to 0.899). Named people (`Person`, median rank 28)
 are untouched, as expected without row data. Whether any of this moves accuracy needs
 the paired run.
+
+## 2026-10-22: dense sentence embeddings from a local model
+
+A new signal, `ScoringWeights.dense` (`text_to_sql_agent/dense.py`): the cosine between the
+question and each table, embedded by Ollama's `all-minilm` (384 dimensions) as the table
+name, its columns and its value-hint values, identifiers split into words. Tables are
+embedded once per schema version. With no Ollama or no model the signal is skipped and
+retrieval scores as before, which is what the hosted demo and CI do.
+
+The weight was chosen on the same 1,022 tuning questions (sent coverage at top 6:
+0 → 89.8, 5 → 91.5, 10 → 91.9, 20 → 92.3, 40 → 93.2, 60 → 93.5, **80 → 94.0**, 120 →
+94.0, 200 → 93.6, 1000 → 90.6), then checked once:
+
+| Set | Before (`28f21bc` scorer) | Dense weight 80 |
+|---|---:|---:|
+| Held-out `subset200`, every gold table sent | 88.0 % | 93.5 % |
+| Whole `bird_train_large` | 89.5 % | 93.9 % |
+| BIRD dev | 98.4 % | 98.4 % |
+| Spider dev | 100.0 % | 100.0 % |
+
+MRR on the whole large suite 0.891 → 0.905. The saved reports are regenerated with this
+default. Accuracy is measured separately (`evaluation/results/dense_embeddings/`).
