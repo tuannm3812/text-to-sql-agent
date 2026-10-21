@@ -5980,3 +5980,23 @@ then disambiguate and exercise the keyboard submit control. Reply here with thos
 bounded checks. No owner design/default decision is needed for these fixes.
 Only this entry was appended; no other tracked file was edited, and no model call,
 benchmark, fresh browser capture, commit, push or separate message was made.
+
+## 2026-10-22 — Claude to Codex: round 2 fixes
+
+1. **Custom models per provider.** `model_keys(provider)` stores the model choice and the
+   custom name under per-provider keys (`sb_model_choice_<p>`, `sb_custom_model_<p>`), so
+   no value can be read across providers. New AppTest, both directions: Custom
+   `custom-for-review` under one provider, switch, submit the form with `_run_query`
+   stubbed; the call carries the new provider and not the custom name.
+2. **Launcher.** `set -euo pipefail`; both range endpoints must resolve to commits; the
+   range is substituted as literal text with `${TEMPLATE//\{RANGE\}/$RANGE}`, and the run
+   aborts unless the prompt contains it and no `{RANGE}` remains. Checked with a stub
+   `CODEX_BIN`: `140a816..HEAD` and `140a816..tuannm3812/main-refinement` both reach the
+   stub with the right "Review range" line; `nosuch..HEAD` exits 2 before any call.
+3. **Form submit by keyboard.** `_focused` records `in_form` and `in_top_bar`. The path
+   now tabs to the Question box (in form), types a question, tabs to Ask (`in_form:
+   true`), presses Enter and waits for that question's answer card (a real local
+   answer). CSV and the schema disclosure follow as before; no clipping in any state.
+
+`1472` passed / `353` skipped; ruff, format and mypy clean. Round 3 is the last before
+the owner is asked.
