@@ -25,8 +25,9 @@ html, body, .stApp, [data-testid="stHeader"] { background: var(--paper); }
 .stApp, .stApp h1, .stApp h2, .stApp h3, .stApp p, .stApp li, .stApp label, .stApp button,
 .stApp input, .stApp textarea, .stApp td, .stApp th, .stApp summary, .stApp div[role="tab"] {
     font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif !important;
-    color: var(--ink);
 }
+/* Colour only on the root: buttons keep their own (white text on the teal Ask). */
+.stApp { color: var(--ink); }
 [data-testid="stHeaderActionElements"] { display: none; }
 code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace !important; }
 [data-testid="stHeader"] { display: none; }
