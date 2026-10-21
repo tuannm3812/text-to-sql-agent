@@ -120,6 +120,18 @@ def _scroll_top(page: Page) -> None:
 
 def capture(model: str, channel: str) -> dict[str, object]:
     OUT.mkdir(parents=True, exist_ok=True)
+    # Read before capturing: the new images are tracked files and would mark it dirty.
+    commit = subprocess.run(
+        ["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True
+    ).stdout.strip()
+    dirty = bool(
+        subprocess.run(
+            ["git", "status", "--porcelain", "--untracked-files=no"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    )
     port = _free_port()
     app = _start_app(port)
     try:
@@ -164,17 +176,6 @@ def capture(model: str, channel: str) -> dict[str, object]:
         app.terminate()
         app.wait(timeout=20)
 
-    commit = subprocess.run(
-        ["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True
-    ).stdout.strip()
-    dirty = bool(
-        subprocess.run(
-            ["git", "status", "--porcelain", "--untracked-files=no"],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-    )
     record = {
         "commit": commit,
         "dirty": dirty,
