@@ -79,10 +79,11 @@ Use approximately 1.5 line height for prose, 1.25 for headings, and tabular nume
 for numeric comparisons. SQL may scroll inside its own panel; the page must not scroll
 horizontally. Keep the input at 16 px on narrow screens.
 
-FarmLens serves its fonts locally. Adopt that approach with licensed font assets and
-their license notices in a later implementation pass; the current Google Fonts import
-depends on network availability. Until then, test the system sans-serif and monospace
-fallbacks and wait for fonts to settle before taking screenshots.
+FarmLens serves its fonts locally, and so does this app since 2026-10-22: the Latin-1
+WOFF2 files for Plex Sans 400/500/600/700 and Plex Mono 400/500 from IBM's release are in
+`static/fonts/` with the OFL-1.1 text, served by Streamlit's static serving. With them
+blocked, the stack falls back to the system sans and monospace
+(`scripts/ui_acceptance.py`).
 
 ## 5. Composition and density
 

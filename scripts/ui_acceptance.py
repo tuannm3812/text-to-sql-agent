@@ -9,7 +9,8 @@ type, provider failure) and the real `app.py`, then in Chrome at 1440x1000 and 3
 - records the page's scroll width against the viewport (no horizontal page scroll);
 - tabs through the app's controls and records each focused element and whether it shows
   a visible outline;
-- renders the states with the web-font request blocked, to check the system fallback.
+- checks the locally served Plex files load, then renders with them blocked to check
+  the system fallback.
 
 Writes PNGs and `report.json` to `docs/design/acceptance/`. Fixtures, not model answers.
 """
@@ -119,6 +120,10 @@ def main() -> int:
                 page = browser.new_page(viewport=viewport)
                 _load(page, f"http://127.0.0.1:{states_port}", "UI states")
                 report[f"states_{name}_overflow_px"] = _overflow(page)
+                report[f"states_{name}_plex_loaded"] = page.evaluate(
+                    "document.fonts.check('16px \"IBM Plex Sans\"') && "
+                    "document.fonts.check('13px \"IBM Plex Mono\"')"
+                )
                 report[f"states_{name}_fonts"] = page.evaluate(
                     "[...['h1.hero', 'h2.headline', '.trace h3', '.trace pre']].map("
                     "q => getComputedStyle(document.querySelector(q)).fontFamily)"
@@ -131,12 +136,11 @@ def main() -> int:
                 page.close()
 
                 fallback = browser.new_page(viewport=viewport)
-                fallback.route("**/fonts.googleapis.com/**", lambda route: route.abort())
-                fallback.route("**/fonts.gstatic.com/**", lambda route: route.abort())
+                fallback.route("**/app/static/fonts/**", lambda route: route.abort())
                 _load(fallback, f"http://127.0.0.1:{states_port}/?state=signed", "UI states")
                 report[f"fallback_{name}_overflow_px"] = _overflow(fallback)
-                report[f"fallback_{name}_font"] = fallback.evaluate(
-                    "getComputedStyle(document.querySelector('h1.hero')).fontFamily"
+                report[f"fallback_{name}_plex_loaded"] = fallback.evaluate(
+                    "document.fonts.check('16px \"IBM Plex Sans\"')"
                 )
                 fallback.screenshot(path=OUT / f"fallback-fonts-{name}.png")
                 fallback.close()

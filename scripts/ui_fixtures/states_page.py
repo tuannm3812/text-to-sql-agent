@@ -2,6 +2,8 @@
 
 Used only by `scripts/ui_acceptance.py` to check rendered layout in a browser. Every
 state is a fixture turn, not a model answer, and the page says so at the top.
+`static` beside this file links to the repository's `static/`, because Streamlit serves
+static files from the running script's own folder (the fonts).
 """
 
 from __future__ import annotations

@@ -533,4 +533,8 @@ See `docs/5_deployment.md` for the full checklist. Ollama is best treated as a l
 
 ## Notes
 
+The interface uses IBM Plex Sans and IBM Plex Mono, served from `static/fonts/` (from IBM's
+official release, `@ibm/plex-sans` 1.1.0 and `@ibm/plex-mono` 2.5.0) under the SIL Open
+Font License 1.1, whose text is in `static/fonts/OFL-1.1-IBM-Plex.txt`.
+
 This is still an MVP. The most important next improvements are persistent (model-based, not hashed) embedding retrieval for schema RAG, multi-attempt query repair instead of a single retry, and chart types beyond a bar chart (e.g. time series line charts) for result shapes the auto-chart heuristic doesn't cover yet.

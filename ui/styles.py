@@ -11,7 +11,19 @@ from __future__ import annotations
 
 CHAT_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+/* IBM Plex, served locally from static/fonts (OFL-1.1, licence beside the files). */
+@font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-style: normal; font-display: swap;
+    src: url("app/static/fonts/IBMPlexSans-Regular-Latin1.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 500; font-style: normal; font-display: swap;
+    src: url("app/static/fonts/IBMPlexSans-Medium-Latin1.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 600; font-style: normal; font-display: swap;
+    src: url("app/static/fonts/IBMPlexSans-SemiBold-Latin1.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 700; font-style: normal; font-display: swap;
+    src: url("app/static/fonts/IBMPlexSans-Bold-Latin1.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-style: normal; font-display: swap;
+    src: url("app/static/fonts/IBMPlexMono-Regular-Latin1.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 500; font-style: normal; font-display: swap;
+    src: url("app/static/fonts/IBMPlexMono-Medium-Latin1.woff2") format("woff2"); }
 :root {
     --ink: #1c2430; --muted: #5d6672; --line: #dce0da; --paper: #f6f7f4;
     --panel: #ffffff; --teal: #0e6e66; --teal-soft: #e3f0ed;

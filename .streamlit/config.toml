@@ -11,3 +11,7 @@ font = "sans serif"
 [client]
 # No "Deploy" button: this is a local portfolio app, not a hosted one.
 toolbarMode = "viewer"
+
+[server]
+# Serves static/ (the IBM Plex font files) at app/static/.
+enableStaticServing = true

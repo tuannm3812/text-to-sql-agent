@@ -1,5 +1,6 @@
 {
   "states_desktop_overflow_px": 0,
+  "states_desktop_plex_loaded": true,
   "states_desktop_fonts": [
     "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
     "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
@@ -11,8 +12,9 @@
   "unsupported_desktop_overflow_px": 0,
   "provider_desktop_overflow_px": 0,
   "fallback_desktop_overflow_px": 0,
-  "fallback_desktop_font": "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+  "fallback_desktop_plex_loaded": false,
   "states_narrow_overflow_px": 0,
+  "states_narrow_plex_loaded": true,
   "states_narrow_fonts": [
     "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
     "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
@@ -24,7 +26,7 @@
   "unsupported_narrow_overflow_px": 0,
   "provider_narrow_overflow_px": 0,
   "fallback_narrow_overflow_px": 0,
-  "fallback_narrow_font": "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+  "fallback_narrow_plex_loaded": false,
   "app_focus_walk": [
     {
       "tag": "section",
