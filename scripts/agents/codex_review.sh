@@ -10,9 +10,13 @@ RANGE="${1:?usage: codex_review.sh <git range>}"
 R="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$R" || exit 1
 LOG="${TMPDIR:-/tmp}/codex-review-$(date +%Y%m%dT%H%M%S).log"
+# The CLI the Codex app itself ships is current with the app's model; the standalone one
+# in ~/.local/bin can lag (0.145 rejected gpt-6-astra, 2026-10-22). CODEX_BIN overrides.
+APP_CODEX="/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex"
+CODEX="${CODEX_BIN:-$([ -x "$APP_CODEX" ] && echo "$APP_CODEX" || command -v codex)}"
 PROMPT="$(sed "s/{RANGE}/$RANGE/" scripts/agents/codex_review_prompt.md)"
-codex exec -m gpt-6-astra -c model_reasoning_effort=high -s workspace-write \
+"$CODEX" exec -m gpt-6-astra -c model_reasoning_effort=high -s workspace-write \
   "$PROMPT" > "$LOG" 2>&1
 status=$?
-echo "codex exit=$status log=$LOG"
+echo "codex ($("$CODEX" --version)) exit=$status log=$LOG"
 exit "$status"
