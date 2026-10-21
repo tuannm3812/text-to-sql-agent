@@ -8,9 +8,17 @@
     "\"IBM Plex Mono\", ui-monospace, monospace"
   ],
   "signed_desktop_overflow_px": 0,
+  "signed_desktop_clipped": [],
+  "missing value_desktop_overflow_px": 0,
+  "missing value_desktop_clipped": [],
   "long names_desktop_overflow_px": 0,
+  "long names_desktop_clipped": [],
+  "empty_desktop_overflow_px": 0,
+  "empty_desktop_clipped": [],
   "unsupported_desktop_overflow_px": 0,
+  "unsupported_desktop_clipped": [],
   "provider_desktop_overflow_px": 0,
+  "provider_desktop_clipped": [],
   "fallback_desktop_overflow_px": 0,
   "fallback_desktop_plex_loaded": false,
   "states_narrow_overflow_px": 0,
@@ -22,81 +30,63 @@
     "\"IBM Plex Mono\", ui-monospace, monospace"
   ],
   "signed_narrow_overflow_px": 0,
+  "signed_narrow_clipped": [],
+  "missing value_narrow_overflow_px": 0,
+  "missing value_narrow_clipped": [],
   "long names_narrow_overflow_px": 0,
+  "long names_narrow_clipped": [],
+  "empty_narrow_overflow_px": 0,
+  "empty_narrow_clipped": [],
   "unsupported_narrow_overflow_px": 0,
+  "unsupported_narrow_clipped": [],
   "provider_narrow_overflow_px": 0,
+  "provider_narrow_clipped": [],
   "fallback_narrow_overflow_px": 0,
   "fallback_narrow_plex_loaded": false,
-  "app_focus_walk": [
-    {
-      "tag": "section",
-      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
-      "visible": true
-    },
-    {
-      "tag": "button",
-      "label": "Ask",
-      "visible": true
-    },
-    {
+  "keyboard": {
+    "change": {
       "tag": "button",
       "label": "Change\n\nexpand_more",
-      "visible": true
+      "outline": true
     },
-    {
+    "provider": {
       "tag": "input",
-      "label": "Question",
-      "visible": true
+      "label": "Provider",
+      "outline": true
     },
-    {
-      "tag": "body",
-      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
-      "visible": false
+    "ollama_selected": true,
+    "model": {
+      "tag": "input",
+      "label": "Model",
+      "outline": true
     },
-    {
-      "tag": "section",
-      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
-      "visible": true
+    "summary": "University \u00b7 qwen3.5:9b-q4_K_M, local",
+    "sample_pill": {
+      "tag": "button",
+      "label": "Students per major",
+      "outline": true
     },
-    {
+    "sample_pill_chosen": {
+      "tag": "button",
+      "label": "Top students",
+      "outline": true
+    },
+    "ask_button": {
       "tag": "button",
       "label": "Ask",
-      "visible": true
+      "outline": true
     },
-    {
+    "csv": {
       "tag": "button",
-      "label": "Change\n\nexpand_more",
-      "visible": true
+      "label": "Download CSV",
+      "outline": true
     },
-    {
-      "tag": "input",
-      "label": "Question",
-      "visible": true
+    "all_tables": null,
+    "full_schema": {
+      "tag": "summary",
+      "label": "keyboard_arrow_right\n\nFull schema sent",
+      "outline": true
     },
-    {
-      "tag": "section",
-      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
-      "visible": true
-    },
-    {
-      "tag": "button",
-      "label": "Ask",
-      "visible": true
-    },
-    {
-      "tag": "button",
-      "label": "Change\n\nexpand_more",
-      "visible": true
-    },
-    {
-      "tag": "input",
-      "label": "Question",
-      "visible": true
-    },
-    {
-      "tag": "body",
-      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
-      "visible": false
-    }
-  ]
+    "full_schema_opened": true
+  }
 }

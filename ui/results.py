@@ -226,7 +226,8 @@ def bar_chart(df: pd.DataFrame) -> tuple[alt.LayerChart, str] | None:
     if shown.empty:
         return None
     low, high = float(min(0.0, shown[value_col].min())), float(max(0.0, shown[value_col].max()))
-    pad = (high - low) * 0.45 or 1.0
+    # Room for the value labels outside the bar ends, sized for a 390 px card as well.
+    pad = (high - low) * 0.6 or 1.0
     domain = [low - pad if low < 0 else 0.0, high + pad if high > 0 else (0.0 if low < 0 else 1.0)]
     shown["is_top"] = shown.index == shown[value_col].idxmax()
     shown["label"] = shown[value_col].map(format_number)
@@ -237,7 +238,7 @@ def bar_chart(df: pd.DataFrame) -> tuple[alt.LayerChart, str] | None:
             f"{category_col}:N",
             sort=order,
             title=None,
-            axis=alt.Axis(labelLimit=200, labelFontSize=13, labelColor=INK, ticks=False),
+            axis=alt.Axis(labelLimit=120, labelFontSize=13, labelColor=INK, ticks=False),
         ),
         x=alt.X(f"{value_col}:Q", axis=None, scale=alt.Scale(domain=domain)),
     )

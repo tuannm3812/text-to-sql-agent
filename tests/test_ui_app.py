@@ -141,3 +141,14 @@ def test_an_unsupported_type_is_not_called_a_write(no_server_keys: None) -> None
     assert "only reads data" not in headings
     assert "not a read-only query" not in _trace(at)
     assert "casts or operators" in _trace(at)
+
+
+def test_switching_provider_does_not_carry_the_other_providers_model(
+    no_server_keys: None,
+) -> None:
+    """Found by the keyboard acceptance check: Ollama was asked for `gemini-2.5-flash`."""
+    at = _app()
+    at.selectbox(key="sb_provider").select("ollama").run()
+    conn = next(m.value for m in at.markdown if "class='conn'" in m.value)
+    assert "gemini" not in conn
+    assert "local" in conn

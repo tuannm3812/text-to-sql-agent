@@ -110,7 +110,8 @@ h2.headline.refused { color: var(--warn); }
              overflow-wrap: anywhere; color: var(--ink); }
 .tables { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .tables span { font: 500 12.5px "IBM Plex Mono", monospace; padding: 2px 8px;
-               border-radius: 6px; background: var(--well); }
+               border-radius: 6px; background: var(--well); max-width: 100%;
+               overflow-wrap: anywhere; }
 .tables span.hit { background: var(--teal-soft); color: var(--teal); }
 
 /* The answer's two surfaces: white, a quiet but visible border, 20-24 px inside. */

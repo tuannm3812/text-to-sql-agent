@@ -7,6 +7,7 @@ import os
 import streamlit as st
 
 import text_to_sql_agent as backend
+from ui.constants import GEMINI_MODELS, OLLAMA_MODELS
 
 
 def streamlit_secret(name: str) -> str:
@@ -27,11 +28,16 @@ def active_gemini_key(typed_key: str) -> str:
 
 
 def model_name_for_provider(provider: str) -> str:
-    """Resolve the selected model name for `provider` from sidebar session state."""
+    """Resolve the selected model name for `provider` from the connection panel's state.
+
+    A choice left over from the other provider is ignored: just after switching from Gemini
+    to Ollama, `sb_model_choice` still holds a Gemini name until the model box redraws,
+    and the page would otherwise ask Ollama for `gemini-2.5-flash` (found by the keyboard
+    acceptance check, 2026-10-22).
+    """
+    default = backend.DEFAULT_MODEL_NAME if provider == "gemini" else backend.DEFAULT_OLLAMA_MODEL
+    options = GEMINI_MODELS if provider == "gemini" else OLLAMA_MODELS
     selected = st.session_state.get("sb_model_choice", "")
     if selected == "Custom":
-        return (st.session_state.get("sb_custom_model") or "").strip()
-    return str(
-        selected
-        or (backend.DEFAULT_MODEL_NAME if provider == "gemini" else backend.DEFAULT_OLLAMA_MODEL)
-    )
+        return (st.session_state.get("sb_custom_model") or "").strip() or default
+    return str(selected) if selected in options else default

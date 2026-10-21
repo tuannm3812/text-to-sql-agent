@@ -19,11 +19,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from ui.results import render_answer  # noqa: E402
 from ui.styles import CHAT_CSS  # noqa: E402
 
-RETRIEVAL = {
-    "tables": [
-        {"name": "fiscal_quarter_performance_summary_by_region", "neighbour": False, "used": True},
-        {"name": "regions", "neighbour": True, "used": False},
-    ],
+TABLES: list[dict[str, object]] = [
+    {"name": "fiscal_quarter_performance_summary_by_region", "neighbour": False, "used": True},
+    {"name": "regions", "neighbour": True, "used": False},
+]
+RETRIEVAL: dict[str, object] = {
+    "tables": TABLES,
     "terms": ["profit", "region"],
     "total_tables": 7,
     "sent_chars": 2210,
@@ -89,12 +90,17 @@ STATES = [
         sql_text="SELECT name FROM contacts",
         blocked_sql="SELECT name FROM contacts",
     ),
+    # The shape `answer_question` records when generation raises after retrieval: the
+    # retrieval is kept, no SQL, so no table is marked used.
     turn(
         "provider failure",
         "Anything",
         error_text="ConnectionError: could not reach the model server",
         sql_text="",
-        schema_text="",
+        retrieval={
+            **RETRIEVAL,
+            "tables": [{**t, "used": False} for t in TABLES],
+        },
     ),
 ]
 

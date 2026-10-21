@@ -7,8 +7,9 @@ signed values, a missing value, long names and many categories, empty, unsupport
 type, provider failure) and the real `app.py`, then in Chrome at 1440x1000 and 390x844:
 
 - records the page's scroll width against the viewport (no horizontal page scroll);
-- tabs through the app's controls and records each focused element and whether it shows
-  a visible outline;
+- drives the app by keyboard alone: open Change, switch to Ollama, ask a sample question,
+  then reach Ask, CSV, the table disclosure and the schema expander, with outline state;
+- records text clipped inside an answer card or its chart, which page width misses;
 - checks the locally served Plex files load, then renders with them blocked to check
   the system fallback.
 
@@ -84,25 +85,113 @@ def _overflow(page: Page) -> int:
     return int(page.evaluate("document.documentElement.scrollWidth - window.innerWidth"))
 
 
-def _focus_walk(page: Page, steps: int = 14) -> list[dict[str, object]]:
-    walk = []
-    page.evaluate("document.activeElement && document.activeElement.blur()")
-    for _ in range(steps):
-        page.keyboard.press("Tab")
-        page.wait_for_timeout(120)
-        walk.append(
-            page.evaluate(
-                """() => { const e = document.activeElement; if (!e) return null;
-            const s = getComputedStyle(e);
-            const visible = (s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0)
-                || s.boxShadow !== 'none';
+_CLIPPED = """() => {
+  // Text inside an answer card that does not fit: an element wider than the card, or a
+  // chart label drawn past its own SVG's edge. Page width alone misses both.
+  const out = [];
+  for (const card of document.querySelectorAll('[class*="st-key-answer_"]')) {
+    const box = card.getBoundingClientRect();
+    for (const el of card.querySelectorAll('span, p, h2, h3, code, pre, td')) {
+      const r = el.getBoundingClientRect();
+      if (r.width && (r.right > box.right + 1 || r.left < box.left - 1))
+        out.push('element: ' + el.textContent.trim().slice(0, 40));
+    }
+    for (const svg of card.querySelectorAll('svg')) {
+      const sb = svg.getBoundingClientRect();
+      for (const t of svg.querySelectorAll('text')) {
+        const r = t.getBoundingClientRect();
+        if (r.width && (r.right > sb.right + 1 || r.left < sb.left - 1))
+          out.push('chart text: ' + t.textContent.trim().slice(0, 40));
+      }
+    }
+  }
+  return out;
+}"""
+
+
+def _clipped(page: Page) -> list[str]:
+    return list(page.evaluate(_CLIPPED))
+
+
+def _focused(page: Page) -> dict[str, object]:
+    return dict(
+        page.evaluate(
+            """() => { const e = document.activeElement; const s = getComputedStyle(e);
             return {tag: e.tagName.toLowerCase(),
                     label: (e.getAttribute('aria-label') || e.innerText || e.value || '')
                         .trim().slice(0, 40),
-                    visible}; }"""
-            )
+                    outline: s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0}; }"""
         )
-    return walk
+    )
+
+
+def _tab_until(
+    page: Page, label: str, limit: int = 40, *, exact: bool = False
+) -> dict[str, object] | None:
+    """Press Tab until the focused element's label contains (or, `exact`, is) `label`."""
+    for _ in range(limit):
+        page.keyboard.press("Tab")
+        page.wait_for_timeout(100)
+        focused = _focused(page)
+        text = str(focused["label"]).strip().lower()
+        if (text == label.lower()) if exact else (label.lower() in text):
+            return focused
+    return None
+
+
+def _keyboard_path(page: Page) -> dict[str, object]:
+    """Keyboard only: open Change, switch to Ollama, ask a sample, reach the answer's controls.
+
+    Every step is a key press; nothing is clicked. A step that cannot be reached is
+    recorded as None. The answer comes from local Ollama, so this needs it running.
+    """
+    path: dict[str, object] = {}
+    page.evaluate("document.activeElement && document.activeElement.blur()")
+    path["change"] = _tab_until(page, "Change")
+    page.keyboard.press("Enter")
+    page.wait_for_timeout(800)
+    path["provider"] = _tab_until(page, "Provider")
+    page.keyboard.press("ArrowDown")  # open the list on the current option
+    page.wait_for_timeout(400)
+    page.keyboard.press("ArrowDown")  # move to Ollama (local)
+    page.keyboard.press("Enter")
+    page.wait_for_timeout(1500)
+    path["ollama_selected"] = bool(
+        page.evaluate("document.body.innerText.includes('Runs on this machine')")
+    )
+    path["model"] = _tab_until(page, "Model")
+    page.keyboard.press("ArrowDown")  # opens the list on the next option, qwen3.5:9b-q4_K_M
+    page.wait_for_timeout(400)
+    page.keyboard.press("Enter")
+    page.wait_for_timeout(1500)
+    page.keyboard.press("Escape")
+    page.wait_for_timeout(800)
+    page.evaluate("document.activeElement && document.activeElement.blur()")
+    path["summary"] = page.evaluate(
+        "document.querySelector('.conn') && document.querySelector('.conn').innerText"
+    )
+    # The pills are one tab stop (the first); arrow keys move between them.
+    path["sample_pill"] = _tab_until(page, "Students per major")
+    page.keyboard.press("ArrowRight")
+    page.keyboard.press("ArrowRight")  # to "Top students", a ranked list: a table and CSV
+    path["sample_pill_chosen"] = _focused(page)
+    page.keyboard.press("Enter")
+    page.get_by_text("How this was answered").first.wait_for(timeout=180_000)
+    page.wait_for_timeout(2000)
+    page.evaluate("document.activeElement && document.activeElement.blur()")
+    path["ask_button"] = _tab_until(page, "Ask", exact=True)
+    path["csv"] = _tab_until(page, "Download CSV")
+    path["all_tables"] = _tab_until(page, "All selected tables")
+    path["full_schema"] = _tab_until(page, "Full schema sent")
+    page.keyboard.press("Enter")
+    page.wait_for_timeout(500)
+    path["full_schema_opened"] = bool(
+        page.evaluate(
+            "[...document.querySelectorAll('details')].some(d => d.open && "
+            "d.innerText.includes('Full schema sent'))"
+        )
+    )
+    return path
 
 
 def main() -> int:
@@ -129,9 +218,17 @@ def main() -> int:
                     "q => getComputedStyle(document.querySelector(q)).fontFamily)"
                 )
                 page.screenshot(path=OUT / f"states-{name}.png", full_page=False)
-                for state in ("signed", "long names", "unsupported", "provider"):
+                for state in (
+                    "signed",
+                    "missing value",
+                    "long names",
+                    "empty",
+                    "unsupported",
+                    "provider",
+                ):
                     _load(page, f"http://127.0.0.1:{states_port}/?state={state}", "UI states")
                     report[f"{state}_{name}_overflow_px"] = _overflow(page)
+                    report[f"{state}_{name}_clipped"] = _clipped(page)
                     page.screenshot(path=OUT / f"{state.replace(' ', '-')}-{name}.png")
                 page.close()
 
@@ -147,8 +244,7 @@ def main() -> int:
 
             app = browser.new_page(viewport=VIEWPORTS["desktop"])
             _load(app, f"http://127.0.0.1:{app_port}", "Ask your data")
-            report["app_focus_walk"] = _focus_walk(app)
-            app.keyboard.press("Shift+Tab")
+            report["keyboard"] = _keyboard_path(app)
             app.screenshot(path=OUT / "app-focus.png")
             browser.close()
     finally:
