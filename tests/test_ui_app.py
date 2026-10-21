@@ -152,3 +152,30 @@ def test_switching_provider_does_not_carry_the_other_providers_model(
     conn = next(m.value for m in at.markdown if "class='conn'" in m.value)
     assert "gemini" not in conn
     assert "local" in conn
+
+
+@pytest.mark.parametrize(("first", "second"), [("gemini", "ollama"), ("ollama", "gemini")])
+def test_a_custom_model_never_reaches_the_other_provider(
+    no_server_keys: None, monkeypatch: pytest.MonkeyPatch, first: str, second: str
+) -> None:
+    """Codex, 2026-10-22: a custom name typed for one provider was sent to the other."""
+    from text_to_sql_agent import Answer, QueryResult
+
+    calls: list[tuple[str, str]] = []
+
+    def fake_run_query(prompt: str, **kwargs: object) -> Answer:
+        calls.append((str(kwargs["provider"]), str(kwargs["model_name"])))
+        return Answer(sql="", result=QueryResult([], [], error="x"), schema_text="", retrieval=None)
+
+    monkeypatch.setenv("GEMINI_API_KEY", "server-key")
+    monkeypatch.setattr("ui.chat._run_query", fake_run_query)
+    at = _app()
+    at.selectbox(key="sb_provider").select(first).run()
+    at.selectbox(key=f"sb_model_choice_{first}").select("Custom").run()
+    at.text_input(key=f"sb_custom_model_{first}").input("custom-for-review").run()
+    at.selectbox(key="sb_provider").select(second).run()
+    at.text_input(key="question_box").input("How many students?").run()
+    at.button(key="FormSubmitter:ask_form-Ask").click().run()
+
+    assert calls and calls[-1][0] == second
+    assert calls[-1][1] != "custom-for-review"

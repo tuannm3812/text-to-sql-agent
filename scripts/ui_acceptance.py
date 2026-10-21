@@ -113,6 +113,9 @@ def _clipped(page: Page) -> list[str]:
     return list(page.evaluate(_CLIPPED))
 
 
+FORM_QUESTION = "How many students are enrolled in each major?"
+
+
 def _focused(page: Page) -> dict[str, object]:
     return dict(
         page.evaluate(
@@ -120,7 +123,9 @@ def _focused(page: Page) -> dict[str, object]:
             return {tag: e.tagName.toLowerCase(),
                     label: (e.getAttribute('aria-label') || e.innerText || e.value || '')
                         .trim().slice(0, 40),
-                    outline: s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0}; }"""
+                    outline: s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) > 0,
+                    in_form: !!e.closest('.st-key-ask_box'),
+                    in_top_bar: !!e.closest('.st-key-topbar')}; }"""
         )
     )
 
@@ -179,7 +184,18 @@ def _keyboard_path(page: Page) -> dict[str, object]:
     page.get_by_text("How this was answered").first.wait_for(timeout=180_000)
     page.wait_for_timeout(2000)
     page.evaluate("document.activeElement && document.activeElement.blur()")
+    # Submit through the form itself: type a question, then Tab to the form's own Ask
+    # (not the top bar's Ask view button) and press Enter (Codex, 2026-10-22).
+    page.evaluate("document.activeElement && document.activeElement.blur()")
+    path["question_box"] = _tab_until(page, "Question", exact=True)
+    page.keyboard.press("Meta+A")
+    page.keyboard.type(FORM_QUESTION)
     path["ask_button"] = _tab_until(page, "Ask", exact=True)
+    page.keyboard.press("Enter")
+    page.locator("p.q", has_text=FORM_QUESTION).first.wait_for(timeout=180_000)
+    page.wait_for_timeout(2000)
+    path["form_answer_shown"] = True
+    page.evaluate("document.activeElement && document.activeElement.blur()")
     path["csv"] = _tab_until(page, "Download CSV")
     path["all_tables"] = _tab_until(page, "All selected tables")
     path["full_schema"] = _tab_until(page, "Full schema sent")

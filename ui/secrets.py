@@ -27,17 +27,22 @@ def active_gemini_key(typed_key: str) -> str:
     )
 
 
+def model_keys(provider: str) -> tuple[str, str]:
+    """`(model choice key, custom name key)` in session state, one pair per provider."""
+    return f"sb_model_choice_{provider}", f"sb_custom_model_{provider}"
+
+
 def model_name_for_provider(provider: str) -> str:
     """Resolve the selected model name for `provider` from the connection panel's state.
 
-    A choice left over from the other provider is ignored: just after switching from Gemini
-    to Ollama, `sb_model_choice` still holds a Gemini name until the model box redraws,
-    and the page would otherwise ask Ollama for `gemini-2.5-flash` (found by the keyboard
-    acceptance check, 2026-10-22).
+    Both the model choice and the custom name are stored per provider (`model_keys`), so
+    switching provider can never carry the other provider's model, built-in or custom
+    (Codex, 2026-10-22). An unknown stored choice falls back to the provider's default.
     """
     default = backend.DEFAULT_MODEL_NAME if provider == "gemini" else backend.DEFAULT_OLLAMA_MODEL
     options = GEMINI_MODELS if provider == "gemini" else OLLAMA_MODELS
-    selected = st.session_state.get("sb_model_choice", "")
+    choice_key, custom_key = model_keys(provider)
+    selected = st.session_state.get(choice_key, "")
     if selected == "Custom":
-        return (st.session_state.get("sb_custom_model") or "").strip() or default
+        return (st.session_state.get(custom_key) or "").strip() or default
     return str(selected) if selected in options else default

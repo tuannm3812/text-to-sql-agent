@@ -47,45 +47,69 @@
     "change": {
       "tag": "button",
       "label": "Change\n\nexpand_more",
-      "outline": true
+      "outline": true,
+      "in_form": false,
+      "in_top_bar": true
     },
     "provider": {
       "tag": "input",
       "label": "Provider",
-      "outline": true
+      "outline": true,
+      "in_form": false,
+      "in_top_bar": false
     },
     "ollama_selected": true,
     "model": {
       "tag": "input",
       "label": "Model",
-      "outline": true
+      "outline": true,
+      "in_form": false,
+      "in_top_bar": false
     },
     "summary": "University \u00b7 qwen3.5:9b-q4_K_M, local",
     "sample_pill": {
       "tag": "button",
       "label": "Students per major",
-      "outline": true
+      "outline": true,
+      "in_form": false,
+      "in_top_bar": false
     },
     "sample_pill_chosen": {
       "tag": "button",
       "label": "Top students",
-      "outline": true
+      "outline": true,
+      "in_form": false,
+      "in_top_bar": false
+    },
+    "question_box": {
+      "tag": "input",
+      "label": "Question",
+      "outline": true,
+      "in_form": true,
+      "in_top_bar": false
     },
     "ask_button": {
       "tag": "button",
       "label": "Ask",
-      "outline": true
+      "outline": true,
+      "in_form": true,
+      "in_top_bar": false
     },
+    "form_answer_shown": true,
     "csv": {
       "tag": "button",
       "label": "Download CSV",
-      "outline": true
+      "outline": true,
+      "in_form": false,
+      "in_top_bar": false
     },
     "all_tables": null,
     "full_schema": {
       "tag": "summary",
       "label": "keyboard_arrow_right\n\nFull schema sent",
-      "outline": true
+      "outline": true,
+      "in_form": false,
+      "in_top_bar": false
     },
     "full_schema_opened": true
   }

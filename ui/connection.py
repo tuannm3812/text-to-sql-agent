@@ -23,7 +23,7 @@ from ui.constants import (
     SOURCE_UPLOAD_DB,
     SOURCES,
 )
-from ui.secrets import active_gemini_key, model_name_for_provider
+from ui.secrets import active_gemini_key, model_keys, model_name_for_provider
 from ui.settings import Settings
 from ui.uploads import active_db_path, redact_dsn
 
@@ -82,9 +82,12 @@ def _render_model() -> None:
         backend.DEFAULT_MODEL_NAME if provider == "gemini" else backend.DEFAULT_OLLAMA_MODEL
     )
     default_index = model_options.index(default_model) if default_model in model_options else 0
-    st.selectbox("Model", model_options, index=default_index, key="sb_model_choice")
-    if st.session_state.get("sb_model_choice") == "Custom":
-        st.text_input("Custom model name", value=default_model, key="sb_custom_model")
+    # Keyed per provider, so a choice or a custom name made for one provider can never be
+    # read for the other (Codex, 2026-10-22: a custom Gemini name reached Ollama).
+    choice_key, custom_key = model_keys(provider)
+    st.selectbox("Model", model_options, index=default_index, key=choice_key)
+    if st.session_state.get(choice_key) == "Custom":
+        st.text_input("Custom model name", value=default_model, key=custom_key)
 
     gemini_key = ""
     if provider == "gemini":
