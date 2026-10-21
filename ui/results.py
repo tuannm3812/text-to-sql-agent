@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import math
 
 import altair as alt
 import pandas as pd
@@ -120,14 +121,27 @@ def format_number(value: object) -> str:
     return f"{value:,.2f}"
 
 
+# A column named like these is a ratio or an average: its rows do not add up.
+_NON_ADDITIVE = ("avg", "average", "mean", "pct", "percent", "rate", "ratio", "share", "median")
+
+
+def _is_additive(column: str, values: pd.Series) -> bool:
+    """Whether summing the other rows means something: non-negative and not a ratio."""
+    name = column.lower()
+    return not any(word in name for word in _NON_ADDITIVE) and bool((values >= 0).all())
+
+
 def answer_headline(df: pd.DataFrame) -> tuple[str, str]:
     """`(headline, facts)` stated from the result rows alone, never from the model.
 
-    A category-and-number result names the largest category, and says when it outweighs
-    all the others together; a single value is stated; anything else is counted.
+    A category-and-number result names the largest category in a short headline; the
+    facts line adds the measure and, only for a non-negative measure that is not a ratio
+    or average, whether it outweighs the other rows together. A single value is stated;
+    anything else is counted.
     """
     rows = len(df)
-    facts = f"{rows} row{'s' if rows != 1 else ''}, values as stored in the database"
+    count = f"{rows} row{'s' if rows != 1 else ''}"
+    facts = f"{count}, values as stored in the database."
     if rows == 0:
         return "No rows matched the question.", "The query ran and returned nothing."
     if rows == 1 and len(df.columns) == 1:
@@ -136,75 +150,117 @@ def answer_headline(df: pd.DataFrame) -> tuple[str, str]:
     chart_cols = chartable_columns(df)
     if chart_cols:
         category_col, value_col = chart_cols
-        values = pd.to_numeric(df[value_col], errors="coerce")
-        top = int(values.idxmax())
-        top_value = float(values.iloc[top])
-        rest = float(values.drop(values.index[top]).sum())
-        label = humanize(value_col).lower()
+        values = pd.to_numeric(df[value_col], errors="coerce").reset_index(drop=True)
+        finite = values[values.map(lambda v: pd.notna(v) and math.isfinite(v))]
+        if finite.empty:
+            return f"{count} returned.", facts
+        top = int(finite.idxmax())
+        top_value = float(finite.loc[top])
         name = html.escape(str(df[category_col].iloc[top]))
-        if top_value > rest:
+        measure = f"{humanize(value_col)} by {humanize(category_col).lower()}, {count}."
+        rest = float(finite.drop(top).sum())
+        if _is_additive(value_col, finite) and rows > 1 and top_value > rest:
             others = _COUNT_WORDS.get(rows - 1, str(rows - 1))
-            return (
-                f"<em>{name}</em> leads with {format_number(top_value)} in {label}, more than "
-                f"the other {others} combined ({format_number(rest)}).",
-                facts,
-            )
-        return f"<em>{name}</em> has the highest {label}: {format_number(top_value)}.", facts
-    return f"{rows} row{'s' if rows != 1 else ''} returned.", facts
+            measure += f" More than the other {others} combined ({format_number(rest)})."
+        return f"<em>{name}</em> leads with {format_number(top_value)}", measure
+    return f"{count} returned.", facts
 
 
 _COUNT_WORDS = dict(
     enumerate(["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"])
 )
 
-# The page's one accent and its light tint (`ui.styles`).
+# Chart colours, the page's tokens (`ui.styles`, `docs/design/design.md`).
 TEAL = "#0e6e66"
 TEAL_LIGHT = "#9cc5bf"
+INK = "#1c2430"
+LINE = "#dce0da"
 
 
-def _render_chart(df: pd.DataFrame) -> None:
-    """Horizontal bars for a category-and-number result, in the query's row order."""
+CHART_LIMIT = 12
+
+
+def bar_chart(df: pd.DataFrame) -> tuple[alt.LayerChart, str] | None:
+    """`(chart, note)` for a category-and-number result, or `None` for any other shape.
+
+    Bars keep the query's row order and its first `CHART_LIMIT` rows; the domain spans
+    zero and both extremes, so negative values (a loss beside a gain) are drawn, with
+    each value label on its bar's side. Rows without a finite value are left out of the
+    chart, never the table, and `note` says so.
+    """
     chart_cols = chartable_columns(df)
     if not chart_cols:
-        return
+        return None
     category_col, value_col = chart_cols
-    data = df[[category_col, value_col]].copy()
+    data = df[[category_col, value_col]].copy().reset_index(drop=True)
     data[category_col] = data[category_col].astype(str)
-    order = list(dict.fromkeys(data[category_col]))
-    top = data[value_col].astype(float).idxmax()
-    data["is_top"] = data.index == top
-    data["label"] = data[value_col].map(format_number)
+    data[value_col] = pd.to_numeric(data[value_col], errors="coerce").astype(float)
+    finite = data[data[value_col].map(math.isfinite)]
+    notes = []
+    if len(finite) < len(data):
+        missing = len(data) - len(finite)
+        notes.append(f"{missing} row{'s' if missing != 1 else ''} without a number not drawn")
+    shown = finite.head(CHART_LIMIT).copy()
+    if len(finite) > CHART_LIMIT:
+        notes.append(f"first {CHART_LIMIT} of {len(finite)} rows drawn")
+    if shown.empty:
+        return None
+    low, high = float(min(0.0, shown[value_col].min())), float(max(0.0, shown[value_col].max()))
+    pad = (high - low) * 0.3 or 1.0
+    domain = [low - pad if low < 0 else 0.0, high + pad if high > 0 else (0.0 if low < 0 else 1.0)]
+    shown["is_top"] = shown.index == shown[value_col].idxmax()
+    shown["label"] = shown[value_col].map(format_number)
+    order = list(dict.fromkeys(shown[category_col]))
     title = humanize(value_col)
-    base = alt.Chart(data).encode(
-        y=alt.Y(f"{category_col}:N", sort=order, title=None, axis=alt.Axis(labelLimit=180)),
-        x=alt.X(
-            f"{value_col}:Q",
-            axis=None,
-            scale=alt.Scale(domain=[0, float(data[value_col].astype(float).max()) * 1.3]),
+    base = alt.Chart(shown).encode(
+        y=alt.Y(
+            f"{category_col}:N",
+            sort=order,
+            title=None,
+            axis=alt.Axis(labelLimit=200, labelFontSize=13, labelColor=INK, ticks=False),
         ),
+        x=alt.X(f"{value_col}:Q", axis=None, scale=alt.Scale(domain=domain)),
     )
-    bars = base.mark_bar(cornerRadiusEnd=3, height={"band": 0.7}).encode(
+    bars = base.mark_bar(cornerRadius=3, height={"band": 0.7}).encode(
         color=alt.condition("datum.is_top", alt.value(TEAL), alt.value(TEAL_LIGHT)),
         tooltip=[
             alt.Tooltip(f"{category_col}:N", title=humanize(category_col)),
             alt.Tooltip("label:N", title=title),
         ],
     )
-    labels = base.mark_text(align="left", dx=6, color="#1c2430").encode(text="label:N")
-    by = html.escape(humanize(category_col).lower())
-    st.markdown(f"<p class='chart-title'>{html.escape(title)} by {by}</p>", unsafe_allow_html=True)
-    st.altair_chart(
-        (bars + labels)
-        .properties(height=34 * len(data) + 10, background="transparent")
-        .configure_view(stroke=None)
-        .configure_axis(
-            labelFont="IBM Plex Sans",
-            titleFont="IBM Plex Sans",
-            labelColor="#5d6672",
-            titleColor="#5d6672",
-        ),
-        use_container_width=True,
+    positive = (
+        base.transform_filter(f"datum['{value_col}'] >= 0")
+        .mark_text(align="left", dx=6, fontSize=13, color=INK)
+        .encode(text="label:N")
     )
+    negative = (
+        base.transform_filter(f"datum['{value_col}'] < 0")
+        .mark_text(align="right", dx=-6, fontSize=13, color=INK)
+        .encode(text="label:N")
+    )
+    chart = (
+        (bars + positive + negative)
+        .properties(height=36 * len(shown) + 10, background="transparent")
+        .configure_view(stroke=None)
+        .configure_axis(labelFont="IBM Plex Sans", domainColor=LINE)
+    )
+    return chart, "; ".join(notes)
+
+
+def _render_chart(df: pd.DataFrame) -> None:
+    built = bar_chart(df)
+    if built is None:
+        return
+    chart, note = built
+    category_col, value_col = chartable_columns(df) or ("", "")
+    by = html.escape(humanize(category_col).lower())
+    st.markdown(
+        f"<p class='chart-title'>{html.escape(humanize(value_col))} by {by}</p>",
+        unsafe_allow_html=True,
+    )
+    st.altair_chart(chart, use_container_width=True)
+    if note:
+        st.caption(note[:1].upper() + note[1:] + "; the table below has every row.")
 
 
 def _render_table(df: pd.DataFrame) -> None:
@@ -237,8 +293,13 @@ def _render_result_card(msg: dict) -> None:
         if df is not None:
             st.warning(message, icon=":material/info:")
         elif refused:
+            heading = (
+                "Not run: it reads a column type the agent cannot check."
+                if error == "BLOCKED_UNSUPPORTED_COLUMN_TYPE"
+                else "Not run: this agent only reads data."
+            )
             st.markdown(
-                f"<h2 class='headline refused'>Not run: this agent only reads data.</h2>"
+                f"<h2 class='headline refused'>{heading}</h2>"
                 f"<p class='facts'>{html.escape(message)}</p>",
                 unsafe_allow_html=True,
             )
@@ -320,10 +381,16 @@ def _step_check_and_run(msg: dict) -> str:
     error = msg.get("error_text")
     df = msg.get("df")
     engine = ENGINE_NAMES.get(str(msg.get("engine") or ""), "the database")
-    if error in _REFUSAL_CODES and _is_model_verdict(msg):
+    if error == "BLOCKED_UNSUPPORTED_COLUMN_TYPE":
+        check = (
+            "<span class='bad'>Refused</span>: it reads a column whose type has its own "
+            "casts or operators, which the agent cannot check."
+        )
+        run = "<li><h3>Not run</h3><p>Nothing was sent to the database.</p></li>"
+    elif error in _REFUSAL_CODES and _is_model_verdict(msg):
         check = "<span class='bad'>Declined</span>: the model answered that it changes data."
         run = "<li><h3>Not run</h3><p>Nothing was sent to the database.</p></li>"
-    elif error in _REFUSAL_CODES:
+    elif error == "BLOCKED_UNSAFE_SQL":
         check = "<span class='bad'>Refused</span>: it was not a read-only query."
         run = "<li><h3>Not run</h3><p>Nothing was sent to the database.</p></li>"
     elif error == "UNANSWERABLE_WITH_GIVEN_SCHEMA":

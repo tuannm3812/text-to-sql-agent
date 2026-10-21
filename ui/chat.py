@@ -66,28 +66,60 @@ def _run_query(
         return backend.Answer(sql="", result=failed, schema_text="", retrieval=None)
 
 
-def _tables_in_sql(sql: str) -> set[str]:
-    """Lowercased table names the SQL reads; empty if it does not parse."""
+# The schema a bare table name resolves to, per engine; PostgreSQL's is each chunk's own
+# `home_schema` (`SchemaChunk`), so it is absent here.
+_DEFAULT_SCHEMAS = {"sqlite": "main", "duckdb": "main"}
+
+
+def _tables_in_sql(sql: str, dialect: str) -> set[str]:
+    """Lowercased table references the SQL reads, schema-qualified where the SQL qualifies.
+
+    CTE names are left out: they are not tables. Empty if the SQL does not parse.
+    """
     try:
-        tree = sqlglot.parse_one(sql)
+        tree = sqlglot.parse_one(sql, read=dialect)
     except Exception:  # noqa: BLE001 - any parse failure just means "unknown"
         return set()
-    return {table.name.lower() for table in tree.find_all(exp.Table) if table.name}
+    ctes = {cte.alias_or_name.lower() for cte in tree.find_all(exp.CTE)}
+    refs = set()
+    for table in tree.find_all(exp.Table):
+        name = table.name.lower()
+        if not name or (not table.db and name in ctes):
+            continue
+        refs.add(f"{table.db.lower()}.{name}" if table.db else name)
+    return refs
 
 
-def _retrieval_summary(answer: backend.Answer, db_path: str) -> dict[str, Any] | None:
+def _chunk_spellings(chunk: Any, engine: str) -> set[str]:
+    """Every reference that names exactly this chunk's table.
+
+    `qualified_name` is the spelling a bare name resolves to, so a bare reference matches
+    only a bare-spelled chunk; a schema-qualified reference matches the chunk in that
+    schema, whether it is spelled bare (its home or default schema) or qualified.
+    """
+    spellings = {chunk.qualified_name.lower()}
+    if not chunk.schema_name:
+        home = chunk.home_schema or _DEFAULT_SCHEMAS.get(engine, "")
+        if home:
+            spellings.add(f"{home.lower()}.{chunk.table_name.lower()}")
+    return spellings
+
+
+def _retrieval_summary(
+    answer: backend.Answer, db_path: str, engine: str, dialect: str
+) -> dict[str, Any] | None:
     """What "How this was answered" says about table selection, from the recorded retrieval."""
     retrieval = answer.retrieval
     if retrieval is None:
         return None
-    used = _tables_in_sql(answer.sql)
+    used = _tables_in_sql(answer.sql, dialect)
     tables = []
     terms: list[str] = []
     used_terms: list[str] = []
     for chunk in retrieval.chunks:
         reasons = chunk.match_reasons or []
         neighbour = any(reason.startswith("foreign-key neighbor") for reason in reasons)
-        is_used = chunk.qualified_name.lower() in used or chunk.table_name.lower() in used
+        is_used = bool(_chunk_spellings(chunk, engine) & used)
         for reason in reasons:
             if reason.startswith(("table match: ", "column match: ")):
                 for term in reason.split(": ", 1)[1].split(", "):
@@ -98,7 +130,7 @@ def _retrieval_summary(answer: backend.Answer, db_path: str) -> dict[str, Any] |
             {
                 "name": chunk.qualified_name,
                 "neighbour": neighbour,
-                "used": chunk.qualified_name.lower() in used or chunk.table_name.lower() in used,
+                "used": is_used,
             }
         )
     try:
@@ -130,9 +162,10 @@ def answer_turn(
     """
     result = answer.result
     try:
-        engine = backend.open_engine(db_path).name
+        opened = backend.open_engine(db_path)
+        engine, dialect = opened.name, opened.sqlglot_dialect
     except Exception:  # noqa: BLE001 - only a label
-        engine = ""
+        engine, dialect = "", "sqlite"
     return {
         "role": "assistant",
         "kind": "result",
@@ -143,7 +176,7 @@ def answer_turn(
         "sql_text": answer.sql,
         "schema_text": answer.schema_text or None,
         "rag_report": answer.retrieval.report if answer.retrieval is not None else None,
-        "retrieval": _retrieval_summary(answer, db_path),
+        "retrieval": _retrieval_summary(answer, db_path, engine, dialect),
         "database": database,
         "engine": engine,
         "provider": settings.provider,

@@ -106,9 +106,7 @@ def _close_change(page: Page) -> None:
 
 def _wait_for_answer(page: Page, question: str) -> None:
     """Wait until the answer card for `question` is on the page and the rerun is over."""
-    expect(page.locator("p.q", has_text=question).first).to_be_visible(
-        timeout=ANSWER_TIMEOUT_MS
-    )
+    expect(page.locator("p.q", has_text=question).first).to_be_visible(timeout=ANSWER_TIMEOUT_MS)
     _settle(page)
     page.wait_for_timeout(1500)  # let the chart finish drawing
 

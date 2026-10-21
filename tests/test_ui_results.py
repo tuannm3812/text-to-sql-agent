@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import pandas as pd
 import pytest
 
 from ui import results
+from ui.results import answer_headline, bar_chart
 
 KNOWN_CODES = [
     "BLOCKED_UNSAFE_SQL",
@@ -76,3 +78,54 @@ def test_blocked_message_reads_correctly_for_a_refusal_the_model_made() -> None:
     message = results.describe_error("BLOCKED_UNSAFE_SQL")
     assert "asked to change data" in message
     assert "generated SQL was blocked" not in message
+
+
+# --- Codex's redesign review, 2026-10-21 ------------------------------------------------
+
+
+def _domain(df: pd.DataFrame) -> list[float]:
+    built = bar_chart(df)
+    assert built is not None
+    spec = built[0].to_dict()
+    return list(spec["layer"][0]["encoding"]["x"]["scale"]["domain"])
+
+
+def test_a_chart_domain_spans_negative_and_positive_values() -> None:
+    low, high = _domain(pd.DataFrame({"segment": ["Loss", "Gain"], "net_profit": [-20, 10]}))
+    assert low < -20 and high > 10
+
+
+def test_an_all_negative_chart_ends_at_zero() -> None:
+    low, high = _domain(pd.DataFrame({"segment": ["A", "B"], "change": [-5, -2]}))
+    assert low < -5 and high == 0
+
+
+def test_an_all_zero_chart_still_has_a_range() -> None:
+    assert _domain(pd.DataFrame({"segment": ["A", "B"], "n": [0, 0]})) == [0.0, 1.0]
+
+
+def test_non_finite_values_are_left_out_of_the_chart_and_said_so() -> None:
+    df = pd.DataFrame({"segment": ["A", "B", "C"], "n": [1.0, float("nan"), float("inf")]})
+    built = bar_chart(df)
+    assert built is not None
+    assert "2 rows without a number not drawn" in built[1]
+
+
+def test_a_long_result_draws_the_first_twelve_rows_and_says_so() -> None:
+    df = pd.DataFrame({"segment": [f"s{i}" for i in range(15)], "n": list(range(15, 0, -1))})
+    built = bar_chart(df)
+    assert built is not None
+    assert built[1] == "first 12 of 15 rows drawn"
+
+
+def test_the_headline_is_short_and_only_sums_an_additive_measure() -> None:
+    revenue = pd.DataFrame({"category": ["Electronics", "Fashion"], "total_revenue": [100, 40]})
+    headline, facts = answer_headline(revenue)
+    assert headline == "<em>Electronics</em> leads with 100"
+    assert "More than the other one combined (40)" in facts
+
+    average = pd.DataFrame({"course": ["A", "B", "C"], "avg_score": [90.0, 20.0, 10.0]})
+    assert "combined" not in answer_headline(average)[1]
+
+    signed = pd.DataFrame({"segment": ["Gain", "Loss"], "net_profit": [10, -20]})
+    assert "combined" not in answer_headline(signed)[1]

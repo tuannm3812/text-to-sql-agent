@@ -85,8 +85,10 @@ def test_an_answer_states_its_result_and_how_it_was_answered(no_server_keys: Non
     at.run()
     assert not at.exception
     headline = next(m.value for m in at.markdown if "class='headline'" in m.value)
-    assert "<em>Electronics</em> leads with 173,366 in total revenue" in headline
-    assert "more than the other one combined (29,991)" in headline
+    assert "<em>Electronics</em> leads with 173,366</h2>" in headline
+    assert (
+        "Total revenue by category, 2 rows. More than the other one combined (29,991)." in headline
+    )
     trace = _trace(at)
     assert "Picked 1 of 11 tables, plus 1 joinable neighbour" in trace
     assert "<span class='hit'>products</span>" in trace
@@ -126,3 +128,18 @@ def test_rag_off_says_the_full_schema_was_sent(no_server_keys: None) -> None:
     at.session_state["messages"] = [_turn(retrieval=None, rag_report=None)]
     at.run()
     assert "Sent the full schema" in _trace(at)
+
+
+def test_an_unsupported_type_is_not_called_a_write(no_server_keys: None) -> None:
+    """Codex, 2026-10-21: a read-only SELECT refused for a column type was called a write."""
+    at = AppTest.from_file(APP, default_timeout=60)
+    sql = "SELECT name FROM contacts"
+    at.session_state["messages"] = [
+        _turn(df=None, error_text="BLOCKED_UNSUPPORTED_COLUMN_TYPE", sql_text=sql, blocked_sql=sql)
+    ]
+    at.run()
+    headings = " ".join(m.value for m in at.markdown)
+    assert "a column type the agent cannot check" in headings
+    assert "only reads data" not in headings
+    assert "not a read-only query" not in _trace(at)
+    assert "casts or operators" in _trace(at)

@@ -162,3 +162,45 @@ def test_rag_off_records_plain_ddl_and_no_retrieval_report(
     assert turn["rag_report"] is None
     assert turn["context"] == "full schema"
     assert turn["retrieval"] is None
+
+
+def test_only_the_schema_the_sql_names_is_highlighted() -> None:
+    """Codex, 2026-10-21: same-named tables in two schemas were both marked used."""
+    from text_to_sql_agent import Answer, QueryResult
+    from text_to_sql_agent.types import SchemaChunk, SchemaRetrievalResult
+
+    def chunk(table: str, *, schema: str = "", home: str = "", reasons: list[str]) -> SchemaChunk:
+        return SchemaChunk(
+            table_name=table,
+            ddl="",
+            columns=[],
+            foreign_tables=[],
+            search_text="",
+            schema_name=schema,
+            home_schema=home,
+            match_reasons=reasons,
+        )
+
+    retrieval = SchemaRetrievalResult(
+        [
+            chunk("orders", home="public", reasons=["table match: order"]),
+            chunk("orders", schema="analytics", reasons=["table match: analytics"]),
+        ],
+        [],
+        [],
+        6,
+    )
+
+    def used(sql: str) -> list[bool]:
+        answer = Answer(
+            sql=sql, result=QueryResult([], [], sql=sql), schema_text="", retrieval=retrieval
+        )
+        with patch("ui.chat.backend.get_schema_chunks", return_value=[]):
+            summary = chat._retrieval_summary(answer, "x", "postgres", "postgres")
+        assert summary is not None
+        return [table["used"] for table in summary["tables"]]
+
+    assert used("SELECT * FROM analytics.orders") == [False, True]
+    assert used("SELECT * FROM orders") == [True, False]
+    assert used("SELECT * FROM public.orders") == [True, False]
+    assert used("WITH orders AS (SELECT 1) SELECT * FROM orders") == [False, False]
