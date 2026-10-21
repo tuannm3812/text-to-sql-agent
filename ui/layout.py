@@ -16,12 +16,12 @@ def connection_summary(settings: Settings) -> str:
     """The top bar's one line about the connection: database, engine and model."""
     model = settings.model_name or ""
     where = "local" if settings.provider == "ollama" else "Gemini"
-    ok = settings.db_path is not None and settings.key_ok and not settings.open_error
-    dot = "dot" if ok else "dot off"
+    ready = settings.db_path is not None and settings.key_ok and not settings.open_error
+    # Plain words, not a status dot: nothing here has checked the connection works.
+    state = "" if ready else "<span class='setup'>needs setup</span>"
     return (
-        f"<div class='conn'><span class='{dot}'></span><span><b>"
-        f"{html.escape(settings.source_label or 'No database')}</b>"
-        f"<span class='full'> · {html.escape(model)}, {where}</span></span></div>"
+        f"<div class='conn'><span><b>{html.escape(settings.source_label or 'No database')}</b>"
+        f"<span class='full'> · {html.escape(model)}, {where}</span></span>{state}</div>"
     )
 
 

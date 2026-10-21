@@ -86,9 +86,7 @@ def test_an_answer_states_its_result_and_how_it_was_answered(no_server_keys: Non
     assert not at.exception
     headline = next(m.value for m in at.markdown if "class='headline'" in m.value)
     assert "<em>Electronics</em> leads with 173,366</h2>" in headline
-    assert (
-        "Total revenue by category, 2 rows. More than the other one combined (29,991)." in headline
-    )
+    assert "2 rows. More than the other one combined (29,991)." in headline
     trace = _trace(at)
     assert "Picked 1 of 11 tables, plus 1 joinable neighbour" in trace
     assert "<span class='hit'>products</span>" in trace

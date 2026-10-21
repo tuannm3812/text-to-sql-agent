@@ -14,9 +14,11 @@ CHAT_CSS = """
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 :root {
     --ink: #1c2430; --muted: #5d6672; --line: #dce0da; --paper: #f6f7f4;
-    --panel: #ffffff; --teal: #0e6e66; --teal-soft: #e3f0ed; --amber: #a86f08;
-    --well: #eef1ed;
+    --panel: #ffffff; --teal: #0e6e66; --teal-soft: #e3f0ed;
+    --well: #eef1ed; --border: #cfd5ce; --warn: #8a5a00; --warn-bg: #fff4d6;
+    --fail: #b42318; --fail-bg: #fff0ee; --focus: #165dba;
 }
+*:focus-visible { outline: 3px solid var(--focus) !important; outline-offset: 2px; }
 html, body, .stApp, [data-testid="stHeader"] { background: var(--paper); }
 .stApp, .stMarkdown, button, input, textarea {
     font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -44,11 +46,11 @@ code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace !import
 .conn { display: flex; align-items: center; justify-content: flex-end; gap: 8px;
         font-size: 14px; color: var(--muted); }
 .conn b { color: var(--ink); font-weight: 600; }
-.conn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex: none; }
-.conn .dot.off { background: var(--amber); }
+.conn .setup { color: var(--warn); background: var(--warn-bg); border-radius: 6px;
+               padding: 1px 8px; font-weight: 500; }
 
 /* ask */
-h1.hero { font-size: 30px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em;
+h1.hero { font-size: 31px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em;
           margin: 4px 0 6px; padding: 0; }
 .hero-sub { color: var(--muted); max-width: 46rem; margin: 0 0 14px; }
 .st-key-ask_box [data-baseweb="input"] { background: var(--panel); border: 1.5px solid var(--ink);
@@ -61,10 +63,10 @@ h1.hero { font-size: 30px; line-height: 1.15; font-weight: 700; letter-spacing: 
 
 /* answer */
 .q { font-size: 13.5px; color: var(--muted); margin: 0; }
-h2.headline { font-size: 23px; font-weight: 600; line-height: 1.3; margin: 6px 0 4px;
+h2.headline { font-size: 24px; font-weight: 600; line-height: 1.25; margin: 6px 0 4px;
               padding: 0; letter-spacing: -0.01em; }
 h2.headline em { font-style: normal; color: var(--teal); }
-h2.headline.refused { color: var(--amber); }
+h2.headline.refused { color: var(--warn); }
 .facts { font-size: 13.5px; color: var(--muted); margin: 0 0 14px; }
 .chart-title { font-size: 14px; font-weight: 600; margin: 8px 0 0; }
 
@@ -83,7 +85,9 @@ h2.headline.refused { color: var(--amber); }
 .trace p { font-size: 13.5px; color: var(--muted); margin: 2px 0 0; }
 .trace .size { margin-top: 8px; }
 .trace .ok { color: var(--teal); font-weight: 600; }
-.trace .bad { color: var(--amber); font-weight: 600; }
+.trace .bad { color: var(--warn); font-weight: 600; }
+.trace details { margin-top: 6px; font-size: 13px; color: var(--muted); }
+.trace summary { cursor: pointer; }
 .trace pre { background: #f1f3ef; border-radius: 8px; padding: 10px 12px; margin: 8px 0 0;
              font-size: 12.5px; line-height: 1.55; white-space: pre-wrap;
              overflow-wrap: anywhere; color: var(--ink); }
@@ -92,7 +96,13 @@ h2.headline.refused { color: var(--amber); }
                border-radius: 6px; background: var(--well); }
 .tables span.hit { background: var(--teal-soft); color: var(--teal); }
 
-[data-testid="stVerticalBlockBorderWrapper"] { background: var(--panel); border-radius: 14px; }
+/* The answer's two surfaces: white, a quiet but visible border, 20-24 px inside. */
+[class*="st-key-answer_"][class*="_result"], [class*="st-key-answer_"][class*="_trace"] {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 24px;
+}
+[class*="st-key-answer_"] { margin-bottom: 8px; }
+.stPills label p { font-size: 13px; color: var(--muted); }
 
 @media (max-width: 700px) {
     .main .block-container, [data-testid="stMainBlockContainer"] { padding: 0 16px 40px; }
@@ -107,8 +117,11 @@ h2.headline.refused { color: var(--amber); }
     .st-key-ask_box [data-testid="stColumn"]:first-child { flex: 1 1 0; min-width: 0 !important; }
     .st-key-ask_box [data-testid="stColumn"]:last-child { flex: 0 0 72px; min-width: 72px; }
     .conn .full { display: none; }
-    h1.hero { font-size: 23px; }
-    h2.headline { font-size: 20px; }
+    h1.hero { font-size: 24px; }
+    h2.headline { font-size: 21px; }
+    [class*="st-key-answer_"][class*="_result"], [class*="st-key-answer_"][class*="_trace"] {
+        padding: 16px; }
+    .st-key-ask_box input { font-size: 16px; }
 }
 </style>
 """

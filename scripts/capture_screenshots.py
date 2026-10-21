@@ -33,6 +33,7 @@ WIDE: ViewportSize = {"width": 1440, "height": 1000}
 NARROW: ViewportSize = {"width": 390, "height": 844}
 DEMO = "Retail Analytics"
 QUESTION = "Which product categories generate the most revenue?"
+QUESTION_PILL = "Revenue by category"  # the pill's short label for QUESTION
 REFUSAL = "Delete every order that was cancelled."
 ANSWER_TIMEOUT_MS = 180_000
 
@@ -133,7 +134,7 @@ def capture(model: str, channel: str) -> dict[str, object]:
             _choose(page, "Model", model)
             _close_change(page)
 
-            page.get_by_text(QUESTION, exact=True).first.click()
+            page.get_by_text(QUESTION_PILL, exact=True).first.click()
             _wait_for_answer(page, QUESTION)
             _scroll_top(page)
             page.screenshot(path=OUT / "01-answer.png")

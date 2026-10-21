@@ -157,7 +157,8 @@ def answer_headline(df: pd.DataFrame) -> tuple[str, str]:
         top = int(finite.idxmax())
         top_value = float(finite.loc[top])
         name = html.escape(str(df[category_col].iloc[top]))
-        measure = f"{humanize(value_col)} by {humanize(category_col).lower()}, {count}."
+        # The chart's title names the measure, so the facts line does not repeat it.
+        measure = f"{count}."
         rest = float(finite.drop(top).sum())
         if _is_additive(value_col, finite) and rows > 1 and top_value > rest:
             others = _COUNT_WORDS.get(rows - 1, str(rows - 1))
@@ -321,12 +322,25 @@ def _render_result_card(msg: dict) -> None:
     _render_table(df)
 
 
+_CHIPS_SHOWN = 4
+
+
+def _chip(table: dict) -> str:
+    cls = "hit" if table.get("used") else ""
+    return f"<span class='{cls}'>{html.escape(str(table['name']))}</span>"
+
+
 def _chips(tables: list[dict]) -> str:
-    out = []
-    for table in tables:
-        cls = "hit" if table.get("used") else ""
-        out.append(f"<span class='{cls}'>{html.escape(str(table['name']))}</span>")
-    return f"<div class='tables'>{''.join(out)}</div>"
+    """The used tables first; past a few, the rest go under "All selected tables"."""
+    ordered = sorted(tables, key=lambda t: not t.get("used"))
+    head, tail = ordered[:_CHIPS_SHOWN], ordered[_CHIPS_SHOWN:]
+    out = f"<div class='tables'>{''.join(_chip(t) for t in head)}</div>"
+    if tail:
+        out += (
+            f"<details><summary>All selected tables ({len(tables)})</summary>"
+            f"<div class='tables'>{''.join(_chip(t) for t in tail)}</div></details>"
+        )
+    return out
 
 
 def _step_tables(msg: dict) -> str:
@@ -435,14 +449,14 @@ def _render_trace(msg: dict) -> None:
             st.text(msg["rag_report"])
 
 
-def render_answer(msg: dict) -> None:
+def render_answer(msg: dict, *, key: str = "answer") -> None:
     """One answer: the result card beside "How this was answered", one column when narrow.
 
     Everything shown is what the turn recorded when it was answered (`ui.chat.answer_turn`),
     never a re-computation, so it stays true after the connection changes.
     """
     left, right = st.columns([1.55, 1], gap="medium")
-    with left, st.container(border=True):
+    with left, st.container(key=f"{key}_result"):
         _render_result_card(msg)
-    with right, st.container(border=True):
+    with right, st.container(key=f"{key}_trace"):
         _render_trace(msg)

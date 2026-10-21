@@ -11,6 +11,9 @@ class DemoDatabase(TypedDict):
     path: str
     description: str
     questions: list[str]
+    # A short label per question, in the same order, for the sample-question pills; the
+    # full question is what is asked.
+    labels: list[str]
 
 
 # The sidebar's database sources, shared by `ui.sidebar` and `ui.uploads`.
@@ -48,6 +51,7 @@ DEMO_DATABASES: dict[str, DemoDatabase] = {
             "What is the average score for each course?",
             "Which students have the highest average score?",
         ],
+        "labels": ["Students per major", "Average score by course", "Top students"],
     },
     "Retail Analytics": {
         "path": "data/retail_analytics.db",
@@ -57,6 +61,7 @@ DEMO_DATABASES: dict[str, DemoDatabase] = {
             "Which return reasons occur most often?",
             "Which product categories generate the most revenue?",
         ],
+        "labels": ["Revenue by region", "Top return reasons", "Revenue by category"],
     },
     "Healthcare Analytics": {
         "path": "data/healthcare_analytics.db",
@@ -66,5 +71,6 @@ DEMO_DATABASES: dict[str, DemoDatabase] = {
             "What is the average treatment cost by hospital city?",
             "Which specialties have the most completed appointments?",
         ],
+        "labels": ["Appointments by status", "Treatment cost by city", "Busiest specialties"],
     },
 }

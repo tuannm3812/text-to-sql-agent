@@ -237,10 +237,16 @@ def _queue_sample(key: str) -> None:
 
 def render_ask(settings: Settings) -> None:
     """The Ask view: the product line, the question box, sample questions, then answers."""
+    answered = any(msg.get("kind") == "result" for msg in st.session_state.messages)
+    # Once there is an answer, the subtitle gives way so the answer starts higher.
+    subtitle = (
+        ""
+        if answered
+        else "<p class='hero-sub'>Questions become read-only SQL that is checked before it "
+        "runs. Every answer keeps the SQL and the schema the model saw.</p>"
+    )
     st.markdown(
-        "<h1 class='hero'>Ask your data. Inspect the SQL.</h1>"
-        "<p class='hero-sub'>Questions become read-only SQL that is checked before it runs. "
-        "Every answer keeps the SQL and the schema the model saw.</p>",
+        f"<h1 class='hero'>Ask your data. Inspect the SQL.</h1>{subtitle}",
         unsafe_allow_html=True,
     )
     status = status_message(settings)
@@ -261,14 +267,16 @@ def render_ask(settings: Settings) -> None:
     if settings.source == SOURCE_DEMO:
         demo = DEMO_DATABASES.get(settings.demo_name, next(iter(DEMO_DATABASES.values())))
         key = f"sample_{settings.demo_name}"
+        labels = dict(zip(demo["questions"], demo["labels"], strict=True))
         st.pills(
-            "Sample questions",
+            "Try",
             demo["questions"],
+            format_func=labels.__getitem__,
             key=key,
             on_change=_queue_sample,
             args=(key,),
             disabled=not ready,
-            label_visibility="collapsed",
+            label_visibility="visible",
         )
     st.markdown(
         "<p class='note'>Each question is answered on its own; earlier questions are not sent.</p>",
@@ -283,6 +291,6 @@ def render_ask(settings: Settings) -> None:
         ask(to_ask, settings, db_path=settings.db_path, database=settings.source_label)
         st.rerun()
 
-    for msg in reversed(st.session_state.messages):
-        if msg.get("kind") == "result":
-            render_answer(msg)
+    results = [msg for msg in st.session_state.messages if msg.get("kind") == "result"]
+    for index, msg in reversed(list(enumerate(results))):
+        render_answer(msg, key=f"answer_{index}")
