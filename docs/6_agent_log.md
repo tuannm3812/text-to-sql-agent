@@ -5529,3 +5529,90 @@ migration; no Streamlit limit forced one.
   Retail Analytics (`docs/screenshots/capture.json`). The old tab-era images are removed.
 
 `1457` passed / `353` skipped; ruff and mypy clean. Not done: live PostgreSQL.
+
+## 2026-10-21 — Codex to Claude: redesign review and a written visual system
+
+Reviewed `e8b5187..04d68cb`, especially the UI in `546eac6`, the screenshot helper,
+and the real captures at `dffd005`. The owner asked for another review, discussion
+here, and palette/font guidance in `design.md`, referring to FarmLens. The new
+top bar, inline composer, answer card and adjacent explanation are a substantial
+improvement over the earlier tab/sidebar layout. Keep this direction.
+
+**Findings to fix before calling the visual pass complete:**
+
+1. **P2 — Signed results are outside the chart domain** (`ui/results.py:183`).
+   `_render_chart` fixes the lower domain bound at zero and derives the upper bound
+   from the maximum. A dataframe with categories Loss/Gain and net profits -20/10
+   produces the Altair domain `[0, 13.0]`, leaving the negative value outside the
+   configured plotting range. Valid profit/change queries need a domain spanning
+   zero and both extrema, with room for labels on the correct side. Verify mixed
+   signs, all-negative and all-zero data; handle non-finite values explicitly.
+   This review inspected the emitted chart specification, not a browser rendering
+   of the negative-value fixture.
+2. **P2 — Used-table highlights conflate schemas** (`ui/chat.py:69–100`).
+   `_tables_in_sql` returns bare `table.name` values and `_retrieval_summary` matches
+   either qualified or bare names. With retrieved `public.orders` and
+   `analytics.orders`, SQL `SELECT * FROM analytics.orders` marks both as used.
+   It can also attribute ranking words from the unused table to the explanation.
+   Preserve qualified identity and the engine dialect; resolve unqualified names
+   according to the engine's rules or show uncertainty rather than highlighting
+   every same-named table. Include same-name schemas and CTE aliases in coverage.
+3. **P2 — Unsupported types get a false read-only explanation**
+   (`ui/results.py:237–242,326–328`). A read-only `SELECT name FROM contacts` with
+   `BLOCKED_UNSUPPORTED_COLUMN_TYPE` renders “Refused: it was not a read-only query.”
+   The answer heading also says “this agent only reads data”, contradicting the
+   accurate detailed explanation from `describe_error`. Give unsupported types
+   their own heading/check reason; retain the distinction from destructive SQL
+   and the model's own refusal statement. This is a presentation regression,
+   not evidence of a backend safety bypass.
+
+The three cases were reproduced locally with direct helper calls: the chart call
+was intercepted to inspect its Altair specification; the type refusal used the real
+step renderer; the schema case supplied two synthetic retrieved chunks and mocked
+only the schema count. No model calls or live PostgreSQL were needed for these
+presentation checks. Existing tests pass but do not catch these cases.
+
+**Verification at `04d68cb`, before documentation edits:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1457 passed, 353 skipped**, 47.79 seconds; no live PostgreSQL verification.
+- `uv run ruff check .`: passed.
+- `uv run ruff format --check .`: **failed**, one file:
+  `scripts/capture_screenshots.py:109`, the wrapped `to_be_visible` call introduced
+  in `dffd005`. This is a small formatting fix, but the quality gate is not clean.
+- `uv run mypy`: passed, 56 source files. The quality commands used the same
+  temporary `UV_CACHE_DIR` as pytest.
+
+**Design discussion.** Read FarmLens's `web/style.css` and inspected its real
+`docs/screenshots/showcase-explorer.png` alongside this project's current desktop
+and narrow captures. FarmLens has consistent local fonts, clearly separated white
+cards, restrained accents and a strong visual anchor in the map. Our chart and SQL
+should carry that role here. The remaining gap is hierarchy and density as much as
+palette: faint panel separation, tiny chart labels, a long answer headline and too
+much preamble before the answer on a narrow screen.
+
+Created [design/design.md](design/design.md) as the palette/type reference requested
+by the owner. Recommendation: retain **IBM Plex Sans + IBM Plex Mono**, cool paper
+`#F6F7F4`, white surfaces, ink `#1C2430` and teal `#0E6E66`. It records proposed
+warning/error colors, calculated contrast pairs, font sizes, spacing, chart limits,
+mobile priorities, font fallback/local-serving guidance and screenshot acceptance.
+These refinements are a proposal; they do not retroactively expand the owner's
+approval of the earlier mockup. Application CSS and behavior were not changed here.
+
+**Next handoff to Claude:** fix the three presentation bugs with focused regression
+coverage and the formatting drift; then use the design document for a bounded visual
+polish pass. Show desktop/narrow captures with a complete representative answer and
+truthful failure states. Keep the question-to-SQL workflow and safety logic intact.
+Refresh README images only after the final application pass and record provenance.
+Please reply in this log with the fixes, checks and any design constraints encountered.
+
+**Milestone.** The portfolio redesign is implemented and photographed, with review
+fixes and polish outstanding. The scorer was explicitly kept by the owner in
+`0301cae`; its measured execution-accuracy gain remains inconclusive. Phase 4 has
+retrieval metrics and named scoring work, but its remaining roadmap is still open.
+This four-step UI explanation does not complete Phase 5's planned agent loop.
+
+Only this append and the new design document were written. No benchmark artifacts,
+application files or FarmLens files were changed; no commit/push or separate message
+to Claude was made. The committed screenshots were inspected, not recaptured during
+this review.
