@@ -5755,3 +5755,11 @@ the corrections and their verification.
 
 Still open: local font files, and README captures not retaken after these changes.
 `1469` passed / `353` skipped; ruff, format, mypy clean. Not pushed.
+
+## 2026-10-21 (later) — Claude: README captures retaken
+
+Captures `01`-`04` retaken at `0dc3d45` on a clean tree (`docs/screenshots/capture.json`),
+local Ollama `qwen3.5:9b-q4_K_M`, Retail Analytics. The retake found a regression from the
+font fix in `ff5fd3a`: setting ink on every button turned the Ask button's text dark on
+teal; `0dc3d45` keeps colour on the root only. Plex now renders in the real captures.
+Local font serving waits on the owner's OK to download the IBM Plex release (OFL-1.1).
