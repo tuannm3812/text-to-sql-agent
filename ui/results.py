@@ -226,7 +226,7 @@ def bar_chart(df: pd.DataFrame) -> tuple[alt.LayerChart, str] | None:
     if shown.empty:
         return None
     low, high = float(min(0.0, shown[value_col].min())), float(max(0.0, shown[value_col].max()))
-    pad = (high - low) * 0.3 or 1.0
+    pad = (high - low) * 0.45 or 1.0
     domain = [low - pad if low < 0 else 0.0, high + pad if high > 0 else (0.0 if low < 0 else 1.0)]
     shown["is_top"] = shown.index == shown[value_col].idxmax()
     shown["label"] = shown[value_col].map(format_number)
@@ -433,7 +433,7 @@ def _step_check_and_run(msg: dict) -> str:
         run = "<li><h3>Not run</h3><p>There was no query to run.</p></li>"
     elif not msg.get("sql_text"):
         check = "There was no SQL to check."
-        run = "<li><h3>Not run</h3><p>The model returned no SQL.</p></li>"
+        run = "<li><h3>Not run</h3><p>There was no SQL to run.</p></li>"
     else:
         check = "<span class='ok'>Read-only</span>: one statement, no internal tables."
         if df is not None:
@@ -453,7 +453,7 @@ def _render_trace(msg: dict) -> None:
     sql_step = (
         f"<li><h3>Wrote SQL</h3><pre>{html.escape(sql)}</pre></li>"
         if sql
-        else "<li><h3>Wrote SQL</h3><p>The model returned none.</p></li>"
+        else "<li><h3>Wrote SQL</h3><p>No SQL came back from the model.</p></li>"
     )
     model = " ".join(str(x) for x in (msg.get("provider"), msg.get("model")) if x)
     st.html(

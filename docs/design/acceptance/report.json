@@ -1,0 +1,100 @@
+{
+  "states_desktop_overflow_px": 0,
+  "states_desktop_fonts": [
+    "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "\"IBM Plex Mono\", ui-monospace, monospace"
+  ],
+  "signed_desktop_overflow_px": 0,
+  "long names_desktop_overflow_px": 0,
+  "unsupported_desktop_overflow_px": 0,
+  "provider_desktop_overflow_px": 0,
+  "fallback_desktop_overflow_px": 0,
+  "fallback_desktop_font": "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+  "states_narrow_overflow_px": 0,
+  "states_narrow_fonts": [
+    "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "\"IBM Plex Mono\", ui-monospace, monospace"
+  ],
+  "signed_narrow_overflow_px": 0,
+  "long names_narrow_overflow_px": 0,
+  "unsupported_narrow_overflow_px": 0,
+  "provider_narrow_overflow_px": 0,
+  "fallback_narrow_overflow_px": 0,
+  "fallback_narrow_font": "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+  "app_focus_walk": [
+    {
+      "tag": "section",
+      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
+      "visible": true
+    },
+    {
+      "tag": "button",
+      "label": "Ask",
+      "visible": true
+    },
+    {
+      "tag": "button",
+      "label": "Change\n\nexpand_more",
+      "visible": true
+    },
+    {
+      "tag": "input",
+      "label": "Question",
+      "visible": true
+    },
+    {
+      "tag": "body",
+      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
+      "visible": false
+    },
+    {
+      "tag": "section",
+      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
+      "visible": true
+    },
+    {
+      "tag": "button",
+      "label": "Ask",
+      "visible": true
+    },
+    {
+      "tag": "button",
+      "label": "Change\n\nexpand_more",
+      "visible": true
+    },
+    {
+      "tag": "input",
+      "label": "Question",
+      "visible": true
+    },
+    {
+      "tag": "section",
+      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
+      "visible": true
+    },
+    {
+      "tag": "button",
+      "label": "Ask",
+      "visible": true
+    },
+    {
+      "tag": "button",
+      "label": "Change\n\nexpand_more",
+      "visible": true
+    },
+    {
+      "tag": "input",
+      "label": "Question",
+      "visible": true
+    },
+    {
+      "tag": "body",
+      "label": ">_\nText-to-SQL Agent\n\nAsk\n\nEvaluation\n\nU",
+      "visible": false
+    }
+  ]
+}
