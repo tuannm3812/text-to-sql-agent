@@ -1,7 +1,7 @@
 {
-  "commit": "dffd005",
+  "commit": "e0733dc",
   "dirty": false,
-  "captured": "2026-10-20T22:58:02+00:00",
+  "captured": "2026-10-21T03:38:32+00:00",
   "method": "scripts/capture_screenshots.py: streamlit + Playwright (chrome)",
   "viewport": {
     "width": 1440,
