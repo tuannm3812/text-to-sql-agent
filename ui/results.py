@@ -7,7 +7,9 @@ import math
 
 import altair as alt
 import pandas as pd
+import sqlglot
 import streamlit as st
+from sqlglot import exp
 
 import text_to_sql_agent as backend
 from text_to_sql_agent.control import control_statement_code
@@ -121,23 +123,34 @@ def format_number(value: object) -> str:
     return f"{value:,.2f}"
 
 
-# A column named like these is a ratio or an average: its rows do not add up.
-_NON_ADDITIVE = ("avg", "average", "mean", "pct", "percent", "rate", "ratio", "share", "median")
+def additive_measures(sql: str, dialect: str) -> frozenset[str]:
+    """Lowercased output columns the SQL computes as a top-level `SUM` or `COUNT`.
+
+    Only for these do the other rows add up to a total that means something, so only
+    for these may a headline compare one row with "the others combined". A name is not
+    evidence: `score` may be an average (Codex, 2026-10-21). Empty when unsure.
+    """
+    try:
+        tree = sqlglot.parse_one(sql, read=dialect)
+    except Exception:  # noqa: BLE001 - unparsed means "not established"
+        return frozenset()
+    if not isinstance(tree, exp.Select):
+        return frozenset()
+    names = set()
+    for projection in tree.expressions:
+        if isinstance(projection.unalias(), exp.Sum | exp.Count):
+            names.add(projection.alias_or_name.lower())
+    return frozenset(names)
 
 
-def _is_additive(column: str, values: pd.Series) -> bool:
-    """Whether summing the other rows means something: non-negative and not a ratio."""
-    name = column.lower()
-    return not any(word in name for word in _NON_ADDITIVE) and bool((values >= 0).all())
-
-
-def answer_headline(df: pd.DataFrame) -> tuple[str, str]:
+def answer_headline(df: pd.DataFrame, *, additive: frozenset[str] = frozenset()) -> tuple[str, str]:
     """`(headline, facts)` stated from the result rows alone, never from the model.
 
-    A category-and-number result names the largest category in a short headline; the
-    facts line adds the measure and, only for a non-negative measure that is not a ratio
-    or average, whether it outweighs the other rows together. A single value is stated;
-    anything else is counted.
+    A category-and-number result names the largest category in a short headline, but
+    only when every row has a finite number: with a value missing or infinite there is
+    no honest leader, so the rows are counted instead. "More than the other N combined"
+    is added only when the measure is in `additive` (a `SUM` or `COUNT` in the SQL) and
+    is never negative. A single value is stated; anything else is counted.
     """
     rows = len(df)
     count = f"{rows} row{'s' if rows != 1 else ''}"
@@ -151,16 +164,22 @@ def answer_headline(df: pd.DataFrame) -> tuple[str, str]:
     if chart_cols:
         category_col, value_col = chart_cols
         values = pd.to_numeric(df[value_col], errors="coerce").reset_index(drop=True)
-        finite = values[values.map(lambda v: pd.notna(v) and math.isfinite(v))]
-        if finite.empty:
-            return f"{count} returned.", facts
-        top = int(finite.idxmax())
-        top_value = float(finite.loc[top])
+        finite = values.map(lambda v: pd.notna(v) and math.isfinite(v))
+        if not finite.all():
+            missing = int((~finite).sum())
+            label = humanize(value_col).lower()
+            return (
+                f"{count} returned.",
+                f"{missing} of them {'has' if missing == 1 else 'have'} no finite {label}, "
+                "so no category is named as the largest.",
+            )
+        top = int(values.idxmax())
+        top_value = float(values.loc[top])
         name = html.escape(str(df[category_col].iloc[top]))
         # The chart's title names the measure, so the facts line does not repeat it.
         measure = f"{count}."
-        rest = float(finite.drop(top).sum())
-        if _is_additive(value_col, finite) and rows > 1 and top_value > rest:
+        rest = float(values.drop(top).sum())
+        if str(value_col).lower() in additive and bool((values >= 0).all()) and top_value > rest:
             others = _COUNT_WORDS.get(rows - 1, str(rows - 1))
             measure += f" More than the other {others} combined ({format_number(rest)})."
         return f"<em>{name}</em> leads with {format_number(top_value)}", measure
@@ -311,7 +330,9 @@ def _render_result_card(msg: dict) -> None:
     if df is None:
         st.caption("The query returned no columns.")
         return
-    headline, facts = answer_headline(df)
+    dialect = _DIALECTS.get(str(msg.get("engine") or ""), "sqlite")
+    additive = additive_measures(str(msg.get("sql_text") or ""), dialect)
+    headline, facts = answer_headline(df, additive=additive)
     st.markdown(
         f"<h2 class='headline'>{headline}</h2><p class='facts'>{html.escape(facts)}</p>",
         unsafe_allow_html=True,

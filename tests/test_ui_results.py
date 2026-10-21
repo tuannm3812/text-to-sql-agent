@@ -118,14 +118,49 @@ def test_a_long_result_draws_the_first_twelve_rows_and_says_so() -> None:
     assert built[1] == "first 12 of 15 rows drawn"
 
 
-def test_the_headline_is_short_and_only_sums_an_additive_measure() -> None:
+def test_the_headline_is_short_and_sums_only_a_measure_the_sql_summed() -> None:
     revenue = pd.DataFrame({"category": ["Electronics", "Fashion"], "total_revenue": [100, 40]})
-    headline, facts = answer_headline(revenue)
+    sql = "SELECT category, SUM(price) AS total_revenue FROM t GROUP BY category"
+    additive = results.additive_measures(sql, "sqlite")
+    assert additive == frozenset({"total_revenue"})
+    headline, facts = answer_headline(revenue, additive=additive)
     assert headline == "<em>Electronics</em> leads with 100"
     assert "More than the other one combined (40)" in facts
 
-    average = pd.DataFrame({"course": ["A", "B", "C"], "avg_score": [90.0, 20.0, 10.0]})
-    assert "combined" not in answer_headline(average)[1]
+    # A name is not evidence: `score` can be an average.
+    score = pd.DataFrame({"course": ["A", "B", "C"], "score": [90.0, 20.0, 10.0]})
+    avg_sql = "SELECT course, AVG(mark) AS score FROM t GROUP BY course"
+    assert results.additive_measures(avg_sql, "sqlite") == frozenset()
+    assert "combined" not in answer_headline(score)[1]
 
     signed = pd.DataFrame({"segment": ["Gain", "Loss"], "net_profit": [10, -20]})
-    assert "combined" not in answer_headline(signed)[1]
+    assert "combined" not in answer_headline(signed, additive=frozenset({"net_profit"}))[1]
+
+
+@pytest.mark.parametrize(
+    ("values", "missing"),
+    [([10.0, float("inf")], 1), ([10.0, None], 1), ([float("nan"), float("-inf")], 2)],
+)
+def test_no_leader_or_total_is_claimed_when_a_value_is_missing(
+    values: list[float | None], missing: int
+) -> None:
+    """Codex, 2026-10-21: `10` beside `1e999` was headlined "A leads with 10"."""
+    df = pd.DataFrame({"category": ["A", "B"], "total": values})
+    headline, facts = answer_headline(df, additive=frozenset({"total"}))
+    assert headline == "2 rows returned."
+    assert "leads" not in headline and "combined" not in facts
+    assert facts.startswith(f"{missing} of them")
+
+
+def test_a_real_sqlite_infinity_gets_no_winner() -> None:
+    import sqlite3
+
+    from text_to_sql_agent import QueryResult
+    from ui.results import result_to_dataframe
+
+    with sqlite3.connect(":memory:") as conn:
+        cursor = conn.execute("SELECT 'A' AS category, 10.0 AS total UNION ALL SELECT 'B', 1e999")
+        rows = cursor.fetchall()
+    df = result_to_dataframe(QueryResult(columns=["category", "total"], rows=rows))
+    assert df is not None
+    assert answer_headline(df)[0] == "2 rows returned."

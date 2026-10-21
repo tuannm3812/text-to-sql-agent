@@ -204,3 +204,8 @@ def test_only_the_schema_the_sql_names_is_highlighted() -> None:
     assert used("SELECT * FROM orders") == [True, False]
     assert used("SELECT * FROM public.orders") == [True, False]
     assert used("WITH orders AS (SELECT 1) SELECT * FROM orders") == [False, False]
+    # Codex, 2026-10-21: an inner CTE shadows only the inner reference.
+    nested = (
+        "SELECT id FROM orders WHERE EXISTS (WITH orders AS (SELECT 1 AS id) SELECT id FROM orders)"
+    )
+    assert used(nested) == [True, False]

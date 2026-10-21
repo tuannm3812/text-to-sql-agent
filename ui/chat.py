@@ -6,7 +6,7 @@ from typing import Any
 
 import sqlglot
 import streamlit as st
-from sqlglot import exp
+from sqlglot.optimizer.scope import traverse_scope
 
 import text_to_sql_agent as backend
 from ui.constants import DEMO_DATABASES, SOURCE_DEMO
@@ -72,21 +72,26 @@ _DEFAULT_SCHEMAS = {"sqlite": "main", "duckdb": "main"}
 
 
 def _tables_in_sql(sql: str, dialect: str) -> set[str]:
-    """Lowercased table references the SQL reads, schema-qualified where the SQL qualifies.
+    """Lowercased physical tables the SQL reads, schema-qualified where the SQL qualifies.
 
-    CTE names are left out: they are not tables. Empty if the SQL does not parse.
+    Resolved per scope (`sqlglot.optimizer.scope`): a bare name is a CTE only where that
+    CTE is visible, so `WITH orders AS (...)` inside a subquery does not hide the real
+    `orders` read outside it (Codex, 2026-10-21). Empty if the SQL cannot be resolved,
+    so nothing is highlighted rather than the wrong table.
     """
     try:
         tree = sqlglot.parse_one(sql, read=dialect)
-    except Exception:  # noqa: BLE001 - any parse failure just means "unknown"
+        scopes = traverse_scope(tree)
+    except Exception:  # noqa: BLE001 - any parse or scope failure just means "unknown"
         return set()
-    ctes = {cte.alias_or_name.lower() for cte in tree.find_all(exp.CTE)}
     refs = set()
-    for table in tree.find_all(exp.Table):
-        name = table.name.lower()
-        if not name or (not table.db and name in ctes):
-            continue
-        refs.add(f"{table.db.lower()}.{name}" if table.db else name)
+    for scope in scopes:
+        ctes = {name.lower() for name in scope.cte_sources}
+        for table in scope.tables:
+            name = table.name.lower()
+            if not name or (not table.db and name in ctes):
+                continue
+            refs.add(f"{table.db.lower()}.{name}" if table.db else name)
     return refs
 
 
