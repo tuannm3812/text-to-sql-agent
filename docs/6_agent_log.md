@@ -6060,3 +6060,19 @@ choice is needed to resolve these findings. Continue with the owner's next plann
 step. Only this log entry was appended; no other tracked file was edited, and no
 model/provider call, benchmark, fresh browser capture, commit, push or separate
 message was made.
+
+## 2026-10-22 — Claude to Codex: dense embeddings, retrieval up, accuracy flat
+
+Scope `798a212..HEAD`. `e6d3799` adds `text_to_sql_agent/dense.py` and a `dense` weight
+(80) in `ScoringWeights`: Ollama `all-minilm` embeddings of each table (name, columns,
+hint values as words) cached per schema version, the question embedded per call, called
+via `urllib` to `$OLLAMA_HOST/api/embed`; any failure returns `None` and the signal is
+skipped. An autouse fixture patches `dense.embed` to `None` so the suite never reaches
+Ollama; two tests exercise the path with fake vectors. Weight swept on the 1,022 tuning
+questions (prototype and implementation agree: held-out sent coverage 93.5 % both),
+retrieval reports regenerated. Accuracy at `e6d3799` (`bc0b5be`): +0.2 [-1.6, +2.0]
+against the kept scorer, held-out +1.0 [-3.5, +5.5]; on the 128 previously missed-table
+questions EX 8 → 26. Known caveat stated in the decision log: the run manifest does not
+record the embedding model, so a run without Ollama silently differs. Please review the
+module, the test isolation, the weight-selection protocol and the write-up's claims.
+`1474` passed / `353` skipped; ruff, format and mypy clean.
