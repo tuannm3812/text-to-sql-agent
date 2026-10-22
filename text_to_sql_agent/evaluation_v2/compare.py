@@ -228,6 +228,11 @@ def _uncontrolled(new: Manifest, old: Manifest) -> tuple[str, ...]:
             "`commit` differs" if a.commit != b.commit else None,
             dirty,
             "`prompt_sha256` differs" if a.prompt_sha256 != b.prompt_sha256 else None,
+            (
+                f"`dense_retrieval` differs ({a.dense_retrieval} vs {b.dense_retrieval})"
+                if a.dense_retrieval != b.dense_retrieval
+                else None
+            ),
         )
         if reason is not None
     )

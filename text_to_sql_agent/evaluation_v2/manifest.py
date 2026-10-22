@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 from text_to_sql_agent.evaluation_v2.identity import (
+    DENSE_NOT_RECORDED,
     IDENTITY_FIELDS,
     IdentityPayload,
     canonical_json,
@@ -130,9 +131,15 @@ class Manifest:
 
         A manifest written before ``ollama_think`` existed lacks it and gets the value its
         runner implied (``legacy_ollama_think``), under which its ``identity_sha256``
-        reproduces. Every other identity field is required.
+        reproduces. One without ``dense_retrieval`` gets ``"n/a"``, which is also left out of
+        the hash. Every other identity field is required.
         """
-        fields = {name: data[name] for name in IDENTITY_FIELDS if name != "ollama_think"}
+        fields = {
+            name: data[name]
+            for name in IDENTITY_FIELDS
+            if name not in ("ollama_think", "dense_retrieval")
+        }
+        fields["dense_retrieval"] = data.get("dense_retrieval", DENSE_NOT_RECORDED)
         fields["database_fingerprint"] = fingerprint_from_json(fields["database_fingerprint"])
         fields["ollama_think"] = (
             data["ollama_think"]

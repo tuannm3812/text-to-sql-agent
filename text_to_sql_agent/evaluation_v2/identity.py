@@ -73,6 +73,11 @@ class IdentityPayload:
     max_repair_attempts: int
     retry_policy: str
     ollama_think: str
+    # How retrieval used dense embeddings (`dense.py`): `"off"`, `"unavailable"` (on by
+    # default but Ollama or the model was missing at the start, so the run pins it off), or
+    # `"<model>@<digest12>"`. `"n/a"` is a manifest from before the field (2026-10-22);
+    # `hashed_identity` leaves it out there, so those hashes reproduce.
+    dense_retrieval: str = "n/a"
 
 
 IDENTITY_FIELDS: tuple[str, ...] = tuple(f.name for f in dataclasses.fields(IdentityPayload))
@@ -80,6 +85,8 @@ IDENTITY_FIELDS: tuple[str, ...] = tuple(f.name for f in dataclasses.fields(Iden
 # `ollama_think` values for a run that sent no think flag, as every run did before the field
 # existed. `hashed_identity` leaves the field out at these.
 _THINK_NOT_SENT = frozenset({"default", "n/a"})
+# `dense_retrieval` of a manifest written before the field existed.
+DENSE_NOT_RECORDED = "n/a"
 
 
 def is_ollama(provider: str) -> bool:
@@ -110,6 +117,8 @@ def hashed_identity(payload: IdentityPayload) -> dict[str, Any]:
     data = dataclasses.asdict(payload)
     if data["ollama_think"] in _THINK_NOT_SENT:
         del data["ollama_think"]
+    if data["dense_retrieval"] == DENSE_NOT_RECORDED:
+        del data["dense_retrieval"]
     return data
 
 

@@ -52,7 +52,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal, TypeVar, get_args
 
-from text_to_sql_agent.config import DEFAULT_MAX_ROWS, DEFAULT_RAG_TOP_K
+from text_to_sql_agent import dense
+from text_to_sql_agent.config import (
+    DEFAULT_MAX_ROWS,
+    DEFAULT_RAG_DENSE_MODEL,
+    DEFAULT_RAG_DENSE_WEIGHT,
+    DEFAULT_RAG_TOP_K,
+)
 from text_to_sql_agent.dsn import redact_dsn
 from text_to_sql_agent.engines import Engine, open_engine
 from text_to_sql_agent.evaluation import run_gold
@@ -90,6 +96,7 @@ from text_to_sql_agent.evaluation_v2.scoring import (
 from text_to_sql_agent.llm import TokenUsage, _assemble_prompt, usage_scope
 from text_to_sql_agent.pipeline import ask_database_with_sql
 from text_to_sql_agent.rag import retrieve_schema_context
+from text_to_sql_agent.schema import get_schema_chunks_plain_ddl_and_version
 from text_to_sql_agent.types import QueryResult
 
 MANIFEST_FILE = "manifest.json"
@@ -202,6 +209,9 @@ class RunConfig:
     # user typed. Not part of the identity (`build_identity` names its fields) and hidden
     # from `repr`, so it cannot reach a manifest, a log line or a traceback.
     gemini_api_key: str | None = dataclass_field(default=None, repr=False)
+    # The run's recorded `dense_retrieval`, set by `run_suite` from the identity; `None`
+    # outside a run (the app's evaluation view), where nothing is enforced.
+    dense_retrieval: str | None = None
 
 
 @dataclass(frozen=True)
@@ -381,8 +391,38 @@ def build_identity(
         max_repair_attempts=config.max_repair_attempts,
         retry_policy=retry_policy(config.max_retries, config.retry_base_seconds),
         ollama_think=resolve_ollama_think(config),
+        dense_retrieval=resolve_dense_retrieval(config),
     )
     return payload, source
+
+
+DENSE_OFF = "off"
+DENSE_UNAVAILABLE = "unavailable"
+
+
+def resolve_dense_retrieval(config: RunConfig) -> str:
+    """How this run's retrieval uses dense embeddings, fixed for the whole run.
+
+    `"off"` for a gold or RAG-off run or a zero weight; otherwise the installed model's
+    `name@digest12` (`dense.model_identity`), or `"unavailable"` when Ollama or the model is
+    missing at the start, in which case the run pins the signal off rather than letting it
+    appear mid-run (Codex, 2026-10-22).
+    """
+    if config.mode == "gold" or not config.use_rag or not DEFAULT_RAG_DENSE_WEIGHT:
+        return DENSE_OFF
+    return dense.model_identity(DEFAULT_RAG_DENSE_MODEL) or DENSE_UNAVAILABLE
+
+
+def _dense_active(config: RunConfig) -> bool:
+    return config.dense_retrieval not in (None, DENSE_OFF, DENSE_UNAVAILABLE)
+
+
+def _dense_missing(case: Case, question: str) -> bool:
+    """Whether the vectors this case's retrieval needs cannot be had right now."""
+    _, _, version = get_schema_chunks_plain_ddl_and_version(case.db_path)
+    if dense.chunk_vectors(version, DEFAULT_RAG_DENSE_MODEL) is None:
+        return True
+    return dense.question_vector(question, DEFAULT_RAG_DENSE_MODEL) is None
 
 
 # --- one case ------------------------------------------------------------------------------
@@ -447,6 +487,19 @@ def _ask_model(
     while True:
         started = time.perf_counter()
         repair_errors: list[Exception] = []
+        if _dense_active(config) and _dense_missing(case, question):
+            # The run recorded dense retrieval, so a case scored without it would silently be
+            # a different treatment. Retried like a provider outage, then an outage: the run
+            # stays incomplete until `--resume` finds the embedding model again.
+            elapsed = (time.perf_counter() - started) * 1000
+            if attempt >= config.max_retries:
+                missing = QueryResult(
+                    columns=[], rows=[], error="dense embeddings unavailable (timed out)"
+                )
+                return "", missing, attempt + 1, True, False, elapsed
+            time.sleep(config.retry_base_seconds * (2**attempt))
+            attempt += 1
+            continue
         try:
             sql, result = ask_database_with_sql(
                 question,
@@ -969,7 +1022,14 @@ def run_suite(
     payload, source = build_identity(cases, config)
     # From here on the budget is explicit: the identity's resolved values are the ones passed
     # to every reference and model query, never a default looked up again later.
-    config = dataclasses.replace(config, work_limit=payload.work_limit, max_rows=payload.max_rows)
+    config = dataclasses.replace(
+        config,
+        work_limit=payload.work_limit,
+        max_rows=payload.max_rows,
+        dense_retrieval=payload.dense_retrieval,
+    )
+    # Pin the treatment the identity records: off stays off even if Ollama appears later.
+    dense.set_enabled(_dense_active(config))
     if resume_dir is None:
         started = datetime.now(UTC).replace(microsecond=0)
         label = config_label(

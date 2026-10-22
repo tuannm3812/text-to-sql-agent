@@ -510,20 +510,17 @@ def test_dense_similarity_reorders_tables_and_is_skipped_without_ollama(
         return [(1.0, 0.0) if "course" in t or "class" in t else (0.0, 1.0) for t in texts]
 
     question = "list every class"
-    dense.chunk_vectors.cache_clear()
-    dense.question_vector.cache_clear()
+    dense.clear_caches()
     monkeypatch.setattr(dense, "embed", fake_embed)
     with_dense = rag.rank_schema_chunks(customers_courses_db, question)
     assert with_dense[0].table_name == "courses"
     assert any("dense similarity: 1.00" in r for r in with_dense[0].match_reasons or [])
 
-    dense.chunk_vectors.cache_clear()
-    dense.question_vector.cache_clear()
+    dense.clear_caches()
     monkeypatch.setattr(dense, "embed", lambda texts, model="m": None)
     without = rag.rank_schema_chunks(customers_courses_db, question)
     assert not any("dense" in r for c in without for r in c.match_reasons or [])
-    dense.chunk_vectors.cache_clear()
-    dense.question_vector.cache_clear()
+    dense.clear_caches()
 
 
 def test_a_table_is_embedded_as_words() -> None:

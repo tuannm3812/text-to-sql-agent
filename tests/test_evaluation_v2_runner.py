@@ -2008,3 +2008,70 @@ def test_the_may_result_files_are_untouched() -> None:
     assert present == set(MAY_RESULT_SHA256)
     for name, digest in MAY_RESULT_SHA256.items():
         assert hashlib.sha256((results / name).read_bytes()).hexdigest() == digest, name
+
+
+# --- Dense retrieval in the run identity (Codex, 2026-10-22) -----------------------------
+
+
+def _fake_vectors(texts: list[str], model: str = "m") -> list[tuple[float, ...]]:
+    return [(1.0, float(len(text) % 7)) for text in texts]
+
+
+@pytest.mark.dense
+def test_a_run_records_its_dense_mode_and_a_change_refuses_resume(tmp_path: Path) -> None:
+    from text_to_sql_agent import dense
+
+    cases = load_suite(DEMO)
+    stub = StubGenerator(cases, fail={cases[1].question: KeyboardInterrupt()})
+    with (
+        patch.object(dense, "model_identity", return_value="all-minilm:latest@1b226e2802db"),
+        patch.object(dense, "embed", side_effect=_fake_vectors),
+        patch("text_to_sql_agent.pipeline.generate_sql", stub),
+        pytest.raises(KeyboardInterrupt),
+    ):
+        run_suite(cases, config=_llm(), out_root=tmp_path)
+    run_dir = _only_dir(tmp_path)
+    assert _manifest(run_dir)["dense_retrieval"] == "all-minilm:latest@1b226e2802db"
+
+    # Ollama gone at resume: the identity would say "unavailable", so the resume is refused
+    # instead of finishing the run with a different retrieval.
+    dense.clear_caches()
+    with (
+        patch.object(dense, "model_identity", return_value=None),
+        patch("text_to_sql_agent.pipeline.generate_sql", StubGenerator(cases)),
+        pytest.raises(ResumeRefused, match="dense_retrieval"),
+    ):
+        run_suite(cases, config=_llm(), out_root=tmp_path, resume_dir=run_dir)
+
+
+@pytest.mark.dense
+def test_an_unavailable_model_at_start_pins_the_signal_off(tmp_path: Path) -> None:
+    from text_to_sql_agent import dense
+
+    cases, pick = _first(tmp_path, 2)
+    with (
+        patch.object(dense, "model_identity", return_value=None),
+        patch.object(dense, "embed", side_effect=_fake_vectors) as embed,
+        patch("text_to_sql_agent.pipeline.generate_sql", StubGenerator(cases)),
+    ):
+        result = run_suite(cases, config=_llm(**pick), out_root=tmp_path)
+    assert result.manifest.identity.dense_retrieval == "unavailable"
+    assert not dense.is_enabled()
+    assert embed.call_count == 0  # Ollama coming back mid-run cannot switch it on
+
+
+@pytest.mark.dense
+def test_vectors_missing_mid_run_make_an_outage_not_a_silent_fallback(tmp_path: Path) -> None:
+    from text_to_sql_agent import dense
+
+    cases, pick = _first(tmp_path, 2)
+    with (
+        patch.object(dense, "model_identity", return_value="all-minilm:latest@1b226e2802db"),
+        patch.object(dense, "embed", return_value=None),
+        patch("text_to_sql_agent.pipeline.generate_sql", StubGenerator(cases)) as generate,
+    ):
+        result = run_suite(cases, config=_llm(**pick), out_root=tmp_path)
+    rows = _rows(result.run_dir)
+    assert {row["outcome"] for row in rows} == {"outage"}
+    assert result.manifest.status == "incomplete"
+    assert generate.calls == Counter()

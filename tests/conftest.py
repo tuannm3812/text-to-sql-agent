@@ -147,13 +147,20 @@ def _no_dense_embeddings(request: pytest.FixtureRequest) -> Iterator[None]:
     supplies its own fake embeddings.
     """
     if request.node.get_closest_marker("dense"):
+        from text_to_sql_agent import dense
+
+        dense.clear_caches()
         yield
+        dense.clear_caches()
+        dense.set_enabled(True)
         return
     from text_to_sql_agent import dense
 
-    dense.chunk_vectors.cache_clear()
-    dense.question_vector.cache_clear()
-    with patch("text_to_sql_agent.dense.embed", return_value=None):
+    dense.clear_caches()
+    with (
+        patch("text_to_sql_agent.dense.embed", return_value=None),
+        patch("text_to_sql_agent.dense.model_identity", return_value=None),
+    ):
         yield
-    dense.chunk_vectors.cache_clear()
-    dense.question_vector.cache_clear()
+    dense.clear_caches()
+    dense.set_enabled(True)

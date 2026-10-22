@@ -189,7 +189,10 @@ def gold_gate(
 # What may differ between a baseline and a new run: the code under test (`commit`, `dirty`) and
 # the prompt. Everything else in the identity payload must agree, so a field added to the
 # payload later is compatibility-checked by default rather than silently allowed to differ.
-FREE_TO_DIFFER: frozenset[str] = frozenset({"commit", "dirty", "prompt_sha256"})
+# `dense_retrieval` may differ like the commit: it is how the code ranked tables, and a
+# baseline from before the field records `"n/a"`. It still pins a resume (`identity_diff`),
+# and `compare` names it among what else changed (2026-10-22).
+FREE_TO_DIFFER: frozenset[str] = frozenset({"commit", "dirty", "prompt_sha256", "dense_retrieval"})
 COMPATIBILITY_FIELDS: tuple[str, ...] = tuple(
     name for name in IDENTITY_FIELDS if name not in FREE_TO_DIFFER
 )

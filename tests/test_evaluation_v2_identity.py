@@ -58,6 +58,7 @@ SPEC_FIELDS = (
     "max_repair_attempts",
     "retry_policy",
     "ollama_think",
+    "dense_retrieval",
 )
 
 
@@ -131,6 +132,8 @@ def test_identity_hash_is_sha256_hex_and_deterministic() -> None:
         ("database_fingerprint", (("data/demo.db", "e" * 64),)),
         ("ollama_think", "off"),
         ("ollama_think", "on"),
+        ("dense_retrieval", "off"),
+        ("dense_retrieval", "all-minilm:latest@1b226e2802db"),
     ],
 )
 def test_identity_hash_changes_with_every_immutable_field(field: str, value: object) -> None:
@@ -381,7 +384,12 @@ def test_a_committed_run_from_before_the_field_loads_as_an_unflagged_ollama_run(
     # Re-rendered, the identity table differs from the committed report by the new row alone.
     committed = _identity_section((run_dir / "report.md").read_text(encoding="utf-8"))
     after = committed.index(f"| retry_policy | `{data['retry_policy']}` |") + 1
-    expected = [*committed[:after], "| ollama_think | `default` |", *committed[after:]]
+    expected = [
+        *committed[:after],
+        "| ollama_think | `default` |",
+        "| dense_retrieval | `n/a` |",
+        *committed[after:],
+    ]
     assert _identity_section(render_report(manifest, [])) == expected
 
 

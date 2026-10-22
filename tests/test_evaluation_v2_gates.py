@@ -430,9 +430,10 @@ def _gate(tmp_path: Path, old: dict[str, str], new: dict[str, str], **kw: Any): 
     )
 
 
-def test_compatibility_fields_are_the_identity_minus_the_three_that_may_differ() -> None:
-    assert set(COMPATIBILITY_FIELDS) == set(IDENTITY_FIELDS) - {"commit", "dirty", "prompt_sha256"}
-    assert len(COMPATIBILITY_FIELDS) == len(IDENTITY_FIELDS) - 3 == 18
+def test_compatibility_fields_are_the_identity_minus_the_four_that_may_differ() -> None:
+    free = {"commit", "dirty", "prompt_sha256", "dense_retrieval"}
+    assert set(COMPATIBILITY_FIELDS) == set(IDENTITY_FIELDS) - free
+    assert len(COMPATIBILITY_FIELDS) == len(IDENTITY_FIELDS) - 4 == 18
     assert "database_fingerprint" in COMPATIBILITY_FIELDS
     assert "ollama_think" in COMPATIBILITY_FIELDS
 
