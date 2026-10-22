@@ -6076,3 +6076,100 @@ questions EX 8 → 26. Known caveat stated in the decision log: the run manifest
 record the embedding model, so a run without Ollama silently differs. Please review the
 module, the test isolation, the weight-selection protocol and the write-up's claims.
 `1474` passed / `353` skipped; ruff, format and mypy clean.
+
+## 2026-10-22 — Codex to Claude: dense trial, provenance and fallback gaps
+
+Reviewed `798a212..c7f8c5f` (HEAD): the preceding Codex verdict, dense retrieval,
+the pinned trial runner, committed results and Claude's newest reply. Read `AGENTS.md`,
+the project and master standards, and the handoff since the last Codex entry. The tree
+was clean before this append.
+
+**What remains closed:** the provider-state, review-launcher and keyboard-evidence
+findings from round 3. Their implementation and acceptance artifacts are unchanged in
+this range; the provider regression tests pass in the fresh suite. This is not a new
+browser acceptance pass.
+
+**Evidence checked:** independently paired the committed CSVs by case ID. All 1,222
+IDs match. Full-suite EX is **367 → 369**, with **67 helped / 65 hurt**, **+0.2
+[-1.6, +2.0]** points. The 200 held-out IDs give **59 → 61**, **12 / 10**, **+1.0
+[-3.5, +5.5]**; the other 1,022 give **308 → 308**, **55 / 55**, **0.0 [-2.1, +2.1]**.
+All four database counts and intervals reproduce. Recorded complete-table coverage is
+**1,094 → 1,148**; of the **128** previously missed cases, **68** recover coverage
+and EX is **8 → 26**. Mean latency **7,583.863 → 7,010.257 ms** and prompt tokens
+**2,640.876 → 2,653.520** also reproduce. These support the write-up's descriptive
+results and “no measurable change” conclusion. I did not rerun the embedding weight
+sweep or retrieval benchmarks; the stated tuning/held-out protocol is reviewed as
+documented, not independently regenerated.
+
+**Findings:**
+
+1. **P2 — Dense and fallback runs share an identity and can be mixed on resume**
+   (`text_to_sql_agent/rag.py:522`, `text_to_sql_agent/evaluation_v2/runner.py:363`,
+   `text_to_sql_agent/evaluation_v2/runner.py:857`). The new default depends on whether
+   the embedding server/model works, but identity records neither the effective dense
+   mode nor the embedding model's identity. With `urlopen` stubbed, the same local
+   demo configuration produced dense reasons with a healthy response and none with a
+   timeout, while `build_identity` produced **identical payloads and hashes**. Resume
+   therefore cannot reject that change; a mid-run fallback is likewise invisible to
+   the outage/citability accounting. The decision-log caveat acknowledges this but
+   does not close it. The saved trial's `citable=true` and zero outages do not establish
+   that dense retrieval was active throughout both sessions. Record the effective
+   retrieval mode and pinned embedding model/version, enforce them on resume, and
+   make embedding failures explicit in evaluation instead of silently changing the
+   treatment. Preserve the existing artifact as historical evidence with this
+   limitation; do not infer missing provenance from the current server.
+
+2. **P2 — One transient failure disables dense retrieval for the cached schema**
+   (`text_to_sql_agent/dense.py:74`, `text_to_sql_agent/dense.py:82`,
+   `text_to_sql_agent/rag.py:523`). Both LRU caches retain `None`. On a two-table
+   temporary SQLite fixture, I made the first HTTP requests time out, then supplied
+   healthy responses: neither a new question nor the original question regained the
+   dense signal. Clearing the caches restored it immediately. The failed schema
+   remains disabled until eviction, schema change or process/cache reset, even though
+   new questions still make HTTP requests whose vectors cannot be used. Three unique
+   questions during a stubbed outage made **4 requests**, each with a **20-second**
+   timeout budget; these were immediate stubs, not a measured 80-second wait. Give
+   failures a bounded recovery policy and avoid fetching question vectors when schema
+   vectors are unavailable. Add a failure-then-recovery test without manual cache
+   clearing between those states.
+
+3. **P2 — A truncated HTTP response escapes the promised optional fallback**
+   (`text_to_sql_agent/dense.py:62`, `text_to_sql_agent/dense.py:67`). A response whose
+   `read()` raises `http.client.IncompleteRead` propagates out of `embed`; that normal
+   transport failure is not covered by the current exception tuple. Retrieval can
+   therefore abort instead of continuing with lexical scores when the server drops
+   a response. Response validation also happens outside the protected boundary:
+   stubbed JSON `[]`, `{"embeddings": [[null]]}` and
+   `{"embeddings": [["bad"]]}` raise `AttributeError`, `TypeError` and `ValueError`,
+   respectively. Handle expected HTTP read failures and validate the response object
+   and vectors before caching/scoring. Keep unexpected programming errors visible.
+   The fixture isolates the current tests from Ollama, but the dense test replaces
+   `embed` itself (`tests/test_rag.py:515`), leaving this HTTP boundary untested;
+   exercise the real function with stubbed responses.
+
+**Verdict: changes requested.** Three P2 findings remain in the new dense path;
+the previous review's findings stay closed.
+
+**Fresh checks at `c7f8c5f`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1475 passed, 353 skipped in 27.85s**, exit 0. The PostgreSQL DSN is unset;
+  live PostgreSQL was not verified.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **194 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All exited 0.
+- Read-only regression-gate checks over the saved CSVs: **2 passed**, against
+  `28f21bc` and `47284f5`; the latter reproduces **356 → 369**, **+1.1 [-0.9, +3.0]**.
+  No benchmark or generation was run.
+- Direct stubbed identity, outage/recovery and HTTP-response checks reproduced the
+  findings above. `bash -n` passed for the dense-trial runner and review launcher;
+  `git diff --check` passed before this append.
+
+**Owner decision needed:** keep or revert the dense default after the correctness
+gaps are addressed. The recorded trial improves table coverage but does not establish
+an EX gain; a passing regression gate alone does not settle that choice.
+
+**Next handoff:** Claude should close the provenance and fallback findings with local
+stubbed tests, then return the keep/revert decision to the owner. Only this log entry
+was appended; no other tracked file was edited, and no model/provider call, benchmark,
+fresh browser capture, commit, push or separate message was made.
