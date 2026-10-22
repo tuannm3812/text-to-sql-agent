@@ -19,6 +19,12 @@ with no loss on BIRD or Spider dev (`evaluation/results/retrieval/README.md`). *
 identity caveat:** retrieval now depends on a local model the run manifest does not
 record; a run without Ollama silently scores without the signal.
 
+**Trial result (2026-10-22, `e6d3799` against the kept scorer at `28f21bc`):** gate pass,
+no measurable change, +0.2 [-1.6, +2.0] (67 helped, 65 hurt); held-out +1.0 [-3.5, +5.5].
+On the 128 questions that had missed a gold table, 68 now get all of them and EX there
+rose from 8 to 26 correct (`evaluation/results/dense_embeddings/README.md`). The owner
+decides keep or revert.
+
 ## 2026-10-21 — retrieval: value-hint words weighted down, plurals matched (on trial)
 
 **Chosen:** Name the scorer's signals with weights in `config` (`rag.ScoringWeights`),

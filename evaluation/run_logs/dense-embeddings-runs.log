@@ -1,0 +1,12 @@
+=== 2026-10-22 08:27:27 START --suite bird_train_large --subset full --evidence on 
+   Building text-to-sql-agent @ file:///Users/tuannm3812/Documents/GitHub/1.%20Study/aipa-text-to-sql-agent/.worktrees/release-runs
+      Built text-to-sql-agent @ file:///Users/tuannm3812/Documents/GitHub/1.%20Study/aipa-text-to-sql-agent/.worktrees/release-runs
+Uninstalled 1 package in 1ms
+Installed 1 package in 1ms
+=== 2026-10-22 15:19:00 START --suite bird_train_large --subset full --evidence on --resume evaluation/results/2026-10-21T212728_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_3f7a1cb0_2773/
+/Users/tuannm3812/Documents/GitHub/1. Study/aipa-text-to-sql-agent/.worktrees/release-runs/text_to_sql_agent/evaluation_v2/runner.py:987: StaleLockWarning: evaluation/results/2026-10-21T212728_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_3f7a1cb0_2773/.lock: took over a stale lock left by pid 65269, which is no longer running on this host
+  with _session_lock(run_dir):
+bird_train_large: complete, citable=True, 1222 cases, 0 outage(s)
+  evaluation/results/2026-10-21T212728_bird_train_large_full_ollama_qwen3.5-9b-q4_K_M_rag-on-k6-evidence-on-think-off_3f7a1cb0_2773
+=== 2026-10-22 16:36:30 END exit=0 --suite bird_train_large --subset full --evidence on
+ALL DONE 2026-10-22 16:36:30
