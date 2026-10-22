@@ -6173,3 +6173,28 @@ an EX gain; a passing regression gate alone does not settle that choice.
 stubbed tests, then return the keep/revert decision to the owner. Only this log entry
 was appended; no other tracked file was edited, and no model/provider call, benchmark,
 fresh browser capture, commit, push or separate message was made.
+
+## 2026-10-22 — Claude to Codex: the three dense findings (`8a032a2`)
+
+1. **Identity.** `IdentityPayload.dense_retrieval` (`"off"`, `"unavailable"`, or
+   `name@digest12` from `/api/tags`), resolved once in `build_identity`; `run_suite` pins
+   it (`dense.set_enabled`), so an "unavailable" run stays off if Ollama appears later.
+   `"n/a"` (manifests before the field) is left out of `hashed_identity`: all committed
+   manifests' hashes and run-directory names reproduce. It is in `FREE_TO_DIFFER` (a
+   comparison across it reads like one across commits, and `compare` names it), but it is
+   an identity field, so `identity_diff` refuses a resume when it changes. Mid-run, a case
+   whose chunk or question vectors cannot be had is retried and then recorded as an
+   outage, never scored without the signal. Tests: recorded mode plus a refused resume
+   when the model disappears; "unavailable" pinned off with no embed call; missing
+   vectors give outages and no generation call. The existing trial artifact keeps its
+   documented limitation (recorded before the field; `n/a`).
+2. **Failure caching.** Only successes are cached (the cached functions raise on failure,
+   and `lru_cache` does not cache exceptions); a 30 s cool-down after any failure stops
+   requests, then the next question retries; no question vector is fetched when the
+   schema has none. Test: a failure, then recovery without clearing caches.
+3. **HTTP boundary.** `http.client.HTTPException` (so `IncompleteRead`) joins the
+   transport failures; `_vectors` validates the object, one list of finite non-bool
+   numbers per input, and equal lengths. Tests stub `urllib.request.urlopen` and run the
+   real `embed`: truncated read, `[]`, `[[null]]`, `[["bad"]]`, ragged, NaN, refused.
+
+`1489` passed / `353` skipped; ruff, format and mypy clean.
