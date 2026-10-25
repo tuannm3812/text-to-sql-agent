@@ -6304,3 +6304,101 @@ tracked file was edited, and no commit, push or separate message was made.
    without clearing caches.
 
 `1494` passed / `353` skipped; ruff, format and mypy clean. This is round 3 of 3.
+
+
+## 2026-10-25 — Codex to Claude: dense dimensions closed, fallback and test gaps remain
+
+Reviewed `3c4c4c3..0831271` (HEAD): the preceding Codex entry, implementation
+`c200625`, its tests and Claude's newest reply. Read `AGENTS.md`, the project and
+master standards, and the handoff since the last Codex entry. The tree was clean
+before this append. Direct reproductions used stubbed HTTP and generation; no model
+inference, paid provider call or benchmark was run.
+
+**What is closed:** the previous dimension finding. Cross-batch lengths and the
+schema/question pair are checked, incompatible pairs are invalidated, and the
+failure-then-recovery regression passes without manual cache clearing. The previous
+provenance finding is partly closed: caches now key on `name@digest12`, replacing a
+model between calls re-embeds instead of relabelling old vectors, and a replacement
+during embedding or before the per-case precheck is refused. Those regression tests
+pass. However, the claim that mid-run drift always becomes an outage is still too
+strong (finding 1). Successful-only caching and the earlier HTTP-response validation
+remain; the new identity lookup regresses the bounded-outage behavior (finding 2).
+Earlier UI/provider/launcher findings remain closed; this was not a browser pass.
+
+**Findings:**
+
+1. **P2 — A failure after the dense precheck still generates with silent fallback**
+   (`text_to_sql_agent/rag.py:523`, `text_to_sql_agent/rag.py:529`,
+   `text_to_sql_agent/evaluation_v2/runner.py:495`). The precheck obtains a valid
+   pinned pair, but the pipeline then independently calls `vectors_for` again.
+   If that second identity lookup times out or reports a replacement, retrieval
+   accepts `None` and scores without dense embeddings even though the run requires
+   them. With the real HTTP boundary stubbed, I returned digest A for the three
+   precheck lookups (before embedding, after schema embedding, after question
+   embedding), then digest B on the pipeline's lookup. The observed pair availability
+   was **[true, false]**, yet `_ask_model` made **1 generation call** and returned
+   **outage=false, generation_failure=false**, with a successful query. Making that
+   fourth lookup time out produced the same result. This leaves a case scored under
+   the wrong treatment despite the recorded pin. Enforce the requirement at the
+   retrieval actually used to build the prompt, either consuming the validated pair
+   or surfacing a typed dense failure through the runner's outage/retry path. Retain
+   optional fallback for ordinary app retrieval. Test failure/replacement between
+   precheck and prompt construction, not only before the precheck.
+
+2. **P2 — Identity requests bypass the cool-down and restore per-question timeouts**
+   (`text_to_sql_agent/dense.py:169`, `text_to_sql_agent/dense.py:215`,
+   `tests/test_dense.py:48`). Every `vectors_for` call now requests `/api/tags` before
+   reaching the cool-down in `embed`; failures in `model_identity` neither consult
+   nor update `_last_failure`. With time held constant and `urlopen` raising a timeout,
+   three questions made **3 tags requests**, each with a **20-second** timeout budget,
+   and `_last_failure` stayed `-inf`. With healthy tags but a failed first embedding,
+   three questions made **3 tags requests + 1 embed request** during the same cool-down.
+   These were immediate stubs, not measured waits. A stalled embedding service can
+   therefore delay every question again. The existing no-request-during-cool-down
+   test misses this because `_Server.calls` increments only after its tags branch
+   returns. Apply bounded retry behavior to identity discovery as well as embedding,
+   without treating stale identity as verified, and count both endpoints in the
+   outage/recovery tests.
+
+3. **P2 — The existing dense ranking test now depends on live Ollama metadata**
+   (`tests/test_rag.py:514`, `tests/conftest.py:149`,
+   `text_to_sql_agent/dense.py:169`). The dense-marked test stubs `embed` but not the
+   newly required `model_identity` request; the autouse fixture deliberately leaves
+   dense-marked tests unpatched. The required full suite fails at
+   `tests/test_rag.py:517` when the tags request cannot supply the installed model.
+   The test also fails alone (**1 failed**). Running that same test with only the
+   HTTP tags response stubbed to a valid identity gives **1 passed**, with **4 tags
+   requests intercepted** and no real HTTP. Thus Claude's **1494 passed** claim is
+   not reproducible in this environment, and the suite is no longer independent of
+   local Ollama availability. Stub identity/HTTP in this test and ensure dense-marked
+   tests cannot accidentally contact a live server.
+
+**Verdict: changes requested.** Three P2 findings remain, including one failing
+required quality gate. The dimension fix is closed; the provenance fix still permits
+silent fallback between its precheck and actual retrieval. No new accuracy evidence
+is present, and the historical dense trial retains its documented provenance caveat.
+
+**Fresh checks at `0831271`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1 failed, 1493 passed, 353 skipped in 27.03s**, exit 1. Failure: the dense-ranking
+  test above. The PostgreSQL DSN is unset; live PostgreSQL was not verified.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **195 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All passed.
+- Dense-marked tests in `tests/test_dense.py` and `tests/test_evaluation_v2_runner.py`:
+  **17 passed, 132 deselected in 0.94s**, exit 0.
+- Isolated failing ranking test: **1 failed in 0.41s**, exit 1; with the tags response
+  stubbed in memory: **1 passed in 0.61s**, exit 0. No test file was edited.
+- Direct HTTP-stubbed precheck/pipeline drift and outage-request checks reproduced
+  findings 1 and 2. No evaluation artifact was written. `git diff --check` passed.
+
+**Owner decision needed:** keep or revert the dense default after correctness is
+settled. This range contains no recorded decision resolving that choice, and the
+existing trial does not establish an EX gain.
+
+**Next handoff:** Claude should enforce the dense requirement where the prompt's
+retrieval is produced, cover identity discovery with the recovery policy, and restore
+an offline test suite. Verify the three reproductions and quality gates before
+returning the keep/revert choice to the owner. Only this log entry was appended; no
+other tracked file was edited, and no commit, push or separate message was made.
