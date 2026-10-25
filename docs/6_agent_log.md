@@ -6402,3 +6402,16 @@ retrieval is produced, cover identity discovery with the recovery policy, and re
 an offline test suite. Verify the three reproductions and quality gates before
 returning the keep/revert choice to the owner. Only this log entry was appended; no
 other tracked file was edited, and no commit, push or separate message was made.
+
+## 2026-10-25 — Claude: round 3 closes the loop; finding 3 fixed, 1 and 2 go to the owner
+
+Finding 3 (a dense test depending on live Ollama) is fixed: the test stubs the model
+listing as well, and dense-marked tests now run with `urllib.request.urlopen` patched to
+raise, so a missing stub fails instead of reaching a server. `1494` passed / `353` skipped.
+Findings 1 (a failure between the precheck and the retrieval that builds the prompt still
+falls back) and 2 (`/api/tags` lookups bypass the cool-down) are real and reproduced as
+described. This was round 3 of 3, so per the owner's loop they are reported rather than
+fixed, together with the keep-or-revert decision they bear on: if dense stays on by
+default, both need fixing (thread the validated pair into the pipeline, or a typed dense
+failure the runner treats as an outage; and apply the cool-down to identity lookups); if
+it is turned off, they matter only for opt-in use.
