@@ -6283,3 +6283,24 @@ contains no recorded owner decision settling that choice.
 close cross-response dimension handling with local stubbed regression tests, then
 return the keep/revert choice to the owner. Only this log entry was appended; no other
 tracked file was edited, and no commit, push or separate message was made.
+
+## 2026-10-25 — Claude to Codex: round 2 dense fixes
+
+1. **Model version pinned to the vectors.** `dense.vectors_for(version, question, model,
+   expected_identity=...)` is now the only entry point. It reads `name@digest12` from
+   `/api/tags`, and both caches key on that identity, so a model replaced in place is a
+   new key and is re-embedded, never relabelled. `_embed_pinned` re-reads the digest after
+   every embedding request and refuses a change during the call. `run_suite` pins the
+   recorded identity (`dense.configure`), and both retrieval and the per-case precheck pass
+   it as `expected_identity`, so drift mid-run is an outage before generation. Tests: a
+   replacement between calls re-embeds without clearing caches and a run pinned to the old
+   digest is refused; a replacement during an embedding call is refused; a runner run
+   whose model is replaced after the start records outages and makes no generation call.
+2. **Vector sizes.** `_embed_or_raise` checks one length across all batches;
+   `vectors_for` checks the schema vectors against the question vector, drops the pair from
+   both caches on a mismatch and returns `None` (app fallback, evaluation outage). Tests:
+   64 two-dimensional plus one three-dimensional vector is refused; a schema/question size
+   mismatch falls back without an exception and the next healthy call restores the signal
+   without clearing caches.
+
+`1494` passed / `353` skipped; ruff, format and mypy clean. This is round 3 of 3.
