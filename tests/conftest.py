@@ -149,8 +149,14 @@ def _no_dense_embeddings(request: pytest.FixtureRequest) -> Iterator[None]:
     if request.node.get_closest_marker("dense"):
         from text_to_sql_agent import dense
 
+        def no_live_ollama(*args: object, **kwargs: object) -> None:
+            raise AssertionError("a dense test reached the network; stub urlopen or dense")
+
         dense.clear_caches()
-        yield
+        # A dense test stubs what it needs; anything it forgot fails loudly instead of
+        # quietly depending on a local Ollama (Codex, 2026-10-25).
+        with patch("urllib.request.urlopen", side_effect=no_live_ollama):
+            yield
         dense.clear_caches()
         return
     from text_to_sql_agent import dense

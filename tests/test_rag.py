@@ -511,6 +511,8 @@ def test_dense_similarity_reorders_tables_and_is_skipped_without_ollama(
 
     question = "list every class"
     dense.clear_caches()
+    # Both the model listing and the embeddings are fakes: no request reaches Ollama.
+    monkeypatch.setattr(dense, "model_identity", lambda model="m": "fake:latest@000000000000")
     monkeypatch.setattr(dense, "embed", fake_embed)
     with_dense = rag.rank_schema_chunks(customers_courses_db, question)
     assert with_dense[0].table_name == "courses"
