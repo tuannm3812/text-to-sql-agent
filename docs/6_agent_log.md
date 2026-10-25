@@ -6198,3 +6198,88 @@ fresh browser capture, commit, push or separate message was made.
    real `embed`: truncated read, `[]`, `[[null]]`, `[["bad"]]`, ragged, NaN, refused.
 
 `1489` passed / `353` skipped; ruff, format and mypy clean.
+
+## 2026-10-25 — Codex to Claude: dense recovery closed, provenance and dimensions remain
+
+Reviewed `c7f8c5f..3c4c4c3` (HEAD): the preceding Codex review, implementation
+`8a032a2`, its tests and Claude's newest reply. Read `AGENTS.md`, the project and
+master standards, and every entry since the previous Codex handoff. The tree was
+clean before this append. This review used local checks with HTTP and generation
+stubbed; no provider/model call or benchmark was run.
+
+**What is closed:** previous finding 2, caching transient failures permanently.
+Only successful embeddings enter the caches, the 30-second cool-down bounds repeated
+requests, and retrieval skips the question request when schema embeddings fail. The
+failure-then-recovery and cool-down tests pass. For finding 1, the new identity field
+distinguishes unavailable/dense runs and rejects a changed identity on resume;
+unavailable runs stay off, and missing vectors become outages before generation.
+Historical manifest hashes still reproduce in the suite. For finding 3, the originally
+reported truncated read, non-object JSON, null/string entries and same-response ragged
+vectors now fall back correctly. Findings 1 and 3 are only partially closed because
+of the cases below. Earlier provider/UI/launcher findings remain closed; their
+implementation is unchanged here, and this was not a browser acceptance pass.
+
+**Findings:**
+
+1. **P2 — The recorded embedding digest does not constrain the vectors actually used**
+   (`text_to_sql_agent/evaluation_v2/runner.py:413`,
+   `text_to_sql_agent/evaluation_v2/runner.py:420`,
+   `text_to_sql_agent/dense.py:124`, `text_to_sql_agent/dense.py:145`). The digest is
+   read at identity construction, but embedding requests still send the mutable
+   `all-minilm` name, both caches key on that name rather than its digest, and the
+   per-case check only tests whether vectors exist. With the real HTTP boundary
+   stubbed, I primed the caches under digest `aaaaaaaaaaaa` with `[1, 0]`, changed the
+   server to digest `bbbbbbbbbbbb` with `[0, 1]`, and rebuilt the identity. It recorded
+   B while the cached schema vectors remained A; a fresh question vector came from B.
+   Separately, keeping the run's recorded identity at A after that replacement let
+   `_ask_model` reach stubbed generation with **outage=false, generation_failure=false**.
+   All embedding requests still named `all-minilm`. Thus a model replacement during
+   a run can silently mix embedding spaces, and a later run in the same process can
+   falsely label old cached vectors with the new digest. Bind cached vectors and
+   embedding requests to the effective model version, and detect/refuse version drift
+   before scoring when it cannot be pinned. Add local tests for both a mid-run
+   replacement and a new run after replacement without manually clearing caches.
+
+2. **P2 — Dimension validation stops at one response, leaving incompatible vectors cached**
+   (`text_to_sql_agent/dense.py:81`, `text_to_sql_agent/dense.py:104`,
+   `text_to_sql_agent/rag.py:531`,
+   `text_to_sql_agent/evaluation_v2/runner.py:423`). `_vectors` checks dimensions within
+   each HTTP response, but neither the combined batches nor the schema/question pair
+   are checked. A stubbed `embed` call for 65 strings accepted 64 two-dimensional
+   vectors followed by one three-dimensional vector. On a demo schema, a uniform
+   two-dimensional schema response followed by a three-dimensional question response
+   made `rank_schema_chunks` raise **ValueError: zip() argument 2 is shorter than
+   argument 1**. Repeating retrieval raised the same error with **no additional HTTP
+   requests**: both incompatible responses were cached as successes. The evaluation
+   precheck returned **missing=false**, and `_ask_model` classified the failure as
+   **generation_failure=true, outage=false**, rather than an embedding outage. Validate
+   dimensions across batches and against the vectors used together, keep incompatible
+   entries out of reusable caches (or invalidate them), and route this expected bad
+   embedding response through app fallback / evaluation outage handling. Test recovery
+   after a healthy response without manual cache clearing.
+
+**Verdict: changes requested.** Two P2 findings remain. Claude's fixes address the
+original reproductions, but do not yet establish pinned model provenance or complete
+dimension validation. The historical dense trial remains subject to its previously
+documented provenance limitation; no new accuracy claim is made here.
+
+**Fresh checks at `3c4c4c3`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1489 passed, 353 skipped in 31.77s**, exit 0. The PostgreSQL DSN is unset;
+  live PostgreSQL was not verified.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **195 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All exited 0.
+- Direct HTTP-stubbed model replacement, cross-batch dimension and repeated-retrieval
+  checks reproduced both findings above. Generation was stubbed, and no evaluation
+  artifact was written. `git diff --check` passed before this append.
+
+**Owner decision needed:** keep or revert the dense default after these correctness
+gaps are addressed. The existing trial does not establish an EX gain, and this range
+contains no recorded owner decision settling that choice.
+
+**Next handoff:** Claude should bind model provenance to the vectors actually used and
+close cross-response dimension handling with local stubbed regression tests, then
+return the keep/revert choice to the owner. Only this log entry was appended; no other
+tracked file was edited, and no commit, push or separate message was made.
