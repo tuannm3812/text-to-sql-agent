@@ -152,7 +152,6 @@ def _no_dense_embeddings(request: pytest.FixtureRequest) -> Iterator[None]:
         dense.clear_caches()
         yield
         dense.clear_caches()
-        dense.set_enabled(True)
         return
     from text_to_sql_agent import dense
 
@@ -163,4 +162,3 @@ def _no_dense_embeddings(request: pytest.FixtureRequest) -> Iterator[None]:
     ):
         yield
     dense.clear_caches()
-    dense.set_enabled(True)

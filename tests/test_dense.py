@@ -35,25 +35,32 @@ class _Response:
 
 
 class _Server:
-    """A stand-in `urlopen`: each call takes the next scripted reply."""
+    """A stand-in `urlopen`: `/api/tags` reports `digest`; each embed call takes the next
+    scripted reply, else `vector_for` of each text."""
 
-    def __init__(self, replies: list[Any]) -> None:
+    def __init__(self, replies: list[Any], digest: str = "a" * 64) -> None:
         self.replies = replies
         self.calls = 0
+        self.digest = digest
+        self.vector_for = lambda text: [1.0, 0.0] if "course" in text else [0.0, 1.0]
 
     def __call__(self, request: Any, timeout: float = 0) -> _Response:
+        if isinstance(request, str) and request.endswith("/api/tags"):
+            tags = {"models": [{"name": "all-minilm:latest", "digest": self.digest}]}
+            return _Response(json.dumps(tags).encode())
         self.calls += 1
         reply = self.replies.pop(0) if self.replies else self.default(request)
+        if callable(reply):
+            reply = reply(request)
         if isinstance(reply, urllib.error.URLError):
             raise reply
         return _Response(
             reply if isinstance(reply, bytes | Exception) else json.dumps(reply).encode()
         )
 
-    @staticmethod
-    def default(request: Any) -> dict[str, Any]:
+    def default(self, request: Any) -> dict[str, Any]:
         texts = json.loads(request.data)["input"]
-        return {"embeddings": [[1.0, 0.0] if "course" in t else [0.0, 1.0] for t in texts]}
+        return {"embeddings": [self.vector_for(t) for t in texts]}
 
 
 @pytest.mark.parametrize(
@@ -101,3 +108,69 @@ def test_after_a_failure_no_request_is_made_during_the_cool_down(
     for question in ("one", "two", "three"):
         rag.rank_schema_chunks(customers_courses_db, question)
     assert server.calls == 1
+
+
+def _version(db: str) -> tuple[object, ...]:
+    from text_to_sql_agent.schema import get_schema_chunks_plain_ddl_and_version
+
+    return get_schema_chunks_plain_ddl_and_version(db)[2]
+
+
+def test_a_replaced_model_never_mixes_with_cached_vectors(
+    customers_courses_db: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Codex, 2026-10-25: vectors cached under digest A were labelled with digest B."""
+    server = _Server([])
+    monkeypatch.setattr("urllib.request.urlopen", server)
+    version = _version(customers_courses_db)
+    first = dense.vectors_for(version, "list every course")
+    assert first is not None and first[1] == (1.0, 0.0)
+
+    server.digest = "b" * 64  # replaced in place: same name, new weights
+    server.vector_for = lambda text: [0.0, 1.0] if "course" in text else [1.0, 0.0]
+    again = dense.vectors_for(version, "list every course")  # no cache clearing
+    assert again is not None and again[1] == (0.0, 1.0)  # re-embedded under the new key
+
+    # A run that recorded digest A refuses vectors from B instead of mixing them.
+    pinned_a = "all-minilm:latest@" + "a" * 12
+    assert dense.vectors_for(version, "list every course", expected_identity=pinned_a) is None
+
+
+def test_a_replacement_during_embedding_is_refused(
+    customers_courses_db: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    server = _Server([])
+
+    def swap_then_answer(request: Any) -> dict[str, Any]:
+        server.digest = "c" * 64  # the model changes while this request is served
+        return server.default(request)
+
+    server.replies = [swap_then_answer]
+    monkeypatch.setattr("urllib.request.urlopen", server)
+    assert dense.vectors_for(_version(customers_courses_db), "anything") is None
+
+
+def test_vectors_of_different_lengths_across_batches_are_refused(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    texts = [f"t{i}" for i in range(65)]  # two batches: 64, then 1
+    server = _Server([{"embeddings": [[1.0, 0.0]] * 64}, {"embeddings": [[1.0, 0.0, 0.0]]}])
+    monkeypatch.setattr("urllib.request.urlopen", server)
+    assert dense.embed(texts) is None
+
+
+def test_a_schema_and_question_size_mismatch_is_dropped_then_recovers(
+    customers_courses_db: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    server = _Server([])
+    # Schema vectors are 2-d; the first question vector comes back 3-d.
+    server.replies = [server.default, {"embeddings": [[1.0, 0.0, 0.0]]}]
+    monkeypatch.setattr("urllib.request.urlopen", server)
+    question = "list every course"
+
+    broken = rag.rank_schema_chunks(customers_courses_db, question)  # no exception
+    assert not any("dense" in r for c in broken for r in c.match_reasons or [])
+
+    healed = rag.rank_schema_chunks(customers_courses_db, question)  # no cache clearing
+    assert healed[0].table_name == "courses"
+    assert any("dense similarity" in r for r in healed[0].match_reasons or [])

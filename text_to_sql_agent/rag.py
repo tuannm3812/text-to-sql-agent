@@ -520,14 +520,14 @@ def _score_chunks(
     query_embedding = _hashed_embedding(" ".join(expanded_tokens) or question)
     dense_scores: list[float] | None = None
     if weights.dense and dense.is_enabled():
-        vectors = dense.chunk_vectors(version, DEFAULT_RAG_DENSE_MODEL)
-        # No question request when the schema has no vectors: it could not be used.
-        query_vector = (
-            dense.question_vector(question, DEFAULT_RAG_DENSE_MODEL)
-            if vectors is not None
-            else None
+        pair = dense.vectors_for(
+            version,
+            question,
+            DEFAULT_RAG_DENSE_MODEL,
+            expected_identity=dense.pinned_identity(),
         )
-        if vectors is not None and query_vector is not None:
+        if pair is not None:
+            vectors, query_vector = pair
             dense_scores = [dense.cosine(query_vector, vector) for vector in vectors]
     scored: list[SchemaChunk] = []
     for position, (chunk, entry) in enumerate(zip(chunks, index.entries, strict=True)):

@@ -2075,3 +2075,27 @@ def test_vectors_missing_mid_run_make_an_outage_not_a_silent_fallback(tmp_path: 
     assert {row["outcome"] for row in rows} == {"outage"}
     assert result.manifest.status == "incomplete"
     assert generate.calls == Counter()
+
+
+@pytest.mark.dense
+def test_a_model_replaced_mid_run_makes_outages_not_mixed_vectors(tmp_path: Path) -> None:
+    """Codex, 2026-10-25: the recorded digest did not constrain the vectors used."""
+    from text_to_sql_agent import dense
+
+    cases, pick = _first(tmp_path, 2)
+    installed = {"identity": "all-minilm:latest@aaaaaaaaaaaa"}
+
+    def build_then_replace(model: str = "m") -> str:
+        current = installed["identity"]
+        installed["identity"] = "all-minilm:latest@bbbbbbbbbbbb"  # replaced after the start
+        return current
+
+    with (
+        patch.object(dense, "model_identity", side_effect=build_then_replace),
+        patch.object(dense, "embed", side_effect=_fake_vectors),
+        patch("text_to_sql_agent.pipeline.generate_sql", StubGenerator(cases)) as generate,
+    ):
+        result = run_suite(cases, config=_llm(**pick), out_root=tmp_path)
+    assert result.manifest.identity.dense_retrieval == "all-minilm:latest@aaaaaaaaaaaa"
+    assert {row["outcome"] for row in _rows(result.run_dir)} == {"outage"}
+    assert generate.calls == Counter()

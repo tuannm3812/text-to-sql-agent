@@ -102,6 +102,9 @@ def _embed_or_raise(texts: Sequence[str], model: str) -> list[Vector]:
             except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError) as exc:
                 raise DenseUnavailable(f"{type(exc).__name__}: {exc}") from exc
             vectors.extend(_vectors(payload, len(batch)))
+        # One length across every batch, not just within each response (Codex, 2026-10-25).
+        if len({len(vector) for vector in vectors}) > 1:
+            raise DenseUnavailable("embeddings from different batches have different lengths")
     except DenseUnavailable:
         _last_failure = time.monotonic()
         raise
@@ -111,8 +114,8 @@ def _embed_or_raise(texts: Sequence[str], model: str) -> list[Vector]:
 def embed(texts: Sequence[str], model: str = DEFAULT_RAG_DENSE_MODEL) -> list[Vector] | None:
     """Embeddings for `texts` in order, or `None` if Ollama or the model is unavailable.
 
-    Transport failures (refused, timed out, truncated) and malformed responses all give
-    `None`; anything else is a bug and is raised.
+    Transport failures (refused, timed out, truncated) and malformed responses, including
+    vectors of different lengths, all give `None`; anything else is a bug and is raised.
     """
     try:
         return _embed_or_raise(texts, model)
@@ -120,55 +123,87 @@ def embed(texts: Sequence[str], model: str = DEFAULT_RAG_DENSE_MODEL) -> list[Ve
         return None
 
 
-@lru_cache(maxsize=32)
-def _chunk_vectors_cached(version: tuple[object, ...], model: str) -> tuple[Vector, ...]:
-    chunks = get_schema_chunks_at(version)
-    vectors = embed([chunk_text(chunk) for chunk in chunks], model)
+def _name(identity: str) -> str:
+    return identity.split("@", 1)[0]
+
+
+def _embed_pinned(texts: Sequence[str], identity: str) -> tuple[Vector, ...]:
+    """Embed with the model `identity` names, and refuse if it changed while embedding.
+
+    Ollama takes a model name, not a digest, so the installed digest is read before and
+    after; a replacement in between would mix two embedding spaces (Codex, 2026-10-25).
+    """
+    vectors = embed(texts, _name(identity))
     if vectors is None:
-        raise DenseUnavailable("no chunk vectors")  # not cached: the next call retries
+        raise DenseUnavailable("no vectors")
+    if model_identity(_name(identity)) != identity:
+        raise DenseUnavailable("the model changed while embedding")
     return tuple(vectors)
 
 
-def chunk_vectors(version: tuple[object, ...], model: str) -> tuple[Vector, ...] | None:
-    """One embedding per chunk of a schema version, in chunk order, or `None`.
-
-    Only successes are cached (on the chunks' `(dsn, fingerprint)` key); a failure is not,
-    so the schema regains the signal once Ollama answers again.
-    """
-    try:
-        return _chunk_vectors_cached(version, model)
-    except DenseUnavailable:
-        return None
+@lru_cache(maxsize=32)
+def _chunk_vectors_cached(version: tuple[object, ...], identity: str) -> tuple[Vector, ...]:
+    # Keyed on the exact model version: a replaced model is a new key, never old vectors.
+    return _embed_pinned([chunk_text(c) for c in get_schema_chunks_at(version)], identity)
 
 
 @lru_cache(maxsize=512)
-def _question_vector_cached(question: str, model: str) -> Vector:
-    vectors = embed([question], model)
-    if not vectors:
-        raise DenseUnavailable("no question vector")
-    return vectors[0]
+def _question_vector_cached(question: str, identity: str) -> Vector:
+    return _embed_pinned([question], identity)[0]
 
 
-def question_vector(question: str, model: str) -> Vector | None:
-    """The question's embedding, cached by text on success; `None` if unavailable."""
+def vectors_for(
+    version: tuple[object, ...],
+    question: str,
+    model: str = DEFAULT_RAG_DENSE_MODEL,
+    *,
+    expected_identity: str | None = None,
+) -> tuple[tuple[Vector, ...], Vector] | None:
+    """`(chunk vectors, question vector)` from one model version, or `None`.
+
+    `None` when the model is unavailable, is not `expected_identity` (a run pins the one it
+    recorded), changed while embedding, or gave the schema and the question vectors of
+    different lengths. Only complete, matching successes stay cached; an incompatible pair
+    is dropped so the next call fetches afresh.
+    """
+    identity = model_identity(model)
+    if identity is None or (expected_identity is not None and identity != expected_identity):
+        return None
     try:
-        return _question_vector_cached(question, model)
+        chunks = _chunk_vectors_cached(version, identity)
+        query = _question_vector_cached(question, identity)
     except DenseUnavailable:
         return None
+    if not chunks or any(len(vector) != len(query) for vector in chunks):
+        _chunk_vectors_cached.cache_clear()
+        _question_vector_cached.cache_clear()
+        return None
+    return chunks, query
 
 
 _enabled = True
+_pinned: str | None = None
 
 
-def set_enabled(enabled: bool) -> None:
-    """Turn the signal on or off for this process; the evaluation runner pins it per run."""
-    global _enabled
+def configure(*, enabled: bool, pinned_identity: str | None = None) -> None:
+    """Turn the signal on or off for this process and pin the model version it may use.
+
+    The evaluation runner calls this per run with the identity it recorded; the app never
+    does, so it uses whatever model version is installed.
+    """
+    global _enabled, _pinned
     _enabled = enabled
+    _pinned = pinned_identity
 
 
 def is_enabled() -> bool:
-    """Whether retrieval may use this signal at all (`set_enabled`)."""
+    """Whether retrieval may use this signal at all (`configure`)."""
     return _enabled
+
+
+def pinned_identity() -> str | None:
+    """The model version a run pinned (`configure`), or `None`."""
+    return _pinned
 
 
 def model_identity(model: str = DEFAULT_RAG_DENSE_MODEL) -> str | None:
@@ -191,11 +226,12 @@ def model_identity(model: str = DEFAULT_RAG_DENSE_MODEL) -> str | None:
 
 
 def clear_caches() -> None:
-    """Forget cached vectors and any recent failure (tests, and after a model change)."""
+    """Forget cached vectors, any recent failure and any pin (tests)."""
     global _last_failure
     _chunk_vectors_cached.cache_clear()
     _question_vector_cached.cache_clear()
     _last_failure = -math.inf
+    configure(enabled=True)
 
 
 def cosine(left: Vector, right: Vector) -> float:

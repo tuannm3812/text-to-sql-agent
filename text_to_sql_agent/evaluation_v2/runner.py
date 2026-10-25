@@ -417,12 +417,17 @@ def _dense_active(config: RunConfig) -> bool:
     return config.dense_retrieval not in (None, DENSE_OFF, DENSE_UNAVAILABLE)
 
 
-def _dense_missing(case: Case, question: str) -> bool:
-    """Whether the vectors this case's retrieval needs cannot be had right now."""
+def _dense_missing(case: Case, question: str, config: RunConfig) -> bool:
+    """Whether this case cannot get vectors from the exact model version the run recorded.
+
+    Covers an unavailable model, a replaced one (another digest) and incompatible vectors,
+    so each becomes an outage rather than a different treatment (Codex, 2026-10-25).
+    """
     _, _, version = get_schema_chunks_plain_ddl_and_version(case.db_path)
-    if dense.chunk_vectors(version, DEFAULT_RAG_DENSE_MODEL) is None:
-        return True
-    return dense.question_vector(question, DEFAULT_RAG_DENSE_MODEL) is None
+    pair = dense.vectors_for(
+        version, question, DEFAULT_RAG_DENSE_MODEL, expected_identity=config.dense_retrieval
+    )
+    return pair is None
 
 
 # --- one case ------------------------------------------------------------------------------
@@ -487,7 +492,7 @@ def _ask_model(
     while True:
         started = time.perf_counter()
         repair_errors: list[Exception] = []
-        if _dense_active(config) and _dense_missing(case, question):
+        if _dense_active(config) and _dense_missing(case, question, config):
             # The run recorded dense retrieval, so a case scored without it would silently be
             # a different treatment. Retried like a provider outage, then an outage: the run
             # stays incomplete until `--resume` finds the embedding model again.
@@ -1029,7 +1034,10 @@ def run_suite(
         dense_retrieval=payload.dense_retrieval,
     )
     # Pin the treatment the identity records: off stays off even if Ollama appears later.
-    dense.set_enabled(_dense_active(config))
+    dense.configure(
+        enabled=_dense_active(config),
+        pinned_identity=config.dense_retrieval if _dense_active(config) else None,
+    )
     if resume_dir is None:
         started = datetime.now(UTC).replace(microsecond=0)
         label = config_label(
