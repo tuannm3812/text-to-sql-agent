@@ -52,11 +52,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal, TypeVar, get_args
 
+from text_to_sql_agent import config as agent_config
 from text_to_sql_agent import dense
 from text_to_sql_agent.config import (
     DEFAULT_MAX_ROWS,
     DEFAULT_RAG_DENSE_MODEL,
-    DEFAULT_RAG_DENSE_WEIGHT,
     DEFAULT_RAG_TOP_K,
 )
 from text_to_sql_agent.dsn import redact_dsn
@@ -408,7 +408,7 @@ def resolve_dense_retrieval(config: RunConfig) -> str:
     missing at the start, in which case the run pins the signal off rather than letting it
     appear mid-run (Codex, 2026-10-22).
     """
-    if config.mode == "gold" or not config.use_rag or not DEFAULT_RAG_DENSE_WEIGHT:
+    if config.mode == "gold" or not config.use_rag or not agent_config.DEFAULT_RAG_DENSE_WEIGHT:
         return DENSE_OFF
     return dense.model_identity(DEFAULT_RAG_DENSE_MODEL) or DENSE_UNAVAILABLE
 

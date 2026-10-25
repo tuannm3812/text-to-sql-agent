@@ -115,5 +115,6 @@ The weight was chosen on the same 1,022 tuning questions (sent coverage at top 6
 | BIRD dev | 98.4 % | 98.4 % |
 | Spider dev | 100.0 % | 100.0 % |
 
-MRR on the whole large suite 0.891 → 0.905. The saved reports are regenerated with this
-default. Accuracy is measured separately (`evaluation/results/dense_embeddings/`).
+MRR on the whole large suite 0.891 → 0.905. Accuracy did not move measurably
+(`evaluation/results/dense_embeddings/`), and on 2026-10-25 the owner turned the signal
+off by default; the saved reports are regenerated without it, as the shipped scorer.

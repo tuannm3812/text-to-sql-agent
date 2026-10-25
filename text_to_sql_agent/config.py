@@ -40,9 +40,10 @@ DEFAULT_RAG_TABLE_MATCH_WEIGHT = 8.0
 DEFAULT_RAG_COLUMN_MATCH_WEIGHT = 4.0
 DEFAULT_RAG_SEMANTIC_WEIGHT = 3.0
 DEFAULT_RAG_EMBEDDING_WEIGHT = 5.0
-# Dense sentence embeddings from a local Ollama model (`dense.py`), 2026-10-22 trial.
-# Skipped automatically when Ollama or the model is unavailable.
-DEFAULT_RAG_DENSE_WEIGHT = 80.0
+# Dense sentence embeddings from a local Ollama model (`dense.py`). Off by default since
+# 2026-10-25 (owner's decision): the trial moved accuracy +0.2 [-1.6, +2.0]. 80 is the
+# weight tuned for `bird_train_large`; setting it turns the signal back on.
+DEFAULT_RAG_DENSE_WEIGHT = 0.0
 DEFAULT_RAG_DENSE_MODEL = "all-minilm"
 DEFAULT_VALUE_HINT_LIMIT = 6
 DEFAULT_VALUE_HINT_MAX_CARDINALITY = 20

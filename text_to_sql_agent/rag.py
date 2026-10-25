@@ -6,17 +6,16 @@ import math
 import re
 import unicodedata
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from hashlib import blake2b
 from typing import TYPE_CHECKING
 
-from . import dense
+from . import config, dense
 from .config import (
     DEFAULT_RAG_BM25_WEIGHT,
     DEFAULT_RAG_COLUMN_MATCH_WEIGHT,
     DEFAULT_RAG_DENSE_MODEL,
-    DEFAULT_RAG_DENSE_WEIGHT,
     DEFAULT_RAG_EMBEDDING_WEIGHT,
     DEFAULT_RAG_NEIGHBORS,
     DEFAULT_RAG_SCHEMA_BM25_WEIGHT,
@@ -455,7 +454,9 @@ class ScoringWeights:
     column_match: float = DEFAULT_RAG_COLUMN_MATCH_WEIGHT
     semantic: float = DEFAULT_RAG_SEMANTIC_WEIGHT
     embedding: float = DEFAULT_RAG_EMBEDDING_WEIGHT
-    dense: float = DEFAULT_RAG_DENSE_WEIGHT
+    # Read from `config` when a weighting is made, not when this module loads, so a
+    # caller (or a test) can turn the opt-in signal on by setting the config value.
+    dense: float = field(default_factory=lambda: config.DEFAULT_RAG_DENSE_WEIGHT)
 
 
 def _bm25(

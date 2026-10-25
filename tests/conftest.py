@@ -153,10 +153,14 @@ def _no_dense_embeddings(request: pytest.FixtureRequest) -> Iterator[None]:
             raise AssertionError("a dense test reached the network; stub urlopen or dense")
 
         dense.clear_caches()
+        # The signal is opt-in (weight 0 by default); a dense test turns it on.
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setattr("text_to_sql_agent.config.DEFAULT_RAG_DENSE_WEIGHT", 80.0)
         # A dense test stubs what it needs; anything it forgot fails loudly instead of
         # quietly depending on a local Ollama (Codex, 2026-10-25).
         with patch("urllib.request.urlopen", side_effect=no_live_ollama):
             yield
+        monkeypatch.undo()
         dense.clear_caches()
         return
     from text_to_sql_agent import dense

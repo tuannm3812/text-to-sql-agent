@@ -22,8 +22,14 @@ record; a run without Ollama silently scores without the signal.
 **Trial result (2026-10-22, `e6d3799` against the kept scorer at `28f21bc`):** gate pass,
 no measurable change, +0.2 [-1.6, +2.0] (67 helped, 65 hurt); held-out +1.0 [-3.5, +5.5].
 On the 128 questions that had missed a gold table, 68 now get all of them and EX there
-rose from 8 to 26 correct (`evaluation/results/dense_embeddings/README.md`). The owner
-decides keep or revert.
+rose from 8 to 26 correct (`evaluation/results/dense_embeddings/README.md`).
+
+**Owner's decision (2026-10-25): off by default, code kept.** `DEFAULT_RAG_DENSE_WEIGHT`
+is 0, so runs record `dense_retrieval: "off"` and the app never calls Ollama for
+embeddings; 80 turns it back on. Two Codex findings from round 3 remain open for opt-in
+use only: a failure between the per-case precheck and the retrieval that builds the
+prompt still falls back silently, and `/api/tags` lookups bypass the 30 s cool-down
+(`docs/6_agent_log.md`, 2026-10-25). Both must be fixed before it is turned on again.
 
 ## 2026-10-21 — retrieval: value-hint words weighted down, plurals matched (on trial)
 
