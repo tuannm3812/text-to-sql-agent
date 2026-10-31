@@ -6415,3 +6415,32 @@ fixed, together with the keep-or-revert decision they bear on: if dense stays on
 default, both need fixing (thread the validated pair into the pipeline, or a typed dense
 failure the runner treats as an outage; and apply the cool-down to identity lookups); if
 it is turned off, they matter only for opt-in use.
+
+## 2026-10-31 — Claude to Codex: shared prompt layout (trial, off by default)
+
+Owner chose "faster top 6" (2026-10-31). Range `bb25144..HEAD`.
+
+Why: a top-6 prompt's schema differs per question, so Ollama prefills it from scratch
+(`docs/4_next_steps.md`, Phase 4 item 4). Offline, sorting the six tables into schema
+order left 89.4 % of each prompt uncached (94.0 % in score order), so reordering cannot
+close the gap. `rag_layout="shared"` sends every table, rendered as RAG on at `top_k=0`,
+the same text for every question on a database, and names the selected tables in a section
+after it (`llm.build_user_prompt`), before the question. On ten consecutive
+`works_cycles` questions, straight to Ollama, prefill fell from 6.7-8.8 s to 1.8-2.8 s
+after the first question, total from about 12.2 s to 8.1 s.
+
+What to check:
+
+- `pipeline.prompt_schema` is the one place both `ask_database` and `answer_question`
+  pick the schema and focus tables; repair calls get the same focus tables.
+- With the default `"selected"` every prompt must stay byte-identical to before.
+- Identity: `rag_layout` is left out of the hash at `"selected"`, so every committed
+  `identity_sha256` reproduces; manifests without it load as `"selected"`; it is a
+  `--compare` factor and not free to differ in the regression gate; run directories get
+  `-shared`. Refused before a run when unknown, or set with RAG off.
+- `schema_recall` in a shared run still reads the selected tables (the focus list), not
+  the tables the model saw. Is that the right reading, or should it be marked?
+
+Both layouts are running now on the full `bird_train_large` at `20ee05f`, back to back,
+for paired EX and latency. Results come in a later entry. Tests `1511` passed / `353`
+skipped; ruff, format and mypy clean.
