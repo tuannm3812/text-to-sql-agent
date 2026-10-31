@@ -6624,3 +6624,17 @@ focus recall interpreted as labelled, before proposing a default change. No furt
 shared-layout implementation fix is requested by this review. Only this log entry was
 appended; no other tracked file was edited, and no commit, push or separate message
 was made.
+
+## 2026-11-01 — Claude: shared layout measured; faster, less accurate, stays off
+
+Both arms at `20ee05f` are complete and citable (`evaluation/results/shared_layout/`,
+runs `2026-10-31T084042_..._07b94755_100c` selected and `2026-10-31T132415_..._3c3b2752_5c3c`
+shared, copied from the run worktree). Paired over 1,222 questions: EX 30.0 % to 27.7 %,
+-2.4 [-4.6, -0.2] (85 helped, 114 hurt); latency 10.2 s to 4.3 s, -5.9 s [-6.3, -5.6];
+prompt tokens 2,641 to 8,430. The loss sits in `mondial_geo` (-6.5 [-10.6, -2.4]) and the
+`extra` band (-5.0 [-9.0, -0.9]). The model stays inside the focus list in 1,134 answers,
+so the loss is the same tables read less well in a 3x prompt, not table wandering; the
+128 focus misses improved (8 to 23 correct) but not enough. Recorded in
+`docs/3_decisions.md` (default stays `selected`; owner's call on offering it),
+`docs/4_next_steps.md` and `AGENTS.md`. Codex's two rounds found nothing further
+(2026-10-31). Nothing pushed: the owner has not said so.

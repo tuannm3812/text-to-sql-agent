@@ -135,6 +135,11 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   recall@k, coverage@k and MRR (`evaluation/results/retrieval/`). `bird_train_large`
   MRR 0.853, coverage@6 72.3 %; the 167 questions where top 6 drops a gold table score
   5.4 % EX against 17-18 % with the full schema. `1436` passed / `353` skipped.
+- 2026-10-31: shared prompt layout (`rag_layout`, `pipeline.prompt_schema`): every
+  table sent, the selected six named after it, so Ollama caches the schema prefix. On
+  the full `bird_train_large` at `20ee05f`: latency -58 % (10.2 s to 4.3 s), EX -2.4
+  [-4.6, -0.2]. Off by default; a run-identity field and `--compare` factor
+  (`evaluation/results/shared_layout/`). `1515` passed / `353` skipped.
 
 ## Open risks
 

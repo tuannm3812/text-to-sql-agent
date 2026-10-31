@@ -2,6 +2,28 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-10-31 — prompt: shared schema layout built, off by default (owner's call pending)
+
+**Chosen:** `rag_layout="shared"` (`pipeline.prompt_schema`): the prompt sends every
+table, the same text for every question on a database, and names the six selected tables
+after it, so Ollama's prefix cache covers the schema. Built as a setting, recorded in the
+run identity (left out of the hash at the default, so old hashes reproduce), and measured
+on the full `bird_train_large` against the shipped layout at the same commit: latency
+10.2 s to 4.3 s per question (-58 %), EX 30.0 % to 27.7 %, -2.4 [-4.6, -0.2]
+(`evaluation/results/shared_layout/README.md`). **The default stays `selected`:** the
+accuracy loss is measurable and the project's headline is accuracy on large schemas.
+
+**Ruled out:** Reordering the six selected tables into a fixed order: offline, 89 % of
+each prompt is still uncached, so it cannot close the gap. Making `shared` the default
+on the speed gain alone: it would give up 2.4 points, most of it on `mondial_geo` and
+the `extra` band. Repeating the selected tables' DDL after the shared schema: it would
+prefill about what top 6 prefills now, so the speed gain would go.
+
+**Why keep the code:** it is the only measured 2x speed-up available on local hardware, a
+one-flag choice for a deployment that values latency over the last points, and the two
+layouts are now a controlled `--compare` factor. Whether to offer it in the app, or try
+a shorter per-table summary in the tail, is the owner's decision.
+
 ## 2026-10-22 — retrieval: dense embeddings from a local Ollama model (on trial)
 
 **Chosen:** A dense-embedding signal (`dense.py`, `all-minilm` through Ollama's
