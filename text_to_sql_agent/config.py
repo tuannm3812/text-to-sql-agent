@@ -29,6 +29,12 @@ DEFAULT_MAX_VM_STEPS = 100_000
 DEFAULT_WORK_LIMIT_MS = 5_000
 DEFAULT_RAG_TOP_K = 6
 DEFAULT_RAG_NEIGHBORS = 1
+# How a RAG-on prompt lays out the schema (2026-10-31). `"selected"` sends only the selected
+# tables. `"shared"` sends every table, the same text for every question on a database, then
+# names the selected tables after it, so Ollama's prefix cache can reuse the schema across
+# questions instead of prefilling a different one each time (`docs/4_next_steps.md`).
+RAG_LAYOUTS = ("selected", "shared")
+DEFAULT_RAG_LAYOUT = "selected"
 # Retrieval signal weights (`rag.ScoringWeights`), named 2026-10-21. BM25 over the whole
 # search text is replaced by BM25 over its schema part plus a quarter-weight BM25 over its
 # value-hint part, so hint words ("Sales", "Sale") stop pulling generic tables into the top

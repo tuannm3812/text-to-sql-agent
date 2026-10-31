@@ -485,3 +485,41 @@ def test_the_real_chat_ollama_sends_the_flag_and_keeps_thinking_out_of_the_sql(
     assert body["options"] == {"num_predict": 512, "temperature": 0.0}
     assert sql == "SELECT a FROM t"
     assert (usage.prompt_tokens, usage.completion_tokens) == (21, 34)
+
+
+def test_the_user_prompt_without_focus_tables_is_unchanged() -> None:
+    from text_to_sql_agent.llm import build_user_prompt
+
+    assert build_user_prompt("CREATE TABLE t (a INT)", "how many?") == (
+        "### SQLite schema (DDL)\nCREATE TABLE t (a INT)\n\n### User question\nhow many?\n"
+    )
+
+
+def test_focus_tables_follow_the_schema_and_precede_the_question() -> None:
+    from text_to_sql_agent.llm import build_user_prompt
+
+    schema = "CREATE TABLE a (x INT)\n\nCREATE TABLE b (y INT)"
+    plain = build_user_prompt(schema, "q?")
+    focused = build_user_prompt(schema, "q?", focus_tables=("b", "a"))
+    # Everything up to the question's header is a shared prefix with any other question.
+    head = plain.split("### User question")[0]
+    assert focused.startswith(head)
+    assert focused[len(head) :] == (
+        "### Tables most relevant to this question\nb, a\n\n### User question\nq?\n"
+    )
+
+
+def test_generate_sql_passes_focus_tables_into_the_user_prompt() -> None:
+    from text_to_sql_agent.llm import generate_sql
+
+    captured: dict[str, str] = {}
+
+    def fake_call(_prompt: str, user_prompt: str, **_kwargs: object) -> str:
+        captured["user"] = user_prompt
+        return "SELECT 1"
+
+    with patch("text_to_sql_agent.llm._call_provider", side_effect=fake_call):
+        generate_sql("q?", "CREATE TABLE a (x INT)", provider="ollama", focus_tables=("a",))
+    assert (
+        "### Tables most relevant to this question\na\n\n### User question\nq?" in captured["user"]
+    )

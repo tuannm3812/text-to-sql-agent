@@ -78,6 +78,11 @@ class IdentityPayload:
     # `"<model>@<digest12>"`. `"n/a"` is a manifest from before the field (2026-10-22);
     # `hashed_identity` leaves it out there, so those hashes reproduce.
     dense_retrieval: str = "n/a"
+    # How a RAG-on prompt lays out the schema (`pipeline.prompt_schema`): `"selected"` sends
+    # the selected tables, as every run did before the field existed (2026-10-31), and
+    # `hashed_identity` leaves it out there, so those hashes reproduce; `"shared"` sends
+    # every table and names the selected ones after it.
+    rag_layout: str = "selected"
 
 
 IDENTITY_FIELDS: tuple[str, ...] = tuple(f.name for f in dataclasses.fields(IdentityPayload))
@@ -87,6 +92,8 @@ IDENTITY_FIELDS: tuple[str, ...] = tuple(f.name for f in dataclasses.fields(Iden
 _THINK_NOT_SENT = frozenset({"default", "n/a"})
 # `dense_retrieval` of a manifest written before the field existed.
 DENSE_NOT_RECORDED = "n/a"
+# `rag_layout` of every run before the field existed; left out of the hash there.
+LAYOUT_NOT_RECORDED = "selected"
 
 
 def is_ollama(provider: str) -> bool:
@@ -119,6 +126,8 @@ def hashed_identity(payload: IdentityPayload) -> dict[str, Any]:
         del data["ollama_think"]
     if data["dense_retrieval"] == DENSE_NOT_RECORDED:
         del data["dense_retrieval"]
+    if data["rag_layout"] == LAYOUT_NOT_RECORDED:
+        del data["rag_layout"]
     return data
 
 
@@ -233,14 +242,22 @@ def sanitise(name: str) -> str:
 
 
 def config_label(
-    *, use_rag: bool, rag_top_k: int, evidence: bool, ollama_think: str = "n/a"
+    *,
+    use_rag: bool,
+    rag_top_k: int,
+    evidence: bool,
+    ollama_think: str = "n/a",
+    rag_layout: str = LAYOUT_NOT_RECORDED,
 ) -> str:
     """The directory name's ``<config>`` part: the settings that change outcomes.
 
     A think flag the run sent appends ``-think-off`` or ``-think-on``. ``"default"`` and
     ``"n/a"`` append nothing, so every label written before ``ollama_think`` is unchanged.
+    The shared RAG layout appends ``-shared`` to the RAG part; the default appends nothing.
     """
     rag = f"rag-on-k{rag_top_k}" if use_rag else "rag-off"
+    if use_rag and rag_layout != LAYOUT_NOT_RECORDED:
+        rag += f"-{rag_layout}"
     label = f"{rag}-evidence-{'on' if evidence else 'off'}"
     if ollama_think in ("off", "on"):
         label += f"-think-{ollama_think}"

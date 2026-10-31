@@ -2099,3 +2099,52 @@ def test_a_model_replaced_mid_run_makes_outages_not_mixed_vectors(tmp_path: Path
     assert result.manifest.identity.dense_retrieval == "all-minilm:latest@aaaaaaaaaaaa"
     assert {row["outcome"] for row in _rows(result.run_dir)} == {"outage"}
     assert generate.calls == Counter()
+
+
+# --- shared RAG layout (2026-10-31) --------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("overrides", "message"),
+    [
+        ({"rag_layout": "stacked"}, "'stacked'"),
+        ({"rag_layout": "shared", "use_rag": False}, "needs RAG on"),
+    ],
+)
+def test_a_layout_that_cannot_apply_is_refused_before_anything_is_written(
+    tmp_path: Path, overrides: dict[str, Any], message: str
+) -> None:
+    with pytest.raises(ValueError, match=message):
+        run_suite(load_suite(DEMO), config=_llm(**overrides), out_root=tmp_path / "out")
+    assert not (tmp_path / "out").exists()
+
+
+def test_a_shared_layout_run_records_it_and_sends_every_table(tmp_path: Path) -> None:
+    cases = load_suite(DEMO)
+    seen: list[tuple[str, tuple[str, ...]]] = []
+    stub = StubGenerator(cases)
+
+    def generator(question: str, schema_text: str, **kwargs: Any) -> str:
+        seen.append((schema_text, tuple(kwargs["focus_tables"])))
+        return stub(question, schema_text)
+
+    with patch("text_to_sql_agent.pipeline.generate_sql", generator):
+        run_suite(cases, config=_llm(rag_layout="shared"), out_root=tmp_path)
+    run_dir = _only_dir(tmp_path)
+    assert _manifest(run_dir)["rag_layout"] == "shared"
+    assert "rag-on-k6-shared" in run_dir.name
+    assert seen and all(focus for _, focus in seen)
+    by_db: dict[str, set[str]] = {}
+    for case, (text, _) in zip(cases, seen, strict=False):
+        by_db.setdefault(case.db_path, set()).add(text)
+    # One schema text per database, whatever the question.
+    assert all(len(texts) == 1 for texts in by_db.values())
+
+
+def test_a_default_run_records_the_selected_layout(tmp_path: Path) -> None:
+    cases = load_suite(DEMO)
+    with patch("text_to_sql_agent.pipeline.generate_sql", StubGenerator(cases)):
+        run_suite(cases, config=_llm(), out_root=tmp_path)
+    run_dir = _only_dir(tmp_path)
+    assert _manifest(run_dir)["rag_layout"] == "selected"
+    assert "-shared" not in run_dir.name

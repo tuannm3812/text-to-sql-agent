@@ -2,19 +2,31 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from pathlib import Path
 
-from .config import DEFAULT_MAX_ROWS, DEFAULT_MODEL_NAME, DEFAULT_RAG_TOP_K
+from .config import (
+    DEFAULT_MAX_ROWS,
+    DEFAULT_MODEL_NAME,
+    DEFAULT_RAG_LAYOUT,
+    DEFAULT_RAG_TOP_K,
+    RAG_LAYOUTS,
+)
 from .control import control_statement_code
 from .engines import Engine, open_engine
 from .execution import execute_query
 from .ingestion import ingest_csvs_to_db
 from .llm import generate_sql
-from .rag import retrieve_relevant_schema, retrieve_schema_context
+from .rag import retrieve_schema_context
 from .safety import query_refusal
-from .schema import get_schema
-from .types import Answer, QueryResult
+from .schema import get_schema, get_schema_chunks
+from .types import (
+    Answer,
+    QueryResult,
+    SchemaRetrievalResult,
+    render_schema_text,
+    render_value_matches,
+)
 
 
 def ask_database(
@@ -25,6 +37,7 @@ def ask_database(
     provider: str | None = None,
     use_rag: bool = True,
     rag_top_k: int = DEFAULT_RAG_TOP_K,
+    rag_layout: str = DEFAULT_RAG_LAYOUT,
     max_repair_attempts: int = 1,
     work_limit: int | None = None,
     max_rows: int | None = None,
@@ -45,6 +58,8 @@ def ask_database(
         use_rag: Whether to retrieve a relevant schema subset via
             `retrieve_relevant_schema` instead of the full schema.
         rag_top_k: Number of schema chunks to retrieve when `use_rag` is set.
+        rag_layout: How a RAG-on prompt lays out the schema, one of `RAG_LAYOUTS`; see
+            `prompt_schema`. Unused when `use_rag` is off.
         max_repair_attempts: Number of times to ask the model to repair SQL
             that failed execution. `0` disables repair.
         work_limit: The execution budget, in the engine's own unit (SQLite VM
@@ -80,10 +95,8 @@ def ask_database(
     engine.check_reachable()
 
     try:
-        schema_text = (
-            retrieve_relevant_schema(db_path, question, top_k=rag_top_k)
-            if use_rag
-            else get_schema(db_path)
+        schema_text, focus_tables, _ = prompt_schema(
+            db_path, question, use_rag=use_rag, rag_top_k=rag_top_k, rag_layout=rag_layout
         )
         sql = generate_sql(
             question,
@@ -93,6 +106,7 @@ def ask_database(
             engine=engine,
             ollama_think=ollama_think,
             gemini_api_key=gemini_api_key,
+            focus_tables=focus_tables,
         )
 
         refusal = _sentinel_code(sql, engine=engine) or query_refusal(sql, engine=engine)
@@ -112,6 +126,7 @@ def ask_database(
                 engine=engine,
                 ollama_think=ollama_think,
                 gemini_api_key=gemini_api_key,
+                focus_tables=focus_tables,
             )
             if not repaired_sql:
                 raise
@@ -136,6 +151,7 @@ def answer_question(
     provider: str | None = None,
     use_rag: bool = True,
     rag_top_k: int = DEFAULT_RAG_TOP_K,
+    rag_layout: str = DEFAULT_RAG_LAYOUT,
     max_repair_attempts: int = 1,
     work_limit: int | None = None,
     max_rows: int | None = None,
@@ -157,6 +173,8 @@ def answer_question(
         use_rag: Whether to retrieve a relevant schema subset via
             `retrieve_relevant_schema` instead of the full schema.
         rag_top_k: Number of schema chunks to retrieve when `use_rag` is set.
+        rag_layout: How a RAG-on prompt lays out the schema, one of `RAG_LAYOUTS`; see
+            `prompt_schema`. Unused when `use_rag` is off.
         max_repair_attempts: Number of times to ask the model to repair SQL
             that failed execution. `0` disables repair.
         work_limit: See `ask_database`.
@@ -190,8 +208,9 @@ def answer_question(
     engine = open_engine(db_path)
     engine.check_reachable()
 
-    retrieval = retrieve_schema_context(db_path, question, top_k=rag_top_k) if use_rag else None
-    schema_text = retrieval.schema_text if retrieval is not None else get_schema(db_path)
+    schema_text, focus_tables, retrieval = prompt_schema(
+        db_path, question, use_rag=use_rag, rag_top_k=rag_top_k, rag_layout=rag_layout
+    )
 
     def answer(sql: str, result: QueryResult) -> Answer:
         return Answer(sql=sql, result=result, schema_text=schema_text, retrieval=retrieval)
@@ -205,6 +224,7 @@ def answer_question(
             engine=engine,
             ollama_think=ollama_think,
             gemini_api_key=gemini_api_key,
+            focus_tables=focus_tables,
         )
     except Exception as e:
         return answer("", QueryResult(columns=[], rows=[], error=f"{type(e).__name__}: {e}"))
@@ -230,6 +250,7 @@ def answer_question(
             ollama_think=ollama_think,
             on_repair_error=on_repair_error,
             gemini_api_key=gemini_api_key,
+            focus_tables=focus_tables,
         )
         if repaired_sql:
             # Same contract as `ask_database`: a refused repair is reported as
@@ -260,6 +281,7 @@ def ask_database_with_sql(
     provider: str | None = None,
     use_rag: bool = True,
     rag_top_k: int = DEFAULT_RAG_TOP_K,
+    rag_layout: str = DEFAULT_RAG_LAYOUT,
     max_repair_attempts: int = 1,
     work_limit: int | None = None,
     max_rows: int | None = None,
@@ -278,6 +300,7 @@ def ask_database_with_sql(
         provider=provider,
         use_rag=use_rag,
         rag_top_k=rag_top_k,
+        rag_layout=rag_layout,
         max_repair_attempts=max_repair_attempts,
         work_limit=work_limit,
         max_rows=max_rows,
@@ -297,6 +320,7 @@ def ask_from_files(
     provider: str | None = None,
     use_rag: bool = True,
     rag_top_k: int = DEFAULT_RAG_TOP_K,
+    rag_layout: str = DEFAULT_RAG_LAYOUT,
     max_repair_attempts: int = 1,
 ) -> QueryResult:
     """Route a `.db` file directly or ingest CSV files before querying.
@@ -312,6 +336,8 @@ def ask_from_files(
         use_rag: Whether to retrieve a relevant schema subset via
             `retrieve_relevant_schema` instead of the full schema.
         rag_top_k: Number of schema chunks to retrieve when `use_rag` is set.
+        rag_layout: How a RAG-on prompt lays out the schema, one of `RAG_LAYOUTS`; see
+            `prompt_schema`. Unused when `use_rag` is off.
         max_repair_attempts: Number of times to ask the model to repair SQL
             that failed execution. `0` disables repair.
 
@@ -337,6 +363,7 @@ def ask_from_files(
             provider=provider,
             use_rag=use_rag,
             rag_top_k=rag_top_k,
+            rag_layout=rag_layout,
             max_repair_attempts=max_repair_attempts,
         )
 
@@ -349,10 +376,45 @@ def ask_from_files(
             provider=provider,
             use_rag=use_rag,
             rag_top_k=rag_top_k,
+            rag_layout=rag_layout,
             max_repair_attempts=max_repair_attempts,
         )
 
     raise ValueError(f"Unsupported or mixed file types: {sorted(exts)}")
+
+
+def prompt_schema(
+    db_path: str,
+    question: str,
+    *,
+    use_rag: bool,
+    rag_top_k: int = DEFAULT_RAG_TOP_K,
+    rag_layout: str = DEFAULT_RAG_LAYOUT,
+) -> tuple[str, tuple[str, ...], SchemaRetrievalResult | None]:
+    """``(schema_text, focus_tables, retrieval)``: the schema a prompt carries and how.
+
+    RAG off sends plain full DDL and retrieves nothing. RAG on retrieves the top
+    ``rag_top_k`` tables; the ``"selected"`` layout sends just those (the retrieval's
+    ``schema_text``) and names no focus tables. The ``"shared"`` layout sends every table,
+    rendered exactly as RAG on at ``top_k=0`` renders it, so the text is the same for every
+    question on a database and Ollama's prefix cache can reuse it; the selected tables are
+    named after it instead, best first (``llm.build_user_prompt``). Value matches, when
+    turned on, follow that full schema, which makes the shared text differ per question.
+
+    Raises:
+        ValueError: If ``rag_layout`` is not one of ``RAG_LAYOUTS``.
+    """
+    if rag_layout not in RAG_LAYOUTS:
+        raise ValueError(f"rag_layout must be one of {', '.join(RAG_LAYOUTS)}: {rag_layout!r}")
+    if not use_rag:
+        return get_schema(db_path), (), None
+    retrieval = retrieve_schema_context(db_path, question, top_k=rag_top_k)
+    if rag_layout == "selected":
+        return retrieval.schema_text, (), retrieval
+    text = render_schema_text(get_schema_chunks(db_path))
+    block = render_value_matches(retrieval.value_matches)
+    focus = tuple(chunk.qualified_name for chunk in retrieval.chunks)
+    return (f"{text}\n\n{block}" if block else text), focus, retrieval
 
 
 def _sentinel_code(sql: str, *, engine: Engine) -> str | None:
@@ -405,6 +467,7 @@ def _repair_sql(
     ollama_think: bool | None,
     on_repair_error: Callable[[Exception], None] | None = None,
     gemini_api_key: str | None = None,
+    focus_tables: Sequence[str] = (),
 ) -> str | None:
     if max_repair_attempts < 1:
         return None
@@ -432,6 +495,7 @@ Return only one corrected {dialect_name} SELECT query.
             engine=engine,
             ollama_think=ollama_think,
             gemini_api_key=gemini_api_key,
+            focus_tables=focus_tables,
         )
     except Exception as exc:
         if on_repair_error is not None:

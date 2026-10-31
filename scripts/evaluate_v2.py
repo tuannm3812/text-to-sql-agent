@@ -18,7 +18,8 @@ below zero, or a point drop of 5 points or more. Exit 0 pass, 1 fail, 2 refused 
 incomplete, uncitable, case IDs differ).
 
 `--compare` measures a controlled experiment instead of judging it: two complete runs that
-differ in exactly one of `use_rag`, `rag_top_k`, `evidence`, `ollama_think` or `model` (the
+differ in exactly one of `use_rag`, `rag_top_k`, `rag_layout`, `evidence`, `ollama_think` or
+`model` (the
 code and the prompt may differ too). A `rag_top_k` difference beside a `use_rag` difference is
 no second factor, because RAG off never reads it; the output shows it and marks it unused. The
 output's second line says whether the pair is controlled - same commit, clean trees, same
@@ -55,7 +56,9 @@ if str(ROOT_DIR) not in sys.path:
 from text_to_sql_agent.config import (  # noqa: E402 - import must follow the sys.path insert
     DEFAULT_MODEL_NAME,
     DEFAULT_PROVIDER,
+    DEFAULT_RAG_LAYOUT,
     DEFAULT_RAG_TOP_K,
+    RAG_LAYOUTS,
 )
 from text_to_sql_agent.dsn import redact_dsn  # noqa: E402
 from text_to_sql_agent.evaluation_v2.compare import (  # noqa: E402
@@ -94,6 +97,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", default=DEFAULT_MODEL_NAME)
     parser.add_argument("--no-rag", action="store_true")
     parser.add_argument("--rag-top-k", type=int, default=DEFAULT_RAG_TOP_K)
+    parser.add_argument(
+        "--rag-layout",
+        choices=RAG_LAYOUTS,
+        default=DEFAULT_RAG_LAYOUT,
+        help="selected: send the top-k tables; shared: send every table, then name the top k",
+    )
     parser.add_argument("--evidence", choices=["on", "off"], default="off")
     parser.add_argument("--max-retries", type=int, default=0)
     parser.add_argument("--retry-base-seconds", type=float, default=20.0)
@@ -170,6 +179,7 @@ def _config(args: argparse.Namespace, suite: str) -> RunConfig:
         evidence=args.evidence == "on",
         use_rag=not args.no_rag,
         rag_top_k=args.rag_top_k,
+        rag_layout=args.rag_layout,
         max_retries=args.max_retries,
         retry_base_seconds=args.retry_base_seconds,
         work_limit=args.work_limit,

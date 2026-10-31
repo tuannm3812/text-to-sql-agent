@@ -25,6 +25,7 @@ from text_to_sql_agent.evaluation_v2.identity import (
     config_label,
     database_fingerprint,
     git_state,
+    hashed_identity,
     identity_diff,
     identity_hash,
     retry_policy,
@@ -59,6 +60,7 @@ SPEC_FIELDS = (
     "retry_policy",
     "ollama_think",
     "dense_retrieval",
+    "rag_layout",
 )
 
 
@@ -134,6 +136,7 @@ def test_identity_hash_is_sha256_hex_and_deterministic() -> None:
         ("ollama_think", "on"),
         ("dense_retrieval", "off"),
         ("dense_retrieval", "all-minilm:latest@1b226e2802db"),
+        ("rag_layout", "shared"),
     ],
 )
 def test_identity_hash_changes_with_every_immutable_field(field: str, value: object) -> None:
@@ -388,6 +391,7 @@ def test_a_committed_run_from_before_the_field_loads_as_an_unflagged_ollama_run(
         *committed[:after],
         "| ollama_think | `default` |",
         "| dense_retrieval | `n/a` |",
+        "| rag_layout | `selected` |",
         *committed[after:],
     ]
     assert _identity_section(render_report(manifest, [])) == expected
@@ -505,3 +509,17 @@ def test_git_state_reports_a_modified_tracked_file_as_dirty() -> None:
 
     with patch.object(identity_module.subprocess, "run", side_effect=fake_run):
         assert git_state() == ("f" * 40, True)
+
+
+def test_the_selected_layout_hashes_as_a_payload_from_before_the_field() -> None:
+    payload = _payload()
+    assert payload.rag_layout == "selected"
+    assert "rag_layout" not in hashed_identity(payload)
+    assert hashed_identity(_payload(rag_layout="shared"))["rag_layout"] == "shared"
+
+
+def test_the_shared_layout_names_its_run_directory() -> None:
+    assert config_label(use_rag=True, rag_top_k=6, evidence=True, rag_layout="shared") == (
+        "rag-on-k6-shared-evidence-on"
+    )
+    assert config_label(use_rag=True, rag_top_k=6, evidence=True) == "rag-on-k6-evidence-on"

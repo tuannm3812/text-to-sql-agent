@@ -67,7 +67,14 @@ from text_to_sql_agent.evaluation_v2.scoring import EMPTY_GENERATED_SQL
 from text_to_sql_agent.evaluation_v2.stats import Interval, paired_mean_ci
 
 # The settings a controlled comparison may vary, one at a time.
-FACTORS: tuple[str, ...] = ("use_rag", "rag_top_k", "evidence", "ollama_think", "model")
+FACTORS: tuple[str, ...] = (
+    "use_rag",
+    "rag_top_k",
+    "rag_layout",
+    "evidence",
+    "ollama_think",
+    "model",
+)
 # Read only on the RAG path, so a difference in it beside a `use_rag` difference is no factor.
 UNUSED_WITHOUT_RAG = "rag_top_k"
 CONTROLLED = "Controlled: same commit, clean trees and same prompt."

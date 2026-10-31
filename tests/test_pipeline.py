@@ -891,3 +891,100 @@ def test_a_runs_gemini_key_stays_out_of_its_repr() -> None:
         gemini_api_key="secret-key",
     )
     assert "secret-key" not in repr(config)
+
+
+# --- shared RAG layout (2026-10-31) --------------------------------------------------------
+
+
+def test_the_selected_layout_sends_the_retrievals_own_schema_text(
+    customers_courses_db: str,
+) -> None:
+    from text_to_sql_agent.pipeline import prompt_schema
+    from text_to_sql_agent.rag import retrieve_schema_context
+
+    text, focus, retrieval = prompt_schema(
+        customers_courses_db, "list customer names", use_rag=True, rag_top_k=1
+    )
+    assert retrieval is not None
+    assert (
+        text
+        == retrieve_schema_context(customers_courses_db, "list customer names", top_k=1).schema_text
+    )
+    assert focus == ()
+
+
+def test_the_shared_layout_sends_every_table_and_names_the_selected_ones(
+    customers_courses_db: str,
+) -> None:
+    from text_to_sql_agent.pipeline import prompt_schema
+    from text_to_sql_agent.rag import retrieve_schema_context
+
+    first, focus, retrieval = prompt_schema(
+        customers_courses_db, "list customer names", use_rag=True, rag_top_k=1, rag_layout="shared"
+    )
+    second, other_focus, _ = prompt_schema(
+        customers_courses_db, "which courses exist", use_rag=True, rag_top_k=1, rag_layout="shared"
+    )
+    # The same text for every question: the prefix a model server can reuse.
+    assert first == second
+    assert first == retrieve_schema_context(customers_courses_db, "x", top_k=0).schema_text
+    assert "CREATE TABLE customers" in first and "CREATE TABLE courses" in first
+    assert retrieval is not None
+    assert focus == tuple(chunk.qualified_name for chunk in retrieval.chunks)
+    assert focus == ("customers",) and other_focus == ("courses",)
+
+
+def test_rag_off_ignores_the_layout(customers_courses_db: str) -> None:
+    from text_to_sql_agent.pipeline import prompt_schema
+
+    text, focus, retrieval = prompt_schema(
+        customers_courses_db, "q", use_rag=False, rag_layout="shared"
+    )
+    assert (focus, retrieval) == ((), None)
+    assert text == agent.get_schema(customers_courses_db)
+
+
+def test_an_unknown_layout_is_refused(customers_courses_db: str) -> None:
+    from text_to_sql_agent.pipeline import prompt_schema
+
+    with pytest.raises(ValueError, match="rag_layout"):
+        prompt_schema(customers_courses_db, "q", use_rag=True, rag_layout="stacked")
+
+
+def test_the_shared_layout_reaches_generation_and_repair(customers_courses_db: str) -> None:
+    calls: list[tuple[str, tuple[str, ...]]] = []
+    answers = iter(["SELECT nope FROM customers", "SELECT name FROM customers"])
+
+    def fake_generate(_question: str, schema_text: str, **kwargs: Any) -> str:
+        calls.append((schema_text, tuple(kwargs["focus_tables"])))
+        return next(answers)
+
+    with patch("text_to_sql_agent.pipeline.generate_sql", side_effect=fake_generate):
+        answer = agent.answer_question(
+            "list customer names",
+            db_path=customers_courses_db,
+            rag_top_k=1,
+            rag_layout="shared",
+        )
+    assert answer.result.ok
+    assert [focus for _, focus in calls] == [("customers",), ("customers",)]
+    assert all("CREATE TABLE courses" in text for text, _ in calls)
+    assert answer.schema_text == calls[0][0]
+    assert answer.retrieval is not None
+    assert [c.qualified_name for c in answer.retrieval.chunks] == ["customers"]
+
+
+def test_ask_database_passes_the_shared_layout_through(customers_courses_db: str) -> None:
+    seen: dict[str, Any] = {}
+
+    def fake_generate(_question: str, schema_text: str, **kwargs: Any) -> str:
+        seen.update(schema=schema_text, focus=tuple(kwargs["focus_tables"]))
+        return "SELECT name FROM customers"
+
+    with patch("text_to_sql_agent.pipeline.generate_sql", side_effect=fake_generate):
+        result = agent.ask_database(
+            "list customer names", db_path=customers_courses_db, rag_top_k=1, rag_layout="shared"
+        )
+    assert result.ok
+    assert seen["focus"] == ("customers",)
+    assert "CREATE TABLE courses" in seen["schema"]

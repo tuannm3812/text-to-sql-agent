@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 import re
-from collections.abc import Iterator
+from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
@@ -311,18 +311,32 @@ def _call_provider(
     raise ValueError("Unsupported provider. Use 'gemini' or 'ollama'.")
 
 
-def build_user_prompt(schema_text: str, user_question: str, *, engine: Engine | None = None) -> str:
+FOCUS_TABLES_HEADER = "Tables most relevant to this question"
+
+
+def build_user_prompt(
+    schema_text: str,
+    user_question: str,
+    *,
+    engine: Engine | None = None,
+    focus_tables: Sequence[str] = (),
+) -> str:
     """The user message `generate_sql` sends: the schema under its header, then the question.
+
+    `focus_tables`, when given, are named in a section of their own between the schema and
+    the question: the shared RAG layout sends every table and points at the selected ones
+    there, after the schema, so the schema stays a prefix shared by every question.
 
     Exposed so a size diagnostic measures the message as constructed, headings and
     separators included, rather than the schema and question alone.
     """
     schema_header = SQLiteEngine.schema_header if engine is None else engine.schema_header
+    focus = f"### {FOCUS_TABLES_HEADER}\n{', '.join(focus_tables)}\n\n" if focus_tables else ""
     return f"""\
 ### {schema_header}
 {schema_text}
 
-### User question
+{focus}### User question
 {user_question}
 """
 
@@ -336,6 +350,7 @@ def generate_sql(
     engine: Engine | None = None,
     ollama_think: bool | None = False,
     gemini_api_key: str | None = None,
+    focus_tables: Sequence[str] = (),
 ) -> str:
     """Call Gemini or Ollama to generate SQL from a question and schema.
 
@@ -357,6 +372,8 @@ def generate_sql(
         gemini_api_key: A Gemini key for this call only, such as one a user typed into
             the app; never stored or shared. `None` uses the server's configured keys.
             Ollama ignores it.
+        focus_tables: Tables to name after the schema, as the shared RAG layout does;
+            see `build_user_prompt`. Empty (the default) adds nothing.
 
     Returns:
         The generated SQL text, extracted from the model's raw response.
@@ -380,7 +397,9 @@ def generate_sql(
             engine.prompt_engine_rules_block,
         )
     )
-    user_prompt = build_user_prompt(schema_text, user_question, engine=engine)
+    user_prompt = build_user_prompt(
+        schema_text, user_question, engine=engine, focus_tables=focus_tables
+    )
 
     return _call_provider(
         system_prompt,

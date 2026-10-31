@@ -57,7 +57,9 @@ from text_to_sql_agent import dense
 from text_to_sql_agent.config import (
     DEFAULT_MAX_ROWS,
     DEFAULT_RAG_DENSE_MODEL,
+    DEFAULT_RAG_LAYOUT,
     DEFAULT_RAG_TOP_K,
+    RAG_LAYOUTS,
 )
 from text_to_sql_agent.dsn import redact_dsn
 from text_to_sql_agent.engines import Engine, open_engine
@@ -199,6 +201,8 @@ class RunConfig:
     evidence: bool = False
     use_rag: bool = True
     rag_top_k: int = DEFAULT_RAG_TOP_K
+    # `pipeline.prompt_schema`'s layout; read only with RAG on.
+    rag_layout: str = DEFAULT_RAG_LAYOUT
     max_repair_attempts: int = 1
     max_retries: int = 0
     retry_base_seconds: float = 20.0
@@ -340,6 +344,14 @@ def build_identity(
         )
     if config.max_rows is not None and config.max_rows < 1:
         raise ValueError("max_rows must be >= 1")
+    if config.rag_layout not in RAG_LAYOUTS:
+        raise ValueError(
+            f"rag_layout must be one of {', '.join(RAG_LAYOUTS)}: {config.rag_layout!r}"
+        )
+    if config.rag_layout != DEFAULT_RAG_LAYOUT and not config.use_rag:
+        raise ValueError(
+            f"rag_layout {config.rag_layout!r} needs RAG on: with RAG off it is unused"
+        )
     source = load_source(config.suite_path)
     if source["kind"] == "download" and (config.work_limit is None or config.max_rows is None):
         raise ValueError(
@@ -392,6 +404,7 @@ def build_identity(
         retry_policy=retry_policy(config.max_retries, config.retry_base_seconds),
         ollama_think=resolve_ollama_think(config),
         dense_retrieval=resolve_dense_retrieval(config),
+        rag_layout=config.rag_layout,
     )
     return payload, source
 
@@ -513,6 +526,7 @@ def _ask_model(
                 provider=config.provider,
                 use_rag=config.use_rag,
                 rag_top_k=config.rag_top_k,
+                rag_layout=config.rag_layout,
                 max_repair_attempts=config.max_repair_attempts,
                 work_limit=config.work_limit,
                 max_rows=config.max_rows,
@@ -1045,6 +1059,7 @@ def run_suite(
             rag_top_k=config.rag_top_k,
             evidence=config.evidence,
             ollama_think=payload.ollama_think,
+            rag_layout=payload.rag_layout,
         )
         run_dir = allocate_run_dir(out_root, payload, started=started, config=label)
     else:

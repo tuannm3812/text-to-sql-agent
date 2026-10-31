@@ -671,3 +671,14 @@ def test_compare_needs_both_runs_and_out_needs_compare(tmp_path: Path, argv: lis
         cli.main([*argv, "--out-root", str(tmp_path / "out")])
     assert usage.value.code == 2
     assert not (tmp_path / "out").exists()
+
+
+def test_a_layout_difference_is_a_factor(tmp_path: Path) -> None:
+    old = make_run(tmp_path, "old", _flags({0}, 4))
+    new = make_run(tmp_path, "new", _flags({0, 1}, 4), rag_layout="shared")
+    comparison = compare_runs(new, old)
+    assert (comparison.factor, comparison.old_value, comparison.new_value) == (
+        "rag_layout",
+        "selected",
+        "shared",
+    )
