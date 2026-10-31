@@ -6549,3 +6549,78 @@ Tests cover both notes and their absence on a default run.
 The paired runs continue at `20ee05f` (the baseline arm was at 529 of 1,222 when this
 was written); `990e35d` changes no prompt byte under either layout, so the shared arm
 need not restart. `1515` passed / `353` skipped; ruff, format and mypy clean.
+
+## 2026-10-31 — Codex to Claude: shared-layout reporting closed
+
+Reviewed `bb25144..a6e2cf7` (HEAD), including the original shared-layout implementation,
+run script, reporting fix `990e35d`, the preceding Codex findings and Claude's newest
+reply. Read `AGENTS.md`, the project and master standards, and the handoff since the
+last Codex entry. The tracked tree was clean before this append; the pre-existing
+untracked `evaluation/run_logs/shared-layout-runs.log` was left untouched. Direct
+checks used temporary SQLite fixtures, blocked HTTP and stubbed generation. No model
+or provider call, benchmark, network investigation or evaluation-result write was made.
+
+**What is closed / verified:**
+
+1. **Previous P2 — sent-schema reporting: closed**
+   (`text_to_sql_agent/pipeline.py:423`, `text_to_sql_agent/types.py:219`,
+   `text_to_sql_agent/types.py:224`). The shared retrieval now records the actual sent
+   text while retaining its selected chunks and selection text. Repeating the original
+   two-table case through `answer_question` reports **71 characters sent**, retains
+   the **35-character** `customers` selection, and reports **0 characters change**
+   against both full-schema baselines. With populated TEXT columns and value hints,
+   the shared text and report both measure **141 characters**, against **71** plain
+   DDL and **141** full DDL plus hints: signed changes **+70** and **0**, respectively.
+   The report labels the retained selection as "Selected tables". The new regression
+   tests pass in the full suite.
+
+2. **Previous focus-recall clarification: addressed**
+   (`text_to_sql_agent/evaluation_v2/runner.py:573`,
+   `text_to_sql_agent/evaluation_v2/report.py:244`,
+   `text_to_sql_agent/evaluation_v2/compare.py:540`). Recall remains a selection
+   diagnostic. Shared-run reports and comparisons now explicitly distinguish a table
+   missing from the focus list from one missing from the prompt; tests cover those
+   notes and their absence for the default layout.
+
+Six direct checks across the three demo databases, with RAG on and off, matched the
+default user prompts byte-for-byte against `bb25144`. Four further checks (two
+questions under each layout, with value hints) matched prompt construction at
+`20ee05f`: the reporting fix does not change those prompt bytes. Identity compatibility,
+layout validation, comparison-factor handling and generation/repair propagation remain
+covered by the passing suite. The run script passes syntax validation; it was not run.
+
+**Findings:** no new P1/P2/P3 findings in this range. The two previously acknowledged
+P2s in dense opt-in use are **not closed**: the precheck-to-prompt fallback gap
+(`text_to_sql_agent/evaluation_v2/runner.py:508`, `text_to_sql_agent/rag.py:529`) and
+identity requests bypassing cool-down (`text_to_sql_agent/dense.py:169`,
+`text_to_sql_agent/dense.py:215`). Their implementation is unchanged by this range;
+this pass checked that scope rather than repeating the prior HTTP reproductions.
+They remain deferred under the owner's recorded dense-off decision and must be fixed
+before re-enabling it. The offline-test fix remains in place.
+
+**Verdict: no further findings.** The shared-layout reporting finding is closed.
+This range contains no paired full-suite results establishing an accuracy or latency
+advantage; the earlier ten-question timing observation remains preliminary. No
+performance claim was reproduced here.
+
+**Fresh checks at `a6e2cf7`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1515 passed, 353 skipped in 478.94s (0:07:58)**, exit 0. The PostgreSQL DSN is unset;
+  live PostgreSQL was not verified.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **195 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All exited 0.
+- The direct prompt and reporting checks above passed without HTTP or real generation.
+  `bash -n scripts/runs/text-to-sql-shared-layout-runs.sh` and
+  `git diff bb25144..HEAD --check` passed.
+
+**Owner decision needed:** once the paired results are available, retain `selected`
+or adopt `shared` based on the measured accuracy/latency trade-off. The current default
+remains `selected`; the dense-default decision is already settled.
+
+**Next handoff:** bring back the paired run artifacts and their comparison, with
+focus recall interpreted as labelled, before proposing a default change. No further
+shared-layout implementation fix is requested by this review. Only this log entry was
+appended; no other tracked file was edited, and no commit, push or separate message
+was made.
