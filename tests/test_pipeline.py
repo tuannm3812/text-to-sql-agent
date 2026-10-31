@@ -988,3 +988,39 @@ def test_ask_database_passes_the_shared_layout_through(customers_courses_db: str
     assert result.ok
     assert seen["focus"] == ("customers",)
     assert "CREATE TABLE courses" in seen["schema"]
+
+
+def test_the_shared_layouts_retrieval_reports_the_text_it_sent(customers_courses_db: str) -> None:
+    """Codex, 2026-10-31: the size figures describe the prompt, the chunks the selection."""
+    from text_to_sql_agent.pipeline import prompt_schema
+
+    sent, focus, retrieval = prompt_schema(
+        customers_courses_db, "list customer names", use_rag=True, rag_top_k=1, rag_layout="shared"
+    )
+    assert retrieval is not None
+    assert retrieval.layout == "shared"
+    assert retrieval.sent_schema_text == sent
+    assert retrieval.sent_schema_chars == len(sent) == retrieval.ddl_with_hints_chars
+    assert retrieval.change_vs_ddl_with_hints_chars == 0
+    assert retrieval.change_vs_plain_ddl_chars == len(sent) - retrieval.plain_ddl_chars
+    # The selection is still the one table, and `schema_text` is still its text.
+    assert [c.qualified_name for c in retrieval.chunks] == ["customers"]
+    assert "CREATE TABLE courses" not in retrieval.schema_text
+    report = retrieval.report
+    assert f"- sent: {len(sent)} chars" in report
+    assert "Prompt layout: shared (every table sent" in report
+    assert "Selected tables:" in report and "Retrieved tables:" not in report
+
+
+def test_the_selected_layouts_retrieval_is_unchanged(customers_courses_db: str) -> None:
+    from text_to_sql_agent.pipeline import prompt_schema
+
+    sent, _, retrieval = prompt_schema(
+        customers_courses_db, "list customer names", use_rag=True, rag_top_k=1
+    )
+    assert retrieval is not None
+    assert (retrieval.layout, retrieval.sent_text) == ("selected", None)
+    assert retrieval.sent_schema_text == retrieval.schema_text == sent
+    assert retrieval.sent_schema_chars < retrieval.ddl_with_hints_chars
+    assert "Prompt layout: selected (the selected tables sent)" in retrieval.report
+    assert "Retrieved tables:" in retrieval.report

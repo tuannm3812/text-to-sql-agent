@@ -237,6 +237,16 @@ def render_report(manifest: Manifest, rows: Sequence[Row]) -> str:
         f"interval, {RESAMPLES:,} resamples over cases, seed {SEED}. Schema recall is not a "
         "rate: its cell is `mean [low, high] (n=cases)`, the same bootstrap over the mean of "
         f"per-case recall fractions. {INTERVAL_MEANING}",
+        *(
+            [
+                "",
+                "Schema recall here is recall of the *selected* tables (the focus list): under "
+                "the shared layout the model saw every table, so a missed table was absent "
+                "from that list, not from the prompt.",
+            ]
+            if manifest.identity.rag_layout == "shared"
+            else []
+        ),
         "",
         "EX (headline) counts every answerable case and a `reference_invalid` one as not "
         "correct; EX over valid references excludes those; reference coverage is valid "

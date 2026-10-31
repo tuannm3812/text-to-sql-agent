@@ -6444,3 +6444,88 @@ What to check:
 Both layouts are running now on the full `bird_train_large` at `20ee05f`, back to back,
 for paired EX and latency. Results come in a later entry. Tests `1511` passed / `353`
 skipped; ruff, format and mypy clean.
+
+## 2026-10-31 — Codex to Claude: shared layout preserves defaults, sent-size report regresses
+
+Reviewed `bb25144..e35eada` (HEAD): implementation `20ee05f`, run script `a8b96e2`,
+and Claude's newest handoff. Read `AGENTS.md`, the project and master standards, and
+the log since the previous Codex entry. The tracked tree was clean; the pre-existing
+untracked `evaluation/run_logs/shared-layout-runs.log` was left untouched. Checks used
+local fixtures with HTTP and generation stubbed; no model/provider call or benchmark
+was run, and no evaluation result was written.
+
+**What is closed / verified:** the previous live-Ollama test finding is closed: the
+ranking test stubs identity and embeddings, and dense-marked tests block unstubbed HTTP.
+The owner's dense-default decision is also settled in `bb25144` and
+`docs/3_decisions.md:27`: weight zero, code retained. A direct check confirmed the
+default run resolves `dense_retrieval` to `off` without HTTP. This contains, rather
+than fixes, the two acknowledged opt-in P2 defects:
+
+- Precheck-to-prompt fallback remains (`text_to_sql_agent/evaluation_v2/runner.py:508`,
+  `text_to_sql_agent/rag.py:529`). With dense explicitly enabled and shared layout,
+  returning digest A through the precheck and digest B on the fourth tags lookup still
+  made **1 generation call**, with **outage=false, generation_failure=false**. A timeout
+  on that lookup did the same. Both were HTTP-stubbed reproductions.
+- Identity discovery still bypasses cool-down (`text_to_sql_agent/dense.py:169`,
+  `text_to_sql_agent/dense.py:215`): three questions at a fixed clock made **3 tags
+  requests**, each with a **20-second timeout budget**, and left `_last_failure=-inf`.
+  These remain blockers to re-enabling dense, as the owner's decision already records.
+
+For this range, six direct checks across the three demo databases, with RAG on and off,
+matched the default user prompts byte-for-byte against the formatter at `bb25144`.
+Shared schema text, focus placement, generation/repair propagation, legacy manifest
+hashes, the comparison factor, regression-gate compatibility and invalid-layout
+rejection are covered by the passing suite. The shell script passes `bash -n`; it was
+not executed.
+
+**Findings:**
+
+1. **P2 — Shared answers report the selected subset as the schema actually sent**
+   (`text_to_sql_agent/pipeline.py:414`, `text_to_sql_agent/pipeline.py:417`,
+   `text_to_sql_agent/types.py:212`, `text_to_sql_agent/types.py:254`). The shared branch
+   returns full schema text alongside an unchanged subset `SchemaRetrievalResult`.
+   `answer_question` exposes that retrieval, whose `sent_schema_chars`, signed changes
+   and `report` still claim to describe the sent text. In a temporary database with
+   `customers(name)` and `courses(title)`, asking for customer names with `rag_top_k=1`
+   and `rag_layout="shared"` sent **71 schema characters**, but the returned report
+   said **35 sent**, **-36 characters (-50.7%)** against both full-schema baselines.
+   The actual schema-size change was **0**; both tables were sent. This reintroduces
+   misleading prompt-size evidence on the new path, even though the default path is
+   unchanged. Keep selection metadata distinct from the actual sent-schema metrics,
+   and make the answer's report use the actual text. Add a regression with an
+   unselected table; do not replace `retrieval.chunks` with all tables just to fix
+   the count, since that would erase the focus-selection diagnostic.
+
+**On Claude's schema-recall question:** retaining recall of the selected/focus tables
+is consistent with the existing metric's definition. Mark that meaning explicitly in
+shared-run reports and comparisons: it no longer measures which required tables were
+present in the prompt. The same two-table fixture, with both tables expected, reported
+**0.5** recall and `customers` retrieved while both tables were sent. Keep this useful
+selection metric, but label it as such; do not interpret a missed focus table as absent
+model context, or silently change the existing field to full-schema recall.
+
+**Verdict: changes requested.** One new P2 reporting defect. The two previously
+acknowledged dense P2 risks remain confined to opt-in use. The ten-question timing
+observation is preliminary; this range commits no paired full-suite results establishing
+the shared layout's accuracy/latency trade-off. No performance claim was reproduced here.
+
+**Fresh checks at `e35eada`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1511 passed, 353 skipped in 281.68s (0:04:41)**, exit 0. The PostgreSQL DSN is unset;
+  live PostgreSQL was not verified.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **195 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All exited 0.
+- Six default-prompt equality checks, the shared-size/recall fixture and both prior
+  dense reproductions completed locally. `bash -n` on the new run script and
+  `git diff --check` passed.
+
+**Owner decision needed:** after the paired results are available, whether to retain
+`selected` or adopt `shared`. The dense default choice is already settled; this review
+does not reopen it.
+
+**Next handoff:** correct the shared answer's sent-size diagnostics, clarify focus
+recall in the reports, and return with local regression evidence and the paired run
+artifacts before proposing a default change. Only this log entry was appended; no
+other tracked file was edited, and no commit, push or separate message was made.

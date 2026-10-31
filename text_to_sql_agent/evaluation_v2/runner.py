@@ -570,6 +570,9 @@ def _schema_recall(case: Case, question: str, config: RunConfig) -> tuple[str, s
     Recall is defined only under RAG - without it the model is shown the whole schema - and
     only when the case lists ``expected_tables``. Both sides are lowercased: the adapters
     lowercase ``expected_tables``, while ``qualified_name`` keeps the database's spelling.
+    It is recall of the *selected* tables under either layout: under the shared layout the
+    model saw every table, so a missed table there was absent from the focus list, not from
+    the prompt (Codex, 2026-10-31).
     """
     if not config.use_rag:
         return "", ""

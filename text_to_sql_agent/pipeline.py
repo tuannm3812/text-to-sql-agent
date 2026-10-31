@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 from collections.abc import Callable, Sequence
 from pathlib import Path
 
@@ -400,6 +401,8 @@ def prompt_schema(
     question on a database and Ollama's prefix cache can reuse it; the selected tables are
     named after it instead, best first (``llm.build_user_prompt``). Value matches, when
     turned on, follow that full schema, which makes the shared text differ per question.
+    The returned retrieval then carries ``layout="shared"`` and the sent text, so its
+    size figures describe the prompt while its chunks still describe the selection.
 
     Raises:
         ValueError: If ``rag_layout`` is not one of ``RAG_LAYOUTS``.
@@ -413,8 +416,11 @@ def prompt_schema(
         return retrieval.schema_text, (), retrieval
     text = render_schema_text(get_schema_chunks(db_path))
     block = render_value_matches(retrieval.value_matches)
+    sent = f"{text}\n\n{block}" if block else text
     focus = tuple(chunk.qualified_name for chunk in retrieval.chunks)
-    return (f"{text}\n\n{block}" if block else text), focus, retrieval
+    # The retrieval keeps the selection (its chunks, `schema_text`) and records what was
+    # sent, so its size figures and report describe the prompt, not the selection.
+    return sent, focus, dataclasses.replace(retrieval, layout=rag_layout, sent_text=sent)
 
 
 def _sentinel_code(sql: str, *, engine: Engine) -> str | None:

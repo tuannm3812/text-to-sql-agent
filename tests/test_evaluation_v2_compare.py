@@ -682,3 +682,13 @@ def test_a_layout_difference_is_a_factor(tmp_path: Path) -> None:
         "selected",
         "shared",
     )
+
+
+def test_a_shared_layout_side_labels_schema_recall(tmp_path: Path) -> None:
+    old = make_run(tmp_path, "old", _flags({0}, 4))
+    new = make_run(tmp_path, "new", _flags({0, 1}, 4), rag_layout="shared")
+    text = render_comparison(compare_runs(new, old))
+    assert "Schema recall is recall of the *selected* tables" in text
+    (tmp_path / "plain").mkdir()
+    plain = render_comparison(compare_runs(*_pair(tmp_path / "plain")))
+    assert "selected* tables" not in plain

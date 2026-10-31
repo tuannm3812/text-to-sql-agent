@@ -103,6 +103,7 @@ class RunSide:
 
     run_id: str
     commit: str
+    rag_layout: str
     citable: bool
     citable_reason: str
     cases: int
@@ -252,6 +253,7 @@ def _side(manifest: Manifest, rows: Sequence[Row]) -> RunSide:
     return RunSide(
         run_id=manifest.run_id,
         commit=manifest.identity.commit,
+        rag_layout=manifest.identity.rag_layout,
         citable=manifest.citable,
         citable_reason=manifest.citable_reason,
         cases=len(rows),
@@ -533,6 +535,16 @@ def _other_section(comparison: Comparison) -> list[str]:
         f"| Generation failures | {old.generation_failures} | {new.generation_failures} |",
         f"| Outages | {old.outages} | {new.outages} |",
         "",
+        *(
+            [
+                "Schema recall is recall of the *selected* tables under either layout; a shared "
+                "layout run sent every table, so there a missed table was absent from the focus "
+                "list, not from the prompt.",
+                "",
+            ]
+            if "shared" in (old.rag_layout, new.rag_layout)
+            else []
+        ),
     ]
 
 

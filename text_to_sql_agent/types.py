@@ -188,6 +188,11 @@ class SchemaRetrievalResult:
         strategy: Name of the retrieval strategy that produced this result.
         value_matches: Stored values of the selected tables that the question names
             (`rag.match_question_values`); empty unless value matching is on.
+        layout: How the prompt laid out the schema (`config.RAG_LAYOUTS`). `"selected"`
+            sent `schema_text`, the selected tables. `"shared"` sent every table and
+            named the selected ones after it; `sent_text` then holds what was sent.
+        sent_text: The schema text the prompt carried when it was not `schema_text`
+            (the shared layout), else `None`. Every size figure reads the sent text.
     """
 
     chunks: list[SchemaChunk]
@@ -200,6 +205,8 @@ class SchemaRetrievalResult:
     cache_hit: bool = False
     strategy: str = "hybrid-bm25-embedding-semantic-values-graph"
     value_matches: tuple[ValueMatch, ...] = ()
+    layout: str = "selected"
+    sent_text: str | None = None
 
     @property
     def schema_text(self) -> str:
@@ -209,9 +216,14 @@ class SchemaRetrievalResult:
         return f"{text}\n\n{block}" if block else text
 
     @property
+    def sent_schema_text(self) -> str:
+        """The schema text the prompt carried: `schema_text`, or `sent_text` when set."""
+        return self.schema_text if self.sent_text is None else self.sent_text
+
+    @property
     def sent_schema_chars(self) -> int:
-        """`len(schema_text)`: characters of schema text the RAG-on path sends."""
-        return len(self.schema_text)
+        """`len(sent_schema_text)`: characters of schema text the RAG-on path sent."""
+        return len(self.sent_schema_text)
 
     @property
     def change_vs_plain_ddl_chars(self) -> int:
@@ -246,6 +258,12 @@ class SchemaRetrievalResult:
             return "No schema chunks were retrieved."
         lines = [
             f"Schema RAG strategy: {self.strategy}",
+            f"Prompt layout: {self.layout}"
+            + (
+                " (every table sent; the selected tables are named after the schema)"
+                if self.layout == "shared"
+                else " (the selected tables sent)"
+            ),
             f"Query tokens: {', '.join(self.query_tokens) or '(none)'}",
             f"Expanded tokens: {', '.join(self.expanded_tokens) or '(none)'}",
             "Schema text size (characters of schema text, not provider tokens; "
@@ -264,7 +282,7 @@ class SchemaRetrievalResult:
             lines.append(f"- {key}: {', '.join(values) or '(none)'}")
         lines += [
             "",
-            "Retrieved tables:",
+            "Selected tables:" if self.layout == "shared" else "Retrieved tables:",
         ]
         for chunk in self.chunks:
             terms = ", ".join(chunk.matched_terms or []) or "fallback"
