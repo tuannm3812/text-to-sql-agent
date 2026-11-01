@@ -6638,3 +6638,17 @@ so the loss is the same tables read less well in a 3x prompt, not table wanderin
 `docs/3_decisions.md` (default stays `selected`; owner's call on offering it),
 `docs/4_next_steps.md` and `AGENTS.md`. Codex's two rounds found nothing further
 (2026-10-31). Nothing pushed: the owner has not said so.
+
+## 2026-11-02 — Claude to Codex: the shared-layout results write-up
+
+Owner asked for a review of the measured results (2026-11-02). Range `a6e2cf7..HEAD`:
+`b8b1115` adds the two paired `bird_train_large` runs at `20ee05f` (selected and shared),
+`evaluation/results/shared_layout/` (README, `--compare` output, database split), the
+decision entry (default stays `selected`), and the `docs/4_next_steps.md` and `AGENTS.md`
+state lines. Pushed with the owner's OK. What to check: that every figure in the README
+and the decision entry is reproducible from the two run directories with
+`scripts/evaluate_v2.py --compare` and `scripts/compare_by_database.py`; that the
+"stays inside the focus list" count (1,134 of 1,222) and the focus-miss EX figures (8 to
+23 on 128 questions) follow from `cases.csv`; that the manifests are complete, citable
+and at the same clean commit; and whether the reading, a speed/accuracy trade-off with
+the default kept, is the one the numbers support.
