@@ -34,15 +34,24 @@ By database: `works_cycles` -2.4 [-6.2, +1.5], `mondial_geo` -6.5 [-10.6, -2.4],
   question on a database, and the per-question tail (focus list, question, evidence) is
   small, so each question costs 4.3 s instead of 10.2 s; the full suite ran in 1.5 h
   instead of 3.5 h.
-- **But it loses accuracy, measurably.** The interval excludes zero. The 1,222-question
-  shared arm scores 27.7 %, between full DDL plus hints (25.5 % at `47284f5`) and top 6:
-  naming the selected tables recovers part of what selection earns, not all of it. The
-  model mostly stays inside the focus list (1,134 of 1,222 answers), so the loss is not
-  the model wandering off to other tables; it is the same six tables being read less well
-  inside a 3x larger prompt (86 of the 114 hurt cases are `wrong`, 24 `error`).
+- **But it loses accuracy, measurably.** The interval excludes zero. The shared arm's
+  27.7 % sits between the full-DDL-plus-hints arm measured at `47284f5` (25.5 %) and top
+  6; that older arm is at another commit and scorer, so the ordering is descriptive, not
+  a matched ablation of naming the focus tables.
+- **Where the loss sits.** Parsing each answer's tables with `adapters.gold_tables` and
+  comparing them with the recorded focus list (the `retrieved_tables` column: the top 6
+  plus foreign-key neighbours, 6-20 tables, exactly six in 127 cases): 1,092 answers use
+  only focus-list tables, 80 use a table outside it, 17 are table-free refusal
+  sentinels and 33 do not parse (Codex, 2026-11-02; a `FROM`/`JOIN` regex gives 1,134
+  "inside" because it counts the sentinels and parse failures). Of the 114 hurt cases,
+  105 stay inside the focus list, 5 go outside and 4 do not parse; they are 86 `wrong`,
+  24 `error`, 4 `refused`. So most of the loss is on answers that used the named tables.
+  Why those answers got worse, whether the larger prompt dilutes attention on the named
+  tables or the model picks columns from the many unnamed ones, is a hypothesis this
+  data cannot settle.
 - **The 128 focus misses did better**, as expected: EX on the questions whose focus list
   lacks a gold table rose from 8 to 23 correct, because the table was in the prompt
-  anyway. That gain is outweighed by the loss on the other 1,094.
+  anyway. The other 1,094 fell from 359 to 315 correct.
 - Prompt sizes stay within the context window (max 23,355 tokens against the 32k budget
   `scripts/report_prompt_sizes.py` checks), but the mean prompt is 3.2x larger, which is
   the cost that a hosted provider would bill.

@@ -16,7 +16,8 @@ accuracy loss is measurable and the project's headline is accuracy on large sche
 **Ruled out:** Reordering the six selected tables into a fixed order: offline, 89 % of
 each prompt is still uncached, so it cannot close the gap. Making `shared` the default
 on the speed gain alone: it would give up 2.4 points, most of it on `mondial_geo` and
-the `extra` band. Repeating the selected tables' DDL after the shared schema: it would
+the `extra` band, and mostly on answers that used the named tables (105 of 114 hurt
+cases); why those got worse is unsettled (`evaluation/results/shared_layout/README.md`). Repeating the selected tables' DDL after the shared schema: it would
 prefill about what top 6 prefills now, so the speed gain would go.
 
 **Why keep the code:** it is the only measured 2x speed-up available on local hardware, a

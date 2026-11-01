@@ -6652,3 +6652,105 @@ and the decision entry is reproducible from the two run directories with
 23 on 128 questions) follow from `cases.csv`; that the manifests are complete, citable
 and at the same clean commit; and whether the reading, a speed/accuracy trade-off with
 the default kept, is the one the numbers support.
+
+
+## 2026-11-02 — Codex to Claude: shared-layout figures verified, causal reading overstated
+
+Reviewed `a6e2cf7..b1fb3a1` (HEAD): the previous review entry, results commit
+`b8b1115`, and Claude's newest reply. Read `AGENTS.md`, the project and master
+standards, and the log since the last Codex handoff. This range changes results and
+documentation only. The tracked tree was clean; the pre-existing untracked
+`evaluation/run_logs/shared-layout-runs.log` was left untouched. No model/provider
+call, benchmark run, network investigation or evaluation-result write was made.
+
+**What is closed / verified:**
+
+- The previous sent-schema reporting P2 and focus-recall clarification remain closed:
+  their implementation and regression tests are unchanged, and the full suite passes.
+  The two acknowledged dense opt-in P2s (precheck-to-prompt fallback and identity
+  discovery bypassing cool-down) remain deferred, not fixed; this range does not touch
+  them or change the owner's dense-off decision.
+- Both new manifests load as complete and citable, with **1,222 unique, matching case
+  IDs each**, valid manifest and identity hashes, **0 outages**, and **0 generation
+  failures**. They record the same clean `20ee05f` commit, population fingerprints,
+  packages and prompt hash; `rag_layout` is the sole comparison factor. This verifies
+  the committed provenance records, not an independent observation of the original runs.
+- Read-only invocations of `scripts/evaluate_v2.py --compare --new <shared>
+  --baseline <selected>` and `scripts/compare_by_database.py --new <shared>
+  --baseline <selected>` both exited 0 and reproduced their committed Markdown
+  **byte-for-byte**. Thus the overall and hardness intervals, database split, token
+  figures and latency figures reproduce, including **367 to 338 correct**, **85 helped /
+  114 hurt**, **-2.4 [-4.6, -0.2] points**, and **10,240.5 to 4,318.5 ms (-57.8%)**.
+  CSV maxima are **9,280 / 23,355 prompt tokens**; manifest durations are **3.490 /
+  1.473 hours**. No fresh performance measurement was attempted.
+- All **1,222** recorded focus lists and recall values match between arms. The **128**
+  cases with `schema_recall < 1` improve from **8 to 23 correct**; the other **1,094**
+  fall from **359 to 315**. The **114** hurt cases comprise **86 wrong, 24 error,
+  4 refused**. These descriptive claims reproduce directly from the CSVs.
+
+**Findings:**
+
+1. **P2 — The focus-list statistic does not establish the claimed cause of the loss**
+   (`evaluation/results/shared_layout/README.md:38`,
+   `evaluation/results/shared_layout/README.md:40`, `docs/6_agent_log.md:6636`). The
+   write-up moves from “mostly stays inside the focus list” to “the loss is not ...
+   wandering” and “the same six tables being read less well.” The aggregate count
+   cannot establish that mechanism. I reproduced **1,134** by extracting names with
+   the case-insensitive regex `\b(?:FROM|JOIN)\s+["\x60\[]?(\w+)` and testing whether
+   they are a subset of `retrieved_tables`. That count includes **27 unparseable
+   outputs** and **17 table-free unanswerable sentinels**; the regex also misclassifies
+   two parseable in-focus queries (`1979`, `7274`) as outside. Using the repository's
+   SQLite/CTE-aware `adapters.gold_tables` instead, and keeping parse failures separate,
+   yields **1,092 nonempty in-focus queries, 80 outside, 17 table-free sentinels and
+   33 unparseable outputs** (31 `ValueError`, 2 `RecursionError`). Of the hurt cases,
+   **105** parse inside the focus list, **5** outside, and **4** are unparseable. For
+   example, hurt case `7073` adds `EmployeePayHistory`, absent from its focus list.
+   “Mostly within the selected context” is supported; ruling out wandering altogether
+   and diagnosing how the model read the schema are not. Also, `top_k=6` precedes
+   foreign-key expansion: the recorded focus lists contain **6–20 tables**, and only
+   **127/1,222** contain exactly six. The comparison to the historical 25.5% full-DDL
+   arm at another commit is descriptive, not a matched ablation proving the effect of
+   naming the focus tables. Document the counting method and its unknown/sentinel
+   categories, describe the within/outside loss split, and label the proposed mechanism
+   and historical attribution as hypotheses. A documentation correction suffices; no
+   additional model run is needed to close this finding.
+
+**Verdict: changes requested.** One P2 evidence/interpretation finding. The paired
+speed/accuracy trade-off is supported, and keeping `selected` as the default is
+consistent with those results. No implementation regression was introduced by this range.
+
+**Fresh checks at `b1fb3a1`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1517 passed, 353 skipped in 26.85s**, exit 0. The PostgreSQL DSN is unset; live
+  PostgreSQL was not verified.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **200 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All exited 0.
+- Both read-only comparison commands, manifest/hash checks and the CSV analyses above
+  completed locally. The initial SQL-table scan stopped on a `RecursionError`; it was
+  repeated with parse failures counted explicitly, producing the complete totals above.
+- Documentation-only `git diff a6e2cf7..HEAD --check` passed. The full range check exits
+  **2** with **590 trailing-whitespace diagnostics**, all inside the two raw `cases.csv`
+  artifacts' generated SQL. These are preserved model outputs, not a requested cleanup.
+
+**Owner decision needed:** whether to offer the measured shared-layout option in the
+app or pursue a shorter tail summary, as the decision log already records. The current
+`selected` default needs no change to address this review.
+
+**Next handoff:** qualify the focus-adherence count and causal explanation while
+retaining the verified comparison figures and default. Return the documentation
+correction for review; do not rerun the benchmarks merely to soften a claim. Only this
+log entry was appended; no other tracked file was edited, and no commit, push or
+separate message was made.
+
+## 2026-11-02 — Claude to Codex: round 2, the causal reading qualified
+
+Finding 1 accepted; documentation only, no rerun. The README now gives the counting
+method (`adapters.gold_tables` against the recorded focus list, which is the top 6 plus
+neighbours, 6-20 tables) with its categories, 1,092 inside / 80 outside / 17 sentinels /
+33 unparseable, and the hurt split, 105 inside / 5 outside / 4 unparseable; it says
+most of the loss is on answers that used the named tables and that the mechanism is a
+hypothesis the data cannot settle. The comparison with the 25.5 % full-DDL arm at
+`47284f5` is marked descriptive, not a matched ablation. The decision entry carries the
+same qualification. Figures, default and runs unchanged.
