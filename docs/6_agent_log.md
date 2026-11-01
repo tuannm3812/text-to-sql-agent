@@ -6754,3 +6754,80 @@ most of the loss is on answers that used the named tables and that the mechanism
 hypothesis the data cannot settle. The comparison with the 25.5 % full-DDL arm at
 `47284f5` is marked descriptive, not a matched ablation. The decision entry carries the
 same qualification. Figures, default and runs unchanged.
+
+## 2026-11-02 — Codex to Claude: shared-layout interpretation finding closed
+
+Reviewed `a6e2cf7..86ace0a` (HEAD), including the paired results, the preceding Codex
+review and Claude's newest reply in `86ace0a`. Read `AGENTS.md`, the project and master
+standards, and the log entries since the last Codex handoff. This range changes only
+results and documentation; no implementation or dependency files changed. The tracked
+tree was clean before this append. The pre-existing untracked
+`evaluation/run_logs/shared-layout-runs.log` was left untouched. No model/provider
+call, benchmark run, network investigation or evaluation-result write was made.
+
+**What is closed / verified:**
+
+1. **Previous P2 — unsupported causal reading: closed**
+   (`evaluation/results/shared_layout/README.md:37`,
+   `evaluation/results/shared_layout/README.md:41`, `docs/3_decisions.md:19`). The
+   revised text states the counting method, separates parse failures and table-free
+   sentinels, gives the hurt-case split, and treats the mechanism as unsettled. It also
+   labels the historical full-DDL comparison descriptive rather than a matched
+   ablation. A fresh scan using `adapters.gold_tables` reproduced **1,092 inside,
+   80 outside, 17 table-free sentinels and 33 parse failures** (31 `ValueError`,
+   2 `RecursionError`). The **114** hurt cases split **105 inside / 5 outside /
+   4 unparseable**, with outcomes **86 wrong / 24 error / 4 refused**. Focus lists
+   contain **6–20 tables**, with exactly six in **127** cases. These figures support
+   the revised descriptive account; they do not identify why the answers got worse.
+   The earlier causal wording in the append-only log is superseded by this correction.
+
+2. **Paired evidence: verified again.** Read-only invocations of
+   `scripts/evaluate_v2.py --compare --new <shared> --baseline <selected>` and
+   `scripts/compare_by_database.py --new <shared> --baseline <selected>` both exited
+   0 and reproduced their committed Markdown **byte-for-byte**. This confirms the
+   overall, hardness and database figures, including **367 to 338 correct**, **85
+   helped / 114 hurt**, **-2.4 [-4.6, -0.2] points**, and mean latency **10,240.5 to
+   4,318.5 ms (-57.8%)**. Both manifests have valid manifest and identity hashes,
+   record **1,222 unique matching IDs**, are complete and citable, and record **0
+   outages / 0 generation failures** at clean commit `20ee05f`. Their identities
+   differ only in `rag_layout`; package records also match. This checks saved records,
+   not independent observation of the original runs.
+
+3. **Focus and size figures: verified again.** All **1,222** recorded focus lists and
+   recall values match across arms. The **128** focus misses improve from **8 to 23
+   correct**; the remaining **1,094** fall from **359 to 315**. Maximum prompt tokens
+   are **9,280 / 23,355**, and recorded durations are **3.490 / 1.473 hours**. No new
+   timing or accuracy measurement was attempted.
+
+**Findings:** no new P1/P2/P3 findings. The prior sent-schema reporting and focus-recall
+clarification remain closed; their implementation and tests are unchanged. The two
+previous dense opt-in P2s (precheck-to-prompt fallback and identity discovery bypassing
+cool-down) remain deferred under the recorded dense-off decision, not fixed by this
+range. Their reproductions were not repeated here.
+
+**Verdict: no further findings.** The documentation correction closes the previous
+P2. The measured speed/accuracy trade-off supports retaining `selected` as the default;
+no further fix or benchmark rerun is requested by this review.
+
+**Fresh checks at `86ace0a`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1517 passed, 353 skipped in 26.84s**, exit 0. The PostgreSQL DSN is unset;
+  live PostgreSQL was not verified.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **200 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All exited 0.
+- Both comparison commands, the manifest/hash checks and the complete CSV scan above
+  passed locally. Markdown-only `git diff a6e2cf7..HEAD --check -- '*.md'` passed.
+  The full-range whitespace check still exits **2** with **590 trailing-whitespace
+  diagnostics** in the preserved generated SQL in the two raw CSV artifacts; this is
+  the same previously recorded artifact formatting, not a requested cleanup.
+
+**Owner decision needed:** whether to offer the measured shared-layout option in the
+app or investigate a shorter per-table summary in the tail. The default remains
+`selected`; this review does not authorize either follow-up.
+
+**Next handoff:** the results write-up is ready to retain as corrected. Wait for the
+owner's choice before starting another layout experiment or exposing the option in the
+app. Only this log entry was appended; no other tracked file was edited, and no commit,
+push or separate message was made.
