@@ -407,10 +407,14 @@ SQLITE DIALECT (must follow):
         return file_data_fingerprint(self.dsn, "-wal")
 
     def schema_fingerprint(self) -> tuple[object, ...]:
-        """Return `(path, mtime_ns, size)`, today's `_db_cache_key` value."""
-        path = Path(self.dsn).resolve()
-        stat = path.stat()
-        return (str(path), int(stat.st_mtime_ns), int(stat.st_size))
+        """The database file and its `-wal` log, stated (`file_data_fingerprint`).
+
+        Until 2026-11-04 this stated the main file alone, so a `CREATE TABLE` committed in
+        WAL mode and not yet checkpointed left the schema and hint caches serving the old
+        schema (Codex, 2026-10-20, carried forward). The key is the same as
+        `data_fingerprint()`'s; the two caches stay separately keyed by name.
+        """
+        return file_data_fingerprint(self.dsn, "-wal")
 
     def table_names(self) -> frozenset[str]:
         """Every valid spelling of every user table, lowercased, via the cache.

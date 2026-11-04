@@ -883,11 +883,12 @@ DUCKDB DIALECT (must follow):
         return file_data_fingerprint(self.dsn, ".wal")
 
     def schema_fingerprint(self) -> tuple[object, ...]:
-        """Return `(path, mtime_ns, size, extra_schemas)`.
+        """`file_data_fingerprint` of the file and its `.wal` log, plus `extra_schemas`.
 
-        The first three match `SQLiteEngine`'s filesystem-metadata
-        fingerprint unchanged - a DuckDB database is a file too. The fourth
-        is new (2026-09-26): `TEXT_TO_SQL_EXTRA_SCHEMAS` is process configuration,
+        The file part matches `SQLiteEngine`'s fingerprint - a DuckDB database is a file
+        too, and since 2026-11-04 both state the write-ahead log as well, so a schema
+        change committed to the log before a checkpoint is seen. The last part
+        is older (2026-09-26): `TEXT_TO_SQL_EXTRA_SCHEMAS` is process configuration,
         not something the DuckDB file itself records, so a config change
         that opts a schema in or out changes neither the file's mtime nor
         its size. Without this, `schema.py`'s fingerprint-keyed cache would
@@ -895,14 +896,7 @@ DUCKDB DIALECT (must follow):
         `table_columns()`) to a process whose opt-in set had already
         changed - the exact stale-cache failure the task called out.
         """
-        path = Path(self.dsn).resolve()
-        stat = path.stat()
-        return (
-            str(path),
-            int(stat.st_mtime_ns),
-            int(stat.st_size),
-            tuple(sorted(self.extra_schemas)),
-        )
+        return (*file_data_fingerprint(self.dsn, ".wal"), tuple(sorted(self.extra_schemas)))
 
     def table_names(self) -> frozenset[str]:
         """Every valid spelling of every user table, lowercased, via the cache.

@@ -215,7 +215,12 @@ def test_text_values_respect_the_distinct_and_length_caps(engine) -> None:
     assert values("customers", max_distinct=10, max_length=60) == {"name": ["Alice", "Bob"]}
     assert values("customers", max_distinct=1, max_length=60) == {}
     assert values("customers", max_distinct=10, max_length=3) == {"name": ["Bob"]}
-    assert values("sales", max_distinct=10, max_length=60) == {}
+    # Only text columns are read. The file fixtures' `sales` has none; the PostgreSQL
+    # fixture's (`docker/postgres-init.sql`) has three low-cardinality ones (2026-11-04).
+    sales = values("sales", max_distinct=10, max_length=60)
+    assert not {"sale_id", "customer_id", "sale_date", "amount"} & set(sales)
+    assert set(sales) <= {"category", "status", "region"}
+    assert all(len(found) <= 10 for found in sales.values())
 
 
 def test_the_data_fingerprint_changes_on_a_row_change(engine) -> None:

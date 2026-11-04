@@ -188,3 +188,30 @@ def test_plain_ddl_for_prompt_sizing_is_cached_with_the_chunks(
     fingerprints["db-a"] = ("v2",)
     agent.retrieve_schema_context("db-a", "a", top_k=6)
     assert calls == ["db-a", "db-b", "db-a"], "a schema change must invalidate the DDL"
+
+
+def test_an_open_writers_wal_schema_change_refreshes_the_schema_cache(tmp_path: Path) -> None:
+    """Codex, 2026-10-20 (carried forward to 2026-11-04): in WAL mode a `CREATE TABLE`
+    stays in `-wal` until a checkpoint, so a key on the main file alone kept serving the
+    old schema. No mtime is forced here."""
+    path = tmp_path / "wal.db"
+    writer = sqlite3.connect(path)
+    try:
+        writer.execute("PRAGMA journal_mode=WAL")
+        writer.execute("PRAGMA wal_autocheckpoint=0")
+        writer.execute("CREATE TABLE people (person_id INTEGER PRIMARY KEY, name TEXT)")
+        writer.commit()
+        writer.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+        db = str(path)
+
+        def tables() -> list[str]:
+            return [chunk.table_name for chunk in schema.get_schema_chunks(db)]
+
+        assert tables() == ["people"]
+        writer.execute("CREATE TABLE pets (pet_id INTEGER PRIMARY KEY, owner INTEGER)")
+        writer.commit()
+
+        assert tables() == ["people", "pets"]
+        assert "CREATE TABLE pets" in schema.get_schema(db)
+    finally:
+        writer.close()
