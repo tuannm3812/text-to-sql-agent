@@ -101,7 +101,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--rag-layout",
         choices=RAG_LAYOUTS,
         default=DEFAULT_RAG_LAYOUT,
-        help="selected: send the top-k tables; shared: send every table, then name the top k",
+        help=(
+            "selected: send the top-k tables; shared: send every table, then name the top "
+            "k; shared-summary: the same, listing each top-k table's columns and foreign keys"
+        ),
     )
     parser.add_argument("--evidence", choices=["on", "off"], default="off")
     parser.add_argument("--max-retries", type=int, default=0)

@@ -33,7 +33,10 @@ DEFAULT_RAG_NEIGHBORS = 1
 # tables. `"shared"` sends every table, the same text for every question on a database, then
 # names the selected tables after it, so Ollama's prefix cache can reuse the schema across
 # questions instead of prefilling a different one each time (`docs/4_next_steps.md`).
-RAG_LAYOUTS = ("selected", "shared")
+# `"shared-summary"` (2026-11-04) is `"shared"` with each selected table's columns and
+# foreign keys listed after the schema, not just its name, a trial against the 2.4-point
+# loss `"shared"` measured (`evaluation/results/shared_layout/README.md`).
+RAG_LAYOUTS = ("selected", "shared", "shared-summary")
 DEFAULT_RAG_LAYOUT = "selected"
 # Retrieval signal weights (`rag.ScoringWeights`), named 2026-10-21. BM25 over the whole
 # search text is replaced by BM25 over its schema part plus a quarter-weight BM25 over its

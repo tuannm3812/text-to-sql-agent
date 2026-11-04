@@ -523,3 +523,20 @@ def test_generate_sql_passes_focus_tables_into_the_user_prompt() -> None:
     assert (
         "### Tables most relevant to this question\na\n\n### User question\nq?" in captured["user"]
     )
+
+
+def test_focus_lines_fill_the_focus_section_one_per_line() -> None:
+    from text_to_sql_agent.llm import build_user_prompt
+
+    schema = "CREATE TABLE a (x INT)"
+    prompt = build_user_prompt(
+        schema, "q?", focus_tables=("a", "b"), focus_lines=("a(x) -> b", "b(y)")
+    )
+    assert (
+        "### Tables most relevant to this question\na(x) -> b\nb(y)\n\n### User question\nq?"
+        in prompt
+    )
+    # Without lines the names go on one line, exactly as the measured shared layout sent them.
+    assert "### Tables most relevant to this question\na, b\n\n" in build_user_prompt(
+        schema, "q?", focus_tables=("a", "b")
+    )

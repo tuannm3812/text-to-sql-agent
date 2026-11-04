@@ -320,18 +320,23 @@ def build_user_prompt(
     *,
     engine: Engine | None = None,
     focus_tables: Sequence[str] = (),
+    focus_lines: Sequence[str] = (),
 ) -> str:
     """The user message `generate_sql` sends: the schema under its header, then the question.
 
     `focus_tables`, when given, are named in a section of their own between the schema and
     the question: the shared RAG layout sends every table and points at the selected ones
-    there, after the schema, so the schema stays a prefix shared by every question.
+    there, after the schema, so the schema stays a prefix shared by every question. The
+    names go on one line, comma-separated. `focus_lines`, when given instead, fill that
+    section one line each (the shared-summary layout: a table's columns and foreign
+    keys, `pipeline.focus_summary_lines`); `focus_tables` is then ignored.
 
     Exposed so a size diagnostic measures the message as constructed, headings and
     separators included, rather than the schema and question alone.
     """
     schema_header = SQLiteEngine.schema_header if engine is None else engine.schema_header
-    focus = f"### {FOCUS_TABLES_HEADER}\n{', '.join(focus_tables)}\n\n" if focus_tables else ""
+    body = "\n".join(focus_lines) if focus_lines else ", ".join(focus_tables)
+    focus = f"### {FOCUS_TABLES_HEADER}\n{body}\n\n" if body else ""
     return f"""\
 ### {schema_header}
 {schema_text}
@@ -351,6 +356,7 @@ def generate_sql(
     ollama_think: bool | None = False,
     gemini_api_key: str | None = None,
     focus_tables: Sequence[str] = (),
+    focus_lines: Sequence[str] = (),
 ) -> str:
     """Call Gemini or Ollama to generate SQL from a question and schema.
 
@@ -374,6 +380,8 @@ def generate_sql(
             Ollama ignores it.
         focus_tables: Tables to name after the schema, as the shared RAG layout does;
             see `build_user_prompt`. Empty (the default) adds nothing.
+        focus_lines: Lines for that section instead of the names, as the shared-summary
+            layout sends; see `build_user_prompt`.
 
     Returns:
         The generated SQL text, extracted from the model's raw response.
@@ -398,7 +406,11 @@ def generate_sql(
         )
     )
     user_prompt = build_user_prompt(
-        schema_text, user_question, engine=engine, focus_tables=focus_tables
+        schema_text,
+        user_question,
+        engine=engine,
+        focus_tables=focus_tables,
+        focus_lines=focus_lines,
     )
 
     return _call_provider(

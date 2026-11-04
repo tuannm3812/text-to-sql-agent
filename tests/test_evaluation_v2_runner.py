@@ -2119,21 +2119,29 @@ def test_a_layout_that_cannot_apply_is_refused_before_anything_is_written(
     assert not (tmp_path / "out").exists()
 
 
-def test_a_shared_layout_run_records_it_and_sends_every_table(tmp_path: Path) -> None:
+@pytest.mark.parametrize("layout", ["shared", "shared-summary"])
+def test_a_shared_layout_run_records_it_and_sends_every_table(tmp_path: Path, layout: str) -> None:
     cases = load_suite(DEMO)
     seen: list[tuple[str, tuple[str, ...]]] = []
+    lines: list[tuple[str, ...]] = []
     stub = StubGenerator(cases)
 
     def generator(question: str, schema_text: str, **kwargs: Any) -> str:
         seen.append((schema_text, tuple(kwargs["focus_tables"])))
+        lines.append(tuple(kwargs["focus_lines"]))
         return stub(question, schema_text)
 
     with patch("text_to_sql_agent.pipeline.generate_sql", generator):
-        run_suite(cases, config=_llm(rag_layout="shared"), out_root=tmp_path)
+        run_suite(cases, config=_llm(rag_layout=layout), out_root=tmp_path)
     run_dir = _only_dir(tmp_path)
-    assert _manifest(run_dir)["rag_layout"] == "shared"
-    assert "rag-on-k6-shared" in run_dir.name
+    assert _manifest(run_dir)["rag_layout"] == layout
+    assert f"rag-on-k6-{layout}-evidence" in run_dir.name
     assert seen and all(focus for _, focus in seen)
+    # The summary layout sends one line per focus table; the shared layout sends none.
+    if layout == "shared-summary":
+        assert all(len(sent) == len(focus) for sent, (_, focus) in zip(lines, seen, strict=True))
+    else:
+        assert all(sent == () for sent in lines)
     by_db: dict[str, set[str]] = {}
     for case, (text, _) in zip(cases, seen, strict=False):
         by_db.setdefault(case.db_path, set()).add(text)

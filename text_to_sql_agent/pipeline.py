@@ -24,6 +24,7 @@ from .schema import get_schema, get_schema_chunks
 from .types import (
     Answer,
     QueryResult,
+    SchemaChunk,
     SchemaRetrievalResult,
     render_schema_text,
     render_value_matches,
@@ -99,6 +100,7 @@ def ask_database(
         schema_text, focus_tables, _ = prompt_schema(
             db_path, question, use_rag=use_rag, rag_top_k=rag_top_k, rag_layout=rag_layout
         )
+        focus_lines = _focus_lines(db_path, focus_tables, rag_layout)
         sql = generate_sql(
             question,
             schema_text,
@@ -108,6 +110,7 @@ def ask_database(
             ollama_think=ollama_think,
             gemini_api_key=gemini_api_key,
             focus_tables=focus_tables,
+            focus_lines=focus_lines,
         )
 
         refusal = _sentinel_code(sql, engine=engine) or query_refusal(sql, engine=engine)
@@ -128,6 +131,7 @@ def ask_database(
                 ollama_think=ollama_think,
                 gemini_api_key=gemini_api_key,
                 focus_tables=focus_tables,
+                focus_lines=focus_lines,
             )
             if not repaired_sql:
                 raise
@@ -212,6 +216,7 @@ def answer_question(
     schema_text, focus_tables, retrieval = prompt_schema(
         db_path, question, use_rag=use_rag, rag_top_k=rag_top_k, rag_layout=rag_layout
     )
+    focus_lines = _focus_lines(db_path, focus_tables, rag_layout)
 
     def answer(sql: str, result: QueryResult) -> Answer:
         return Answer(sql=sql, result=result, schema_text=schema_text, retrieval=retrieval)
@@ -226,6 +231,7 @@ def answer_question(
             ollama_think=ollama_think,
             gemini_api_key=gemini_api_key,
             focus_tables=focus_tables,
+            focus_lines=focus_lines,
         )
     except Exception as e:
         return answer("", QueryResult(columns=[], rows=[], error=f"{type(e).__name__}: {e}"))
@@ -252,6 +258,7 @@ def answer_question(
             on_repair_error=on_repair_error,
             gemini_api_key=gemini_api_key,
             focus_tables=focus_tables,
+            focus_lines=focus_lines,
         )
         if repaired_sql:
             # Same contract as `ask_database`: a refused repair is reported as
@@ -399,8 +406,10 @@ def prompt_schema(
     ``schema_text``) and names no focus tables. The ``"shared"`` layout sends every table,
     rendered exactly as RAG on at ``top_k=0`` renders it, so the text is the same for every
     question on a database and Ollama's prefix cache can reuse it; the selected tables are
-    named after it instead, best first (``llm.build_user_prompt``). Value matches, when
-    turned on, follow that full schema, which makes the shared text differ per question.
+    named after it instead, best first (``llm.build_user_prompt``); ``"shared-summary"``
+    sends the same text and lists each selected table's columns and foreign keys there
+    (``focus_summary_lines``). Value matches, when turned on, follow that full schema,
+    which makes the shared text differ per question.
     The returned retrieval then carries ``layout="shared"`` and the sent text, so its
     size figures describe the prompt while its chunks still describe the selection.
 
@@ -414,6 +423,8 @@ def prompt_schema(
     retrieval = retrieve_schema_context(db_path, question, top_k=rag_top_k)
     if rag_layout == "selected":
         return retrieval.schema_text, (), retrieval
+    # "shared" and "shared-summary" send the same text; they differ in the focus section,
+    # which `_focus_lines` renders from the focus tables (`focus_summary_lines`).
     text = render_schema_text(get_schema_chunks(db_path))
     block = render_value_matches(retrieval.value_matches)
     sent = f"{text}\n\n{block}" if block else text
@@ -421,6 +432,30 @@ def prompt_schema(
     # The retrieval keeps the selection (its chunks, `schema_text`) and records what was
     # sent, so its size figures and report describe the prompt, not the selection.
     return sent, focus, dataclasses.replace(retrieval, layout=rag_layout, sent_text=sent)
+
+
+def focus_summary_lines(chunks: Sequence[SchemaChunk]) -> tuple[str, ...]:
+    """One line per selected table for the shared-summary layout, best first.
+
+    ``name(col, col, ...)`` with `` -> fk, fk`` when the table has foreign keys: the
+    column names the model must spell and the joins it can make, without the DDL the
+    shared prefix already carries.
+    """
+    lines = []
+    for chunk in chunks:
+        line = f"{chunk.qualified_name}({', '.join(chunk.columns)})"
+        if chunk.foreign_tables:
+            line += f" -> {', '.join(chunk.foreign_tables)}"
+        lines.append(line)
+    return tuple(lines)
+
+
+def _focus_lines(db_path: str, focus_tables: Sequence[str], rag_layout: str) -> tuple[str, ...]:
+    """The focus section's lines for ``rag_layout``: empty unless it is shared-summary."""
+    if rag_layout != "shared-summary" or not focus_tables:
+        return ()
+    by_name = {chunk.qualified_name: chunk for chunk in get_schema_chunks(db_path)}
+    return focus_summary_lines([by_name[name] for name in focus_tables])
 
 
 def _sentinel_code(sql: str, *, engine: Engine) -> str | None:
@@ -474,6 +509,7 @@ def _repair_sql(
     on_repair_error: Callable[[Exception], None] | None = None,
     gemini_api_key: str | None = None,
     focus_tables: Sequence[str] = (),
+    focus_lines: Sequence[str] = (),
 ) -> str | None:
     if max_repair_attempts < 1:
         return None
@@ -502,6 +538,7 @@ Return only one corrected {dialect_name} SELECT query.
             ollama_think=ollama_think,
             gemini_api_key=gemini_api_key,
             focus_tables=focus_tables,
+            focus_lines=focus_lines,
         )
     except Exception as exc:
         if on_repair_error is not None:

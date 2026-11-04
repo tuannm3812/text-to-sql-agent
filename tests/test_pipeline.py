@@ -1024,3 +1024,78 @@ def test_the_selected_layouts_retrieval_is_unchanged(customers_courses_db: str) 
     assert retrieval.sent_schema_chars < retrieval.ddl_with_hints_chars
     assert "Prompt layout: selected (the selected tables sent)" in retrieval.report
     assert "Retrieved tables:" in retrieval.report
+
+
+# --- shared-summary layout (2026-11-04) ---------------------------------------------------
+
+
+def test_the_summary_layout_lists_each_focus_tables_columns_and_joins(
+    customers_courses_db: str,
+) -> None:
+    from text_to_sql_agent.pipeline import _focus_lines, focus_summary_lines, prompt_schema
+    from text_to_sql_agent.schema import get_schema_chunks
+
+    text, focus, retrieval = prompt_schema(
+        customers_courses_db,
+        "list customer names",
+        use_rag=True,
+        rag_top_k=1,
+        rag_layout="shared-summary",
+    )
+    shared_text, shared_focus, _ = prompt_schema(
+        customers_courses_db, "list customer names", use_rag=True, rag_top_k=1, rag_layout="shared"
+    )
+    # The same shared prefix and the same selection as "shared"; only the focus section differs.
+    assert (text, focus) == (shared_text, shared_focus)
+    assert retrieval is not None and retrieval.layout == "shared-summary"
+    lines = _focus_lines(customers_courses_db, focus, "shared-summary")
+    chunks = {c.qualified_name: c for c in get_schema_chunks(customers_courses_db)}
+    assert lines == focus_summary_lines([chunks["customers"]])
+    assert lines[0].startswith("customers(") and "name" in lines[0]
+    assert _focus_lines(customers_courses_db, focus, "shared") == ()
+    assert _focus_lines(customers_courses_db, (), "shared-summary") == ()
+
+
+def test_focus_summary_lines_name_columns_and_foreign_keys() -> None:
+    from text_to_sql_agent.pipeline import focus_summary_lines
+    from text_to_sql_agent.types import SchemaChunk
+
+    sales = SchemaChunk(
+        table_name="sales",
+        ddl="",
+        columns=["sale_id", "customer_id"],
+        foreign_tables=["customers"],
+        search_text="",
+    )
+    customers = SchemaChunk(
+        table_name="customers",
+        ddl="",
+        columns=["customer_id", "name"],
+        foreign_tables=[],
+        search_text="",
+    )
+    assert focus_summary_lines([sales, customers]) == (
+        "sales(sale_id, customer_id) -> customers",
+        "customers(customer_id, name)",
+    )
+
+
+def test_the_summary_layout_reaches_generation_and_repair(customers_courses_db: str) -> None:
+    calls: list[tuple[tuple[str, ...], tuple[str, ...]]] = []
+    answers = iter(["SELECT nope FROM customers", "SELECT name FROM customers"])
+
+    def fake_generate(_question: str, _schema_text: str, **kwargs: Any) -> str:
+        calls.append((tuple(kwargs["focus_tables"]), tuple(kwargs["focus_lines"])))
+        return next(answers)
+
+    with patch("text_to_sql_agent.pipeline.generate_sql", side_effect=fake_generate):
+        answer = agent.answer_question(
+            "list customer names",
+            db_path=customers_courses_db,
+            rag_top_k=1,
+            rag_layout="shared-summary",
+        )
+    assert answer.result.ok
+    assert len(calls) == 2 and calls[0] == calls[1]
+    assert calls[0][0] == ("customers",)
+    assert len(calls[0][1]) == 1 and calls[0][1][0].startswith("customers(")
