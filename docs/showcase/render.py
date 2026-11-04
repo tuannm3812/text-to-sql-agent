@@ -23,8 +23,9 @@ with sync_playwright() as p:
     page.goto((HERE / src).as_uri())
     page.evaluate("document.fonts.ready")
     page.screenshot(path=HERE / f"{stem}.png")
-    page.pdf(path=HERE / f"{stem}.pdf", width=f"{width}px", height=f"{height}px",
-             print_background=True)
+    page.pdf(
+        path=HERE / f"{stem}.pdf", width=f"{width}px", height=f"{height}px", print_background=True
+    )
     print("wrote", f"{stem}.png", f"{stem}.pdf")
 
     src, out, width, height = DECK
