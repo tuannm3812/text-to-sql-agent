@@ -2158,10 +2158,11 @@ def test_a_default_run_records_the_selected_layout(tmp_path: Path) -> None:
     assert "-shared" not in run_dir.name
 
 
-def test_a_shared_layout_report_labels_schema_recall(tmp_path: Path) -> None:
+@pytest.mark.parametrize("layout", ["shared", "shared-summary"])
+def test_a_shared_layout_report_labels_schema_recall(tmp_path: Path, layout: str) -> None:
     cases = load_suite(DEMO)
     with patch("text_to_sql_agent.pipeline.generate_sql", StubGenerator(cases)):
-        run_suite(cases, config=_llm(rag_layout="shared"), out_root=tmp_path / "shared")
+        run_suite(cases, config=_llm(rag_layout=layout), out_root=tmp_path / "shared")
         run_suite(cases, config=_llm(), out_root=tmp_path / "plain")
     shared = (_only_dir(tmp_path / "shared") / "report.md").read_text(encoding="utf-8")
     plain = (_only_dir(tmp_path / "plain") / "report.md").read_text(encoding="utf-8")

@@ -37,6 +37,7 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+from text_to_sql_agent.config import FULL_SCHEMA_LAYOUTS
 from text_to_sql_agent.evaluation_v2.gates import (
     FREE_TO_DIFFER,
     RESAMPLES,
@@ -542,7 +543,7 @@ def _other_section(comparison: Comparison) -> list[str]:
                 "list, not from the prompt.",
                 "",
             ]
-            if "shared" in (old.rag_layout, new.rag_layout)
+            if FULL_SCHEMA_LAYOUTS & {old.rag_layout, new.rag_layout}
             else []
         ),
     ]

@@ -31,6 +31,7 @@ from collections import Counter
 from collections.abc import Sequence
 from pathlib import Path
 
+from text_to_sql_agent.config import FULL_SCHEMA_LAYOUTS
 from text_to_sql_agent.evaluation_v2.identity import IDENTITY_FIELDS
 from text_to_sql_agent.evaluation_v2.manifest import Manifest, write_atomic
 from text_to_sql_agent.evaluation_v2.stats import Interval, bootstrap_ci, bootstrap_mean_ci
@@ -244,7 +245,7 @@ def render_report(manifest: Manifest, rows: Sequence[Row]) -> str:
                 "the shared layout the model saw every table, so a missed table was absent "
                 "from that list, not from the prompt.",
             ]
-            if manifest.identity.rag_layout == "shared"
+            if manifest.identity.rag_layout in FULL_SCHEMA_LAYOUTS
             else []
         ),
         "",

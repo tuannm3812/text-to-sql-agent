@@ -37,6 +37,8 @@ DEFAULT_RAG_NEIGHBORS = 1
 # foreign keys listed after the schema, not just its name, a trial against the 2.4-point
 # loss `"shared"` measured (`evaluation/results/shared_layout/README.md`).
 RAG_LAYOUTS = ("selected", "shared", "shared-summary")
+# The layouts that send every table; reports read schema recall differently under them.
+FULL_SCHEMA_LAYOUTS = frozenset({"shared", "shared-summary"})
 DEFAULT_RAG_LAYOUT = "selected"
 # Retrieval signal weights (`rag.ScoringWeights`), named 2026-10-21. BM25 over the whole
 # search text is replaced by BM25 over its schema part plus a quarter-weight BM25 over its

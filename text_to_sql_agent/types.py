@@ -6,6 +6,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any
 
+from .config import FULL_SCHEMA_LAYOUTS
+
 
 @dataclass(frozen=True)
 class QueryResult:
@@ -169,6 +171,16 @@ def _size_change(baseline: int, change: int) -> str:
     return f"{baseline} chars; change {change:+d} chars ({pct_text})"
 
 
+_LAYOUT_NOTES = {
+    "selected": " (the selected tables sent)",
+    "shared": " (every table sent; the selected tables are named after the schema)",
+    "shared-summary": (
+        " (every table sent; the selected tables' columns and foreign keys are listed after "
+        "the schema)"
+    ),
+}
+
+
 @dataclass(frozen=True)
 class SchemaRetrievalResult:
     """The chunks retrieved for a question, plus the terms and stats behind them.
@@ -258,12 +270,7 @@ class SchemaRetrievalResult:
             return "No schema chunks were retrieved."
         lines = [
             f"Schema RAG strategy: {self.strategy}",
-            f"Prompt layout: {self.layout}"
-            + (
-                " (every table sent; the selected tables are named after the schema)"
-                if self.layout == "shared"
-                else " (the selected tables sent)"
-            ),
+            f"Prompt layout: {self.layout}" + _LAYOUT_NOTES.get(self.layout, ""),
             f"Query tokens: {', '.join(self.query_tokens) or '(none)'}",
             f"Expanded tokens: {', '.join(self.expanded_tokens) or '(none)'}",
             "Schema text size (characters of schema text, not provider tokens; "
@@ -282,7 +289,7 @@ class SchemaRetrievalResult:
             lines.append(f"- {key}: {', '.join(values) or '(none)'}")
         lines += [
             "",
-            "Selected tables:" if self.layout == "shared" else "Retrieved tables:",
+            "Selected tables:" if self.layout in FULL_SCHEMA_LAYOUTS else "Retrieved tables:",
         ]
         for chunk in self.chunks:
             terms = ", ".join(chunk.matched_terms or []) or "fallback"

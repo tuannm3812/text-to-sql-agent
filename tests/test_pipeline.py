@@ -990,15 +990,18 @@ def test_ask_database_passes_the_shared_layout_through(customers_courses_db: str
     assert "CREATE TABLE courses" in seen["schema"]
 
 
-def test_the_shared_layouts_retrieval_reports_the_text_it_sent(customers_courses_db: str) -> None:
+@pytest.mark.parametrize("layout", ["shared", "shared-summary"])
+def test_the_shared_layouts_retrieval_reports_the_text_it_sent(
+    customers_courses_db: str, layout: str
+) -> None:
     """Codex, 2026-10-31: the size figures describe the prompt, the chunks the selection."""
     from text_to_sql_agent.pipeline import prompt_schema
 
     sent, focus, retrieval = prompt_schema(
-        customers_courses_db, "list customer names", use_rag=True, rag_top_k=1, rag_layout="shared"
+        customers_courses_db, "list customer names", use_rag=True, rag_top_k=1, rag_layout=layout
     )
     assert retrieval is not None
-    assert retrieval.layout == "shared"
+    assert retrieval.layout == layout
     assert retrieval.sent_schema_text == sent
     assert retrieval.sent_schema_chars == len(sent) == retrieval.ddl_with_hints_chars
     assert retrieval.change_vs_ddl_with_hints_chars == 0
@@ -1008,8 +1011,10 @@ def test_the_shared_layouts_retrieval_reports_the_text_it_sent(customers_courses
     assert "CREATE TABLE courses" not in retrieval.schema_text
     report = retrieval.report
     assert f"- sent: {len(sent)} chars" in report
-    assert "Prompt layout: shared (every table sent" in report
+    assert f"Prompt layout: {layout} (every table sent" in report
     assert "Selected tables:" in report and "Retrieved tables:" not in report
+    if layout == "shared-summary":
+        assert "columns and foreign keys are listed after the schema" in report
 
 
 def test_the_selected_layouts_retrieval_is_unchanged(customers_courses_db: str) -> None:
