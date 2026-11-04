@@ -295,7 +295,7 @@ def takeaways(slide, groups, note=None):
         r.font.name, r.font.size, r.font.bold = FONT, Pt(12), True
         r.font.color.rgb = rgb(INK)
         marker(slide, i, 668, y + 2.5)
-        y += _lines(heading, bold=True) * LINE_H + 6
+        y += _lines([(heading, {"bold": True})]) * LINE_H + 6
         q = tf.add_paragraph()
         q.line_spacing = 1.1
         q.space_after = Pt(6)
@@ -306,7 +306,7 @@ def takeaways(slide, groups, note=None):
             r.font.name, r.font.size = FONT, Pt(12)
             r.font.bold = opt.get("bold", False)
             r.font.color.rgb = rgb(opt.get("color", INK))
-        y += _lines("".join(c for c, _ in runs)) * LINE_H + 6
+        y += _lines(runs) * LINE_H + 6
         first = False
     if note:
         q = tf.add_paragraph()
@@ -325,26 +325,38 @@ LINE_H = 12 * 1.1 * 1.2  # 12 pt type at 110 % line spacing
 _MEASURE = os.environ.get("MEASURE_FONT")
 
 
-def _lines(s: str, bold: bool = False, width: float = 235.0) -> int:
+def _lines(runs, width: float = 235.0) -> int:
+    """Rendered line count of rich text: runs is a string or [(text, opts)] at 12 pt."""
+    if isinstance(runs, str):
+        runs = [(runs, {})]
+    words = []  # (word, bold, starts_after_space)
+    for chunk, opt in runs:
+        for k, w in enumerate(chunk.split(" ")):
+            if w:
+                words.append((w, opt.get("bold", False), k > 0 or chunk.startswith(" ")))
     if _MEASURE:
         from PIL import ImageFont
 
-        font = ImageFont.truetype(_MEASURE.replace("400", "700") if bold else _MEASURE, 120)
+        reg = ImageFont.truetype(_MEASURE, 120)
+        bold_font = ImageFont.truetype(_MEASURE.replace("400", "700"), 120)
 
-        def fits(t: str) -> bool:
-            return font.getlength(t) / 10 <= width
+        def size(w: str, bold: bool) -> float:
+            return (bold_font if bold else reg).getlength(w) / 10
+
+        space = reg.getlength(" ") / 10
     else:
 
-        def fits(t: str) -> bool:
-            return len(t) <= 40
+        def size(w: str, bold: bool) -> float:
+            return len(w) * 6.0
 
-    lines, cur = 1, ""
-    for w in s.split():
-        trial = f"{cur} {w}" if cur else w
-        if cur and not fits(trial):
-            lines, cur = lines + 1, w
+        space = 6.0
+    lines, cur = 1, 0.0
+    for i, (w, bold, spaced) in enumerate(words):
+        add = size(w, bold) + (space if spaced and i and cur else 0)
+        if cur and cur + add > width and spaced:
+            lines, cur = lines + 1, size(w, bold)
         else:
-            cur = trial
+            cur += add
     return lines
 
 
@@ -353,10 +365,151 @@ def note(slide, prefix, rest, x=43.5, y=470, w=610):
     text(slide, x, y, w, 14, [[(prefix + " ", {"bold": True}), (rest, {})]], size=8, color=MUTED)
 
 
-def new_slide(notes: str, numbered=True):
-    """A blank slide with speaker notes and, unless the cover, the footer."""
+SPOKEN = [
+    # 1 cover
+    "This is a text-to-SQL agent: you ask a database a question in plain English, and it "
+    "answers with SQL you can read and a result you can check.\n"
+    "[Point: Text-to-SQL agent]\n"
+    "It works with SQLite, DuckDB and PostgreSQL, with a local or hosted model, and I have "
+    "evaluated it on two public benchmarks and a large-schema suite I built.",
+    # 2 executive summary
+    "Here is the whole story on one slide before the detail.\n"
+    "[Point: What it is]\n"
+    "The model only proposes one read-only query; the application decides whether it runs.\n"
+    "[Point: How well it answers]\n"
+    "With a small local model it answers about two in three Spider questions, and every figure "
+    "carries an interval.\n"
+    "[Point: What October established]\n"
+    "The October work found where choosing tables pays, and tested five more ideas honestly: "
+    "none of them was a measurable accuracy gain.\n"
+    "[Point: What is next]\n"
+    "Next is the hosted model under the same rules, and the questions whose tables we miss.",
+    # 3 context
+    "This slide is about the problem and, just as important, what the model is allowed to see.\n"
+    "[Point: Schema metadata]\n"
+    "The model gets the structure of the database: names, types, keys and the table "
+    "definitions.\n"
+    "[Point: Value hints]\n"
+    "It also gets a few common category values, so it can spell a filter correctly.\n"
+    "[Point: Result rows — never sent]\n"
+    "It never sees the rows of an answer, and a feature that would send matching stored values "
+    "stays switched off, because it did not measurably help.",
+    # 4 architecture
+    "Now how one question becomes an answer, left to right.\n"
+    "[Point: Select]\n"
+    "The only choice that shapes what the model sees is which tables to send: the top six plus "
+    "their neighbours.\n"
+    "[Point: Generate]\n"
+    "The model writes one statement.\n"
+    "[Point: Check]\n"
+    "Then the application, not the model, decides: a parser check first, then the engine's own "
+    "read-only mode.\n"
+    "[Point: One repair try]\n"
+    "If a safe query fails, the error goes back once for a repair.",
+    # 5 safety
+    "Safety rests on two guarantees that each hold by themselves.\n"
+    "[Point: Application check]\n"
+    "The application parses the SQL in the engine's dialect and refuses anything but a single "
+    "read.\n"
+    "[Point: Engine guarantee]\n"
+    "Each engine is also opened so it cannot write, whatever the SQL says.\n"
+    "[Point: 45 / 0]\n"
+    "One conformance suite runs on all three engines, with no skips allowed, and it passed "
+    "against a live PostgreSQL server on the fourth of November.\n"
+    "[Point: 6 / 6]\n"
+    "On the safety suite the model declined every request to change data. The overall safety "
+    "score is 11 of 15, so this is a small suite.",
+    # 6 method
+    "Before the results, how they were measured.\n"
+    "[Point: Suite]\n"
+    "Two public benchmarks, Spider and BIRD, and a large-schema suite built from BIRD's training "
+    "set, because the public dev sets have too few tables to test table selection.\n"
+    "[Point: Typed result comparison]\n"
+    "An answer counts as right when its result matches the reference result, not its SQL text.\n"
+    "[Point: Paired comparisons]\n"
+    "And every change is compared on the same questions against a named baseline, so small "
+    "differences are not read off two separate intervals.",
+    # 7 standard benchmarks
+    "Results on the public benchmarks, with a local nine-billion-parameter model.\n"
+    "[Point: Spider 1.0 dev — 64.6 %]\n"
+    "About two in three Spider questions are answered correctly.\n"
+    "[Point: BIRD dev, with evidence — 35.2 %]\n"
+    "BIRD is much harder. Its hints are worth about ten points on the same questions.\n"
+    "The biggest single fix was turning the model's thinking off: with thinking on, it often "
+    "ran out of tokens before writing any SQL. These are not leaderboard numbers, because the "
+    "scoring is this project's own.",
+    # 8 large schemas
+    "This is the result the October work was built around.\n"
+    "[Point: Top 6 tables plus neighbours — 29.1 %]\n"
+    "On databases with 21 to 65 tables, sending the top six tables beats sending them all by "
+    "3.6 points, with 69 percent fewer prompt tokens.\n"
+    "[Point: Full DDL plus value hints]\n"
+    "The category hints that helped on Spider show no measurable effect here.\n"
+    "[Point: About 2 s slower]\n"
+    "The price is time: each question gets a different schema, so the local model cannot "
+    "reuse its cache.",
+    # 9 what was tried
+    "After that, five ideas were tested, each against a named baseline.\n"
+    "[Point: Top 6 plus neighbours]\n"
+    "Only table selection has an interval entirely above zero.\n"
+    "[Point: Scorer signals — kept]\n"
+    "A scorer change was kept because it found the right tables more often; its effect on "
+    "answers is inside its interval.\n"
+    "[Point: Shared layout]\n"
+    "Sending every table made answers 58 percent faster but cost 2.4 points. Why is not "
+    "settled, because those layouts changed several things at once.",
+    # 10 retrieval and answers
+    "This slide explains why better retrieval did not mean better answers.\n"
+    "[Point: Dense embeddings, against the kept scorer]\n"
+    "Embeddings cut the questions missing a needed table from 128 to 74, and fixed many of "
+    "them, but flipped about as many other answers the wrong way.\n"
+    "[Point: 128 with a needed table not sent]\n"
+    "Sending every table helps those 128 questions,\n"
+    "[Point: The other 1,094]\n"
+    "and costs the other 1,094 more. That is what these layouts did, not a limit on what "
+    "better retrieval could reach. The next test is to recover the 128 without changing what "
+    "the others receive.",
+    # 11 interface
+    "Finally the product itself, redesigned so the answer comes first.\n"
+    "[Point: Answer screenshot]\n"
+    "The answer states what the rows say, with a chart when it fits and the table.\n"
+    "[Point: How this was answered]\n"
+    "Beside it, the evidence: which tables were picked and why, the SQL and the read-only "
+    "check, all recorded when the question was answered. A request to change data is declined "
+    "and nothing runs.",
+    # 12 next steps
+    "What the results do not yet show, in priority order.\n"
+    "[Point: 1 Measure Gemini]\n"
+    "First, the hosted model has not been measured under these rules.\n"
+    "[Point: 2 Recover the 128]\n"
+    "Second, the questions whose tables are missed.\n"
+    "[Point: 3 and 4]\n"
+    "Then hint coverage, which needs a privacy decision, and more large schemas, since the "
+    "gain comes from two databases. All of this uses one local model.",
+    # 13 close
+    "To close: the agent is grounded, its work is visible, it cannot write, and it is "
+    "measured, including the ideas that did not work.\n"
+    "[Point: Live demo]\n"
+    "The demo and the full record of runs and decisions are public. It began as a group "
+    "project in May with Huy Duc Vu, Ngoc Bao Tran Nguyen and Nguyen Nghia Doan Dang, and I have "
+    "refined it since. Thank you.",
+]
+
+
+NOTES: list[str] = []
+
+
+def new_slide(reference: str, numbered=True):
+    """A blank slide with speaker notes and, unless the cover, the footer.
+
+    The notes are the spoken script for the slide (SPOKEN, in deck order) followed by the
+    sources under "Reference — not read aloud", as the standard's speaker-note pattern asks.
+    """
+    spoken = SPOKEN[len(prs.slides)]
     s = prs.slides.add_slide(BLANK)
+    notes = f"{spoken}\n\nReference — not read aloud\n{reference}"
     s.notes_slide.notes_text_frame.text = notes
+    NOTES.append(notes)
     if numbered:
         slide_number(s)
     return s
@@ -932,7 +1085,7 @@ takeaways(
             ],
         ),
         (
-            "Hints neither help nor harm here",
+            "No measurable effect from hints here",
             "Full DDL plus hints against plain DDL: -1.3 points [-2.9, +0.2]. Half the needed "
             "literals sit in columns over the 20-value ceiling.",
         ),
@@ -956,7 +1109,7 @@ s = new_slide(
 header(
     s,
     "RESULTS",
-    "One change cleared zero; the rest were kept off or opt-in",
+    "Only selection delivered a measurable accuracy gain",
     "Paired change in execution accuracy on the 1,222 questions, each against its named baseline",
     sub="WHAT WAS TRIED",
 )
@@ -1086,6 +1239,7 @@ card(
 )
 marker(s, 1, 30, 360)
 marker(s, 2, 30, 230)
+marker(s, 3, 245, 156)
 takeaways(
     s,
     [
@@ -1162,11 +1316,6 @@ takeaways(
                 ("kept from the moment of answering", BB),
                 (".", {}),
             ],
-        ),
-        (
-            "Writes are declined visibly",
-            "A request to change data reads “Not run: this agent only reads data”, and no database "
-            "call is made.",
         ),
     ],
 )
@@ -1273,4 +1422,14 @@ text(
 prs.core_properties.title = "Text-to-SQL agent"
 prs.core_properties.author = "Manh Tuan Nguyen"
 prs.save(OUT)
+if OUT.name == "text-to-sql-agent-deck.pptx":
+    md = [
+        "# Speaker notes — Text-to-SQL agent deck",
+        "",
+        "Generated by build_deck.py with the deck; edit SPOKEN there, not here.",
+        "",
+    ]
+    for i, n in enumerate(NOTES, start=1):
+        md += [f"## Slide {i}", ""] + [f"{ln}\n" for ln in n.split("\n") if ln]
+    (HERE / "speaker-notes.md").write_text("\n".join(md), encoding="utf-8")
 print("wrote", OUT.name)
