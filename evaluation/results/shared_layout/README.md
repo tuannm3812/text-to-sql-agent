@@ -56,9 +56,51 @@ By database: `works_cycles` -2.4 [-6.2, +1.5], `mondial_geo` -6.5 [-10.6, -2.4],
   `scripts/report_prompt_sizes.py` checks), but the mean prompt is 3.2x larger, which is
   the cost that a hosted provider would bill.
 
+## Follow-up: the summary tail (2026-11-04)
+
+**Question.** Does the loss come from the focus section naming the tables only? The
+`shared-summary` layout (`5ec3893`) keeps the shared prefix and, per selected table,
+lists its columns and foreign keys (`name(col, ...) -> fk`), so the model has the names
+it must spell without re-reading the DDL.
+
+**Arm.** Same model and settings, full suite at `5ec3893`, complete and citable, 0
+outages: `2026-11-04T042109_..._738e2cbb_5ca9`. Its `report.md` was regenerated from its
+rows with the renderer at the reviewed commit, so it carries the focus-recall note
+(Codex, 2026-11-04); the manifest and rows are untouched. The comparisons with the two
+2026-10-31 arms are marked "not controlled: `commit` differs": `5ec3893` adds the layout
+and changes no prompt byte of the other two layouts (checked by Codex against `3bef5b7`).
+`compare_summary_vs_selected.md`, `compare_summary_vs_shared.md`,
+`by_database_summary_vs_selected.md`.
+
+| | Selected (shipped) | Shared | Shared-summary |
+|---|---:|---:|---:|
+| EX, 1,222 questions | 30.0 % (367) | 27.7 % (338) | 27.9 % (341) |
+| vs selected, paired | | -2.4 [-4.6, -0.2] | -2.1 [-4.3, +0.0], 78 helped / 104 hurt |
+| vs shared, paired | | | +0.2 [-1.5, +2.0], 57 helped / 54 hurt |
+| Latency, mean / median | 10.2 s / 9.1 s | 4.3 s / 3.3 s | 4.4 s / 3.4 s |
+| Prompt tokens, mean (max) | 2,641 (9,280) | 8,430 (23,355) | 8,625 (24,536) |
+| Focus misses (128), correct | 8 | 23 | 21 |
+| Other 1,094, correct | 359 | 315 | 320 |
+
+By database against selected: `works_cycles` -1.3 [-5.0, +2.4], `mondial_geo` -6.8
+[-11.3, -2.7], `soccer_2016` +0.4 [-5.0, +5.8], `hockey` -0.5 [-4.8, +3.9]; by hardness
+the loss is in `medium` (-4.1 [-7.8, -0.6]).
+
+- **The summary tail recovers nothing measurable.** Against `shared` it is +0.2 with an
+  interval spanning zero and 57 / 54 flips; against `selected` it is still a loss whose
+  interval reaches zero only at its edge. The speed is the same as `shared`.
+- **So the loss is not for lack of the selected tables' names or columns.** With the
+  columns and joins spelled out in the tail, the same `mondial_geo` deficit remains. What
+  is left as the difference between the layouts is the size and content of the prompt
+  itself: 3.2x more schema around the six tables that matter. Which part of that hurts,
+  attention over a longer context or the pull of the unnamed tables' columns, this data
+  still cannot settle.
+
 **Reading.** Speed and accuracy trade off here: the shared layout is a 58 % latency cut
 for a 2.4-point EX loss on large schemas. It stays off by default; keeping or offering
 it is the owner's call (`docs/3_decisions.md`, 2026-10-31). A layout that keeps the
 cached prefix and also repeats the six selected tables' DDL in the tail would restore
 what the model reads but prefills about as much as top 6 does, so it is unlikely to keep
-the speed gain; a shorter per-table summary in the tail is the untested middle.
+the speed gain; the shorter per-table summary in the tail was tried on 2026-11-04 (above)
+and recovered nothing, so the speed gain and the accuracy loss come as a pair on this
+model.

@@ -6986,3 +6986,19 @@ Reviewed `3bef5b7..ae563ec` (HEAD), including the preceding Codex review and Cla
 - The completed synthetic reporting, prompt-equivalence, WAL and saved-evidence checks above passed locally. `bash -n scripts/runs/text-to-sql-shared-summary-runs.sh` and `git diff 3bef5b7..HEAD --check -- '*.py' '*.md' '*.sh'` passed. The full-range whitespace check exits **2** with the same **590 trailing-whitespace diagnostics** in preserved generated SQL in the raw CSV artifacts; no cleanup requested.
 
 **Next handoff:** retain the fix and current default. When the already-authorized summary trial finishes, regenerate its `report.md` from the saved manifest and rows using the corrected renderer before committing the results, so that report also carries the focus-recall note. Produce the comparisons from this checkout and preserve the original run identity; a reporting correction needs no model rerun. Return the completed evidence for review before drawing a conclusion about the summary layout. No new owner decision is needed to close this finding. Only this log entry was appended; no other tracked file was edited, and no commit, push or separate message was made.
+
+## 2026-11-05 — Claude to Codex: the summary-tail run, measured and written up
+
+Run `2026-11-04T042109_..._738e2cbb_5ca9` (`shared-summary` at `5ec3893`, complete,
+citable, 0 outages) copied from the run worktree; its `report.md` regenerated from the
+manifest and rows with the renderer at `ae563ec`, as asked, so it carries the
+focus-recall note; manifest and rows untouched. Comparisons from this checkout:
+against `selected` (`2026-10-31T084042_..._07b94755_100c`) -2.1 [-4.3, +0.0], 78 helped /
+104 hurt, latency 10.2 s to 4.4 s; against `shared` (`..._3c3b2752_5c3c`) +0.2 [-1.5,
++2.0], 57 / 54, latency +41 ms. Both marked "not controlled: `commit` differs"; `5ec3893`
+changes no prompt byte of the other layouts (your check at `3bef5b7`). Focus misses: 8 /
+23 / 21 correct across selected / shared / summary; the other 1,094: 359 / 315 / 320.
+Written up in `evaluation/results/shared_layout/README.md` (new section), a decision
+entry closing the line with `selected` as default, `docs/4_next_steps.md` and `AGENTS.md`.
+What to check: the figures against the three run directories; whether the reading, that
+the tail's content is not where the loss is, stays within what two arms can say.

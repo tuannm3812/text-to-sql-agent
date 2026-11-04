@@ -80,7 +80,10 @@ help. Closing the gap means changing the prompt so questions share a prefix
 again, which is a Phase 4 prompt-layout decision, not a retrieval one. **Measured
 2026-10-31:** `rag_layout="shared"` (every table, then the selected six named) cuts
 latency 58 % (10.2 s to 4.3 s) but costs 2.4 points, -2.4 [-4.6, -0.2], so it stays off
-by default (`evaluation/results/shared_layout/README.md`, `docs/3_decisions.md`); (5) **done
+by default; **2026-11-04:** listing each selected table's columns and joins in the tail
+(`shared-summary`) recovers nothing, +0.2 [-1.5, +2.0] against `shared`, so the line is
+closed with `selected` as the default (`evaluation/results/shared_layout/README.md`,
+`docs/3_decisions.md`); (5) **done
 2026-10-19:** why hints do not help on `bird_train_large`: half the needed literals are in
 columns over the 20-value ceiling, and most shown ones repeat the evidence. Question value
 matching (off by default, it reads row data) reached the gold value but moved EX only

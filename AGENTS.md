@@ -145,8 +145,12 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   against live PostgreSQL 16 for the first time since Phase 4 began: `1870` passed /
   `6` skipped with the DSN, `1523` / `353` without, conformance `45` / `0` skipped
   (15 per engine). A third layout, `shared-summary` (each selected table's columns and
-  foreign keys after the shared schema), is built as a trial (`5ec3893`); its paired
-  run is in `evaluation/results/shared_layout/` once complete.
+  foreign keys after the shared schema), is built as a trial (`5ec3893`).
+- 2026-11-05: `shared-summary` measured on the full `bird_train_large`: 27.9 %, +0.2
+  [-1.5, +2.0] against `shared`, -2.1 [-4.3, +0.0] against `selected`, same 4.4 s per
+  question. The shared-layout line is closed; `selected` stays the default and both
+  layouts stay opt-in (`evaluation/results/shared_layout/README.md`). `1526` passed /
+  `353` skipped without the DSN.
 
 ## Open risks
 

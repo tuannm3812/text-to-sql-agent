@@ -2,6 +2,26 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-11-05 — prompt: the summary tail recovers nothing; the shared layouts stay off
+
+**Chosen:** Close the shared-layout line of work with `selected` as the default.
+`shared-summary` (`5ec3893`: the shared prefix plus each selected table's columns and
+foreign keys in the focus section) scores 27.9 % on the full `bird_train_large`, +0.2
+[-1.5, +2.0] against `shared` and -2.1 [-4.3, +0.0] against `selected`, at the same 4.4 s
+per question (`evaluation/results/shared_layout/README.md`). Both full-schema layouts
+stay in the code as opt-in settings and `--compare` factors.
+
+**Ruled out:** A further tail variant (the selected tables' DDL repeated after the shared
+prefix): it would prefill about what top 6 prefills, so the speed gain would go, and the
+summary result says the tail's content is not where the loss is. Making either shared
+layout the default: the loss against `selected` is measurable for `shared` and at the
+edge for `shared-summary`, and accuracy on large schemas is the project's headline.
+
+**Why:** Two full-suite arms now agree that on this model a cached full-schema prefix
+costs about two points however the six tables are pointed at. Faster top 6 therefore
+needs a different idea (a smaller model for the tail, or a provider whose cache keys on
+more than a prefix), not another layout.
+
 ## 2026-11-04 — schema cache: the file engines' fingerprint states the write-ahead log
 
 **Chosen:** `SQLiteEngine.schema_fingerprint()` and `DuckDBEngine.schema_fingerprint()`
