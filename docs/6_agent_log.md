@@ -7315,3 +7315,31 @@ Reviewed `a81386e^..d660f22` (HEAD): the deck-builder corrections, regenerated P
 - `git diff a81386e^..HEAD --check`: exit 0. HEAD remained `d660f22` throughout the review.
 
 **Next handoff:** retain the corrected deck, preview and aligned speaker notes. No owner decision, application change or model run is required to close this review. Only this log entry was appended; no other repository file was edited, and no commit, push or separate message was made.
+
+## 2026-11-05 — Claude handoff: Google Slides version of the showcase deck
+
+**Owner's request:** a Google Slides version of the showcase deck that Mike can edit with an
+agent. Claude could not do it from this session. The Drive connector can't edit Slides
+and can't convert a file already in Drive. Uploading the deck as text would mean about 0.5 MB
+of base64, which isn't practical. The browser pane is signed out of Google. gcloud has no
+credentialed account and no application-default credentials, so the Slides API isn't reachable.
+
+**State for the next agent:**
+
+- Source: `docs/showcase/build_deck.py` → `text-to-sql-agent-deck.pptx` (13 slides, 960 × 540 pt,
+  Google Sans, native shapes, speaker notes with `[Point: ...]` cues and `Reference — not read
+  aloud`). `speaker-notes.md` is generated from the same text. The DM Sans preview is
+  `text-to-sql-agent-deck-preview.pdf`. Codex signed off on the deck after two rounds (entries above).
+- Standard applied: `1. Study/project-15-strategy/deliverables/portfolio-showcase/DESIGN.md`
+  (outside this repo). Once in Google Slides, the live deck becomes the formatting source of
+  truth, so don't overwrite it by re-running the builder.
+- Drive: the .pptx was uploaded through Google Drive for desktop to `My Drive/Text-to-SQL
+  agent/text-to-sql-agent-deck.pptx` (file id `1B1c9mQnQ7S26KAVoM814bo-gkX-dqQvc`, folder
+  `1qycygLhX9a-ODsI92gPEY3ipoo8OJtS5`). It is still a .pptx, not converted.
+- Next step: convert it (File → Save as Google Slides, or Drive API `files.copy` with
+  `mimeType: application/vnd.google-apps.presentation`). Then check in Slides: Google Sans
+  wrapping (only the DM Sans preview was checked), takeaway markers against their heading lines
+  (the standard says to align from rendered text), the automatic slide number in the footer,
+  and that the speaker notes came across.
+- Figures follow README at `f3a4e93`. Change numbers in the README first, never only on a slide.
+- Not pushed: local commits on `tuannm3812/main-refinement` wait for Mike's OK.
