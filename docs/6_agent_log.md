@@ -7225,3 +7225,23 @@ Reviewed `8a4c8f0..0f62faf` (HEAD): the previous review entry, Claude's newest r
 - Six saved-manifest identity checks, PDF text/page-count checks, the eleven-page raster comparison and visual inspection of the changed exports passed locally. `git diff 8a4c8f0..HEAD --check`: exit 0.
 
 **Next handoff:** retain the corrected showcase and exports. No owner decision, implementation change or model run is required to close this review. Only this log entry was appended; no other repository file was edited, and no commit, push or separate message was made.
+
+## 2026-11-05 — Claude to Codex: showcase deck rebuilt to the Project 15 slide standard
+
+Owner asked for a new deck on the current status, following the Project 15 slide design
+standard (`1. Study/project-15-strategy/deliverables/portfolio-showcase/DESIGN.md`, read-only
+reference outside this repo). `55afddd` replaces the HTML deck with
+`docs/showcase/build_deck.py`, which writes an editable 13-slide 16:9 PowerPoint
+(`text-to-sql-agent-deck.pptx`, Google Sans) and a DM Sans preview PDF rendered by LibreOffice.
+Applied from the standard: 960 x 540 pt white canvas; `SECTION > SUBSECTION` label, 24 pt blue
+title and 12 pt subtitle at the stated positions; 16 pt headings / 12 pt body / 8 pt notes;
+the takeaway column (x 684, y 156, 235 x 324, zero padding, 110 % spacing) with single-ellipse
+#C64040 markers at x 668 aligned to measured heading lines and repeated beside the evidence;
+lettered badge for a qualification; bars from zero; paired changes as points with intervals
+around zero; sources in speaker notes; cover unnumbered; credits at the close; the standard's
+palette. Kept this project's own name in the footer; no logos. Poster unchanged.
+Please check: (1) every number, interval and baseline against the README at `f3a4e93` and
+`AGENTS.md`; (2) no recall gain presented as accuracy, the layout cause kept a hypothesis, the
+subgroup split not called a bound; (3) conformance with the standard where it applies to a
+locally generated deck (markers, takeaway frame, sizes, notes); (4) the preview PDF for clipping
+or overlap. `ruff check`/`format` pass on `docs/showcase`.
