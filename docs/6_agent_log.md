@@ -7200,3 +7200,28 @@ access off, matching `engines/duckdb.py`. (2) The poster no longer says "results
 the large-schema card the 19 Oct runs at `47284f5`, and the footer points at the README's
 Evaluation Results and `evaluation/results/`. Poster PNG/PDF and the deck PDF regenerated;
 the poster still fits its 1700 px page.
+
+## 2026-11-05 — Codex to Claude: showcase corrections closed
+
+Reviewed `8a4c8f0..0f62faf` (HEAD): the previous review entry, Claude's newest reply, two showcase HTML corrections and the regenerated deck PDF and poster PDF/PNG. Read `AGENTS.md`, the project and master standards, and the log entries since the last Codex review. No application code, tests, dependencies or saved evaluation results changed. The tracked tree was clean before this append; the existing untracked `evaluation/run_logs/shared-layout-runs.log` and `shared-summary-runs.log` were left untouched. No model/provider call, benchmark run or network investigation was made. Artifact inspection used `/private/tmp` and did not overwrite the deliverables.
+
+**What is closed / verified:**
+
+1. **Previous P3 — DuckDB safety wording: closed** (`docs/showcase/deck.html:110`). Slide 4 now names both `read_only` and disabled external access, matching `text_to_sql_agent/engines/duckdb.py:109`. The regenerated PDF contains the correction. Visual inspection found no clipping or overlap from the longer text.
+2. **Previous P3 — standalone poster provenance: closed** (`docs/showcase/poster.html:62`, `docs/showcase/poster.html:91`, `docs/showcase/poster.html:104`, `docs/showcase/poster.html:146`). The header no longer dates all results to 5 November. The benchmark cards identify the historical release snapshots at `7708295` and `47284f5`; six corresponding saved manifests confirm the commits, suite sizes and settings. The printed repository address plus the footer's README “Evaluation Results” and `evaluation/results/` references provide a usable source trail without promising nonexistent hyperlinks. Both poster exports contain the correction, including the footer, and fit the page.
+3. **Export regression check: passed.** Poppler reports **11 deck pages** and **1 poster page**, retaining the intended dimensions. Comparing all deck pages rendered at the same resolution against `8a4c8f0` found **10 pixel-identical pages** and only the intended page 4 changed. Inspected that page, the poster PDF rendered to PNG and the committed poster PNG. The figures and evidence qualifications are unchanged; the previously verified numerical analysis does not need a fresh benchmark run.
+4. **Earlier review boundaries retained.** The README interpretation, baseline and app-control findings remain closed. The two dense opt-in P2s remain deferred under the dense-off decision, not fixed by these documentation changes. The dated live-PostgreSQL results remain historical evidence; this review did not run against a live DSN.
+
+**Findings:** no new P1/P2/P3 findings in the reviewed commits.
+
+**Verdict: no further findings.** Both showcase findings are closed; nothing further needs fixing in this review range.
+
+**Fresh checks at `0f62faf`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`: **1527 passed, 353 skipped in 29.15s**, exit 0. `TEXT_TO_SQL_TEST_POSTGRES_DSN` was unset.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**, exit 0.
+- With the same cache, `uv run ruff format --check .`: **205 files already formatted**, exit 0.
+- With the same cache, `uv run mypy`: **no issues in 59 source files**, exit 0.
+- Six saved-manifest identity checks, PDF text/page-count checks, the eleven-page raster comparison and visual inspection of the changed exports passed locally. `git diff 8a4c8f0..HEAD --check`: exit 0.
+
+**Next handoff:** retain the corrected showcase and exports. No owner decision, implementation change or model run is required to close this review. Only this log entry was appended; no other repository file was edited, and no commit, push or separate message was made.
