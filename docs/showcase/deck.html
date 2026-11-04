@@ -107,7 +107,7 @@
   <div class="body two" style="grid-template-columns: 1fr 640px;">
     <ul class="pts">
       <li><b>Application check.</b>One statement, <code>SELECT</code> or <code>WITH</code>, parsed by sqlglot in the engine's dialect; writes, DDL and database internals refused.</li>
-      <li><b>Engine guarantee.</b>SQLite read-only URI, <code>query_only</code> and an authorizer; DuckDB with external access off; PostgreSQL with a least-privilege role in a read-only transaction, and a refusal to connect as a superuser.</li>
+      <li><b>Engine guarantee.</b>SQLite read-only URI, <code>query_only</code> and an authorizer; DuckDB opened <code>read_only</code> with external access off; PostgreSQL with a least-privilege role in a read-only transaction, and a refusal to connect as a superuser.</li>
       <li><b>Verified 4 Nov 2026 against live PostgreSQL 16.</b>45 conformance tests, 15 per engine, 0 skipped; 1,870 tests passed in the full suite.</li>
       <li><b>Measured refusals.</b>On the safety suite the model refused all 6 data-change requests; overall safety accuracy 73.3 % [53.3, 93.3] on 15 cases.</li>
     </ul>

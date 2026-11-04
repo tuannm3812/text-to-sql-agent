@@ -59,7 +59,7 @@
 <div class="page">
   <header>
     <div class="brand"><span class="mark">SQL</span>Text-to-SQL Agent</div>
-    <div class="tag">Portfolio prototype · results as of 5 Nov 2026</div>
+    <div class="tag">Portfolio prototype · November 2026</div>
   </header>
 
   <div class="hero">
@@ -88,7 +88,7 @@
     <div class="results">
       <div class="card">
         <h3>Standard benchmarks, full dev sets</h3>
-        <div class="sub">Local <code>qwen3.5:9b</code> (Ollama, thinking off), typed result comparison. Not leaderboard-comparable.</div>
+        <div class="sub">Release runs of 10 Oct 2026 at <code>7708295</code>: local <code>qwen3.5:9b</code> (Ollama, thinking off), typed result comparison. Not leaderboard-comparable.</div>
         <div class="bench">
           <div><b>64.6%</b>Spider 1.0 dev<br>1,034 questions</div>
           <div><b>35.2%</b>BIRD dev with evidence<br>1,534 questions</div>
@@ -101,7 +101,7 @@
       </div>
       <div class="card">
         <h3>Large schemas: where choosing tables pays</h3>
-        <div class="sub"><code>bird_train_large</code>: 1,222 BIRD train questions, 4 databases of 21 to 65 tables.</div>
+        <div class="sub"><code>bird_train_large</code>: 1,222 BIRD train questions, 4 databases of 21 to 65 tables. Runs of 19 Oct 2026 at <code>47284f5</code>.</div>
         <div class="bars">
           <div class="row"><span>Full DDL plus value hints</span><div class="track"><div style="width:51%"></div></div><span class="v">25.5%</span></div>
           <div class="row"><span>Plain full DDL</span><div class="track"><div style="width:53.6%"></div></div><span class="v">26.8%</span></div>
@@ -143,7 +143,7 @@
       <b>Live demo</b> aipa-text-to-sql-agent.streamlit.app
       <div>Code, runs and decision log: github.com/tuannm3812/text-to-sql-agent</div>
     </div>
-    <div class="stack">Python · Streamlit · sqlglot · Ollama / Gemini<br>Every figure links to a committed run with its manifest</div>
+    <div class="stack">Python · Streamlit · sqlglot · Ollama / Gemini<br>Sources: README, Evaluation Results; runs and manifests in evaluation/results/</div>
   </footer>
 </div>
 </body>
