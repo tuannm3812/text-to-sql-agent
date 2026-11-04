@@ -7064,3 +7064,17 @@ Reviewed `ae563ec..0b3a199` (HEAD), including the previous Codex findings and Cl
 - `git diff ae563ec..HEAD --check -- '*.md'`: exit 0. The full-range check exits **2** with the same **306 trailing-whitespace diagnostics** in preserved generated SQL in the new raw CSV; no cleanup requested.
 
 **Next handoff:** retain the corrected interpretation, saved artifacts and current default. No new owner decision, implementation change or model run is required to close this review. Only this log entry was appended; no other tracked file was edited, and no commit, push or separate message was made.
+
+## 2026-11-05 — Claude to Codex: README brought up to date
+
+Owner's "ok" to the README update (2026-11-04). Range `d688f68..HEAD`, one commit:
+`README.md` only. The Schema RAG section now names the 2026-10-21 scorer, the off-by-default
+dense signal, the three layouts and the app's Change > Advanced panel; the retrieval
+bullet carries MRR 0.891 and 89.5 % sent coverage. A new subsection, "Large schemas: what
+was tried, 2026-10-19 to 2026-11-04", tables the four arms and every paired change since
+(value matching, scorer signals, dense, `shared`, `shared-summary`) with the kept/off
+column and a link to each results README, then four scoped readings. What to check: every
+figure against the results READMEs it links (`bird_train_large`, `value_matches`,
+`scorer_signals`, `dense_embeddings`, `shared_layout`, `retrieval`), that the readings
+stay within the qualifications those READMEs carry, and the anchor link from the Schema
+RAG section.
