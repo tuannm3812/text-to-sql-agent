@@ -63,17 +63,18 @@ For a deeper, multi-page diagram (hybrid RAG internals, the offline evaluation w
 The retrieval layer indexes schema metadata and the bounded value hints above; it does not embed rows or call an embedding service. At question time it:
 
 1. tokenizes the question, adding singulars and a few business synonyms (`client -> customer`)
-2. scores each table with BM25 over its names and DDL, a down-weighted BM25 over its value hints, table and column name matches, character-trigram similarity and a hashed pseudo-embedding (weights in `text_to_sql_agent/config.py`)
+2. scores each table with BM25 over its names and DDL, a quarter-weight BM25 over its value hints, table and column name matches, character-trigram similarity and a hashed pseudo-embedding (weights in `text_to_sql_agent/config.py`, chosen 2026-10-21 on the large-schema suite); a dense-embedding signal from a local Ollama model exists but is off by default
 3. keeps the top six tables and adds their foreign-key neighbours
-4. reports the selected tables, their scores and reasons, and the size of the schema text sent against plain DDL and against full DDL plus hints (characters, not provider tokens)
+4. sends those tables' DDL and value hints, then the question (the `selected` layout; two opt-in layouts that send every table and point at the selected ones are measured below)
+5. reports the selected tables, their scores and reasons, and the size of the schema text sent against plain DDL and against full DDL plus hints (characters, not provider tokens)
 
 What it was measured to do, on `qwen3.5:9b-q4_K_M` (local Ollama), each claim scoped to its run:
 
 - **Spider dev and BIRD dev (at most 14 tables per database; gate G8, 2026-10-11, [`rag_ablation.md`](evaluation/results/rag_ablation.md)):** +3.0 points EX on Spider [+1.1, +4.9] against full DDL, nothing measurable on BIRD. The value hints carry that gain; choosing tables adds nothing measurable there, and the prompt is larger, not smaller.
-- **Large schemas (`bird_train_large`, 21 to 65 tables, 1,222 questions, 2026-10-19, [results](evaluation/results/bird_train_large/README.md)):** top-6 selection beats full DDL plus hints by **+3.6 points [+1.4, +5.8]** with **69 % fewer prompt tokens**, from the 65- and 34-table databases.
-- **Retrieval quality** is measured without a model by [`scripts/report_retrieval.py`](scripts/report_retrieval.py) (recall@k, coverage@k, MRR; [results](evaluation/results/retrieval/README.md)).
+- **Large schemas (`bird_train_large`, 21 to 65 tables, 1,222 questions, 2026-10-19, [results](evaluation/results/bird_train_large/README.md)):** top-6 selection beats full DDL plus hints by **+3.6 points [+1.4, +5.8]** with **69 % fewer prompt tokens**, from the 65- and 34-table databases. This is where selection pays; the full account of what was then tried on that suite is under [Evaluation Results](#large-schemas-what-was-tried-2026-10-19-to-2026-11-04).
+- **Retrieval quality** is measured without a model by [`scripts/report_retrieval.py`](scripts/report_retrieval.py) (recall@k, coverage@k, MRR; [results](evaluation/results/retrieval/README.md)): on the large-schema suite MRR 0.891 and every needed table sent in 89.5 % of questions at top 6.
 
-In the app, schema RAG and the number of tables are under **Advanced** in the sidebar.
+In the app, schema RAG, the number of tables and the prompt layout are under **Change**, then **Advanced**.
 
 ## Safety Model
 
@@ -434,6 +435,51 @@ answer. Mean time per question was 2.9 s on Spider and 6.2 s on BIRD.
 show RAG adding 3.0 points on Spider and nothing measurable on BIRD, while
 making the prompt larger; see
 [`evaluation/results/rag_ablation.md`](evaluation/results/rag_ablation.md).
+Spider and BIRD dev databases have at most 14 tables, so there is little to
+select; the large-schema suite below is where selection was measured to pay.
+
+### Large schemas: what was tried, 2026-10-19 to 2026-11-04
+
+`bird_train_large` is a suite of 1,222 BIRD train questions over four databases
+of 21 to 65 tables ([README](evaluation/results/bird_train_large/README.md)),
+built because Spider and BIRD dev cannot show whether choosing tables helps.
+Same model and settings as above, evidence hints on, every run complete and
+citable, each change measured paired on the same questions against the run
+before it. EX is this contract's typed comparison, as above.
+
+| Date | Arm or change | EX on 1,222 | Paired change, points | Kept? |
+|---|---|---:|---|---|
+| 10-19 | Plain full DDL (RAG off) | 26.8 % | | baseline arm |
+| 10-19 | Full DDL plus value hints | 25.5 % | -1.3 [-2.9, +0.2] vs plain DDL | arm |
+| 10-19 | **Top 6 plus neighbours (shipped)** | 29.1 % | **+3.6 [+1.4, +5.8]** vs full DDL plus hints, 69 % fewer prompt tokens | **default** |
+| 10-19 | Question value matching (reads row data) | | +0.4 [-0.9, +1.6] | off ([results](evaluation/results/value_matches/README.md)) |
+| 10-21 | Scorer signals: schema BM25, quarter-weight hint BM25, singulars | 30.0 % | +0.9 [-0.7, +2.4]; MRR 0.853 to 0.891 | **kept** ([results](evaluation/results/scorer_signals/README.md)) |
+| 10-22 | Dense embeddings (Ollama `all-minilm`) in the scorer | 30.2 % | +0.2 [-1.6, +2.0]; questions missing a needed table 128 to 74 | off ([results](evaluation/results/dense_embeddings/README.md)) |
+| 10-31 | `shared` layout: every table, then the six named | 27.7 % | **-2.4 [-4.6, -0.2]**; latency 10.2 s to 4.3 s per question | off ([results](evaluation/results/shared_layout/README.md)) |
+| 11-04 | `shared-summary` layout: the six with columns and join targets | 27.9 % | +0.2 [-1.5, +2.0] vs `shared`; -2.1 [-4.3, +0.0] vs shipped | off (same README) |
+
+What this says, each claim scoped to its run:
+
+- **Selection pays on large schemas and is the only measurable accuracy gain.** The
+  65- and 34-table databases carry it (+5 to +6 points each). Value hints, which earn
+  RAG's gain on Spider, cost a little here: half the literals the questions need are
+  in text columns over the 20-value hint ceiling, and most shown hints repeat the
+  evidence ([analysis](evaluation/results/value_matches/README.md)).
+- **Better retrieval did not become better answers.** Dense embeddings cut the
+  questions whose needed tables were not all sent from 128 to 74, and EX on those rose
+  from 8 to 26 correct, but elsewhere the changed table sets flipped as many answers
+  the other way; suite-level +0.2. Both retrieval changes that were kept or tried moved
+  EX inside their intervals.
+- **Speed and accuracy traded off.** Top 6 is about 2 s slower per question than the
+  full schema because each prompt's schema differs and Ollama cannot reuse its cache.
+  Sending every table and naming the selected ones cut latency 58 % but cost 2.4
+  points; naming their columns and join targets too recovered nothing measurable. The
+  default stays `selected`; both fast layouts remain settings
+  ([results](evaluation/results/shared_layout/README.md),
+  `docs/3_decisions.md`).
+- **Where the ceiling is.** Of the 1,222 questions, 128 still have a needed table
+  outside the six sent; those score 8 of 128 under the default against 21 to 23 when
+  every table is sent. The other 1,094 lose more from the larger prompt than those gain.
 
 The routine 200-case verification runs are committed as harness evidence,
 not release results. With thinking off:
