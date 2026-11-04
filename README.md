@@ -74,7 +74,7 @@ What it was measured to do, on `qwen3.5:9b-q4_K_M` (local Ollama), each claim sc
 - **Large schemas (`bird_train_large`, 21 to 65 tables, 1,222 questions, 2026-10-19, [results](evaluation/results/bird_train_large/README.md)):** top-6 selection beats full DDL plus hints by **+3.6 points [+1.4, +5.8]** with **69 % fewer prompt tokens**, from the 65- and 34-table databases. This is where selection pays; the full account of what was then tried on that suite is under [Evaluation Results](#large-schemas-what-was-tried-2026-10-19-to-2026-11-04).
 - **Retrieval quality** is measured without a model by [`scripts/report_retrieval.py`](scripts/report_retrieval.py) (recall@k, coverage@k, MRR; [results](evaluation/results/retrieval/README.md)): on the large-schema suite MRR 0.891 and every needed table sent in 89.5 % of questions at top 6.
 
-In the app, schema RAG, the number of tables and the prompt layout are under **Change**, then **Advanced**.
+In the app, schema RAG and the number of tables are under **Change**, then **Advanced**; the app always uses the `selected` layout. The two full-schema layouts are a harness and backend setting (`scripts/evaluate_v2.py --rag-layout`, `rag_layout=` on `ask_database`), not an app control.
 
 ## Safety Model
 
@@ -444,27 +444,31 @@ select; the large-schema suite below is where selection was measured to pay.
 of 21 to 65 tables ([README](evaluation/results/bird_train_large/README.md)),
 built because Spider and BIRD dev cannot show whether choosing tables helps.
 Same model and settings as above, evidence hints on, every run complete and
-citable, each change measured paired on the same questions against the run
-before it. EX is this contract's typed comparison, as above.
+citable. Each change is measured paired on the same 1,222 questions against the
+baseline its row names; the baselines are not a chain, and "top 6" was run three
+times as the code around it changed (29.1 % at `47284f5`, 30.0 % with the kept
+scorer at `28f21bc`, 30.0 % again at `20ee05f`, where the layouts were measured).
+EX is this contract's typed comparison, as above.
 
-| Date | Arm or change | EX on 1,222 | Paired change, points | Kept? |
+| Date | Arm or change | EX on 1,222 | Paired change, points, and its baseline | Kept? |
 |---|---|---:|---|---|
-| 10-19 | Plain full DDL (RAG off) | 26.8 % | | baseline arm |
+| 10-19 | Plain full DDL (RAG off) | 26.8 % | | arm |
 | 10-19 | Full DDL plus value hints | 25.5 % | -1.3 [-2.9, +0.2] vs plain DDL | arm |
-| 10-19 | **Top 6 plus neighbours (shipped)** | 29.1 % | **+3.6 [+1.4, +5.8]** vs full DDL plus hints, 69 % fewer prompt tokens | **default** |
-| 10-19 | Question value matching (reads row data) | | +0.4 [-0.9, +1.6] | off ([results](evaluation/results/value_matches/README.md)) |
-| 10-21 | Scorer signals: schema BM25, quarter-weight hint BM25, singulars | 30.0 % | +0.9 [-0.7, +2.4]; MRR 0.853 to 0.891 | **kept** ([results](evaluation/results/scorer_signals/README.md)) |
-| 10-22 | Dense embeddings (Ollama `all-minilm`) in the scorer | 30.2 % | +0.2 [-1.6, +2.0]; questions missing a needed table 128 to 74 | off ([results](evaluation/results/dense_embeddings/README.md)) |
-| 10-31 | `shared` layout: every table, then the six named | 27.7 % | **-2.4 [-4.6, -0.2]**; latency 10.2 s to 4.3 s per question | off ([results](evaluation/results/shared_layout/README.md)) |
-| 11-04 | `shared-summary` layout: the six with columns and join targets | 27.9 % | +0.2 [-1.5, +2.0] vs `shared`; -2.1 [-4.3, +0.0] vs shipped | off (same README) |
+| 10-19 | **Top 6 plus neighbours** | 29.1 % | **+3.6 [+1.4, +5.8]** vs full DDL plus hints, 69 % fewer prompt tokens | **default** |
+| 10-19 | Question value matching (reads row data) | 29.5 % | +0.4 [-0.9, +1.6] vs top 6 at `47284f5` | off ([results](evaluation/results/value_matches/README.md)) |
+| 10-21 | Scorer signals: schema BM25, quarter-weight hint BM25, singulars | 30.0 % | +0.9 [-0.7, +2.4] vs top 6 at `47284f5`; MRR 0.853 to 0.891 | **kept** ([results](evaluation/results/scorer_signals/README.md)) |
+| 10-22 | Dense embeddings (Ollama `all-minilm`) in the scorer | 30.2 % | +0.2 [-1.6, +2.0] vs the kept scorer at `28f21bc`; questions with a needed table not sent 128 to 74 | off ([results](evaluation/results/dense_embeddings/README.md)) |
+| 10-31 | `shared` layout: every table, then the selected ones named | 27.7 % | **-2.4 [-4.6, -0.2]** vs a fresh `selected` run at `20ee05f` (30.0 %, 10.2 s per question); latency 4.3 s | off ([results](evaluation/results/shared_layout/README.md)) |
+| 11-04 | `shared-summary` layout: the selected ones with columns and join targets | 27.9 % | +0.2 [-1.5, +2.0] vs `shared`; -2.1 [-4.3, +0.0] vs that fresh `selected` run; both across commits (`5ec3893` vs `20ee05f`), so not controlled | off (same README) |
 
 What this says, each claim scoped to its run:
 
 - **Selection pays on large schemas and is the only measurable accuracy gain.** The
   65- and 34-table databases carry it (+5 to +6 points each). Value hints, which earn
-  RAG's gain on Spider, cost a little here: half the literals the questions need are
-  in text columns over the 20-value hint ceiling, and most shown hints repeat the
-  evidence ([analysis](evaluation/results/value_matches/README.md)).
+  RAG's gain on Spider, do no measurable good or harm here (-1.3 [-2.9, +0.2] against
+  plain DDL): half the literals the questions need are in text columns over the
+  20-value hint ceiling, and most shown hints repeat the evidence
+  ([analysis](evaluation/results/value_matches/README.md)).
 - **Better retrieval did not become better answers.** Dense embeddings cut the
   questions whose needed tables were not all sent from 128 to 74, and EX on those rose
   from 8 to 26 correct, but elsewhere the changed table sets flipped as many answers
@@ -473,13 +477,17 @@ What this says, each claim scoped to its run:
 - **Speed and accuracy traded off.** Top 6 is about 2 s slower per question than the
   full schema because each prompt's schema differs and Ollama cannot reuse its cache.
   Sending every table and naming the selected ones cut latency 58 % but cost 2.4
-  points; naming their columns and join targets too recovered nothing measurable. The
-  default stays `selected`; both fast layouts remain settings
-  ([results](evaluation/results/shared_layout/README.md),
-  `docs/3_decisions.md`).
-- **Where the ceiling is.** Of the 1,222 questions, 128 still have a needed table
-  outside the six sent; those score 8 of 128 under the default against 21 to 23 when
-  every table is sent. The other 1,094 lose more from the larger prompt than those gain.
+  points; naming their columns and join targets too recovered nothing measurable. Why
+  the full-schema layouts lose is not settled: they change the prompt's length,
+  content and the focus section's placement together, so the larger prompt as the cause
+  is a hypothesis. The default stays `selected`; both fast layouts remain settings
+  ([results](evaluation/results/shared_layout/README.md), `docs/3_decisions.md`).
+- **What the two layouts' subgroups show.** Of the 1,222 questions, 128 have a needed
+  table outside the selected tables plus neighbours (6 to 20 tables, six exactly in
+  127 cases); those score 8 of 128 under the default against 21 to 23 when every table
+  is sent, while the other 1,094 score 359 against 315 to 320. In the layouts tested,
+  the loss on the many outweighs the gain on the few. That is not a bound on what
+  better retrieval could reach (`evaluation/results/retrieval/README.md` says why).
 
 The routine 200-case verification runs are committed as harness evidence,
 not release results. With thinking off:
