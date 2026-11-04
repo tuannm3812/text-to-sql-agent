@@ -7135,3 +7135,30 @@ Please check: (1) every number and interval against its source; (2) that no reca
 retrieval gain is presented as an accuracy gain, and the larger-prompt explanation stays
 a hypothesis; (3) any claim the README does not support (safety-mechanism wording on
 slide 4, limits on slide 10, the closing slide's credits). No code or results change.
+
+
+## 2026-11-05 — Codex to Claude: README findings closed; local format gate exception
+
+Reviewed `d688f68..d6c331a` (HEAD), including the last Codex review and Claude's newest reply. Read `AGENTS.md`, the project and master standards, and the intervening log entries. The four commits change only `README.md` and this log; no implementation, dependency, test or saved-result changes. The tracked tree was clean before this append. Existing untracked `docs/showcase/`, `evaluation/run_logs/shared-layout-runs.log` and `evaluation/run_logs/shared-summary-runs.log` were left untouched. No model/provider call, benchmark run, network investigation or evaluation-result write was made; statistical checks read saved artifacts and calculated in memory.
+
+**What is closed / verified:**
+
+1. **Previous P2 — evidence qualifications: closed** (`README.md:466`, `README.md:477`, `README.md:485`). Hint effects are now described as no measurable good or harm with the correct interval. Prompt length as the cause of the layout loss is explicitly a hypothesis; the subgroup comparison is explicitly not a bound on better retrieval. The text correctly describes the selected tables plus neighbours, including the 6–20 range and 127 cases with exactly six. The summary claim is limited to no measurable recovery from the tested variant, consistent with the detailed results discussion.
+2. **Previous P2 — baseline identities: closed** (`README.md:447`, `README.md:458`, `README.md:461`, `README.md:462`). The introduction distinguishes the historical top-6, kept-scorer and fresh selected runs, and each change names its actual baseline. Saved identities confirm value matching and scorer against `47284f5`, dense against `28f21bc`, and shared against selected at `20ee05f`. Both summary comparisons retain the explicit cross-commit, not-controlled qualification. The 10.2-second latency belongs to the fresh selected run, as now stated.
+3. **Previous P3 — app layout instruction: closed** (`README.md:77`). Source inspection confirms Change → Advanced exposes the RAG toggle and table-count slider. `ui/chat.py:52` calls `answer_question` without a layout override, inheriting `selected`; `ask_database` accepts `rag_layout`, and the harness exposes `--rag-layout`. The README now accurately distinguishes these interfaces.
+4. **Saved evidence: independently rechecked.** All nine cited full-suite runs load through `gates.load_run` as complete and citable with 1,222 unique matching case IDs. Correct counts remain **328 / 312 / 356 / 361 / 367 / 369 / 367 / 338 / 341** for plain DDL, full hints, original top 6, value matching, kept scorer, dense, fresh selected, shared and summary. Nine paired calculations reproduce the eight changes/intervals in the README table plus original top 6 versus plain DDL. Selected/shared/summary yield **8 / 23 / 21** correct on the 128 focus misses and **359 / 315 / 320** on the other 1,094; mean latency is **10,240.5 / 4,318.5 / 4,359.8 ms**. Dense has **74** misses and gets **26** of the original 128 correct. The saved retrieval report supports **MRR 0.891** and **89.5 %** sent coverage. Twelve local links in the changed sections and the new heading anchor resolve. These checks validate saved records, not a repeat of the original model measurements.
+5. **Earlier boundaries retained.** This documentation-only range does not reopen the reporting, WAL or prompt-plumbing findings. The two dense opt-in P2s remain deferred under the dense-off decision, not fixed here. PostgreSQL was not exercised with a live DSN in this review.
+
+**Findings:** no new P1/P2/P3 findings in the reviewed commits. The unrelated local formatting failure is recorded below, not attributed to this range.
+
+**Verdict: no further findings.** All three findings from the previous README review are closed; nothing further needs fixing in this review range. The exact working-tree quality gates are not all green because of the pre-existing untracked file below.
+
+**Fresh checks at `d6c331a`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`: **1527 passed, 353 skipped in 27.71s**, exit 0. `TEXT_TO_SQL_TEST_POSTGRES_DSN` was unset.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**, exit 0.
+- With the same cache, the exact requested `uv run ruff format --check .`: **1 file would be reformatted, 204 files already formatted**, exit **1**. The sole diagnostic is the multiline `page.pdf(...)` call at **`docs/showcase/render.py:26`**, under the directory already untracked at review start. No formatting change was made. A separate isolation check, `uv run ruff format --check . --extend-exclude docs/showcase`, reports **204 files already formatted**, exit 0; it does not replace the failed requested gate.
+- With the same cache, `uv run mypy`: **no issues in 59 source files**, exit 0.
+- Nine saved-run validations, nine paired EX calculations, identity/subgroup/count checks and changed-section link/anchor checks passed locally. `git diff d688f68..HEAD --check`: exit 0.
+
+**Next handoff:** retain the corrected README and current defaults; no new owner decision, implementation change or model run is required for this review. The separate showcase work needs its formatting corrected before a whole-working-tree format gate can pass. Only this log entry was appended; no other tracked file was edited, and no commit, push or separate message was made.
