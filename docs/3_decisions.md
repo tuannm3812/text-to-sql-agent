@@ -2,6 +2,27 @@
 
 Newest first. Each entry states what was chosen and what it ruled out.
 
+## 2026-11-04 — schema cache: the file engines' fingerprint states the write-ahead log
+
+**Chosen:** `SQLiteEngine.schema_fingerprint()` and `DuckDBEngine.schema_fingerprint()`
+return `file_data_fingerprint(...)`, the key the value-match cache already used: the main
+file's `(mtime_ns, size)`, the log's, and the log's 32-byte header. A `CREATE TABLE`
+committed in WAL mode before a checkpoint now invalidates the schema and hint caches
+(`tests/test_schema.py::test_an_open_writers_wal_schema_change_refreshes_the_schema_cache`,
+an open writer, no forced mtime). Codex raised the gap on 2026-10-20; it was carried
+forward because it changes the cache key for every caller, which is exactly its effect
+and costs one rebuild per database.
+
+**Ruled out:** Hashing the schema catalogue on every call, as PostgreSQL does: a `stat`
+per call is the point of the file engines' key. Keeping the main-file key and asking
+writers to checkpoint: the app does not control the writer.
+
+**Also verified the same day:** the full suite against live PostgreSQL 16 in Docker, for
+the first time since the value-matching and dense work: every engine passes the
+conformance suite with no skips; the one failure was a conformance test that assumed the
+`sales` fixture had no text columns, true of the SQLite and DuckDB fixtures only, now
+engine-neutral. `Engine.text_values` on PostgreSQL behaves as specified.
+
 ## 2026-10-31 — prompt: shared schema layout built, off by default (owner's call pending)
 
 **Chosen:** `rag_layout="shared"` (`pipeline.prompt_schema`): the prompt sends every

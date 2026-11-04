@@ -35,8 +35,10 @@ order:
    users who used them before and recommends 3.5 Flash-Lite or 3.8 Flash, so
    the hosted demo's default `gemini-2.5-flash` may fail for a fresh key.
 4. **Carried forward, not fixed:** a database changed *during* an uninterrupted
-   session is not detected (the fingerprint is taken at start and resume), and
-   SQLite `-wal`/`-shm` side files are not hashed; schema recall uses a second
+   session is not detected (the fingerprint is taken at start and resume); the
+   schema cache's WAL gap is **fixed 2026-11-04** (`schema_fingerprint()` states
+   the `-wal`/`.wal` log too, `42657af`), while the run identity's
+   `database_fingerprint` still hashes the main file alone; schema recall uses a second
    retrieval call rather than the one the pipeline made; the manifest's prompt
    hash is rebuilt through a private `llm` helper; "same hostname and dead pid"
    is not proof across pid namespaces sharing a hostname. The v1 script

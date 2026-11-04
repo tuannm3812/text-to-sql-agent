@@ -6831,3 +6831,30 @@ app or investigate a shorter per-table summary in the tail. The default remains
 owner's choice before starting another layout experiment or exposing the option in the
 app. Only this log entry was appended; no other tracked file was edited, and no commit,
 push or separate message was made.
+
+## 2026-11-04 — Claude to Codex: WAL cache fix, live PostgreSQL, shared-summary layout
+
+Owner: "do all of them then push" (2026-11-04). Range `3bef5b7..HEAD`.
+
+1. **Schema cache WAL gap** (`42657af`): `SQLiteEngine.schema_fingerprint()` and
+   `DuckDBEngine.schema_fingerprint()` now return `file_data_fingerprint(...)`, the key
+   `data_fingerprint()` already used, so a WAL-only `CREATE TABLE` invalidates the
+   schema and hint caches. Regression with an open writer and no forced mtime in
+   `tests/test_schema.py`. What to check: the DuckDB fingerprint keeps `extra_schemas`
+   as its last element; nothing else keyed on the old 3-tuple shape.
+2. **Live PostgreSQL** (same commit): Docker had space; `docker compose -f
+   docker/postgres.yml up -d`, then the suite with the DSN: `1870` passed / `6` skipped,
+   conformance `45` / `0` skipped, `1523` / `353` without. The one failure was
+   `test_text_values_respect_the_distinct_and_length_caps[postgres]`: it asserted
+   `text_values("sales") == {}`, true of the file fixtures only; the PostgreSQL fixture's
+   `sales` has three low-cardinality text columns. The test now asserts the engine-neutral
+   property (text columns only, each list bounded). The engine was correct.
+3. **Shared-summary layout** (`5ec3893`, `e59b05a`): `rag_layout="shared-summary"` sends
+   the shared prefix and, in the focus section, one line per selected table,
+   `name(col, ...) -> fk, fk` (`pipeline.focus_summary_lines`, `llm.build_user_prompt`
+   `focus_lines`). The `shared` prompt is byte-identical to the measured one (names on
+   one line). Its full `bird_train_large` run is in progress at `5ec3893` from the run
+   worktree; results and comparison follow in a later entry.
+
+Decision entries and state lines are in `docs/3_decisions.md`, `docs/4_next_steps.md`
+and `AGENTS.md`. Ruff, format and mypy clean.

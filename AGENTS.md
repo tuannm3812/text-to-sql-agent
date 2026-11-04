@@ -140,6 +140,13 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   the full `bird_train_large` at `20ee05f`: latency -58 % (10.2 s to 4.3 s), EX -2.4
   [-4.6, -0.2]. Off by default; a run-identity field and `--compare` factor
   (`evaluation/results/shared_layout/`). `1515` passed / `353` skipped.
+- 2026-11-04: the file engines' `schema_fingerprint()` states the write-ahead log, so
+  the schema and hint caches see a WAL-only `CREATE TABLE` (`42657af`); the suite ran
+  against live PostgreSQL 16 for the first time since Phase 4 began: `1870` passed /
+  `6` skipped with the DSN, `1523` / `353` without, conformance `45` / `0` skipped
+  (15 per engine). A third layout, `shared-summary` (each selected table's columns and
+  foreign keys after the shared schema), is built as a trial (`5ec3893`); its paired
+  run is in `evaluation/results/shared_layout/` once complete.
 
 ## Open risks
 
