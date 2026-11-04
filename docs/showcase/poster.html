@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Text-to-SQL Agent poster</title>
+<link rel="stylesheet" href="showcase.css">
+<style>
+  body { width: 1200px; height: 1700px; overflow: hidden; }
+  .page { padding: 44px 60px 0; height: 100%; display: flex; flex-direction: column; }
+  header { display: flex; justify-content: space-between; align-items: center; }
+  header .brand { font-size: 20px; }
+  header .tag { font-size: 15px; color: var(--muted); }
+
+  .hero { display: grid; grid-template-columns: 1fr 600px; gap: 40px; margin-top: 28px; align-items: center; }
+  .hero h1 { font-weight: 700; font-size: 46px; line-height: 1.08; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: normal; color: var(--primary); }
+  .hero p { font-size: 18px; line-height: 1.5; color: var(--muted); margin-top: 16px; }
+  .engines { display: flex; gap: 8px; margin-top: 20px; }
+
+  section { margin-top: 22px; }
+  h2 { font-weight: 600; font-size: 26px; letter-spacing: -0.01em; margin-top: 6px; }
+
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 16px; }
+  .flow .card { padding: 16px 16px 18px; }
+  .flow .n { font-family: "Plex Mono", monospace; font-size: 13px; color: var(--primary); }
+  .flow h4 { font-size: 17px; font-weight: 600; margin: 6px 0 6px; }
+  .flow p { font-size: 13.5px; line-height: 1.4; color: var(--muted); }
+  .flow .gate { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .flow .gate p { color: #C8CED6; }
+  .flow .gate .n { color: var(--bar); }
+
+  .results { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .results .card { padding: 18px 24px; }
+  .results h3 { font-size: 17px; font-weight: 600; }
+  .results .sub { font-size: 13.5px; color: var(--muted); margin: 4px 0 16px; line-height: 1.4; }
+  .bench { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .bench div { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 13px; color: var(--muted); line-height: 1.35; }
+  .bench b { display: block; font-size: 30px; font-weight: 600; color: var(--ink); }
+  .bars { --label: 190px; font-size: 14px; }
+  .delta { display: flex; gap: 22px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .delta div { font-size: 13px; color: var(--muted); line-height: 1.35; }
+  .delta b { display: block; font-size: 24px; font-weight: 600; color: var(--primary); }
+
+  .lessons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 28px; margin-top: 16px; }
+  .lessons div { font-size: 14.5px; line-height: 1.45; color: var(--muted); padding-left: 14px; border-left: 3px solid var(--primary); }
+  .lessons b { color: var(--ink); display: block; font-size: 16px; margin-bottom: 3px; }
+
+  .tried { margin-top: 16px; }
+  .tried table.t { font-size: 14px; }
+  .tried table.t td { padding: 6px 12px; }
+
+  footer { margin-top: auto; margin-left: -60px; margin-right: -60px; padding: 22px 60px; background: var(--ink); color: #fff;
+    display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+  footer .links div { color: #C8CED6; margin-top: 3px; }
+  footer .stack { color: #C8CED6; text-align: right; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="brand"><span class="mark">SQL</span>Text-to-SQL Agent</div>
+    <div class="tag">Portfolio prototype · results as of 5 Nov 2026</div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Ask in English, check the SQL</div>
+      <h1>Answers you can <em>inspect</em>, from a database it can only read.</h1>
+      <p>A local or hosted model writes one <code>SELECT</code>; Python decides whether it runs. Every answer shows the rows, the SQL, and the exact schema text the model was given. Result rows are never sent to the model.</p>
+      <div class="engines"><span class="chip">SQLite</span><span class="chip">DuckDB</span><span class="chip">PostgreSQL</span><span class="chip off">Ollama or Gemini</span></div>
+    </div>
+    <div class="shot"><img src="../screenshots/01-answer.png" alt="The app answering a revenue question with a chart, table and the How this was answered panel"></div>
+  </div>
+
+  <section>
+    <div class="eyebrow">How an answer is produced</div>
+    <div class="flow">
+      <div class="card"><div class="n">01</div><h4>Read schema</h4><p>The engine builds one chunk per table: DDL, keys, and up to six frequent values of low-cardinality text columns.</p></div>
+      <div class="card"><div class="n">02</div><h4>Pick tables</h4><p>BM25, name matches and character trigrams rank tables; the top 6 plus foreign-key neighbours are sent.</p></div>
+      <div class="card"><div class="n">03</div><h4>Generate</h4><p>The model returns one SQL statement for that schema and the question, nothing else.</p></div>
+      <div class="card gate"><div class="n">04</div><h4>Read-only gate</h4><p>AST validation in the engine's dialect, then the engine's own read-only mode, a work budget and a row cap.</p></div>
+      <div class="card"><div class="n">05</div><h4>Show the work</h4><p>Rows, a chart where it fits, the SQL, the tables picked and why, and one repair try on a failed run.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Measured, with 95 % intervals</div>
+    <div class="results">
+      <div class="card">
+        <h3>Standard benchmarks, full dev sets</h3>
+        <div class="sub">Local <code>qwen3.5:9b</code> (Ollama, thinking off), typed result comparison. Not leaderboard-comparable.</div>
+        <div class="bench">
+          <div><b>64.6%</b>Spider 1.0 dev<br>1,034 questions</div>
+          <div><b>35.2%</b>BIRD dev with evidence<br>1,534 questions</div>
+          <div><b>25.1%</b>BIRD dev without evidence<br>1,534 questions</div>
+        </div>
+        <div class="delta">
+          <div><b>6 / 6</b>data-change requests refused</div>
+          <div><b>45 / 0</b>engine conformance tests passed / skipped, live PostgreSQL 16</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Large schemas: where choosing tables pays</h3>
+        <div class="sub"><code>bird_train_large</code>: 1,222 BIRD train questions, 4 databases of 21 to 65 tables.</div>
+        <div class="bars">
+          <div class="row"><span>Full DDL plus value hints</span><div class="track"><div style="width:51%"></div></div><span class="v">25.5%</span></div>
+          <div class="row"><span>Plain full DDL</span><div class="track"><div style="width:53.6%"></div></div><span class="v">26.8%</span></div>
+          <div class="row lead"><b>Top 6 tables (default)</b><div class="track"><div style="width:58.2%"></div></div><span class="v">29.1%</span></div>
+        </div>
+        <div class="delta">
+          <div><b>+3.6 pts</b>[+1.4, +5.8] vs full DDL plus hints, paired</div>
+          <div><b>69 %</b>fewer prompt tokens</div>
+          <div><b>0.891</b>retrieval MRR after the scorer update</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">What was tried since October, each paired against a named baseline</div>
+    <div class="card tried" style="padding: 10px 12px 4px;">
+      <table class="t">
+        <tr><th>Change</th><th>Effect on the 1,222 questions</th><th>Decision</th></tr>
+        <tr><td>Question value matching (reads stored values)</td><td>+0.4 pts [-0.9, +1.6] vs top 6</td><td><span class="chip off">off</span></td></tr>
+        <tr><td>Dense embeddings in the table scorer</td><td>Questions with a needed table not sent 128 → 74; answers +0.2 pts [-1.6, +2.0] vs the kept scorer</td><td><span class="chip off">off</span></td></tr>
+        <tr><td>Shared prompt layout (every table, the selected ones named)</td><td>Latency 10.2 s → 4.3 s; answers −2.4 pts [−4.6, −0.2] vs a fresh top-6 run</td><td><span class="chip off">opt-in</span></td></tr>
+        <tr><td>Shared layout plus each table's columns and joins</td><td>−2.1 pts [−4.3, +0.0] vs that top-6 run; across commits, not controlled</td><td><span class="chip off">opt-in</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">What the numbers say</div>
+    <div class="lessons">
+      <div><b>Selection pays only at scale.</b>On Spider and BIRD dev (at most 14 tables) choosing tables added nothing measurable; on 34- and 65-table databases it is the one measured accuracy gain.</div>
+      <div><b>Better retrieval is not better answers.</b>Embeddings sent the right tables far more often, but flipped as many other answers the wrong way. Recall is reported separately from accuracy.</div>
+      <div><b>Speed and accuracy trade.</b>Sending the same schema every time lets Ollama reuse its cache and is 58 % faster, but costs accuracy, so the default stays per-question selection.</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="links">
+      <b>Live demo</b> aipa-text-to-sql-agent.streamlit.app
+      <div>Code, runs and decision log: github.com/tuannm3812/text-to-sql-agent</div>
+    </div>
+    <div class="stack">Python · Streamlit · sqlglot · Ollama / Gemini<br>Every figure links to a committed run with its manifest</div>
+  </footer>
+</div>
+</body>
+</html>

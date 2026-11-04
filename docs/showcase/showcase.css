@@ -1,0 +1,49 @@
+/* Shared styles for the showcase poster and deck. Colours and type follow
+   docs/design/design.md (teal / IBM Plex); fonts are the app's bundled files
+   in static/fonts. */
+@font-face { font-family: "Plex Sans"; font-weight: 400; src: url("../../static/fonts/IBMPlexSans-Regular-Latin1.woff2"); }
+@font-face { font-family: "Plex Sans"; font-weight: 500; src: url("../../static/fonts/IBMPlexSans-Medium-Latin1.woff2"); }
+@font-face { font-family: "Plex Sans"; font-weight: 600; src: url("../../static/fonts/IBMPlexSans-SemiBold-Latin1.woff2"); }
+@font-face { font-family: "Plex Sans"; font-weight: 700; src: url("../../static/fonts/IBMPlexSans-Bold-Latin1.woff2"); }
+@font-face { font-family: "Plex Mono"; font-weight: 400; src: url("../../static/fonts/IBMPlexMono-Regular-Latin1.woff2"); }
+@font-face { font-family: "Plex Mono"; font-weight: 500; src: url("../../static/fonts/IBMPlexMono-Medium-Latin1.woff2"); }
+
+:root {
+  --canvas: #F6F7F4; --surface: #FFFFFF; --ink: #1C2430; --muted: #5D6672;
+  --line: #DCE0DA; --primary: #0E6E66; --tint: #E3F0ED; --bar: #9CC5BF;
+  --warn: #8A5A00; --warn-bg: #FFF4D6; --fail: #B42318; --fail-bg: #FFF0EE;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--canvas); color: var(--ink); font-family: "Plex Sans", sans-serif;
+  -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+code, .mono { font-family: "Plex Mono", monospace; }
+
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+.brand .mark { width: 34px; height: 34px; border-radius: 9px; background: var(--primary); color: #fff;
+  display: grid; place-items: center; font-family: "Plex Mono", monospace; font-weight: 500; font-size: 15px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.eyebrow { font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); }
+.chip { display: inline-block; border-radius: 999px; padding: 5px 12px; font-size: 14px; font-weight: 500;
+  background: var(--tint); color: var(--primary); }
+.chip.off { background: #EEF0EC; color: var(--muted); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.shot { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff;
+  box-shadow: 0 10px 30px rgba(28, 36, 48, 0.08); }
+.shot img { display: block; width: 100%; }
+.note { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+/* Horizontal bars: .bars > .row(label, track > fill, value) */
+.bars .row { display: grid; grid-template-columns: var(--label, 260px) 1fr 76px; gap: 14px; align-items: center; }
+.bars .row + .row { margin-top: 12px; }
+.bars .track { height: 18px; background: #ECEFEA; border-radius: 99px; overflow: hidden; }
+.bars .track div { height: 100%; background: var(--bar); border-radius: 99px; }
+.bars .row.lead .track div { background: var(--primary); }
+.bars .row.lead b { color: var(--primary); }
+.bars .v { text-align: right; font-weight: 600; font-size: 20px; }
+
+table.t { border-collapse: collapse; width: 100%; font-size: 16px; }
+table.t th { text-align: left; font-weight: 600; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--muted); padding: 0 12px 10px; border-bottom: 1px solid var(--line); }
+table.t td { padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.35; }
+table.t td.n { text-align: right; white-space: nowrap; }
+table.t tr.keep td { background: #F1F7F5; }

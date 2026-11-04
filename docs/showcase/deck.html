@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Text-to-SQL Agent deck</title>
+<link rel="stylesheet" href="showcase.css">
+<style>
+  @page { size: 1600px 900px; margin: 0; }
+  body { width: 1600px; }
+  .slide { width: 1600px; height: 900px; padding: 64px 80px 0; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; break-after: page; }
+  .slide .foot { position: absolute; left: 80px; right: 80px; bottom: 34px; display: flex; justify-content: space-between;
+    font-size: 14px; color: var(--muted); }
+  .slide .foot .src { max-width: 1200px; }
+  h1 { font-weight: 700; font-size: 64px; line-height: 1.05; letter-spacing: -0.02em; }
+  h2 { font-weight: 600; font-size: 44px; line-height: 1.12; letter-spacing: -0.015em; margin-top: 10px; max-width: 1300px; }
+  .lede { font-size: 22px; line-height: 1.5; color: var(--muted); margin-top: 14px; max-width: 1200px; }
+  .body { margin-top: 36px; flex: 1; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .pts { list-style: none; }
+  .pts li { font-size: 21px; line-height: 1.45; padding-left: 18px; border-left: 3px solid var(--primary); margin-bottom: 18px; color: var(--muted); }
+  .pts li b { color: var(--ink); display: block; font-weight: 600; }
+  .stat { padding: 22px 26px; }
+  .stat b { display: block; font-size: 48px; font-weight: 600; letter-spacing: -0.01em; }
+  .stat span { font-size: 17px; color: var(--muted); line-height: 1.4; display: block; margin-top: 4px; }
+  .stats { display: grid; gap: 16px; }
+  .bars { --label: 340px; font-size: 20px; }
+  .bars .track { height: 28px; }
+  .bars .v { font-size: 26px; }
+  .bars .row + .row { margin-top: 20px; }
+  table.t { font-size: 19px; }
+  table.t th { font-size: 14px; }
+  .dark { background: var(--ink); color: #fff; }
+  .dark .eyebrow { color: var(--bar); }
+  .dark .lede, .dark .foot { color: #C8CED6; }
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .flow .card { padding: 20px 20px 22px; }
+  .flow .n { font-family: "Plex Mono", monospace; font-size: 15px; color: var(--primary); }
+  .flow h4 { font-size: 21px; font-weight: 600; margin: 8px 0; }
+  .flow p { font-size: 16px; line-height: 1.45; color: var(--muted); }
+  .flow .gate { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .flow .gate p { color: #C8CED6; }
+  .flow .gate .n { color: var(--bar); }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide">
+  <div class="brand" style="font-size: 20px;"><span class="mark">SQL</span>Text-to-SQL Agent</div>
+  <div class="two" style="margin-top: 70px; grid-template-columns: 1fr 760px; align-items: center;">
+    <div>
+      <div class="eyebrow">Portfolio prototype · November 2026</div>
+      <h1 style="margin-top: 14px;">Ask in English. Check the SQL. Nothing gets written.</h1>
+      <p class="lede">A model writes one <code>SELECT</code>; the application decides whether it runs, and every answer shows the rows, the SQL and the exact schema text the model saw.</p>
+      <div style="display:flex; gap:8px; margin-top: 24px;"><span class="chip">SQLite</span><span class="chip">DuckDB</span><span class="chip">PostgreSQL</span><span class="chip off">Ollama or Gemini</span></div>
+    </div>
+    <div class="shot"><img src="../screenshots/01-answer.png" alt="The app answering a revenue question"></div>
+  </div>
+  <div class="foot"><span>aipa-text-to-sql-agent.streamlit.app · github.com/tuannm3812/text-to-sql-agent</span><span>01</span></div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="eyebrow">The problem</div>
+  <h2>Most people with a question about the data cannot write SQL, and a model that runs its own SQL is not safe to trust.</h2>
+  <div class="body two">
+    <ul class="pts">
+      <li><b>Answers have to be checkable.</b>The app shows the SQL, the tables it picked and why, and the schema text sent, recorded when the answer was made.</li>
+      <li><b>The database has to stay unchanged.</b>Read-only is enforced by the application and by each engine, not by asking the model nicely.</li>
+      <li><b>Claims have to be measured.</b>Every accuracy figure comes from a committed run with a manifest: commit, suite and database hashes, prompt hash, model and settings.</li>
+    </ul>
+    <div class="card" style="padding: 26px 30px; align-self: start;">
+      <div class="eyebrow" style="margin-bottom: 14px;">What the model sees</div>
+      <table class="t">
+        <tr><td><b>Schema metadata</b></td><td>Table and column names, types, keys, <code>CREATE TABLE</code> DDL</td></tr>
+        <tr><td><b>Value hints</b></td><td>Up to six frequent values of text columns with at most 20 distinct values, labelled when cut</td></tr>
+        <tr><td><b>Value matching</b></td><td>Built, measured, <b>off</b>: it would send stored values matching the question</td></tr>
+        <tr><td><b>Result rows</b></td><td>Never. Shown to the user only</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="foot"><span>README, What It Does</span><span>02</span></div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="eyebrow">How an answer is produced</div>
+  <h2>The model proposes; Python and the engine decide.</h2>
+  <div class="body">
+    <div class="flow">
+      <div class="card"><div class="n">01</div><h4>Read schema</h4><p>The engine for the connection builds one chunk per table: DDL, keys and bounded value hints.</p></div>
+      <div class="card"><div class="n">02</div><h4>Pick tables</h4><p>BM25 over names and DDL, quarter-weight BM25 over hints, name matches and character trigrams. Top 6 plus foreign-key neighbours.</p></div>
+      <div class="card"><div class="n">03</div><h4>Generate</h4><p>Question plus that schema text to Ollama or Gemini, which returns one statement.</p></div>
+      <div class="card gate"><div class="n">04</div><h4>Read-only gate</h4><p>sqlglot AST check in the engine's dialect, internals blocked, then the engine's own read-only mode, a work budget and a row cap.</p></div>
+      <div class="card"><div class="n">05</div><h4>Show the work</h4><p>Rows, a chart for one-category results, the SQL, the selection report. One repair try if the run fails.</p></div>
+    </div>
+    <div class="shot" style="margin-top: 30px; height: 320px; background: #0F1722; border-color: #0F1722;"><img src="../screenshots/00-architecture-workflow.png" alt="Runtime architecture schematic" style="height: 100%; width: auto; margin: 0 auto;"></div>
+  </div>
+  <div class="foot"><span>README, Architecture and Schema RAG; docs/2_architecture.md</span><span>03</span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="eyebrow">Safety</div>
+  <h2>Two independent read-only guarantees on every engine, held to one conformance suite.</h2>
+  <div class="body two" style="grid-template-columns: 1fr 640px;">
+    <ul class="pts">
+      <li><b>Application check.</b>One statement, <code>SELECT</code> or <code>WITH</code>, parsed by sqlglot in the engine's dialect; writes, DDL and database internals refused.</li>
+      <li><b>Engine guarantee.</b>SQLite read-only URI, <code>query_only</code> and an authorizer; DuckDB with external access off; PostgreSQL with a least-privilege role in a read-only transaction, and a refusal to connect as a superuser.</li>
+      <li><b>Verified 4 Nov 2026 against live PostgreSQL 16.</b>45 conformance tests, 15 per engine, 0 skipped; 1,870 tests passed in the full suite.</li>
+      <li><b>Measured refusals.</b>On the safety suite the model refused all 6 data-change requests; overall safety accuracy 73.3 % [53.3, 93.3] on 15 cases.</li>
+    </ul>
+    <div class="shot" style="align-self: start;"><img src="../screenshots/03-read-only-refusal.png" alt="A request to delete orders answered: Not run, this agent only reads data"></div>
+  </div>
+  <div class="foot"><span>README, Safety Model; AGENTS.md current state, 2026-11-04; v2 safety run 2026-10-10</span><span>04</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="eyebrow">Standard benchmarks</div>
+  <h2>Full dev sets, a local 9B model, and an interval on every number.</h2>
+  <p class="lede">Ollama <code>qwen3.5:9b-q4_K_M</code>, thinking off, schema RAG on. EX is this project's typed comparison of result sets, so it is not directly comparable with leaderboard figures.</p>
+  <div class="body">
+    <div class="stats" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card stat"><b>64.6%</b><span>Spider 1.0 dev, 1,034 questions<br>[61.6, 67.5]</span></div>
+      <div class="card stat"><b>35.2%</b><span>BIRD dev with evidence hints, 1,534 questions<br>[32.9, 37.6]</span></div>
+      <div class="card stat"><b>25.1%</b><span>BIRD dev without evidence hints<br>[22.9, 27.3]</span></div>
+    </div>
+    <ul class="pts" style="margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px;">
+      <li><b>Turning thinking off mattered most.</b>+8.5 points [5.8, 11.3] on Spider, paired: with thinking on, many answers ran out of tokens before any SQL. Time per question fell from about 25 s to 3 to 7 s.</li>
+      <li><b>Schema RAG on these sets: +3.0 points on Spider, nothing measurable on BIRD.</b>The value hints carry that gain. These databases have at most 14 tables, so there is little to choose between.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>README, Evaluation Results, v2 at commit 7708295; evaluation/results/rag_ablation.md</span><span>05</span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="eyebrow">Large schemas · bird_train_large</div>
+  <h2>On 21- to 65-table databases, sending the top six tables and their neighbours beats sending them all.</h2>
+  <p class="lede">1,222 BIRD train questions over four databases, built because the dev sets are too small to show whether selection helps. Evidence hints on; paired on the same questions.</p>
+  <div class="body two" style="grid-template-columns: 1fr 430px; align-items: center;">
+    <div class="card" style="padding: 34px 36px;">
+      <div class="bars">
+        <div class="row"><span>Full DDL plus value hints</span><div class="track"><div style="width:63.75%"></div></div><span class="v">25.5%</span></div>
+        <div class="row"><span>Plain full DDL (RAG off)</span><div class="track"><div style="width:67%"></div></div><span class="v">26.8%</span></div>
+        <div class="row lead"><b>Top 6 plus neighbours (default)</b><div class="track"><div style="width:72.75%"></div></div><span class="v">29.1%</span></div>
+      </div>
+      <p class="note" style="margin-top: 22px; font-size: 15px;">EX on 1,222 questions, 19 Oct 2026. Bars drawn on a 0 to 40 % scale.</p>
+    </div>
+    <div class="stats">
+      <div class="card stat"><b style="color: var(--primary);">+3.6 pts</b><span>[+1.4, +5.8] against full DDL plus hints, from the 65- and 34-table databases</span></div>
+      <div class="card stat"><b>69 %</b><span>fewer prompt tokens than full DDL plus hints</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>evaluation/results/bird_train_large/README.md</span><span>06</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="eyebrow">What was tried, 19 Oct to 4 Nov 2026</div>
+  <h2>Each change paired against a named baseline. One retrieval change was kept.</h2>
+  <p class="lede">The baselines are not a chain: top 6 was run three times as the code changed (29.1 % at <code>47284f5</code>, 30.0 % with the kept scorer at <code>28f21bc</code>, 30.0 % again at <code>20ee05f</code>).</p>
+  <div class="body" style="margin-top: 24px;">
+    <div class="card" style="padding: 14px 22px 4px;">
+      <table class="t">
+        <tr><th>Change</th><th style="text-align:right">EX</th><th>Paired change, points</th><th>Decision</th></tr>
+        <tr class="keep"><td>Top 6 plus neighbours</td><td class="n">29.1 %</td><td>+3.6 [+1.4, +5.8] vs full DDL plus hints; 69 % fewer tokens</td><td><span class="chip">default</span></td></tr>
+        <tr><td>Question value matching (reads stored values)</td><td class="n">29.5 %</td><td>+0.4 [-0.9, +1.6] vs top 6 at <code>47284f5</code></td><td><span class="chip off">off</span></td></tr>
+        <tr class="keep"><td>Scorer signals: schema BM25, hint BM25, singulars</td><td class="n">30.0 %</td><td>+0.9 [-0.7, +2.4] vs top 6 at <code>47284f5</code>; retrieval MRR 0.853 to 0.891</td><td><span class="chip">kept</span></td></tr>
+        <tr><td>Dense embeddings (Ollama <code>all-minilm</code>)</td><td class="n">30.2 %</td><td>+0.2 [-1.6, +2.0] vs the kept scorer</td><td><span class="chip off">off</span></td></tr>
+        <tr><td><code>shared</code> layout: every table, then the selected ones named</td><td class="n">27.7 %</td><td>−2.4 [−4.6, −0.2] vs a fresh top-6 run at <code>20ee05f</code>; latency 10.2 s to 4.3 s</td><td><span class="chip off">opt-in</span></td></tr>
+        <tr><td><code>shared-summary</code>: plus their columns and joins</td><td class="n">27.9 %</td><td>+0.2 [−1.5, +2.0] vs <code>shared</code>; −2.1 [−4.3, +0.0] vs that top-6 run; across commits, not controlled</td><td><span class="chip off">opt-in</span></td></tr>
+      </table>
+    </div>
+    <p class="note" style="margin-top: 16px; font-size: 15px;">The scorer change was kept for its retrieval gain; its effect on answers is inside its interval and is not claimed as an accuracy gain.</p>
+  </div>
+  <div class="foot"><span>README, Large schemas: what was tried; evaluation/results/{value_matches, scorer_signals, dense_embeddings, shared_layout}</span><span>07</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="eyebrow">What the numbers say</div>
+  <h2>Better retrieval did not become better answers.</h2>
+  <div class="body two">
+    <ul class="pts">
+      <li><b>Recall rose; accuracy did not move measurably.</b>Dense embeddings cut the questions missing a needed table from 128 to 74, and answers on those rose from 8 to 26 correct. Elsewhere the changed table sets flipped as many answers the other way: +0.2 points overall.</li>
+      <li><b>Value hints help on Spider, not here.</b>On this suite they do no measurable good or harm (−1.3 [−2.9, +0.2] against plain DDL): half the literals the questions need sit in text columns over the 20-value ceiling, and most shown hints repeat the evidence.</li>
+    </ul>
+    <ul class="pts">
+      <li><b>Speed and accuracy trade.</b>A per-question schema stops Ollama reusing its prompt cache, so top 6 is about 2 s slower than full DDL. Sending the same schema every time was 58 % faster but cost 2.4 points. Why is not settled: those layouts change length, content and placement together. The default stays per-question selection.</li>
+      <li><b>The trade-off, observed.</b>128 of 1,222 questions have a needed table outside the selected tables plus neighbours. They score 8 of 128 under the default against 21 to 23 with every table sent; the other 1,094 score 359 against 315 to 320. In the layouts tested the loss on the many outweighs the gain on the few; that is not a bound on what better retrieval could reach.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>README, Large schemas: what this says; evaluation/results/retrieval/README.md</span><span>08</span></div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="eyebrow">Interface</div>
+  <h2>Redesigned so the answer comes first and the evidence is one glance away.</h2>
+  <div class="body two" style="grid-template-columns: 1fr 1fr 250px; gap: 26px; align-items: start;">
+    <div><div class="shot"><img src="../screenshots/01-answer.png" alt="Answer with headline, chart and table"></div><p class="note" style="margin-top: 10px; font-size: 15px;">A headline stated from the rows, a chart when the result is one category and one number, the table.</p></div>
+    <div><div class="shot"><img src="../screenshots/02-how-it-was-answered.png" alt="How this was answered panel"></div><p class="note" style="margin-top: 10px; font-size: 15px;">How this was answered: tables picked and why, schema size sent, the SQL, the read-only check, the run.</p></div>
+    <div><div class="shot"><img src="../screenshots/04-narrow.png" alt="Phone-width layout"></div><p class="note" style="margin-top: 10px; font-size: 15px;">One column at phone width.</p></div>
+  </div>
+  <div class="foot"><span>Teal and IBM Plex direction, docs/design/design.md · real captures from scripts/capture_screenshots.py with a local model</span><span>09</span></div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="eyebrow">Limits and next steps</div>
+  <h2>What these results do not show, and what comes next.</h2>
+  <div class="body two">
+    <ul class="pts">
+      <li><b>One model.</b>All v2 figures use a local 9B model. Gemini is supported but unmeasured under v2: no key is configured locally.</li>
+      <li><b>One large-schema suite.</b>Four databases from BIRD train, with the gain from two of them; other schemas are untested.</li>
+      <li><b>Not leaderboard numbers.</b>EX is this project's typed result comparison, not each benchmark's own scorer.</li>
+    </ul>
+    <ul class="pts">
+      <li><b>Hint coverage.</b>Needed literals over the 20-value ceiling are never hinted; listing more values needs a privacy decision first.</li>
+      <li><b>Missing tables.</b>128 questions have a needed table outside what is sent; recovering them without hurting the rest is open.</li>
+      <li><b>Gemini thinking.</b>Its thinking tokens share the 512-token output cap, so a hard question can return no SQL; measure and disable once a key is available.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>docs/4_next_steps.md; README, Evaluation Results</span><span>10</span></div>
+</section>
+
+<!-- 11 -->
+<section class="slide dark">
+  <div class="brand" style="font-size: 20px;"><span class="mark">SQL</span>Text-to-SQL Agent</div>
+  <div style="margin-top: 120px;">
+    <div class="eyebrow">In one line</div>
+    <h1 style="margin-top: 16px; max-width: 1300px;">Grounded, visible, read-only and measured, including the ideas that did not work.</h1>
+    <p class="lede" style="margin-top: 30px;">Live demo: aipa-text-to-sql-agent.streamlit.app<br>Code, runs and decision log: github.com/tuannm3812/text-to-sql-agent</p>
+    <p class="lede" style="margin-top: 30px; font-size: 18px;">Began as a UTS group project in May 2026 with Huy Duc Vu, Ngoc Bao Tran Nguyen, Manh Tuan Nguyen and Nguyen Nghia Doan Dang; refined since by Manh Tuan Nguyen.</p>
+  </div>
+  <div class="foot"><span>Thank you · questions</span><span>11</span></div>
+</section>
+
+</body>
+</html>
