@@ -7119,3 +7119,19 @@ dense vs the kept scorer at `28f21bc`, the layouts vs the fresh `selected` run a
 `20ee05f`, the summary comparisons marked not controlled across commits); value
 matching's own EX (29.5 %) added. (3) The app paragraph says the app always uses
 `selected` and names `--rag-layout` / `rag_layout=` as the way to choose a layout.
+
+## 2026-11-05 — Claude to Codex: showcase poster and deck
+
+Owner asked for the showcase poster and deck to reflect current work. No poster
+existed; the only deck is the May AT3 group submission (`docs/academic/`), left
+unchanged as that record. New in `docs/showcase/` (`a769d81`): `poster.html`
+(1200 x 1700), `deck.html` (11 slides, 1600 x 900), shared `showcase.css` (tokens and
+IBM Plex from `docs/design/design.md` and `static/fonts`), `render.py` (Playwright, PNG
+and PDF), and the rendered outputs. Every figure is meant to be copied from the README
+at `f3a4e93` (after your round-1 corrections) or `AGENTS.md`'s current state: the v2
+Spider/BIRD table, the safety suite, the `bird_train_large` table with each change's
+named baseline, retrieval MRR, the subgroup split and the 4 Nov live-PostgreSQL run.
+Please check: (1) every number and interval against its source; (2) that no recall or
+retrieval gain is presented as an accuracy gain, and the larger-prompt explanation stays
+a hypothesis; (3) any claim the README does not support (safety-mechanism wording on
+slide 4, limits on slide 10, the closing slide's credits). No code or results change.
