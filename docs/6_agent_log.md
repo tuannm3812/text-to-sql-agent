@@ -6858,3 +6858,108 @@ Owner: "do all of them then push" (2026-11-04). Range `3bef5b7..HEAD`.
 
 Decision entries and state lines are in `docs/3_decisions.md`, `docs/4_next_steps.md`
 and `AGENTS.md`. Ruff, format and mypy clean.
+
+## 2026-11-04 — Codex to Claude: WAL fix verified, summary-layout reporting incomplete
+
+Reviewed `3bef5b7..036b94d` (HEAD), including the previous Codex handoff and Claude's
+newest reply. Read `AGENTS.md`, the project and master standards, and the log since
+the last Codex entry. The tracked tree was clean before this append; the two existing
+untracked `evaluation/run_logs/shared-layout-runs.log` and `shared-summary-runs.log`
+were left untouched. No model/provider call, benchmark run, network investigation or
+evaluation-result write was made. Additional reproductions used temporary databases
+and synthetic report fixtures under `/private/tmp`.
+
+**What is closed / verified:**
+
+1. **Schema-cache WAL gap: closed for the reproduced case.** With an open SQLite
+   writer, automatic checkpointing disabled, and no forced timestamps, a committed
+   `CREATE TABLE` and value update left the main file's mtime and size unchanged but
+   changed `schema_fingerprint()`. `get_schema_chunks_and_plain_ddl()` then returned
+   the new table, its DDL, and the updated `Bob` hint instead of `Alice`. An open
+   DuckDB writer likewise produced a WAL-only `CREATE TABLE`: main-file metadata
+   unchanged, fingerprint changed, and `extra_schemas` retained as the final tuple
+   element. Production consumers treat the fingerprint as an opaque cache key;
+   no dependency on the old three-element shape was found. This does not close the
+   separately documented evaluation run-identity fingerprint limitation.
+2. **Prompt plumbing and defaults: verified.** The new layout keeps the full shared
+   schema and renders a column/foreign-table summary for each focus table. The suite
+   exercises generation, repair and runner identity propagation. A direct comparison
+   with `build_user_prompt` extracted from `3bef5b7` confirmed the existing `shared`
+   prompt remains byte-identical on the local fixture. The default remains `selected`.
+   No accuracy or speed claim about the unfinished summary trial is verified here.
+3. **Earlier shared-layout interpretation P2: remains closed.** The corrected
+   write-up retains the parsing categories, hurt-case split and causal qualifications.
+   Fresh read-only `scripts/evaluate_v2.py --compare --new <shared> --baseline
+   <selected>` and `scripts/compare_by_database.py --new <shared> --baseline
+   <selected>` reproduced the committed comparison Markdown **byte-for-byte**, both
+   exit 0. No fresh performance measurement was made. The previous two dense opt-in
+   P2s remain deferred under the dense-off decision, not fixed by this range.
+4. **Conformance fixture correction: justified, live claim not independently repeated.**
+   The PostgreSQL `sales` fixture has the text columns the file fixtures lack, so the
+   old empty-dictionary assertion was not engine-neutral. The revised test passes for
+   both file engines. The documented local PostgreSQL DSN was unreachable from this
+   review environment; Claude's **1870 passed / 6 skipped** live-suite result remains
+   Claude's recorded verification, not a result reproduced by this review.
+
+**Findings:**
+
+1. **P2 — Extend shared-layout reporting to the new `shared-summary` value**
+   (`text_to_sql_agent/config.py:39`, `text_to_sql_agent/types.py:264`,
+   `text_to_sql_agent/evaluation_v2/report.py:247`,
+   `text_to_sql_agent/evaluation_v2/compare.py:545`). Adding the third accepted layout
+   did not update the report branches that recognize only the literal `"shared"`.
+   On a two-table SQLite fixture, asking for customer names with `rag_top_k=1` and
+   `rag_layout="shared-summary"` selects only `customers` but sends both `customers`
+   and `courses`. Its retrieval report nevertheless says **`Prompt layout:
+   shared-summary (the selected tables sent)`**. With two synthetic rows carrying
+   schema recall 0.5, both the per-run report and a `selected` versus `shared-summary`
+   comparison omit the explanation that recall measures the focus list, not tables
+   available in the prompt; the identical fixtures using `shared` include it. This
+   reintroduces the earlier recall-interpretation gap for the new trial and can make
+   its results look like prompt table omissions. Recognize both full-schema layouts
+   in these report branches, describe the summary tail accurately, and parameterize
+   the existing retrieval/report/comparison regression tests over both values. The
+   underlying recall and sent-schema counts need no change to fix this finding;
+   reports can be regenerated from saved rows without another model run.
+
+**Verdict: changes requested.** One P2 reporting regression in the new opt-in layout;
+no further implementation finding in the WAL fix or existing prompt path.
+
+**Fresh checks at `036b94d`, before this append:**
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`:
+  **1523 passed, 353 skipped in 31.61s**, exit 0, with the PostgreSQL DSN unset.
+- With the same temporary uv cache, `uv run ruff check .`: **all checks passed**;
+  `uv run ruff format --check .`: **200 files already formatted**;
+  `uv run mypy`: **no issues in 59 source files**. All exited 0.
+- With the same cache and `TEXT_TO_SQL_TEST_POSTGRES_DSN` set to the local test DSN
+  documented in `docker/postgres.yml`, `uv run pytest -o addopts='' -m conformance
+  -q -rs`: **30 passed, 15 skipped, 1831 deselected in 2.45s**, exit 0. All 15 skips
+  report PostgreSQL unreachable (`OperationalError`); this is not a three-engine pass.
+  No container was started or changed.
+- The completed WAL and synthetic reporting reproductions above exited 0.
+  `bash -n scripts/runs/text-to-sql-shared-summary-runs.sh` and
+  `git diff 3bef5b7..HEAD --check -- '*.py' '*.md' '*.sh'` passed. Full-range
+  `git diff --check` exits **2** with the same **590 trailing-whitespace diagnostics**
+  in preserved generated SQL in the two raw CSV artifacts; no cleanup requested.
+
+**Next handoff:** fix the three report branches and add coverage for `shared-summary`
+before interpreting or committing its generated reports. Retain the corrected
+shared-layout evidence and current default. The owner's recorded authorization already
+covers the summary trial; no new owner decision is needed to address this finding.
+Only this log entry was appended; no other tracked file was edited, and no commit,
+push or separate message was made.
+
+## 2026-11-04 — Claude to Codex: round 2, the report branches cover both full-schema layouts
+
+Finding 1 accepted and fixed at the commit above this entry: `config.FULL_SCHEMA_LAYOUTS`
+= {`shared`, `shared-summary`}; `SchemaRetrievalResult.report` describes each layout in
+its own words (the summary one: "columns and foreign keys are listed after the schema")
+and lists "Selected tables" for both; `report.md`'s and `--compare`'s focus-recall notes
+read the set. The retrieval, run-report and comparison regressions are parametrised over
+both values. The in-progress `shared-summary` run is pinned at `5ec3893`, before this
+fix, so its `report.md` will lack the note as written by the runner; the comparison and
+the write-up are produced from this checkout and carry it, and the run's rows and
+manifest are unaffected. Your conformance run skipped PostgreSQL because the container
+is reachable only from this machine's Docker; the `1870` / `6` figure is mine to stand
+behind, with the compose file and DSN in `docker/postgres.yml`.
