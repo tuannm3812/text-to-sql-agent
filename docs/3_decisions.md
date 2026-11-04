@@ -11,16 +11,19 @@ foreign keys in the focus section) scores 27.9 % on the full `bird_train_large`,
 per question (`evaluation/results/shared_layout/README.md`). Both full-schema layouts
 stay in the code as opt-in settings and `--compare` factors.
 
-**Ruled out:** A further tail variant (the selected tables' DDL repeated after the shared
-prefix): it would prefill about what top 6 prefills, so the speed gain would go, and the
-summary result says the tail's content is not where the loss is. Making either shared
-layout the default: the loss against `selected` is measurable for `shared` and at the
-edge for `shared-summary`, and accuracy on large schemas is the project's headline.
+**Ruled out, for now:** A further tail variant (the selected tables' DDL repeated after
+the shared prefix): its prefill would be about top 6's, so the speed gain would likely
+go, an estimate, not a measurement; and two tails that recovered nothing lower the odds
+that a third is where the gain is. Making either shared layout the default: the loss
+against `selected` is measurable for `shared` and at the edge for `shared-summary`, and
+accuracy on large schemas is the project's headline.
 
-**Why:** Two full-suite arms now agree that on this model a cached full-schema prefix
-costs about two points however the six tables are pointed at. Faster top 6 therefore
-needs a different idea (a smaller model for the tail, or a provider whose cache keys on
-more than a prefix), not another layout.
+**Why:** Two full-suite arms found that, on this model, a cached full-schema prefix with
+the six tables named, or named with their columns and join targets, costs about two
+points. That does not prove every layout must; untested are a full-DDL tail, other
+placements or wording, and an instruction to prefer the named tables, and the trials do
+not separate prompt length from the focus section's content and position. Closing the
+line is a choice about where to spend runs next (`evaluation/results/shared_layout/README.md`).
 
 ## 2026-11-04 — schema cache: the file engines' fingerprint states the write-ahead log
 

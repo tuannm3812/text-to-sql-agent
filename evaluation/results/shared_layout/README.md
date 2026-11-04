@@ -86,21 +86,27 @@ By database against selected: `works_cycles` -1.3 [-5.0, +2.4], `mondial_geo` -6
 [-11.3, -2.7], `soccer_2016` +0.4 [-5.0, +5.8], `hockey` -0.5 [-4.8, +3.9]; by hardness
 the loss is in `medium` (-4.1 [-7.8, -0.6]).
 
-- **The summary tail recovers nothing measurable.** Against `shared` it is +0.2 with an
-  interval spanning zero and 57 / 54 flips; against `selected` it is still a loss whose
-  interval reaches zero only at its edge. The speed is the same as `shared`.
-- **So the loss is not for lack of the selected tables' names or columns.** With the
-  columns and joins spelled out in the tail, the same `mondial_geo` deficit remains. What
-  is left as the difference between the layouts is the size and content of the prompt
-  itself: 3.2x more schema around the six tables that matter. Which part of that hurts,
-  attention over a longer context or the pull of the unnamed tables' columns, this data
-  still cannot settle.
+- **This summary variant produced no measurable net recovery.** Against `shared` it is
+  +0.2 with an interval spanning zero and 57 / 54 flips; against `selected` it is still a
+  loss whose interval reaches zero only at its edge. The speed is the same as `shared`.
+  The interval is not an equivalence result: it leaves room for a change of up to two
+  points either way.
+- **What the tail carried, and did not.** `focus_summary_lines` repeats each selected
+  table's column names and the names of the tables its foreign keys reference, not the
+  DDL's types, the key-column mappings, constraints or value hints (Codex, 2026-11-05);
+  those still have to be read from the shared prefix. So the result says that naming the
+  columns and join targets, on top of naming the tables, does not recover the loss. It
+  does not say what would: a full-DDL tail, a different placement or wording, or an
+  instruction to use the named tables are untested, and the trial does not separate
+  prompt length from the content, position and representation of the focus section.
+  That the larger prompt itself is the cause remains a hypothesis.
 
 **Reading.** Speed and accuracy trade off here: the shared layout is a 58 % latency cut
 for a 2.4-point EX loss on large schemas. It stays off by default; keeping or offering
 it is the owner's call (`docs/3_decisions.md`, 2026-10-31). A layout that keeps the
 cached prefix and also repeats the six selected tables' DDL in the tail would restore
 what the model reads but prefills about as much as top 6 does, so it is unlikely to keep
-the speed gain; the shorter per-table summary in the tail was tried on 2026-11-04 (above)
-and recovered nothing, so the speed gain and the accuracy loss come as a pair on this
-model.
+the speed gain, though that cost is an estimate, not a measurement; the shorter
+per-table summary in the tail was tried on 2026-11-04 (above) and recovered nothing
+measurable. Closing the line here is a choice about where to spend runs next, not proof
+that no layout can have both.
