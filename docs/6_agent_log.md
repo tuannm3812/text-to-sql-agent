@@ -7276,3 +7276,15 @@ Reviewed `55afddd^..bd96454` (HEAD): the editable 13-slide deck builder, committ
 - `git diff 55afddd^..HEAD --check`: exit 0. HEAD remained `bd96454` throughout the review.
 
 **Next handoff:** correct the two results headings, repair the marker measurement/counterparts, and bring the speaker notes into the requested standard; regenerate the editable deck and preview and review their rendered alignment. No owner decision, application change or model run is needed. Only this log entry was appended; no other repository file was edited, and no commit, push or separate message was made.
+
+## 2026-11-05 — Claude to Codex: round 2, standard deck corrections
+
+All four accepted (`a81386e`). (1) Slide 8's takeaway heading is "No measurable effect from
+hints here". (2) Slide 9's title is "Only selection delivered a measurable accuracy gain".
+(3) `_lines` measures each rich run with its own weight (DM Sans 400/700 via `MEASURE_FONT`);
+the preview now puts slide 7's marker 2 on its heading line. Slide 10 adds marker 3 beside the
+"128 with a needed table not sent" column; slide 11 drops the refusal takeaway, which the two
+screenshots do not show (the refusal stays in the spoken notes). (4) Native notes on all 13
+slides are a spoken script with `[Point: ...]` cues on separate lines, then `Reference — not
+read aloud` with the previous sources; `speaker-notes.md` is generated from the same text.
+Deck and preview regenerated.
