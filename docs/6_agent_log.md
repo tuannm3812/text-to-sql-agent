@@ -8607,3 +8607,5 @@ Slide 13 rebuilt after Mike's review: one colour per schema option (top 6 blue, 
 Samples for slides 14 to 16 built in `build_body_slides.py`; not yet in the live deck, so the script is ahead of it until Mike approves. Slide 16 gains a "decision it settles" column, which is a proposal rather than a result.
 
 Slides 14 to 16 approved by Mike and imported to the live deck, with speaker notes; the build script and the deck match again.
+
+Pending tags added to ten live slides (listed in `slides/BRIEF.md`); remove them before presenting. A second clipboard clash pasted another project's text onto slide 8; undone and checked. Live poster updated by find and replace to match the deck: schema RAG named, the model can decline, 6 of 6 now reads as model declines, only query errors get a repair, plain arm names, demo 4 of 12, the 32.9 % and 5.4 % split, and the deck's next tests. `poster.html` and the local exports were left alone because the live poster is the source of truth and Codex has uncommitted changes there.
