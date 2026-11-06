@@ -1405,7 +1405,7 @@ s = new_slide(
 # Eight equal cards on a four-column grid, top row left to right, bottom row right to left.
 W9, H9, G9 = 130.5, 76, 28
 CX = [43.5 + i * (W9 + G9) for i in range(4)]
-BAR1, ROW1, DBY, DBH, ROW2, BAR2 = 130, 153, 251, 40, 319, 400
+BAR1, ROW1, DBY, DBH, ROW2, BAR2 = 130, 153, 249, 38, 313, 394
 BARH = 18
 
 
@@ -1472,7 +1472,7 @@ step9(
     CX[2],
     ROW1,
     "Select tables",
-    [("Top 6 by hybrid score, plus neighbours", {}), ("2", {"sup": True})],
+    [("Schema RAG: top 6 by hybrid score, plus neighbours", {}), ("2", {"sup": True})],
     "rag.py",
 )
 step9(4, CX[3], ROW1, "Build prompt", [("Dialect rules, schema and question", {})], "llm.py")
@@ -1522,11 +1522,11 @@ step9(
     marks=("tech-pandas", "tech-streamlit"),
 )
 # The person opens and closes the flow, in the space between steps 1 and 8.
-icon(s, "person", "navy", CX[0] + 7, DBY + 10, 22)
+icon(s, "person", "navy", CX[0] + 7, DBY + 8, 22)
 text(
     s,
     CX[0] + 35,
-    DBY + 10,
+    DBY + 8,
     W9 - 35,
     22,
     [[("The person", B)], [("Asks first, inspects last", {})]],
@@ -1538,7 +1538,7 @@ shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, CX[1], DBY, DBW, DBH, fill=PALE_AMBER, rad
 text(
     s,
     CX[1] + 7,
-    DBY + 8,
+    DBY + 7,
     112,
     24,
     [[("Database engine", {"bold": True, "size": 10})], [("Set by the connection string", {})]],
@@ -1549,8 +1549,8 @@ for x, mark, label in (
     (CX[1] + 170, "tech-duckdb", "DuckDB"),
     (CX[1] + 220, "tech-postgresql", "PostgreSQL"),
 ):
-    logo(s, mark, x, DBY + 13, 14)
-    text(s, x + 17, DBY + 14, 46, 12, label, size=8)
+    logo(s, mark, x, DBY + 12, 14)
+    text(s, x + 17, DBY + 13, 46, 12, label, size=8)
 # Arrows at card mid-height, and at each card's centre between the rows.
 MID1, MID2 = ROW1 + H9 / 2, ROW2 + H9 / 2
 C2, C4 = CX[1] + W9 / 2, CX[3] + W9 / 2
@@ -1582,19 +1582,19 @@ for x, fill, label in (
     (CX[0] + 72, PALE_BLUE, "Model"),
     (CX[0] + 124, PALE_AMBER, "Database"),
 ):
-    shape(s, MSO_SHAPE.RECTANGLE, x, 424, 9, 9, fill=fill, line=RULE)
-    text(s, x + 13, 423, 56, 11, label, size=8, color=GREY)
-line(s, CX[0] + 186, 428.5, CX[0] + 206, 428.5, color=AMBER, width=1.5, dashed=True)
-text(s, CX[0] + 211, 423, 100, 11, "One repair try", size=8, color=GREY)
+    shape(s, MSO_SHAPE.RECTANGLE, x, 417, 9, 9, fill=fill, line=RULE)
+    text(s, x + 13, 416, 56, 11, label, size=8, color=GREY)
+line(s, CX[0] + 186, 421.5, CX[0] + 206, 421.5, color=AMBER, width=1.5, dashed=True)
+text(s, CX[0] + 211, 416, 100, 11, "One repair try", size=8, color=GREY)
 text(
     s,
     43.5,
-    437,
+    429,
     606,
-    44,
+    48,
     [
+        [("Note:", B)],
         [
-            ("Note: ", B),
             ("1", {"sup": True}),
             (
                 " Value hints are up to 6 stored values from text columns with 20 or fewer "

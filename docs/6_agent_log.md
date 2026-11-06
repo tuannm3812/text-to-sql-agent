@@ -8587,3 +8587,5 @@ Slide 9 refined after review: all eight steps use one card template (number badg
 Slide 9 content checked claim by claim against the code. Corrected: the model can decline as well as write SQL (`_sentinel_code`); only raised query errors get a repair, so a budget abort does not; LangChain serves Ollama only; the chart appears only when the result suits one; Run reads rows back from the engine, so that arrow is two-way. Hints, ranking signals, neighbours, limits, sources and modules matched.
 
 Slide 9 spaced out at Mike's request: the note moved down to y437, horizontal arrows are 28 pt and vertical ones 22 to 28 pt, and each takeaway gained a detail from the code (no model in retrieval or checks, a valid query can still be wrong, read-only per engine, a failed repair ends the attempt). The note ends about y474, inside the y476 limit.
+
+Slide 9: "Note:" now sits on its own line above the four superscripts, and step 3 is labelled Schema RAG because Mike asked where RAG appears.
