@@ -59,6 +59,8 @@ def write(frame, paras, size=12, color=NAVY, align=None, spacing=None, after=0):
             r.font.size = Pt(opt.get("size", size))
             r.font.bold = opt.get("bold", False)
             r.font.color.rgb = rgb(opt.get("color", color))
+            if opt.get("sup"):
+                r.font._element.set("baseline", "30000")
 
 
 def text(s, x, y, w, h, paras, anchor=None, **kw):
@@ -651,72 +653,90 @@ HEAD = ("APPROACH", "SOURCE", "SETUP", "UPKEEP", "BEST FOR", "RISK")
 WIDTHS = (118, 100, 96, 96, 98, 98)
 BANDS = (
     ("PEOPLE DEFINE THE MEANING", 1),
-    ("SYSTEMS WORK IT OUT", 2),
-    ("THIS PROJECT", 3),
+    ("SYSTEMS WORK IT OUT", 3),
+    ("THIS PROJECT", 4),
 )
 rows = [
     (
         0,
         "snowflake",
         "Snowflake Cortex Analyst",
-        "Semantic model",
-        (3, "Write model"),
-        (2, "Update terms"),
+        "1",
+        "Semantic view",
+        (2, "Define view"),
+        (2, "Refine with evaluations"),
         "Agreed metrics",
-        "Stale model",
+        "Stale definitions",
     ),
     (
         0,
         "databricks",
         "Databricks Genie Agents",
-        "Expert notes, example SQL",
-        (3, "Curate content"),
-        (2, "Refine notes"),
-        "Domain teams",
+        "2",
+        "SQL expressions, example SQL",
+        (3, "Expert curation"),
+        (2, "Iterate with feedback"),
+        "One topic and audience",
         "Curator-dependent",
     ),
     (
         0,
         "wren",
         "WrenAI",
-        "Metrics in Git",
-        (2, "Define metrics"),
-        (2, "Review changes"),
-        "Open review",
-        "Missing metrics",
+        "",
+        "Semantic layer in Git",
+        (2, "Define MDL model"),
+        (2, "Review in Git"),
+        "Versioned definitions",
+        "Unmodelled data",
     ),
     (
         1,
         "vanna",
         "Vanna",
-        "Past SQL, documents",
-        (2, "Collect examples"),
-        (2, "Refresh examples"),
+        "3",
+        "Saved past queries",
+        (1, "Learns from use"),
+        (2, "Self-maintained"),
         "Repeated questions",
-        "Old logic, archived",
+        "Repeats past errors",
     ),
     (
         1,
         None,
-        "Research agents",
-        "Multi-step pipelines",
-        (3, "Tune pipeline"),
-        (3, "Retune per test"),
-        "Top scores",
-        "Benchmark fit",
+        "BIRD leaderboard systems",
+        "4",
+        "Mostly not listed",
+        (None, "Not listed"),
+        (None, "Not listed"),
+        "Benchmark scores",
+        "Transfer unproven",
     ),
     (
         2,
         "project",
         "This project",
+        "",
         "Schema, bounded hints",
-        (0, "None"),
+        (0, "Connect only"),
         (0, "None"),
         "First look",
         "Person checks meaning",
     ),
 ]
-TX, TY, HEAD_H, BAND_H, ROW_H = 43.5, 130, 18, 16, 40
+TX, TY, HEAD_H, BAND_H, ROW_H = 43.5, 130, 18, 16, 38
+
+
+def dots(level):
+    """Effort as three dots; None means the effort is not listed."""
+    if level is None:
+        return [("–", {"size": 8, "color": GREY})]
+    return [
+        ("●" * level, {"size": 8, "color": BLUE}),
+        ("●" * (3 - level), {"size": 8, "color": RULE}),
+    ]
+
+
 n_rows = 1 + len(BANDS) + len(rows)
 table = s.shapes.add_table(
     n_rows, 6, Pt(TX), Pt(TY), Pt(sum(WIDTHS)), Pt(HEAD_H + BAND_H * 3 + ROW_H * len(rows))
@@ -740,7 +760,7 @@ table.rows[0].height = Pt(HEAD_H)
 for c, head in enumerate(HEAD):
     cell(0, c, head, WHITE, bold=True, color=NAVY)
 r, y, band = 1, TY + HEAD_H, -1
-for group, lg, name, *values in rows:
+for group, lg, name, mark, *values in rows:
     if group != band:
         band = group
         label, number = BANDS[group]
@@ -755,6 +775,12 @@ for group, lg, name, *values in rows:
     table.rows[r].height = Pt(ROW_H)
     fill = PALE_BLUE if lg == "project" else WHITE
     cell(r, 0, name, fill, bold=True)
+    if mark:
+        run = table.cell(r, 0).text_frame.paragraphs[0].add_run()
+        run.text = mark
+        run.font.name, run.font.size, run.font.bold = FONT, Pt(8), True
+        run.font.color.rgb = rgb(BLUE)
+        run.font._element.set("baseline", "30000")
     table.cell(r, 0).margin_left = Pt(30)
     source, setup, upkeep, best, risk = values
     project = lg == "project"
@@ -769,10 +795,7 @@ for group, lg, name, *values in rows:
         write(
             target.text_frame,
             [
-                [
-                    ("●" * level, {"size": 8, "color": BLUE}),
-                    ("●" * (3 - level), {"size": 8, "color": RULE}),
-                ],
+                dots(level),
                 [(label, {"size": 8, **(BB if project else {})})],
             ],
         )
@@ -782,19 +805,50 @@ for group, lg, name, *values in rows:
         table.cell(r, c).margin_left = Pt(19)
         icon(s, name_icon, colour, TX + sum(WIDTHS[:c]) + 5, y + ROW_H / 2 - 5, 10)
     if lg == "project":
-        icon(s, "fact_check", "blue", TX + 6, y + 11, 19)
+        icon(s, "fact_check", "blue", TX + 6, y + 10, 19)
     elif lg:
-        logo(s, lg, TX + 6, y + 11, 19)
+        logo(s, lg, TX + 6, y + 10, 19)
     else:
-        icon(s, "science", "blue", TX + 6, y + 11, 19)
+        icon(s, "science", "blue", TX + 6, y + 10, 19)
     line(s, TX, y + ROW_H, TX + sum(WIDTHS), y + ROW_H, color=RULE, width=0.5)
     r, y = r + 1, y + ROW_H
 line(s, TX, TY + HEAD_H, TX + sum(WIDTHS), TY + HEAD_H, color=NAVY, width=1.0)
-note(
+marker(s, 2, TX + 118 + 100 + 96 - 9, TY + 3)
+text(
     s,
-    "more blue dots mean more effort. Entries are our reading of public documentation, "
-    "not a ranking.",
-    y=448,
+    43.5,
+    428,
+    606,
+    46,
+    [
+        [
+            ("Note: ", B),
+            ("Effort is our qualitative assessment of public documentation, not a ranking: ", {}),
+            *dots(3),
+            (" high, ", {}),
+            *dots(2),
+            (" moderate, ", {}),
+            *dots(1),
+            (" low, ", {}),
+            *dots(0),
+            (" none, – not listed.", {}),
+        ],
+        [
+            ("1", {"sup": True}),
+            (" Snowflake now recommends Cortex Agents; Autopilot can draft a semantic view. ", {}),
+            ("2", {"sup": True}),
+            (" Formerly Genie Spaces; docs advise five or fewer tables. ", {}),
+            ("3", {"sup": True}),
+            (" Repository archived 29 March 2026. ", {}),
+            ("4", {"sup": True}),
+            (
+                " Top test entry, read 6 November 2026: AskData, 83.40 %; most list no method.",
+                {},
+            ),
+        ],
+    ],
+    size=8,
+    color=GREY,
 )
 takeaways(
     s,
@@ -802,25 +856,33 @@ takeaways(
         (
             "Setup is the price of meaning",
             [
-                ("People-defined tools give control, but someone must ", {}),
-                ("write and maintain", BB),
-                (" the definitions first.", {}),
+                ("Vendors add what schemas lack: ", {}),
+                ("business definitions and metrics", BB),
+                (", written down before the first answer.", {}),
+            ],
+        ),
+        (
+            "That work does not end",
+            [
+                ("Snowflake and Databricks both expect teams to ", {}),
+                ("test and refine", BB),
+                (" over time.", {}),
             ],
         ),
         (
             "Systems are close, not done",
             [
-                ("Learned routes save effort, yet the top BIRD test score, ", {}),
+                ("The top BIRD test score, ", {}),
                 ("83.40 %", BB),
-                (", is below 92.96 % for humans.", {}),
+                (", is still below 92.96 % for humans.", {}),
             ],
         ),
         (
             "We pay in review, not setup",
             [
-                ("There is nothing to write first, so ", {}),
+                ("With no model to build, ", {}),
                 ("a person must check", BB),
-                (" the meaning of each answer.", {}),
+                (" what each answer means.", {}),
             ],
         ),
     ],
