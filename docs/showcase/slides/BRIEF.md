@@ -6,14 +6,14 @@ This file decides what the deck says. [DESIGN.md](DESIGN.md) decides how it look
 
 ## 1. The story
 
-**One sentence:** Text-to-SQL is easy to demo and hard to trust, so this agent makes every answer inspectable and read-only, and measures what actually helps.
+**One sentence:** Text-to-SQL is easy to demo and hard to trust, so this agent shows how each answer was produced, enforces read-only execution, and measures what actually helps.
 
 **The thread through the deck:**
 
 1. Asking a database in plain English is useful, but a fluent answer can still be wrong.
 2. Other tools mostly solve this with curated business definitions or stored examples, which need setup.
-3. This project takes a different route: it needs no semantic model, shows its work, cannot write, and can run on a local model.
-4. The demo proves why that matters: the SQL shows that its "revenue" is not the same as the benchmark's definition.
+3. This project takes a different route: it needs no curated semantic model, shows its work, validates generated SQL and enforces read-only execution, and can run on a local model.
+4. The demo shows why that matters: the SQL reveals which orders and prices its "revenue" includes.
 5. The evidence shows where the design helps, and which ideas did not.
 6. The next tests follow directly from those limits.
 
@@ -86,14 +86,14 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 **Slide 2. Executive summary: "Inspectable SQL, with measured limits"**
 - **Question:** if I read one slide, what should I know?
-- **Message:** the agent is safe by design, its accuracy is measured, one idea clearly helped, and better retrieval alone did not.
+- **Message:** the agent's read-only controls are tested, its accuracy is measured, one idea clearly helped, and better retrieval alone did not.
 - **Content, four highlights:**
-  1. **Safe by design:** two read-only layers on 3 engines; 45 conformance tests, 0 skipped.
+  1. **Read-only controls:** SQL validation plus engine read-only protection on 3 engines; 45 conformance tests, 0 skipped.
   2. **Measured accuracy:** 64.6 % on Spider dev and 35.2 % on BIRD dev with evidence, on a local 9B model and this project's scorer.
   3. **Main finding:** on 21- to 65-table databases, top 6 selection scored +3.6 points [+1.4, +5.8] over full DDL plus hints, with 69 % fewer prompt tokens.
   4. **Honest limit:** better table retrieval did not measurably improve answers; a person still reviews the result.
 - **Source:** README Evaluation Results; `AGENTS.md`, 2026-11-04.
-- **Change:** adds safety, which is the product's main promise and is missing today. The moved slide must not refer back to the demo.
+- **Change:** adds read-only protection, which is the product's main promise and is missing today. The moved slide must not refer back to the demo.
 
 **Slide 3. Agenda: "From the problem to the evidence"**
 - **Subtitle:** replace "You have seen the product" with "Why it is hard, what we built, what we measured, what comes next."
@@ -107,14 +107,14 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 - **Content:** a simple flow, question → schema → SQL → rows, then three difficulties:
   1. **Meaning:** business words such as "revenue" are not columns.
   2. **Scale:** real schemas are large. Spider 2.0 databases often exceed 1,000 columns.
-  3. **Risk:** generated SQL should never be able to change the data.
+  3. **Risk:** generated SQL must be stopped from changing the data.
 - **Takeaway:** the benchmark gap. In the Spider 2.0 paper, an o1-preview agent solved 21.3 % of enterprise tasks, against 91.2 % on Spider 1.0 and 73.0 % on BIRD.
 - **Keep from the old slide:** one line that dashboards and analyst SQL remain the right tools for recurring, defined metrics.
 - **Source:** Spider 2.0 paper (R1).
 
 **Slide 5. "Other tools add business meaning before the SQL" (new)**
 - **Question:** how do other agents solve this?
-- **Message:** the main approaches ground the model in curated knowledge, which adds accuracy and governance but also setup.
+- **Message:** the main approaches ground the model in curated knowledge, which adds business meaning and control but also setup.
 - **Content:** one neutral comparison, grouped by approach, not ranked:
 
 | Approach | Example | How it grounds the model | What it needs |
@@ -131,35 +131,37 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 **Slide 6. "Our aim: useful without setup, and checkable by default"**
 - **Question:** where does this project fit, and who is it for?
-- **Message:** this is a narrower tool. It works from the schema alone and puts the checking in the user's hands.
+- **Message:** this is a narrower tool. It needs no curated semantic model and puts the checking in the user's hands.
 - **Content:**
   - **Who it helps:** an analyst who knows the question but not the schema, and a reviewer deciding whether an LLM can be trusted near a database.
-  - **What we chose:** no semantic model to build; SQL always visible; read-only enforced twice; local model option; rows never sent to the model.
+  - **What we chose:** no curated semantic model to build; it uses schema metadata and bounded, row-derived value hints; SQL always visible; generated SQL validated and run read-only; local model option; query-result rows not sent to the model.
   - **What we gave up:** no governed metric definitions, so "revenue" stays ambiguous unless a person checks it.
   - **Retail example:** "Which product categories generate the most revenue?" leads into the demo.
 - **Source:** `docs/1_brief.md`; README What It Does and Inspiration sections.
 
 ### 02 Solution
 
-**Slide 7. Demo: "The SQL shows what the answer really means"**
+**Slide 7. Demo: "The SQL shows what the answer includes"**
 - **Question:** what does it look like, and why does inspection matter?
-- **Message:** the answer looks finished, but the SQL reveals a definition the user may not want.
-- **Content:** the existing two captures, then the check:
+- **Message:** the answer looks finished, but only the SQL shows what "revenue" counted.
+- **Content:** the existing two captures, then a comparison of two differently worded questions:
 
-| | As answered | Benchmark definition |
+| | Demo question | Separate benchmark question |
 |---|---|---|
-| Orders | All 220, including cancelled and returned | 179 completed |
+| Wording | "...generate the most revenue?" | "...generate the most completed order revenue?" |
+| Orders counted | All 220, including cancelled and returned | 179 completed |
 | Discounts | Ignored | Applied |
-| Electronics revenue | 173,366 | 136,984 |
+| Electronics | 173,366 | 136,984 |
 
-- **Takeaway:** same top category, a figure about 21 % lower. Neither is "the" answer, because the question did not specify. The point is that the user can see the difference. A semantic model would fix the definition; here the SQL exposes it.
+- **Takeaway:** the demo question did not say which orders or prices to use, and the SQL makes that choice visible. Stating completed, net revenue gives a figure about 21 % lower, with the same top category.
+- **Boundary:** this is an illustration of inspection, not a benchmark failure, and not evidence that a semantic model would have changed this response.
 - **Source:** capture of 6 November (`slides/captures/`); `evaluation/cases.json`, `retail_revenue_by_category`; recomputed on `data/retail_analytics.db`.
 
 **Slide 8. Data boundary: keep the current content.** Message: the prompt holds schema and bounded values; results stay local.
 
 **Slide 9. Architecture: keep the current content.** Message: the model proposes SQL; the application controls execution.
 
-**Slide 10. Safety: keep the current content.** Message: two layers of protection, tested across 3 engines. Keep the 11 of 15 scope note.
+**Slide 10. Safety: keep the current content.** Message: validation and engine read-only protection, tested across 3 engines. Keep the 11 of 15 scope note.
 
 ### 03 Evidence
 
@@ -178,7 +180,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 ### 04 Next steps
 
 **Slide 16. "Four tests would address the main evidence gaps"**
-- **Change:** replace "Test broader value hints" with a combined item, or add a fifth, for **business definitions**: test whether a small set of definitions, such as "revenue means completed, net of discount", improves answers. This closes the loop from slides 5 and 7.
+- **Change:** replace "Test broader value hints" with a combined item, or add a fifth, for **business definitions**: test whether a small set of definitions, such as "revenue means completed, net of discount", changes answers on ambiguous questions. This follows from slides 5 and 7, and its result is unknown.
 - **Keep:** hosted model under the same contract; targeted table recovery; new large schemas. Value hints still need a data-boundary decision first.
 
 **Slide 17. Close**
@@ -190,7 +192,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 1. **Who is this deck for?** Cover shows 36121, while the close calls it a portfolio piece refined individually since the May group project. If it is for 36121, the cover and credits should say whose work it is. Recommendation: portfolio deck, keep the subject label as origin only, and keep the credits line.
 2. **Slide 5 depth.** One neutral table (recommended) or two slides, with one on products and one on research.
-3. **Slide 17 card.** It repeats 173,366, which slide 7 now questions. Recommendation: remove it.
+3. **Slide 17 card.** It repeats 173,366 without the slide 7 context. Recommendation: remove it.
 4. **Cover photo.** Keep the architectural photo, or try a card-catalogue photo. This can wait until stage 5.
 5. **Who edits the live deck in stages 3 to 5.** Recommendation: Codex, which has native Slides editing, with Claude writing and reviewing. Claude can also edit through Chrome, but more slowly.
 
