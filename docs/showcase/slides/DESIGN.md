@@ -104,6 +104,8 @@ every slide that has one. Dense comparison tables may use 10 pt body text. The a
 circles (01 to 04), grey #59636E questions, and a contents list under each part: section name,
 thin rule, and a linked 24 x 18 pt page chip in the part's colour.
 
+Marker positions from the builder are estimates: after every import, zoom in on each heading and nudge its marker level in Slides.
+
 Every slide with a takeaway column uses the same markers, following Project 15: red #C64040
 12 pt native ellipses with centred 8 pt bold white numbers, at x668 beside each heading's
 first rendered line, and repeated beside the evidence each point refers to. This supersedes

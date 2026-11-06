@@ -8566,3 +8566,6 @@ notes checked in an exported copy. No Codex review of this round yet. Slide 4's 
 Slide 8 redone after a brainstorm in `BRIEF.md`: measured the real prompt for the demo question (79 stored values, 4,971 schema characters, 29 % hints)
 and found the hint limit counts values, not sensitivity. New slide: proportion bar, real prompt excerpt, in and out lists, local against hosted. Slide 4's
 gap label is back to "69.9 points". Mike declined a Codex review for now. `build_body_slides.py` takes `ONLY=<slide>` for a one-slide import.
+
+Slide 8 labels now state the bar's message, and the "In the prompt" card is pale blue. Markers on slides 8 to 15 were checked at higher zoom: my earlier
+pass left them low, so all were nudged level with their headings. DESIGN.md now requires that zoom check after every import.

@@ -1238,7 +1238,7 @@ text(
     130,
     400,
     16,
-    [[("How much of the database reaches the prompt", {"bold": True, "size": 12})]],
+    [[("Almost none of the stored data reaches the prompt", {"bold": True, "size": 12})]],
 )
 BARW = 606
 shape(s, MSO_SHAPE.RECTANGLE, 43.5, 152, BARW, 16, fill="E8EAEE")
@@ -1249,7 +1249,7 @@ text(
     171,
     300,
     12,
-    [[("79 stored values in the prompt", {"bold": True, "color": NAVY})]],
+    [[("Amber: the 79 stored values sent", {"bold": True, "color": NAVY})]],
     size=8,
 )
 text(
@@ -1258,7 +1258,7 @@ text(
     171,
     300,
     12,
-    [[("11,562 cells in the database; 0 result rows sent", {"color": GREY})]],
+    [[("Whole bar: the 11,562 cells stored", {"color": GREY})]],
     size=8,
     align=PP_ALIGN.RIGHT,
 )
@@ -1312,7 +1312,16 @@ for k, (head, items, ic, colour) in enumerate(
     )
 ):
     y = 190 + k * 90
-    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, LX, y, 222.5, 86, fill=CREAM, radius=0.05)
+    shape(
+        s,
+        MSO_SHAPE.ROUNDED_RECTANGLE,
+        LX,
+        y,
+        222.5,
+        86,
+        fill=PALE_BLUE if k == 0 else CREAM,
+        radius=0.05,
+    )
     text(s, LX + 10, y + 7, 200, 12, [[(head, B)]], size=8, color=GREY)
     for i, item in enumerate(items):
         icon(s, ic, colour, LX + 10, y + 24 + i * 19, 11)
