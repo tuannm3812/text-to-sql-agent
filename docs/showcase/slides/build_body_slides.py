@@ -1,4 +1,4 @@
-"""Build the body objects of deck slides 2 to 6 as editable shapes in a PowerPoint.
+"""Build the body objects of deck slides 2 to 16 as editable shapes in a PowerPoint.
 
 The objects are imported into the live Google Slides deck, which stays the source of truth;
 rerun this only to rebuild those bodies. Follows DESIGN.md: content levels, red takeaway
@@ -352,7 +352,7 @@ note(
     s,
     "accuracy uses this project's result comparison, not leaderboard scoring. Large databases: "
     "1,222 questions on 4 databases of 21 to 65 tables.",
-    y=436,
+    y=398,
 )
 takeaways(
     s,
@@ -1197,6 +1197,795 @@ takeaways(
         ),
     ],
 )
+
+
+# Slides 8 to 16 share these two helpers.
+def box(s, x, y, w, h, label, fill, fg=NAVY, size=10, bold=True, kind=MSO_SHAPE.RECTANGLE):
+    """A filled shape with one centred label."""
+    o = shape(s, kind, x, y, w, h, fill=fill)
+    tf = o.text_frame
+    for side in ("left", "right", "top", "bottom"):
+        setattr(tf, f"margin_{side}", 0)
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    write(tf, [[(label, {"bold": bold, "size": size, "color": fg})]], align=PP_ALIGN.CENTER)
+    return o
+
+
+def step(s, x, y, w, h, head, body, fill=CREAM):
+    """A card with a 12 pt heading and 10 pt body."""
+    return card(
+        s,
+        x,
+        y,
+        w,
+        h,
+        [[(head, {"bold": True, "size": 12})], [(body, {"size": 10})]],
+        fill=fill,
+        after=2,
+    )
+
+
+# Slide 8: data boundary
+s = new_slide(
+    "SOLUTION  >  DATA BOUNDARY",
+    "The prompt contains schema and bounded values; results stay local",
+    "What crosses from the database to the model in the default pipeline",
+    8,
+)
+shape(s, MSO_SHAPE.RECTANGLE, 43.5, 130, 340, 330, fill=CREAM)
+shape(s, MSO_SHAPE.RECTANGLE, 483, 130, 167, 330, fill=PALE_BLUE)
+text(s, 55, 138, 300, 12, [[("YOUR DATABASE: STAYS LOCAL", B)]], size=8, color=GREY)
+text(s, 495, 138, 150, 12, [[("THE MODEL'S PROMPT", B)]], size=8, color=GREY)
+line(s, 433, 154, 433, 460, color=NAVY, width=1.5)
+text(s, 393, 138, 80, 12, [[("BOUNDARY", B)]], size=8, align=PP_ALIGN.CENTER)
+for i, (head, body, sent, label) in enumerate(
+    (
+        ("Schema metadata", "Names, types, keys and CREATE TABLE statements", True, "Sent"),
+        (
+            "Value hints",
+            "Up to 6 frequent values, text columns of 20 or fewer",
+            True,
+            "Sent, bounded",
+        ),
+        ("Question value matching", "Stored values matching the question", False, "Built, off"),
+        ("Result rows", "The rows of each answer", False, "Never sent"),
+    )
+):
+    y = 158 + i * 75
+    step(s, 55, y, 316, 66, head, body, fill=WHITE)
+    if sent:
+        line(s, 371, y + 33, 495, y + 33, color=BLUE, width=2, arrow=True)
+        icon(s, "check_circle", "blue", 501, y + 25, 16)
+    else:
+        line(s, 371, y + 33, 425, y + 33, color=AMBER, width=2)
+        icon(s, "cancel", "amber", 425, y + 25, 16)
+    text(
+        s,
+        521 if sent else 501,
+        y + 26,
+        125,
+        14,
+        [[(label, {"bold": True, "color": BLUE if sent else GREY})]],
+        size=10,
+    )
+marker(s, 1, 49, 152)
+marker(s, 2, 49, 227)
+marker(s, 3, 49, 302)
+takeaways(
+    s,
+    [
+        (
+            "Structure guides the query",
+            [
+                ("Names, types and keys define the SQL that can be written, so the model ", {}),
+                ("needs structure, not data", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "Not metadata-only",
+            [
+                ("Hints come from stored values, so ", {}),
+                ("a few real values are sent", BB),
+                (", capped and labelled when cut.", {}),
+            ],
+        ),
+        (
+            "A wider route stayed closed",
+            [
+                ("Matching stored values added ", {}),
+                ("+0.4 points [-0.9, +1.6]", BB),
+                (", not measurable, so it stays off.", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 9: architecture
+s = new_slide(
+    "SOLUTION  >  ARCHITECTURE",
+    "The model proposes SQL; the application controls execution",
+    "One question through the default path, by who does each step",
+    9,
+)
+shape(s, MSO_SHAPE.RECTANGLE, 43.5, 130, 606, 128, fill=CREAM)
+shape(s, MSO_SHAPE.RECTANGLE, 43.5, 266, 606, 128, fill=PALE_BLUE)
+text(s, 53, 137, 200, 12, [[("APPLICATION: DECIDES WHAT RUNS", B)]], size=8, color=GREY)
+text(s, 53, 273, 200, 12, [[("MODEL: ONLY PROPOSES", B)]], size=8, color=GREY)
+W9 = 136
+for x, head, body in (
+    (53, "1  Schema", "One entry per table: keys and hints"),
+    (199, "2  Select", "Top 6 tables plus their neighbours"),
+):
+    step(s, x, 153, W9, 94, head, body, fill=WHITE)
+line(s, 189, 200, 199, 200, color=SLATE, arrow=True)
+for x, head, body in (
+    (365, "4  Check", "Parse, read-only mode, work budget, row cap"),
+    (505, "5  Show", "Rows, chart, SQL and why tables were chosen"),
+):
+    step(s, x, 153, 134 if x == 505 else W9, 94, head, body, fill=WHITE)
+line(s, 501, 200, 505, 200, color=SLATE, arrow=True)
+step(
+    s, 199, 289, 302, 62, "3  Generate", "Question and schema in, one SQL statement out", fill=WHITE
+)
+line(s, 267, 247, 267, 289, color=BLUE, width=2, arrow=True)
+line(s, 433, 289, 433, 247, color=BLUE, width=2, arrow=True)
+text(s, 275, 262, 90, 12, [[("Selected schema", {})]], size=8, color=GREY)
+text(s, 441, 262, 60, 12, [[("Proposed SQL", {})]], size=8, color=GREY)
+card(
+    s,
+    43.5,
+    402,
+    606,
+    42,
+    [
+        [
+            ("One repair try: ", B),
+            ("if a safe query fails to run, its error goes back to the model once, ", {}),
+            ("and the repaired SQL is checked again.", {}),
+        ]
+    ],
+    fill=PALE_AMBER,
+    size=10,
+    anchor=MSO_ANCHOR.MIDDLE,
+)
+marker(s, 1, 37, 124)
+marker(s, 2, 193, 147)
+marker(s, 3, 37, 396)
+takeaways(
+    s,
+    [
+        (
+            "The model never runs anything",
+            [
+                ("It returns text. ", {}),
+                ("The application decides", BB),
+                (" whether that text runs at all.", {}),
+            ],
+        ),
+        (
+            "Selection shapes the prompt",
+            [
+                ("Tables are ranked by the question, and the interface ", {}),
+                ("records why each was chosen", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "A failure gets one retry",
+            [
+                ("Repair is limited to one try, and ", {}),
+                ("nothing skips the checks", BB),
+                (".", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 10: safety
+s = new_slide(
+    "SOLUTION  >  SAFETY",
+    "Read-only execution has two layers of protection",
+    "A query must pass the application check and the engine's own restrictions",
+    10,
+)
+box(s, 43.5, 130, 96, 74, "Generated SQL", CREAM)
+box(s, 171, 130, 150, 74, "1  Application check", NAVY, fg=WHITE, size=12)
+box(s, 353, 130, 150, 74, "2  Engine protection", BLUE, fg=WHITE, size=12)
+box(s, 535, 130, 114.5, 74, "Your database", CREAM)
+for x in (139.5, 321, 503):
+    line(s, x, 167, x + 31, 167, color=SLATE, width=1.5, arrow=True)
+text(
+    s,
+    43.5,
+    212,
+    606,
+    12,
+    [
+        [
+            (
+                "The application check is the same on every engine: one SELECT or WITH, parsed in "
+                "that dialect, internals blocked.",
+                {},
+            )
+        ]
+    ],
+    size=8,
+    color=GREY,
+)
+for i, (eng, prot) in enumerate(
+    (
+        ("SQLite", "Read-only URI and an authorizer that denies writes, attach and pragmas"),
+        ("DuckDB", "Opened read-only with external access off"),
+        ("PostgreSQL", "Least-privilege role, read-only transaction, refuses superusers"),
+    )
+):
+    step(s, 43.5 + i * 205, 230, 196, 82, eng, prot)
+Y10 = 322
+step(
+    s,
+    43.5,
+    Y10,
+    146,
+    112,
+    "45 of 45",
+    "conformance tests passed, 15 per engine, none skipped",
+    fill=PALE_BLUE,
+)
+step(
+    s,
+    197,
+    Y10,
+    146,
+    112,
+    "1,870",
+    "tests passed against live PostgreSQL 16 on 4 November",
+    fill=PALE_BLUE,
+)
+step(s, 350.5, Y10, 146, 112, "6 of 6", "data-change requests refused", fill=PALE_AMBER)
+step(s, 504, Y10, 146, 112, "11 of 15", "safety cases handled as expected", fill=PALE_AMBER)
+for x0, n, ok in ((360, 6, 6), (513, 15, 11)):
+    for k in range(n):
+        shape(
+            s,
+            MSO_SHAPE.OVAL,
+            x0 + (k % 8) * 15,
+            Y10 + 74 + (k // 8) * 15,
+            11,
+            11,
+            fill=BLUE if k < ok else RULE,
+        )
+marker(s, 1, 37, 224)
+marker(s, 2, 498, 316)
+note(s, "safety accuracy 73.3 % [53.3, 93.3] on 15 cases.", y=444, prefix="Scope:")
+takeaways(
+    s,
+    [
+        (
+            "Test both layers",
+            [
+                ("Each layer is a separate check, and one shared suite runs on ", {}),
+                ("all 3 engines with no skips", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "Refusal is measured separately",
+            [
+                ("All 6 write requests were refused. The 4 misses were not writes: ", {}),
+                ("3 internals requests", BB),
+                (" were declined as unanswerable, and one question got a substitute metric.", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 11: method
+s = new_slide(
+    "EVIDENCE  >  METHOD",
+    "Every result can be traced and compared fairly",
+    "Five suites cover answer accuracy, large schemas and refusal behaviour",
+    11,
+)
+text(s, 43.5, 130, 280, 16, [[("Questions per suite", {"bold": True, "size": 12})]])
+for i, (name, sub, n, col) in enumerate(
+    (
+        ("Spider 1.0 dev", "up to 14 tables per database", 1034, SLATE),
+        ("BIRD dev", "with and without evidence hints", 1534, SLATE),
+        ("Large schemas", "4 databases of 21 to 65 tables", 1222, BLUE),
+        ("Demo", "the 3 demo databases", 12, AMBER),
+        ("Safety", "refusals and unanswerables", 15, AMBER),
+    )
+):
+    y = 154 + i * 58
+    text(s, 43.5, y, 280, 14, [[(name, B), ("  " + sub, {"color": GREY, "size": 8})]], size=10)
+    w = max(n / 1534 * 230, 3)
+    shape(s, MSO_SHAPE.RECTANGLE, 43.5, y + 17, w, 16, fill=col)
+    text(s, 43.5 + w + 6, y + 18, 50, 14, [[(f"{n:,}", B)]], size=10)
+for i, (ic, head, body) in enumerate(
+    (
+        ("fact_check", "Typed comparison", "Result sets are compared by type, not SQL text"),
+        ("target", "95 % intervals", "Every rate carries a bootstrap interval"),
+        ("menu_book", "A manifest per run", "Commit, data and prompt hashes, model, settings"),
+        (
+            "query_stats",
+            "Paired comparisons",
+            "Same questions, a named baseline, flagged when not controlled",
+        ),
+    )
+):
+    y = 130 + i * 78
+    card(
+        s,
+        345,
+        y,
+        305,
+        70,
+        [[(head, {"bold": True, "size": 12})], [(body, {"size": 10})]],
+        fill=CREAM,
+        after=2,
+        anchor=MSO_ANCHOR.MIDDLE,
+    ).text_frame.margin_left = Pt(44)
+    icon(s, ic, "blue", 355, y + 23, 24)
+marker(s, 3, 28, 386)
+marker(s, 2, 28, 270)
+marker(s, 1, 339, 358)
+note(s, "accuracy uses this project's typed comparison, not the benchmark scorers.", y=446)
+takeaways(
+    s,
+    [
+        (
+            "Compare the same questions",
+            [
+                ("A change counts only against a named baseline, with a ", {}),
+                ("paired interval", BB),
+                (" on the same questions.", {}),
+            ],
+        ),
+        (
+            "Test where selection matters",
+            [
+                ("Dev databases are small, so the large-schema suite tests ", {}),
+                ("21 to 65 tables", BB),
+                (" from BIRD train.", {}),
+            ],
+        ),
+        (
+            "Small suites are diagnostics",
+            [
+                ("With 12 and 15 cases, these suites ", {}),
+                ("show behaviour, not accuracy", BB),
+                (": their intervals are wide.", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 12: benchmarks
+s = new_slide(
+    "EVIDENCE  >  BENCHMARKS",
+    "Local model: 64.6 % on Spider, 35.2 % on BIRD with evidence",
+    "Answers matched, with 95 % intervals; one local 9B model, thinking off, 10 October 2026",
+    12,
+)
+AX0, AXW = 190, 440
+px = lambda v: AX0 + v / 80 * AXW  # noqa: E731
+for v in (0, 20, 40, 60, 80):
+    line(s, px(v), 136, px(v), 268, color=RULE, width=0.5)
+    text(s, px(v) - 20, 270, 40, 11, [[(f"{v} %", {})]], size=8, color=GREY, align=PP_ALIGN.CENTER)
+for i, (name, sub, v, lo, hi, col) in enumerate(
+    (
+        ("Spider 1.0 dev", "1,034 questions", 64.6, 61.6, 67.5, BLUE),
+        ("BIRD dev, with evidence", "1,534 questions", 35.2, 32.9, 37.6, BLUE),
+        ("BIRD dev, no evidence", "1,534 questions", 25.1, 22.9, 27.3, SLATE),
+        ("Demo suite", "12 questions, 4 matched", 33.3, 8.3, 58.3, AMBER),
+    )
+):
+    y = 142 + i * 32
+    text(s, 43.5, y - 3, 140, 26, [[(name, B)], [(sub, {"size": 8, "color": GREY})]], size=10)
+    line(s, px(lo), y + 8, px(hi), y + 8, color=col, width=2.5)
+    shape(s, MSO_SHAPE.OVAL, px(v) - 5, y + 3, 10, 10, fill=col)
+    text(s, px(hi) + 6, y + 1, 40, 14, [[(f"{v} %", B)]], size=10)
+for x, title, rows, col in (
+    (
+        43.5,
+        "Spider by difficulty",
+        (("Easy", 84.3), ("Medium", 65.9), ("Hard", 58.6), ("Extra", 38.0)),
+        BLUE,
+    ),
+    (
+        349.5,
+        "BIRD with evidence by difficulty",
+        (("Simple", 43.1), ("Moderate", 29.1), ("Challenging", 17.3)),
+        SLATE,
+    ),
+):
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 292, 300, 132, fill=CREAM, radius=0.04)
+    text(s, x + 12, 300, 276, 16, [[(title, B)]], size=12)
+    for k, (lab, v) in enumerate(rows):
+        y = 322 + k * 24
+        text(s, x + 12, y, 70, 16, lab, size=10, anchor=MSO_ANCHOR.MIDDLE)
+        shape(s, MSO_SHAPE.RECTANGLE, x + 84, y + 1, v * 1.6, 14, fill=col)
+        text(s, x + 90 + v * 1.6, y, 44, 16, [[(f"{v} %", B)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+marker(s, 1, 28, 286)
+marker(s, 2, 28, 174)
+marker(s, 3, 28, 238)
+note(s, "this project's scorer, so these are not leaderboard scores.", y=432)
+takeaways(
+    s,
+    [
+        (
+            "Harder questions score lower",
+            [
+                ("Spider falls from 84.3 % to ", {}),
+                ("38.0 %", BB),
+                (" across its difficulty levels.", {}),
+            ],
+        ),
+        (
+            "BIRD evidence adds 10.1 points",
+            [
+                ("Hints supplied by the benchmark lift the same questions by ", {}),
+                ("10.1 points [8.1, 12.1]", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "The demo suite is small",
+            [
+                ("4 of 12 matched, and its interval is ", {}),
+                ("50 points wide", BB),
+                (", so a good demo proves little.", {}),
+            ],
+        ),
+        (
+            "Thinking needs an output budget",
+            [
+                ("Turning thinking off avoided empty SQL: ", {}),
+                ("+8.5 points [5.8, 11.3]", BB),
+                (" on Spider.", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 13: large schemas
+s = new_slide(
+    "EVIDENCE  >  LARGE SCHEMAS",
+    "On large databases, sending fewer tables scored 3.6 points higher",
+    "1,222 BIRD train questions on 4 databases of 21 to 65 tables; 19 October 2026",
+    13,
+)
+text(s, 43.5, 130, 300, 16, [[("Answers matched, whole suite", {"bold": True, "size": 12})]])
+for i, (name, v, col) in enumerate(
+    (
+        ("Every table + hints", 25.5, SLATE),
+        ("Every table, no hints", 26.8, SLATE),
+        ("Top 6 + neighbours", 29.1, BLUE),
+    )
+):
+    bar_row(s, name, f"{v} %", v * 5.2, col, 154 + i * 26, label_w=110, h=18)
+text(s, 349.5 + 0, 130, 300, 16, [[("Gain from top 6, by database", {"bold": True, "size": 12})]])
+D0, DW = 470, 170
+pd = lambda v: D0 + (v + 8) / 20 * DW  # noqa: E731
+line(s, pd(0), 150, pd(0), 262, color=SLATE, width=0.75)
+for i, (name, v, lo, hi, sig) in enumerate(
+    (
+        ("65 tables", 5.6, 1.7, 9.5, True),
+        ("34 tables", 6.1, 2.0, 10.6, True),
+        ("22 tables", -2.4, -6.8, 1.9, False),
+        ("21 tables", 1.9, -3.1, 7.0, False),
+    )
+):
+    y = 156 + i * 26
+    col = BLUE if sig else SLATE
+    text(s, 349.5, y, 112, 16, [[(name, {"bold": sig})]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+    line(s, pd(lo), y + 8, pd(hi), y + 8, color=col, width=2.5)
+    shape(s, MSO_SHAPE.OVAL, pd(v) - 5, y + 3, 10, 10, fill=col)
+text(
+    s,
+    349.5,
+    264,
+    300,
+    11,
+    [[("Points against every table + hints, paired 95 % interval", {})]],
+    size=8,
+    color=GREY,
+)
+for x, value, body, fill, w in (
+    (43.5, "+3.6 points", "[+1.4, +5.8], paired, against every table + hints", PALE_BLUE, 196),
+    (248.5, "69 % fewer", "prompt tokens than every table + hints", PALE_AMBER, 196),
+    (
+        453.5,
+        "About 2 s slower",
+        "per question: the local model cannot reuse its cache",
+        "E8EAEE",
+        196,
+    ),
+):
+    card(
+        s,
+        x,
+        292,
+        w,
+        92,
+        [[(value, {"bold": True, "size": 16})], [(body, {"size": 10})]],
+        fill=fill,
+        after=2,
+    )
+marker(s, 1, 335, 132)
+marker(s, 2, 28, 157)
+marker(s, 3, 447, 286)
+note(s, "top 6 scored 30.0 % with the later scorer; this comparison used the 29.1 % run.", y=394)
+takeaways(
+    s,
+    [
+        (
+            "The gain is concentrated",
+            [
+                ("The ", {}),
+                ("65- and 34-table", BB),
+                (
+                    " databases carry it, at 5 to 6 points each. The smaller two show nothing "
+                    "measurable.",
+                    {},
+                ),
+            ],
+        ),
+        (
+            "Hints did not help here",
+            [
+                ("Adding hints to every table: ", {}),
+                ("-1.3 points [-2.9, +0.2]", BB),
+                (". About half the needed values sit in columns too large to hint.", {}),
+            ],
+        ),
+        (
+            "Fewer tokens did not mean faster",
+            [
+                ("Selection ", {}),
+                ("stays the default", BB),
+                (" for its accuracy, at a cost in speed.", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 14: trials
+s = new_slide(
+    "EVIDENCE  >  TRIALS",
+    "Later trials found tradeoffs, not a further accuracy gain",
+    "1,222 large-schema questions; paired change against each row's own baseline",
+    14,
+)
+T0, TW14 = 250, 290
+pt = lambda v: T0 + (v + 6) / 12 * TW14  # noqa: E731
+for v in (-6, -3, 0, 3, 6):
+    line(s, pt(v), 130, pt(v), 422, color=SLATE if v == 0 else RULE, width=1 if v == 0 else 0.5)
+    label = "0" if v == 0 else f"{v:+d}"
+    text(s, pt(v) - 15, 425, 30, 11, [[(label, {})]], size=8, color=GREY, align=PP_ALIGN.CENTER)
+for i, (name, sub, v, lo, hi, col, state) in enumerate(
+    (
+        ("Top 6 + neighbours", "vs every table + hints", 3.6, 1.4, 5.8, BLUE, "default"),
+        ("Question value matching", "vs top 6", 0.4, -0.9, 1.6, SLATE, "off"),
+        ("Scorer signals", "vs top 6", 0.9, -0.7, 2.4, SLATE, "kept"),
+        ("Dense embeddings", "vs the kept scorer", 0.2, -1.6, 2.0, SLATE, "off"),
+        ("Shared layout", "vs a fresh top 6 run", -2.4, -4.6, -0.2, AMBER, "opt-in"),
+        (
+            "Shared plus summaries",
+            "vs a fresh top 6 run; not controlled",
+            -2.1,
+            -4.3,
+            0.0,
+            SLATE,
+            "opt-in",
+        ),
+    )
+):
+    y = 138 + i * 48
+    text(s, 43.5, y, 200, 28, [[(name, B)], [(sub, {"size": 8, "color": GREY})]], size=10)
+    line(s, pt(lo), y + 13, pt(hi), y + 13, color=col, width=2.5)
+    shape(s, MSO_SHAPE.OVAL, pt(v) - 5, y + 8, 10, 10, fill=col)
+    text(s, 548, y + 6, 40, 14, [[(f"{v:+.1f}", B)]], size=10, align=PP_ALIGN.RIGHT)
+    box(s, 596, y + 5, 54, 16, state, CREAM, size=8)
+marker(s, 1, 28, 141)
+marker(s, 2, 28, 237)
+marker(s, 3, 28, 333)
+note(s, "points, paired 95 % interval. Coloured rows have an interval clear of zero.", y=440)
+takeaways(
+    s,
+    [
+        (
+            "Selection established the gain",
+            [
+                ("Its interval is ", {}),
+                ("clear of zero", BB),
+                (". None of the five later trials added a further gain.", {}),
+            ],
+        ),
+        (
+            "Better retrieval is not better answers",
+            [
+                ("The kept scorer ranked tables better (MRR 0.853 to 0.891), but its ", {}),
+                ("+0.9 points spans zero", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "A faster layout lost accuracy",
+            [
+                ("The shared layout cut latency 58 % and ", {}),
+                ("lost 2.4 points", BB),
+                (". The cause is unresolved.", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 15: retrieval
+s = new_slide(
+    "EVIDENCE  >  RETRIEVAL",
+    "Better table coverage did not measurably improve accuracy",
+    "Correct answers gained and lost when every table is sent, against selected tables",
+    15,
+)
+C0 = 300
+pc = lambda v: v * 3.4  # noqa: E731
+for x, title in (
+    (43.5, "Layout"),
+    (C0 - 150, "LOST, ON THE OTHER 1,094"),
+    (C0 + 6, "GAINED, ON THE 128 MISSED"),
+):
+    text(s, x, 130, 180, 12, [[(title.upper(), B)]], size=8, color=GREY)
+text(s, 500, 130, 150, 12, [[("NET, AND SECONDS PER QUESTION", B)]], size=8, color=GREY)
+line(s, C0, 146, C0, 256, color=SLATE, width=0.75)
+for i, (name, sub, gain, lost, net, secs) in enumerate(
+    (
+        ("Every table,", "selected named", 15, 44, -29, 4.3),
+        ("Every table,", "plus summaries", 13, 39, -26, 4.4),
+    )
+):
+    y = 156 + i * 52
+    text(s, 43.5, y, 100, 28, [[(name, B)], [(sub, {"size": 8, "color": GREY})]], size=10)
+    box(s, C0 - pc(lost), y + 2, pc(lost), 26, f"-{lost}", AMBER, size=10)
+    box(s, C0, y + 2, pc(gain), 26, f"+{gain}", BLUE, fg=WHITE, size=10)
+    text(
+        s,
+        500,
+        y + 7,
+        150,
+        16,
+        [[(f"{net} answers", B), (f"   {secs} s, from 10.2 s", {"size": 8, "color": GREY})]],
+        size=10,
+    )
+card(
+    s,
+    43.5,
+    276,
+    606,
+    112,
+    [
+        [("Dense embeddings: fewer misses, same whole-suite result", {"bold": True, "size": 12})],
+    ],
+    fill=CREAM,
+)
+for x, value, body in (
+    (55, "128 to 74", "questions with a needed table not sent"),
+    (255, "8 to 26", "correct among the original 128"),
+    (455, "+0.2 points", "whole suite [-1.6, +2.0], against the kept scorer"),
+):
+    text(s, x, 310, 186, 26, [[(value, {"bold": True, "size": 16, "color": BLUE})]])
+    text(s, x, 340, 186, 40, body, size=10)
+marker(s, 1, 37, 270)
+marker(s, 2, C0 - 6, 146)
+note(
+    s,
+    "groups come from the evaluation, so a live system cannot see them; the summaries "
+    "comparison spans commits.",
+    y=398,
+)
+takeaways(
+    s,
+    [
+        (
+            "Recovery has side effects",
+            [
+                ("Dense embeddings nearly halved missing tables, but ", {}),
+                ("gains were offset", BB),
+                (" by losses elsewhere.", {}),
+            ],
+        ),
+        (
+            "More context moved the errors",
+            [
+                ("Sending every table won 15 answers and ", {}),
+                ("lost 44", BB),
+                (", so the whole suite fell.", {}),
+            ],
+        ),
+        (
+            "Test targeted recovery",
+            [
+                ("Next: recover missed tables ", {}),
+                ("only where needed", BB),
+                (", and report both groups.", {}),
+            ],
+        ),
+    ],
+)
+
+# Slide 16: next tests
+s = new_slide(
+    "NEXT STEPS  >  TESTS",
+    "Four tests would address the main evidence gaps",
+    "Proposed next steps; each needs a measured outcome before changing the default",
+    16,
+)
+XS = (86, 300, 520, 730)
+for x, head in zip(
+    XS, ("THE TEST", "THE GAP IT CLOSES", "HOW WE WOULD MEASURE IT", "SEE SLIDE"), strict=True
+):
+    text(s, x, 130, 200, 12, [[(head, B)]], size=8, color=GREY)
+line(s, 43.5, 146, 919, 146, color=NAVY, width=1.0)
+line(s, 60, 170, 60, 410, color=RULE, width=1.5)
+for i, (test, gap, measure, ref, fill, fg) in enumerate(
+    (
+        (
+            "Business definitions",
+            "“Revenue” stays ambiguous until a person checks it",
+            "Add a few definitions, then compare answers on ambiguous questions",
+            "Slides 5 and 7",
+            BLUE,
+            WHITE,
+        ),
+        (
+            "Targeted table recovery",
+            "128 questions miss a needed table",
+            "Gains on the 128, losses on the other 1,094, whole-suite interval",
+            "Slide 15",
+            NAVY,
+            WHITE,
+        ),
+        (
+            "New large schemas",
+            "The gain comes from 2 of 4 databases",
+            "Databases outside these 4, reported one by one",
+            "Slide 13",
+            AMBER,
+            NAVY,
+        ),
+        (
+            "Hosted model",
+            "All results use one local model",
+            "Same suites: accuracy, latency and empty-SQL rate",
+            "Slide 12",
+            SLATE,
+            WHITE,
+        ),
+    )
+):
+    y = 154 + i * 74
+    if i % 2 == 0:
+        shape(s, MSO_SHAPE.RECTANGLE, 78, y, 841, 66, fill=CREAM)
+    box(s, 44, y + 17, 32, 32, str(i + 1), fill, fg=fg, size=12, kind=MSO_SHAPE.OVAL)
+    text(s, XS[0], y + 8, 204, 50, [[(test, {"bold": True, "size": 12})]], anchor=MSO_ANCHOR.MIDDLE)
+    text(s, XS[1], y + 8, 206, 50, gap, size=10, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, XS[2], y + 8, 200, 50, measure, size=10, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, XS[3], y + 8, 180, 50, [[(ref, {"color": BLUE})]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+note(
+    s,
+    "all accuracy figures use one local model and this project's comparison, not a leaderboard. "
+    "Broader value hints would need a data-boundary decision first.",
+    y=456,
+    w=875,
+    prefix="Scope:",
+)
+
+if os.environ.get("PART") == "2":
+    ids = prs.slides._sldIdLst
+    for sld in list(ids)[:6]:
+        prs.part.drop_rel(sld.rId)
+        ids.remove(sld)
 
 prs.save(OUT)
 print("wrote", OUT.name)

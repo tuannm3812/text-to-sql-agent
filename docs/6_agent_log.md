@@ -8554,3 +8554,11 @@ The GIF plays in the Slides editor; the loop opens on the SQL frame so a PDF exp
 Slide 7 redesign: the comparison table became a dark SQL card showing the model's query with the benchmark's additions in amber; bars are
 labelled by definition; the stray marker on the note is gone. While removing the working slide I deleted the Trials slide by mistake because
 the filmstrip had scrolled; undone at once, and the agenda links rechecked. Use keyboard navigation and a screenshot before any slide delete.
+
+### 2026-11-06 — Claude: moved to main; slides 8 to 16 rebuilt
+
+`origin/main` held only merge commits, so it was merged into the branch and `main` fast-forwarded to it (`3ba3837`); `tuannm3812/main-refinement`
+stays as history, and AGENTS.md and the coding standard now name `main`. Codex's uncommitted app, README and poster work stayed in the tree.
+Slides 8 to 16 rebuilt with one visual technique each, on the 12, 10 and 8 pt levels, red markers and divider. Numbers come from the README and
+`evaluation/results/`; slide 15's gains and losses are differences of its recorded subgroup counts. All notes rewritten; 17 slides, 14 agenda links and
+notes checked in an exported copy. No Codex review of this round yet. Slide 4's gap label reads "69.9%", which should read "points"; left for Mike.

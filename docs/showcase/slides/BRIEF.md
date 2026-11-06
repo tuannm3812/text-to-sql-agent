@@ -184,6 +184,8 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 - **Change:** replace "Test broader value hints" with a combined item, or add a fifth, for **business definitions**: test whether a small set of definitions, such as "revenue means completed, net of discount", changes answers on ambiguous questions. This follows from slides 5 and 7, and its result is unknown.
 - **Keep:** hosted model under the same contract; targeted table recovery; new large schemas. Value hints still need a data-boundary decision first.
 
+**Whole-deck pass, 6 November:** slides 8 to 16 were rebuilt as diagrams and charts from `build_body_slides.py`: a boundary map (8), swimlanes (9), two gates (10), suite bars (11), intervals plus difficulty bars (12), by-database intervals (13), a forest plot (14), diverging gains and losses (15), a gap-to-test roadmap (16). Slide 12 now shows the demo suite. Slide 16 leads with business definitions; broader hints moved to its scope note.
+
 **Slide 17. Close**
 - **Message:** inspectable SQL, measured tradeoffs and a clear next experiment.
 - **Content:** demo and repository links, group credits, and the smaller illustration.
