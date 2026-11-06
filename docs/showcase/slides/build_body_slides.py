@@ -941,8 +941,8 @@ s = new_slide(
     6,
 )
 for x, ic, name, b in (
-    (43.5, "query_stats", "Analyst", "knows the question, not the schema"),
-    (349.5, "fact_check", "Reviewer", "decides whether to trust the answer"),
+    (43.5, "query_stats", "Useful without setup", "connect a database and ask a question"),
+    (349.5, "fact_check", "Checkable by default", "SQL shown, validated and run read-only"),
 ):
     card(
         s,
@@ -959,14 +959,14 @@ marker(s, 1, 37, 124)
 MX, MY, MW, MH = 66, 182, 584, 254
 HALF_W, HALF_H = MW / 2, MH / 2
 for qx, qy, fill, label in (
-    (MX, MY, PALE_AMBER, "Meaning without setup: the ideal, not yet available"),
-    (MX + HALF_W, MY, PALE_BLUE, "Meaning through setup: curated tools"),
-    (MX, MY + HALF_H, CREAM, "Quick start: people check the meaning"),
-    (MX + HALF_W, MY + HALF_H, "F1F2F4", "Setup without meaning: to avoid"),
+    (MX, MY, PALE_AMBER, "MEANING WITHOUT SETUP: THE IDEAL, NOT YET AVAILABLE"),
+    (MX + HALF_W, MY, PALE_BLUE, "MEANING THROUGH SETUP: CURATED TOOLS"),
+    (MX, MY + HALF_H, CREAM, "QUICK START: PEOPLE CHECK THE MEANING"),
+    (MX + HALF_W, MY + HALF_H, "F1F2F4", "SETUP WITHOUT MEANING: TO AVOID"),
 ):
     shape(s, MSO_SHAPE.RECTANGLE, qx, qy, HALF_W, HALF_H, fill=fill)
-    inset = 20 if label.startswith("Meaning through") else 8
-    text(s, qx + inset, qy + 6, HALF_W - 28, 14, label, size=10, color=GREY)
+    inset = 20 if label.startswith("MEANING THROUGH") else 8
+    text(s, qx + inset, qy + 7, HALF_W - 28, 12, [[(label, B)]], size=8, color=GREY)
 axis = text(
     s,
     -58,
@@ -990,30 +990,37 @@ text(
     color=GREY,
     align=PP_ALIGN.CENTER,
 )
-for name, x, y, col, right in (
-    ("Snowflake Cortex Analyst", 340, 34, NAVY, False),
-    ("WrenAI", 340, 86, NAVY, False),
-    ("Databricks Genie Agents", 480, 60, NAVY, True),
-    ("Vanna", 170, 146, NAVY, False),
-    ("This project", 40, 205, BLUE, False),
+for name, mark, x, y, right in (
+    ("BI dashboards", "monitoring", 500, 28, True),
+    ("Snowflake Cortex Analyst", "snowflake", 320, 54, False),
+    ("Databricks Genie Agents", "databricks", 470, 80, True),
+    ("WrenAI", "wren", 320, 104, False),
+    ("Vanna", "vanna", 170, 160, False),
+    ("This project", "fact_check", 40, 176, False),
+    ("General chatbot", "chat", 40, 222, False),
 ):
-    shape(s, MSO_SHAPE.OVAL, MX + x, MY + y, 12, 12, fill=col)
-    bold = name == "This project"
+    if mark in ("monitoring", "chat"):
+        icon(s, mark, "navy", MX + x, MY + y - 2, 16)
+    elif mark == "fact_check":
+        icon(s, mark, "blue", MX + x, MY + y - 2, 16)
+    else:
+        logo(s, mark, MX + x, MY + y - 2, 16)
+    project = name == "This project"
     text(
         s,
-        MX + x + (-135 if right else 17),
-        MY + y - 1,
+        MX + x + (-135 if right else 21),
+        MY + y,
         130,
         14,
-        [[(name, {"bold": bold, "size": 10, "color": col})]],
+        [[(name, {"bold": project, "size": 10, "color": BLUE if project else NAVY})]],
         align=PP_ALIGN.RIGHT if right else None,
     )
-marker(s, 2, MX + 26, MY + 205)
+marker(s, 2, MX + 25, MY + 178)
 marker(s, 3, 50, 176)
 marker(s, 4, MX + HALF_W + 5, MY + 5)
 note(
     s,
-    "horizontal position follows the Setup ratings on slide 5; vertical position is our "
+    "product positions follow the Setup ratings on slide 5; everything else is our "
     "qualitative reading. BIRD systems are left out because their setup is not listed.",
     x=66,
     y=452,
@@ -1033,9 +1040,9 @@ takeaways(
         (
             "What we chose",
             [
-                ("No model to build first. ", {}),
-                ("SQL is always visible", BB),
-                (", validated and run read-only: all 45 conformance tests passed.", {}),
+                ("A quick start with ", {}),
+                ("tested checks", BB),
+                (": no model to build, and all 45 conformance tests passed.", {}),
             ],
         ),
         (
