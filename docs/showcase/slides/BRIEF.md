@@ -228,9 +228,9 @@ Also found in the code: the question is sent too; a failed query and its error g
 
 *Earlier plan:* keep the current content. Add to the notes that 29.1 % is the 19 October arm behind the +3.6, and that the kept scorer has since scored 30.0 %.
 
-**Slide 14. What was tried: keep the current content.** Message: later trials found tradeoffs, not a further accuracy gain. *Sample, 7 November, awaiting Mike:* a decision table with what changed, the interval, the side effect and the decision.
+**Slide 14. What was tried: keep the current content.** Message: later trials found tradeoffs, not a further accuracy gain. *Approved by Mike, in the deck:* a decision table with what changed, the interval, the side effect and the decision.
 
-**Slide 15. Retrieval and answers: keep the current content.** Message: better table coverage did not measurably improve accuracy. *Sample, 7 November, awaiting Mike:* the two question groups, one gained-and-lost chart for all three fixes, and why totals barely move. The dense row is derived: 8 to 26 on the 128 and 359 to 343 on the 1,094 (369 total).
+**Slide 15. Retrieval and answers: keep the current content.** Message: better table coverage did not measurably improve accuracy. *Approved by Mike, in the deck:* the two question groups, one gained-and-lost chart for all three fixes, and why totals barely move. The dense row is derived: 8 to 26 on the 128 and 359 to 343 on the 1,094 (369 total).
 
 ### 04 Next steps
 

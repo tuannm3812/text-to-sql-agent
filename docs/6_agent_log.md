@@ -8605,3 +8605,5 @@ Bug check on slides 11 and 12. Slide 12's two difficulty panels used different b
 Slide 13 rebuilt after Mike's review: one colour per schema option (top 6 blue, every table + hints amber, no hints slate), value labels inside long bars, icons, a labelled interval chart, stat cards, and a new split showing 5.4 % against 18.0 % when a needed table is dropped. The note reconciles this slide's 167 with slide 15's 128. Added a `timer` icon. During the import a paste put base64 text on the slide because something else on the Mac had replaced the clipboard; undone at once and pasted again.
 
 Samples for slides 14 to 16 built in `build_body_slides.py`; not yet in the live deck, so the script is ahead of it until Mike approves. Slide 16 gains a "decision it settles" column, which is a proposal rather than a result.
+
+Slides 14 to 16 approved by Mike and imported to the live deck, with speaker notes; the build script and the deck match again.
