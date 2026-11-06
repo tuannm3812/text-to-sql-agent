@@ -816,6 +816,29 @@ for group, lg, name, mark, *values in rows:
     r, y = r + 1, y + ROW_H
 line(s, TX, TY + HEAD_H, TX + sum(WIDTHS), TY + HEAD_H, color=NAVY, width=1.0)
 marker(s, 2, TX + 118 + 100 + 96 - 9, TY + 3)
+text(
+    s,
+    43.5,
+    114,
+    606,
+    12,
+    [
+        [
+            ("EFFORT  ", B),
+            *dots(3),
+            (" High    ", {}),
+            *dots(2),
+            (" Moderate    ", {}),
+            *dots(1),
+            (" Low    ", {}),
+            *dots(0),
+            (" None", {}),
+        ]
+    ],
+    size=8,
+    color=GREY,
+    align=PP_ALIGN.RIGHT,
+)
 SOURCES = (
     (
         "1",
@@ -857,15 +880,11 @@ text(
     [
         [
             ("Note: ", B),
-            ("Effort is our qualitative assessment, not a ranking: ", {}),
-            *dots(3),
-            (" high, ", {}),
-            *dots(2),
-            (" moderate, ", {}),
-            *dots(1),
-            (" low, ", {}),
-            *dots(0),
-            (" none, – not listed. Sources read 6 November 2026.", {}),
+            (
+                "Effort is our qualitative assessment, not a ranking. "
+                "Sources read 6 November 2026.",
+                {},
+            ),
         ],
         *[
             [(n, {"sup": True}), (" " + fact, {}), (label, {"url": url, "color": BLUE})]
