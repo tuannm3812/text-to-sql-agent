@@ -13,6 +13,7 @@ from pathlib import Path
 
 from pptx import Presentation
 from pptx.dml.color import RGBColor
+from pptx.enum.dml import MSO_LINE
 from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
@@ -122,11 +123,13 @@ def logo(s, name, x, y, size=26):
     return s.shapes.add_picture(str(LOGOS / f"{name}.png"), Pt(x), Pt(y), Pt(size), Pt(size))
 
 
-def line(s, x1, y1, x2, y2, color=RULE, width=1.0, arrow=False):
+def line(s, x1, y1, x2, y2, color=RULE, width=1.0, arrow=False, dashed=False):
     """A flat native connector."""
     c = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Pt(x1), Pt(y1), Pt(x2), Pt(y2))
     c.line.color.rgb = rgb(color)
     c.line.width = Pt(width)
+    if dashed:
+        c.line.dash_style = MSO_LINE.DASH
     style = c._element.find(qn("p:style"))
     if style is not None:
         c._element.remove(style)
@@ -1393,108 +1396,189 @@ takeaways(
 s = new_slide(
     "SOLUTION  >  ARCHITECTURE",
     "The model proposes SQL; the application controls execution",
-    "The demo question through the five steps the app shows, with each step's known limit",
+    "The default path for one question, with the technology behind each step",
     9,
 )
-STEP_W, STEP_GAP = 118, 4
-STEPS = (
-    (
-        "1  Pick tables",
-        "Application",
-        "6 of 11 tables, plus 3 neighbours",
-        [("Can miss a table: ", B), ("128 of 1,222 large-schema questions", {})],
-    ),
-    (
-        "2  Write SQL",
-        "Model",
-        "One query, using 2 of the 9 tables sent",
-        [("Can be wrong: ", B), ("about 1 in 3 Spider answers did not match", {})],
-    ),
-    (
-        "3  Check it",
-        "Application",
-        "Passed: one statement, no internal tables",
-        [("Checks safety, ", B), ("not whether the query means the right thing", {})],
-    ),
-    (
-        "4  Run it",
-        "Database engine",
-        "5 rows on SQLite, in read-only mode",
-        [("Stops early ", B), ("at a work budget or 1,000 rows", {})],
-    ),
-    (
-        "5  Show it",
-        "Application",
-        "Electronics leads with 173,366, SQL beside it",
-        [("Cannot judge meaning: ", B), ("a person still decides", {})],
-    ),
-)
-text(s, 43.5, 186, 300, 12, [[("THE DEMO QUESTION", B)]], size=8, color=GREY)
-text(s, 43.5, 270, 300, 12, [[("EACH STEP'S KNOWN LIMIT", B)]], size=8, color=GREY)
-for i, (name, who, demo, limit) in enumerate(STEPS):
-    x = 43.5 + i * (STEP_W + STEP_GAP)
-    model = who == "Model"
-    box(
+C1, W1, GAP9 = 43.5, 130, 22
+W9 = (606 - W1 - 3 * GAP9) / 3
+C2 = C1 + W1 + GAP9
+C3 = C2 + W9 + GAP9
+C4 = C3 + W9 + GAP9
+RA, RB, RC = 130, 236, 332
+HA, HB = 84, 74
+
+
+def flow_card(x, y, h, head, body, module, fill=CREAM, w=W9, mark=None):
+    """One step: heading, body and module, with its technology logo in the corner."""
+    card(
         s,
         x,
-        130,
-        STEP_W,
-        34,
-        name,
-        BLUE if model else NAVY,
-        fg=WHITE,
-        size=12,
-        kind=MSO_SHAPE.PENTAGON,
+        y,
+        w,
+        h,
+        [
+            [(head, {"bold": True, "size": 12})],
+            [(body, {"size": 10})],
+            [(module, {"size": 8, "font": CODE, "color": GREY})],
+        ],
+        fill=fill,
+        after=2,
     )
-    text(
-        s,
-        x,
-        167,
-        STEP_W - 10,
-        12,
-        [[(who, {"bold": model, "color": BLUE if model else GREY})]],
-        size=8,
-        align=PP_ALIGN.CENTER,
-    )
-    card(s, x, 200, STEP_W, 62, [[(demo, {})]], fill=PALE_BLUE if model else CREAM, size=10)
-    card(s, x, 284, STEP_W, 74, [limit], fill=PALE_AMBER, size=10)
-COL2 = 43.5 + (STEP_W + STEP_GAP) + STEP_W / 2
-COL4 = 43.5 + 3 * (STEP_W + STEP_GAP) + STEP_W / 2
-line(s, COL4, 358, COL4, 376, color=SLATE, width=1.5)
-line(s, COL4, 376, COL2, 376, color=SLATE, width=1.5)
-line(s, COL2, 376, COL2, 358, color=SLATE, width=1.5, arrow=True)
+    if mark == "tech-sqlglot":  # a wide wordmark, so it keeps its own shape
+        shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + w - 54, y + 6, 48, 15, fill=NAVY, radius=0.2)
+        s.shapes.add_picture(str(LOGOS / f"{mark}.png"), Pt(x + w - 52), Pt(y + 8), Pt(44), Pt(11))
+    elif mark:
+        logo(s, mark, x + w - 22, y + 6, 15)
+
+
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, C1, RA, W1, RC + HA - RA, fill=CREAM, radius=0.04)
+logo(s, "tech-streamlit", C1 + W1 / 2 - 14, 240, 28)
 text(
     s,
-    COL2 + 6,
-    381,
-    COL4 - COL2 - 6,
+    C1 + 8,
+    272,
+    W1 - 16,
     30,
-    [
-        [
-            ("One repair try: ", B),
-            (
-                "a failed run sends its error to the model once, and the new SQL is checked again.",
-                {},
-            ),
-        ]
-    ],
+    [[("Streamlit app", B)], [("app.py, ui/", {"size": 8, "font": CODE, "color": GREY})]],
+    size=10,
+    align=PP_ALIGN.CENTER,
+)
+text(
+    s,
+    C1 + 8,
+    RA + 8,
+    W1 - 16,
+    70,
+    [[("1  Ask", {"bold": True, "size": 12})], [("Pick a database, ask in plain English", {})]],
+    size=10,
+    after=2,
+)
+text(
+    s,
+    C1 + 8,
+    RC + 30,
+    W1 - 16,
+    44,
+    [[("The person inspects the answer and its SQL", {})]],
     size=10,
 )
-marker(s, 1, 43.5 + STEP_W + STEP_GAP - 6, 124)
-marker(s, 2, 37, 194)
-marker(s, 3, 37, 278)
-marker(s, 4, COL2 - 6, 370)
-note(
-    s,
-    "demo values come from the capture on slide 7. Work budget: 100,000 steps on SQLite, "
-    "5,000 ms on DuckDB and PostgreSQL.",
-    y=428,
+flow_card(
+    C2, RA, HA, "2  Read schema", "Tables, keys and hints, cached", "schema.py", mark="tech-python"
 )
+flow_card(
+    C3,
+    RA,
+    HA,
+    "3  Select tables",
+    "Top 6 by BM25, names, trigrams, plus neighbours",
+    "rag.py",
+    mark="tech-python",
+)
+flow_card(
+    C4,
+    RA,
+    HA,
+    "4  Build prompt",
+    "Dialect rules, schema and question",
+    "llm.py",
+    mark="tech-python",
+)
+flow_card(
+    C4,
+    RC,
+    HA,
+    "6  Validate",
+    "One read-only query; unsafe SQL stops here",
+    "safety.py",
+    mark="tech-sqlglot",
+)
+flow_card(
+    C3, RC, HA, "7  Run", "Read-only mode, work budget, row cap", "execution.py", mark="tech-python"
+)
+flow_card(
+    C2,
+    RC,
+    HA,
+    "8  Show",
+    "Table, chart, SQL and why tables were chosen",
+    "ui/results.py",
+    mark="tech-pandas",
+)
+# The model, between the prompt and the check.
+card(
+    s,
+    C4,
+    RB,
+    W9,
+    HB,
+    [
+        [("5  Generate", {"bold": True, "size": 12})],
+        [("One SQL statement back", {"size": 10})],
+    ],
+    fill=PALE_BLUE,
+    after=2,
+)
+for x, mark, label in ((C4 + 8, "tech-ollama", "Ollama"), (C4 + 68, "tech-googlegemini", "Gemini")):
+    logo(s, mark, x, RB + 50, 14)
+    text(s, x + 17, RB + 51, 46, 12, label, size=8)
+logo(s, "tech-langchain", C4 + W9 - 22, RB + 6, 15)
+# The database engines, reached by steps 2 and 7.
+DBW = 262
+card(
+    s,
+    C2,
+    RB,
+    DBW,
+    HB,
+    [
+        [("Database engine", {"bold": True, "size": 12})],
+        [("Chosen by the connection string", {"size": 10})],
+    ],
+    fill=PALE_AMBER,
+    after=2,
+)
+for x, mark, label in (
+    (C2 + 8, "tech-sqlite", "SQLite"),
+    (C2 + 88, "tech-duckdb", "DuckDB"),
+    (C2 + 168, "tech-postgresql", "PostgreSQL"),
+):
+    logo(s, mark, x, RB + 50, 14)
+    text(s, x + 18, RB + 51, 66, 12, label, size=8)
+for x1, y1, x2, y2 in (
+    (C1 + W1, RA + 42, C2, RA + 42),
+    (C2 + W9, RA + 42, C3, RA + 42),
+    (C3 + W9, RA + 42, C4, RA + 42),
+    (C4 + W9 / 2, RA + HA, C4 + W9 / 2, RB),
+    (C4 + W9 / 2, RB + HB, C4 + W9 / 2, RC),
+    (C4, RC + 42, C3 + W9, RC + 42),
+    (C3, RC + 42, C2 + W9, RC + 42),
+    (C2, RC + 42, C1 + W1, RC + 42),
+    (C2 + 60, RB, C2 + 60, RA + HA),
+    (C3 + 40, RC, C3 + 40, RB + HB),
+):
+    line(s, x1, y1, x2, y2, color=SLATE, width=1.5, arrow=True)
+RX = C3 + W9 - 14
+line(s, RX, RC, RX, RB + 37, color=AMBER, width=1.5, dashed=True)
+line(s, RX, RB + 37, C4, RB + 37, color=AMBER, width=1.5, arrow=True, dashed=True)
+marker(s, 1, C4 - 6, RB - 6)
+marker(s, 2, C4 - 6, RC - 6)
+marker(s, 3, C2 - 6, RB - 6)
+marker(s, 4, RX - 6, RB + 44)
+for x, fill, label in (
+    (C1, CREAM, "Application"),
+    (C1 + 80, PALE_BLUE, "Model"),
+    (C1 + 136, PALE_AMBER, "Database"),
+):
+    shape(s, MSO_SHAPE.RECTANGLE, x, 425, 10, 10, fill=fill, line=RULE)
+    text(s, x + 14, 424, 60, 12, label, size=8, color=GREY)
+line(s, C1 + 204, 430, C1 + 224, 430, color=AMBER, width=1.5, dashed=True)
+text(s, C1 + 229, 424, 100, 12, "One repair try", size=8, color=GREY)
+note(s, "product names and logos belong to their owners.", y=440)
 takeaways(
     s,
     [
         (
-            "One step of five uses a model",
+            "One step of eight uses a model",
             [
                 ("It returns text. ", {}),
                 ("The application decides", BB),
@@ -1502,25 +1586,25 @@ takeaways(
             ],
         ),
         (
-            "Every step leaves a trace",
+            "Two separate gates",
             [
-                ("The app shows the tables, SQL and checks, so ", {}),
-                ("each answer can be inspected", BB),
+                ("sqlglot checks the query, then the engine runs it read-only. ", {}),
+                ("Neither checks meaning", BB),
                 (".", {}),
             ],
         ),
         (
-            "Safe is not the same as right",
+            "One flow, three engines",
             [
-                ("A missed table or a wrong meaning ", {}),
-                ("passes every check", BB),
-                (", so a person still reviews the answer.", {}),
+                ("The connection string picks the engine, and each passes ", {}),
+                ("the same 15 tests", BB),
+                (".", {}),
             ],
         ),
         (
             "A failure gets one retry",
             [
-                ("Repair is limited to one try, and ", {}),
+                ("A failed run sends its error to the model once, and ", {}),
                 ("nothing skips the checks", BB),
                 (".", {}),
             ],

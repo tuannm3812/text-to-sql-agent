@@ -205,7 +205,7 @@ Also found in the code: the question is sent too; a failed query and its error g
 | C. Limit per step | Where each step can fail | Links to the evidence section | Use: this is the insight |
 | D. Code module map | Files and functions | For developers only | Drop |
 
-*Decision:* a five-step journey map using the app's own step names, with a demo row and a limit row, and the repair loop drawn back to step 2. **Message:** one step of five uses a model, and safe is not the same as right.
+*Decision, revised by Mike:* a detailed eight-step architecture flow with the tech stack logos, following `docs/2_architecture.md`: Streamlit, schema, retrieval, prompt, model (Ollama or Gemini), sqlglot validation, read-only run on SQLite, DuckDB or PostgreSQL, results. It replaces the five-step journey map (commit `2212672`). **Message:** one step of eight uses a model, behind two separate gates that do not check meaning.
 
 **Slide 10. Safety: keep the current content.** Message: validation and engine read-only protection, tested across 3 engines. Keep the 11 of 15 scope note.
 

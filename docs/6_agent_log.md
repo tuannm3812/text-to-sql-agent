@@ -8575,3 +8575,7 @@ per text column on `data/retail_analytics.db`, with direct labels. Takeaway 4 no
 
 Slide 9 rebuilt after a brainstorm in `BRIEF.md`: a five-step journey map using the app's own step names, with a demo row, a limit row and the repair loop. The old diagram
 had no Run step. Demo values come from the 6 November capture; limits from `config.py`, the README and the retrieval results.
+
+Slide 9 changed again at Mike's request: the five-step journey map (commit `2212672`) gave way to an eight-step architecture flow with the module and the technology behind each step
+and a dashed repair line. Steps come from `pipeline.ask_database`, modules from the package, logos from `pyproject.toml`'s stack (`build_icons.py` fetches them from Simple Icons and the sqlglot repo).
+The takeaways are one model step of eight, two gates, three engines and one retry. Notes rewritten; markers checked at zoom; 17 slides confirmed.

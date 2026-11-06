@@ -6,7 +6,7 @@ Run from the repo root:
 """
 
 from pathlib import Path
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 from playwright.sync_api import sync_playwright
 
@@ -45,7 +45,35 @@ with sync_playwright() as p:
             tab.screenshot(path=HERE / f"assets/icons/{icon}-{name}.png", omit_background=True)
     browser.close()
 
+TECH = [
+    "streamlit",
+    "python",
+    "pandas",
+    "sqlite",
+    "duckdb",
+    "postgresql",
+    "ollama",
+    "googlegemini",
+    "langchain",
+]
+with sync_playwright() as p:
+    browser = p.chromium.launch()
+    tab = browser.new_page(viewport={"width": 128, "height": 128}, device_scale_factor=2)
+    for name in TECH:
+        request = Request(
+            f"https://cdn.simpleicons.org/{name}", headers={"User-Agent": "Mozilla/5.0"}
+        )
+        with urlopen(request) as response:
+            svg = response.read().decode()
+        tab.set_content(f'<body style="margin:0;background:transparent">{svg}</body>')
+        tab.evaluate("document.querySelector('svg').setAttribute('width', 128)")
+        tab.evaluate("document.querySelector('svg').setAttribute('height', 128)")
+        tab.screenshot(path=HERE / f"assets/logos/tech-{name}.png", omit_background=True)
+    browser.close()
+
 for name, org in LOGOS.items():
     with urlopen(f"https://github.com/{org}.png?size=160") as response:
         (HERE / f"assets/logos/{name}.png").write_bytes(response.read())
+with urlopen("https://raw.githubusercontent.com/tobymao/sqlglot/main/sqlglot.png") as response:
+    (HERE / "assets/logos/tech-sqlglot.png").write_bytes(response.read())
 print("done")
