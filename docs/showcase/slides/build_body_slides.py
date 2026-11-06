@@ -1399,219 +1399,191 @@ s = new_slide(
     "Five stages take one question to an answer, with the technology behind each step",
     9,
 )
-W9 = 108
-X1, X2 = 43.5, 165.5
-X3 = X2 + W9 + 14
-X4 = X3 + W9 + 22
-X5 = X4 + W9 + 14
-TOP9, END9 = 170, 364
+# Eight equal cards on a four-column grid, top row left to right, bottom row right to left.
+W9, H9, G9 = 136.5, 76, 20
+CX = [43.5 + i * (W9 + G9) for i in range(4)]
+BAR1, ROW1, DBY, DBH, ROW2, BAR2 = 130, 153, 245, 40, 311, 392
+BARH = 18
 
 
-def step9(x, y, h, head, body, module, fill=CREAM, mark=None):
-    """One step: heading, body and module, with its technology logo in the corner."""
-    card(
-        s,
-        x,
-        y,
-        W9,
-        h,
-        [
-            [(head, {"bold": True, "size": 10})],
-            body,
-            [(module, {"size": 8, "font": CODE, "color": GREY})],
-        ],
-        fill=fill,
-        pad=6,
-        size=8,
-        after=2,
-    )
-    if mark == "tech-sqlglot":  # a wide wordmark, so it keeps its own shape
-        shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + W9 - 46, y + 5, 41, 13, fill=NAVY, radius=0.2)
-        s.shapes.add_picture(str(LOGOS / f"{mark}.png"), Pt(x + W9 - 44), Pt(y + 7), Pt(37), Pt(9))
-    elif mark:
-        logo(s, mark, x + W9 - 18, y + 5, 13)
+def stage9(x, y, w, label, output, fill=NAVY):
+    """A stage bar: the stage on the left, what it hands on at the right."""
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, y, w, BARH, fill=fill, radius=0.2)
+    text(s, x + 7, y + 4, 70, 11, [[(label, {"bold": True})]], size=8, color=WHITE)
+    text(s, x + w - 117, y + 4, 110, 11, output, size=8, color=WHITE, align=PP_ALIGN.RIGHT)
 
 
-def tech9(x, rows):
-    """The logos of a tall step, stacked above its bottom edge."""
-    y = END9 - 8 - 19 * len(rows)
-    for mark, label in rows:
-        logo(s, mark, x + 7, y, 14)
-        text(s, x + 25, y + 1, W9 - 30, 12, label, size=8)
-        y += 19
+def step9(n, x, y, name, body, module, marks=("tech-python",), fill=CREAM, badge=NAVY):
+    """One step, always laid out the same way: number and name, body, module and logos."""
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, y, W9, H9, fill=fill, radius=0.07)
+    box(s, x + 7, y + 7, 13, 13, str(n), badge, fg=WHITE, size=8, kind=MSO_SHAPE.ROUNDED_RECTANGLE)
+    text(s, x + 24, y + 7, W9 - 31, 13, [[(name, B)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, x + 7, y + 24, W9 - 14, 32, [body], size=8)
+    text(s, x + 7, y + H9 - 16, 70, 11, [[(module, {"font": CODE})]], size=8, color=GREY)
+    right = x + W9 - 7
+    for mark in reversed(marks):
+        if mark == "tech-sqlglot":  # a wide wordmark, so it keeps its own shape
+            shape(
+                s,
+                MSO_SHAPE.ROUNDED_RECTANGLE,
+                right - 41,
+                y + H9 - 19,
+                41,
+                13,
+                fill=NAVY,
+                radius=0.2,
+            )
+            s.shapes.add_picture(
+                str(LOGOS / f"{mark}.png"), Pt(right - 39), Pt(y + H9 - 17), Pt(37), Pt(9)
+            )
+            right -= 45
+        else:
+            logo(s, mark, right - 13, y + H9 - 19, 13)
+            right -= 17
 
 
-# The five stages, each with what it hands on.
-for i, (x, w, label, fill, out) in enumerate(
-    (
-        (X1, X2 - X1 + 4, "ASK", NAVY, "Output: question"),
-        (X2, X3 - X2 + 4, "PREPARE", NAVY, "Output: prompt"),
-        (X3, X4 - X3 + 4, "GENERATE", BLUE, "Output: SQL text"),
-        (X4, X5 - X4 + 4, "CHECK AND RUN", NAVY, "Output: rows or refusal"),
-        (X5, 650 - X5, "ANSWER", NAVY, "Output: answer and SQL"),
-    )
-):
-    box(
-        s,
-        x - (6 if i else 0),
-        130,
-        w + (6 if i else 0),
-        22,
-        label,
-        fill,
-        fg=WHITE,
-        size=8,
-        kind=MSO_SHAPE.CHEVRON if i else MSO_SHAPE.PENTAGON,
-    )
-    text(s, x, 154, W9, 12, out, size=8, color=GREY)
-
-# Ask
+stage9(CX[0], BAR1, W9, "ASK", "Output: question")
+stage9(CX[1], BAR1, 3 * W9 + 2 * G9, "PREPARE", "Output: prompt")
+stage9(CX[3], BAR2, W9, "GENERATE", "Output: SQL text", fill=BLUE)
+stage9(CX[1], BAR2, 2 * W9 + G9, "CHECK AND RUN", "Output: rows or refusal")
+stage9(CX[0], BAR2, W9, "ANSWER", "Output: answer")
 step9(
-    X1,
-    TOP9,
-    END9 - TOP9,
-    "1  Ask",
+    1,
+    CX[0],
+    ROW1,
+    "Ask",
     [("Pick a demo, a file, a connection or CSV uploads, then ask in plain English", {})],
     "app.py, ui/",
+    marks=("tech-streamlit",),
 )
-tech9(X1, (("tech-streamlit", "Streamlit"),))
-# Prepare
-H9 = 58
 step9(
-    X2,
-    TOP9,
-    H9,
-    "2  Read schema",
+    2,
+    CX[1],
+    ROW1,
+    "Read schema",
     [("Tables, keys and value hints", {}), ("1", {"sup": True})],
     "schema.py",
-    mark="tech-python",
 )
 step9(
-    X2,
-    TOP9 + 68,
-    H9,
-    "3  Select tables",
+    3,
+    CX[2],
+    ROW1,
+    "Select tables",
     [("Top 6 by hybrid score, plus neighbours", {}), ("2", {"sup": True})],
     "rag.py",
-    mark="tech-python",
 )
+step9(4, CX[3], ROW1, "Build prompt", [("Dialect rules, schema and question", {})], "llm.py")
 step9(
-    X2,
-    TOP9 + 136,
-    H9,
-    "4  Build prompt",
-    [("Dialect rules, schema and question", {})],
+    5,
+    CX[3],
+    ROW2,
+    "Generate",
+    [("One SQL statement from Gemini, hosted, or Ollama, local. It never sees result rows", {})],
     "llm.py",
-    mark="tech-python",
-)
-# Generate
-step9(
-    X3,
-    TOP9,
-    END9 - TOP9,
-    "5  Generate",
-    [("One SQL statement back. The model sees the prompt, never result rows", {})],
-    "llm.py",
+    marks=("tech-langchain", "tech-googlegemini", "tech-ollama"),
     fill=PALE_BLUE,
+    badge=BLUE,
 )
-tech9(
-    X3,
-    (
-        ("tech-langchain", "LangChain"),
-        ("tech-googlegemini", "Gemini, hosted"),
-        ("tech-ollama", "Ollama, local"),
-    ),
-)
-# Check and run
-H9B = 92
 step9(
-    X4,
-    TOP9,
-    H9B,
-    "6  Validate",
+    6,
+    CX[2],
+    ROW2,
+    "Validate",
     [("One SELECT or WITH, no engine internals. Unsafe SQL stops here", {})],
     "safety.py",
-    mark="tech-sqlglot",
+    marks=("tech-sqlglot",),
 )
 step9(
-    X4,
-    TOP9 + H9B + 10,
-    H9B,
-    "7  Run",
+    7,
+    CX[1],
+    ROW2,
+    "Run",
     [
         ("Read-only connection, work budget and row cap", {}),
         ("3", {"sup": True}),
         (". A failed run gets one repair", {}),
     ],
     "execution.py",
-    mark="tech-python",
 )
-# Answer
 step9(
-    X5,
-    TOP9,
-    END9 - TOP9,
-    "8  Show",
+    8,
+    CX[0],
+    ROW2,
+    "Show",
     [("Table, chart, SQL and why tables were chosen, so the person can inspect the answer", {})],
     "ui/results.py",
+    marks=("tech-pandas", "tech-streamlit"),
 )
-tech9(X5, (("tech-pandas", "pandas"), ("tech-streamlit", "Streamlit")))
-# The database layer under the stages, read by steps 2 and 7.
-DBY, DBH = 376, 46
-DBW = X4 + W9 - X2
-card(
+# The person opens and closes the flow, in the space between steps 1 and 8.
+icon(s, "person", "navy", CX[0] + 7, DBY + 10, 22)
+text(
     s,
-    X2,
-    DBY,
-    DBW,
-    DBH,
-    [
-        [("Database engine", {"bold": True, "size": 10})],
-        [("Chosen by the connection string", {"size": 8})],
-    ],
-    fill=PALE_AMBER,
-    pad=6,
-    after=2,
-    anchor=MSO_ANCHOR.MIDDLE,
+    CX[0] + 35,
+    DBY + 10,
+    W9 - 35,
+    22,
+    [[("The person", B)], [("Asks first, inspects last", {})]],
+    size=8,
+)
+# The database layer between the rows, read by steps 2 and 7.
+DBW = 2 * W9 + G9
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, CX[1], DBY, DBW, DBH, fill=PALE_AMBER, radius=0.1)
+text(
+    s,
+    CX[1] + 7,
+    DBY + 8,
+    112,
+    24,
+    [[("Database engine", {"bold": True, "size": 10})], [("Set by the connection string", {})]],
+    size=8,
 )
 for x, mark, label in (
-    (X2 + 150, "tech-sqlite", "SQLite"),
-    (X2 + 214, "tech-duckdb", "DuckDB"),
-    (X2 + 280, "tech-postgresql", "PostgreSQL"),
+    (CX[1] + 122, "tech-sqlite", "SQLite"),
+    (CX[1] + 171, "tech-duckdb", "DuckDB"),
+    (CX[1] + 221, "tech-postgresql", "PostgreSQL"),
 ):
-    logo(s, mark, x, DBY + 16, 14)
-    text(s, x + 17, DBY + 17, 62, 12, label, size=8)
-# Arrows: the main path, then the two engine links.
-Y12 = TOP9 + 20
-YG = TOP9 + 46
+    logo(s, mark, x, DBY + 13, 14)
+    text(s, x + 17, DBY + 14, 46, 12, label, size=8)
+# Arrows at card mid-height, and at each card's centre between the rows.
+MID1, MID2 = ROW1 + H9 / 2, ROW2 + H9 / 2
+C2, C4 = CX[1] + W9 / 2, CX[3] + W9 / 2
 for x1, y1, x2, y2 in (
-    (X1 + W9, Y12, X2, Y12),
-    (X2 + W9 / 2, TOP9 + H9, X2 + W9 / 2, TOP9 + 68),
-    (X2 + W9 / 2, TOP9 + 68 + H9, X2 + W9 / 2, TOP9 + 136),
-    (X2 + W9, TOP9 + 165, X3, TOP9 + 165),
-    (X3 + W9, YG, X4, YG),
-    (X4 + W9 / 2, TOP9 + H9B, X4 + W9 / 2, TOP9 + H9B + 10),
-    (X4 + W9, TOP9 + H9B + 56, X5, TOP9 + H9B + 56),
-    (X4 + W9 / 2, END9, X4 + W9 / 2, DBY),
+    (CX[0] + W9, MID1, CX[1], MID1),
+    (CX[1] + W9, MID1, CX[2], MID1),
+    (CX[2] + W9, MID1, CX[3], MID1),
+    (C4, ROW1 + H9, C4, ROW2),
+    (CX[3], MID2, CX[2] + W9, MID2),
+    (CX[2], MID2, CX[1] + W9, MID2),
+    (CX[1], MID2, CX[0] + W9, MID2),
+    (C2, DBY, C2, ROW1 + H9),
+    (C2, ROW2, C2, DBY + DBH),
 ):
     line(s, x1, y1, x2, y2, color=SLATE, width=1.5, arrow=True)
-XE = X2 - 7
-line(s, X2, DBY + 23, XE, DBY + 23, color=SLATE, width=1.5)
-line(s, XE, DBY + 23, XE, TOP9 + 42, color=SLATE, width=1.5)
-line(s, XE, TOP9 + 42, X2, TOP9 + 42, color=SLATE, width=1.5, arrow=True)
-# The one repair, from the run back to the model.
-YR = TOP9 + H9B + 40
-line(s, X4, YR, X3 + W9, YR, color=AMBER, width=1.5, arrow=True, dashed=True)
-marker(s, 1, X3 - 6, TOP9 - 6)
-marker(s, 2, X4 - 6, TOP9 - 6)
-marker(s, 3, X2 - 6, DBY - 6)
-marker(s, 4, X3 + W9 + 5, YR - 16)
+# The one repair, from the run back over step 6 to the model.
+RX1, RX2, RY = CX[1] + W9 - 18, CX[3] + 18, DBY + DBH + 8
+line(s, RX1, ROW2, RX1, RY, color=AMBER, width=1.5, dashed=True)
+line(s, RX1, RY, RX2, RY, color=AMBER, width=1.5, dashed=True)
+line(s, RX2, RY, RX2, ROW2, color=AMBER, width=1.5, arrow=True, dashed=True)
+marker(s, 1, CX[3] - 6, ROW2 - 6)
+marker(s, 2, CX[2] - 6, ROW2 - 6)
+marker(s, 3, CX[1] - 6, DBY - 6)
+marker(s, 4, CX[2] + W9 / 2 - 6, RY - 6)
+# Legend, then the note that explains the content.
+for x, fill, label in (
+    (CX[0], CREAM, "Application"),
+    (CX[0] + 72, PALE_BLUE, "Model"),
+    (CX[0] + 124, PALE_AMBER, "Database"),
+):
+    shape(s, MSO_SHAPE.RECTANGLE, x, 416, 9, 9, fill=fill, line=RULE)
+    text(s, x + 13, 415, 56, 11, label, size=8, color=GREY)
+line(s, CX[0] + 186, 420.5, CX[0] + 206, 420.5, color=AMBER, width=1.5, dashed=True)
+text(s, CX[0] + 211, 415, 100, 11, "One repair try", size=8, color=GREY)
 text(
     s,
     43.5,
-    428,
+    431,
     606,
-    44,
+    36,
     [
         [
             ("Note: ", B),

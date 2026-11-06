@@ -8581,3 +8581,5 @@ and a dashed repair line. Steps come from `pipeline.ask_database`, modules from 
 The takeaways are one model step of eight, two gates, three engines and one retry. Notes rewritten; markers checked at zoom; 17 slides confirmed.
 
 Slide 9 split into five stages with each stage's output, smaller text, a database band under the stages and notes that explain hints, the hybrid score and the limits. The ownership note and legend are gone. Checking `ui/connection.py` showed Gemini is the app's first choice, so the notes' claim that Ollama is the default was wrong and is corrected.
+
+Slide 9 refined after review: all eight steps use one card template (number badge and name, body, module left, logos bottom right) on a four-column grid, so arrows get 16 to 20 pt of length and no card has spare height. The legend is back. Google Slides ignored the middle anchor on imported text boxes, so those positions are now fixed in the build.
