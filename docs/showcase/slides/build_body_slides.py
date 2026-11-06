@@ -500,19 +500,31 @@ problems = [
         43.5,
         PALE_AMBER,
         "Meaning",
-        "Words like “revenue” are not columns. Gross or net? The schema does not say.",
+        [
+            ("Words like ", {}),
+            ("“revenue”", BB),
+            (" are not columns. Gross or net? The schema does not say.", {}),
+        ],
     ),
     (
         248.5,
         PALE_BLUE,
         "Scale",
-        "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns.",
+        [
+            ("Real schemas are large. Spider 2.0 databases often exceed ", {}),
+            ("1,000 columns", BB),
+            (".", {}),
+        ],
     ),
     (
         453.5,
         "E8EAEE",
         "Risk",
-        "Generated SQL runs on real data, so it must be stopped from changing it.",
+        [
+            ("Generated SQL runs on ", {}),
+            ("real data", BB),
+            (", so it must be stopped from changing it.", {}),
+        ],
     ),
 ]
 for x, fill, h, b in problems:
@@ -522,13 +534,13 @@ for x, fill, h, b in problems:
         196,
         196,
         88,
-        [[(h, {"bold": True, "size": 16, "color": NAVY})], [(b, {"size": 12})]],
+        [[(h, {"bold": True, "size": 16, "color": NAVY})], b],
         fill=fill,
         after=2,
     )
 marker(s, 1, 37, 190)
 marker(s, 2, 28, 299)
-marker(s, 3, 344, 384)
+marker(s, 3, 333, 400)
 marker(s, 4, 447, 190)
 text(
     s,
@@ -538,26 +550,47 @@ text(
     20,
     [[("Published scores fall on enterprise tasks", {"bold": True, "size": 16})]],
 )
-for i, (lab, v, col) in enumerate(
-    (("Spider 1.0", 91.2, SLATE), ("BIRD", 73.0, AMBER), ("Spider 2.0 enterprise", 21.3, BLUE))
+SCALE = 4.6
+BAR_X = 171.5
+for i, (lab, v, col) in enumerate((("Spider 1.0", 91.2, SLATE), ("BIRD", 73.0, AMBER))):
+    bar_row(s, lab, f"{v} %", v * SCALE, col, 320 + i * 22, label_w=128)
+text(s, 43.5, 364, 128, 16, "Spider 2.0 enterprise", size=12, anchor=MSO_ANCHOR.MIDDLE)
+for x, w, fill, label, fg in (
+    (BAR_X, 21.3 * SCALE, BLUE, "21.3 %", WHITE),
+    (BAR_X + 21.3 * SCALE, 69.9 * SCALE, PALE_BLUE, "69.9 points below Spider 1.0", BLUE),
 ):
-    bar_row(s, lab, f"{v} %", v * 4.6, col, 320 + i * 22, label_w=128)
-text(s, 335, 364, 200, 16, [[("69.9 points below Spider 1.0", BB)]], size=10)
-for x, lead, rest in (
+    bar = shape(s, MSO_SHAPE.RECTANGLE, x, 364, w, 16, fill=fill)
+    tf = bar.text_frame
+    for side in ("left", "right", "top", "bottom"):
+        setattr(tf, f"margin_{side}", 0)
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    write(tf, [[(label, {"bold": True, "size": 11, "color": fg})]], align=PP_ALIGN.CENTER)
+for x, w, runs in (
     (
         43.5,
-        "Why scores fall: ",
-        "tasks need metadata, several SQL dialects and project code, and queries "
-        "often pass 100 lines.",
+        285,
+        [
+            ("Why scores fall: ", B),
+            ("tasks need metadata, ", {}),
+            ("several SQL dialects", BB),
+            (" and project code, and queries often pass ", {}),
+            ("100 lines", BB),
+            (".", {}),
+        ],
     ),
     (
         350.5,
-        "In this project: ",
-        "64.6 % on Spider and 35.2 % on BIRD with evidence, using our own scorer, "
-        "so not comparable with the chart.",
+        299,
+        [
+            ("In this project: ", B),
+            ("64.6 %", BB),
+            (" on Spider and ", {}),
+            ("35.2 %", BB),
+            (" on BIRD with evidence, using our own scorer, so not comparable with the chart.", {}),
+        ],
     ),
 ):
-    card(s, x, 390, 299, 62, [[(lead, B), (rest, {})]], fill=CREAM, size=12)
+    card(s, x, 390, w, 62, [runs], fill=CREAM, size=12)
 note(
     s,
     "share of tasks solved, o1-preview results reported in the Spider 2.0 "
@@ -707,7 +740,7 @@ takeaways(
         (
             "People can define the meaning",
             [
-                ("Definitions give control, but ", {}),
+                ("Choose this when terms must match across teams. It gives control, but ", {}),
                 ("someone must write and maintain", BB),
                 (" them.", {}),
             ],
@@ -718,8 +751,8 @@ takeaways(
                 ("Past queries save effort, but they ", {}),
                 ("must stay current", BB),
                 (
-                    " as the schema changes. The top BIRD test score is 83.40 %, against 92.96 % "
-                    "for humans.",
+                    " as the schema changes. Even the top BIRD test score, 83.40 %, is below "
+                    "92.96 % for humans.",
                     {},
                 ),
             ],
@@ -727,9 +760,9 @@ takeaways(
         (
             "Our route is checking",
             [
-                ("We skip the setup and ", {}),
+                ("Use this when no definitions exist yet: skip the setup and ", {}),
                 ("show the SQL instead", BB),
-                (", so a person checks the meaning. The next slide explains this choice.", {}),
+                (", so a person checks the meaning.", {}),
             ],
         ),
     ],
