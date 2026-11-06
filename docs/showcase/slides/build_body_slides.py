@@ -967,28 +967,34 @@ for qx, qy, fill, label in (
     shape(s, MSO_SHAPE.RECTANGLE, qx, qy, HALF_W, HALF_H, fill=fill)
     inset = 20 if label.startswith("MEANING THROUGH") else 8
     text(s, qx + inset, qy + 7, HALF_W - 28, 12, [[(label, B)]], size=8, color=GREY)
+line(s, MX - 4, MY + MH + 4, MX - 4, MY, color=NAVY, width=1.25, arrow=True)
+line(s, MX - 4, MY + MH + 4, MX + MW, MY + MH + 4, color=NAVY, width=1.25, arrow=True)
 axis = text(
     s,
-    -58,
+    -55,
     302,
     230,
-    14,
-    "More business meaning built in",
-    size=10,
-    color=GREY,
+    12,
+    [[("BUSINESS MEANING BUILT IN", B)]],
+    size=8,
     align=PP_ALIGN.CENTER,
 )
 axis.rotation = -90
+text(s, 34, MY, 24, 12, [[("HIGH", B)]], size=8, color=GREY, align=PP_ALIGN.RIGHT)
+text(s, 34, MY + MH - 12, 24, 12, [[("LOW", B)]], size=8, color=GREY, align=PP_ALIGN.RIGHT)
 text(
     s,
     MX,
-    MY + MH + 3,
+    MY + MH + 7,
     MW,
-    14,
-    "More setup before the first useful answer",
-    size=10,
-    color=GREY,
+    12,
+    [[("SETUP BEFORE THE FIRST USEFUL ANSWER", B)]],
+    size=8,
     align=PP_ALIGN.CENTER,
+)
+text(s, MX, MY + MH + 7, 40, 12, [[("NONE", B)]], size=8, color=GREY)
+text(
+    s, MX + MW - 40, MY + MH + 7, 40, 12, [[("HIGH", B)]], size=8, color=GREY, align=PP_ALIGN.RIGHT
 )
 for name, mark, x, y, right in (
     ("BI dashboards", "monitoring", 500, 28, True),
@@ -1016,14 +1022,14 @@ for name, mark, x, y, right in (
         align=PP_ALIGN.RIGHT if right else None,
     )
 marker(s, 2, MX + 25, MY + 178)
-marker(s, 3, 50, 176)
+marker(s, 3, 44, 228)
 marker(s, 4, MX + HALF_W + 5, MY + 5)
 note(
     s,
     "product positions follow the Setup ratings on slide 5; everything else is our "
     "qualitative reading. BIRD systems are left out because their setup is not listed.",
     x=66,
-    y=452,
+    y=457,
     w=584,
 )
 takeaways(
