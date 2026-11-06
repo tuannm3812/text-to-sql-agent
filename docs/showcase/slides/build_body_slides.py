@@ -1856,29 +1856,38 @@ takeaways(
 s = new_slide(
     "EVIDENCE  >  METHOD",
     "Every result can be traced and compared fairly",
-    "Five suites cover answer accuracy, large schemas and refusal behaviour",
+    "3,817 questions in five suites, every run recorded and every change paired",
     11,
 )
-text(s, 43.5, 130, 280, 16, [[("Questions per suite", {"bold": True, "size": 12})]])
-for i, (name, sub, n, col) in enumerate(
+text(s, 43.5, 130, 286, 15, [[("Each suite answers one question", {"bold": True, "size": 12})]])
+for i, (name, n, ask, col) in enumerate(
     (
-        ("Spider 1.0 dev", "up to 14 tables per database", 1034, SLATE),
-        ("BIRD dev", "with and without evidence hints", 1534, SLATE),
-        ("Large schemas", "4 databases of 21 to 65 tables", 1222, BLUE),
-        ("Demo", "the 3 demo databases", 12, AMBER),
-        ("Safety", "refusals and unanswerables", 15, AMBER),
+        ("Spider 1.0 dev", 1034, "Can it write SQL across many domains?", SLATE),
+        ("BIRD dev", 1534, "Can it handle messy values, with or without evidence?", SLATE),
+        ("Large schemas", 1222, "Does table selection work at 21 to 65 tables?", BLUE),
+        ("Demo", 12, "Does it work on the demo's own databases?", AMBER),
+        ("Safety", 15, "Does it refuse and decline when it should?", AMBER),
     )
 ):
-    y = 154 + i * 58
-    text(s, 43.5, y, 280, 14, [[(name, B), ("  " + sub, {"color": GREY, "size": 8})]], size=10)
-    w = max(n / 1534 * 230, 3)
-    shape(s, MSO_SHAPE.RECTANGLE, 43.5, y + 17, w, 16, fill=col)
-    text(s, 43.5 + w + 6, y + 18, 50, 14, [[(f"{n:,}", B)]], size=10)
+    y = 150 + i * 39
+    text(s, 43.5, y, 200, 12, [[(name, {"bold": True})]], size=10)
+    text(s, 43.5, y + 12, 286, 11, ask, size=8, color=GREY)
+    w = max(n / 1534 * 240, 3)
+    shape(s, MSO_SHAPE.RECTANGLE, 43.5, y + 24, w, 8, fill=col)
+    text(s, 43.5 + w + 5, y + 22, 40, 11, [[(f"{n:,}", B)]], size=8)
 for i, (ic, head, body) in enumerate(
     (
-        ("fact_check", "Typed comparison", "Result sets are compared by type, not SQL text"),
-        ("target", "95 % intervals", "Every rate carries a bootstrap interval"),
-        ("menu_book", "A manifest per run", "Commit, data and prompt hashes, model, settings"),
+        (
+            "fact_check",
+            "Typed comparison",
+            "Results are compared by value and type, so SQL wording does not matter",
+        ),
+        ("target", "95 % intervals", "10,000 bootstrap resamples over the cases, on every rate"),
+        (
+            "menu_book",
+            "A manifest per run",
+            "37 runs recorded, each pinning commit, data, prompt and model",
+        ),
         (
             "query_stats",
             "Paired comparisons",
@@ -1886,23 +1895,66 @@ for i, (ic, head, body) in enumerate(
         ),
     )
 ):
-    y = 130 + i * 78
-    card(
-        s,
-        345,
-        y,
-        305,
-        70,
-        [[(head, {"bold": True, "size": 12})], [(body, {"size": 10})]],
-        fill=CREAM,
-        after=2,
-        anchor=MSO_ANCHOR.MIDDLE,
-    ).text_frame.margin_left = Pt(44)
-    icon(s, ic, "blue", 355, y + 23, 24)
-marker(s, 3, 28, 386)
-marker(s, 2, 28, 270)
-marker(s, 1, 339, 358)
-note(s, "accuracy uses this project's typed comparison, not the benchmark scorers.", y=446)
+    y = 130 + i * 52
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 345, y, 305, 46, fill=CREAM, radius=0.09)
+    icon(s, ic, "blue", 354, y + 12, 22)
+    text(s, 386, y + 7, 256, 13, [[(head, B)]], size=10)
+    text(s, 386, y + 21, 256, 22, body, size=8)
+# How to read a paired change, the skill slides 12 to 15 rely on.
+PY0, PH = 346, 90
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, PY0, 606.5, PH, fill=PALE_BLUE, radius=0.05)
+text(s, 51, PY0 + 7, 300, 13, [[("How to read a paired change", B)]], size=10)
+AX0, AX1, V0, V1 = 330.0, 630.0, -2.0, 6.0
+
+
+def px11(v):
+    """A change in points, placed on the axis."""
+    return AX0 + (v - V0) / (V1 - V0) * (AX1 - AX0)
+
+
+line(s, px11(0), PY0 + 10, px11(0), PY0 + PH - 16, color=NAVY, width=1.25)
+text(s, px11(0) - 20, PY0 + PH - 14, 40, 11, "0", size=8, color=GREY, align=PP_ALIGN.CENTER)
+text(s, AX1 - 60, PY0 + PH - 14, 60, 11, "points of EX", size=8, color=GREY, align=PP_ALIGN.RIGHT)
+for y, head, sub, mid, lo, hi, col, tag in (
+    (
+        PY0 + 26,
+        "Top 6 against every table with hints",
+        "Large schemas, 1,222 questions",
+        3.6,
+        1.4,
+        5.8,
+        BLUE,
+        "+3.6 [+1.4, +5.8]  measurable",
+    ),
+    (
+        PY0 + 56,
+        "Summary layout against shared layout",
+        "Large schemas, 1,222 questions",
+        0.2,
+        -1.5,
+        2.0,
+        SLATE,
+        "+0.2 [-1.5, +2.0]  not measurable",
+    ),
+):
+    text(s, 51, y, 270, 11, [[(head, {"bold": True})]], size=8)
+    text(s, 51, y + 11, 270, 11, sub, size=8, color=GREY)
+    line(s, px11(lo), y + 13, px11(hi), y + 13, color=col, width=2.5)
+    shape(s, MSO_SHAPE.OVAL, px11(mid) - 4, y + 9, 8, 8, fill=col)
+    tx, ty = (px11(lo), y - 2) if lo > 0 else (px11(hi) + 7, y + 8)
+    text(s, tx, ty, 170, 11, [[(tag, {"bold": True, "color": col})]], size=8)
+marker(s, 1, 339, 124 + 3 * 52)
+marker(s, 2, 29, 150 + 2 * 39)
+marker(s, 3, 29, 150 + 3 * 39)
+marker(s, 4, 37.5, PY0 - 6)
+for x, fill, label in (
+    (43.5, SLATE, "Accuracy"),
+    (98, BLUE, "Table selection"),
+    (178, AMBER, "Diagnostics"),
+):
+    shape(s, MSO_SHAPE.RECTANGLE, x, 442, 9, 9, fill=fill)
+    text(s, x + 13, 441, 70, 11, label, size=8, color=GREY)
+note(s, "accuracy uses this project's typed comparison, not the benchmark scorers.", y=455)
 takeaways(
     s,
     [
@@ -1917,9 +1969,9 @@ takeaways(
         (
             "Test where selection matters",
             [
-                ("Dev databases are small, so the large-schema suite tests ", {}),
+                ("Dev databases have at most 14 tables, so a separate suite tests ", {}),
                 ("21 to 65 tables", BB),
-                (" from BIRD train.", {}),
+                (".", {}),
             ],
         ),
         (
@@ -1928,6 +1980,14 @@ takeaways(
                 ("With 12 and 15 cases, these suites ", {}),
                 ("show behaviour, not accuracy", BB),
                 (": their intervals are wide.", {}),
+            ],
+        ),
+        (
+            "Read the interval, not the point",
+            [
+                ("A change is measurable only when ", {}),
+                ("its interval clears zero", BB),
+                (". Slides 12 to 15 use this rule.", {}),
             ],
         ),
     ],
@@ -2351,6 +2411,141 @@ note(
     y=456,
     w=875,
     prefix="Scope:",
+)
+
+# Backup slide after Thank you, imported with ONLY=17 (bodies stop at deck slide 16).
+s = new_slide(
+    "BACKUP  >  SCHEMA RAG",
+    "Schema RAG ranks every table against the question",
+    "The demo question on Retail Analytics: 11 tables scored, 9 sent to the model, 2 used",
+    18,
+)
+# Three steps, then the real ranking.
+for i, (head, body) in enumerate(
+    (
+        ("1  Expand the words", '"revenue" also searches amount, sales and total'),
+        ("2  Score every table", "Names, keywords, trigrams and value hints, summed"),
+        ("3  Keep and connect", "Keep the top 6, then add foreign-key neighbours"),
+    )
+):
+    card(
+        s,
+        43.5 + i * 210,
+        130,
+        186,
+        50,
+        [[(head, {"bold": True, "size": 10})], [(body, {"size": 8})]],
+        fill=CREAM,
+        pad=7,
+        after=2,
+    )
+    if i:
+        line(s, 43.5 + i * 210 - 24, 155, 43.5 + i * 210, 155, color=SLATE, width=1.5, arrow=True)
+text(
+    s,
+    43.5,
+    188,
+    606,
+    14,
+    [[("Which product categories generate the most revenue?", {"bold": True, "size": 10})]],
+)
+SENT, ADDED, DROPPED = BLUE, AMBER, RULE
+RANKED = (
+    ("products", 30.13, SENT, True),
+    ("returns", 11.73, SENT, False),
+    ("order_items", 9.92, SENT, True),
+    ("inventory_snapshots", 9.78, SENT, False),
+    ("customer_support_tickets", 5.82, SENT, False),
+    ("suppliers", 1.71, SENT, False),
+    ("marketing_campaigns", 1.65, DROPPED, False),
+    ("customers", 1.45, ADDED, False),
+    ("regions", 1.31, DROPPED, False),
+    ("orders", 1.31, ADDED, False),
+    ("stores", 1.30, ADDED, False),
+)
+BX, BW, RH = 178.0, 380.0, 18.5
+for i, (name, score, col, used) in enumerate(RANKED):
+    y = 206 + i * RH
+    text(s, 43.5, y + 2, 130, 11, [[(name, {"font": CODE})]], size=8, color=NAVY)
+    w = max(score / 30.13 * BW, 2)
+    shape(s, MSO_SHAPE.RECTANGLE, BX, y + 2, w, 11, fill=col)
+    text(s, BX + w + 5, y + 2, 30, 11, f"{score:.1f}", size=8, color=GREY)
+    if used:
+        s.shapes.add_picture(
+            str(ICONS / "check_circle-blue.png"), Pt(BX + w + 30), Pt(y + 2), Pt(11), Pt(11)
+        )
+YC = 206 + 6 * RH
+line(s, 43.5, YC, 649, YC, color=NAVY, width=1, dashed=True)
+text(s, 560, YC - 12, 90, 11, "Top 6 cut", size=8, color=GREY, align=PP_ALIGN.RIGHT)
+marker(s, 1, 37.5, 124)
+marker(s, 2, 29, 206 + 9 * RH + 1)
+marker(s, 3, 43.5 + 210 - 6, 124)
+marker(s, 4, 545, YC - 13)
+for x, fill, label in (
+    (43.5, SENT, "In the top 6"),
+    (118, ADDED, "Added as a neighbour"),
+    (222, DROPPED, "Not sent"),
+):
+    shape(s, MSO_SHAPE.RECTANGLE, x, 417, 9, 9, fill=fill)
+    text(s, x + 13, 416, 90, 11, label, size=8, color=GREY)
+s.shapes.add_picture(str(ICONS / "check_circle-blue.png"), Pt(280), Pt(416), Pt(10), Pt(10))
+text(s, 293, 416, 150, 11, "Used by the model's SQL", size=8, color=GREY)
+text(
+    s,
+    43.5,
+    431,
+    606,
+    36,
+    [
+        [("Note:", B)],
+        [
+            (
+                "Score is a weighted sum: table name match x8, hashed n-grams x5, column match x4, "
+                "trigrams x3, schema BM25 x1, value-hint BM25 x0.25.",
+                {},
+            )
+        ],
+        [("Scores come from the current scorer; dense embeddings are off by default.", {})],
+    ],
+    size=8,
+    color=GREY,
+)
+takeaways(
+    s,
+    [
+        (
+            "Words are widened first",
+            [
+                ("A business word reaches columns it never names, as ", {}),
+                ("revenue reaches amount", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "Neighbours rescue joins",
+            [
+                ("orders ranks tenth, yet it arrives because ", {}),
+                ("a foreign key links it", BB),
+                (" to order_items.", {}),
+            ],
+        ),
+        (
+            "It reads schema, not rows",
+            [
+                ("Scoring uses names, DDL and value hints, so ", {}),
+                ("no row data is searched", BB),
+                (" and no model is called.", {}),
+            ],
+        ),
+        (
+            "A clear winner, then a tail",
+            [
+                ("products scores 30, and the last six tables sit ", {}),
+                ("below 2", BB),
+                (", so the cut can be close.", {}),
+            ],
+        ),
+    ],
 )
 
 if os.environ.get("ONLY"):  # one deck slide number: keep just that body for import

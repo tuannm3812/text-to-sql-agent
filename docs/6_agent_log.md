@@ -8593,3 +8593,5 @@ Slide 9: "Note:" now sits on its own line above the four superscripts, and step 
 Slide 10 rebuilt as a threat matrix after checking the safety run: 14 of 15 cases ended in the model's own decline, so "6 of 6 refused" measured the model and not the layers. The engine gap on internals was confirmed by running `SELECT * FROM sqlite_master` through the SQLite engine, and `tests/test_safety.py` (182 passed) covers the application check. Amber `check_circle` was recoloured from the blue icon with the same shape; `build_icons.py` now produces it.
 
 While aligning slide 10, keyboard nudges with nothing selected moved through the deck instead, and one press landed on slide 8's first marker; that was put back and checked. Always confirm the marker is selected before pressing arrow keys.
+
+Slide 11 rebuilt: suites state their question and a panel teaches reading a paired change. New backup slide 18 shows schema RAG on the demo question with real scores from `rag.rank_schema_chunks`; it was made by duplicating slide 11 for its header. The deck now has 18 slides.

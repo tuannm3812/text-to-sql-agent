@@ -215,7 +215,9 @@ Also found in the code: the question is sent too; a failed query and its error g
 
 ### 03 Evidence
 
-**Slide 11. Method: keep the current content.** Message: recorded runs and paired tests make changes assessable.
+**Slide 11. Method: "Every result can be traced and compared fairly".** Each suite states the question it answers, and a new panel teaches how to read a paired change with two real results. Message: read the interval, not the point, because slides 12 to 15 use that rule.
+
+**Slide 18. Backup: "Schema RAG ranks every table against the question".** After Thank you, for questions on step 3 of slide 9. Real scores for the demo question from `rag.rank_schema_chunks`: 11 tables scored, top 6 kept, 3 neighbours added, 2 used. It is built with `ONLY=17` because the bodies stop at deck slide 16.
 
 **Slide 12. Benchmarks: "The local model scored 64.6 % on Spider and 35.2 % on BIRD with evidence"**
 - **Change:** add the demo suite beside the three bars: 33.3 % [8.3, 58.3], 4 of 12. This is the suite built on the demo's databases, so leaving it out would flatter the demo.
