@@ -48,13 +48,10 @@ These four names appear in both the agenda and the slide labels, so the two alwa
 | Section | Reader question | Slides |
 |---|---|---|
 | Opening | What is this, and what did it find? | 1–3 |
-| 01 Problem | What do others do, and where do we fit? | 4–5 |
-| 02 Solution | What did we build, and how is it controlled? | 6–9 |
-| 03 Evidence | What did we measure, and what did we learn? | 10–14 |
-| 04 Next steps | What is still unproven? | 15–16 |
-
-The "why it is hard" slide was removed from the live deck on 6 November, so the deck has 16 slides.
-The per-slide briefs below keep their original numbers: subtract one from slide 5 onward.
+| 01 Problem | Why is this hard, and what do others do? | 4–6 |
+| 02 Solution | What did we build, and how is it controlled? | 7–10 |
+| 03 Evidence | What did we measure, and what did we learn? | 11–15 |
+| 04 Next steps | What is still unproven? | 16–17 |
 
 | New | Was | Label | Change |
 |---|---|---|---|
