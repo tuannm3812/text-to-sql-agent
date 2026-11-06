@@ -965,7 +965,8 @@ for qx, qy, fill, label in (
     (MX + HALF_W, MY + HALF_H, "F1F2F4", "Setup without meaning: to avoid"),
 ):
     shape(s, MSO_SHAPE.RECTANGLE, qx, qy, HALF_W, HALF_H, fill=fill)
-    text(s, qx + 8, qy + 6, HALF_W - 16, 14, label, size=10, color=GREY)
+    inset = 20 if label.startswith("Meaning through") else 8
+    text(s, qx + inset, qy + 6, HALF_W - 28, 14, label, size=10, color=GREY)
 axis = text(
     s,
     -58,
@@ -989,27 +990,35 @@ text(
     color=GREY,
     align=PP_ALIGN.CENTER,
 )
-for name, x, y, col in (
-    ("Semantic model", 500, 40, NAVY),
-    ("Curated knowledge", 440, 78, NAVY),
-    ("Open semantic layer", 345, 104, NAVY),
-    ("Retrieval over past work", 210, 150, NAVY),
-    ("This project", 70, 205, BLUE),
+for name, x, y, col, right in (
+    ("Snowflake Cortex Analyst", 340, 34, NAVY, False),
+    ("WrenAI", 340, 86, NAVY, False),
+    ("Databricks Genie Agents", 480, 60, NAVY, True),
+    ("Vanna", 170, 146, NAVY, False),
+    ("This project", 40, 205, BLUE, False),
 ):
     shape(s, MSO_SHAPE.OVAL, MX + x, MY + y, 12, 12, fill=col)
     bold = name == "This project"
     text(
         s,
-        MX + x + (17 if x < 480 else -135),
+        MX + x + (-135 if right else 17),
         MY + y - 1,
         130,
         14,
-        [[(name, {"bold": bold, "size": 12 if bold else 10, "color": col})]],
-        align=None if x < 480 else PP_ALIGN.RIGHT,
+        [[(name, {"bold": bold, "size": 10, "color": col})]],
+        align=PP_ALIGN.RIGHT if right else None,
     )
-marker(s, 2, MX + 56, MY + 205)
+marker(s, 2, MX + 26, MY + 205)
 marker(s, 3, 50, 176)
-note(s, "positions are our qualitative reading, not a measurement.", x=66, y=456, w=584)
+marker(s, 4, MX + HALF_W + 5, MY + 5)
+note(
+    s,
+    "horizontal position follows the Setup ratings on slide 5; vertical position is our "
+    "qualitative reading. BIRD systems are left out because their setup is not listed.",
+    x=66,
+    y=452,
+    w=584,
+)
 takeaways(
     s,
     [
@@ -1026,7 +1035,7 @@ takeaways(
             [
                 ("No model to build first. ", {}),
                 ("SQL is always visible", BB),
-                (", validated and run read-only, with a local model option.", {}),
+                (", validated and run read-only: all 45 conformance tests passed.", {}),
             ],
         ),
         (
@@ -1034,7 +1043,15 @@ takeaways(
             [
                 ("No governed metric definitions, so ", {}),
                 ("“revenue” stays ambiguous", BB),
-                (" until a person checks it. The next slide shows this.", {}),
+                (" until a person checks it.", {}),
+            ],
+        ),
+        (
+            "When a curated tool fits better",
+            [
+                ("If metrics must match across teams, ", {}),
+                ("choose a governed tool", BB),
+                (". This project suits a first look.", {}),
             ],
         ),
     ],
