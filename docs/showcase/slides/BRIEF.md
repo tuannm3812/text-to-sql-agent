@@ -97,7 +97,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 **Slide 3. Agenda: "From the problem to the evidence"**
 - **Subtitle:** replace "You have seen the product" with "Why it is hard, what we built, what we measured, what comes next."
-- **Content:** 01 Problem, slides 4–6; 02 Solution, 7–10; 03 Evidence, 11–15; 04 Next steps, 16–17. Each link goes to the first slide of its section.
+- **Content:** four numbered parts with grey questions, and a contents list under each with a linked page chip per slide. The Problem question is "What are we solving?". Short section names (Other tools, Trials, Retrieval) match the slide labels. Recheck the chips whenever slides move.
 
 ### 01 Problem
 

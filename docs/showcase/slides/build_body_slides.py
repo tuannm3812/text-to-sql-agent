@@ -407,8 +407,8 @@ for x, n, fill, fg, head, question, items in (
         BLUE,
         WHITE,
         "Problem",
-        "Why is it hard?",
-        ("Why it is hard", "Other approaches", "Our aim"),
+        "What are we solving?",
+        (("Why it is hard", 4), ("Other tools", 5), ("Our aim", 6)),
     ),
     (
         267.5,
@@ -417,7 +417,7 @@ for x, n, fill, fg, head, question, items in (
         WHITE,
         "Solution",
         "What did we build?",
-        ("Demo", "Data boundary", "Architecture", "Safety"),
+        (("Demo", 7), ("Data boundary", 8), ("Architecture", 9), ("Safety", 10)),
     ),
     (
         491.5,
@@ -426,9 +426,23 @@ for x, n, fill, fg, head, question, items in (
         NAVY,
         "Evidence",
         "What did we learn?",
-        ("Method", "Benchmarks", "Large schemas", "What was tried", "Retrieval and answers"),
+        (
+            ("Method", 11),
+            ("Benchmarks", 12),
+            ("Large schemas", 13),
+            ("Trials", 14),
+            ("Retrieval", 15),
+        ),
     ),
-    (715.5, "04", SLATE, WHITE, "Next steps", "What should we test next?", ("Tests", "Close")),
+    (
+        715.5,
+        "04",
+        SLATE,
+        WHITE,
+        "Next steps",
+        "What should we test next?",
+        (("Tests", 16), ("Close", 17)),
+    ),
 ):
     o = shape(s, MSO_SHAPE.OVAL, x, 130, 64, 64, fill=fill)
     tf = o.text_frame
@@ -437,9 +451,19 @@ for x, n, fill, fg, head, question, items in (
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
     write(tf, [[(n, {"bold": True, "size": 24, "color": fg})]], align=PP_ALIGN.CENTER)
     text(s, x, 208, 200, 26, [[(head, {"bold": True, "size": 20})]])
-    text(s, x, 238, 200, 18, [[(question, B)]], size=13)
+    text(s, x, 238, 200, 18, [[(question, {"color": GREY})]], size=13)
     shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 264, 200, 160, fill=CREAM, radius=0.05)
-    text(s, x + 12, 276, 176, 150, [[(item, {})] for item in items], size=12, after=8)
+    for i, (item, page) in enumerate(items):
+        y = 270 + i * 30
+        text(s, x + 12, y + 2, 140, 20, [[(item, {})]], size=12)
+        chip = shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + 164, y + 3, 24, 18, fill=fill, radius=0.3)
+        tf = chip.text_frame
+        for side in ("left", "right", "top", "bottom"):
+            setattr(tf, f"margin_{side}", 0)
+        tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+        write(tf, [[(str(page), {"bold": True, "size": 10, "color": fg})]], align=PP_ALIGN.CENTER)
+        if i < len(items) - 1:
+            line(s, x + 12, y + 27, x + 188, y + 27, color=RULE, width=0.75)
 
 # Slide 4: why it is hard
 s = new_slide(
@@ -559,7 +583,7 @@ takeaways(
 
 # Slide 5: other approaches, one comparison table
 s = new_slide(
-    "PROBLEM  >  OTHER APPROACHES",
+    "PROBLEM  >  OTHER TOOLS",
     "Other tools add business meaning before the SQL",
     "How each approach gets meaning into the query, with its main strength and weakness",
     5,
