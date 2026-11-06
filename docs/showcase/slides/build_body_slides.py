@@ -1856,7 +1856,7 @@ takeaways(
 s = new_slide(
     "EVIDENCE  >  METHOD",
     "Every result can be traced and compared fairly",
-    "3,817 questions in five suites, every run recorded and every change paired",
+    "3,817 questions in five suites, every run recorded and every comparison paired",
     11,
 )
 text(s, 43.5, 130, 286, 15, [[("Each suite answers one question", {"bold": True, "size": 12})]])
@@ -1913,7 +1913,7 @@ def px11(v):
 
 
 for v in (-2, 2, 4, 6):
-    line(s, px11(v), PY0 + 24, px11(v), PY0 + PH - 16, color=RULE, width=0.5)
+    line(s, px11(v), PY0 + PH - 20, px11(v), PY0 + PH - 16, color=GREY, width=0.75)
     label = f"+{v}" if v > 0 else str(v).replace("-", "\u2212")
     text(s, px11(v) - 15, PY0 + PH - 14, 30, 11, label, size=8, color=GREY, align=PP_ALIGN.CENTER)
 line(s, px11(0), PY0 + 24, px11(0), PY0 + PH - 16, color=NAVY, width=1.25)
@@ -1923,7 +1923,7 @@ text(
     PY0 + 9,
     420,
     11,
-    "The 0 line means no change. A whole interval to its right is a real gain.",
+    "The 0 line means no change. A whole interval to its right is a measurable gain.",
     size=8,
 )
 text(
@@ -2039,6 +2039,7 @@ for i, (name, sub, v, lo, hi, col) in enumerate(
     text(s, 43.5, y - 3, 140, 26, [[(name, B)], [(sub, {"size": 8, "color": GREY})]], size=10)
     line(s, px(lo), y + 8, px(hi), y + 8, color=col, width=2.5)
     shape(s, MSO_SHAPE.OVAL, px(v) - 5, y + 3, 10, 10, fill=col)
+    shape(s, MSO_SHAPE.RECTANGLE, px(hi) + 4, y + 1, 40, 14, fill=WHITE)
     text(s, px(hi) + 6, y + 1, 40, 14, [[(f"{v} %", B)]], size=10)
 text(s, 43.5, 270, 140, 11, "Dot: score. Line: 95 % interval.", size=8, color=GREY)
 # Spider: what each level means, and how it scored.
@@ -2073,8 +2074,8 @@ for k, (lab, n, means, v) in enumerate(
         size=8,
     )
     text(s, 53, y + 12, 160, 11, means, size=8, color=GREY)
-    shape(s, MSO_SHAPE.RECTANGLE, 216, y + 5, v * 0.95, 13, fill=BLUE)
-    text(s, 216 + v * 0.95 + 4, y + 6, 40, 12, [[(f"{v} %", B)]], size=8)
+    shape(s, MSO_SHAPE.RECTANGLE, 200, y + 5, v * 1.25, 13, fill=BLUE)
+    text(s, 200 + v * 1.25 + 4, y + 6, 40, 12, [[(f"{v} %", B)]], size=8)
 # BIRD: each level with and without the benchmark's evidence.
 shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 349.5, 290, 300, 136, fill=CREAM, radius=0.04)
 text(s, 359, 296, 280, 13, [[("BIRD by difficulty", B)]], size=10)
@@ -2095,8 +2096,8 @@ for k, (lab, n, on, off) in enumerate(
     text(s, 359, y + 2, 90, 12, [[(lab, {"bold": True, "size": 10})]], size=8)
     text(s, 359, y + 14, 90, 11, f"{n} questions", size=8, color=GREY)
     for dy, v, col in ((0, on, BLUE), (13, off, SLATE)):
-        shape(s, MSO_SHAPE.RECTANGLE, 446, y + dy, v * 3.2, 11, fill=col)
-        text(s, 446 + v * 3.2 + 4, y + dy, 40, 11, [[(f"{v} %", B)]], size=8)
+        shape(s, MSO_SHAPE.RECTANGLE, 440, y + dy, v * 1.25, 11, fill=col)
+        text(s, 440 + v * 1.25 + 4, y + dy, 40, 11, [[(f"{v} %", B)]], size=8)
 shape(s, MSO_SHAPE.RECTANGLE, 572, 393, 9, 9, fill=BLUE)
 text(s, 585, 392, 62, 11, "With evidence", size=8, color=GREY)
 shape(s, MSO_SHAPE.RECTANGLE, 572, 406, 9, 9, fill=SLATE)

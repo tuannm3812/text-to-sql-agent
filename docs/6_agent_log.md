@@ -8599,3 +8599,5 @@ Slide 11 rebuilt: suites state their question and a panel teaches reading a pair
 Review of slides 11, 12 and 18. Slide 12's difficulty panels now define each level, show question counts, and pair BIRD with and without evidence. Slide 11 drops "EX" and the layout jargon. Slide 18 labels the bars as a relevance score and no longer says no row data is searched, because value hints are stored values; it now says full rows are never searched.
 
 Slide 11's panel now labels the zero line "0 no change", has axis ticks and says how to read it, after Mike asked what the axis zero meant.
+
+Bug check on slides 11 and 12. Slide 12's two difficulty panels used different bar scales, so 43.1 % looked longer than 84.3 %; both now use one scale. Value labels no longer sit on the grid lines. On slide 11 "real gain" became "measurable gain", grid lines became ticks so they do not cross the labels, and the subtitle says "every comparison paired".
