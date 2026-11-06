@@ -643,117 +643,164 @@ takeaways(
 # Slide 5: other approaches, one comparison table
 s = new_slide(
     "PROBLEM  >  OTHER TOOLS",
-    "Other tools add business meaning before the SQL",
-    "How each approach gets meaning into the query, with its main strength and weakness",
+    "Other tools get business meaning through setup",
+    "Two routes to meaning, compared on the same criteria",
     5,
+)
+HEAD = (
+    "APPROACH",
+    "MEANING FROM",
+    "NEEDED FIRST",
+    "KEEPING IT WORKING",
+    "BEST FOR",
+    "MAIN RISK",
+)
+WIDTHS = (118, 100, 90, 100, 98, 100)
+BANDS = (
+    ("PEOPLE DEFINE THE MEANING", 1),
+    ("SYSTEMS WORK IT OUT", 2),
+    ("THIS PROJECT", 3),
 )
 rows = [
     (
+        0,
         "snowflake",
         "Snowflake Cortex Analyst",
-        [("Semantic model", BB), (" of business terms", {})],
-        ([("Consistent", B), (" terms", {})], [("Central", B), (" definitions", {})]),
-        ([("Model", B), (" built first", {})], [("Upkeep", B), (" as terms change", {})]),
+        "Semantic model",
+        "Model written",
+        "Update as terms change",
+        "Agreed metrics",
+        "Model falls out of date",
     ),
     (
+        0,
         "databricks",
         "Databricks Genie Agents",
-        [("Expert notes", BB), (" and example SQL", {})],
-        ([("Domain", B), (" knowledge", {})], [("Example", B), (" SQL guides it", {})]),
-        ([("Curation", B), (" by experts first", {})], [("Upkeep", B), (" by experts", {})]),
+        "Expert notes, example SQL",
+        "Expert curation",
+        "Experts keep refining",
+        "Domain teams",
+        "Depends on the curator",
     ),
     (
+        0,
         "wren",
         "WrenAI",
-        [("Approved metrics", BB), (" kept in Git", {})],
-        ([("Reviewable", B), (" definitions", {})], [("Open", B), (" Git history", {})]),
-        ([("Metrics", B), (" defined first", {})], [("Upkeep", B), (" in the repository", {})]),
+        "Metrics in Git",
+        "Metrics defined",
+        "Reviewed like code",
+        "Open, reviewable definitions",
+        "Metrics not yet defined",
     ),
     (
+        1,
         "vanna",
         "Vanna",
-        [("Earlier SQL", BB), (", schema and documents, retrieved", {})],
-        ([("Reuses", B), (" past work", {})], [("Learns", B), (" from examples", {})]),
-        ([("Examples", B), (" collected first", {})], [("Archived", B), (" repository, 2026", {})]),
+        "Earlier SQL, documents",
+        "Examples collected",
+        "Examples kept current",
+        "Repeated questions",
+        "Repeats old logic; archived",
     ),
     (
+        1,
         None,
         "Research agents",
-        [("Multi-step pipelines", BB), (" tuned to benchmarks", {})],
-        ([("Top", B), (" benchmark scores", {})], [("Multi-step", B), (" reasoning", {})]),
-        ([("Tuned", B), (" to benchmarks", {})], [("Not", B), (" for daily use", {})]),
+        "Multi-step pipelines",
+        "Benchmark tuning",
+        "Retuned per benchmark",
+        "Top scores",
+        "May not carry to your data",
     ),
     (
+        2,
         "project",
         "This project",
-        [("Schema and bounded hints", BB), (" for the top tables", {})],
-        ([("No setup", B), (" needed", {})], [("SQL visible", B), (", run read-only", {})]),
-        ([("No governed", B), (" definitions", {})], [("A person", B), (" checks meaning", {})]),
+        "Schema, bounded hints",
+        "Nothing to write",
+        "Nothing to maintain",
+        "First look at a database",
+        "Meaning stays with a person",
     ),
 ]
-TY, ROW_H = 154, 49
-COLS = (43.5, 190, 346, 500)
-for x, head in zip(
-    (COLS[0] + 6, COLS[1], COLS[2], COLS[3]),
-    ("APPROACH", "HOW IT ADDS MEANING", "STRENGTH", "WEAKNESS"),
-    strict=True,
-):
-    text(s, x, 132, 150, 16, [[(head, B)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
-line(s, 43.5, 151, 649.5, 151, color=NAVY, width=1.0)
-for r, (lg, name, how, strengths, weaknesses) in enumerate(rows):
-    y = TY + r * ROW_H
-    fill = PALE_BLUE if lg == "project" else (CREAM if r % 2 == 0 else None)
-    if fill:
-        shape(s, MSO_SHAPE.RECTANGLE, 43.5, y, 606, ROW_H - 2, fill=fill)
+TX, TY, HEAD_H, BAND_H, ROW_H = 43.5, 130, 18, 16, 40
+n_rows = 1 + len(BANDS) + len(rows)
+table = s.shapes.add_table(
+    n_rows, 6, Pt(TX), Pt(TY), Pt(sum(WIDTHS)), Pt(HEAD_H + BAND_H * 3 + ROW_H * len(rows))
+).table
+for c, w in enumerate(WIDTHS):
+    table.columns[c].width = Pt(w)
+
+
+def cell(r, c, value, fill, **opt):
+    """Fill one table cell."""
+    target = table.cell(r, c)
+    target.fill.solid()
+    target.fill.fore_color.rgb = rgb(fill)
+    target.margin_left = target.margin_right = Pt(5)
+    target.margin_top = target.margin_bottom = Pt(2)
+    target.vertical_anchor = MSO_ANCHOR.MIDDLE
+    write(target.text_frame, [[(value, {"size": 8, **opt})]])
+
+
+table.rows[0].height = Pt(HEAD_H)
+for c, head in enumerate(HEAD):
+    cell(0, c, head, WHITE, bold=True, color=NAVY)
+r, y, band = 1, TY + HEAD_H, -1
+for group, lg, name, *values in rows:
+    if group != band:
+        band = group
+        label, number = BANDS[group]
+        table.rows[r].height = Pt(BAND_H)
+        table.cell(r, 0).merge(table.cell(r, 5))
+        for c in range(6):
+            table.cell(r, c).fill.solid()
+            table.cell(r, c).fill.fore_color.rgb = rgb(CREAM)
+        cell(r, 0, label, CREAM, bold=True, color=SLATE)
+        marker(s, number, 28, y + 2)
+        r, y = r + 1, y + BAND_H
+    table.rows[r].height = Pt(ROW_H)
+    fill = PALE_BLUE if lg == "project" else WHITE
+    cell(r, 0, name, fill, bold=True)
+    table.cell(r, 0).margin_left = Pt(30)
+    for c, value in enumerate(values, start=1):
+        strong = lg == "project" and c in (2, 3, 5)
+        cell(r, c, value, fill, **({"bold": True, "color": BLUE} if strong else {}))
     if lg == "project":
-        icon(s, "fact_check", "blue", 50, y + 12, 22)
+        icon(s, "fact_check", "blue", TX + 6, y + 11, 19)
     elif lg:
-        logo(s, lg, 50, y + 12, 22)
+        logo(s, lg, TX + 6, y + 11, 19)
     else:
-        icon(s, "science", "blue", 50, y + 12, 22)
-    text(s, 78, y + 4, 106, 39, [[(name, B)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
-    text(s, COLS[1], y + 4, 148, 39, [how], size=10, anchor=MSO_ANCHOR.MIDDLE)
-    for x, name_icon, colour, bullets in (
-        (COLS[2], "check_circle", "blue", strengths),
-        (COLS[3], "cancel", "amber", weaknesses),
-    ):
-        for i, runs in enumerate(bullets):
-            by = y + 7 + i * 18
-            icon(s, name_icon, colour, x, by + 1, 11)
-            text(s, x + 15, by - 1, 135, 15, [runs], size=10, anchor=MSO_ANCHOR.MIDDLE)
-marker(s, 1, 28, TY + 18)
-marker(s, 2, 28, TY + 3 * ROW_H + 18)
-marker(s, 3, 28, TY + 5 * ROW_H + 18)
-note(s, "strengths and weaknesses are our reading of each approach, not a ranking.", y=452)
+        icon(s, "science", "blue", TX + 6, y + 11, 19)
+    line(s, TX, y + ROW_H, TX + sum(WIDTHS), y + ROW_H, color=RULE, width=0.5)
+    r, y = r + 1, y + ROW_H
+line(s, TX, TY + HEAD_H, TX + sum(WIDTHS), TY + HEAD_H, color=NAVY, width=1.0)
+note(s, "entries are our reading of public documentation, not a ranking.", y=448)
 takeaways(
     s,
     [
         (
-            "People can define the meaning",
+            "Setup is the price of meaning",
             [
-                ("Choose this when terms must match across teams. It gives control, but ", {}),
-                ("someone must write and maintain", BB),
-                (" them.", {}),
+                ("People-defined tools give control, but someone must ", {}),
+                ("write and maintain", BB),
+                (" the definitions first.", {}),
             ],
         ),
         (
-            "Or systems can learn it",
+            "Systems are close, not done",
             [
-                ("Past queries save effort, but they ", {}),
-                ("must stay current", BB),
-                (
-                    " as the schema changes. Even the top BIRD test score, 83.40 %, is below "
-                    "92.96 % for humans.",
-                    {},
-                ),
+                ("Learned routes save effort, yet the top BIRD test score, ", {}),
+                ("83.40 %", BB),
+                (", is below 92.96 % for humans.", {}),
             ],
         ),
         (
-            "Our route is checking",
+            "We pay in review, not setup",
             [
-                ("Use this when no definitions exist yet: skip the setup and ", {}),
-                ("show the SQL instead", BB),
-                (", so a person checks the meaning.", {}),
+                ("There is nothing to write first, so ", {}),
+                ("a person must check", BB),
+                (" the meaning of each answer.", {}),
             ],
         ),
     ],
