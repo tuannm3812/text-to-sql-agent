@@ -1,6 +1,6 @@
 # Showcase deck brief
 
-**Status: draft for Mike's review, 6 November 2026.** Nothing here has been applied to the live deck yet.
+**Status: approved by Mike, 6 November 2026.** Structure pass applied to the live deck; awaiting his flip-through before the content pass.
 
 This file decides what the deck says. [DESIGN.md](DESIGN.md) decides how it looks. The [live Google Slides deck](https://docs.google.com/presentation/d/1SeYPeuPEcVqbDjtHdlR_SI9SbVt-82hCeHe5eEaDRow/edit) follows both. When the story changes, change this file first, then the slides.
 
@@ -17,7 +17,7 @@ This file decides what the deck says. [DESIGN.md](DESIGN.md) decides how it look
 5. The evidence shows where the design helps, and which ideas did not.
 6. The next tests follow directly from those limits.
 
-**Audience (assumption, see Decision 1):** a portfolio reader, such as a hiring manager or lecturer, who may read the deck without a presenter. Each slide has to make sense alone.
+**Audience (decided):** a portfolio reader, such as a hiring manager or lecturer, who may read the deck without a presenter. Each slide has to make sense alone.
 
 **Tone:** say what was measured, on what, against what. No claim that the agent beats any product. The other tools solve a wider problem, and the deck says so.
 
@@ -119,15 +119,15 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 | Approach | Example | How it grounds the model | What it needs |
 |---|---|---|---|
-| Warehouse semantic model | Snowflake Cortex Analyst | Semantic model maps business terms to tables | Authoring the model; runs in Snowflake |
-| Curated knowledge space | Databricks Genie | Unity Catalog metadata, knowledge store, trusted assets | Curating a space; runs in Databricks |
-| Semantic layer | WrenAI | Modelled terms, joins and metrics before SQL | Building the model |
-| Retrieval over past work | Vanna | Retrieves DDL, documents and stored question–SQL pairs | Training data; keeping it current |
+| Warehouse semantic model | Snowflake Cortex Analyst | Semantic model adds business definitions the schema lacks | Authoring the model; runs in Snowflake |
+| Curated knowledge | Databricks Genie Agents | Annotated tables, knowledge store, instructions, example SQL | Domain experts configure it; runs in Databricks |
+| Open semantic layer | WrenAI | Approved metric definitions, joins and examples kept in Git | Writing and reviewing the definitions |
+| Retrieval over past work | Vanna | Retrieves DDL, documents and stored question–SQL pairs | Training data; repository archived March 2026 |
 | Research agents | BIRD leaderboard systems | Multi-step, benchmark-tuned pipelines | Mostly research systems |
 
 - **Takeaway:** for scale, the top BIRD test score was 83.40 % against 92.96 % for humans, read 6 November 2026. Vendor accuracy claims are not comparable, so the deck omits them.
 - **Scope note:** "Product descriptions from public documentation, November 2026; not a ranking."
-- **Source:** R2–R6. Recheck each row in stage 2. Vanna's project status needs checking on GitHub.
+- **Source:** R2–R6. Snowflake now recommends moving to Cortex Agents, so mention that in the notes, and show the read date on the slide.
 
 **Slide 6. "Our aim: useful without setup, and checkable by default"**
 - **Question:** where does this project fit, and who is it for?
@@ -188,26 +188,29 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 - **Content:** demo and repository links, then group credits.
 - **Open:** Decisions 1 and 3.
 
-## 5. Decisions for Mike
+## 5. Decisions
 
-1. **Who is this deck for?** Cover shows 36121, while the close calls it a portfolio piece refined individually since the May group project. If it is for 36121, the cover and credits should say whose work it is. Recommendation: portfolio deck, keep the subject label as origin only, and keep the credits line.
-2. **Slide 5 depth.** One neutral table (recommended) or two slides, with one on products and one on research.
-3. **Slide 17 card.** It repeats 173,366 without the slide 7 context. Recommendation: remove it.
-4. **Cover photo.** Keep the architectural photo, or try a card-catalogue photo. This can wait until stage 5.
-5. **Who edits the live deck in stages 3 to 5.** Recommendation: Codex, which has native Slides editing, with Claude writing and reviewing. Claude can also edit through Chrome, but more slowly.
+Mike's picks, 6 November 2026:
+
+1. **Audience:** portfolio deck, with 36121 shown only as its origin. Cover wording changes in the content pass.
+2. **Slide 5:** one neutral table.
+3. **Slide 17 card:** removed.
+4. **Cover photo:** look for a better one. Options sent to Mike; his choice is pending.
+5. **Editor:** Claude edits the live deck through Chrome; Codex reviews.
+6. **Push:** done for the brief.
 
 ## 6. External sources
 
-Recheck these in stage 2. Product pages change, and the deck must state the date it read them.
+Product pages change, so the deck must state the date it read them.
 
 | ID | Source | Used for | Status |
 |---|---|---|---|
 | R1 | [Spider 2.0 paper, arXiv 2411.07763](https://arxiv.org/abs/2411.07763) | 632 tasks, often over 1,000 columns; 21.3 %, 91.2 %, 73.0 % | Read at source, 6 Nov 2026 |
 | R2 | [BIRD leaderboard](https://bird-bench.github.io/) | Human 92.96 %; AskData test 83.40 %, dev 78.49 % | Read at source, 6 Nov 2026 |
-| R3 | [Cortex Analyst semantic model specification](https://docs.snowflake.com/LIMITEDACCESS/snowflake-cortex/semantic-model-spec) | Semantic model; "revenue" as net revenue example | Search summary only; read the page |
-| R4 | [Databricks Genie](https://docs.databricks.com/aws/en/genie/concepts), [trusted assets](https://docs.databricks.com/aws/en/genie/trusted-assets) | Metadata, knowledge store, trusted assets | Search summary only; read the pages |
-| R5 | [Wren AI comparison](https://getwren.ai/post/wren-ai-vs-vanna-the-enterprise-guide-to-choosing-a-text-to-sql-solution) | Semantic layer before SQL | Vendor source; prefer its docs |
-| R6 | [Vanna with Qdrant](https://qdrant.tech/documentation/frameworks/vanna-ai/) | Retrieval over DDL, docs and SQL pairs | Check project status on GitHub |
+| R3 | [Cortex Analyst overview](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst) | Semantic model for definitions schemas lack; Snowflake recommends moving to Cortex Agents | Read at source, 6 Nov 2026 |
+| R4 | [Genie Agents concepts](https://docs.databricks.com/aws/en/genie-agents/concepts) | Domain experts configure datasets, knowledge store, instructions, example SQL; formerly Genie Spaces | Read at source, 6 Nov 2026 |
+| R5 | [WrenAI on GitHub](https://github.com/Canner/WrenAI) | Governed semantic layer; definitions as YAML and Markdown in a repository | Read at source, 6 Nov 2026 |
+| R6 | [Vanna on GitHub](https://github.com/vanna-ai/vanna); [Vanna with Qdrant](https://qdrant.tech/documentation/frameworks/vanna-ai/) | Retrieval approach; repository archived 29 March 2026 | Status read at source; approach from Qdrant docs |
 | R7 | [Holistics, "Why is Text-to-SQL so hard?"](https://www.holistics.io/blog/text-to-sql/) | Semantic layers; already cited in the README | Optional background |
 
 Internal figures come from the README's Evaluation Results at `f3a4e93` and later, `AGENTS.md`, `evaluation/cases.json` and `data/retail_analytics.db`.
