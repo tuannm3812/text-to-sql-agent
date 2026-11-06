@@ -58,7 +58,7 @@ reworked anyway" — see `docs/superpowers/specs/2026-09-10-refactor-roadmap.md`
   backend. See `docs/3_decisions.md`.
 
 - **No feature branches.** Single-owner project, so work commits directly to
-  `tuannm3812/main-refinement` — this repo's default branch, not `main`. Master
+  `main` (since 2026-11-06; `tuannm3812/main-refinement` is kept as history). Master
   §10's pre-push workflow still applies in full. With no merge commits to
   summarise a phase, §9 commit hygiene carries the whole burden of a reviewable
   history.

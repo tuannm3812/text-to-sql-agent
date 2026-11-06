@@ -20,8 +20,8 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   this standard uses a type checker — the master standard asks for type hints
   without enforcing them; this one does because Phases 3-4 rewrite that
   package heavily.
-- **No feature branches.** Commit directly to `tuannm3812/main-refinement`, which
-  is this repo's default branch — not `main`.
+- **No feature branches.** Commit directly to `main`, the default branch since 2026-11-06;
+  `tuannm3812/main-refinement` is kept only as history.
 - `data/` and the notebook's saved outputs are deliberate §8 and §4 exceptions.
   **Do not "tidy" either.**
 - `requirements.txt` is **generated** by `uv export`. Edit `pyproject.toml` and
