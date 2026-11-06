@@ -1912,11 +1912,31 @@ def px11(v):
     return AX0 + (v - V0) / (V1 - V0) * (AX1 - AX0)
 
 
-line(s, px11(0), PY0 + 10, px11(0), PY0 + PH - 16, color=NAVY, width=1.25)
-text(s, px11(0) - 20, PY0 + PH - 14, 40, 11, "0", size=8, color=GREY, align=PP_ALIGN.CENTER)
+for v in (-2, 2, 4, 6):
+    line(s, px11(v), PY0 + 24, px11(v), PY0 + PH - 16, color=RULE, width=0.5)
+    label = f"+{v}" if v > 0 else str(v).replace("-", "\u2212")
+    text(s, px11(v) - 15, PY0 + PH - 14, 30, 11, label, size=8, color=GREY, align=PP_ALIGN.CENTER)
+line(s, px11(0), PY0 + 24, px11(0), PY0 + PH - 16, color=NAVY, width=1.25)
 text(
-    s, AX1 - 60, PY0 + PH - 14, 60, 11, "accuracy points", size=8, color=GREY, align=PP_ALIGN.RIGHT
+    s,
+    222,
+    PY0 + 9,
+    420,
+    11,
+    "The 0 line means no change. A whole interval to its right is a real gain.",
+    size=8,
 )
+text(
+    s,
+    px11(0) - 30,
+    PY0 + PH - 14,
+    60,
+    11,
+    [[("0 no change", B)]],
+    size=8,
+    align=PP_ALIGN.CENTER,
+)
+text(s, 222, PY0 + PH - 14, 100, 11, "Change in accuracy points", size=8, color=GREY)
 for y, head, sub, mid, lo, hi, col, tag in (
     (
         PY0 + 26,

@@ -8597,3 +8597,5 @@ While aligning slide 10, keyboard nudges with nothing selected moved through the
 Slide 11 rebuilt: suites state their question and a panel teaches reading a paired change. New backup slide 18 shows schema RAG on the demo question with real scores from `rag.rank_schema_chunks`; it was made by duplicating slide 11 for its header. The deck now has 18 slides.
 
 Review of slides 11, 12 and 18. Slide 12's difficulty panels now define each level, show question counts, and pair BIRD with and without evidence. Slide 11 drops "EX" and the layout jargon. Slide 18 labels the bars as a relevance score and no longer says no row data is searched, because value hints are stored values; it now says full rows are never searched.
+
+Slide 11's panel now labels the zero line "0 no change", has axis ticks and says how to read it, after Mike asked what the axis zero meant.
