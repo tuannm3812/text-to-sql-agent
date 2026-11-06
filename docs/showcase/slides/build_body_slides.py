@@ -141,10 +141,10 @@ def marker(s, n, x, y):
     write(tf, [[(str(n), {"bold": True, "size": 8, "color": WHITE})]], align=PP_ALIGN.CENTER)
 
 
-LINE_H = 12 * 1.1 * 1.2
+LINE_H = 17.2
 
 
-def lines(runs, width=235.0):
+def lines(runs, width=250.0):
     """Rendered line count of rich 12 pt text."""
     runs = [(runs, {})] if isinstance(runs, str) else runs
     if MEASURE:
@@ -181,6 +181,7 @@ def lines(runs, width=235.0):
 
 def takeaways(s, groups, top=136.0):
     """The standard column: one box at x684, 235 wide, red marker at x668 per heading."""
+    divider(s)
     box = s.shapes.add_textbox(Pt(684), Pt(top), Pt(235), Pt(324))
     tf = box.text_frame
     tf.word_wrap = True
@@ -210,6 +211,11 @@ def takeaways(s, groups, top=136.0):
             r.font.bold = opt.get("bold", False)
             r.font.color.rgb = rgb(opt.get("color", NAVY))
         y += lines(runs) * LINE_H + 6
+
+
+def divider(s):
+    """The rule between evidence and takeaways, on every takeaway slide."""
+    line(s, 658, 130, 658, 476, color=RULE, width=1.0)
 
 
 def note(s, rest, x=43.5, y=458, w=606, prefix="Note:"):
@@ -258,83 +264,91 @@ tiles = [
         "white",
         NAVY,
         WHITE,
-        "45 / 0",
-        "read-only tests passed / skipped, on 3 database engines",
+        "Read-only checks",
+        "45 of 45",
+        "tests passed, none skipped, on 3 database engines",
     ),
     (
         "target",
         "white",
         BLUE,
         WHITE,
+        "Spider benchmark",
         "64.6%",
-        "of Spider dev answers matched, with a local 9B model",
+        "of answers matched: common test, local 9B model",
     ),
     (
         "target",
         "white",
         BLUE,
         WHITE,
+        "BIRD benchmark",
         "35.2%",
-        "of the harder BIRD dev answers matched, with evidence",
+        "of answers matched: harder test, with evidence hints",
     ),
     (
         "trending_up",
         "navy",
         AMBER,
         NAVY,
+        "Large databases",
         "+3.6 pts",
-        "on large databases [+1.4, +5.8], with 69% fewer prompt tokens",
+        "from choosing tables [+1.4, +5.8]",
     ),
 ]
-for i, (ic, ic_col, fill, fg, value, label) in enumerate(tiles):
+for i, (ic, ic_col, fill, fg, head, value, label) in enumerate(tiles):
     x = 43.5 + i * 153
     card(
         s,
         x,
         130,
         147,
-        124,
+        112,
         [
-            [(" ", {"size": 24})],
+            [(head, {"bold": True, "size": 12, "color": fg})],
             [(value, {"bold": True, "size": 26, "color": fg})],
             [(label, {"size": 10, "color": fg})],
         ],
         fill=fill,
         after=2,
-    )
-    icon(s, ic, ic_col, x + 8, 136, 22)
+    ).text_frame.margin_right = Pt(8)
+    icon(s, ic, ic_col, x + 119, 136, 20)
 marker(s, 1, 37, 124)
 marker(s, 3, 190, 124)
 text(
     s,
     43.5,
-    268,
+    252,
     606,
     20,
     [[("Large databases: more correct answers from less context", {"bold": True, "size": 16})]],
 )
-text(
-    s,
-    43.5,
-    291,
-    606,
-    16,
-    "Sending only the most relevant tables beat sending every table, and used far less prompt.",
-    size=12,
-    color=GREY,
-)
-marker(s, 2, 30, 271)
-text(s, 43.5, 320, 280, 14, [[("Answers matched", B)]], size=12)
-bar_row(s, "Every table + hints", "25.5%", 88, SLATE, 340, label_w=112)
-bar_row(s, "Top 6 tables", "29.1%", 100, BLUE, 366, label_w=112)
-text(s, 350, 320, 280, 14, [[("Prompt size, every table = 100", B)]], size=12)
-bar_row(s, "Every table + hints", "100", 110, SLATE, 340, x=350, label_w=112)
-bar_row(s, "Top 6 tables", "31", 34, AMBER, 366, x=350, label_w=112)
+marker(s, 2, 30, 255)
+for x, head, rows, reading in (
+    (
+        43.5,
+        "Answers matched",
+        (("Every table + hints", "25.5%", 80, SLATE), ("Top 6 tables", "29.1%", 91, BLUE)),
+        "Sending only the most relevant tables scored 3.6 points higher.",
+    ),
+    (
+        349.5,
+        "Prompt size, every table = 100",
+        (("Every table + hints", "100", 92, SLATE), ("Top 6 tables", "31", 29, AMBER)),
+        "The prompt was 69% smaller, but each answer took about 2 s longer.",
+    ),
+):
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 278, 300, 148, fill=CREAM, radius=0.05)
+    text(s, x + 12, 288, 276, 16, [[(head, B)]], size=12)
+    for k, (lab, val, w, col) in enumerate(rows):
+        bar_row(s, lab, val, w, col, 311 + k * 26, x=x + 12, label_w=118)
+    text(s, x + 12, 369, 276, 48, reading, size=12)
+marker(s, 4, 343, 272)
 note(
     s,
-    "accuracy uses this project's result comparison, not leaderboard "
-    "scoring. Large databases: 1,222 questions, 4 databases of 21 to 65 tables, 19 October 2026.",
-    y=404,
+    "accuracy uses this project's result comparison, not leaderboard scoring. Large databases: "
+    "1,222 questions on 4 databases of 21 to 65 tables.",
+    y=436,
 )
 takeaways(
     s,
@@ -350,8 +364,8 @@ takeaways(
         (
             "Selection helps at scale",
             [
-                ("The gain holds on the ", {}),
-                ("tested large databases", BB),
+                ("The gain comes from the ", {}),
+                ("65- and 34-table databases", BB),
                 (". It is not a universal result.", {}),
             ],
         ),
@@ -359,32 +373,72 @@ takeaways(
             "Judge the whole answer",
             [
                 (
-                    "About one in three Spider answers still did not match, and better "
-                    "retrieval did not measurably help. ",
+                    "About one in three Spider answers still did not match, and better retrieval did not measurably help. ",
                     {},
                 ),
                 ("A person should review", BB),
                 (" results.", {}),
             ],
         ),
+        (
+            "Smaller prompts are not faster here",
+            [
+                ("Each question gets a different schema, so the local model ", {}),
+                ("cannot reuse its cache", BB),
+                (".", {}),
+            ],
+        ),
     ],
 )
 
-# Slide 3: agenda icons
+# Slide 3: agenda
 s = new_slide(
     "AGENDA",
     "From the problem to the evidence",
     "Why it is hard, what we built, what we measured and what comes next.",
     3,
 )
-for x, name, col, fill in (
-    (43.5, "help", "white", BLUE),
-    (267.5, "construction", "white", NAVY),
-    (491.5, "monitoring", "navy", AMBER),
-    (715.5, "flag", "white", SLATE),
+line(s, 75, 162, 780, 162, color=RULE, width=1.5)
+for x, n, fill, fg, head, question, items in (
+    (
+        43.5,
+        "01",
+        BLUE,
+        WHITE,
+        "Problem",
+        "Why is it hard?",
+        ("Why it is hard", "Other approaches", "Our aim"),
+    ),
+    (
+        267.5,
+        "02",
+        NAVY,
+        WHITE,
+        "Solution",
+        "What did we build?",
+        ("Demo", "Data boundary", "Architecture", "Safety"),
+    ),
+    (
+        491.5,
+        "03",
+        AMBER,
+        NAVY,
+        "Evidence",
+        "What did we learn?",
+        ("Method", "Benchmarks", "Large schemas", "What was tried", "Retrieval and answers"),
+    ),
+    (715.5, "04", SLATE, WHITE, "Next steps", "What should we test next?", ("Tests", "Close")),
 ):
-    shape(s, MSO_SHAPE.OVAL, x, 122, 64, 64, fill=fill)
-    icon(s, name, col, x + 16, 138, 32)
+    o = shape(s, MSO_SHAPE.OVAL, x, 130, 64, 64, fill=fill)
+    tf = o.text_frame
+    for side in ("left", "right", "top", "bottom"):
+        setattr(tf, f"margin_{side}", 0)
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    write(tf, [[(n, {"bold": True, "size": 24, "color": fg})]], align=PP_ALIGN.CENTER)
+    text(s, x, 208, 200, 26, [[(head, {"bold": True, "size": 20})]])
+    text(s, x, 238, 200, 18, [[(question, B)]], size=13)
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 264, 200, 160, fill=CREAM, radius=0.05)
+    text(s, x + 12, 276, 176, 150, [[(item, {})] for item in items], size=12, after=8)
 
 # Slide 4: why it is hard
 s = new_slide(
@@ -502,133 +556,129 @@ takeaways(
     ],
 )
 
-# Slide 5: other approaches, two rows
+# Slide 5: other approaches, one comparison table
 s = new_slide(
     "PROBLEM  >  OTHER APPROACHES",
     "Other tools add business meaning before the SQL",
-    "Two families of approach, grouped by where the meaning comes from; not a ranking",
+    "How each approach gets meaning into the query, with its main strength and weakness",
     5,
 )
+header = ("Approach", "How it adds meaning", "Strength", "Weakness")
 rows = [
     (
-        130,
-        NAVY,
-        "People define the meaning",
-        [
-            (
-                "snowflake",
-                "Snowflake Cortex Analyst",
-                "A semantic model describes business terms the schema lacks.",
-            ),
-            (
-                "databricks",
-                "Databricks Genie Agents",
-                "Experts add descriptions, instructions and example SQL.",
-            ),
-            ("wren", "WrenAI", "Approved metric definitions are kept in a Git repository."),
-        ],
+        "snowflake",
+        "Snowflake Cortex Analyst",
+        "A semantic model describes business terms the schema lacks.",
+        "Consistent definitions of terms",
+        "The model must be written and kept up to date",
     ),
     (
-        296,
-        AMBER,
-        "Systems learn from examples",
-        [
-            (
-                "vanna",
-                "Vanna",
-                "Retrieves schema, documents and earlier question and SQL pairs. "
-                "Repository archived March 2026.",
-            ),
-            (None, "Research agents", "Multi-step pipelines tuned to benchmarks such as BIRD."),
-        ],
+        "databricks",
+        "Databricks Genie Agents",
+        "Experts add descriptions, instructions and example SQL.",
+        "Domain knowledge shapes the answers",
+        "Depends on careful curation by experts",
+    ),
+    (
+        "wren",
+        "WrenAI",
+        "Approved metric definitions are kept in a Git repository.",
+        "Open and reviewable definitions",
+        "Definitions must exist before it helps",
+    ),
+    (
+        "vanna",
+        "Vanna",
+        "Retrieves schema, documents and earlier question and SQL pairs.",
+        "Reuses work already done",
+        "Examples must stay current; repository archived 2026",
+    ),
+    (
+        None,
+        "Research agents",
+        "Multi-step pipelines tuned to benchmarks such as BIRD.",
+        "Highest published benchmark scores",
+        "Built for benchmarks, not day-to-day use",
+    ),
+    (
+        "project",
+        "This project",
+        "Sends schema and bounded value hints for the top tables.",
+        "No setup; SQL visible, run read-only",
+        "No governed definitions; a person must check meaning",
     ),
 ]
-for y, col, name, items in rows:
-    fg = WHITE if col == NAVY else NAVY
-    o = card(
-        s,
-        43.5,
-        y,
-        606,
-        26,
-        [[(name, {"bold": True, "size": 12, "color": fg})]],
-        fill=col,
-        anchor=MSO_ANCHOR.MIDDLE,
-    )
-    for i, (lg, h, b) in enumerate(items):
-        x = 43.5 + i * 205
-        card(
-            s,
-            x,
-            y + 32,
-            196,
-            118,
-            [
-                [(" ", {"size": 26})],
-                [(h, {"bold": True, "size": 12})],
-                [(b, {"size": 10, "color": GREY})],
-            ],
-            fill=CREAM,
-            after=3,
-        )
-        if lg:
-            logo(s, lg, x + 8, y + 40)
-        else:
-            icon(s, "science", "blue", x + 8, y + 40, 26)
-card(
-    s,
-    453.5,
-    328,
-    196,
-    118,
-    [
-        [(" ", {"size": 26})],
-        [("What both need", {"bold": True, "size": 12})],
-        [
-            (
-                "Setup first: someone must write the definitions or supply the examples.",
-                {"size": 10, "color": NAVY},
-            )
-        ],
-    ],
-    fill=PALE_AMBER,
-    after=3,
-)
-icon(s, "menu_book", "navy", 461.5, 336, 26)
-marker(s, 1, 37, 124)
-marker(s, 2, 37, 290)
-marker(s, 3, 241, 322)
-note(
-    s,
-    "product descriptions from public documentation, read 6 November 2026. "
-    "Logos belong to their owners.",
-    y=458,
-)
+TX, TY, HEAD_H, ROW_H = 43.5, 130, 24, 50
+WIDTHS = (146, 190, 135, 135)
+table = s.shapes.add_table(
+    len(rows) + 1, 4, Pt(TX), Pt(TY), Pt(sum(WIDTHS)), Pt(HEAD_H + ROW_H * len(rows))
+).table
+for c, w in enumerate(WIDTHS):
+    table.columns[c].width = Pt(w)
+table.rows[0].height = Pt(HEAD_H)
+for r in range(1, len(rows) + 1):
+    table.rows[r].height = Pt(ROW_H)
+
+
+def cell(r, c, value, fill, **opt):
+    """Fill one table cell."""
+    target = table.cell(r, c)
+    target.fill.solid()
+    target.fill.fore_color.rgb = rgb(fill)
+    target.margin_left = target.margin_right = Pt(6)
+    target.margin_top = target.margin_bottom = Pt(3)
+    target.vertical_anchor = MSO_ANCHOR.MIDDLE
+    write(target.text_frame, [[(value, {"size": opt.get("size", 10), **opt})]])
+
+
+for c, head in enumerate(header):
+    cell(0, c, head, NAVY, bold=True, color=WHITE, size=12)
+for r, (lg, name, how, strength, weakness) in enumerate(rows, start=1):
+    fill = PALE_BLUE if lg == "project" else (CREAM if r % 2 else WHITE)
+    cell(r, 0, name, fill, bold=True)
+    table.cell(r, 0).margin_left = Pt(34)
+    cell(r, 1, how, fill)
+    cell(r, 2, strength, fill)
+    cell(r, 3, weakness, fill)
+    y = TY + HEAD_H + (r - 1) * ROW_H + 14
+    if lg == "project":
+        icon(s, "fact_check", "blue", TX + 7, y, 22)
+    elif lg:
+        logo(s, lg, TX + 7, y, 22)
+    else:
+        icon(s, "science", "blue", TX + 7, y, 22)
+marker(s, 1, 37, 148)
+marker(s, 2, 37, 298)
+marker(s, 3, 37, 398)
+note(s, "strengths and weaknesses are our reading of each approach, not a ranking.", y=460)
 takeaways(
     s,
     [
         (
-            "Definitions give control",
+            "People can define the meaning",
             [
-                ("Terms like revenue are decided once, but ", {}),
+                ("Definitions give control, but ", {}),
                 ("someone must write and maintain", BB),
                 (" them.", {}),
             ],
         ),
         (
-            "Examples save effort",
+            "Or systems can learn it",
             [
-                ("Past queries carry meaning, but they ", {}),
+                ("Past queries save effort, but they ", {}),
                 ("must stay current", BB),
-                (" as the schema changes.", {}),
+                (
+                    " as the schema changes. The top BIRD test score is 83.40 %, against 92.96 % for humans.",
+                    {},
+                ),
             ],
         ),
         (
-            "Research is close, not done",
+            "Our route is checking",
             [
-                ("The top BIRD test score was ", {}),
-                ("83.40 %, against 92.96 % for humans", BB),
-                (" (read 6 November 2026).", {}),
+                ("We skip the setup and ", {}),
+                ("show the SQL instead", BB),
+                (", so a person checks the meaning. The next slide explains this choice.", {}),
             ],
         ),
     ],
@@ -641,9 +691,9 @@ s = new_slide(
     "A narrower tool: no curated semantic model, with the checking in the user's hands",
     6,
 )
-for x, name, b in (
-    (43.5, "Analyst", "knows the question, not the schema"),
-    (349.5, "Reviewer", "decides if an LLM can be trusted near a database"),
+for x, ic, name, b in (
+    (43.5, "query_stats", "Analyst", "knows the question, not the schema"),
+    (349.5, "fact_check", "Reviewer", "decides whether to trust the answer"),
 ):
     card(
         s,
@@ -655,14 +705,28 @@ for x, name, b in (
         fill=PALE_BLUE,
         anchor=MSO_ANCHOR.MIDDLE,
     ).text_frame.margin_left = Pt(38)
-    icon(s, "person", "blue", x + 8, 139, 24)
+    icon(s, ic, "blue", x + 8, 139, 24)
 marker(s, 1, 37, 124)
 MX, MY, MW, MH = 66, 182, 584, 254
-shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, MX, MY, MW, MH, fill=CREAM, radius=0.03)
-line(s, MX + MW / 2, MY, MX + MW / 2, MY + MH)
-line(s, MX, MY + MH / 2, MX + MW, MY + MH / 2)
+HALF_W, HALF_H = MW / 2, MH / 2
+for qx, qy, fill, label in (
+    (MX, MY, PALE_AMBER, "Meaning without setup: the ideal, not yet available"),
+    (MX + HALF_W, MY, PALE_BLUE, "Meaning through setup: curated tools"),
+    (MX, MY + HALF_H, CREAM, "Quick start: people check the meaning"),
+    (MX + HALF_W, MY + HALF_H, "F1F2F4", "Setup without meaning: to avoid"),
+):
+    shape(s, MSO_SHAPE.RECTANGLE, qx, qy, HALF_W, HALF_H, fill=fill)
+    text(s, qx + 8, qy + 6, HALF_W - 16, 14, label, size=10, color=GREY)
 axis = text(
-    s, -56, 303, 230, 14, "Business meaning built in", size=10, color=GREY, align=PP_ALIGN.CENTER
+    s,
+    -58,
+    302,
+    230,
+    14,
+    "More business meaning built in",
+    size=10,
+    color=GREY,
+    align=PP_ALIGN.CENTER,
 )
 axis.rotation = -90
 text(
@@ -671,33 +735,30 @@ text(
     MY + MH + 3,
     MW,
     14,
-    "Setup needed before the first useful answer",
+    "More setup before the first useful answer",
     size=10,
     color=GREY,
     align=PP_ALIGN.CENTER,
 )
-for lg, name, x, y in (
-    ("snowflake", "Semantic model", 420, 26),
-    ("databricks", "Curated knowledge", 345, 76),
-    ("wren", "Open semantic layer", 262, 118),
-    ("vanna", "Retrieval over past work", 190, 158),
+for name, x, y, col in (
+    ("Semantic model", 500, 40, NAVY),
+    ("Curated knowledge", 440, 78, NAVY),
+    ("Open semantic layer", 345, 104, NAVY),
+    ("Retrieval over past work", 210, 150, NAVY),
+    ("This project", 70, 205, BLUE),
 ):
-    logo(s, lg, MX + x, MY + y, 22)
-    text(s, MX + x + 27, MY + y + 3, 140, 16, name, size=10)
-card(
-    s,
-    MX + 14,
-    MY + 186,
-    196,
-    56,
-    [
-        [("This project", {"bold": True, "size": 12, "color": WHITE})],
-        [("Schema and bounded hints; a person checks the meaning", {"size": 10, "color": WHITE})],
-    ],
-    fill=BLUE,
-    anchor=MSO_ANCHOR.MIDDLE,
-)
-marker(s, 2, MX + 8, MY + 180)
+    shape(s, MSO_SHAPE.OVAL, MX + x, MY + y, 12, 12, fill=col)
+    bold = name == "This project"
+    text(
+        s,
+        MX + x + (17 if x < 480 else -135),
+        MY + y - 1,
+        130,
+        14,
+        [[(name, {"bold": bold, "size": 12 if bold else 10, "color": col})]],
+        align=None if x < 480 else PP_ALIGN.RIGHT,
+    )
+marker(s, 2, MX + 56, MY + 205)
 marker(s, 3, 50, 176)
 note(s, "positions are our qualitative reading, not a measurement.", x=66, y=456, w=584)
 takeaways(
