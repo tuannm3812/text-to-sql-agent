@@ -2360,40 +2360,141 @@ s = new_slide(
     "1,222 large-schema questions; paired change against each row's own baseline",
     14,
 )
-T0, TW14 = 250, 290
+# One row per trial: what changed, the paired result, the side effect, the decision.
+T0, TW14 = 226, 168
 pt = lambda v: T0 + (v + 6) / 12 * TW14  # noqa: E731
-for v in (-6, -3, 0, 3, 6):
-    line(s, pt(v), 130, pt(v), 422, color=SLATE if v == 0 else RULE, width=1 if v == 0 else 0.5)
-    label = "0" if v == 0 else f"{v:+d}"
-    text(s, pt(v) - 15, 425, 30, 11, [[(label, {})]], size=8, color=GREY, align=PP_ALIGN.CENTER)
-for i, (name, sub, v, lo, hi, col, state) in enumerate(
-    (
-        ("Top 6 + neighbours", "vs every table + hints", 3.6, 1.4, 5.8, BLUE, "default"),
-        ("Question value matching", "vs top 6", 0.4, -0.9, 1.6, SLATE, "off"),
-        ("Scorer signals", "vs top 6", 0.9, -0.7, 2.4, SLATE, "kept"),
-        ("Dense embeddings", "vs the kept scorer", 0.2, -1.6, 2.0, SLATE, "off"),
-        ("Shared layout", "vs a fresh top 6 run", -2.4, -4.6, -0.2, AMBER, "opt-in"),
-        (
-            "Shared plus summaries",
-            "vs a fresh top 6 run; not controlled",
-            -2.1,
-            -4.3,
-            0.0,
-            SLATE,
-            "opt-in",
-        ),
-    )
+Y14, P14, H14 = 146, 45, 41
+for x, label in (
+    (43.5, "TRIAL AND BASELINE"),
+    (T0, "CHANGE, ACCURACY POINTS"),
+    (480, "SIDE EFFECT"),
+    (594, "DECISION"),
 ):
-    y = 138 + i * 48
-    text(s, 43.5, y, 200, 28, [[(name, B)], [(sub, {"size": 8, "color": GREY})]], size=10)
-    line(s, pt(lo), y + 13, pt(hi), y + 13, color=col, width=2.5)
-    shape(s, MSO_SHAPE.OVAL, pt(v) - 5, y + 8, 10, 10, fill=col)
-    text(s, 548, y + 6, 40, 14, [[(f"{v:+.1f}", B)]], size=10, align=PP_ALIGN.RIGHT)
-    box(s, 596, y + 5, 54, 16, state, CREAM, size=8)
-marker(s, 1, 28, 141)
-marker(s, 2, 28, 237)
-marker(s, 3, 28, 333)
-note(s, "points, paired 95 % interval. Coloured rows have an interval clear of zero.", y=440)
+    text(s, x, 130, 170, 12, [[(label, B)]], size=8, color=GREY)
+CHIPS14 = {
+    "DEFAULT": (BLUE, WHITE),
+    "KEPT": (NAVY, WHITE),
+    "OFF": ("E8EAEE", NAVY),
+    "OPT-IN": (PALE_AMBER, NAVY),
+}
+ROWS14 = (
+    (
+        "table_rows",
+        "Top 6 + neighbours",
+        "Send the best tables, vs every table + hints",
+        3.6,
+        1.4,
+        5.8,
+        BLUE,
+        "69 % fewer tokens, 2 s slower",
+        "DEFAULT",
+    ),
+    (
+        "chat",
+        "Question value matching",
+        "Add stored values the question names, vs top 6",
+        0.4,
+        -0.9,
+        1.6,
+        SLATE,
+        "Reads row data at question time",
+        "OFF",
+    ),
+    (
+        "query_stats",
+        "Scorer signals",
+        "Weight hints down, match plurals, vs top 6",
+        0.9,
+        -0.7,
+        2.4,
+        SLATE,
+        "All needed tables sent: 1,055 to 1,094",
+        "KEPT",
+    ),
+    (
+        "science",
+        "Dense embeddings",
+        "Add sentence embeddings, vs the kept scorer",
+        0.2,
+        -1.6,
+        2.0,
+        SLATE,
+        "All needed tables sent: 1,094 to 1,148",
+        "OFF",
+    ),
+    (
+        "schema",
+        "Shared layout",
+        "Send every table, name the top 6, vs top 6",
+        -2.4,
+        -4.6,
+        -0.2,
+        AMBER,
+        "58 % faster, 3 times the tokens",
+        "OPT-IN",
+    ),
+    (
+        "menu_book",
+        "Shared plus summaries",
+        "Also list their columns, vs top 6, not controlled",
+        -2.1,
+        -4.3,
+        0.0,
+        SLATE,
+        "No recovery, same speed",
+        "OPT-IN",
+    ),
+)
+for i in range(6):
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, Y14 + i * P14, 606, H14, fill=CREAM, radius=0.08)
+for v in (-6, -3, 3, 6):
+    line(s, pt(v), Y14 + 6 * P14 - 3, pt(v), Y14 + 6 * P14 + 1, color=GREY, width=0.75)
+    lab = f"+{v}" if v > 0 else f"\u2212{-v}"
+    text(s, pt(v) - 15, Y14 + 6 * P14 + 2, 30, 11, lab, size=8, color=GREY, align=PP_ALIGN.CENTER)
+line(s, pt(0), Y14, pt(0), Y14 + 6 * P14 - 3, color=NAVY, width=1.25)
+text(
+    s, pt(0) - 30, Y14 + 6 * P14 + 2, 60, 11, [[("0 no change", B)]], size=8, align=PP_ALIGN.CENTER
+)
+for i, (ic, name, sub, v, lo, hi, col, effect, state) in enumerate(ROWS14):
+    y = Y14 + i * P14
+    icon(s, ic, "blue", 50, y + 11, 18)
+    text(s, 74, y + 6, 148, 12, [[(name, B)]], size=8)
+    text(s, 74, y + 17, 148, 22, sub, size=8, color=GREY)
+    line(s, pt(lo), y + 21, pt(hi), y + 21, color=col, width=2.5)
+    shape(s, MSO_SHAPE.OVAL, pt(v) - 4, y + 17, 8, 8, fill=col)
+    sign = "\u2212" if v < 0 else "+"
+    text(
+        s,
+        398,
+        y + 8,
+        78,
+        13,
+        [[(f"{sign}{abs(v)}", {"bold": True, "size": 10, "color": NAVY if col == AMBER else col})]],
+        size=10,
+    )
+    lo_s = f"\u2212{-lo}" if lo < 0 else f"+{lo}"
+    hi_s = f"\u2212{-hi}" if hi < 0 else f"+{hi}"
+    text(s, 398, y + 22, 78, 11, f"[{lo_s}, {hi_s}]", size=8, color=GREY)
+    text(s, 480, y + 9, 106, 24, effect, size=8)
+    fill, fg = CHIPS14[state]
+    box(s, 594, y + 13, 50, 15, state, fill, fg=fg, size=8, kind=MSO_SHAPE.ROUNDED_RECTANGLE)
+marker(s, 1, 37.5, Y14 - 6)
+marker(s, 2, 37.5, Y14 + 2 * P14 - 6)
+marker(s, 3, 37.5, Y14 + 3 * P14 - 6)
+marker(s, 4, 37.5, Y14 + 4 * P14 - 6)
+LY14 = Y14 + 6 * P14 + 16
+for x, fill, label in (
+    (43.5, BLUE, "Measurable gain"),
+    (126, AMBER, "Measurable loss"),
+    (208, SLATE, "Not measurable"),
+):
+    shape(s, MSO_SHAPE.OVAL, x, LY14 + 1, 8, 8, fill=fill)
+    text(s, x + 11, LY14, 74, 11, label, size=8, color=GREY)
+note(
+    s,
+    "each row is a paired 95 % interval on all 1,222 questions against its own baseline.",
+    y=LY14 + 13,
+)
 takeaways(
     s,
     [
@@ -2408,8 +2509,16 @@ takeaways(
         (
             "Better retrieval is not better answers",
             [
-                ("The kept scorer ranked tables better (MRR 0.853 to 0.891), but its ", {}),
+                ("The kept scorer sent all needed tables more often, but its ", {}),
                 ("+0.9 points spans zero", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "Rescued answers were offset",
+            [
+                ("Dense embeddings took dropped-table questions from 8 to 26 correct, but ", {}),
+                ("other answers churned", BB),
                 (".", {}),
             ],
         ),
@@ -2428,81 +2537,137 @@ takeaways(
 s = new_slide(
     "EVIDENCE  >  RETRIEVAL",
     "Better table coverage did not measurably improve accuracy",
-    "Correct answers gained and lost when every table is sent, against selected tables",
+    "Correct answers gained and lost by each fix, against selected tables, on 1,222 questions",
     15,
 )
-C0 = 300
-pc = lambda v: v * 3.4  # noqa: E731
-for x, title in (
-    (43.5, "Layout"),
-    (C0 - 150, "LOST, ON THE OTHER 1,094"),
-    (C0 + 6, "GAINED, ON THE 128 MISSED"),
-):
-    text(s, x, 130, 180, 12, [[(title.upper(), B)]], size=8, color=GREY)
-text(s, 500, 130, 150, 12, [[("NET, AND SECONDS PER QUESTION", B)]], size=8, color=GREY)
-line(s, C0, 146, C0, 256, color=SLATE, width=0.75)
-for i, (name, sub, gain, lost, net, secs) in enumerate(
+# The two groups every result below splits into.
+for x, name, head, body, fill in (
     (
-        ("Every table,", "selected named", 15, 44, -29, 4.3),
-        ("Every table,", "plus summaries", 13, 39, -26, 4.4),
+        43.5,
+        "cancel-amber",
+        "128 questions: a needed table was missed",
+        "8 answered correctly by top 6",
+        PALE_AMBER,
+    ),
+    (
+        349.5,
+        "check_circle-blue",
+        "1,094 questions: every needed table was sent",
+        "359 answered correctly by top 6",
+        PALE_BLUE,
+    ),
+):
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 130, 300, 38, fill=fill, radius=0.12)
+    s.shapes.add_picture(str(ICONS / f"{name}.png"), Pt(x + 9), Pt(140), Pt(18), Pt(18))
+    text(s, x + 35, 136, 260, 12, [[(head, B)]], size=8)
+    text(s, x + 35, 148, 260, 11, body, size=8, color=GREY)
+# Each fix: answers gained on the missed group, lost on the rest.
+C0 = 352
+pc = lambda v: v * 2.7  # noqa: E731
+HY = 176
+for x, w, label, align in (
+    (43.5, 170, "FIX TRIED", PP_ALIGN.LEFT),
+    (C0 - 130, 124, "LOST ON THE 1,094", PP_ALIGN.RIGHT),
+    (C0 + 6, 124, "GAINED ON THE 128", PP_ALIGN.LEFT),
+    (488, 70, "NET ANSWERS", PP_ALIGN.LEFT),
+    (560, 90, "TIME PER QUESTION", PP_ALIGN.LEFT),
+):
+    text(s, x, HY, w, 12, [[(label, B)]], size=8, color=GREY, align=align)
+for i, (ic, name, sub, gain, lost, net, secs) in enumerate(
+    (
+        ("science", "Dense embeddings", "Better table ranking", 18, 16, "+2", "7.6 to 7.0"),
+        (
+            "schema",
+            "Send every table",
+            "Selected tables named after them",
+            15,
+            44,
+            "\u221229",
+            "10.2 to 4.3",
+        ),
+        (
+            "menu_book",
+            "Send every table + summaries",
+            "Their columns listed as well",
+            13,
+            39,
+            "\u221226",
+            "10.2 to 4.4",
+        ),
     )
 ):
-    y = 156 + i * 52
-    text(s, 43.5, y, 100, 28, [[(name, B)], [(sub, {"size": 8, "color": GREY})]], size=10)
-    box(s, C0 - pc(lost), y + 2, pc(lost), 26, f"-{lost}", AMBER, size=10)
-    box(s, C0, y + 2, pc(gain), 26, f"+{gain}", BLUE, fg=WHITE, size=10)
-    text(
-        s,
-        500,
-        y + 7,
-        150,
-        16,
-        [[(f"{net} answers", B), (f"   {secs} s, from 10.2 s", {"size": 8, "color": GREY})]],
-        size=10,
-    )
-card(
-    s,
-    43.5,
-    276,
-    606,
-    112,
-    [
-        [("Dense embeddings: fewer misses, same whole-suite result", {"bold": True, "size": 12})],
-    ],
-    fill=CREAM,
-)
-for x, value, body in (
-    (55, "128 to 74", "questions with a needed table not sent"),
-    (255, "8 to 26", "correct among the original 128"),
-    (455, "+0.2 points", "whole suite [-1.6, +2.0], against the kept scorer"),
+    y = HY + 17 + i * 46
+    icon(s, ic, "blue", 43.5, y + 9, 18)
+    text(s, 67, y + 6, 170, 12, [[(name, B)]], size=8)
+    text(s, 67, y + 18, 170, 11, sub, size=8, color=GREY)
+    box(s, C0 - pc(lost), y + 3, pc(lost), 32, f"\u2212{lost}", AMBER, size=10)
+    box(s, C0, y + 3, pc(gain), 32, f"+{gain}", BLUE, fg=WHITE, size=10)
+    text(s, 488, y + 11, 60, 16, [[(net, {"bold": True, "size": 12})]], size=12)
+    text(s, 560, y + 13, 90, 12, f"{secs} s", size=8)
+line(s, C0, HY + 14, C0, HY + 14 + 142, color=NAVY, width=1.25)
+# Three reasons the totals barely move.
+for x, ic, value, body, fill in (
+    (
+        43.5,
+        "query_stats",
+        "128 to 74",
+        "questions missing a table, with dense embeddings",
+        PALE_BLUE,
+    ),
+    (
+        248.5,
+        "table_rows",
+        "22 of 480",
+        "answers flipped when only the table order changed",
+        PALE_AMBER,
+    ),
+    (
+        453.5,
+        "help",
+        "Unknown live",
+        "a live system cannot see which group a question is in",
+        "E8EAEE",
+    ),
 ):
-    text(s, x, 310, 186, 26, [[(value, {"bold": True, "size": 16, "color": BLUE})]])
-    text(s, x, 340, 186, 40, body, size=10)
-marker(s, 1, 37, 270)
-marker(s, 2, C0 - 6, 146)
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 344, 196, 62, fill=fill, radius=0.1)
+    icon(s, ic, "navy", x + 9, 364, 22)
+    text(s, x + 39, 353, 152, 15, [[(value, {"bold": True, "size": 12})]], size=12)
+    text(s, x + 39, 370, 152, 24, body, size=8)
+marker(s, 1, C0 + 2, HY + 12)
+marker(s, 2, C0 - pc(44) - 16, HY + 17 + 46 + 13)
+marker(s, 3, 242.5, 338)
+marker(s, 4, 447.5, 338)
 note(
     s,
-    "groups come from the evaluation, so a live system cannot see them; the summaries "
-    "comparison spans commits.",
-    y=398,
+    "gained and lost are net changes in correct answers, each against selected tables. The two "
+    "summaries comparisons span commits.",
+    y=414,
 )
 takeaways(
     s,
     [
         (
-            "Recovery has side effects",
+            "Recovery works where it aims",
             [
-                ("Dense embeddings nearly halved missing tables, but ", {}),
-                ("gains were offset", BB),
-                (" by losses elsewhere.", {}),
+                ("On the 128 missed questions, correct answers rose from 8 to as many as ", {}),
+                ("26", BB),
+                (".", {}),
             ],
         ),
         (
-            "More context moved the errors",
+            "The other questions pay",
             [
                 ("Sending every table won 15 answers and ", {}),
                 ("lost 44", BB),
                 (", so the whole suite fell.", {}),
+            ],
+        ),
+        (
+            "Small prompt changes flip answers",
+            [
+                ("Even reordering the same tables ", {}),
+                ("changed 22 answers", BB),
+                (", so gains can vanish in the churn.", {}),
             ],
         ),
         (
@@ -2523,57 +2688,73 @@ s = new_slide(
     "Proposed next steps; each needs a measured outcome before changing the default",
     16,
 )
-XS = (86, 300, 520, 730)
+XS = (116, 278, 466, 676, 862)
 for x, head in zip(
-    XS, ("THE TEST", "THE GAP IT CLOSES", "HOW WE WOULD MEASURE IT", "SEE SLIDE"), strict=True
+    XS,
+    (
+        "THE TEST",
+        "THE GAP IT CLOSES",
+        "HOW WE WOULD MEASURE IT",
+        "THE DECISION IT SETTLES",
+        "EVIDENCE",
+    ),
+    strict=True,
 ):
-    text(s, x, 130, 200, 12, [[(head, B)]], size=8, color=GREY)
-line(s, 43.5, 146, 919, 146, color=NAVY, width=1.0)
+    text(s, x, 130, 190, 12, [[(head, B)]], size=8, color=GREY)
 line(s, 60, 170, 60, 410, color=RULE, width=1.5)
-for i, (test, gap, measure, ref, fill, fg) in enumerate(
+for i, (ic, test, gap, measure, decide, ref, fill, fg) in enumerate(
     (
         (
+            "menu_book",
             "Business definitions",
-            "“Revenue” stays ambiguous until a person checks it",
+            "\u201cRevenue\u201d stays ambiguous until a person checks it",
             "Add a few definitions, then compare answers on ambiguous questions",
-            "Slides 5 and 7",
+            "Should the product carry a definitions layer?",
+            "Slides 5, 7",
             BLUE,
             WHITE,
         ),
         (
+            "schema",
             "Targeted table recovery",
             "128 questions miss a needed table",
             "Gains on the 128, losses on the other 1,094, whole-suite interval",
+            "Can recovery keep its gains without losing other answers?",
             "Slide 15",
             NAVY,
             WHITE,
         ),
         (
+            "table_rows",
             "New large schemas",
             "The gain comes from 2 of 4 databases",
             "Databases outside these 4, reported one by one",
+            "Does top 6 stay the default at every size?",
             "Slide 13",
             AMBER,
             NAVY,
         ),
         (
+            "science",
             "Hosted model",
             "All results use one local model",
             "Same suites: accuracy, latency and empty-SQL rate",
+            "Is a hosted model worth sending it the prompt?",
             "Slide 12",
             SLATE,
             WHITE,
         ),
     )
 ):
-    y = 154 + i * 74
-    if i % 2 == 0:
-        shape(s, MSO_SHAPE.RECTANGLE, 78, y, 841, 66, fill=CREAM)
+    y = 150 + i * 74
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 78, y, 841, 66, fill=CREAM, radius=0.08)
     box(s, 44, y + 17, 32, 32, str(i + 1), fill, fg=fg, size=12, kind=MSO_SHAPE.OVAL)
-    text(s, XS[0], y + 8, 204, 50, [[(test, {"bold": True, "size": 12})]], anchor=MSO_ANCHOR.MIDDLE)
-    text(s, XS[1], y + 8, 206, 50, gap, size=10, anchor=MSO_ANCHOR.MIDDLE)
-    text(s, XS[2], y + 8, 200, 50, measure, size=10, anchor=MSO_ANCHOR.MIDDLE)
-    text(s, XS[3], y + 8, 180, 50, [[(ref, {"color": BLUE})]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+    icon(s, ic, "blue", 88, y + 22, 22)
+    text(s, XS[0], y + 23, 156, 20, [[(test, {"bold": True, "size": 12})]])
+    text(s, XS[1], y + (17 if len(gap) > 36 else 25), 176, 40, gap, size=10)
+    text(s, XS[2], y + 17, 198, 40, measure, size=10)
+    text(s, XS[3], y + 17, 176, 40, decide, size=10)
+    text(s, XS[4], y + 25, 52, 16, [[(ref, {"color": BLUE, "bold": True})]], size=8)
 note(
     s,
     "all accuracy figures use one local model and this project's comparison, not a leaderboard. "
