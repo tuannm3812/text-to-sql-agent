@@ -220,12 +220,12 @@ def divider(s):
 
 def note(s, rest, x=43.5, y=458, w=606, prefix="Note:"):
     """A 9 pt note with its bold prefix."""
-    text(s, x, y, w, 18, [[(prefix + " ", B), (rest, {})]], size=9, color=GREY)
+    text(s, x, y, w, 18, [[(prefix + " ", B), (rest, {})]], size=8, color=GREY)
 
 
 def bar_row(s, label, value, width, color, y, x=43.5, label_w=128, h=16, shown=None):
     """A labelled bar drawn from zero, with its value at the end."""
-    text(s, x, y, label_w, h, label, size=12, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, x, y, label_w, h, label, size=10, anchor=MSO_ANCHOR.MIDDLE)
     shape(s, MSO_SHAPE.RECTANGLE, x + label_w, y, width, h, fill=color)
     text(
         s,
@@ -234,7 +234,7 @@ def bar_row(s, label, value, width, color, y, x=43.5, label_w=128, h=16, shown=N
         50,
         h,
         [[(shown or value, B)]],
-        size=12,
+        size=10,
         anchor=MSO_ANCHOR.MIDDLE,
     )
 
@@ -321,7 +321,7 @@ text(
     252,
     606,
     20,
-    [[("Large databases: more correct answers from less context", {"bold": True, "size": 16})]],
+    [[("Large databases: more correct answers from less context", {"bold": True, "size": 12})]],
 )
 marker(s, 2, 30, 255)
 for x, head, rows, reading in (
@@ -342,7 +342,7 @@ for x, head, rows, reading in (
     text(s, x + 12, 288, 276, 16, [[(head, B)]], size=12)
     for k, (lab, val, w, col) in enumerate(rows):
         bar_row(s, lab, val, w, col, 311 + k * 26, x=x + 12, label_w=118)
-    text(s, x + 12, 369, 276, 48, reading, size=12)
+    text(s, x + 12, 369, 276, 48, reading, size=10)
 marker(s, 4, 343, 272)
 note(
     s,
@@ -450,12 +450,12 @@ for x, n, fill, fg, head, question, items in (
         setattr(tf, f"margin_{side}", 0)
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
     write(tf, [[(n, {"bold": True, "size": 24, "color": fg})]], align=PP_ALIGN.CENTER)
-    text(s, x, 208, 200, 26, [[(head, {"bold": True, "size": 20})]])
-    text(s, x, 238, 200, 18, [[(question, {"color": GREY})]], size=13)
+    text(s, x, 208, 200, 26, [[(head, {"bold": True, "size": 16})]])
+    text(s, x, 238, 200, 18, [[(question, {"color": GREY})]], size=10)
     shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 264, 200, 160, fill=CREAM, radius=0.05)
     for i, (item, page) in enumerate(items):
         y = 270 + i * 30
-        text(s, x + 12, y + 2, 140, 20, [[(item, {})]], size=12)
+        text(s, x + 12, y + 2, 140, 20, [[(item, {})]], size=10)
         chip = shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + 164, y + 3, 24, 18, fill=fill, radius=0.3)
         tf = chip.text_frame
         for side in ("left", "right", "top", "bottom"):
@@ -533,38 +533,39 @@ for x, fill, h, b in problems:
         x,
         196,
         196,
-        88,
-        [[(h, {"bold": True, "size": 16, "color": NAVY})], b],
+        76,
+        [[(h, {"bold": True, "size": 12, "color": NAVY})], b],
         fill=fill,
         after=2,
+        size=10,
     )
 marker(s, 1, 37, 190)
-marker(s, 2, 28, 299)
-marker(s, 3, 333, 400)
+marker(s, 2, 28, 287)
+marker(s, 3, 333, 398)
 marker(s, 4, 447, 190)
 text(
     s,
     43.5,
-    296,
+    284,
     606,
     20,
-    [[("Published scores fall on enterprise tasks", {"bold": True, "size": 16})]],
+    [[("Published scores fall on enterprise tasks", {"bold": True, "size": 12})]],
 )
 SCALE = 4.6
 BAR_X = 171.5
 for i, (lab, v, col) in enumerate((("Spider 1.0", 91.2, SLATE), ("BIRD", 73.0, AMBER))):
-    bar_row(s, lab, f"{v} %", v * SCALE, col, 320 + i * 22, label_w=128)
-text(s, 43.5, 364, 128, 16, "Spider 2.0 enterprise", size=12, anchor=MSO_ANCHOR.MIDDLE)
+    bar_row(s, lab, f"{v} %", v * SCALE, col, 308 + i * 24, label_w=128, h=18)
+text(s, 43.5, 356, 128, 18, "Spider 2.0 enterprise", size=10, anchor=MSO_ANCHOR.MIDDLE)
 for x, w, fill, label, fg in (
     (BAR_X, 21.3 * SCALE, BLUE, "21.3 %", WHITE),
     (BAR_X + 21.3 * SCALE, 69.9 * SCALE, PALE_BLUE, "69.9 points below Spider 1.0", BLUE),
 ):
-    bar = shape(s, MSO_SHAPE.RECTANGLE, x, 364, w, 16, fill=fill)
+    bar = shape(s, MSO_SHAPE.RECTANGLE, x, 356, w, 18, fill=fill)
     tf = bar.text_frame
     for side in ("left", "right", "top", "bottom"):
         setattr(tf, f"margin_{side}", 0)
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-    write(tf, [[(label, {"bold": True, "size": 11, "color": fg})]], align=PP_ALIGN.CENTER)
+    write(tf, [[(label, {"bold": True, "size": 10, "color": fg})]], align=PP_ALIGN.CENTER)
 for x, w, runs in (
     (
         43.5,
@@ -590,12 +591,12 @@ for x, w, runs in (
         ],
     ),
 ):
-    card(s, x, 390, w, 62, [runs], fill=CREAM, size=12)
+    card(s, x, 386, w, 56, [runs], fill=CREAM, size=10)
 note(
     s,
     "share of tasks solved, o1-preview results reported in the Spider 2.0 "
     "paper (2024); not this project's results.",
-    y=456,
+    y=450,
 )
 takeaways(
     s,
