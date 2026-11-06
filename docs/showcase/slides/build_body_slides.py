@@ -506,7 +506,7 @@ problems = [
         248.5,
         PALE_BLUE,
         "Scale",
-        "Real schemas are large. The right tables must be found among hundreds of columns.",
+        "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns.",
     ),
     (
         453.5,
@@ -527,8 +527,9 @@ for x, fill, h, b in problems:
         after=2,
     )
 marker(s, 1, 37, 190)
-marker(s, 2, 242, 190)
-marker(s, 3, 447, 190)
+marker(s, 2, 28, 299)
+marker(s, 3, 344, 384)
+marker(s, 4, 447, 190)
 text(
     s,
     43.5,
@@ -540,12 +541,28 @@ text(
 for i, (lab, v, col) in enumerate(
     (("Spider 1.0", 91.2, SLATE), ("BIRD", 73.0, AMBER), ("Spider 2.0 enterprise", 21.3, BLUE))
 ):
-    bar_row(s, lab, f"{v} %", v * 4.6, col, 322 + i * 24, label_w=128)
+    bar_row(s, lab, f"{v} %", v * 4.6, col, 320 + i * 22, label_w=128)
+text(s, 335, 364, 200, 16, [[("69.9 points below Spider 1.0", BB)]], size=10)
+for x, lead, rest in (
+    (
+        43.5,
+        "Why scores fall: ",
+        "tasks need metadata, several SQL dialects and project code, and queries "
+        "often pass 100 lines.",
+    ),
+    (
+        350.5,
+        "In this project: ",
+        "64.6 % on Spider and 35.2 % on BIRD with evidence, using our own scorer, "
+        "so not comparable with the chart.",
+    ),
+):
+    card(s, x, 390, 299, 62, [[(lead, B), (rest, {})]], fill=CREAM, size=12)
 note(
     s,
     "share of tasks solved, o1-preview results reported in the Spider 2.0 "
     "paper (2024); not this project's results.",
-    y=398,
+    y=456,
 )
 takeaways(
     s,
@@ -561,8 +578,16 @@ takeaways(
         (
             "Demos flatter; enterprise data does not",
             [
-                ("Scores fall sharply on real schemas, so ", {}),
+                ("Published scores fall about 70 points on enterprise tasks, so ", {}),
                 ("a good demo is not evidence", BB),
+                (".", {}),
+            ],
+        ),
+        (
+            "We see the same direction",
+            [
+                ("Our scores also fall on the harder test, from ", {}),
+                ("64.6 % to 35.2 %", BB),
                 (".", {}),
             ],
         ),

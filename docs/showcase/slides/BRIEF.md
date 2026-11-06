@@ -109,6 +109,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
   2. **Scale:** real schemas are large. Spider 2.0 databases often exceed 1,000 columns.
   3. **Risk:** generated SQL must be stopped from changing the data.
 - **Takeaway:** the benchmark gap. In the Spider 2.0 paper, an o1-preview agent solved 21.3 % of enterprise tasks, against 91.2 % on Spider 1.0 and 73.0 % on BIRD.
+- **Findings added 6 November:** the 69.9-point gap, why scores fall (metadata, dialects, project code, queries past 100 lines), and this project's 64.6 % and 35.2 %, labelled as not comparable with the published chart.
 - **Keep from the old slide:** one line that dashboards and analyst SQL remain the right tools for recurring, defined metrics.
 - **Source:** Spider 2.0 paper (R1).
 
