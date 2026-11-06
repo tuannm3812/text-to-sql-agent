@@ -2906,6 +2906,22 @@ takeaways(
     ],
 )
 
+# A removable "pending" tag, imported with ONLY=18; each deck slide's text is typed in the deck.
+if os.environ.get("ONLY") == "18":
+    s = new_slide("", "", "", 19)
+    card(
+        s,
+        300,
+        28,
+        540,
+        17,
+        [[("PENDING: tag text", {"bold": True, "size": 8})]],
+        fill=PALE_AMBER,
+        pad=3,
+        anchor=MSO_ANCHOR.MIDDLE,
+    ).text_frame.margin_left = Pt(20)
+    icon(s, "description", "navy", 305, 30, 13)
+
 if os.environ.get("ONLY"):  # one deck slide number: keep just that body for import
     ids = prs.slides._sldIdLst
     keep = int(os.environ["ONLY"]) - 2

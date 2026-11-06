@@ -270,3 +270,20 @@ Product pages change, so the deck must state the date it read them.
 | R7 | [Holistics, "Why is Text-to-SQL so hard?"](https://www.holistics.io/blog/text-to-sql/) | Semantic layers; already cited in the README | Optional background |
 
 Internal figures come from the README's Evaluation Results at `f3a4e93` and later, `AGENTS.md`, `evaluation/cases.json` and `data/retail_analytics.db`.
+
+## Pending tags (live deck, 7 November)
+
+Amber tags with a paper icon sit above the title on the slides below. Remove each when it is done, and all of them before presenting. Slide numbers are the deck's.
+
+| Slide | Pending | Where |
+|---|---|---|
+| 7 | Recheck the live Streamlit demo after the push to main | Hosted app |
+| 8 | Column exclusion list, so sensitive columns never become value hints | `engines/`, `ui/` |
+| 9 | Gemini is unmeasured; turn its thinking off and check the default model still works | `llm.py`, `docs/4_next_steps.md` |
+| 10 | Test the model on file reads and runaway queries; close the engine gap on internals | `evaluation/`, `engines/` |
+| 12 | Run the same suites on a hosted model | `evaluation/` |
+| 13 | Test new large schemas | `evaluation/` |
+| 14 | Find why the shared layout lost 2.4 points | `evaluation/results/shared_layout/` |
+| 15 | Build targeted table recovery and report both question groups | `rag.py` |
+| 16 | None of the four tests has started | All |
+| 17 | Sync the speaker notes file, export the PDF, run the Codex review, remove the tags | `docs/showcase/` |

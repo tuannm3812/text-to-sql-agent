@@ -12,7 +12,7 @@ from playwright.sync_api import sync_playwright
 
 HERE = Path(__file__).resolve().parent
 ICONS = "verified_user target trending_up help construction monitoring flag chat schema code "
-ICONS += "table_rows person fact_check science menu_book query_stats check_circle cancel timer"
+ICONS += "table_rows person fact_check science menu_book query_stats check_circle cancel timer description"
 COLOURS = {"white": "#FFFFFF", "blue": "#0F4BEB", "navy": "#17243B"}
 WEAKNESS = {"amber": "#E6A23C"}  # only these two icons need amber
 FONT = (
