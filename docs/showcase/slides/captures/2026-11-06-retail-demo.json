@@ -1,0 +1,11 @@
+{
+  "captured": "2026-11-06",
+  "commit": "269ed8f3a7c466cf2396872798ff59ec1cee9a9f",
+  "dirty": true,
+  "method": "Playwright frames of the real Streamlit app, assembled with ffmpeg; the loop opens on the SQL frame so a PDF export shows it",
+  "database": "Retail Analytics demo (data/retail_analytics.db)",
+  "provider": "ollama",
+  "model": "qwen3.5:9b-q4_K_M",
+  "question": "Which product categories generate the most revenue?",
+  "notes": "Presentation evidence, not a benchmark result."
+}

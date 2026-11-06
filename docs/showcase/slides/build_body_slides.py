@@ -1070,5 +1070,110 @@ takeaways(
     ],
 )
 
+# Slide 7: demo
+s = new_slide(
+    "SOLUTION  >  DEMO",
+    "The SQL shows what the answer includes",
+    "One revenue question on the Retail Analytics demo, answered by the local model",
+    7,
+)
+GIF_W, GIF_H = 360, 214
+demo = s.shapes.add_picture(
+    str(HERE / "captures" / "2026-11-06-retail-demo.gif"), Pt(43.5), Pt(130), Pt(GIF_W), Pt(GIF_H)
+)
+demo.line.color.rgb = rgb(RULE)
+demo.line.width = Pt(0.75)
+marker(s, 1, 37, 124)
+TW = (58, 90, 90)
+TXX = 412
+compare = s.shapes.add_table(4, 3, Pt(TXX), Pt(130), Pt(sum(TW)), Pt(214)).table
+for c, w in enumerate(TW):
+    compare.columns[c].width = Pt(w)
+for r, h in enumerate((24, 70, 60, 60)):
+    compare.rows[r].height = Pt(h)
+COMPARE = (
+    ("", "DEMO QUESTION", "BENCHMARK QUESTION"),
+    ("Wording", "“...the most revenue?”", "“...the most completed order revenue?”"),
+    ("Orders", "All 220, with cancelled and returned", "179 completed"),
+    ("Discounts", "Ignored", "Applied"),
+)
+for r, row in enumerate(COMPARE):
+    for c, value in enumerate(row):
+        target = compare.cell(r, c)
+        target.fill.solid()
+        target.fill.fore_color.rgb = rgb(WHITE if r == 0 else (CREAM if r % 2 else WHITE))
+        target.margin_left = target.margin_right = Pt(5)
+        target.margin_top = target.margin_bottom = Pt(2)
+        target.vertical_anchor = MSO_ANCHOR.MIDDLE
+        write(target.text_frame, [[(value, {"size": 8, "bold": r == 0 or c == 0})]])
+line(s, TXX, 154, TXX + sum(TW), 154, color=NAVY, width=1.0)
+marker(s, 2, TXX - 11, 134)
+text(
+    s,
+    43.5,
+    352,
+    606,
+    16,
+    [[("Same top category, two definitions of revenue", {"bold": True, "size": 12})]],
+)
+marker(s, 3, 28, 355)
+REV_SCALE = 340 / 173366
+bar_row(s, "Demo question", "173,366", 340, SLATE, 374, label_w=128, h=18)
+text(s, 43.5, 398, 128, 18, "Benchmark question", size=10, anchor=MSO_ANCHOR.MIDDLE)
+for x, w, fill, label, fg in (
+    (171.5, 136984 * REV_SCALE, BLUE, "136,984", WHITE),
+    (171.5 + 136984 * REV_SCALE, (173366 - 136984) * REV_SCALE, PALE_BLUE, "21 % lower", BLUE),
+):
+    bar = shape(s, MSO_SHAPE.RECTANGLE, x, 398, w, 18, fill=fill)
+    tf = bar.text_frame
+    for side in ("left", "right", "top", "bottom"):
+        setattr(tf, f"margin_{side}", 0)
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    write(tf, [[(label, {"bold": True, "size": 10, "color": fg})]], align=PP_ALIGN.CENTER)
+marker(s, 4, 28, 430)
+note(
+    s,
+    "Electronics revenue. This illustrates inspection, not a benchmark failure: the two "
+    "questions are worded differently. Recomputed on data/retail_analytics.db.",
+    y=428,
+)
+takeaways(
+    s,
+    [
+        (
+            "The answer looks finished",
+            [
+                ("Electronics leads with ", {}),
+                ("173,366", BB),
+                (", yet the chart does not say which orders it counted.", {}),
+            ],
+        ),
+        (
+            "The SQL shows the choice",
+            [
+                ("It sums price × quantity with ", {}),
+                ("no status filter and no discounts", BB),
+                (", so all 220 orders count.", {}),
+            ],
+        ),
+        (
+            "Wording changes the number",
+            [
+                ("Asking for completed order revenue gives 136,984, about ", {}),
+                ("21 % lower", BB),
+                (", with the same top category.", {}),
+            ],
+        ),
+        (
+            "This is why inspection matters",
+            [
+                ("Neither figure is wrong by itself. ", {}),
+                ("A person decides", BB),
+                (" which revenue the business means.", {}),
+            ],
+        ),
+    ],
+)
+
 prs.save(OUT)
 print("wrote", OUT.name)

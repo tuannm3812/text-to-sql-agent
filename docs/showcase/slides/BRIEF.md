@@ -145,7 +145,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 **Slide 7. Demo: "The SQL shows what the answer includes"**
 - **Question:** what does it look like, and why does inspection matter?
 - **Message:** the answer looks finished, but only the SQL shows what "revenue" counted.
-- **Content:** the existing two captures, then a comparison of two differently worded questions:
+- **Content:** an animated capture of the real app (`slides/captures/2026-11-06-retail-demo.gif`), then a comparison of two differently worded questions:
 
 | | Demo question | Separate benchmark question |
 |---|---|---|

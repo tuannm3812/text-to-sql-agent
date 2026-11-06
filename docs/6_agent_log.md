@@ -8544,3 +8544,9 @@ systems omitted because their setup is not listed. Fourth takeaway added on when
 
 Slide 6 storyline reworked: the two cards now state the title's two aims, the matrix uses small logos and 8 pt uppercase quadrant labels,
 and BI dashboards and a general chatbot are added as judgement-placed comparators.
+
+### 2026-11-06 — Claude: slide 7 demo GIF
+
+Real app, local Ollama model, Retail Analytics: frames captured with Playwright, assembled with ffmpeg (`slides/captures/2026-11-06-retail-demo.gif`
+and `.json`). Slide 7 retitled, with a comparison table, a gap bar and four takeaways; 173,366 and 136,984 recomputed on the demo database.
+The GIF plays in the Slides editor; the loop opens on the SQL frame so a PDF export shows it.
