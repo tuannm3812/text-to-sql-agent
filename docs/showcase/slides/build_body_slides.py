@@ -30,6 +30,7 @@ BLUE, AMBER, NAVY, CREAM = "0F4BEB", "E6A23C", "17243B", "FAF7F0"
 GREY, SLATE, RED, RULE, WHITE = "59636E", "46576C", "C64040", "D8DCE3", "FFFFFF"
 PALE_BLUE, PALE_AMBER = "E7EDFD", "FBEFD9"
 B = {"bold": True}
+CODE = "Google Sans Code"
 BB = {"bold": True, "color": BLUE}
 
 prs = Presentation()
@@ -1084,7 +1085,6 @@ demo = s.shapes.add_picture(
 demo.line.color.rgb = rgb(RULE)
 demo.line.width = Pt(0.75)
 marker(s, 1, 37, 124)
-CODE = "Google Sans Code"
 TXX = 412
 CARD_W = 238
 shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, TXX, 130, CARD_W, GIF_H, fill=NAVY, radius=0.03)
@@ -1228,74 +1228,152 @@ def step(s, x, y, w, h, head, body, fill=CREAM):
 # Slide 8: data boundary
 s = new_slide(
     "SOLUTION  >  DATA BOUNDARY",
-    "The prompt contains schema and bounded values; results stay local",
-    "What crosses from the database to the model in the default pipeline",
+    "The model sees 79 stored values, not the 1,851 rows",
+    "What the prompt held for the demo question on the Retail Analytics database",
     8,
 )
-shape(s, MSO_SHAPE.RECTANGLE, 43.5, 130, 340, 330, fill=CREAM)
-shape(s, MSO_SHAPE.RECTANGLE, 483, 130, 167, 330, fill=PALE_BLUE)
-text(s, 55, 138, 300, 12, [[("YOUR DATABASE: STAYS LOCAL", B)]], size=8, color=GREY)
-text(s, 495, 138, 150, 12, [[("THE MODEL'S PROMPT", B)]], size=8, color=GREY)
-line(s, 433, 154, 433, 460, color=NAVY, width=1.5)
-text(s, 393, 138, 80, 12, [[("BOUNDARY", B)]], size=8, align=PP_ALIGN.CENTER)
-for i, (head, body, sent, label) in enumerate(
+text(
+    s,
+    43.5,
+    130,
+    400,
+    16,
+    [[("How much of the database reaches the prompt", {"bold": True, "size": 12})]],
+)
+BARW = 606
+shape(s, MSO_SHAPE.RECTANGLE, 43.5, 152, BARW, 16, fill="E8EAEE")
+shape(s, MSO_SHAPE.RECTANGLE, 43.5, 152, max(BARW * 79 / 11562, 4), 16, fill=AMBER)
+text(
+    s,
+    43.5,
+    171,
+    300,
+    12,
+    [[("79 stored values in the prompt", {"bold": True, "color": NAVY})]],
+    size=8,
+)
+text(
+    s,
+    349.5,
+    171,
+    300,
+    12,
+    [[("11,562 cells in the database; 0 result rows sent", {"color": GREY})]],
+    size=8,
+    align=PP_ALIGN.RIGHT,
+)
+PW = 372
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, 190, PW, 176, fill=NAVY, radius=0.03)
+text(
+    s,
+    55.5,
+    198,
+    PW - 24,
+    12,
+    [[("FROM THE REAL PROMPT (SHORTENED)", {"bold": True, "color": WHITE})]],
+    size=8,
+)
+PROMPT_LINES = (
+    ("CREATE TABLE orders (", WHITE),
+    ("  order_id INTEGER PRIMARY KEY,", WHITE),
+    ("  order_status TEXT NOT NULL ...", WHITE),
+    (");", WHITE),
+    ("-- order_status sample values:", AMBER),
+    ("     Completed, Returned, Cancelled", AMBER),
+    ("-- gender sample values: Female, Other, Male", AMBER),
+    ("### User question", "9FB6F5"),
+    ("Which product categories generate the most revenue?", "9FB6F5"),
+)
+text(
+    s,
+    55.5,
+    216,
+    PW - 20,
+    146,
+    [[(code, {"font": CODE, "size": 8, "color": colour})] for code, colour in PROMPT_LINES],
+    size=8,
+    after=3,
+)
+LX = 427
+for k, (head, items, ic, colour) in enumerate(
     (
-        ("Schema metadata", "Names, types, keys and CREATE TABLE statements", True, "Sent"),
         (
-            "Value hints",
-            "Up to 6 frequent values, text columns of 20 or fewer",
-            True,
-            "Sent, bounded",
+            "IN THE PROMPT",
+            ("Tables, columns, keys", "79 stored values as hints", "The question"),
+            "check_circle",
+            "blue",
         ),
-        ("Question value matching", "Stored values matching the question", False, "Built, off"),
-        ("Result rows", "The rows of each answer", False, "Never sent"),
+        (
+            "NOT IN THE PROMPT",
+            ("Result rows", "Names and emails: over the limit", "All other stored values"),
+            "cancel",
+            "amber",
+        ),
     )
 ):
-    y = 158 + i * 75
-    step(s, 55, y, 316, 66, head, body, fill=WHITE)
-    if sent:
-        line(s, 371, y + 33, 495, y + 33, color=BLUE, width=2, arrow=True)
-        icon(s, "check_circle", "blue", 501, y + 25, 16)
-    else:
-        line(s, 371, y + 33, 425, y + 33, color=AMBER, width=2)
-        icon(s, "cancel", "amber", 425, y + 25, 16)
-    text(
+    y = 190 + k * 90
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, LX, y, 222.5, 86, fill=CREAM, radius=0.05)
+    text(s, LX + 10, y + 7, 200, 12, [[(head, B)]], size=8, color=GREY)
+    for i, item in enumerate(items):
+        icon(s, ic, colour, LX + 10, y + 24 + i * 19, 11)
+        text(s, LX + 25, y + 22 + i * 19, 190, 15, item, size=10, anchor=MSO_ANCHOR.MIDDLE)
+for x, ic, head, body, fill in (
+    (43.5, "verified_user", "Local model", "The prompt stays on your machine", PALE_BLUE),
+    (349.5, "chat", "Hosted model", "Question, schema and hints go to the provider", PALE_AMBER),
+):
+    card(
         s,
-        521 if sent else 501,
-        y + 26,
-        125,
-        14,
-        [[(label, {"bold": True, "color": BLUE if sent else GREY})]],
-        size=10,
-    )
-marker(s, 1, 49, 152)
-marker(s, 2, 49, 227)
-marker(s, 3, 49, 302)
+        x,
+        376,
+        300,
+        48,
+        [[(head, {"bold": True, "size": 12})], [(body, {"size": 10})]],
+        fill=fill,
+        anchor=MSO_ANCHOR.MIDDLE,
+    ).text_frame.margin_left = Pt(38)
+    icon(s, ic, "blue" if x < 100 else "navy", x + 8, 388, 24)
+marker(s, 1, 37, 184)
+marker(s, 2, 37, 262)
+marker(s, 3, 37, 370)
+note(
+    s,
+    "79 is for this question and varies; values are distinct, and one can fill many cells. "
+    "On the one repair try, the failed query and its error are also sent.",
+    y=432,
+)
 takeaways(
     s,
     [
         (
-            "Structure guides the query",
+            "The prompt is mostly structure",
             [
-                ("Names, types and keys define the SQL that can be written, so the model ", {}),
-                ("needs structure, not data", BB),
+                ("About ", {}),
+                ("71 % of the schema text", BB),
+                (" is table definitions. Hints are the other 29 %.", {}),
+            ],
+        ),
+        (
+            "Hints are real data",
+            [
+                ("The limit counts values, not sensitivity. Emails stay out ", {}),
+                ("only because there are over 20", BB),
                 (".", {}),
             ],
         ),
         (
-            "Not metadata-only",
+            "The model choice moves the boundary",
             [
-                ("Hints come from stored values, so ", {}),
-                ("a few real values are sent", BB),
-                (", capped and labelled when cut.", {}),
+                ("With a local model nothing leaves your machine. A hosted model ", {}),
+                ("receives the whole prompt", BB),
+                (".", {}),
             ],
         ),
         (
-            "A wider route stayed closed",
+            "Check before using real data",
             [
-                ("Matching stored values added ", {}),
-                ("+0.4 points [-0.9, +1.6]", BB),
-                (", not measurable, so it stays off.", {}),
+                ("Review which columns qualify as hints, or ", {}),
+                ("turn table selection off", BB),
+                (" to send no hints.", {}),
             ],
         ),
     ],
@@ -1981,11 +2059,13 @@ note(
     prefix="Scope:",
 )
 
-if os.environ.get("PART") == "2":
+if os.environ.get("ONLY"):  # one deck slide number: keep just that body for import
     ids = prs.slides._sldIdLst
-    for sld in list(ids)[:6]:
-        prs.part.drop_rel(sld.rId)
-        ids.remove(sld)
+    keep = int(os.environ["ONLY"]) - 2
+    for k, sld in enumerate(list(ids)):
+        if k != keep:
+            prs.part.drop_rel(sld.rId)
+            ids.remove(sld)
 
 prs.save(OUT)
 print("wrote", OUT.name)

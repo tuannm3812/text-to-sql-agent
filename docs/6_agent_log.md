@@ -8562,3 +8562,7 @@ stays as history, and AGENTS.md and the coding standard now name `main`. Codex's
 Slides 8 to 16 rebuilt with one visual technique each, on the 12, 10 and 8 pt levels, red markers and divider. Numbers come from the README and
 `evaluation/results/`; slide 15's gains and losses are differences of its recorded subgroup counts. All notes rewritten; 17 slides, 14 agenda links and
 notes checked in an exported copy. No Codex review of this round yet. Slide 4's gap label reads "69.9%", which should read "points"; left for Mike.
+
+Slide 8 redone after a brainstorm in `BRIEF.md`: measured the real prompt for the demo question (79 stored values, 4,971 schema characters, 29 % hints)
+and found the hint limit counts values, not sensitivity. New slide: proportion bar, real prompt excerpt, in and out lists, local against hosted. Slide 4's
+gap label is back to "69.9 points". Mike declined a Codex review for now. `build_body_slides.py` takes `ONLY=<slide>` for a one-slide import.

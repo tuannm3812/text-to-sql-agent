@@ -158,7 +158,37 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 - **Boundary:** this is an illustration of inspection, not a benchmark failure, and not evidence that a semantic model would have changed this response.
 - **Source:** capture of 6 November (`slides/captures/`); `evaluation/cases.json`, `retail_revenue_by_category`; recomputed on `data/retail_analytics.db`.
 
-**Slide 8. Data boundary: keep the current content.** Message: the prompt holds schema and bounded values; results stay local.
+**Slide 8. Data boundary: "The model sees 79 stored values, not the 1,851 rows"**
+
+*Reader question:* can I point this at my data, and what would leave? The old slide listed four items, so it described the design without answering that.
+
+*Measured on 6 November* (Retail demo, demo question, default settings; `rag.retrieve_schema_context` on `data/retail_analytics.db`):
+
+| Fact | Value |
+|---|---|
+| Database | 11 tables, 1,851 rows, 11,562 cells |
+| Schema text sent | 4,971 characters, 9 tables; 1,419 characters (29 %) are hints |
+| Stored values in the prompt | 79, on 17 hint lines |
+| Result rows sent | 0 |
+| Text columns | 30, of which 23 are within the 20-value limit |
+| Sent as hints | Includes `gender` and `supplier_name` |
+| Kept out | `full_name` (51 distinct) and `email` (60), only because they exceed the limit |
+
+Also found in the code: the question is sent too; a failed query and its error go back on the one repair try; the limit counts distinct values and has no check on sensitivity; a hosted model receives all of this, a local model keeps it on the machine; turning table selection off sends plain DDL with no hints.
+
+*Options considered:*
+
+| Option | Shows | Insight | Verdict |
+|---|---|---|---|
+| A. Real prompt, annotated | The actual text the model gets | Concrete, and matches the slide 7 SQL card | Use as the main visual |
+| B. Proportion bar | 79 values against 11,562 cells | How little is sent | Use, with a note that the two counts differ in kind |
+| C. Local against hosted | Where the boundary sits | The model choice moves it | Use as the decision strip |
+| D. Limit stress test | What a count limit misses | Hints are real data; emails stay out only by count | Use as the main takeaway |
+| E. Keep the boundary map | Four items crossing a line | Clear but descriptive | Drop |
+
+*Decision:* combine A to D. **Message:** very little stored data reaches the prompt, but what does is real, so the model choice and the hint columns are the two things to check first.
+
+*Boundary:* 79 is for this question on this demo database, and varies by question. It is not a privacy guarantee.
 
 **Slide 9. Architecture: keep the current content.** Message: the model proposes SQL; the application controls execution.
 
