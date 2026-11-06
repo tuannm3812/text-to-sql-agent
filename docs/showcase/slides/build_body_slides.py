@@ -59,6 +59,8 @@ def write(frame, paras, size=12, color=NAVY, align=None, spacing=None, after=0):
             r.font.size = Pt(opt.get("size", size))
             r.font.bold = opt.get("bold", False)
             r.font.color.rgb = rgb(opt.get("color", color))
+            if opt.get("url"):
+                r.hyperlink.address = opt["url"]
             if opt.get("sup"):
                 r.font._element.set("baseline", "30000")
 
@@ -683,7 +685,7 @@ rows = [
         0,
         "wren",
         "WrenAI",
-        "",
+        "3",
         "Semantic layer in Git",
         (2, "Define MDL model"),
         (2, "Review in Git"),
@@ -694,7 +696,7 @@ rows = [
         1,
         "vanna",
         "Vanna",
-        "3",
+        "4",
         "Saved past queries",
         (1, "Learns from use"),
         (2, "Self-maintained"),
@@ -705,7 +707,7 @@ rows = [
         1,
         None,
         "BIRD leaderboard systems",
-        "4",
+        "5",
         "Mostly not listed",
         (None, "Not listed"),
         (None, "Not listed"),
@@ -724,7 +726,7 @@ rows = [
         "Person checks meaning",
     ),
 ]
-TX, TY, HEAD_H, BAND_H, ROW_H = 43.5, 130, 18, 16, 38
+TX, TY, HEAD_H, BAND_H, ROW_H = 43.5, 130, 18, 16, 35
 
 
 def dots(level):
@@ -805,25 +807,57 @@ for group, lg, name, mark, *values in rows:
         table.cell(r, c).margin_left = Pt(19)
         icon(s, name_icon, colour, TX + sum(WIDTHS[:c]) + 5, y + ROW_H / 2 - 5, 10)
     if lg == "project":
-        icon(s, "fact_check", "blue", TX + 6, y + 10, 19)
+        icon(s, "fact_check", "blue", TX + 6, y + 8, 19)
     elif lg:
-        logo(s, lg, TX + 6, y + 10, 19)
+        logo(s, lg, TX + 6, y + 8, 19)
     else:
-        icon(s, "science", "blue", TX + 6, y + 10, 19)
+        icon(s, "science", "blue", TX + 6, y + 8, 19)
     line(s, TX, y + ROW_H, TX + sum(WIDTHS), y + ROW_H, color=RULE, width=0.5)
     r, y = r + 1, y + ROW_H
 line(s, TX, TY + HEAD_H, TX + sum(WIDTHS), TY + HEAD_H, color=NAVY, width=1.0)
 marker(s, 2, TX + 118 + 100 + 96 - 9, TY + 3)
+SOURCES = (
+    (
+        "1",
+        "Recommends moving to Cortex Agents; Autopilot can draft a view. ",
+        "Snowflake docs",
+        "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst",
+    ),
+    (
+        "2",
+        "Formerly Genie Spaces; advises five or fewer tables. ",
+        "Databricks docs",
+        "https://docs.databricks.com/aws/en/genie/best-practices",
+    ),
+    (
+        "3",
+        "Engine is Apache-2.0; some features are commercial. ",
+        "WrenAI repository",
+        "https://github.com/Canner/WrenAI",
+    ),
+    (
+        "4",
+        "Archived 29 March 2026; version 2.0 learns from saved queries. ",
+        "Vanna repository",
+        "https://github.com/vanna-ai/vanna",
+    ),
+    (
+        "5",
+        "Top test entry, AskData, 83.40 %; most entries list no method. ",
+        "BIRD leaderboard",
+        "https://bird-bench.github.io/",
+    ),
+)
 text(
     s,
     43.5,
-    428,
+    409,
     606,
-    46,
+    66,
     [
         [
             ("Note: ", B),
-            ("Effort is our qualitative assessment of public documentation, not a ranking: ", {}),
+            ("Effort is our qualitative assessment, not a ranking: ", {}),
             *dots(3),
             (" high, ", {}),
             *dots(2),
@@ -831,24 +865,16 @@ text(
             *dots(1),
             (" low, ", {}),
             *dots(0),
-            (" none, – not listed.", {}),
+            (" none, – not listed. Sources read 6 November 2026.", {}),
         ],
-        [
-            ("1", {"sup": True}),
-            (" Snowflake now recommends Cortex Agents; Autopilot can draft a semantic view. ", {}),
-            ("2", {"sup": True}),
-            (" Formerly Genie Spaces; docs advise five or fewer tables. ", {}),
-            ("3", {"sup": True}),
-            (" Repository archived 29 March 2026. ", {}),
-            ("4", {"sup": True}),
-            (
-                " Top test entry, read 6 November 2026: AskData, 83.40 %; most list no method.",
-                {},
-            ),
+        *[
+            [(n, {"sup": True}), (" " + fact, {}), (label, {"url": url, "color": BLUE})]
+            for n, fact, label, url in SOURCES
         ],
     ],
     size=8,
     color=GREY,
+    spacing=1.0,
 )
 takeaways(
     s,
