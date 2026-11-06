@@ -1396,184 +1396,252 @@ takeaways(
 s = new_slide(
     "SOLUTION  >  ARCHITECTURE",
     "The model proposes SQL; the application controls execution",
-    "The default path for one question, with the technology behind each step",
+    "Five stages take one question to an answer, with the technology behind each step",
     9,
 )
-C1, W1, GAP9 = 43.5, 130, 22
-W9 = (606 - W1 - 3 * GAP9) / 3
-C2 = C1 + W1 + GAP9
-C3 = C2 + W9 + GAP9
-C4 = C3 + W9 + GAP9
-RA, RB, RC = 130, 236, 332
-HA, HB = 84, 74
+W9 = 108
+X1, X2 = 43.5, 165.5
+X3 = X2 + W9 + 14
+X4 = X3 + W9 + 22
+X5 = X4 + W9 + 14
+TOP9, END9 = 170, 364
 
 
-def flow_card(x, y, h, head, body, module, fill=CREAM, w=W9, mark=None):
+def step9(x, y, h, head, body, module, fill=CREAM, mark=None):
     """One step: heading, body and module, with its technology logo in the corner."""
     card(
         s,
         x,
         y,
-        w,
+        W9,
         h,
         [
-            [(head, {"bold": True, "size": 12})],
-            [(body, {"size": 10})],
+            [(head, {"bold": True, "size": 10})],
+            body,
             [(module, {"size": 8, "font": CODE, "color": GREY})],
         ],
         fill=fill,
+        pad=6,
+        size=8,
         after=2,
     )
     if mark == "tech-sqlglot":  # a wide wordmark, so it keeps its own shape
-        shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + w - 54, y + 6, 48, 15, fill=NAVY, radius=0.2)
-        s.shapes.add_picture(str(LOGOS / f"{mark}.png"), Pt(x + w - 52), Pt(y + 8), Pt(44), Pt(11))
+        shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + W9 - 46, y + 5, 41, 13, fill=NAVY, radius=0.2)
+        s.shapes.add_picture(str(LOGOS / f"{mark}.png"), Pt(x + W9 - 44), Pt(y + 7), Pt(37), Pt(9))
     elif mark:
-        logo(s, mark, x + w - 22, y + 6, 15)
+        logo(s, mark, x + W9 - 18, y + 5, 13)
 
 
-shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, C1, RA, W1, RC + HA - RA, fill=CREAM, radius=0.04)
-logo(s, "tech-streamlit", C1 + W1 / 2 - 14, 240, 28)
-text(
-    s,
-    C1 + 8,
-    272,
-    W1 - 16,
-    30,
-    [[("Streamlit app", B)], [("app.py, ui/", {"size": 8, "font": CODE, "color": GREY})]],
-    size=10,
-    align=PP_ALIGN.CENTER,
+def tech9(x, rows):
+    """The logos of a tall step, stacked above its bottom edge."""
+    y = END9 - 8 - 19 * len(rows)
+    for mark, label in rows:
+        logo(s, mark, x + 7, y, 14)
+        text(s, x + 25, y + 1, W9 - 30, 12, label, size=8)
+        y += 19
+
+
+# The five stages, each with what it hands on.
+for i, (x, w, label, fill, out) in enumerate(
+    (
+        (X1, X2 - X1 + 4, "ASK", NAVY, "Output: question"),
+        (X2, X3 - X2 + 4, "PREPARE", NAVY, "Output: prompt"),
+        (X3, X4 - X3 + 4, "GENERATE", BLUE, "Output: SQL text"),
+        (X4, X5 - X4 + 4, "CHECK AND RUN", NAVY, "Output: rows or refusal"),
+        (X5, 650 - X5, "ANSWER", NAVY, "Output: answer and SQL"),
+    )
+):
+    box(
+        s,
+        x - (6 if i else 0),
+        130,
+        w + (6 if i else 0),
+        22,
+        label,
+        fill,
+        fg=WHITE,
+        size=8,
+        kind=MSO_SHAPE.CHEVRON if i else MSO_SHAPE.PENTAGON,
+    )
+    text(s, x, 154, W9, 12, out, size=8, color=GREY)
+
+# Ask
+step9(
+    X1,
+    TOP9,
+    END9 - TOP9,
+    "1  Ask",
+    [("Pick a demo, a file, a connection or CSV uploads, then ask in plain English", {})],
+    "app.py, ui/",
 )
-text(
-    s,
-    C1 + 8,
-    RA + 8,
-    W1 - 16,
-    70,
-    [[("1  Ask", {"bold": True, "size": 12})], [("Pick a database, ask in plain English", {})]],
-    size=10,
-    after=2,
+tech9(X1, (("tech-streamlit", "Streamlit"),))
+# Prepare
+H9 = 58
+step9(
+    X2,
+    TOP9,
+    H9,
+    "2  Read schema",
+    [("Tables, keys and value hints", {}), ("1", {"sup": True})],
+    "schema.py",
+    mark="tech-python",
 )
-text(
-    s,
-    C1 + 8,
-    RC + 30,
-    W1 - 16,
-    44,
-    [[("The person inspects the answer and its SQL", {})]],
-    size=10,
-)
-flow_card(
-    C2, RA, HA, "2  Read schema", "Tables, keys and hints, cached", "schema.py", mark="tech-python"
-)
-flow_card(
-    C3,
-    RA,
-    HA,
+step9(
+    X2,
+    TOP9 + 68,
+    H9,
     "3  Select tables",
-    "Top 6 by BM25, names, trigrams, plus neighbours",
+    [("Top 6 by hybrid score, plus neighbours", {}), ("2", {"sup": True})],
     "rag.py",
     mark="tech-python",
 )
-flow_card(
-    C4,
-    RA,
-    HA,
+step9(
+    X2,
+    TOP9 + 136,
+    H9,
     "4  Build prompt",
-    "Dialect rules, schema and question",
+    [("Dialect rules, schema and question", {})],
     "llm.py",
     mark="tech-python",
 )
-flow_card(
-    C4,
-    RC,
-    HA,
+# Generate
+step9(
+    X3,
+    TOP9,
+    END9 - TOP9,
+    "5  Generate",
+    [("One SQL statement back. The model sees the prompt, never result rows", {})],
+    "llm.py",
+    fill=PALE_BLUE,
+)
+tech9(
+    X3,
+    (
+        ("tech-langchain", "LangChain"),
+        ("tech-googlegemini", "Gemini, hosted"),
+        ("tech-ollama", "Ollama, local"),
+    ),
+)
+# Check and run
+H9B = 92
+step9(
+    X4,
+    TOP9,
+    H9B,
     "6  Validate",
-    "One read-only query; unsafe SQL stops here",
+    [("One SELECT or WITH, no engine internals. Unsafe SQL stops here", {})],
     "safety.py",
     mark="tech-sqlglot",
 )
-flow_card(
-    C3, RC, HA, "7  Run", "Read-only mode, work budget, row cap", "execution.py", mark="tech-python"
-)
-flow_card(
-    C2,
-    RC,
-    HA,
-    "8  Show",
-    "Table, chart, SQL and why tables were chosen",
-    "ui/results.py",
-    mark="tech-pandas",
-)
-# The model, between the prompt and the check.
-card(
-    s,
-    C4,
-    RB,
-    W9,
-    HB,
+step9(
+    X4,
+    TOP9 + H9B + 10,
+    H9B,
+    "7  Run",
     [
-        [("5  Generate", {"bold": True, "size": 12})],
-        [("One SQL statement back", {"size": 10})],
+        ("Read-only connection, work budget and row cap", {}),
+        ("3", {"sup": True}),
+        (". A failed run gets one repair", {}),
     ],
-    fill=PALE_BLUE,
-    after=2,
+    "execution.py",
+    mark="tech-python",
 )
-for x, mark, label in ((C4 + 8, "tech-ollama", "Ollama"), (C4 + 68, "tech-googlegemini", "Gemini")):
-    logo(s, mark, x, RB + 50, 14)
-    text(s, x + 17, RB + 51, 46, 12, label, size=8)
-logo(s, "tech-langchain", C4 + W9 - 22, RB + 6, 15)
-# The database engines, reached by steps 2 and 7.
-DBW = 262
+# Answer
+step9(
+    X5,
+    TOP9,
+    END9 - TOP9,
+    "8  Show",
+    [("Table, chart, SQL and why tables were chosen, so the person can inspect the answer", {})],
+    "ui/results.py",
+)
+tech9(X5, (("tech-pandas", "pandas"), ("tech-streamlit", "Streamlit")))
+# The database layer under the stages, read by steps 2 and 7.
+DBY, DBH = 376, 46
+DBW = X4 + W9 - X2
 card(
     s,
-    C2,
-    RB,
+    X2,
+    DBY,
     DBW,
-    HB,
+    DBH,
     [
-        [("Database engine", {"bold": True, "size": 12})],
-        [("Chosen by the connection string", {"size": 10})],
+        [("Database engine", {"bold": True, "size": 10})],
+        [("Chosen by the connection string", {"size": 8})],
     ],
     fill=PALE_AMBER,
+    pad=6,
     after=2,
+    anchor=MSO_ANCHOR.MIDDLE,
 )
 for x, mark, label in (
-    (C2 + 8, "tech-sqlite", "SQLite"),
-    (C2 + 88, "tech-duckdb", "DuckDB"),
-    (C2 + 168, "tech-postgresql", "PostgreSQL"),
+    (X2 + 150, "tech-sqlite", "SQLite"),
+    (X2 + 214, "tech-duckdb", "DuckDB"),
+    (X2 + 280, "tech-postgresql", "PostgreSQL"),
 ):
-    logo(s, mark, x, RB + 50, 14)
-    text(s, x + 18, RB + 51, 66, 12, label, size=8)
+    logo(s, mark, x, DBY + 16, 14)
+    text(s, x + 17, DBY + 17, 62, 12, label, size=8)
+# Arrows: the main path, then the two engine links.
+Y12 = TOP9 + 20
+YG = TOP9 + 46
 for x1, y1, x2, y2 in (
-    (C1 + W1, RA + 42, C2, RA + 42),
-    (C2 + W9, RA + 42, C3, RA + 42),
-    (C3 + W9, RA + 42, C4, RA + 42),
-    (C4 + W9 / 2, RA + HA, C4 + W9 / 2, RB),
-    (C4 + W9 / 2, RB + HB, C4 + W9 / 2, RC),
-    (C4, RC + 42, C3 + W9, RC + 42),
-    (C3, RC + 42, C2 + W9, RC + 42),
-    (C2, RC + 42, C1 + W1, RC + 42),
-    (C2 + 60, RB, C2 + 60, RA + HA),
-    (C3 + 40, RC, C3 + 40, RB + HB),
+    (X1 + W9, Y12, X2, Y12),
+    (X2 + W9 / 2, TOP9 + H9, X2 + W9 / 2, TOP9 + 68),
+    (X2 + W9 / 2, TOP9 + 68 + H9, X2 + W9 / 2, TOP9 + 136),
+    (X2 + W9, TOP9 + 165, X3, TOP9 + 165),
+    (X3 + W9, YG, X4, YG),
+    (X4 + W9 / 2, TOP9 + H9B, X4 + W9 / 2, TOP9 + H9B + 10),
+    (X4 + W9, TOP9 + H9B + 56, X5, TOP9 + H9B + 56),
+    (X4 + W9 / 2, END9, X4 + W9 / 2, DBY),
 ):
     line(s, x1, y1, x2, y2, color=SLATE, width=1.5, arrow=True)
-RX = C3 + W9 - 14
-line(s, RX, RC, RX, RB + 37, color=AMBER, width=1.5, dashed=True)
-line(s, RX, RB + 37, C4, RB + 37, color=AMBER, width=1.5, arrow=True, dashed=True)
-marker(s, 1, C4 - 6, RB - 6)
-marker(s, 2, C4 - 6, RC - 6)
-marker(s, 3, C2 - 6, RB - 6)
-marker(s, 4, RX - 6, RB + 44)
-for x, fill, label in (
-    (C1, CREAM, "Application"),
-    (C1 + 80, PALE_BLUE, "Model"),
-    (C1 + 136, PALE_AMBER, "Database"),
-):
-    shape(s, MSO_SHAPE.RECTANGLE, x, 425, 10, 10, fill=fill, line=RULE)
-    text(s, x + 14, 424, 60, 12, label, size=8, color=GREY)
-line(s, C1 + 204, 430, C1 + 224, 430, color=AMBER, width=1.5, dashed=True)
-text(s, C1 + 229, 424, 100, 12, "One repair try", size=8, color=GREY)
-note(s, "product names and logos belong to their owners.", y=440)
+XE = X2 - 7
+line(s, X2, DBY + 23, XE, DBY + 23, color=SLATE, width=1.5)
+line(s, XE, DBY + 23, XE, TOP9 + 42, color=SLATE, width=1.5)
+line(s, XE, TOP9 + 42, X2, TOP9 + 42, color=SLATE, width=1.5, arrow=True)
+# The one repair, from the run back to the model.
+YR = TOP9 + H9B + 40
+line(s, X4, YR, X3 + W9, YR, color=AMBER, width=1.5, arrow=True, dashed=True)
+marker(s, 1, X3 - 6, TOP9 - 6)
+marker(s, 2, X4 - 6, TOP9 - 6)
+marker(s, 3, X2 - 6, DBY - 6)
+marker(s, 4, X3 + W9 + 5, YR - 16)
+text(
+    s,
+    43.5,
+    428,
+    606,
+    44,
+    [
+        [
+            ("Note: ", B),
+            ("1", {"sup": True}),
+            (
+                " Value hints are up to 6 stored values from text columns with 20 or fewer "
+                "distinct values.",
+                {},
+            ),
+        ],
+        [
+            ("2", {"sup": True}),
+            (
+                " The hybrid score combines keyword (BM25), name, character-trigram and hashed "
+                "n-gram scores; neighbours are tables one foreign key away.",
+                {},
+            ),
+        ],
+        [
+            ("3", {"sup": True}),
+            (
+                " Work budget: 100,000 VM steps on SQLite, 5,000 ms on DuckDB and PostgreSQL. "
+                "Row cap: 1,000 rows.",
+                {},
+            ),
+        ],
+    ],
+    size=8,
+    color=GREY,
+)
 takeaways(
     s,
     [

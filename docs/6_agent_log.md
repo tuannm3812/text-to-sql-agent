@@ -8579,3 +8579,5 @@ had no Run step. Demo values come from the 6 November capture; limits from `conf
 Slide 9 changed again at Mike's request: the five-step journey map (commit `2212672`) gave way to an eight-step architecture flow with the module and the technology behind each step
 and a dashed repair line. Steps come from `pipeline.ask_database`, modules from the package, logos from `pyproject.toml`'s stack (`build_icons.py` fetches them from Simple Icons and the sqlglot repo).
 The takeaways are one model step of eight, two gates, three engines and one retry. Notes rewritten; markers checked at zoom; 17 slides confirmed.
+
+Slide 9 split into five stages with each stage's output, smaller text, a database band under the stages and notes that explain hints, the hybrid score and the limits. The ownership note and legend are gone. Checking `ui/connection.py` showed Gemini is the app's first choice, so the notes' claim that Ollama is the default was wrong and is corrected.
