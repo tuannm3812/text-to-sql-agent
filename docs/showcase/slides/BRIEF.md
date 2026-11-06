@@ -55,7 +55,7 @@ These four names appear in both the agenda and the slide labels, so the two alwa
 
 | New | Was | Label | Change |
 |---|---|---|---|
-| 1 | 1 | none | Keep; photo decision open |
+| 1 | 1 | none | Illustration replaces the photo |
 | 2 | 4 | EXECUTIVE SUMMARY | Moved up; content revised |
 | 3 | 3 | AGENDA | New sections and ranges |
 | 4 | 5 | PROBLEM > WHY IT IS HARD | Rewritten |
@@ -71,7 +71,7 @@ These four names appear in both the agenda and the slide labels, so the two alwa
 | 14 | 13 | EVIDENCE > WHAT WAS TRIED | Label only |
 | 15 | 14 | EVIDENCE > RETRIEVAL AND ANSWERS | Label only |
 | 16 | 15 | NEXT STEPS > TESTS | Adds semantic definitions test |
-| 17 | 16 | close | Card decision open |
+| 17 | 16 | close | Card removed; illustration added |
 
 ## 4. Slide briefs
 
@@ -81,8 +81,8 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 **Slide 1. Cover**
 - **Message:** the name and the promise, nothing else.
-- **Content:** "Ask your data. Inspect the answer." and "An inspectable text-to-SQL agent for read-only analytics." Photo only.
-- **Open:** Decisions 1 and 4.
+- **Content:** "Ask your data. Inspect the answer." and "An inspectable text-to-SQL agent for read-only analytics." Illustration only, no text on it.
+- **Content pass:** show 36121 as origin only (Decision 1) and remove the photo credit from the notes.
 
 **Slide 2. Executive summary: "Inspectable SQL, with measured limits"**
 - **Question:** if I read one slide, what should I know?
@@ -185,8 +185,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 **Slide 17. Close**
 - **Message:** inspectable SQL, measured tradeoffs and a clear next experiment.
-- **Content:** demo and repository links, then group credits.
-- **Open:** Decisions 1 and 3.
+- **Content:** demo and repository links, group credits, and the smaller illustration.
 
 ## 5. Decisions
 
@@ -195,7 +194,7 @@ Mike's picks, 6 November 2026:
 1. **Audience:** portfolio deck, with 36121 shown only as its origin. Cover wording changes in the content pass.
 2. **Slide 5:** one neutral table.
 3. **Slide 17 card:** removed.
-4. **Cover photo:** look for a better one. Options sent to Mike; his choice is pending.
+4. **Cover image:** a custom wordless illustration replaced the photo on slide 1, with a smaller version on slide 17 (`build_cover_art.py`). No credit needed.
 5. **Editor:** Claude edits the live deck through Chrome; Codex reviews.
 6. **Push:** done for the brief.
 
