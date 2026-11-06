@@ -1403,9 +1403,9 @@ s = new_slide(
     9,
 )
 # Eight equal cards on a four-column grid, top row left to right, bottom row right to left.
-W9, H9, G9 = 136.5, 76, 20
+W9, H9, G9 = 130.5, 76, 28
 CX = [43.5 + i * (W9 + G9) for i in range(4)]
-BAR1, ROW1, DBY, DBH, ROW2, BAR2 = 130, 153, 245, 40, 311, 392
+BAR1, ROW1, DBY, DBH, ROW2, BAR2 = 130, 153, 251, 40, 319, 400
 BARH = 18
 
 
@@ -1545,9 +1545,9 @@ text(
     size=8,
 )
 for x, mark, label in (
-    (CX[1] + 122, "tech-sqlite", "SQLite"),
-    (CX[1] + 171, "tech-duckdb", "DuckDB"),
-    (CX[1] + 221, "tech-postgresql", "PostgreSQL"),
+    (CX[1] + 120, "tech-sqlite", "SQLite"),
+    (CX[1] + 170, "tech-duckdb", "DuckDB"),
+    (CX[1] + 220, "tech-postgresql", "PostgreSQL"),
 ):
     logo(s, mark, x, DBY + 13, 14)
     text(s, x + 17, DBY + 14, 46, 12, label, size=8)
@@ -1568,7 +1568,7 @@ for x1, y1, x2, y2 in (
 # The run sends the query and gets rows back.
 line(s, C2, ROW2, C2, DBY + DBH, color=SLATE, width=1.5, arrow=True, both=True)
 # The one repair, from the run back over step 6 to the model.
-RX1, RX2, RY = CX[1] + W9 - 18, CX[3] + 18, DBY + DBH + 8
+RX1, RX2, RY = CX[1] + W9 - 18, CX[3] + 18, DBY + DBH + 10
 line(s, RX1, ROW2, RX1, RY, color=AMBER, width=1.5, dashed=True)
 line(s, RX1, RY, RX2, RY, color=AMBER, width=1.5, dashed=True)
 line(s, RX2, RY, RX2, ROW2, color=AMBER, width=1.5, arrow=True, dashed=True)
@@ -1582,14 +1582,14 @@ for x, fill, label in (
     (CX[0] + 72, PALE_BLUE, "Model"),
     (CX[0] + 124, PALE_AMBER, "Database"),
 ):
-    shape(s, MSO_SHAPE.RECTANGLE, x, 416, 9, 9, fill=fill, line=RULE)
-    text(s, x + 13, 415, 56, 11, label, size=8, color=GREY)
-line(s, CX[0] + 186, 420.5, CX[0] + 206, 420.5, color=AMBER, width=1.5, dashed=True)
-text(s, CX[0] + 211, 415, 100, 11, "One repair try", size=8, color=GREY)
+    shape(s, MSO_SHAPE.RECTANGLE, x, 424, 9, 9, fill=fill, line=RULE)
+    text(s, x + 13, 423, 56, 11, label, size=8, color=GREY)
+line(s, CX[0] + 186, 428.5, CX[0] + 206, 428.5, color=AMBER, width=1.5, dashed=True)
+text(s, CX[0] + 211, 423, 100, 11, "One repair try", size=8, color=GREY)
 text(
     s,
     43.5,
-    429,
+    437,
     606,
     44,
     [
@@ -1638,7 +1638,7 @@ takeaways(
             [
                 ("It returns text. ", {}),
                 ("The application decides", BB),
-                (" whether that text runs at all.", {}),
+                (" whether that text runs at all. Retrieval, prompts and checks use no model.", {}),
             ],
         ),
         (
@@ -1646,7 +1646,7 @@ takeaways(
             [
                 ("sqlglot checks the query, then the engine runs it read-only. ", {}),
                 ("Neither checks meaning", BB),
-                (".", {}),
+                (", so a valid query can still be wrong.", {}),
             ],
         ),
         (
@@ -1654,7 +1654,7 @@ takeaways(
             [
                 ("The connection string picks the engine, and each passes ", {}),
                 ("the same 15 tests", BB),
-                (".", {}),
+                (". Each engine enforces read-only in its own way.", {}),
             ],
         ),
         (
@@ -1662,7 +1662,7 @@ takeaways(
             [
                 ("The error goes back to the model once, and ", {}),
                 ("nothing skips the checks", BB),
-                (".", {}),
+                (". A failed repair ends the attempt.", {}),
             ],
         ),
     ],
