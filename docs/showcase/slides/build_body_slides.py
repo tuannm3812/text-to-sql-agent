@@ -647,94 +647,84 @@ s = new_slide(
     "How each approach gets meaning into the query, with its main strength and weakness",
     5,
 )
-header = ("Approach", "How it adds meaning", "Strength", "Weakness")
 rows = [
     (
         "snowflake",
         "Snowflake Cortex Analyst",
-        "A semantic model describes business terms the schema lacks.",
-        "Consistent definitions of terms",
-        "The model must be written and kept up to date",
+        [("Semantic model", BB), (" of business terms", {})],
+        ([("Consistent", B), (" terms", {})], [("Central", B), (" definitions", {})]),
+        ([("Model", B), (" built first", {})], [("Upkeep", B), (" as terms change", {})]),
     ),
     (
         "databricks",
         "Databricks Genie Agents",
-        "Experts add descriptions, instructions and example SQL.",
-        "Domain knowledge shapes the answers",
-        "Depends on careful curation by experts",
+        [("Expert notes", BB), (" and example SQL", {})],
+        ([("Domain", B), (" knowledge", {})], [("Example", B), (" SQL guides it", {})]),
+        ([("Curation", B), (" by experts first", {})], [("Upkeep", B), (" by experts", {})]),
     ),
     (
         "wren",
         "WrenAI",
-        "Approved metric definitions are kept in a Git repository.",
-        "Open and reviewable definitions",
-        "Definitions must exist before it helps",
+        [("Approved metrics", BB), (" kept in Git", {})],
+        ([("Reviewable", B), (" definitions", {})], [("Open", B), (" Git history", {})]),
+        ([("Metrics", B), (" defined first", {})], [("Upkeep", B), (" in the repository", {})]),
     ),
     (
         "vanna",
         "Vanna",
-        "Retrieves schema, documents and earlier question and SQL pairs.",
-        "Reuses work already done",
-        "Examples must stay current; repository archived 2026",
+        [("Earlier SQL", BB), (", schema and documents, retrieved", {})],
+        ([("Reuses", B), (" past work", {})], [("Learns", B), (" from examples", {})]),
+        ([("Examples", B), (" collected first", {})], [("Archived", B), (" repository, 2026", {})]),
     ),
     (
         None,
         "Research agents",
-        "Multi-step pipelines tuned to benchmarks such as BIRD.",
-        "Highest published benchmark scores",
-        "Built for benchmarks, not day-to-day use",
+        [("Multi-step pipelines", BB), (" tuned to benchmarks", {})],
+        ([("Top", B), (" benchmark scores", {})], [("Multi-step", B), (" reasoning", {})]),
+        ([("Tuned", B), (" to benchmarks", {})], [("Not", B), (" for daily use", {})]),
     ),
     (
         "project",
         "This project",
-        "Sends schema and bounded value hints for the top tables.",
-        "No setup; SQL visible, run read-only",
-        "No governed definitions; a person must check meaning",
+        [("Schema and bounded hints", BB), (" for the top tables", {})],
+        ([("No setup", B), (" needed", {})], [("SQL visible", B), (", run read-only", {})]),
+        ([("No governed", B), (" definitions", {})], [("A person", B), (" checks meaning", {})]),
     ),
 ]
-TX, TY, HEAD_H, ROW_H = 43.5, 130, 24, 50
-WIDTHS = (146, 190, 135, 135)
-table = s.shapes.add_table(
-    len(rows) + 1, 4, Pt(TX), Pt(TY), Pt(sum(WIDTHS)), Pt(HEAD_H + ROW_H * len(rows))
-).table
-for c, w in enumerate(WIDTHS):
-    table.columns[c].width = Pt(w)
-table.rows[0].height = Pt(HEAD_H)
-for r in range(1, len(rows) + 1):
-    table.rows[r].height = Pt(ROW_H)
-
-
-def cell(r, c, value, fill, **opt):
-    """Fill one table cell."""
-    target = table.cell(r, c)
-    target.fill.solid()
-    target.fill.fore_color.rgb = rgb(fill)
-    target.margin_left = target.margin_right = Pt(6)
-    target.margin_top = target.margin_bottom = Pt(3)
-    target.vertical_anchor = MSO_ANCHOR.MIDDLE
-    write(target.text_frame, [[(value, {"size": opt.get("size", 10), **opt})]])
-
-
-for c, head in enumerate(header):
-    cell(0, c, head, NAVY, bold=True, color=WHITE, size=12)
-for r, (lg, name, how, strength, weakness) in enumerate(rows, start=1):
-    fill = PALE_BLUE if lg == "project" else (CREAM if r % 2 else WHITE)
-    cell(r, 0, name, fill, bold=True)
-    table.cell(r, 0).margin_left = Pt(34)
-    cell(r, 1, how, fill)
-    cell(r, 2, strength, fill)
-    cell(r, 3, weakness, fill)
-    y = TY + HEAD_H + (r - 1) * ROW_H + 14
+TY, ROW_H = 154, 49
+COLS = (43.5, 190, 346, 500)
+for x, head in zip(
+    (COLS[0] + 6, COLS[1], COLS[2], COLS[3]),
+    ("APPROACH", "HOW IT ADDS MEANING", "STRENGTH", "WEAKNESS"),
+    strict=True,
+):
+    text(s, x, 132, 150, 16, [[(head, B)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+line(s, 43.5, 151, 649.5, 151, color=NAVY, width=1.0)
+for r, (lg, name, how, strengths, weaknesses) in enumerate(rows):
+    y = TY + r * ROW_H
+    fill = PALE_BLUE if lg == "project" else (CREAM if r % 2 == 0 else None)
+    if fill:
+        shape(s, MSO_SHAPE.RECTANGLE, 43.5, y, 606, ROW_H - 2, fill=fill)
     if lg == "project":
-        icon(s, "fact_check", "blue", TX + 7, y, 22)
+        icon(s, "fact_check", "blue", 50, y + 12, 22)
     elif lg:
-        logo(s, lg, TX + 7, y, 22)
+        logo(s, lg, 50, y + 12, 22)
     else:
-        icon(s, "science", "blue", TX + 7, y, 22)
-marker(s, 1, 37, 148)
-marker(s, 2, 37, 298)
-marker(s, 3, 37, 398)
-note(s, "strengths and weaknesses are our reading of each approach, not a ranking.", y=460)
+        icon(s, "science", "blue", 50, y + 12, 22)
+    text(s, 78, y + 4, 106, 39, [[(name, B)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, COLS[1], y + 4, 148, 39, [how], size=10, anchor=MSO_ANCHOR.MIDDLE)
+    for x, name_icon, colour, bullets in (
+        (COLS[2], "check_circle", "blue", strengths),
+        (COLS[3], "cancel", "amber", weaknesses),
+    ):
+        for i, runs in enumerate(bullets):
+            by = y + 7 + i * 18
+            icon(s, name_icon, colour, x, by + 1, 11)
+            text(s, x + 15, by - 1, 135, 15, [runs], size=10, anchor=MSO_ANCHOR.MIDDLE)
+marker(s, 1, 28, TY + 18)
+marker(s, 2, 28, TY + 3 * ROW_H + 18)
+marker(s, 3, 28, TY + 5 * ROW_H + 18)
+note(s, "strengths and weaknesses are our reading of each approach, not a ranking.", y=452)
 takeaways(
     s,
     [
