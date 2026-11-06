@@ -8569,3 +8569,6 @@ gap label is back to "69.9 points". Mike declined a Codex review for now. `build
 
 Slide 8 labels now state the bar's message, and the "In the prompt" card is pale blue. Markers on slides 8 to 15 were checked at higher zoom: my earlier
 pass left them low, so all were nudged level with their headings. DESIGN.md now requires that zoom check after every import.
+
+Slide 8 bar corrected: 79 against 11,562 cells mixed units and overstated how little is sent. Now like for like, 79 of 608 distinct text values (13 %), counted
+per text column on `data/retail_analytics.db`, with direct labels. Takeaway 4 now has its marker on the "In the prompt" card.

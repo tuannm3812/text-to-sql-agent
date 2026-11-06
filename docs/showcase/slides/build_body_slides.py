@@ -1236,31 +1236,31 @@ text(
     s,
     43.5,
     130,
-    400,
+    606,
     16,
-    [[("Almost none of the stored data reaches the prompt", {"bold": True, "size": 12})]],
+    [[("79 of the 608 stored text values reach the prompt", {"bold": True, "size": 12})]],
 )
 BARW = 606
-shape(s, MSO_SHAPE.RECTANGLE, 43.5, 152, BARW, 16, fill="E8EAEE")
-shape(s, MSO_SHAPE.RECTANGLE, 43.5, 152, max(BARW * 79 / 11562, 4), 16, fill=AMBER)
+SENT_W = BARW * 79 / 608
+box(s, 43.5, 152, SENT_W, 18, "79 sent", AMBER)
+box(s, 43.5 + SENT_W, 152, BARW - SENT_W, 18, "529 not sent", "E8EAEE", fg=GREY)
 text(
     s,
     43.5,
-    171,
-    300,
+    173,
+    606,
     12,
-    [[("Amber: the 79 stored values sent", {"bold": True, "color": NAVY})]],
+    [
+        [
+            (
+                "Distinct values across the database's 30 text columns, sent as lists "
+                "and never linked to a row.",
+                {},
+            )
+        ]
+    ],
     size=8,
-)
-text(
-    s,
-    349.5,
-    171,
-    300,
-    12,
-    [[("Whole bar: the 11,562 cells stored", {"color": GREY})]],
-    size=8,
-    align=PP_ALIGN.RIGHT,
+    color=GREY,
 )
 PW = 372
 shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, 190, PW, 176, fill=NAVY, radius=0.03)
@@ -1344,10 +1344,11 @@ for x, ic, head, body, fill in (
 marker(s, 1, 37, 184)
 marker(s, 2, 37, 262)
 marker(s, 3, 37, 370)
+marker(s, 4, LX - 6, 184)
 note(
     s,
-    "79 is for this question and varies; values are distinct, and one can fill many cells. "
-    "On the one repair try, the failed query and its error are also sent.",
+    "counted for this question on data/retail_analytics.db; it varies. "
+    "Numeric columns send no values. A repair try also sends the failed query and its error.",
     y=432,
 )
 takeaways(

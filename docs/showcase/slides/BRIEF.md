@@ -168,7 +168,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 |---|---|
 | Database | 11 tables, 1,851 rows, 11,562 cells |
 | Schema text sent | 4,971 characters, 9 tables; 1,419 characters (29 %) are hints |
-| Stored values in the prompt | 79, on 17 hint lines |
+| Stored values in the prompt | 79, on 17 hint lines, of 608 distinct text values (13 %) |
 | Result rows sent | 0 |
 | Text columns | 30, of which 23 are within the 20-value limit |
 | Sent as hints | Includes `gender` and `supplier_name` |
@@ -181,12 +181,12 @@ Also found in the code: the question is sent too; a failed query and its error g
 | Option | Shows | Insight | Verdict |
 |---|---|---|---|
 | A. Real prompt, annotated | The actual text the model gets | Concrete, and matches the slide 7 SQL card | Use as the main visual |
-| B. Proportion bar | 79 values against 11,562 cells | How little is sent | Use, with a note that the two counts differ in kind |
+| B. Proportion bar | 79 of 608 distinct text values | How much is sent, like for like | Use. Comparing with 11,562 cells mixed units and overstated how little is sent |
 | C. Local against hosted | Where the boundary sits | The model choice moves it | Use as the decision strip |
 | D. Limit stress test | What a count limit misses | Hints are real data; emails stay out only by count | Use as the main takeaway |
 | E. Keep the boundary map | Four items crossing a line | Clear but descriptive | Drop |
 
-*Decision:* combine A to D. **Message:** very little stored data reaches the prompt, but what does is real, so the model choice and the hint columns are the two things to check first.
+*Decision:* combine A to D. **Message:** a small share of stored text values reaches the prompt, as lists and never as rows, but what does is real, so the model choice and the hint columns are the two things to check first.
 
 *Boundary:* 79 is for this question on this demo database, and varies by question. It is not a privacy guarantee.
 
