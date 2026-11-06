@@ -207,11 +207,11 @@ Also found in the code: the question is sent too; a failed query and its error g
 
 *Decision, revised by Mike:* a detailed eight-step architecture flow with the tech stack logos, following `docs/2_architecture.md`: Streamlit, schema, retrieval, prompt, model (Ollama or Gemini), sqlglot validation, read-only run on SQLite, DuckDB or PostgreSQL, results. It replaces the five-step journey map (commit `2212672`). **Message:** one step of eight uses a model, behind two separate gates that do not check meaning. Mike then asked to split it by stage: five stage bars (Ask, Prepare, Generate, Check and run, Answer), each with its output, and notes that explain the content rather than ownership. After review the eight steps became equal cards on one template on a four-column grid, top row left to right and bottom row right to left, with the database between Read schema and Run and the legend kept.
 
-**Slide 10. Safety: keep the current content.** Message: validation and engine read-only protection, tested across 3 engines. Keep the 11 of 15 scope note.
+**Slide 10. Safety: "Safety does not rest on the model".** Replaces the two-layer diagram. Keep the 11 of 15 scope note.
 
 *Checked on 6 November:* in the 10 October safety run, 14 of 15 cases ended in the model's own control statement: 6 `BLOCKED_UNSAFE_SQL`, 8 `UNANSWERABLE_WITH_GIVEN_SCHEMA`. The fifteenth was the substitute metric. So no write request reached the two layers, and "6 of 6 refused" measures the model, not the layers shown above it. The layers are tested separately: `test_writes_are_refused_by_the_connection_itself` bypasses the application check and runs writes straight at each engine.
 
-*Proposal, awaiting Mike:* three lines of defence, each with its own evidence: the model declines (6 of 6, a behaviour that can change), the application check (sqlglot tests), the engine (conformance writes, 15 tests per engine). **Message:** safety does not rest on the model, because each later layer holds when the earlier one fails.
+*Decision, approved by Mike (sample B):* a threat matrix of three lines of defence: model (a behaviour measured in one run), application check, engine. Ticks and a legend separate enforced and tested from behaviour, a gap and not this layer's role, and dots count the lines each threat meets. Examples are real safety cases. **Message:** safety does not rest on the model, because each later layer holds when the earlier one fails.
 
 ### 03 Evidence
 

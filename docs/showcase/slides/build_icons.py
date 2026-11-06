@@ -14,7 +14,7 @@ HERE = Path(__file__).resolve().parent
 ICONS = "verified_user target trending_up help construction monitoring flag chat schema code "
 ICONS += "table_rows person fact_check science menu_book query_stats check_circle cancel"
 COLOURS = {"white": "#FFFFFF", "blue": "#0F4BEB", "navy": "#17243B"}
-WEAKNESS = {"amber": "#E6A23C"}  # only the cancel icon needs amber
+WEAKNESS = {"amber": "#E6A23C"}  # only these two icons need amber
 FONT = (
     "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD"
     "@24,400,0,0"
@@ -30,7 +30,9 @@ with sync_playwright() as p:
     browser = p.chromium.launch()
     tab = browser.new_page(viewport={"width": 96, "height": 96}, device_scale_factor=2)
     for icon in ICONS.split():
-        for name, colour in ({**COLOURS, **WEAKNESS} if icon == "cancel" else COLOURS).items():
+        for name, colour in (
+            {**COLOURS, **WEAKNESS} if icon in ("cancel", "check_circle") else COLOURS
+        ).items():
             style = (
                 "font-family:'Material Symbols Rounded';font-size:96px;line-height:96px;"
                 f"display:block;color:{colour}"

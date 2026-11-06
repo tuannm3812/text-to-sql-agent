@@ -8589,3 +8589,5 @@ Slide 9 content checked claim by claim against the code. Corrected: the model ca
 Slide 9 spaced out at Mike's request: the note moved down to y437, horizontal arrows are 28 pt and vertical ones 22 to 28 pt, and each takeaway gained a detail from the code (no model in retrieval or checks, a valid query can still be wrong, read-only per engine, a failed repair ends the attempt). The note ends about y474, inside the y476 limit.
 
 Slide 9: "Note:" now sits on its own line above the four superscripts, and step 3 is labelled Schema RAG because Mike asked where RAG appears.
+
+Slide 10 rebuilt as a threat matrix after checking the safety run: 14 of 15 cases ended in the model's own decline, so "6 of 6 refused" measured the model and not the layers. The engine gap on internals was confirmed by running `SELECT * FROM sqlite_master` through the SQLite engine, and `tests/test_safety.py` (182 passed) covers the application check. Amber `check_circle` was recoloured from the blue icon with the same shape; `build_icons.py` now produces it.

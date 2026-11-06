@@ -1671,96 +1671,182 @@ takeaways(
 # Slide 10: safety
 s = new_slide(
     "SOLUTION  >  SAFETY",
-    "Read-only execution has two layers of protection",
-    "A query must pass the application check and the engine's own restrictions",
+    "Safety does not rest on the model",
+    "Three lines of defence stop different threats, and each is tested on its own",
     10,
 )
-box(s, 43.5, 130, 96, 74, "Generated SQL", CREAM)
-box(s, 171, 130, 150, 74, "1  Application check", NAVY, fg=WHITE, size=12)
-box(s, 353, 130, 150, 74, "2  Engine protection", BLUE, fg=WHITE, size=12)
-box(s, 535, 130, 114.5, 74, "Your database", CREAM)
-for x in (139.5, 321, 503):
-    line(s, x, 167, x + 31, 167, color=SLATE, width=1.5, arrow=True)
+# Threats down the side, layers across, and how many lines each threat meets.
+TW, CW, CG, DW = 140, 132, 6, 42
+X10 = [43.5 + TW + CG + i * (CW + CG) for i in range(3)]
+XD = X10[2] + CW + CG
+text(s, 43.5, 142, TW, 12, [[("THREAT AND EXAMPLE", B)]], size=8, color=GREY)
+for x, (name, sub, fill) in zip(
+    X10,
+    (
+        ("1  MODEL", "Declines the request", BLUE),
+        ("2  APPLICATION", "sqlglot check", NAVY),
+        ("3  ENGINE", "Read-only connection", NAVY),
+    ),
+    strict=True,
+):
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 130, CW, 30, fill=fill, radius=0.12)
+    text(s, x + 7, 134, CW - 14, 11, [[(name, B)]], size=8, color=WHITE)
+    text(s, x + 7, 145, CW - 14, 11, sub, size=8, color=WHITE)
+text(
+    s,
+    XD,
+    136,
+    DW,
+    22,
+    [[("LINES", B)], [("of defence", {})]],
+    size=8,
+    color=GREY,
+    align=PP_ALIGN.CENTER,
+)
+TICK, SOFT, GAP = "check_circle-blue", "check_circle-amber", "cancel-amber"
+ROWS10 = (
+    (
+        "Write or schema change",
+        "Drop the students table",
+        ((SOFT, "Declined 6 of 6"), (TICK, "Blocked"), (TICK, "Denied on 3 engines")),
+    ),
+    (
+        "Reading engine internals",
+        "Show me sqlite_master",
+        ((SOFT, "Declined 3 of 3"), (TICK, "Blocked"), (GAP, "Would run")),
+    ),
+    (
+        "Reading files on disk",
+        "read_csv on a local file",
+        (None, (TICK, "Blocked"), (TICK, "Denied")),
+    ),
+    (
+        "Runaway query",
+        "A cross join on large tables",
+        (None, None, (TICK, "Stopped by work budget")),
+    ),
+    (
+        "Oversized result",
+        "More rows than the cap",
+        (None, None, (TICK, "Cut at 1,000 rows")),
+    ),
+    (
+        "Data the schema lacks",
+        "Each patient's blood type",
+        ((SOFT, "Declined 5 of 6"), None, None),
+    ),
+)
+Y10, H10 = 165, 36
+y = Y10
+for label, example, cells in ROWS10:
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, y, 606, H10, fill=CREAM, radius=0.08)
+    text(s, 51, y + 7, TW - 10, 11, [[(label, B)]], size=8)
+    text(s, 51, y + 19, TW - 10, 11, example, size=8, color=GREY)
+    for x, cell in zip(X10, cells, strict=True):
+        if cell:
+            name, words = cell
+            s.shapes.add_picture(str(ICONS / f"{name}.png"), Pt(x + 7), Pt(y + 12), Pt(12), Pt(12))
+            text(s, x + 23, y + 13, CW - 26, 11, words, size=8)
+        else:
+            line(s, x + 9, y + 18, x + 17, y + 18, color=GREY, width=1.25)
+    depth = sum(1 for c in cells if c and c[0] != GAP)
+    for k in range(3):
+        shape(
+            s,
+            MSO_SHAPE.OVAL,
+            XD + 6 + k * 11,
+            y + 14,
+            8,
+            8,
+            fill=BLUE if k < depth else RULE,
+        )
+    y += H10 + 3
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, y, 606, H10, fill=PALE_AMBER, radius=0.08)
+text(s, 51, y + 7, TW - 10, 11, [[("Valid SQL, wrong meaning", B)]], size=8)
+text(s, 51, y + 19, TW - 10, 11, "Shipping weight became unit cost", size=8, color=GREY)
+icon(s, "person", "navy", X10[0] + 6, y + 11, 14)
+text(
+    s,
+    X10[0] + 23,
+    y + 13,
+    3 * CW,
+    11,
+    "No layer checks this, so the person reads the answer and its SQL",
+    size=8,
+)
+for k in range(3):
+    shape(s, MSO_SHAPE.OVAL, XD + 6 + k * 11, y + 14, 8, 8, fill=RULE)
+marker(s, 1, X10[0] - 6, 124)
+marker(s, 2, X10[2] - 6, Y10 - 6)
+marker(s, 3, XD - 2, Y10 + 5 * (H10 + 3) - 6)
+marker(s, 4, 37.5, y - 6)
+# Legend, then scope.
+LY = y + H10 + 6
+for x, name, label in (
+    (43.5, TICK, "Enforced and tested"),
+    (140, SOFT, "Model behaviour, measured in one run"),
+    (300, GAP, "Not stopped by this layer"),
+):
+    s.shapes.add_picture(str(ICONS / f"{name}.png"), Pt(x), Pt(LY), Pt(10), Pt(10))
+    text(s, x + 13, LY, 150, 11, label, size=8, color=GREY)
+line(s, 420, LY + 5, 428, LY + 5, color=GREY, width=1.25)
+text(s, 433, LY, 210, 11, "Not this layer's role, or not tested", size=8, color=GREY)
 text(
     s,
     43.5,
-    212,
+    LY + 13,
     606,
     12,
     [
         [
+            ("Scope: ", B),
             (
-                "The application check is the same on every engine: one SELECT or WITH, parsed in "
-                "that dialect, internals blocked.",
+                "one model, 15 cases, safety accuracy 73.3 % [53.3, 93.3]. Declining internals as "
+                "unanswerable is safe but not counted as correct.",
                 {},
-            )
-        ]
+            ),
+        ],
     ],
     size=8,
     color=GREY,
 )
-for i, (eng, prot) in enumerate(
-    (
-        ("SQLite", "Read-only URI and an authorizer that denies writes, attach and pragmas"),
-        ("DuckDB", "Opened read-only with external access off"),
-        ("PostgreSQL", "Least-privilege role, read-only transaction, refuses superusers"),
-    )
-):
-    step(s, 43.5 + i * 205, 230, 196, 82, eng, prot)
-Y10 = 322
-step(
-    s,
-    43.5,
-    Y10,
-    146,
-    112,
-    "45 of 45",
-    "conformance tests passed, 15 per engine, none skipped",
-    fill=PALE_BLUE,
-)
-step(
-    s,
-    197,
-    Y10,
-    146,
-    112,
-    "1,870",
-    "tests passed against live PostgreSQL 16 on 4 November",
-    fill=PALE_BLUE,
-)
-step(s, 350.5, Y10, 146, 112, "6 of 6", "data-change requests refused", fill=PALE_AMBER)
-step(s, 504, Y10, 146, 112, "11 of 15", "safety cases handled as expected", fill=PALE_AMBER)
-for x0, n, ok in ((360, 6, 6), (513, 15, 11)):
-    for k in range(n):
-        shape(
-            s,
-            MSO_SHAPE.OVAL,
-            x0 + (k % 8) * 15,
-            Y10 + 74 + (k // 8) * 15,
-            11,
-            11,
-            fill=BLUE if k < ok else RULE,
-        )
-marker(s, 1, 37, 224)
-marker(s, 2, 498, 316)
-note(s, "safety accuracy 73.3 % [53.3, 93.3] on 15 cases.", y=444, prefix="Scope:")
 takeaways(
     s,
     [
         (
-            "Test both layers",
+            "The model is only the first line",
             [
-                ("Each layer is a separate check, and one shared suite runs on ", {}),
-                ("all 3 engines with no skips", BB),
+                ("14 of 15 safety cases ended in its own decline. ", {}),
+                ("That is behaviour", BB),
+                (", and it can change with the model or prompt.", {}),
+            ],
+        ),
+        (
+            "Each layer is tested alone",
+            [
+                ("Writes run straight at each engine, bypassing the application check, and ", {}),
+                ("all 3 engines refuse them", BB),
                 (".", {}),
             ],
         ),
         (
-            "Refusal is measured separately",
+            "Cover differs by threat",
             [
-                ("All 6 write requests were refused. The 4 misses were not writes: ", {}),
-                ("3 internals requests", BB),
-                (" were declined as unanswerable, and one question got a substitute metric.", {}),
+                ("Writes meet all three lines, but ", {}),
+                ("missing data meets only the model", BB),
+                (", which declined 5 of 6.", {}),
+            ],
+        ),
+        (
+            "No layer checks meaning",
+            [
+                (
+                    "Asked for shipping weight, the model returned unit cost, and every "
+                    "check passed. ",
+                    {},
+                ),
+                ("The person is the last check", BB),
+                (".", {}),
             ],
         ),
     ],
