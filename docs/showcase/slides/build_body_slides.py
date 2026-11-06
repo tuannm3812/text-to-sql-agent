@@ -1393,58 +1393,108 @@ takeaways(
 s = new_slide(
     "SOLUTION  >  ARCHITECTURE",
     "The model proposes SQL; the application controls execution",
-    "One question through the default path, by who does each step",
+    "The demo question through the five steps the app shows, with each step's known limit",
     9,
 )
-shape(s, MSO_SHAPE.RECTANGLE, 43.5, 130, 606, 128, fill=CREAM)
-shape(s, MSO_SHAPE.RECTANGLE, 43.5, 266, 606, 128, fill=PALE_BLUE)
-text(s, 53, 137, 200, 12, [[("APPLICATION: DECIDES WHAT RUNS", B)]], size=8, color=GREY)
-text(s, 53, 273, 200, 12, [[("MODEL: ONLY PROPOSES", B)]], size=8, color=GREY)
-W9 = 136
-for x, head, body in (
-    (53, "1  Schema", "One entry per table: keys and hints"),
-    (199, "2  Select", "Top 6 tables plus their neighbours"),
-):
-    step(s, x, 153, W9, 94, head, body, fill=WHITE)
-line(s, 189, 200, 199, 200, color=SLATE, arrow=True)
-for x, head, body in (
-    (365, "4  Check", "Parse, read-only mode, work budget, row cap"),
-    (505, "5  Show", "Rows, chart, SQL and why tables were chosen"),
-):
-    step(s, x, 153, 134 if x == 505 else W9, 94, head, body, fill=WHITE)
-line(s, 501, 200, 505, 200, color=SLATE, arrow=True)
-step(
-    s, 199, 289, 302, 62, "3  Generate", "Question and schema in, one SQL statement out", fill=WHITE
+STEP_W, STEP_GAP = 118, 4
+STEPS = (
+    (
+        "1  Pick tables",
+        "Application",
+        "6 of 11 tables, plus 3 neighbours",
+        [("Can miss a table: ", B), ("128 of 1,222 large-schema questions", {})],
+    ),
+    (
+        "2  Write SQL",
+        "Model",
+        "One query, using 2 of the 9 tables sent",
+        [("Can be wrong: ", B), ("about 1 in 3 Spider answers did not match", {})],
+    ),
+    (
+        "3  Check it",
+        "Application",
+        "Passed: one statement, no internal tables",
+        [("Checks safety, ", B), ("not whether the query means the right thing", {})],
+    ),
+    (
+        "4  Run it",
+        "Database engine",
+        "5 rows on SQLite, in read-only mode",
+        [("Stops early ", B), ("at a work budget or 1,000 rows", {})],
+    ),
+    (
+        "5  Show it",
+        "Application",
+        "Electronics leads with 173,366, SQL beside it",
+        [("Cannot judge meaning: ", B), ("a person still decides", {})],
+    ),
 )
-line(s, 267, 247, 267, 289, color=BLUE, width=2, arrow=True)
-line(s, 433, 289, 433, 247, color=BLUE, width=2, arrow=True)
-text(s, 275, 262, 90, 12, [[("Selected schema", {})]], size=8, color=GREY)
-text(s, 441, 262, 60, 12, [[("Proposed SQL", {})]], size=8, color=GREY)
-card(
+text(s, 43.5, 186, 300, 12, [[("THE DEMO QUESTION", B)]], size=8, color=GREY)
+text(s, 43.5, 270, 300, 12, [[("EACH STEP'S KNOWN LIMIT", B)]], size=8, color=GREY)
+for i, (name, who, demo, limit) in enumerate(STEPS):
+    x = 43.5 + i * (STEP_W + STEP_GAP)
+    model = who == "Model"
+    box(
+        s,
+        x,
+        130,
+        STEP_W,
+        34,
+        name,
+        BLUE if model else NAVY,
+        fg=WHITE,
+        size=12,
+        kind=MSO_SHAPE.PENTAGON,
+    )
+    text(
+        s,
+        x,
+        167,
+        STEP_W - 10,
+        12,
+        [[(who, {"bold": model, "color": BLUE if model else GREY})]],
+        size=8,
+        align=PP_ALIGN.CENTER,
+    )
+    card(s, x, 200, STEP_W, 62, [[(demo, {})]], fill=PALE_BLUE if model else CREAM, size=10)
+    card(s, x, 284, STEP_W, 74, [limit], fill=PALE_AMBER, size=10)
+COL2 = 43.5 + (STEP_W + STEP_GAP) + STEP_W / 2
+COL4 = 43.5 + 3 * (STEP_W + STEP_GAP) + STEP_W / 2
+line(s, COL4, 358, COL4, 376, color=SLATE, width=1.5)
+line(s, COL4, 376, COL2, 376, color=SLATE, width=1.5)
+line(s, COL2, 376, COL2, 358, color=SLATE, width=1.5, arrow=True)
+text(
     s,
-    43.5,
-    402,
-    606,
-    42,
+    COL2 + 6,
+    381,
+    COL4 - COL2 - 6,
+    30,
     [
         [
             ("One repair try: ", B),
-            ("if a safe query fails to run, its error goes back to the model once, ", {}),
-            ("and the repaired SQL is checked again.", {}),
+            (
+                "a failed run sends its error to the model once, and the new SQL is checked again.",
+                {},
+            ),
         ]
     ],
-    fill=PALE_AMBER,
     size=10,
-    anchor=MSO_ANCHOR.MIDDLE,
 )
-marker(s, 1, 37, 124)
-marker(s, 2, 193, 147)
-marker(s, 3, 37, 396)
+marker(s, 1, 43.5 + STEP_W + STEP_GAP - 6, 124)
+marker(s, 2, 37, 194)
+marker(s, 3, 37, 278)
+marker(s, 4, COL2 - 6, 370)
+note(
+    s,
+    "demo values come from the capture on slide 7. Work budget: 100,000 steps on SQLite, "
+    "5,000 ms on DuckDB and PostgreSQL.",
+    y=428,
+)
 takeaways(
     s,
     [
         (
-            "The model never runs anything",
+            "One step of five uses a model",
             [
                 ("It returns text. ", {}),
                 ("The application decides", BB),
@@ -1452,11 +1502,19 @@ takeaways(
             ],
         ),
         (
-            "Selection shapes the prompt",
+            "Every step leaves a trace",
             [
-                ("Tables are ranked by the question, and the interface ", {}),
-                ("records why each was chosen", BB),
+                ("The app shows the tables, SQL and checks, so ", {}),
+                ("each answer can be inspected", BB),
                 (".", {}),
+            ],
+        ),
+        (
+            "Safe is not the same as right",
+            [
+                ("A missed table or a wrong meaning ", {}),
+                ("passes every check", BB),
+                (", so a person still reviews the answer.", {}),
             ],
         ),
         (

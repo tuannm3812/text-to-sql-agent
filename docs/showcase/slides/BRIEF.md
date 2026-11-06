@@ -190,7 +190,22 @@ Also found in the code: the question is sent too; a failed query and its error g
 
 *Boundary:* 79 is for this question on this demo database, and varies by question. It is not a privacy guarantee.
 
-**Slide 9. Architecture: keep the current content.** Message: the model proposes SQL; the application controls execution.
+**Slide 9. Architecture: "The model proposes SQL; the application controls execution"**
+
+*Reader question:* where does control sit, and where can an answer still go wrong? The old diagram named components, left out the Run step, and gave no example or limit.
+
+*Checked on 6 November:* `pipeline.ask_database` runs select, generate, check, execute; a failed run triggers one repair, and the repaired SQL is checked again. The app itself names the steps Picked, Wrote SQL, Checked it and Ran it (`ui/results.py`). Demo capture: 6 of 11 tables plus 3 neighbours, 2 of the 9 used, 5 rows.
+
+*Options considered:*
+
+| Option | Shows | Insight | Verdict |
+|---|---|---|---|
+| A. Swimlanes by owner | Who does what | Control, but no example | Keep the idea as a label per step |
+| B. Demo question traced | Real values at each step | Links slides 7 and 8 | Use |
+| C. Limit per step | Where each step can fail | Links to the evidence section | Use: this is the insight |
+| D. Code module map | Files and functions | For developers only | Drop |
+
+*Decision:* a five-step journey map using the app's own step names, with a demo row and a limit row, and the repair loop drawn back to step 2. **Message:** one step of five uses a model, and safe is not the same as right.
 
 **Slide 10. Safety: keep the current content.** Message: validation and engine read-only protection, tested across 3 engines. Keep the 11 of 15 scope note.
 

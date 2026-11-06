@@ -8572,3 +8572,6 @@ pass left them low, so all were nudged level with their headings. DESIGN.md now 
 
 Slide 8 bar corrected: 79 against 11,562 cells mixed units and overstated how little is sent. Now like for like, 79 of 608 distinct text values (13 %), counted
 per text column on `data/retail_analytics.db`, with direct labels. Takeaway 4 now has its marker on the "In the prompt" card.
+
+Slide 9 rebuilt after a brainstorm in `BRIEF.md`: a five-step journey map using the app's own step names, with a demo row, a limit row and the repair loop. The old diagram
+had no Run step. Demo values come from the 6 November capture; limits from `config.py`, the README and the retrieval results.
