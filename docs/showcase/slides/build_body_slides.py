@@ -647,15 +647,8 @@ s = new_slide(
     "Two routes to meaning, compared on the same criteria",
     5,
 )
-HEAD = (
-    "APPROACH",
-    "MEANING FROM",
-    "NEEDED FIRST",
-    "KEEPING IT WORKING",
-    "BEST FOR",
-    "MAIN RISK",
-)
-WIDTHS = (118, 100, 90, 100, 98, 100)
+HEAD = ("APPROACH", "SOURCE", "SETUP", "UPKEEP", "BEST FOR", "RISK")
+WIDTHS = (118, 100, 96, 96, 98, 98)
 BANDS = (
     ("PEOPLE DEFINE THE MEANING", 1),
     ("SYSTEMS WORK IT OUT", 2),
@@ -667,60 +660,60 @@ rows = [
         "snowflake",
         "Snowflake Cortex Analyst",
         "Semantic model",
-        "Model written",
-        "Update as terms change",
+        (3, "Write model"),
+        (2, "Update terms"),
         "Agreed metrics",
-        "Model falls out of date",
+        "Stale model",
     ),
     (
         0,
         "databricks",
         "Databricks Genie Agents",
         "Expert notes, example SQL",
-        "Expert curation",
-        "Experts keep refining",
+        (3, "Curate content"),
+        (2, "Refine notes"),
         "Domain teams",
-        "Depends on the curator",
+        "Curator-dependent",
     ),
     (
         0,
         "wren",
         "WrenAI",
         "Metrics in Git",
-        "Metrics defined",
-        "Reviewed like code",
-        "Open, reviewable definitions",
-        "Metrics not yet defined",
+        (2, "Define metrics"),
+        (2, "Review changes"),
+        "Open review",
+        "Missing metrics",
     ),
     (
         1,
         "vanna",
         "Vanna",
-        "Earlier SQL, documents",
-        "Examples collected",
-        "Examples kept current",
+        "Past SQL, documents",
+        (2, "Collect examples"),
+        (2, "Refresh examples"),
         "Repeated questions",
-        "Repeats old logic; archived",
+        "Old logic, archived",
     ),
     (
         1,
         None,
         "Research agents",
         "Multi-step pipelines",
-        "Benchmark tuning",
-        "Retuned per benchmark",
+        (3, "Tune pipeline"),
+        (3, "Retune per test"),
         "Top scores",
-        "May not carry to your data",
+        "Benchmark fit",
     ),
     (
         2,
         "project",
         "This project",
         "Schema, bounded hints",
-        "Nothing to write",
-        "Nothing to maintain",
-        "First look at a database",
-        "Meaning stays with a person",
+        (0, "None"),
+        (0, "None"),
+        "First look",
+        "Person checks meaning",
     ),
 ]
 TX, TY, HEAD_H, BAND_H, ROW_H = 43.5, 130, 18, 16, 40
@@ -763,9 +756,31 @@ for group, lg, name, *values in rows:
     fill = PALE_BLUE if lg == "project" else WHITE
     cell(r, 0, name, fill, bold=True)
     table.cell(r, 0).margin_left = Pt(30)
-    for c, value in enumerate(values, start=1):
-        strong = lg == "project" and c in (2, 3, 5)
-        cell(r, c, value, fill, **({"bold": True, "color": BLUE} if strong else {}))
+    source, setup, upkeep, best, risk = values
+    project = lg == "project"
+    cell(r, 1, source, fill)
+    for c, (level, label) in ((2, setup), (3, upkeep)):
+        target = table.cell(r, c)
+        target.fill.solid()
+        target.fill.fore_color.rgb = rgb(fill)
+        target.margin_left = target.margin_right = Pt(5)
+        target.margin_top = target.margin_bottom = Pt(2)
+        target.vertical_anchor = MSO_ANCHOR.MIDDLE
+        write(
+            target.text_frame,
+            [
+                [
+                    ("●" * level, {"size": 8, "color": BLUE}),
+                    ("●" * (3 - level), {"size": 8, "color": RULE}),
+                ],
+                [(label, {"size": 8, **(BB if project else {})})],
+            ],
+        )
+    cell(r, 4, best, fill)
+    cell(r, 5, risk, fill, **(BB if project else {}))
+    for c, name_icon, colour in ((4, "check_circle", "blue"), (5, "cancel", "amber")):
+        table.cell(r, c).margin_left = Pt(19)
+        icon(s, name_icon, colour, TX + sum(WIDTHS[:c]) + 5, y + ROW_H / 2 - 5, 10)
     if lg == "project":
         icon(s, "fact_check", "blue", TX + 6, y + 11, 19)
     elif lg:
@@ -775,7 +790,12 @@ for group, lg, name, *values in rows:
     line(s, TX, y + ROW_H, TX + sum(WIDTHS), y + ROW_H, color=RULE, width=0.5)
     r, y = r + 1, y + ROW_H
 line(s, TX, TY + HEAD_H, TX + sum(WIDTHS), TY + HEAD_H, color=NAVY, width=1.0)
-note(s, "entries are our reading of public documentation, not a ranking.", y=448)
+note(
+    s,
+    "more blue dots mean more effort. Entries are our reading of public documentation, "
+    "not a ranking.",
+    y=448,
+)
 takeaways(
     s,
     [
