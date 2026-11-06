@@ -82,7 +82,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 **Slide 1. Cover**
 - **Message:** the name and the promise, nothing else.
 - **Content:** "Ask your data. Inspect the answer." and "An inspectable text-to-SQL agent for read-only analytics." Illustration only, no text on it.
-- **Content pass:** show 36121 as origin only (Decision 1) and remove the photo credit from the notes.
+- **Cover label:** keep 36121 and the full subject name.
 
 **Slide 2. Executive summary: "Inspectable SQL, with measured limits"**
 - **Question:** if I read one slide, what should I know?
@@ -191,7 +191,7 @@ Each brief gives the reader question, the main message, what goes on the slide, 
 
 Mike's picks, 6 November 2026:
 
-1. **Audience:** portfolio deck, with 36121 shown only as its origin. Cover wording changes in the content pass.
+1. **Audience:** portfolio deck. The cover keeps the full subject name (Mike, 6 November).
 2. **Slide 5:** one neutral table.
 3. **Slide 17 card:** removed.
 4. **Cover image:** a custom wordless illustration replaced the photo on slide 1, with a smaller version on slide 17 (`build_cover_art.py`). No credit needed.
