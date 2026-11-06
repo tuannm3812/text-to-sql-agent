@@ -8601,3 +8601,5 @@ Review of slides 11, 12 and 18. Slide 12's difficulty panels now define each lev
 Slide 11's panel now labels the zero line "0 no change", has axis ticks and says how to read it, after Mike asked what the axis zero meant.
 
 Bug check on slides 11 and 12. Slide 12's two difficulty panels used different bar scales, so 43.1 % looked longer than 84.3 %; both now use one scale. Value labels no longer sit on the grid lines. On slide 11 "real gain" became "measurable gain", grid lines became ticks so they do not cross the labels, and the subtitle says "every comparison paired".
+
+Slide 13 rebuilt after Mike's review: one colour per schema option (top 6 blue, every table + hints amber, no hints slate), value labels inside long bars, icons, a labelled interval chart, stat cards, and a new split showing 5.4 % against 18.0 % when a needed table is dropped. The note reconciles this slide's 167 with slide 15's 128. Added a `timer` icon. During the import a paste put base64 text on the slide because something else on the Mac had replaced the clipboard; undone at once and pasted again.

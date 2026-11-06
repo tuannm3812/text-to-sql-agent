@@ -224,7 +224,9 @@ Also found in the code: the question is sent too; a failed query and its error g
 - **Change:** add the demo suite beside the three bars: 33.3 % [8.3, 58.3], 4 of 12. This is the suite built on the demo's databases, so leaving it out would flatter the demo.
 - **Note:** runs of 10 October 2026. Project scorer, so not comparable with leaderboards. The re-runs after the hint label (64.0, 35.7 and 25.4) were not a measurable change; keep them in the notes.
 
-**Slide 13. Large schemas: keep the current content.** Add to the notes that 29.1 % is the 19 October arm behind the +3.6, and that the kept scorer has since scored 30.0 %.
+**Slide 13. Large schemas, rebuilt 7 November:** one colour per way of sending the schema, three measures side by side, a labelled by-database interval chart, a split showing selection wins until it drops a table, and three stat cards with icons.
+
+*Earlier plan:* keep the current content. Add to the notes that 29.1 % is the 19 October arm behind the +3.6, and that the kept scorer has since scored 30.0 %.
 
 **Slide 14. What was tried: keep the current content.** Message: later trials found tradeoffs, not a further accuracy gain.
 

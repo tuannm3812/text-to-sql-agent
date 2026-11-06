@@ -2156,67 +2156,161 @@ s = new_slide(
     "1,222 BIRD train questions on 4 databases of 21 to 65 tables; 19 October 2026",
     13,
 )
-text(s, 43.5, 130, 300, 16, [[("Answers matched, whole suite", {"bold": True, "size": 12})]])
-for i, (name, v, col) in enumerate(
+# One colour per way of sending the schema, used across the slide.
+TOP6, HINTS, PLAIN = BLUE, AMBER, SLATE
+
+
+def bar13(x, y, w, h, label, fill):
+    """A bar with its value inside when it fits, and beside it when it does not."""
+    shape(s, MSO_SHAPE.RECTANGLE, x, y, w, h, fill=fill)
+    if w >= 30:
+        ink = NAVY if fill == AMBER else WHITE
+        text(
+            s, x + 5, y + (h - 11) / 2, w - 8, 11, [[(label, {"bold": True, "color": ink})]], size=8
+        )
+    else:
+        text(s, x + w + 4, y + (h - 11) / 2, 40, 11, [[(label, B)]], size=8)
+
+
+COLS13 = (
+    (178, "fact_check", "Answers matched", 130 / 30),
+    (338, "chat", "Prompt tokens", 130 / 8501),
+    (498, "timer", "Time per question", 130 / 6),
+)
+text(s, 43.5, 133, 130, 12, [[("Schema sent", B)]], size=8, color=GREY)
+for x, ic, head, _ in COLS13:
+    icon(s, ic, "navy", x, 130, 14)
+    text(s, x + 18, 132, 130, 12, [[(head, B)]], size=8)
+for i, (name, acc, tok, sec, col) in enumerate(
     (
-        ("Every table + hints", 25.5, SLATE),
-        ("Every table, no hints", 26.8, SLATE),
-        ("Top 6 + neighbours", 29.1, BLUE),
+        ("Every table + hints", 25.5, 8501, 4.0, HINTS),
+        ("Every table, no hints", 26.8, 6221, 4.2, PLAIN),
+        ("Top 6 + neighbours", 29.1, 2670, 6.0, TOP6),
     )
 ):
-    bar_row(s, name, f"{v} %", v * 5.2, col, 154 + i * 26, label_w=110, h=18)
-text(s, 349.5 + 0, 130, 300, 16, [[("Gain from top 6, by database", {"bold": True, "size": 12})]])
-D0, DW = 470, 170
-pd = lambda v: D0 + (v + 8) / 20 * DW  # noqa: E731
-line(s, pd(0), 150, pd(0), 262, color=SLATE, width=0.75)
-for i, (name, v, lo, hi, sig) in enumerate(
-    (
-        ("65 tables", 5.6, 1.7, 9.5, True),
-        ("34 tables", 6.1, 2.0, 10.6, True),
-        ("22 tables", -2.4, -6.8, 1.9, False),
-        ("21 tables", 1.9, -3.1, 7.0, False),
-    )
-):
-    y = 156 + i * 26
-    col = BLUE if sig else SLATE
-    text(s, 349.5, y, 112, 16, [[(name, {"bold": sig})]], size=10, anchor=MSO_ANCHOR.MIDDLE)
-    line(s, pd(lo), y + 8, pd(hi), y + 8, color=col, width=2.5)
-    shape(s, MSO_SHAPE.OVAL, pd(v) - 5, y + 3, 10, 10, fill=col)
+    y = 148 + i * 21
+    text(s, 43.5, y + 2, 130, 13, [[(name, {"bold": col == TOP6})]], size=10)
+    for (x, _, _, k), v, label in zip(
+        COLS13, (acc, tok, sec), (f"{acc} %", f"{tok:,}", f"{sec} s"), strict=True
+    ):
+        bar13(x, y, v * k, 16, label, col)
+# Left: the gain by database, on a labelled axis.
+PANEL13 = 216
+PH13 = 170
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, PANEL13, 300, PH13, fill=CREAM, radius=0.04)
+icon(s, "query_stats", "blue", 52, PANEL13 + 7, 22)
+text(s, 80, PANEL13 + 7, 258, 13, [[("Gain from top 6, by database", B)]], size=10)
 text(
     s,
-    349.5,
-    264,
-    300,
+    80,
+    PANEL13 + 19,
+    258,
     11,
-    [[("Points against every table + hints, paired 95 % interval", {})]],
+    "Against every table + hints, paired 95 % interval",
     size=8,
     color=GREY,
 )
-for x, value, body, fill, w in (
-    (43.5, "+3.6 points", "[+1.4, +5.8], paired, against every table + hints", PALE_BLUE, 196),
-    (248.5, "69 % fewer", "prompt tokens than every table + hints", PALE_AMBER, 196),
+D0, DW = 150, 180
+pd = lambda v: D0 + (v + 8) / 20 * DW  # noqa: E731
+YD = PANEL13 + 36
+line(s, pd(0), YD, pd(0), YD + 100, color=NAVY, width=1.25)
+for v in (-5, 5, 10):
+    line(s, pd(v), YD + 100, pd(v), YD + 104, color=GREY, width=0.75)
+    lab = f"+{v}" if v > 0 else f"\u2212{-v}"
+    text(s, pd(v) - 15, YD + 105, 30, 11, lab, size=8, color=GREY, align=PP_ALIGN.CENTER)
+text(s, pd(0) - 30, YD + 105, 60, 11, [[("0 no change", B)]], size=8, align=PP_ALIGN.CENTER)
+for i, (name, n, v, lo, hi, sig) in enumerate(
+    (
+        ("65 tables", 464, 5.6, 1.7, 9.5, True),
+        ("34 tables", 293, 6.1, 2.0, 10.6, True),
+        ("22 tables", 207, -2.4, -6.8, 1.9, False),
+        ("21 tables", 258, 1.9, -3.1, 7.0, False),
+    )
+):
+    y = YD + 2 + i * 25
+    col = BLUE if sig else AMBER
+    text(s, 53, y - 2, 95, 12, [[(name, {"bold": True})]], size=8)
+    text(s, 53, y + 8, 95, 11, f"{n} questions", size=8, color=GREY)
+    line(s, pd(lo), y + 8, pd(hi), y + 8, color=col, width=2.5)
+    shape(s, MSO_SHAPE.OVAL, pd(v) - 4, y + 4, 8, 8, fill=col)
+for x, fill, label in ((53, BLUE, "Measurable"), (112, AMBER, "Not measurable")):
+    shape(s, MSO_SHAPE.OVAL, x, PANEL13 + PH13 - 15, 8, 8, fill=fill)
+    text(s, x + 11, PANEL13 + PH13 - 16, 70, 11, label, size=8, color=GREY)
+# Right: where selection wins and where it loses.
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 349.5, PANEL13, 300, PH13, fill=CREAM, radius=0.04)
+icon(s, "schema", "blue", 358, PANEL13 + 7, 22)
+text(s, 386, PANEL13 + 7, 258, 13, [[("Selection wins until it drops a table", B)]], size=10)
+text(
+    s,
+    386,
+    PANEL13 + 19,
+    258,
+    11,
+    "Answers matched, by whether every needed table was sent",
+    size=8,
+    color=GREY,
+)
+for k, (name, head, sub, top, every) in enumerate(
+    (
+        ("check_circle-blue", "Every table sent", "1,055 questions", 32.9, 26.7),
+        ("cancel-amber", "A table dropped", "167 questions", 5.4, 18.0),
+    )
+):
+    y = PANEL13 + 42 + k * 52
+    s.shapes.add_picture(str(ICONS / f"{name}.png"), Pt(359), Pt(y + 5), Pt(14), Pt(14))
+    text(s, 377, y + 3, 100, 12, [[(head, B)]], size=8)
+    text(s, 377, y + 15, 100, 11, sub, size=8, color=GREY)
+    bar13(478, y, top * 4.6, 16, f"{top} %", TOP6)
+    bar13(478, y + 19, every * 4.6, 16, f"{every} %", HINTS)
+for x, fill, label in ((359, TOP6, "Top 6 + neighbours"), (462, HINTS, "Every table + hints")):
+    shape(s, MSO_SHAPE.RECTANGLE, x, PANEL13 + PH13 - 15, 9, 9, fill=fill)
+    text(s, x + 13, PANEL13 + PH13 - 16, 100, 11, label, size=8, color=GREY)
+# The three headline trade-offs.
+for x, ic, value, body, fill in (
+    (
+        43.5,
+        "trending_up",
+        "+3.6 points",
+        "[+1.4, +5.8], paired, against every table + hints",
+        PALE_BLUE,
+    ),
+    (248.5, "chat", "69 % fewer tokens", "2,670 against 8,501 per prompt", PALE_AMBER),
     (
         453.5,
-        "About 2 s slower",
-        "per question: the local model cannot reuse its cache",
+        "timer",
+        "2.0 s slower",
+        "[+1.8, +2.2]; the local model cannot reuse its cache",
         "E8EAEE",
-        196,
     ),
 ):
-    card(
-        s,
-        x,
-        292,
-        w,
-        92,
-        [[(value, {"bold": True, "size": 16})], [(body, {"size": 10})]],
-        fill=fill,
-        after=2,
-    )
-marker(s, 1, 335, 132)
-marker(s, 2, 28, 157)
-marker(s, 3, 447, 286)
-note(s, "top 6 scored 30.0 % with the later scorer; this comparison used the 29.1 % run.", y=394)
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 392, 196, 44, fill=fill, radius=0.1)
+    icon(s, ic, "navy", x + 8, 403, 22)
+    text(s, x + 37, 397, 155, 14, [[(value, {"bold": True, "size": 12})]], size=12)
+    text(s, x + 37, 411, 155, 22, body, size=8)
+marker(s, 1, 37.5, PANEL13 - 6)
+marker(s, 2, 29, 148 + 2)
+marker(s, 3, 447.5, 386)
+marker(s, 4, 343.5, PANEL13 - 6)
+text(
+    s,
+    43.5,
+    442,
+    606,
+    24,
+    [
+        [
+            ("Note: ", B),
+            (
+                "against every table without hints, top 6 is borderline: +2.3 [+0.0, +4.6]. The "
+                "split is observed, not causal. The later scorer reached 30.0 % and cut the 167 "
+                "dropped-table questions to 128 (slide 15).",
+                {},
+            ),
+        ],
+    ],
+    size=8,
+    color=GREY,
+)
 takeaways(
     s,
     [
@@ -2243,9 +2337,17 @@ takeaways(
         (
             "Fewer tokens did not mean faster",
             [
-                ("Selection ", {}),
-                ("stays the default", BB),
-                (" for its accuracy, at a cost in speed.", {}),
+                ("A prompt that changes per question ", {}),
+                ("cannot reuse the local cache", BB),
+                (", so top 6 takes 2 s longer.", {}),
+            ],
+        ),
+        (
+            "A dropped table is costly",
+            [
+                ("167 questions lost a needed table and scored ", {}),
+                ("5.4 %", BB),
+                (". Selection stays the default.", {}),
             ],
         ),
     ],
