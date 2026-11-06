@@ -209,6 +209,10 @@ Also found in the code: the question is sent too; a failed query and its error g
 
 **Slide 10. Safety: keep the current content.** Message: validation and engine read-only protection, tested across 3 engines. Keep the 11 of 15 scope note.
 
+*Checked on 6 November:* in the 10 October safety run, 14 of 15 cases ended in the model's own control statement: 6 `BLOCKED_UNSAFE_SQL`, 8 `UNANSWERABLE_WITH_GIVEN_SCHEMA`. The fifteenth was the substitute metric. So no write request reached the two layers, and "6 of 6 refused" measures the model, not the layers shown above it. The layers are tested separately: `test_writes_are_refused_by_the_connection_itself` bypasses the application check and runs writes straight at each engine.
+
+*Proposal, awaiting Mike:* three lines of defence, each with its own evidence: the model declines (6 of 6, a behaviour that can change), the application check (sqlglot tests), the engine (conformance writes, 15 tests per engine). **Message:** safety does not rest on the model, because each later layer holds when the earlier one fails.
+
 ### 03 Evidence
 
 **Slide 11. Method: keep the current content.** Message: recorded runs and paired tests make changes assessable.
