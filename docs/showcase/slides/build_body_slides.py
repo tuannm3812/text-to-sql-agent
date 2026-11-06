@@ -971,7 +971,7 @@ line(s, MX - 4, MY + MH + 4, MX - 4, MY, color=NAVY, width=1.25, arrow=True)
 line(s, MX - 4, MY + MH + 4, MX + MW, MY + MH + 4, color=NAVY, width=1.25, arrow=True)
 axis = text(
     s,
-    -55,
+    -67,
     302,
     230,
     12,
@@ -1026,8 +1026,8 @@ marker(s, 3, 44, 228)
 marker(s, 4, MX + HALF_W + 5, MY + 5)
 note(
     s,
-    "product positions follow the Setup ratings on slide 5; everything else is our "
-    "qualitative reading. BIRD systems are left out because their setup is not listed.",
+    "Product positions reflect the Setup ratings on slide 5; other placements are our "
+    "qualitative assessment. BIRD systems are excluded: setup not published.",
     x=66,
     y=457,
     w=584,
