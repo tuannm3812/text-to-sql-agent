@@ -123,7 +123,7 @@ def logo(s, name, x, y, size=26):
     return s.shapes.add_picture(str(LOGOS / f"{name}.png"), Pt(x), Pt(y), Pt(size), Pt(size))
 
 
-def line(s, x1, y1, x2, y2, color=RULE, width=1.0, arrow=False, dashed=False):
+def line(s, x1, y1, x2, y2, color=RULE, width=1.0, arrow=False, dashed=False, both=False):
     """A flat native connector."""
     c = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Pt(x1), Pt(y1), Pt(x2), Pt(y2))
     c.line.color.rgb = rgb(color)
@@ -135,7 +135,10 @@ def line(s, x1, y1, x2, y2, color=RULE, width=1.0, arrow=False, dashed=False):
         c._element.remove(style)
     if arrow:
         ln = c.line._get_or_add_ln()
-        ln.append(ln.makeelement(qn("a:tailEnd"), {"type": "triangle", "w": "med", "len": "med"}))
+        head = {"type": "triangle", "w": "med", "len": "med"}
+        if both:
+            ln.append(ln.makeelement(qn("a:headEnd"), head))
+        ln.append(ln.makeelement(qn("a:tailEnd"), head))
 
 
 def marker(s, n, x, y):
@@ -1445,7 +1448,7 @@ def step9(n, x, y, name, body, module, marks=("tech-python",), fill=CREAM, badge
 stage9(CX[0], BAR1, W9, "ASK", "Output: question")
 stage9(CX[1], BAR1, 3 * W9 + 2 * G9, "PREPARE", "Output: prompt")
 stage9(CX[3], BAR2, W9, "GENERATE", "Output: SQL text", fill=BLUE)
-stage9(CX[1], BAR2, 2 * W9 + G9, "CHECK AND RUN", "Output: rows or refusal")
+stage9(CX[1], BAR2, 2 * W9 + G9, "CHECK AND RUN", "Output: rows, refusal or error")
 stage9(CX[0], BAR2, W9, "ANSWER", "Output: answer")
 step9(
     1,
@@ -1478,7 +1481,11 @@ step9(
     CX[3],
     ROW2,
     "Generate",
-    [("One SQL statement from Gemini, hosted, or Ollama, local. It never sees result rows", {})],
+    [
+        ("Gemini or Ollama", {}),
+        ("3", {"sup": True}),
+        (" writes one SQL statement or declines. It never sees result rows", {}),
+    ],
     "llm.py",
     marks=("tech-langchain", "tech-googlegemini", "tech-ollama"),
     fill=PALE_BLUE,
@@ -1500,8 +1507,8 @@ step9(
     "Run",
     [
         ("Read-only connection, work budget and row cap", {}),
-        ("3", {"sup": True}),
-        (". A failed run gets one repair", {}),
+        ("4", {"sup": True}),
+        (". A query error gets one repair", {}),
     ],
     "execution.py",
 )
@@ -1510,7 +1517,7 @@ step9(
     CX[0],
     ROW2,
     "Show",
-    [("Table, chart, SQL and why tables were chosen, so the person can inspect the answer", {})],
+    [("Answer, table, a chart when it fits, the SQL and why those tables were chosen", {})],
     "ui/results.py",
     marks=("tech-pandas", "tech-streamlit"),
 )
@@ -1556,9 +1563,10 @@ for x1, y1, x2, y2 in (
     (CX[2], MID2, CX[1] + W9, MID2),
     (CX[1], MID2, CX[0] + W9, MID2),
     (C2, DBY, C2, ROW1 + H9),
-    (C2, ROW2, C2, DBY + DBH),
 ):
     line(s, x1, y1, x2, y2, color=SLATE, width=1.5, arrow=True)
+# The run sends the query and gets rows back.
+line(s, C2, ROW2, C2, DBY + DBH, color=SLATE, width=1.5, arrow=True, both=True)
 # The one repair, from the run back over step 6 to the model.
 RX1, RX2, RY = CX[1] + W9 - 18, CX[3] + 18, DBY + DBH + 8
 line(s, RX1, ROW2, RX1, RY, color=AMBER, width=1.5, dashed=True)
@@ -1581,9 +1589,9 @@ text(s, CX[0] + 211, 415, 100, 11, "One repair try", size=8, color=GREY)
 text(
     s,
     43.5,
-    431,
+    429,
     606,
-    36,
+    44,
     [
         [
             ("Note: ", B),
@@ -1605,8 +1613,16 @@ text(
         [
             ("3", {"sup": True}),
             (
+                " Gemini is hosted; Ollama runs locally through LangChain. The model declines "
+                "a request that would change data or that the schema cannot answer.",
+                {},
+            ),
+        ],
+        [
+            ("4", {"sup": True}),
+            (
                 " Work budget: 100,000 VM steps on SQLite, 5,000 ms on DuckDB and PostgreSQL. "
-                "Row cap: 1,000 rows.",
+                "Row cap: 1,000 rows. A query stopped by the budget is not repaired.",
                 {},
             ),
         ],
@@ -1642,9 +1658,9 @@ takeaways(
             ],
         ),
         (
-            "A failure gets one retry",
+            "A query error gets one retry",
             [
-                ("A failed run sends its error to the model once, and ", {}),
+                ("The error goes back to the model once, and ", {}),
                 ("nothing skips the checks", BB),
                 (".", {}),
             ],
