@@ -48,28 +48,34 @@ R = L + W
 
 
 def text(x, y, w, h, paras, **kw):
+    """A text box on the poster."""
     return d.text(s, x, y, w, h, paras, **kw)
 
 
 def shape(kind, x, y, w, h, **kw):
+    """A shape on the poster."""
     return d.shape(s, kind, x, y, w, h, **kw)
 
 
 def rect(x, y, w, h, fill):
+    """A flat rectangle."""
     return shape(MSO_SHAPE.RECTANGLE, x, y, w, h, fill=fill)
 
 
 def panel(x, y, w, h, fill=CREAM):
+    """A rounded panel."""
     return shape(
         MSO_SHAPE.ROUNDED_RECTANGLE, x, y, w, h, fill=fill, radius=min(0.05, 7 / min(w, h))
     )
 
 
 def line(x1, y1, x2, y2, **kw):
+    """A line on the poster."""
     return d.line(s, x1, y1, x2, y2, **kw)
 
 
 def pic(name, x, y, size):
+    """An icon or a technology logo."""
     folder = LOGOS if name.startswith("tech-") else ICONS
     return s.shapes.add_picture(str(folder / f"{name}.png"), Pt(x), Pt(y), Pt(size), Pt(size))
 
