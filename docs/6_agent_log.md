@@ -8595,3 +8595,5 @@ Slide 10 rebuilt as a threat matrix after checking the safety run: 14 of 15 case
 While aligning slide 10, keyboard nudges with nothing selected moved through the deck instead, and one press landed on slide 8's first marker; that was put back and checked. Always confirm the marker is selected before pressing arrow keys.
 
 Slide 11 rebuilt: suites state their question and a panel teaches reading a paired change. New backup slide 18 shows schema RAG on the demo question with real scores from `rag.rank_schema_chunks`; it was made by duplicating slide 11 for its header. The deck now has 18 slides.
+
+Review of slides 11, 12 and 18. Slide 12's difficulty panels now define each level, show question counts, and pair BIRD with and without evidence. Slide 11 drops "EX" and the layout jargon. Slide 18 labels the bars as a relevance score and no longer says no row data is searched, because value hints are stored values; it now says full rows are never searched.

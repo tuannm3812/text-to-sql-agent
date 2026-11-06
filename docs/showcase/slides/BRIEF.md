@@ -220,6 +220,7 @@ Also found in the code: the question is sent too; a failed query and its error g
 **Slide 18. Backup: "Schema RAG ranks every table against the question".** After Thank you, for questions on step 3 of slide 9. Real scores for the demo question from `rag.rank_schema_chunks`: 11 tables scored, top 6 kept, 3 neighbours added, 2 used. It is built with `ONLY=17` because the bodies stop at deck slide 16.
 
 **Slide 12. Benchmarks: "The local model scored 64.6 % on Spider and 35.2 % on BIRD with evidence"**
+- **Mike's review, 6 November:** the difficulty panels were unclear, so each Spider level now says what it means, BIRD shows evidence on and off with an example hint, and the note defines "matched".
 - **Change:** add the demo suite beside the three bars: 33.3 % [8.3, 58.3], 4 of 12. This is the suite built on the demo's databases, so leaving it out would flatter the demo.
 - **Note:** runs of 10 October 2026. Project scorer, so not comparable with leaderboards. The re-runs after the hint label (64.0, 35.7 and 25.4) were not a measurable change; keep them in the notes.
 

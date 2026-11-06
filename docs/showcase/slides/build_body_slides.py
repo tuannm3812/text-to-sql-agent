@@ -1914,7 +1914,9 @@ def px11(v):
 
 line(s, px11(0), PY0 + 10, px11(0), PY0 + PH - 16, color=NAVY, width=1.25)
 text(s, px11(0) - 20, PY0 + PH - 14, 40, 11, "0", size=8, color=GREY, align=PP_ALIGN.CENTER)
-text(s, AX1 - 60, PY0 + PH - 14, 60, 11, "points of EX", size=8, color=GREY, align=PP_ALIGN.RIGHT)
+text(
+    s, AX1 - 60, PY0 + PH - 14, 60, 11, "accuracy points", size=8, color=GREY, align=PP_ALIGN.RIGHT
+)
 for y, head, sub, mid, lo, hi, col, tag in (
     (
         PY0 + 26,
@@ -1928,7 +1930,7 @@ for y, head, sub, mid, lo, hi, col, tag in (
     ),
     (
         PY0 + 56,
-        "Summary layout against shared layout",
+        "One prompt layout against another",
         "Large schemas, 1,222 questions",
         0.2,
         -1.5,
@@ -2018,31 +2020,76 @@ for i, (name, sub, v, lo, hi, col) in enumerate(
     line(s, px(lo), y + 8, px(hi), y + 8, color=col, width=2.5)
     shape(s, MSO_SHAPE.OVAL, px(v) - 5, y + 3, 10, 10, fill=col)
     text(s, px(hi) + 6, y + 1, 40, 14, [[(f"{v} %", B)]], size=10)
-for x, title, rows, col in (
+text(s, 43.5, 270, 140, 11, "Dot: score. Line: 95 % interval.", size=8, color=GREY)
+# Spider: what each level means, and how it scored.
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 43.5, 290, 300, 136, fill=CREAM, radius=0.04)
+text(s, 53, 296, 280, 13, [[("Spider by difficulty", B)]], size=10)
+text(
+    s,
+    53,
+    309,
+    280,
+    11,
+    "Levels follow Spider's own rule: how many SQL parts a query needs",
+    size=8,
+    color=GREY,
+)
+for k, (lab, n, means, v) in enumerate(
     (
-        43.5,
-        "Spider by difficulty",
-        (("Easy", 84.3), ("Medium", 65.9), ("Hard", 58.6), ("Extra", 38.0)),
-        BLUE,
-    ),
-    (
-        349.5,
-        "BIRD with evidence by difficulty",
-        (("Simple", 43.1), ("Moderate", 29.1), ("Challenging", 17.3)),
-        SLATE,
-    ),
+        ("Easy", 248, "One table, a count or a maximum", 84.3),
+        ("Medium", 446, "A join, or grouping", 65.9),
+        ("Hard", 174, "A subquery or EXCEPT", 58.6),
+        ("Extra", 166, "Joins with grouping and ordering", 38.0),
+    )
 ):
-    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, 292, 300, 132, fill=CREAM, radius=0.04)
-    text(s, x + 12, 300, 276, 16, [[(title, B)]], size=12)
-    for k, (lab, v) in enumerate(rows):
-        y = 322 + k * 24
-        text(s, x + 12, y, 70, 16, lab, size=10, anchor=MSO_ANCHOR.MIDDLE)
-        shape(s, MSO_SHAPE.RECTANGLE, x + 84, y + 1, v * 1.6, 14, fill=col)
-        text(s, x + 90 + v * 1.6, y, 44, 16, [[(f"{v} %", B)]], size=10, anchor=MSO_ANCHOR.MIDDLE)
+    y = 324 + k * 25
+    text(
+        s,
+        53,
+        y,
+        160,
+        12,
+        [[(lab, {"bold": True, "size": 10}), (f"  {n} questions", {"color": GREY})]],
+        size=8,
+    )
+    text(s, 53, y + 12, 160, 11, means, size=8, color=GREY)
+    shape(s, MSO_SHAPE.RECTANGLE, 216, y + 5, v * 0.95, 13, fill=BLUE)
+    text(s, 216 + v * 0.95 + 4, y + 6, 40, 12, [[(f"{v} %", B)]], size=8)
+# BIRD: each level with and without the benchmark's evidence.
+shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 349.5, 290, 300, 136, fill=CREAM, radius=0.04)
+text(s, 359, 296, 280, 13, [[("BIRD by difficulty", B)]], size=10)
+text(
+    s,
+    359,
+    309,
+    284,
+    11,
+    "Evidence is a hint, such as: promotional name refers to flavorName",
+    size=8,
+    color=GREY,
+)
+for k, (lab, n, on, off) in enumerate(
+    (("Simple", 860, 43.1, 34.2), ("Moderate", 443, 29.1, 16.3), ("Challenging", 231, 17.3, 8.2))
+):
+    y = 325 + k * 28
+    text(s, 359, y + 2, 90, 12, [[(lab, {"bold": True, "size": 10})]], size=8)
+    text(s, 359, y + 14, 90, 11, f"{n} questions", size=8, color=GREY)
+    for dy, v, col in ((0, on, BLUE), (13, off, SLATE)):
+        shape(s, MSO_SHAPE.RECTANGLE, 446, y + dy, v * 3.2, 11, fill=col)
+        text(s, 446 + v * 3.2 + 4, y + dy, 40, 11, [[(f"{v} %", B)]], size=8)
+shape(s, MSO_SHAPE.RECTANGLE, 572, 393, 9, 9, fill=BLUE)
+text(s, 585, 392, 62, 11, "With evidence", size=8, color=GREY)
+shape(s, MSO_SHAPE.RECTANGLE, 572, 406, 9, 9, fill=SLATE)
+text(s, 585, 405, 62, 11, "No evidence", size=8, color=GREY)
 marker(s, 1, 28, 286)
 marker(s, 2, 28, 174)
 marker(s, 3, 28, 238)
-note(s, "this project's scorer, so these are not leaderboard scores.", y=432)
+note(
+    s,
+    "matched means the result set equals the reference answer. This project's scorer, so these "
+    "are not leaderboard scores.",
+    y=434,
+)
 takeaways(
     s,
     [
@@ -2447,7 +2494,14 @@ text(
     188,
     606,
     14,
-    [[("Which product categories generate the most revenue?", {"bold": True, "size": 10})]],
+    [
+        [
+            (
+                "Relevance score by table for: Which product categories generate the most revenue?",
+                {"bold": True, "size": 10},
+            )
+        ]
+    ],
 )
 SENT, ADDED, DROPPED = BLUE, AMBER, RULE
 RANKED = (
@@ -2530,10 +2584,10 @@ takeaways(
             ],
         ),
         (
-            "It reads schema, not rows",
+            "It reads schema and hints, not rows",
             [
                 ("Scoring uses names, DDL and value hints, so ", {}),
-                ("no row data is searched", BB),
+                ("full rows are never searched", BB),
                 (" and no model is called.", {}),
             ],
         ),
