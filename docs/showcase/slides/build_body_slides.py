@@ -373,7 +373,8 @@ takeaways(
             "Judge the whole answer",
             [
                 (
-                    "About one in three Spider answers still did not match, and better retrieval did not measurably help. ",
+                    "About one in three Spider answers still did not match, and better retrieval "
+                    "did not measurably help. ",
                     {},
                 ),
                 ("A person should review", BB),
@@ -668,7 +669,8 @@ takeaways(
                 ("Past queries save effort, but they ", {}),
                 ("must stay current", BB),
                 (
-                    " as the schema changes. The top BIRD test score is 83.40 %, against 92.96 % for humans.",
+                    " as the schema changes. The top BIRD test score is 83.40 %, against 92.96 % "
+                    "for humans.",
                     {},
                 ),
             ],
