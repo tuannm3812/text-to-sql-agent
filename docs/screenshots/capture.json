@@ -1,8 +1,8 @@
 {
-  "commit": "8670189",
-  "dirty": false,
-  "captured": "2026-10-21T13:39:36+00:00",
-  "method": "scripts/capture_screenshots.py: streamlit + Playwright (chrome)",
+  "commit": "449bbf5",
+  "dirty": true,
+  "captured": "2026-11-05T09:43:42+00:00",
+  "method": "Chrome through cua_repl; real Streamlit app and local Ollama responses",
   "viewport": {
     "width": 1440,
     "height": 1000
@@ -17,5 +17,14 @@
   "questions": [
     "Which product categories generate the most revenue?",
     "Delete every order that was cancelled."
-  ]
+  ],
+  "source_sha256": {
+    "ui/styles.py": "7b187b9ab1e9e554a7dfb52060838d6715a72feea58fbdd51e284a27105aa675",
+    "ui/results.py": "cccb95d826671ab648b286aa01e3ab7a286221f083b0566b40cea5abe7b2b33f",
+    ".streamlit/config.toml": "11ac53490e02116661326ceca055eda8b629d039f502ff3d861ec4ea55985b31",
+    "app.py": "af2b82c7366a72fba1d27b0c4a01de722b11978ff50c994d6cf72081d71e2ea0",
+    "ui/chat.py": "8d265ae6ac77ab1fa1170b1651ecb45b9db03b1f65d5341febcc8a89b3575188",
+    "ui/layout.py": "58411644953392b1789aec8c286c981e215d7c5738703c76981f43b008fafe1e"
+  },
+  "notes": "Presentation evidence, not benchmark results. Question is visible in answer card; composer cleared during stylesheet rerender."
 }

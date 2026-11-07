@@ -1,0 +1,59 @@
+{
+  "captured": "2026-11-05T13:10:46.727437+00:00",
+  "commit": "449bbf594c1fd292c24367e5a45572507616d941",
+  "dirty": true,
+  "method": "Chrome through cua_repl; real Streamlit app and local Ollama response",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "database": "Retail Analytics demo (data/retail_analytics.db)",
+  "model": "qwen3.5:9b-q4_K_M",
+  "provider": "ollama",
+  "question": "Which product categories generate the most revenue?",
+  "sql": "SELECT category, SUM(unit_price * quantity) AS total_revenue\nFROM order_items oi\nJOIN products p ON oi.product_id = p.product_id\nGROUP BY category\nORDER BY total_revenue DESC;",
+  "rows": [
+    [
+      "Electronics",
+      173366
+    ],
+    [
+      "Fashion",
+      29991
+    ],
+    [
+      "Home",
+      28682
+    ],
+    [
+      "Sports",
+      19505
+    ],
+    [
+      "Beauty",
+      9576
+    ]
+  ],
+  "crop_pixels": {
+    "answer": [
+      134,
+      356,
+      690,
+      644
+    ],
+    "sql": [
+      880,
+      640,
+      390,
+      330
+    ]
+  },
+  "source_sha256": {
+    "ui/results.py": "45ebdb6cb9ab28bd976edb24182c780f25cbe78469ca0ca2ab1666406156a565",
+    "ui/styles.py": "d41d296344ecca9c1286fa6d04a2833e22a357de8c54cc288b0510f5c8eedd29",
+    ".streamlit/config.toml": "11ac53490e02116661326ceca055eda8b629d039f502ff3d861ec4ea55985b31",
+    "app.py": "af2b82c7366a72fba1d27b0c4a01de722b11978ff50c994d6cf72081d71e2ea0",
+    "ui/chat.py": "8d265ae6ac77ab1fa1170b1651ecb45b9db03b1f65d5341febcc8a89b3575188"
+  },
+  "notes": "New real response; product illustration, not evaluation evidence. Both slide panels crop the same screenshot. README screenshots remain their previous dated captures."
+}

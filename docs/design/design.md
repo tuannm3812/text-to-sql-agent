@@ -6,15 +6,15 @@
 SQL, and understanding the evidence behind the result. The answer should be the first
 thing a reviewer notices after submitting a question.
 
-This document consolidates the teal / IBM Plex direction already implemented in
-`546eac6` after the owner's approval of the [mockup](index.html). Refinements below
-are Codex's recommendations for the next pass, not a claim of further owner approval
-or completed implementation. The current application remains Streamlit.
+2026-11-05: the owner approved extending the poster/deck blue-and-amber palette
+into the Streamlit app. The palette below supersedes the earlier teal direction;
+IBM Plex typography, layout and behaviour remain unchanged. The historical
+[mockup](index.html) is not the current palette authority.
 
 Reference captures: [desktop answer](../screenshots/01-answer.png),
 [narrow answer](../screenshots/04-narrow.png), and their
-[capture provenance](../screenshots/capture.json). These are real application captures
-at `dffd005`; the mockup is a separate design artifact.
+[capture provenance](../screenshots/capture.json). These are real local-model captures from 5 November 2026 on a dirty tree based on
+`449bbf5`; capture.json records source hashes. The mockup is historical.
 
 ## 2. What to take from FarmLens
 
@@ -24,52 +24,79 @@ green and yellow accents, and clear groups of related information. Its map and l
 imagery also provide visual interest that a SQL workspace naturally lacks.
 
 Transfer the consistency, card hierarchy, readable labels, and purposeful whitespace.
-Here the data chart and inspectable SQL provide the visual focus. Keep this project's
-cool paper and teal identity; replacing its fonts and colors again would not resolve
-the remaining density and hierarchy problems.
+Here the data chart and inspectable SQL provide the visual focus. Use the approved blue/amber identity consistently. Colour changes alone do not
+resolve density and hierarchy; retain the existing answer-first composition.
 
 ## 3. Color palette
 
-Recommended light palette. The first eight colors already appear in the implementation;
-the warning pair, failure pair and focus token are proposed refinements. When implemented,
-keep theme, CSS and chart colors aligned rather than maintaining independent literals.
+Approved light palette, implemented in `.streamlit/config.toml`, `ui/styles.py`
+and `ui/results.py`. Keep these theme, CSS and chart values aligned.
 
 | Role | Color | Use |
 | --- | --- | --- |
-| Canvas | `#F6F7F4` | Page background |
-| Surface | `#FFFFFF` | Answer, explanation and connection panels |
-| Ink | `#1C2430` | Headings, body text and chart values |
-| Muted | `#5D6672` | Supporting copy and metadata |
-| Divider | `#DCE0DA` | Decorative separators and card outlines |
-| Primary | `#0E6E66` | Ask button, active navigation, selected chart bar |
-| Primary tint | `#E3F0ED` | Selected table chips and status backgrounds |
-| Secondary bar | `#9CC5BF` | Other bars, with dark labels and tooltips |
-| Warning / background | `#8A5A00` / `#FFF4D6` | Refusal, truncation and limitations |
-| Failure / background | `#B42318` / `#FFF0EE` | Provider and execution failures |
-| Focus | `#165DBA` | Visible keyboard focus outline |
+| Canvas | `#FAF7F0` | Cream page background |
+| Surface | `#FFFFFF` | Answer and explanation cards |
+| Ink | `#17243B` | Navy headings, body and chart values |
+| Muted | `#59636E` | Supporting copy and metadata |
+| Divider | `#E6E9ED` | Decorative separators |
+| Panel border | `#C5CBD4` | Card outlines |
+| Primary | `#0F4BEB` | Actions, active navigation, leading chart bar |
+| Primary tint | `#EEF3FF` | Selected table chips |
+| Comparison / accent | `#E6A23C` | Other chart bars and numbered steps |
+| Well | `#F5EEE2` | Code, table and neutral chip backgrounds |
+| Warning / background | `#8A5A00` / `#FFF4D6` | Explicit refusals and limitations |
+| Failure / background | `#B42318` / `#FFF0EE` | Failures |
+| Focus | `#0F4BEB` | Keyboard focus outline |
 
-Calculated opaque color-pair contrast: ink/canvas 14.53:1, muted/canvas 5.41:1,
-white/primary 6.10:1, primary/primary-tint 5.22:1, warning pair 5.41:1,
-failure pair 5.93:1. These calculations are not a rendered accessibility audit.
-The pale divider is not a sufficient standalone control boundary. Use a stronger
-outline for inputs and focus; keep essential chart values readable without bar color.
+Use navy text on amber step circles, never white or amber small text on white.
+Amber is a comparison/navigation accent, not a claim of success or a warning by
+itself. Retain explicit check, refusal and error labels. Chart values stay dark and
+directly labelled; colour never replaces a number or status description. The pale
+divider is decorative, not a standalone control boundary.
 
-Teal expresses emphasis as well as successful checks. Every status must also have
-plain text: a green connection dot must not imply a verified connection unless one
-was actually checked. Distinguish a model decline, a read-only guard refusal, an
-unsupported-type refusal, an empty result, and a failed query.
+The palette matches the approved poster and deck, while the app keeps IBM Plex Sans
+and Mono. Do not recolour historical screenshots or the older HTML mockup to imply
+they were freshly captured. [Current component preview](palette-preview/answer-fixture.png)
+uses fixed, labelled fixtures rendered by the real application components; it is not
+a new model answer or benchmark result. Existing README captures retain their provenance.
+
+### SQL syntax colours (6 November 2026)
+
+Generated and blocked queries in **Wrote SQL** use the same palette as the interface.
+SQL has no universal mandatory colour scheme; this is the project's display contract.
+
+| SQL role | Colour | Contrast on code well `#F5EEE2` |
+| --- | --- | --- |
+| Keywords (`SELECT`, `FROM`, `GROUP BY`) | Blue `#0F4BEB`, weight 600 | 5.64:1 |
+| Functions and literal values | Dark amber `#8A5A00` | 5.14:1 |
+| Identifiers, punctuation and operators | Navy `#17243B` | 13.47:1 |
+| Comments | Muted `#59636E` | 5.30:1 |
+
+All exceed the 4.5:1 normal-text contrast target. Bright amber `#E6A23C` remains
+an accent for charts and step circles, never small SQL text. Dark amber in code
+indicates syntax, not a warning; execution status retains its explicit label.
+Use IBM Plex Mono at 12.5 px with 1.55 line height and wrapping on narrow screens.
+Preserve source spelling, quotes and whitespace; do not reformat or rewrite a query
+for presentation. Highlighting does not establish validity or safety. Un-tokenizable
+SQL falls back to escaped plain text. The full-schema expander retains Streamlit's
+native code viewer and copy control; this custom palette applies to the query trace.
+
+[Desktop SQL preview](palette-preview/sql-highlight-desktop.png) and
+[mobile SQL preview](palette-preview/sql-highlight-mobile.png) render the real UI
+with labelled fixed fixtures, not new model results. README and Slides screenshots
+remain their previous dated captures; refresh from the running app when replacing them.
 
 ## 4. Typography
 
-**Choose IBM Plex Sans for the interface and IBM Plex Mono for code.** This retains
+**Required: IBM Plex Sans for interface text and IBM Plex Mono for code.** This retains
 the approved technical character while avoiding an interface made entirely of code-like
 text. Do not introduce a third display family.
 
 | Role | Family / weight | Desktop target | Narrow target |
 | --- | --- | --- | --- |
-| Page heading | Plex Sans 600 | 30–32 px | 24 px |
-| Answer heading | Plex Sans 600 | 23–24 px | 20–22 px |
-| Section heading | Plex Sans 600 | 16–18 px | 16–18 px |
+| Page heading | Plex Sans 600 | 31 px | 24 px |
+| Answer heading | Plex Sans 600 | 24 px | 21 px |
+| Section heading | Plex Sans 600 | 16 px | 16 px |
 | Body / input | Plex Sans 400 | 16 px | 16 px |
 | Labels / metadata | Plex Sans 400–500 | 13–14 px | 13–14 px |
 | Chart labels | Plex Sans 400–500 | 12–14 px | 12–14 px |
@@ -135,3 +162,36 @@ real application captures.
 
 This visual milestone does not complete Phase 4's retrieval work or Phase 5's agent
 loop. See [next steps](../4_next_steps.md) for the backend roadmap.
+
+
+## 7. Strict font and responsive contract — 5 November 2026
+
+Use only locally served IBM Plex Sans 400/500/600/700 and Plex Mono 400/500.
+System sans/monospace are loading-failure fallbacks; Material Symbols remain the
+framework icon font. Native canvas widgets may retain framework-rendered text;
+CSS inspection alone does not prove their font. Charts explicitly use Plex Sans.
+Do not import the deck's Google Sans or the poster's DM Sans into the application.
+
+Required sizes: brand 17 px/700; hero 31 px/600 desktop, 24 px mobile; answer heading
+24 px/600 desktop, 21 px mobile; explanation heading 16 px/600; step headings
+14 px/600; supporting prose and notes 14 px/400; provider metadata and disclosures
+13 px/400; chart labels 13 px; SQL and table identifiers 12.5 px Plex Mono.
+Body and phone input stay at 16 px; desktop input is 17 px. Use 1.5 prose line height,
+1.2–1.25 for headings, and tabular numerals for facts. Reserve 700 for brand/strong
+emphasis. Do not shrink text to conceal overflow. Scope small-text rules under .stApp
+to beat Streamlit defaults and verify computed styles after framework upgrades.
+
+Layout: maximum container 1240 px; 40 px desktop gutters, 16 px at <=700 px.
+White cards use 20 × 24 px desktop padding, 16 px mobile padding and 12 px radii.
+Mobile header has brand/Change on its first row, navigation/database on the second,
+with a 16 px lower gap. Answer precedes explanation in a single column. Long schema
+names wrap, SQL scrolls within its panel, and content cards never have fixed heights.
+The decorative header rule stays within left/right 0; +/-100vmax caused horizontal
+scrolling even though document scrollWidth incorrectly suggested no overflow.
+
+Acceptance: verify actual innerWidth, document width AND stMain scrollWidth versus
+clientWidth. Checked real answer/refusal at 390 × 844, long-label fixture at 390 px,
+signed values at 360 × 800, and desktop at 1440 × 1000. All checked main containers
+have zero horizontal overflow. Preserve exact values in tables/tooltips when chart
+labels shorten. README captures must use real model answers; fixture previews stay
+labelled. This is presentation evidence, not a benchmark or full accessibility audit.

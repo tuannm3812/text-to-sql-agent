@@ -191,10 +191,10 @@ _COUNT_WORDS = dict(
 )
 
 # Chart colours, the page's tokens (`ui.styles`, `docs/design/design.md`).
-TEAL = "#0e6e66"
-TEAL_LIGHT = "#9cc5bf"
-INK = "#1c2430"
-LINE = "#dce0da"
+PRIMARY = "#0f4beb"
+COMPARISON = "#e6a23c"
+INK = "#17243b"
+LINE = "#e6e9ed"
 
 
 CHART_LIMIT = 12
@@ -243,7 +243,7 @@ def bar_chart(df: pd.DataFrame) -> tuple[alt.LayerChart, str] | None:
         x=alt.X(f"{value_col}:Q", axis=None, scale=alt.Scale(domain=domain)),
     )
     bars = base.mark_bar(cornerRadius=3, height={"band": 0.7}).encode(
-        color=alt.condition("datum.is_top", alt.value(TEAL), alt.value(TEAL_LIGHT)),
+        color=alt.condition("datum.is_top", alt.value(PRIMARY), alt.value(COMPARISON)),
         tooltip=[
             alt.Tooltip(f"{category_col}:N", title=humanize(category_col)),
             alt.Tooltip("label:N", title=title),
@@ -262,6 +262,7 @@ def bar_chart(df: pd.DataFrame) -> tuple[alt.LayerChart, str] | None:
     chart = (
         (bars + positive + negative)
         .properties(height=36 * len(shown) + 10, background="transparent")
+        .configure(font="IBM Plex Sans")
         .configure_view(stroke=None)
         .configure_axis(labelFont="IBM Plex Sans", domainColor=LINE)
     )
@@ -449,10 +450,72 @@ def _step_check_and_run(msg: dict) -> str:
     return f"<li><h3>Checked it</h3><p>{check}</p></li>{run}"
 
 
+def highlight_sql(sql: str, dialect: str = "sqlite") -> str:
+    """Escape and colour SQL without normalising its text or interpreting its safety.
+
+    Token offsets retain quotes, whitespace and comments that token text discards.
+    An incomplete model response remains readable as escaped plain text.
+    """
+    try:
+        tokens = sqlglot.tokenize(sql, read=_DIALECTS.get(dialect, "sqlite"))
+    except sqlglot.errors.TokenError:
+        return html.escape(sql)
+    parts: list[str] = []
+    cursor = 0
+    for index, token in enumerate(tokens):
+        gap = sql[cursor : token.start]
+        if gap:
+            parts.append(f'<span class="sql-comment">{html.escape(gap)}</span>')
+        source = sql[token.start : token.end + 1]
+        kind = token.token_type.name
+        role = ""
+        if kind in {
+            "STRING",
+            "NUMBER",
+            "RAW_STRING",
+            "HEREDOC_STRING",
+            "NATIONAL_STRING",
+            "BIT_STRING",
+            "HEX_STRING",
+            "BYTE_STRING",
+            "UNICODE_STRING",
+        }:
+            role = "literal"
+        elif kind != "IDENTIFIER":
+            next_is_paren = index + 1 < len(tokens) and tokens[index + 1].text == "("
+            if next_is_paren and (
+                kind == "VAR"
+                or source.upper()
+                in {
+                    "CAST",
+                    "TRY_CAST",
+                    "EXTRACT",
+                    "COALESCE",
+                    "IF",
+                    "POSITION",
+                    "SUBSTRING",
+                    "TRIM",
+                    "LEFT",
+                    "RIGHT",
+                    "REPLACE",
+                }
+            ):
+                role = "function"
+            elif kind != "VAR" and source.replace(" ", "").isalpha():
+                role = "keyword"
+        escaped = html.escape(source)
+        parts.append(f'<span class="sql-{role}">{escaped}</span>' if role else escaped)
+        cursor = token.end + 1
+    if cursor < len(sql):
+        parts.append(f'<span class="sql-comment">{html.escape(sql[cursor:])}</span>')
+    return "".join(parts)
+
+
 def _render_trace(msg: dict) -> None:
     sql = msg.get("sql_text") or msg.get("blocked_sql") or ""
     sql_step = (
-        f"<li><h3>Wrote SQL</h3><pre>{html.escape(sql)}</pre></li>"
+        "<li><h3>Wrote SQL</h3><pre><code>"
+        f"{highlight_sql(sql, str(msg.get('engine') or 'sqlite'))}</code></pre></li>"
         if sql
         else "<li><h3>Wrote SQL</h3><p>No SQL came back from the model.</p></li>"
     )

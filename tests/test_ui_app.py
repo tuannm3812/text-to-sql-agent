@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import html
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -91,7 +93,9 @@ def test_an_answer_states_its_result_and_how_it_was_answered(no_server_keys: Non
     assert "Picked 1 of 11 tables, plus 1 joinable neighbour" in trace
     assert "<span class='hit'>products</span>" in trace
     assert "Sent 4,971 characters of schema: 15% less" in trace
-    assert "SELECT category, SUM(x) AS total_revenue FROM t GROUP BY category" in trace
+    assert "SELECT category, SUM(x) AS total_revenue FROM t GROUP BY category" in html.unescape(
+        re.sub(r"<[^>]+>", "", trace)
+    )
     assert "Read-only" in trace and "Ran it on SQLite" in trace
     assert "CREATE TABLE products (category TEXT);" in [c.value for c in at.code]
 
@@ -118,7 +122,8 @@ def test_a_refused_write_is_called_refused(no_server_keys: None) -> None:
         _turn(df=None, error_text="BLOCKED_UNSAFE_SQL", sql_text=sql, blocked_sql=sql)
     ]
     at.run()
-    assert "Refused" in _trace(at) and "DELETE FROM orders" in _trace(at)
+    trace_text = html.unescape(re.sub(r"<[^>]+>", "", _trace(at)))
+    assert "Refused" in trace_text and "DELETE FROM orders" in trace_text
 
 
 def test_rag_off_says_the_full_schema_was_sent(no_server_keys: None) -> None:
