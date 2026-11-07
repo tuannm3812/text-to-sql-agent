@@ -17,7 +17,7 @@ An evaluated portfolio prototype: ask a question in plain English, and the agent
 
 ![Text-to-SQL Agent answering "Which product categories generate the most revenue?" on the Retail Analytics demo: a headline stated from the rows, a horizontal bar chart and table, and beside it how the answer was produced: tables picked and why, the SQL, the read-only check and the run](docs/screenshots/01-answer.png)
 
-*A real answer from a local model (Ollama, `qwen3.5:9b-q4_K_M`) on the tracked Retail Analytics demo database, captured by [`scripts/capture_screenshots.py`](scripts/capture_screenshots.py). It shows the interface, not benchmark accuracy; see [Evaluation Results](#evaluation-results).*
+*A real answer from a local model (Ollama, `qwen3.5:9b-q4_K_M`) on the tracked Retail Analytics demo database, captured in Chrome on 5 November 2026 with the blue-and-amber palette ([capture provenance](docs/screenshots/capture.json); [repeatable capture script](scripts/capture_screenshots.py)). It shows the interface, not benchmark accuracy; see [Evaluation Results](#evaluation-results).*
 
 <details>
 <summary>How an answer was produced, a refused write, and the phone layout</summary>
@@ -33,6 +33,13 @@ A request to change data is declined and nothing runs:
 <img alt="The same answer at phone width: top bar, question box and the answer in one column" src="docs/screenshots/04-narrow.png" width="320">
 
 </details>
+
+
+## Showcase
+
+[![Text-to-SQL Agent poster](docs/showcase/text-to-sql-agent-poster.png)](docs/showcase/text-to-sql-agent-poster.pdf)
+
+The [poster](docs/showcase/text-to-sql-agent-poster.pdf) tells the project in one page. The [showcase handoff](docs/showcase/README.md) holds the story, the numbers to quote, the wording rules and the design tokens.
 
 ## What It Does
 

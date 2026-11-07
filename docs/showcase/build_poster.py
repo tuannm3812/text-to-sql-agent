@@ -116,46 +116,60 @@ text(
     size=9,
     color=WHITE,
 )
+text(L, 31, 460, 42, [[("Ask in English.", {"bold": True})]], size=33, color=WHITE)
+# The second line reads like selected text: the thing a person is asked to look at.
+shape(MSO_SHAPE.ROUNDED_RECTANGLE, L - 5, 73, 283, 40, fill=WHITE, radius=0.12)
+text(L, 72, 300, 42, [[("Inspect the SQL.", {"bold": True, "color": BLUE})]], size=33)
 text(
     L,
-    32,
-    460,
-    80,
-    [
-        [("Ask in English.", {"bold": True})],
-        [("Inspect the SQL.", {"bold": True, "color": AMBER})],
-    ],
-    size=33,
-    color=WHITE,
-)
-text(
-    L,
-    113,
+    119,
     446,
     28,
     [
         [
-            ("Text-to-SQL Agent", {"bold": True, "color": AMBER}),
-            (" turns a plain-English question into ", {}),
-            ("read-only SQL", B),
-            (" a person can check, on SQLite, DuckDB or PostgreSQL.", {}),
+            ("Text-to-SQL Agent", B),
+            (
+                " turns a plain-English question into read-only SQL a person can check, on SQLite, DuckDB or PostgreSQL.",
+                {},
+            ),
         ]
     ],
-    size=10.5,
+    size=10,
     color=WHITE,
 )
-for i, (value, body) in enumerate(
+# The highlights, set out like a query and its result.
+HX, HY, HW, HH = 492, 14, 372, 120
+panel(HX, HY, HW, HH, WHITE)
+text(
+    HX + 12,
+    HY + 8,
+    HW - 20,
+    12,
+    [
+        [
+            ("SELECT", {"bold": True, "color": BLUE, "font": CODE}),
+            (" highlight ", {"font": CODE}),
+            ("FROM", {"bold": True, "color": BLUE, "font": CODE}),
+            (" this_project;", {"font": CODE}),
+        ]
+    ],
+    size=9,
+)
+line(HX + 12, HY + 24, HX + HW - 12, HY + 24, color=RULE, width=0.75)
+line(HX + HW / 2, HY + 30, HX + HW / 2, HY + HH - 8, color=RULE, width=0.75)
+line(HX + 12, HY + 72, HX + HW - 12, HY + 72, color=RULE, width=0.75)
+for i, (ic, value, body) in enumerate(
     (
-        ("1 of 8", "steps uses a model, and it never sees result rows"),
-        ("45 of 45", "engine tests passed on 3 read-only engines"),
-        ("64.6 %", "of Spider answers matched by a local 9B model"),
-        ("+3.6 pts", "from sending fewer tables on large databases"),
+        ("science", "1 of 8", "steps uses a model; it never sees result rows"),
+        ("verified_user", "45 of 45", "engine tests passed on 3 read-only engines"),
+        ("fact_check", "64.6 %", "of Spider answers matched, local 9B model"),
+        ("trending_up", "+3.6 pts", "from sending fewer tables on large databases"),
     )
 ):
-    x, y = 500 + (i % 2) * 185, 14 + (i // 2) * 62
-    panel(x, y, 179, 57, NAVY)
-    text(x + 10, y + 6, 160, 24, [[(value, {"bold": True, "size": 19, "color": AMBER})]], size=19)
-    text(x + 10, y + 31, 162, 24, body, size=8.5, color=WHITE)
+    x, y = HX + 12 + (i % 2) * (HW / 2), HY + 29 + (i // 2) * 47
+    d.icon(s, ic, "blue", x, y + 3, 15)
+    text(x + 20, y, 140, 20, [[(value, {"bold": True, "size": 16, "color": BLUE})]], size=16)
+    text(x, y + 21, HW / 2 - 20, 22, body, size=8, color=GREY)
 
 # 1 The problem.
 Y = 158
@@ -328,7 +342,7 @@ STAGES = (
 )
 x = L
 XS = []
-CH = 70
+CH = 60
 scale = W / sum(st[1] for st in STAGES)
 for i, (name, w, fill, rows, marks) in enumerate(STAGES):
     w *= scale
@@ -344,21 +358,21 @@ for i, (name, w, fill, rows, marks) in enumerate(STAGES):
     mx = x + w - 5 - 20
     for m in reversed(marks):
         if m == "tech-sqlglot":
-            shape(MSO_SHAPE.ROUNDED_RECTANGLE, mx - 26, Y3 + 75, 40, 13, fill=NAVY, radius=0.2)
-            s.shapes.add_picture(str(LOGOS / f"{m}.png"), Pt(mx - 24), Pt(Y3 + 77), Pt(36), Pt(9))
+            shape(MSO_SHAPE.ROUNDED_RECTANGLE, mx - 26, Y3 + 66, 40, 13, fill=NAVY, radius=0.2)
+            s.shapes.add_picture(str(LOGOS / f"{m}.png"), Pt(mx - 24), Pt(Y3 + 68), Pt(36), Pt(9))
             mx -= 44
         else:
-            pic(m, mx, Y3 + 75, 14)
+            pic(m, mx, Y3 + 66, 14)
             mx -= 18
     x += w
 (XP, WP), (XG, WG), (XC, WCK) = XS[1], XS[2], XS[3]
 YR = Y3 + 24 + CH
-YDB = YR + 16
+YDB = YR + 28
 # The repair loop, then the engines both ends of the flow rely on.
-line(XC + 40, YR, XC + 40, YR + 8, color=AMBER, width=1.5, dashed=True)
-line(XC + 40, YR + 8, XG + 60, YR + 8, color=AMBER, width=1.5, dashed=True)
-line(XG + 60, YR + 8, XG + 60, YR, color=AMBER, width=1.5, arrow=True, dashed=True)
-text(XC + 46, YR + 3, 120, 11, [[("A query error gets one repair", {"bold": True})]], size=8)
+line(XC + 40, YR, XC + 40, YR + 14, color=AMBER, width=1.5, dashed=True)
+line(XC + 40, YR + 14, XG + 60, YR + 14, color=AMBER, width=1.5, dashed=True)
+line(XG + 60, YR + 14, XG + 60, YR, color=AMBER, width=1.5, arrow=True, dashed=True)
+text(XC + 46, YR + 8, 120, 11, [[("A query error gets one repair", {"bold": True})]], size=8)
 DBX, DBW = XP, XC + WCK - 5 - XP
 panel(DBX, YDB, DBW, 24, PALE_AMBER)
 text(
@@ -390,7 +404,7 @@ line(XP + 40, YDB, XP + 40, YR, color=SLATE, width=1.5, arrow=True)
 line(XC + WCK - 16, YR, XC + WCK - 16, YDB, color=SLATE, width=1.5, arrow=True, both=True)
 
 # 4 Safety and data.
-Y = YDB + 32
+Y = YDB + 30
 section(
     Y,
     4,
@@ -638,27 +652,34 @@ for i, (ic, head, body) in enumerate(
     text(x + 32, y + 8, WN / 2 - 40, 12, [[(head, B)]], size=9.5)
     text(x + 32, y + 22, WN / 2 - 40, 30, body, size=8.5)
 
-# Footer.
+# Footer: every element centred on the band.
 FY = Y6 + 120
-rect(0, FY, 900, 1275 - FY, BLUE)
-s.shapes.add_picture(str(LOGOS / "uts-white.png"), Pt(L), Pt(FY + 9), height=Pt(22))
-text(L + 70, FY + 14, 200, 13, [[("November 2026", B)]], size=10, color=WHITE)
+FH = 1275 - FY
+FM = FY + FH / 2
+rect(0, FY, 900, FH, BLUE)
 GH = "github.com/tuannm3812/text-to-sql-agent"
 DEMO = "aipa-text-to-sql-agent.streamlit.app"
 text(
-    470,
-    FY + 7,
-    394,
-    28,
+    L,
+    FM - 13,
+    460,
+    26,
     [
         [("Code  ", B), (GH, {"url": "https://" + GH, "color": WHITE})],
         [("Live demo  ", B), (DEMO, {"url": "https://" + DEMO, "color": WHITE})],
     ],
     size=9.5,
     color=WHITE,
-    align=PP_ALIGN.RIGHT,
     after=2,
 )
-print("footer top", FY)
+LOGO_H = 22
+LOGO_W = LOGO_H * 882 / 375
+s.shapes.add_picture(
+    str(LOGOS / "uts-white.png"), Pt(R - LOGO_W), Pt(FM - LOGO_H / 2), height=Pt(LOGO_H)
+)
+text(
+    R - LOGO_W - 116, FM - 6.5, 100, 13, "November 2026", size=10, color=WHITE, align=PP_ALIGN.RIGHT
+)
+print("footer top", FY, "height", FH)
 prs.save(OUT)
 print("wrote", OUT.name)

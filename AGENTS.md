@@ -151,6 +151,10 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   question. The shared-layout line is closed; `selected` stays the default and both
   layouts stay opt-in (`evaluation/results/shared_layout/README.md`). `1526` passed /
   `353` skipped without the DSN.
+- 2026-11-07: showcase refreshed. Deck rebuilt to 18 slides (Google Slides is the source; bodies from
+  `docs/showcase/slides/build_body_slides.py`), poster rebuilt by `docs/showcase/build_poster.py`,
+  speaker notes synced. Portfolio handoff: `docs/showcase/README.md`. The app's blue and amber design
+  is committed. `1549` passed / `353` skipped without the DSN.
 
 ## Open risks
 
