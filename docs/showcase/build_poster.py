@@ -19,6 +19,7 @@ sys.path.insert(0, str(HERE / "slides"))
 import build_body_slides as d  # noqa: E402
 from build_body_slides import (  # noqa: E402
     AMBER,
+    BB,
     BLUE,
     CODE,
     CREAM,
@@ -109,9 +110,9 @@ rect(0, 0, 900, HERO, BLUE)
 text(
     L,
     16,
-    420,
+    450,
     12,
-    [[("TEXT-TO-SQL AGENT  ·  UTS CAPSTONE  ·  NOVEMBER 2026", B)]],
+    [[("36121  ARTIFICIAL INTELLIGENCE PRINCIPLES AND APPLICATIONS", B)]],
     size=9,
     color=WHITE,
 )
@@ -120,48 +121,65 @@ text(
     32,
     460,
     80,
-    [[("Ask in English.", {"bold": True})], [("Inspect the SQL.", {"bold": True})]],
+    [
+        [("Ask in English.", {"bold": True})],
+        [("Inspect the SQL.", {"bold": True, "color": AMBER})],
+    ],
     size=33,
     color=WHITE,
 )
 text(
     L,
     113,
-    440,
+    446,
     28,
-    "A read-only agent that turns a plain-English question into SQL a person can check, "
-    "on SQLite, DuckDB or PostgreSQL.",
+    [
+        [
+            ("Text-to-SQL Agent", {"bold": True, "color": AMBER}),
+            (" turns a plain-English question into ", {}),
+            ("read-only SQL", B),
+            (" a person can check, on SQLite, DuckDB or PostgreSQL.", {}),
+        ]
+    ],
     size=10.5,
     color=WHITE,
 )
 for i, (value, body) in enumerate(
     (
-        ("64.6 %", "of Spider answers matched, local 9B model"),
-        ("35.2 %", "of BIRD answers matched, with evidence"),
-        ("+3.6 pts", "from choosing tables on large databases"),
-        ("45 of 45", "engine conformance tests, none skipped"),
+        ("1 of 8", "steps uses a model, and it never sees result rows"),
+        ("45 of 45", "engine tests passed on 3 read-only engines"),
+        ("64.6 %", "of Spider answers matched by a local 9B model"),
+        ("+3.6 pts", "from sending fewer tables on large databases"),
     )
 ):
     x, y = 500 + (i % 2) * 185, 14 + (i // 2) * 62
-    panel(x, y, 179, 57, WHITE)
-    text(x + 10, y + 7, 160, 24, [[(value, {"bold": True, "size": 19, "color": BLUE})]], size=19)
-    text(x + 10, y + 31, 162, 24, body, size=8.5, color=GREY)
+    panel(x, y, 179, 57, NAVY)
+    text(x + 10, y + 6, 160, 24, [[(value, {"bold": True, "size": 19, "color": AMBER})]], size=19)
+    text(x + 10, y + 31, 162, 24, body, size=8.5, color=WHITE)
 
 # 1 The problem.
 Y = 158
 section(Y, 1, "THE PROBLEM", "A fluent answer can still be the wrong answer")
 Y1 = Y + 25
-panel(L, Y1, 400, 92)
+panel(L, Y1, 400, 86)
 text(L + 10, Y1 + 7, 380, 12, [[("Published scores fall on enterprise tasks", B)]], size=10)
 for i, (name, v, col) in enumerate(
     (("Spider 1.0", 91.2, SLATE), ("BIRD", 73.0, SLATE), ("Spider 2.0 enterprise", 21.3, AMBER))
 ):
-    y = Y1 + 23 + i * 17
+    y = Y1 + 22 + i * 16
     text(L + 10, y + 2, 110, 12, name, size=9)
     bar(L + 122, y, v * 2.9, 14, f"{v} %", col)
 text(
+    L + 122 + 21.3 * 2.9 + 6,
+    Y1 + 22 + 2 * 16 + 2,
+    190,
+    11,
+    [[("69.9 points below Spider 1.0", BB)]],
+    size=9,
+)
+text(
     L + 10,
-    Y1 + 77,
+    Y1 + 73,
     382,
     11,
     "Share of tasks solved, o1-preview, Spider 2.0 paper (2024); not this project.",
@@ -170,154 +188,217 @@ text(
 )
 for i, (ic, head, body) in enumerate(
     (
-        ("help", "Meaning", "“Revenue” is not a column. Gross or net? The schema does not say."),
+        (
+            "help",
+            "Meaning",
+            [
+                ("\u201cRevenue\u201d is not a column", BB),
+                (". Gross or net? The schema does not say.", {}),
+            ],
+        ),
         (
             "table_rows",
             "Scale",
-            "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns.",
+            [
+                ("Real schemas are large: Spider 2.0 databases often exceed ", {}),
+                ("1,000 columns", BB),
+                (".", {}),
+            ],
         ),
         (
             "verified_user",
             "Risk",
-            "Generated SQL runs on real data, so it must be stopped from changing it.",
+            [
+                ("Generated SQL runs on ", {}),
+                ("real data", BB),
+                (", so it must be stopped from changing it.", {}),
+            ],
         ),
     )
 ):
     x = L + 408 + i * 142
-    panel(x, Y1, 136, 92, PALE_BLUE)
+    panel(x, Y1, 136, 86, PALE_BLUE)
     d.icon(s, ic, "blue", x + 9, Y1 + 8, 20)
     text(x + 34, Y1 + 11, 96, 14, [[(head, B)]], size=11)
-    text(x + 9, Y1 + 34, 120, 62, body, size=9.5)
+    text(x + 9, Y1 + 32, 120, 56, [body], size=9.5)
 
 # 2 The demo.
-Y = Y1 + 105
+Y = Y1 + 96
 section(Y, 2, "THE DEMO", "The SQL shows what the answer includes")
 Y2 = Y + 25
-H2 = 160
-scr = s.shapes.add_picture(str(SCREEN), Pt(L), Pt(Y2), Pt(270), Pt(H2))
+H2 = 152
+WA, WB, GP = 256, 268, 16
+XB = L + WA + GP
+XC3 = XB + WB + GP
+WC = R - XC3
+for x, w, n, head, fill in (
+    (L, WA, "1", "THE APP ANSWERS", NAVY),
+    (XB, WB, "2", "THE SQL SHOWS HOW", NAVY),
+    (XC3, WC, "3", "A PERSON DECIDES", BLUE),
+):
+    d.box(
+        s, x, Y2, w, 17, f"{n}   {head}", fill, fg=WHITE, size=8.5, kind=MSO_SHAPE.ROUNDED_RECTANGLE
+    )
+for x in (L + WA, XB + WB):
+    line(x + 1, Y2 + 90, x + GP - 1, Y2 + 90, color=SLATE, width=1.5, arrow=True)
+YD = Y2 + 21
+scr = s.shapes.add_picture(str(SCREEN), Pt(L), Pt(YD), Pt(WA), Pt(H2))
 scr.line.color.rgb = d.rgb(RULE)
 scr.line.width = Pt(0.75)
-X2 = L + 278
-panel(X2, Y2, 262, H2, NAVY)
+panel(XB, YD, WB, H2, NAVY)
 text(
-    X2 + 11,
-    Y2 + 9,
-    240,
-    12,
-    [[("THE SQL, AND WHAT COMPLETED REVENUE ADDS", {"bold": True, "color": WHITE})]],
-    size=8,
-)
-text(
-    X2 + 11,
-    Y2 + 26,
-    244,
-    130,
+    XB + 10,
+    YD + 8,
+    WB - 16,
+    118,
     [
         [(code, {"font": CODE, "size": 8.5, "color": AMBER if added else WHITE, "bold": added})]
         for code, added in d.SQL_LINES
     ],
     size=8.5,
-    after=1.5,
+    after=1,
 )
-X3 = X2 + 270
-panel(X3, Y2, R - X3, H2)
-text(X3 + 10, Y2 + 9, 262, 14, [[("Same top category, two definitions of revenue", B)]], size=10)
-text(X3 + 10, Y2 + 34, 260, 11, "All 220 orders, list price", size=9)
-bar(X3 + 10, Y2 + 47, 260, 17, "173,366", SLATE)
-text(X3 + 10, Y2 + 70, 260, 11, "179 completed orders, after discounts", size=9)
-bar(X3 + 10, Y2 + 83, 260 * 136984 / 173366, 17, "136,984", BLUE)
 text(
-    X3 + 10,
-    Y2 + 108,
-    262,
-    48,
+    XB + 10,
+    YD + H2 - 18,
+    WB - 16,
+    11,
+    [[("Amber: what completed revenue would add", {"color": AMBER})]],
+    size=8.5,
+)
+panel(XC3, YD, WC, H2)
+text(XC3 + 10, YD + 8, WC - 18, 13, [[("Electronics revenue, two definitions", B)]], size=10)
+BW3 = WC - 20
+text(XC3 + 10, YD + 28, BW3, 11, "All 220 orders, list price", size=9)
+bar(XC3 + 10, YD + 41, BW3, 18, "173,366", SLATE)
+text(XC3 + 10, YD + 66, BW3, 11, "179 completed orders, after discounts", size=9)
+W3 = BW3 * 136984 / 173366
+bar(XC3 + 10, YD + 79, W3, 18, "136,984", BLUE)
+d.box(s, XC3 + 10 + W3, YD + 79, BW3 - W3, 18, "\u221221 %", AMBER, size=9)
+text(
+    XC3 + 10,
+    YD + 106,
+    BW3,
+    40,
     [
         [
-            ("21 % lower", {"bold": True, "color": BLUE}),
-            (
-                ". Neither figure is wrong by itself. A person decides which revenue the business means.",
-                {},
-            ),
+            ("Neither figure is wrong by itself. ", {}),
+            ("A person decides", {"bold": True, "color": BLUE}),
+            (" which revenue the business means.", {}),
         ]
     ],
     size=9.5,
 )
+Y2 = YD
 
 # 3 How it works.
-Y = Y2 + H2 + 15
+Y = Y2 + H2 + 10
 section(Y, 3, "HOW IT WORKS", "One step of eight uses a model; the application controls execution")
 Y3 = Y + 25
 STAGES = (
-    ("ASK", 118, NAVY, ("1  Ask in plain English",), ("tech-streamlit",)),
+    ("ASK", 124, NAVY, ((1, "Ask in plain English"),), ("tech-streamlit",)),
     (
         "PREPARE",
-        186,
+        196,
         NAVY,
-        ("2  Read schema", "3  Schema RAG: top 6 tables", "4  Build prompt"),
+        ((2, "Read schema"), (3, "Schema RAG: top 6 tables"), (4, "Build prompt")),
         ("tech-python",),
     ),
     (
         "GENERATE",
-        150,
+        156,
         BLUE,
-        ("5  Write SQL or decline", "Never sees result rows"),
+        ((5, "Write SQL or decline; never sees result rows"),),
         ("tech-langchain", "tech-googlegemini", "tech-ollama"),
     ),
     (
         "CHECK AND RUN",
-        186,
+        196,
         NAVY,
-        ("6  Validate: one read only", "7  Run read-only, budget, row cap"),
-        ("tech-python",),
+        ((6, "Validate: one read-only query"), (7, "Run with work budget and row cap")),
+        ("tech-sqlglot", "tech-python"),
     ),
     (
         "ANSWER",
-        124,
+        156,
         NAVY,
-        ("8  Show table, chart, SQL", "and why tables were chosen"),
+        ((8, "Show the answer, SQL and why those tables"),),
         ("tech-pandas", "tech-streamlit"),
     ),
 )
 x = L
-GAP = 16
+XS = []
+CH = 70
+scale = W / sum(st[1] for st in STAGES)
 for i, (name, w, fill, rows, marks) in enumerate(STAGES):
-    d.box(s, x, Y3, w, 18, name, fill, fg=WHITE, size=8.5, kind=MSO_SHAPE.ROUNDED_RECTANGLE)
-    panel(x, Y3 + 21, w, 66, PALE_BLUE if fill == BLUE else CREAM)
-    text(x + 8, Y3 + 27, w - 12, 44, [[(r, {})] for r in rows], size=9, after=2)
-    mx = x + w - 20
+    w *= scale
+    XS.append((x, w))
+    kind = MSO_SHAPE.PENTAGON if i == 0 else MSO_SHAPE.CHEVRON
+    over = 7 if i < 4 else 0
+    d.box(s, x, Y3, w + over, 20, name, fill, fg=WHITE, size=8.5, kind=kind)
+    panel(x, Y3 + 24, w - 5, CH, PALE_BLUE if fill == BLUE else CREAM)
+    for j, (n, label) in enumerate(rows):
+        y = Y3 + 31 + j * 16
+        d.box(s, x + 7, y, 12, 12, str(n), fill, fg=WHITE, size=8, kind=MSO_SHAPE.ROUNDED_RECTANGLE)
+        text(x + 23, y + 1, w - 32, 24, label, size=8.5)
+    mx = x + w - 5 - 20
     for m in reversed(marks):
-        pic(m, mx, Y3 + 69, 14)
-        mx -= 18
-    if i < 4:
-        line(x + w + 1, Y3 + 54, x + w + GAP - 1, Y3 + 54, color=SLATE, width=1.5, arrow=True)
-    x += w + GAP
-XG = L + 118 + GAP + 186 + GAP
-XC = XG + 150 + GAP
-YDB = Y3 + 94
-line(XC + 80, Y3 + 87, XC + 80, YDB + 11, color=AMBER, width=1.5, dashed=True)
-line(XC + 80, YDB + 11, XG + 75, YDB + 11, color=AMBER, width=1.5, dashed=True)
-line(XG + 75, YDB + 11, XG + 75, Y3 + 87, color=AMBER, width=1.5, arrow=True, dashed=True)
-text(XG + 80, YDB, 120, 11, [[("A query error gets one repair", {"color": GREY})]], size=8)
-panel(L + 134, YDB, 186, 24, PALE_AMBER)
+        if m == "tech-sqlglot":
+            shape(MSO_SHAPE.ROUNDED_RECTANGLE, mx - 26, Y3 + 75, 40, 13, fill=NAVY, radius=0.2)
+            s.shapes.add_picture(str(LOGOS / f"{m}.png"), Pt(mx - 24), Pt(Y3 + 77), Pt(36), Pt(9))
+            mx -= 44
+        else:
+            pic(m, mx, Y3 + 75, 14)
+            mx -= 18
+    x += w
+(XP, WP), (XG, WG), (XC, WCK) = XS[1], XS[2], XS[3]
+YR = Y3 + 24 + CH
+YDB = YR + 16
+# The repair loop, then the engines both ends of the flow rely on.
+line(XC + 40, YR, XC + 40, YR + 8, color=AMBER, width=1.5, dashed=True)
+line(XC + 40, YR + 8, XG + 60, YR + 8, color=AMBER, width=1.5, dashed=True)
+line(XG + 60, YR + 8, XG + 60, YR, color=AMBER, width=1.5, arrow=True, dashed=True)
+text(XC + 46, YR + 3, 120, 11, [[("A query error gets one repair", {"bold": True})]], size=8)
+DBX, DBW = XP, XC + WCK - 5 - XP
+panel(DBX, YDB, DBW, 24, PALE_AMBER)
+text(
+    DBX + 9,
+    YDB + 6,
+    170,
+    12,
+    [[("Database engine", B), ("  by connection string", {"color": GREY, "size": 8})]],
+    size=9,
+)
 for off, m, label in (
-    (6, "tech-sqlite", "SQLite"),
-    (62, "tech-duckdb", "DuckDB"),
-    (120, "tech-postgresql", "PostgreSQL"),
+    (186, "tech-sqlite", "SQLite"),
+    (240, "tech-duckdb", "DuckDB"),
+    (298, "tech-postgresql", "PostgreSQL"),
 ):
-    pic(m, L + 134 + off, YDB + 6, 12)
-    text(L + 134 + off + 15, YDB + 7, 45, 11, label, size=8)
-text(XC + 90, YDB + 6, 200, 12, "The same 15 tests pass on every engine", size=8.5, color=GREY)
+    pic(m, DBX + off, YDB + 5, 13)
+    text(DBX + off + 16, YDB + 7, 50, 11, label, size=8.5)
+text(
+    DBX + DBW - 118,
+    YDB + 7,
+    110,
+    11,
+    "Same 15 tests on each",
+    size=8.5,
+    color=GREY,
+    align=PP_ALIGN.RIGHT,
+)
+line(XP + 40, YDB, XP + 40, YR, color=SLATE, width=1.5, arrow=True)
+line(XC + WCK - 16, YR, XC + WCK - 16, YDB, color=SLATE, width=1.5, arrow=True, both=True)
 
 # 4 Safety and data.
-Y = YDB + 37
+Y = YDB + 32
 section(
     Y,
     4,
     "SAFETY AND DATA",
-    "Safety does not rest on the model, and row data stays out of the prompt",
+    "Safety does not rest on the model, and result rows stay out of the prompt",
 )
 Y4 = Y + 25
-H4 = 164
+H4 = 166
 WM = 500
 TW, CW = 150, 112
 for i, (head, fill) in enumerate((("1 MODEL", BLUE), ("2 APPLICATION", NAVY), ("3 ENGINE", NAVY))):
@@ -373,11 +454,13 @@ text(
 )
 for x, n, label in (
     (L, TICK, "Enforced and tested"),
-    (L + 112, SOFT, "Model behaviour, one run"),
-    (L + 252, GAPI, "Not stopped here"),
+    (L + 104, SOFT, "Model behaviour, one run"),
+    (L + 226, GAPI, "Not stopped here"),
 ):
-    pic(n, x, Y4 + 152, 10)
-    text(x + 13, Y4 + 152, 130, 11, label, size=8, color=GREY)
+    pic(n, x, Y4 + 153, 10)
+    text(x + 13, Y4 + 153, 120, 11, label, size=8, color=GREY)
+line(L + 322, Y4 + 158, L + 330, Y4 + 158, color=GREY, width=1.25)
+text(L + 335, Y4 + 153, 165, 11, "Not this layer's role, or not tested", size=8, color=GREY)
 XD = L + WM + 8
 WD = R - XD
 panel(XD, Y4, WD, H4, PALE_BLUE)
@@ -409,7 +492,7 @@ text(
 )
 
 # 5 Evidence.
-Y = Y4 + H4 + 15
+Y = Y4 + H4 + 10
 section(Y, 5, "THE EVIDENCE", "On large databases, sending fewer tables scored 3.6 points higher")
 Y5 = Y + 25
 H5 = 188
@@ -444,7 +527,7 @@ text(
         [
             ("Harder questions score lower", B),
             (
-                ": Spider falls from 84.3 % on easy questions to 38.0 % on extra hard ones. Project scorer, not leaderboard scores.",
+                ": Spider falls from 84.3 % on easy questions to 38.0 % on extra hard ones. Project scorer, not leaderboard scores; local qwen3.5:9b, runs of 10 and 19 October 2026.",
                 {},
             ),
         ]
@@ -459,6 +542,7 @@ COLS = (
     (XE + 250, "chat", "Prompt tokens", 110 / 8501),
     (XE + 370, "timer", "Time", 92 / 6),
 )
+text(XE + 10, Y5 + 8, 110, 11, [[("Schema sent", B)]], size=8.5, color=GREY)
 for x, ic, head, _ in COLS:
     d.icon(s, ic, "navy", x, Y5 + 7, 12)
     text(x + 15, Y5 + 8, 96, 11, [[(head, B)]], size=8.5)
@@ -498,7 +582,7 @@ text(
         [
             ("+3.6 points", {"bold": True, "color": BLUE}),
             (
-                " [+1.4, +5.8] against every table + hints on 1,222 questions, from the 65- and 34-table databases.",
+                " [+1.4, +5.8] against every table + hints on 1,222 questions, from the 65- and 34-table databases. Blue is top 6; amber is every table + hints.",
                 {},
             ),
         ]
@@ -507,11 +591,20 @@ text(
 )
 
 # 6 What we learned.
-Y = Y5 + H5 + 15
+Y = Y5 + H5 + 10
 section(Y, 6, "WHAT WE LEARNED", "Better retrieval is not better answers; four tests come next")
 Y6 = Y + 25
-panel(L, Y6, 330, 118)
-text(L + 10, Y6 + 8, 310, 12, [[("Each fix helps where it aims, and the rest pay", B)]], size=10)
+panel(L, Y6, 330, 112)
+text(L + 10, Y6 + 7, 310, 12, [[("Each fix helps where it aims, and the rest pay", B)]], size=10)
+text(
+    L + 10,
+    Y6 + 20,
+    312,
+    11,
+    "Correct answers vs selected tables; the later scorer left 128 misses",
+    size=8,
+    color=GREY,
+)
 C0 = L + 190
 for i, (name, gain, lost, net) in enumerate(
     (
@@ -520,14 +613,14 @@ for i, (name, gain, lost, net) in enumerate(
         ("+ table summaries", 13, 39, "−26"),
     )
 ):
-    y = Y6 + 42 + i * 24
+    y = Y6 + 43 + i * 22
     text(L + 10, y + 4, 92, 11, [[(name, B)]], size=8.5)
-    d.box(s, C0 - lost * 1.9, y, lost * 1.9, 20, f"−{lost}", AMBER, size=8.5)
-    d.box(s, C0, y, max(gain * 1.9, 26), 20, f"+{gain}", BLUE, fg=WHITE, size=8.5)
+    d.box(s, C0 - lost * 1.9, y, lost * 1.9, 19, f"−{lost}", AMBER, size=8.5)
+    d.box(s, C0, y, max(gain * 1.9, 26), 19, f"+{gain}", BLUE, fg=WHITE, size=8.5)
     text(L + 262, y + 4, 60, 12, [[(f"{net} net", B)]], size=9)
-text(C0 - 92, Y6 + 26, 88, 11, "Lost on 1,094", size=8, color=GREY, align=PP_ALIGN.RIGHT)
-text(C0 + 4, Y6 + 26, 80, 11, "Gained on 128", size=8, color=GREY)
-line(C0, Y6 + 38, C0, Y6 + 114, color=NAVY, width=1.25)
+text(C0 - 92, Y6 + 30, 88, 11, "Lost on 1,094", size=8, color=GREY, align=PP_ALIGN.RIGHT)
+text(C0 + 4, Y6 + 30, 80, 11, "Gained on 128", size=8, color=GREY)
+line(C0, Y6 + 41, C0, Y6 + 109, color=NAVY, width=1.25)
 XN = L + 338
 WN = R - XN
 for i, (ic, head, body) in enumerate(
@@ -539,47 +632,32 @@ for i, (ic, head, body) in enumerate(
     )
 ):
     x = XN + (i % 2) * (WN / 2 + 2)
-    y = Y6 + (i // 2) * 60
-    panel(x, y, WN / 2 - 2, 56, PALE_BLUE)
+    y = Y6 + (i // 2) * 57
+    panel(x, y, WN / 2 - 2, 55, PALE_BLUE)
     d.icon(s, ic, "blue", x + 8, y + 8, 18)
     text(x + 32, y + 8, WN / 2 - 40, 12, [[(head, B)]], size=9.5)
     text(x + 32, y + 22, WN / 2 - 40, 30, body, size=8.5)
 
 # Footer.
-FY = Y6 + 128
+FY = Y6 + 120
 rect(0, FY, 900, 1275 - FY, BLUE)
+s.shapes.add_picture(str(LOGOS / "uts-white.png"), Pt(L), Pt(FY + 9), height=Pt(22))
+text(L + 70, FY + 14, 200, 13, [[("November 2026", B)]], size=10, color=WHITE)
+GH = "github.com/tuannm3812/text-to-sql-agent"
+DEMO = "aipa-text-to-sql-agent.streamlit.app"
 text(
-    L,
-    FY + 10,
-    500,
-    12,
-    [[("Live demo  ", {"bold": True}), ("aipa-text-to-sql-agent.streamlit.app", {})]],
-    size=9,
-    color=WHITE,
-)
-text(
-    L,
-    FY + 24,
-    500,
-    12,
+    470,
+    FY + 7,
+    394,
+    28,
     [
-        [
-            ("Code, runs and decision log  ", {"bold": True}),
-            ("github.com/tuannm3812/text-to-sql-agent", {}),
-        ]
+        [("Code  ", B), (GH, {"url": "https://" + GH, "color": WHITE})],
+        [("Live demo  ", B), (DEMO, {"url": "https://" + DEMO, "color": WHITE})],
     ],
-    size=9,
-    color=WHITE,
-)
-text(
-    500,
-    FY + 10,
-    364,
-    26,
-    "Began as a UTS group project in May 2026 with Huy Duc Vu, Ngoc Bao Tran Nguyen, Manh Tuan Nguyen and Nguyen Nghia Doan Dang; refined since by Manh Tuan Nguyen. Results: local qwen3.5:9b, runs of 10 and 19 October 2026.",
-    size=8,
+    size=9.5,
     color=WHITE,
     align=PP_ALIGN.RIGHT,
+    after=2,
 )
 print("footer top", FY)
 prs.save(OUT)
