@@ -286,4 +286,4 @@ Amber tags with a paper icon sit above the title on the slides below. Remove eac
 | 14 | Find why the shared layout lost 2.4 points | `evaluation/results/shared_layout/` |
 | 15 | Build targeted table recovery and report both question groups | `rag.py` |
 | 16 | None of the four tests has started | All |
-| 17 | Sync the speaker notes file, export the PDF, run the Codex review, remove the tags | `docs/showcase/` |
+| 17 | Export the PDF, run the Codex review, remove the tags | `docs/showcase/` |

@@ -8613,3 +8613,5 @@ Pending tags added to ten live slides (listed in `slides/BRIEF.md`); remove them
 Poster rebuilt at Mike's request from the deck: `docs/showcase/build_poster.py` draws one 900 x 1275 pt slide of native shapes in six sections (problem, demo, how it works, safety and data, evidence, lessons and next tests), reusing the deck's helpers, palette and figures. Imported as slide 1 of the live poster; the previous poster is kept as slide 2 until Mike deletes it. `poster.html` is untouched.
 
 Poster refined after Mike's review: subject line 36121 in the header, amber highlights and a navy tile row, key terms in blue, the demo as three linked steps with the revenue gap shown, the flow as chevrons with numbered steps and a shared database band, and a footer with the UTS logo, date and links (team credit removed at Mike's request). Content check: "row data stays out" became "result rows stay out", because hints are stored values. UTS logo copied from the deck's master.
+
+`docs/showcase/speaker-notes.md` regenerated from the live deck's notes (18 slides). Codex's earlier uncommitted version of the file is replaced; the deck's notes supersede it.
