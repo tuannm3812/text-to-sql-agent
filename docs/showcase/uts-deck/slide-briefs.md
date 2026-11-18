@@ -290,7 +290,7 @@ Exact face text:
 
 ## 7. The SQL shows which revenue the answer counted
 
-Layout: figure_evidence
+Layout: demo_page
 
 Reader question: 
 
@@ -305,12 +305,27 @@ Exact face text:
 - SOLUTION
 - Demo
 - The SQL shows which revenue the answer counted
-- Retail demo database, local 9B model; the app’s answer, chart and SQL for one question
+- One revenue question on the retail demo, answered by the local 9B model
 - Text-to-SQL Agent
 - 7
-- 
-- The running app on the retail demo database; screenshot cropped.
-- Source: Running app on data/retail_analytics.db, 6 November 2026; evaluation/cases.json, retail_revenue_by_category.
+- THE SQL, AND WHAT COMPLETED REVENUE ADDS
+- SELECT category, SUM(unit_price * quantity
+- +   * (1 - discount_pct)
+-   ) AS total_revenue
+- FROM order_items oi
+- JOIN products p
+-   ON oi.product_id = p.product_id
+- + JOIN orders o ON oi.order_id = o.order_id
+- + WHERE o.order_status = 'Completed'
+- GROUP BY category
+- ORDER BY total_revenue DESC;
+- Same top category, two definitions of revenue
+- All 220 orders, list price
+- 173,366
+- 179 completed, after discounts
+- 136,984
+- 21 % lower
+- Note: Electronics revenue, recomputed on data/retail_analytics.db. Lines marked + are added by the benchmark’s completed-revenue question. This illustrates / inspection, not a benchmark failure.
 - TAKEAWAY
 - Neither figure is wrong. The question did / not say which revenue, so a person / decides.
 - 1
@@ -320,15 +335,15 @@ Exact face text:
 - 2
 - 2
 - The SQL shows the choice
-- It sums price times quantity with no status filter, so / all 220 orders count, cancelled and returned ones / too.
+- Price times quantity, no status filter and no / discounts, so all 220 orders count.
 - 3
 - 3
 - Wording changes the number
-- Completed orders with discounts give 136,984, / about 21 % lower, with the same top category.
+- Completed orders after discounts give 136,984, / about 21 % lower, with the same top category.
 
 ## 8. The model sees the schema and a few stored values, never result rows
 
-Layout: evidence
+Layout: boundary_page
 
 Reader question: 
 
@@ -346,35 +361,59 @@ Exact face text:
 - What the prompt held for the demo question on the retail database
 - Text-to-SQL Agent
 - 8
+- 79 of the 608 stored text values reach the prompt
+- 79 sent
+- 529 not sent
+- Distinct values across the database’s 30 text columns, sent as lists and never linked to a row.
+- FROM THE REAL PROMPT (SHORTENED)
+- CREATE TABLE orders (
+-   order_id INTEGER PRIMARY KEY,
+-   order_status TEXT NOT NULL ...
+- );
+- -- order_status sample values:
+-      Completed, Returned, Cancelled
+- -- gender sample values: Female, Other, Male
+- ### User question
+- Which product categories generate the most revenue?
+- IN THE PROMPT
+- Tables, columns, keys
+- 79 stored values as hints
+- The question
+- NOT IN THE PROMPT
+- Result rows
+- Names and emails: over the limit
+- All other stored values
+- Local model
+- The prompt stays on your machine.
+- Hosted model
+- Question, schema and hints go to the provider.
+- Note: Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in pale blue. Numeric columns send no values.
 - TAKEAWAY
 - Before using real data, check what the / prompt contains and where it goes.
 - 1
-- The prompt is mostly structure
-- 9 table definitions and 79 stored values: 79 of 608 distinct text values, about 13 %. About 71 % of the schema text is structure.
 - 1
-- Rows stay out
-- Result rows are never sent, and hints are lists, never / linked to a row.
+- The prompt is mostly structure
+- About 71 % of the schema text is table definitions; / hints are the rest.
+- 2
 - 2
 - Hints are real stored values
-- Up to 6 values from text columns with at most 20 distinct values, such as order status. The limit counts values, not sensitivity.
-- 2
-- Small tables can qualify
-- Customer emails stay out only because there are / more than 20 of them.
+- Up to 6 values from columns with at most 20 / distinct values. The limit counts values, not / sensitivity.
+- 3
 - 3
 - The model choice moves the boundary
-- With a local model nothing leaves the machine. With a hosted model, the question, schema and hints go to the provider.
-- 3
+- With a local model nothing leaves the machine. A / hosted model receives the whole prompt.
+- 4
+- 4
 - Check before real data
-- Review the prompt first, or turn table selection off / to send plain table definitions with no hints.
-- Source: Measured 6 November 2026 with rag.retrieve_schema_context on data/retail_analytics.db; config.py hint limits.
+- Review which columns qualify, or turn table / selection off to send no hints.
 
-## 9. One question, four stages, and only one model call
+## 9. The model proposes SQL; the application controls execution
 
-Layout: process
+Layout: arch_page
 
 Reader question: 
 
-Message: The model returns text; **the application decides** what runs. Neither gate checks meaning.
+Message: One step of eight uses a model; **the application decides** what runs.
 
 Exact face text:
 
@@ -384,21 +423,61 @@ Exact face text:
 - 4
 - SOLUTION
 - Architecture
-- One question, four stages, and only one model call
-- The path of a question through the app, on SQLite, DuckDB or PostgreSQL
+- The model proposes SQL; the application controls execution
+- Eight steps take one question to an answer, with the technology behind each step
 - Text-to-SQL Agent
 - 9
-- Ask and prepare
-- A person asks in plain English. The app / reads the schema, selects the top 6 / tables and neighbours, and builds the / prompt, with no model.
+- ASK AND PREPARE: NO MODEL
+- 1
+- Ask
+- A demo, a file, a connection string / or CSV uploads, then a plain / question.
+- 2
+- Read schema
+- Tables, keys and value hints from / the database.
+- 3
+- Select tables
+- Top 6 by hybrid score, plus / foreign-key neighbours.
+- 4
+- Build prompt
+- Dialect rules, the schema and the / question.
+- Database engine
+- Set by the connection string.
+- SQLite
+- DuckDB
+- PostgreSQL
+- GENERATE, CHECK AND RUN: RIGHT TO LEFT
+- 5
 - Generate
-- The only model call: Gemini hosted or / Ollama local writes one SQL statement, / or declines.
-- Check and run
-- sqlglot refuses anything but a single / read; the engine runs it read-only with / a work budget and a row cap.
-- Answer
-- Show the answer, table, chart, SQL and / why those tables were chosen. A / runtime error goes back to the model / once.
-- Source: pipeline.answer_question; config.py defaults; docs/2_architecture.md. 15 conformance tests per engine.
+- Gemini or Ollama writes one SQL / statement, or declines.
+- 6
+- Validate
+- One SELECT or WITH, no engine / internals.
+- 7
+- Run
+- Read-only, with a work budget / and a 1,000-row cap.
+- 8
+- Show
+- Answer, table, chart, the SQL and / why those tables.
+- A query error goes back to the model once
+- The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8.
 - TAKEAWAY
-- The model returns text; the application decides what runs. Neither gate checks meaning.
+- One step of eight uses a model; the / application decides what runs.
+- 1
+- 1
+- Only step 5 is a model
+- It returns text and never sees result rows.
+- 2
+- 2
+- Two separate gates
+- sqlglot, then a read-only engine. Neither checks / meaning.
+- 3
+- 3
+- One flow, three engines
+- Each passes the same 15 conformance tests.
+- 4
+- 4
+- One repair try
+- The repair passes the same checks; nothing skips a / gate.
 
 ## 10. Safety does not rest on the model
 
@@ -420,6 +499,8 @@ Exact face text:
 - Three lines of defence stop different threats, and each is tested on its own
 - Text-to-SQL Agent
 - 10
+- Stops it
+- Does not stop it
 - Threat and example
 - 1 Model declines
 - 2 Application check
@@ -894,3 +975,170 @@ Exact face text:
 - 2
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
+
+## 20. Backup: matched means the same rows as the reference
+
+Layout: table_page
+
+Reader question: 
+
+Message: Matched means **the same rows**, not similar SQL.
+
+Exact face text:
+
+- APPENDIX
+- How answers are scored
+- Backup: matched means the same rows as the reference
+- The project’s own result comparison, used for every accuracy figure in this deck
+- Text-to-SQL Agent
+- 20
+- How two result sets are compared
+- Part
+- Rule
+- Why
+- Columns
+- Same number of columns, compared by position; names do not matter.
+- The SQL’s aliases are free.
+- Rows
+- Compared as a set with repeats, matched one to one. Order counts only when the / reference SQL ends in ORDER BY.
+- Row order is not part of the answer unless asked.
+- Numbers
+- Equal across integer and decimal types; otherwise within one part in a million.
+- 1 and 1.0 are the same answer.
+- Text and NULL
+- Text matches exactly after trimming and never equals a number. NULL equals only / NULL.
+- No loose string matching.
+- What each outcome means
+- Outcome
+- When
+- Counts as
+- Correct
+- Rows match the reference, or a request that should be refused was refused.
+- Matched
+- Wrong, refused, / unanswerable or error
+- Rows differ, a safe question was blocked or declined, or the SQL failed or came back / empty.
+- Not matched
+- TAKEAWAY
+- Matched means the same rows, not similar SQL.
+
+## 21. Backup: each engine enforces read-only in its own way
+
+Layout: table_page
+
+Reader question: 
+
+Message: Read-only is **enforced by each engine**, not assumed from the application check.
+
+Exact face text:
+
+- APPENDIX
+- Read-only per engine
+- Backup: each engine enforces read-only in its own way
+- The engine layer of the safety slide; each mechanism is required, not optional
+- Text-to-SQL Agent
+- 21
+- Engine
+- Writes refused by
+- Files and internals
+- Work budget
+- SQLite
+- A read-only connection, query_only on, and an authorizer that / denies every write action.
+- The authorizer also denies ATTACH, so other files / cannot be opened.
+- 100,000 virtual-machine steps, then the query / stops.
+- DuckDB
+- The read_only connect flag, which protects the database file.
+- External access off, so read_csv and other file / readers are refused.
+- 5,000 ms, then the query stops.
+- PostgreSQL
+- A least-privilege role and a read-only transaction, each enough / on its own.
+- A superuser or file-reading role is refused at / connect.
+- 5,000 ms, then the query stops.
+- TAKEAWAY
+- Read-only is enforced by each engine, not assumed from the application check.
+
+## 22. Backup: the technology behind each step
+
+Layout: stack_page
+
+Reader question: 
+
+Message: No model is trained: the app **wraps an existing model** with checks around it.
+
+Exact face text:
+
+- APPENDIX
+- Technology
+- Backup: the technology behind each step
+- Open-source tools, plus a hosted model only when the user picks one
+- Text-to-SQL Agent
+- 22
+- APP
+- Streamlit
+- The question box, answer, chart and SQL
+- pandas
+- Result tables and CSV uploads
+- MODEL
+- Ollama
+- A local model; nothing leaves the machine
+- Gemini
+- A hosted model, when chosen
+- LangChain
+- The Ollama client
+- CHECKS
+- sqlglot
+- Parses the SQL and refuses anything but one read
+- Python
+- Table selection, prompts and the evaluation harness
+- ENGINES
+- SQLite
+- The demo databases and uploaded files
+- DuckDB
+- Analytical files, read-only
+- PostgreSQL
+- A live server, through a least-privilege role
+- TAKEAWAY
+- No model is trained: the app wraps an existing model with checks around it.
+
+## 23. Backup: terms used in this deck
+
+Layout: table_page
+
+Reader question: 
+
+Message: Backup glossary.
+
+Exact face text:
+
+- APPENDIX
+- Glossary
+- Backup: terms used in this deck
+- Plain meanings for the words on the evidence slides
+- Text-to-SQL Agent
+- 23
+- Term
+- Meaning
+- Where it appears
+- Schema
+- The tables, columns and keys of a database, without its rows.
+- Why it is hard, data boundary
+- Value hints
+- Up to 6 stored values from text columns with at most 20 distinct values, sent with the schema.
+- Data boundary, large schemas
+- Top 6 + neighbours
+- The six most relevant tables for a question, plus tables one foreign key away.
+- Architecture, large schemas
+- Every table + hints
+- The whole schema with value hints; the baseline for table selection.
+- Large schemas, trials
+- Evidence hints
+- BIRD’s own note for each question, such as which column a phrase refers to.
+- Benchmarks
+- Paired change
+- The difference between two settings on the same questions, in accuracy points.
+- Method, trials
+- 95 % interval
+- The range the change could plausibly take; measurable when it sits clear of zero.
+- Method onwards
+- Conformance tests
+- The same 15 read-only tests run on each engine, none skipped.
+- Summary, safety

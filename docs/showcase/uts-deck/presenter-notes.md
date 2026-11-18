@@ -101,7 +101,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 9. One question, four stages, and only one model call
+## 9. The model proposes SQL; the application controls execution
 
 Walk one question through the whole path.
 
@@ -233,6 +233,49 @@ Backup for questions about table selection.
 [Point: Steps] First the question’s words are widened with synonyms, so revenue also searches amount, sales and total. Then every table gets a relevance score from its names, keywords, trigrams and value hints. No model is called.
 [Point: The cut] The top six are kept. suppliers made it at 1.7 and marketing campaigns missed at 1.6. [Point: Neighbours] orders ranks tenth, yet it arrives because a foreign key links it to order_items. Nine tables reached the model, and its SQL used two.
 Reference: weights in config.py; dense off.
+
+References:
+- sources.md
+- claims-register.md
+
+## 20. Backup: matched means the same rows as the reference
+
+Backup for questions about how accuracy is measured.
+
+An answer counts as matched when its rows equal the reference rows. Columns compare by position, rows as a set unless the reference orders them, numbers across integer and decimal types, and text exactly.
+Reference: text_to_sql_agent/evaluation_v2/comparator.py and scoring.py (scorer version 2).
+
+References:
+- sources.md
+- claims-register.md
+
+## 21. Backup: each engine enforces read-only in its own way
+
+Backup for questions about engine safety.
+
+Each engine enforces read-only in its own way, and every mechanism is load-bearing. SQLite uses a read-only connection, query_only and an authorizer. DuckDB uses its read_only flag plus external access off. PostgreSQL uses a least-privilege role and a read-only transaction.
+Reference: text_to_sql_agent/engines/sqlite.py, duckdb.py, postgres.py; docs/0_coding_standards.md; tests/test_engine_conformance.py.
+
+References:
+- sources.md
+- claims-register.md
+
+## 22. Backup: the technology behind each step
+
+Backup for questions about the stack.
+
+These are the tools behind each step. Nothing is trained; the evaluation harness measures the agent.
+Reference: pyproject.toml; ui/connection.py; text_to_sql_agent/llm.py.
+
+References:
+- sources.md
+- claims-register.md
+
+## 23. Backup: terms used in this deck
+
+Backup glossary.
+
+These are the plain meanings of the terms on the evidence slides.
 
 References:
 - sources.md

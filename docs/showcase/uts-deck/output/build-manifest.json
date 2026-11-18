@@ -50,11 +50,11 @@
     }
   },
   "inputs": {
-    "brief-content.json": "70a8278b26a0b312669a239568acc630dc86f53b416e5f4f9b65628cecc0d5b3",
+    "brief-content.json": "93d7219c0afbad586e56fb82c9b93065ac1daf261f9f7f8eb96d72ea32688f86",
     "deck-kit.json": "d62d69af77f4c56d573abdbc345e8c3faf148bf029a35d4d841b73db02ed0ac0",
-    "claims-register.md": "c679c4c2a47afefe51a57f4c919c81ea57e1cf053eef87f25de0aeddc4c8d1a6",
+    "claims-register.md": "03e9328602f8465518dd25748dbb66f8a0b70189518442ca9c060dc626e05a90",
     "kit-pin.json": "fab1758a95b0a452fc8b028ebeaf27783a75db5e2d2a0b587ca79501de3b43c6",
-    "project_layouts.py": "cfe97b977a8ec00e98ee78171eb86d9fd57bc7795055dce329ee345378601c19"
+    "project_layouts.py": "4536dc1b05839798e3c2a9a1ca0001d7b2b319d0f63664d099fd89631e2ec9f7"
   },
   "assets": {
     "assets/PROVENANCE.md": "5fca3195bdc91ba0f25ad38c2ab9a87f11523d9ed939e66c43699ac33d323f96",
@@ -205,11 +205,13 @@
     "assets/logos/tech-streamlit.png": "ca37d53d460bc114c02648fff542a4fbc686723a0c4273a8ec7a07bb5b806e8d",
     "assets/logos/vanna.png": "8d62ca9d4070205b92e9d1ee967928c286a00e0218a4c83c4de06df672258bef",
     "assets/logos/wren.png": "9981f8f50aa366a4e7a1673cd9f82872966e7a41a9953987cbf4043598261853",
-    "assets/manifest.json": "b4c216f9d77efbb356324dc92b9480121da8bec53db9639bb9f4f90765bc2e27"
+    "assets/manifest.json": "b4c216f9d77efbb356324dc92b9480121da8bec53db9639bb9f4f90765bc2e27",
+    "assets/project/icons/no.svg": "22c9f8ad9097706ff1e03ef093a7230418c3fbd531f75a8e3b3ac500ad7286e1",
+    "assets/project/icons/yes.svg": "b45844e45ab9ce14a790ed17be7b37fc9a4bc78111789fcb2284935059364f14"
   },
   "outputs": {
-    "deck.html": "7127709b2c87a3a46de09cb292d56b89c2862fa7130ad21d169be28391d1fe5d",
-    "deck.pdf": "77ffa2eacb720060b675ea4ef0d6fb3dafe3520dfb7fc45672a35a5c18c61dbc"
+    "deck.html": "a098325a71a8a4cfca4f7fff2766d49d4107edb5f9f2180dbaad4c21fe69fa7a",
+    "deck.pdf": "4375e74fdfafb94851b10f3430cd32269821c2538335c93a118814d7180760cc"
   },
-  "slide_count": 19
+  "slide_count": 23
 }

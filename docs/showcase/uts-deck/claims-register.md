@@ -29,7 +29,7 @@ large-schema, demo and retrieval rows were spot-checked again on 18 November 202
 | Vanna repository archived | 29 March 2026 | S4 |
 | Demo answer: Electronics revenue; orders counted | 173,366; 220 | data/retail_analytics.db, recomputed 6 Nov 2026 |
 | Completed-order revenue with discounts; orders; difference | 136,984; 179; about 21 % | evaluation/cases.json retail_revenue_by_category; (173,366 − 136,984) / 173,366 = 21.0 % |
-| Prompt for the demo question: tables, stored values, of distinct text values, share | 9; 79; 608; about 13 % | rag.retrieve_schema_context, 6 Nov 2026; 79 / 608 = 13.0 % |
+| Prompt for the demo question: tables, stored values, of distinct text values, not sent, share | 9; 79; 608; 529; about 13 % | rag.retrieve_schema_context, 6 Nov 2026; 79 / 608 = 13.0 % |
 | Share of schema text that is structure | about 71 % | 1 − 1,419 / 4,971 schema characters |
 | Hint limits: values per column; distinct-value ceiling | 6; 20 | config.py DEFAULT_VALUE_HINT_LIMIT, DEFAULT_VALUE_HINT_MAX_CARDINALITY |
 | Row cap | 1,000 rows | config.py |
@@ -59,3 +59,12 @@ large-schema, demo and retrieval rows were spot-checked again on 18 November 202
 | Schema RAG scores, demo question | 30.1, 11.7, 9.9, 9.8, 5.8, 1.7, 1.6, 1.4, 1.3, 1.3, 1.3 | rag.rank_schema_chunks, 6 Nov 2026 |
 | Tables reaching the model; used by the SQL | 9; 2 | same |
 | Bar chart scales | 0 to 40, 0 to 100, 0 to 1,600, −50 to 25, −8 to 12 | drawn scale, not a result |
+
+## Appendix (18 November 2026)
+
+| Claim | Number | Source |
+|---|---|---|
+| Work budgets: SQLite; DuckDB and PostgreSQL | 100,000 VM steps; 5,000 ms | docs/0_coding_standards.md §3; engines/*.py default_work_limit |
+| Conformance tests per engine; total | 15; 45 | AGENTS.md, 2026-11-04 |
+| Number tolerance | one part in a million (1e-6 relative) | text_to_sql_agent/evaluation_v2/comparator.py |
+| Scorer version | 2 | text_to_sql_agent/evaluation_v2/scoring.py |

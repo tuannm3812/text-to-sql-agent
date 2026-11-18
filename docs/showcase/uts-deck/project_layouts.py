@@ -416,4 +416,193 @@ def close_page(L, p, slide):
     L.image(p, slide['image'], 505, 0, 455, 540)
 
 
-LAYOUTS = {'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+CODE_BG, CODE_INK, CODE_ADD = '#1B2430', '#FFFFFF', '#9CC3E0'   # added lines in pale blue, never amber on navy
+
+
+def code_panel(L, p, x, y, w, h, title, lines):
+    """A dark code panel: small caps title, then code lines; an added line is bold pale blue."""
+    p.rect(x, y, w, h, CODE_BG)
+    paint(L, p, title.upper(), x + 10, y + 8, w - 20, 8, '#FFFFFF', True)
+    yy = y + 26
+    for text, added in lines:
+        paint(L, p, f'`{text}`', x + 10, yy, w - 20, 8, CODE_ADD if added else CODE_INK, added)
+        yy += 12
+    return yy
+
+
+def hbar(L, p, x, y, w, h, colour, label, ink='#FFFFFF'):
+    p.rect(x, y, w, h, colour)
+    if label:
+        paint(L, p, label, x + 6, y + (h - 13.5) / 2, w - 8, 10, ink, True)
+
+
+def demo_page(L, p, slide):
+    """Demo: the app screenshot, the SQL with what completed revenue adds, and the two revenue figures."""
+    slide.setdefault('marker_pairs', [])
+    marks = {}
+    iw = 300
+    ih = iw * 880 / 1190
+    L.image(p, slide['image'], LEFT, TOP, iw, ih)
+    marks[1] = (LEFT + iw * 0.37, TOP + ih * 0.34)
+    cx = LEFT + iw + 14
+    code_panel(L, p, cx, TOP, FIG_RIGHT - cx, ih, slide['code_title'], slide['code'])
+    marks[2] = (FIG_RIGHT - 12, TOP + 12)
+    y = TOP + ih + 16
+    put(L, p, slide['bars_title'], LEFT, y, FIG_RIGHT - LEFT, 12, 'ink', True)
+    y += 22
+    lw, bw = 170, FIG_RIGHT - LEFT - 170
+    top = slide['bars'][0]['value']
+    for k, b in enumerate(slide['bars']):
+        put(L, p, b['label'], LEFT, y + 4, lw - 8, 10, 'ink')
+        w = bw * b['value'] / top
+        hbar(L, p, LEFT + lw, y, w, 22, SERIES['muted' if k == 0 else 'primary'], b['text'], '#1B2430' if k == 0 else '#FFFFFF')
+        if b.get('gap'):
+            hbar(L, p, LEFT + lw + w, y, bw - w, 22, SERIES['pale'], b['gap'], SERIES['primary'])
+            marks[3] = (FIG_RIGHT - 12, y + 11)
+        y += 28
+    note(L, p, slide['note'], LEFT, y + 4, FIG_RIGHT - LEFT)
+    right_column(L, p, slide, marks, halo=True)
+
+
+def boundary_page(L, p, slide):
+    """Data boundary: share of stored values sent, the real prompt shortened, what is in and out, local or hosted."""
+    slide.setdefault('marker_pairs', [])
+    marks = {}
+    y = TOP
+    put(L, p, slide['bar_title'], LEFT, y, FIG_RIGHT - LEFT, 12, 'ink', True)
+    y += 20
+    sent, total = slide['sent'], slide['total']
+    W = FIG_RIGHT - LEFT
+    sw = max(W * sent / total, 60)
+    hbar(L, p, LEFT, y, sw, 18, SERIES['primary'], f'{sent} sent')
+    hbar(L, p, LEFT + sw, y, W - sw, 18, L.t.color('card'), f'{total - sent} not sent', L.t.color('body'))
+    marks[1] = (FIG_RIGHT - 12, y + 9)
+    y += 22
+    put(L, p, slide['bar_caption'], LEFT, y, W, 8, 'body')
+    y += 18
+    pw = 330
+    end = code_panel(L, p, LEFT, y, pw, 140, slide['code_title'], slide['code'])
+    marks[2] = (LEFT + pw - 12, y + 12)
+    lx = LEFT + pw + 14
+    lw = FIG_RIGHT - lx
+    ly = y
+    for title, items, art, colour in slide['lists']:   # rows on the code panel's 12 pt line grid
+        card(L, p, lx, ly, lw, 64, weight=0)
+        cap(L, p, title, lx + 10, ly + 8, lw - 20, 'ink')
+        iy = ly + 26
+        for t in items:
+            icon(L, p, f'assets/icons/{art}-{colour}.png', '', lx + 10, iy + 1, 10)
+            put(L, p, t, lx + 24, iy, lw - 34, 8, 'body')
+            iy += 12
+        ly += 72
+    marks[4] = (FIG_RIGHT - 12, y + 72 + 10)
+    y += 152
+    cw = (W - 14) / 2
+    for k, (title, text, art) in enumerate(slide['models']):
+        x = LEFT + k * (cw + 14)
+        card(L, p, x, y, cw, 46)
+        icon(L, p, f'assets/icons/{art}-blue.png', title, x + 10, y + 13, 20)
+        put(L, p, title, x + 38, y + 9, cw - 48, 12, 'ink', True)
+        put(L, p, text, x + 38, y + 26, cw - 48, 8, 'body')
+    marks[3] = (LEFT + cw + 7, y - 4)
+    note(L, p, slide['note'], LEFT, y + 56, W)
+    right_column(L, p, slide, marks, halo=True)
+
+
+def arch_page(L, p, slide):
+    """Architecture: eight steps in two rows (prepare left to right, check and run right to left), the engine band
+    between them, the one repair try as a dashed arrow, technology logos on each step."""
+    slide.setdefault('marker_pairs', [])
+    marks = {}
+    W = FIG_RIGHT - LEFT
+    gap = 18
+    bw = (W - 3 * gap) / 4
+    bh = 66
+    acc = L.t.data['accents']
+
+    def box(x, y, step, fill=None):
+        p.rect(x, y, bw, bh, fill or L.t.color('card'))
+        p.rect(x, y, bw, 3, step.get('rule', L.t.color('accent')))
+        p.rect(x + 8, y + 10, 14, 14, L.t.color('ink'))
+        paint(L, p, str(step['n']), x + 8, y + 10.5, 14, 8, '#FFFFFF', True, 'center')
+        put(L, p, step['title'], x + 28, y + 9, bw - 36, 10, 'ink', True)
+        put(L, p, step['text'], x + 8, y + 28, bw - 16, 8, 'body')
+        lx = x + bw - 8
+        for logo in reversed(step.get('logos', [])):
+            lx -= 14
+            icon(L, p, logo, '', lx, y + bh - 18, 12)
+
+    y1 = TOP + 14
+    cap(L, p, slide['rows'][0], LEFT, TOP, W, 'body')
+    for k, st in enumerate(slide['top']):
+        x = LEFT + k * (bw + gap)
+        box(x, y1, st)
+        if k < 3:
+            p.connector(x + bw + 2, y1 + bh / 2, x + bw + gap - 2, y1 + bh / 2, color=L.t.color('rule'))
+    ey = y1 + bh + 22
+    eh = 34
+    p.rect(LEFT, ey, W, eh, acc['slate']['fill'])
+    p.rect(LEFT, ey, 2.5, eh, acc['slate']['ink'])
+    put(L, p, slide['engine']['title'], LEFT + 8, ey + 5, 260, 10, 'ink', True)
+    put(L, p, slide['engine']['text'], LEFT + 8, ey + 19, 260, 8, 'body')
+    ex = LEFT + 290
+    for logo, name in slide['engine']['logos']:
+        icon(L, p, logo, name, ex, ey + 9, 16)
+        tw = width_of(L, name, 10, True) + 2
+        put(L, p, name, ex + 20, ey + 10, tw, 10, 'ink', True)
+        ex += 20 + tw + 18
+    marks[3] = (FIG_RIGHT - 12, ey + 10)
+    # read schema reads the engine; prepare flows down into generate
+    p.connector(LEFT + bw + gap + bw / 2, ey - 2, LEFT + bw + gap + bw / 2, y1 + bh + 2, color=L.t.color('rule'))
+    y2 = ey + eh + 34
+    cap(L, p, slide['rows'][1], LEFT, y2 - 14, W, 'body')
+    xs = [LEFT + k * (bw + gap) for k in range(4)]
+    p.connector(xs[3] + bw / 2, y1 + bh + 2, xs[3] + bw / 2, ey - 2, color=L.t.color('rule'))
+    p.connector(xs[3] + bw / 2, ey + eh + 2, xs[3] + bw / 2, y2 - 2, color=L.t.color('rule'))
+    for k, st in enumerate(slide['bottom']):   # 5 at the right, 8 at the left
+        x = xs[3 - k]
+        box(x, y2, st, acc['blue']['fill'] if st.get('model') else None)
+        if k < 3:
+            p.connector(x - 2, y2 + bh / 2, x - gap + 2, y2 + bh / 2, color=L.t.color('rule'))
+    marks[1] = (xs[3] + bw - 10, y2 + 12)
+    marks[2] = (xs[2] + bw - 10, y2 + 12)
+    run_x = xs[1] + bw / 2
+    p.connector(run_x, y2 - 2, run_x, ey + eh + 2, color=L.t.color('rule'))
+    # one repair try: dashed from Run back to Generate, under the row
+    ry = y2 + bh + 12
+    p.line(xs[1] + bw / 2, y2 + bh, xs[1] + bw / 2, ry, SERIES['primary'], 1.2, dash='DASH')
+    p.line(xs[1] + bw / 2, ry, xs[3] + bw / 2, ry, SERIES['primary'], 1.2, dash='DASH')
+    p.connector(xs[3] + bw / 2, ry, xs[3] + bw / 2, y2 + bh + 2, color=SERIES['primary'])
+    put(L, p, slide['repair'], xs[2] - 10, ry + 3, bw + 40, 8, 'body')
+    marks[4] = (xs[2] - 22, ry)
+    py = END - 30   # the person at both ends
+    card(L, p, LEFT, py, W, 30, weight=0)
+    icon(L, p, 'assets/icons/person-ink.png', 'Person', LEFT + 10, py + 7, 16)
+    put(L, p, slide['person'], LEFT + 34, py + 8, W - 44, 10, 'ink')
+    right_column(L, p, slide, marks, halo=True)
+
+
+def stack_page(L, p, slide):
+    """Technology stack: groups of tools, each a logo, its name and the job it does here."""
+    groups = slide['groups']
+    cols = 3
+    gap = 16
+    cw = (RIGHT - LEFT - gap * (cols - 1)) / cols
+    y0 = TOP
+    rows = (len(groups) + cols - 1) // cols
+    ch = (END - 40 - y0 - gap * (rows - 1)) / rows
+    for k, g in enumerate(groups):
+        x = LEFT + (k % cols) * (cw + gap)
+        y = y0 + (k // cols) * (ch + gap)
+        card(L, p, x, y, cw, ch)
+        cap(L, p, g['title'], x + 14, y + 12, cw - 24, 'ink')
+        yy = y + 32
+        for logo, name, role in g['items']:
+            icon(L, p, logo, name, x + 14, yy + 1, 20)
+            put(L, p, name, x + 42, yy, cw - 52, 10, 'ink', True)
+            put(L, p, role, x + 42, yy + 14, cw - 52, 8, 'body')
+            yy += 38
+    L.band(p, slide.get('takeaway'))
+
+
+LAYOUTS = {'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
