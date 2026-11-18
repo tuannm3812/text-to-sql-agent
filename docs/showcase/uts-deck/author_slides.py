@@ -22,23 +22,22 @@ def src(label, path='README.md'):
 
 W5 = [150, 150, 150, 150, 135.5, 140]
 other_tools = {
-    'id': 'tools', 'layout': 'table_page', 'section': 'Problem', 'topic': 'Other tools', 'accent': 'slate',
+    'id': 'tools', 'layout': 'tools_page', 'section': 'Problem', 'topic': 'Other tools', 'accent': 'slate',
     'title': 'Other tools get business meaning through setup',
     'subtitle': 'Two routes to meaning, compared on the same criteria; sources read 6 November 2026',
-    'tables': [{
-        'headers': ['Approach', 'Source of meaning', 'Setup', 'Upkeep', 'Best for', 'Risk'],
-        'widths': W5, 'size': 10, 'row_height': 30,
-        'rows': [
-            {'band': 'People define the meaning', 'accent': 'slate'},
-            ['Snowflake Cortex Analyst', 'Semantic view', 'Define the view', 'Refine with evaluations', 'Agreed metrics', 'Stale definitions'],
-            ['Databricks Genie Agents', 'SQL expressions, example SQL', 'Expert curation', 'Iterate with feedback', 'One topic and audience', 'Depends on the curator'],
-            ['WrenAI', 'Semantic layer in Git', 'Define the MDL model', 'Review in Git', 'Versioned definitions', 'Unmodelled data'],
-            {'band': 'Systems work it out', 'accent': 'blue'},
-            ['Vanna', 'Saved past queries', 'Learns from use', 'Self-maintained', 'Repeated questions', 'Repeats past errors'],
-            ['BIRD leaderboard systems', 'Mostly not listed', 'Not listed', 'Not listed', 'Benchmark scores', 'Transfer unproven'],
-            {'band': 'This project', 'accent': 'ochre'},
-            ['This project', 'Schema and bounded hints', 'Connect only', 'None', 'A first look', 'A person checks the meaning'],
-        ]}],
+    'columns': [['Approach', 190], ['Source of meaning', 150], ['Setup', 130], ['Upkeep', 130], ['Best for', 135.5], ['Risk', 140]],
+    'row_height': 31,
+    'rows': [
+        {'band': 'People define the meaning', 'accent': 'slate'},
+        {'logo': 'assets/logos/snowflake.png', 'cells': ['Snowflake Cortex Analyst', 'Semantic view', [2, 'Define the view'], [2, 'Refine with evaluations'], 'Agreed metrics', 'Stale definitions']},
+        {'logo': 'assets/logos/databricks.png', 'cells': ['Databricks Genie Agents', 'SQL expressions, example SQL', [3, 'Expert curation'], [2, 'Iterate with feedback'], 'One topic and audience', 'Depends on the curator']},
+        {'logo': 'assets/logos/wren.png', 'cells': ['WrenAI', 'Semantic layer in Git', [2, 'Define the MDL model'], [2, 'Review in Git'], 'Versioned definitions', 'Unmodelled data']},
+        {'band': 'Systems work it out', 'accent': 'blue'},
+        {'logo': 'assets/logos/vanna.png', 'cells': ['Vanna', 'Saved past queries', [1, 'Learns from use'], [2, 'Self-maintained'], 'Repeated questions', 'Repeats past errors']},
+        {'logo': 'assets/icons/monitoring-ink.png', 'cells': ['BIRD leaderboard systems', 'Mostly not listed', [None, 'Not listed'], [None, 'Not listed'], 'Benchmark scores', 'Transfer unproven']},
+        {'band': 'This project', 'accent': 'ochre'},
+        {'logo': 'assets/icons/fact_check-blue.png', 'ours': True, 'cells': ['This project', 'Schema and bounded hints', [0, 'Connect only'], [0, 'None'], 'A first look', 'A person checks the meaning']},
+    ],
     'note': 'Setup and upkeep are our reading of each tool’s documentation, not a ranking. Vanna’s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.',
     'takeaway': 'Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.',
     'notes': notes('Place the project among the tools that already exist.',
@@ -54,20 +53,21 @@ aim = {
     'title': 'Our aim: useful without setup, and checkable by default',
     'subtitle': 'A narrower tool: no curated semantic model, with the checking in the user’s hands',
     'promises': [
-        {'title': 'Useful without setup', 'text': 'Connect a database and ask a question.'},
-        {'title': 'Checkable by default', 'text': 'SQL shown, validated and run read-only.', 'marker': 1},
+        {'title': 'Useful without setup', 'text': 'Connect a database and ask a question.', 'icon': 'query_stats'},
+        {'title': 'Checkable by default', 'text': 'SQL shown, validated and run read-only.', 'icon': 'fact_check', 'marker': 1},
     ],
     'quadrants': ['Meaning without setup: the ideal', 'Meaning through setup: curated tools',
                   'Quick start: people check the meaning', 'Setup without meaning: to avoid'],
     'y_axis': '↑ Business meaning built in',
     'x_axis': 'Setup before the first useful answer →',
     'points': [
-        {'label': 'BI dashboards', 'x': 0.86, 'y': 0.9},
-        {'label': 'Databricks Genie Agents', 'x': 0.66, 'y': 0.7},
-        {'label': 'Snowflake Cortex Analyst', 'x': 0.55, 'y': 0.8},
-        {'label': 'WrenAI', 'x': 0.58, 'y': 0.6},
-        {'label': 'This project', 'x': 0.06, 'y': 0.38, 'ours': True, 'marker': 2},
-        {'label': 'General chatbot', 'x': 0.06, 'y': 0.14, 'marker': 3},
+        {'label': 'BI dashboards', 'x': 0.8, 'y': 0.9, 'art': 'assets/icons/monitoring-ink.png'},
+        {'label': 'Databricks Genie Agents', 'x': 0.66, 'y': 0.7, 'art': 'assets/logos/databricks.png'},
+        {'label': 'Snowflake Cortex Analyst', 'x': 0.55, 'y': 0.8, 'art': 'assets/logos/snowflake.png'},
+        {'label': 'WrenAI', 'x': 0.58, 'y': 0.6, 'art': 'assets/logos/wren.png'},
+        {'label': 'Vanna', 'x': 0.3, 'y': 0.3, 'art': 'assets/logos/vanna.png'},
+        {'label': 'This project', 'x': 0.06, 'y': 0.38, 'ours': True, 'marker': 2, 'art': 'assets/icons/fact_check-blue.png'},
+        {'label': 'General chatbot', 'x': 0.06, 'y': 0.14, 'marker': 3, 'art': 'assets/icons/chat-ink.png'},
     ],
     'takeaway': 'A quick start that **people check**, not a governed metrics layer.',
     'annotations': [
@@ -376,15 +376,18 @@ references = {
 }
 
 close = {
-    'id': 'close', 'layout': 'close', 'section': 'Close', 'accent': 'slate',
-    'title': 'Inspectable SQL, measured trade-offs, and a clear next experiment',
-    'subtitle': 'The repository holds the code, runs and decisions behind every claim',
-    'items': ['Table selection stays the default: it improved the large-schema comparison.',
-              'Answer accuracy remains limited, and better retrieval alone has not added a gain.',
-              'Next: targeted recovery, reporting both groups.'],
+    'id': 'close', 'layout': 'close_page', 'section': '', 'accent': 'blue', 'header_style': 'appendix',
+    'kicker': 'Thank you',
+    'title': 'Inspectable SQL, measured trade-offs and a clear next experiment',
+    'subtitle': 'Questions and feedback are welcome.',
+    'links': [
+        ['Live demo', 'aipa-text-to-sql-agent.streamlit.app', 'https://aipa-text-to-sql-agent.streamlit.app', 'query_stats'],
+        ['Code and runs', 'github.com/tuannm3812/text-to-sql-agent', 'https://github.com/tuannm3812/text-to-sql-agent', 'code'],
+    ],
+    'image': {'path': 'assets/figures/close-art.png', 'alt': 'Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.'},
     'notes': notes('Close on the contribution.',
-        'The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited.',
-        'This began as a UTS group project with Huy Duc Vu, Ngoc Bao Tran Nguyen and Nguyen Nghia Doan Dang, and I have refined it since. Thank you.'),
+        'The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.',
+        '[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you.'),
 }
 
 appendix = {
@@ -452,6 +455,7 @@ brief = json.loads((HERE / 'brief-content.json').read_text())
 first = [s for s in brief['slides'] if s['id'] in ('cover', 'summary', 'hard')]
 cover, summary, hard = first
 summary['section'] = 'Problem'
+hard['chain'] = [['Question', 'What the person asks', 'chat'], ['Schema', 'Tables and columns', 'schema'], ['SQL', 'The generated query', 'code'], ['Rows', 'The answer returned', 'table_rows']]
 summary['accent'] = 'slate'
 brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,
                    benchmarks, large, trials, retrieval, next_tests, references, close, appendix]

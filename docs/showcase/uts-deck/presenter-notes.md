@@ -215,12 +215,12 @@ References:
 - sources.md
 - claims-register.md
 
-## 18. Inspectable SQL, measured trade-offs, and a clear next experiment
+## 18. Inspectable SQL, measured trade-offs and a clear next experiment
 
 Close on the contribution.
 
-The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited.
-This began as a UTS group project with Huy Duc Vu, Ngoc Bao Tran Nguyen and Nguyen Nghia Doan Dang, and I have refined it since. Thank you.
+The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.
+[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you.
 
 References:
 - sources.md

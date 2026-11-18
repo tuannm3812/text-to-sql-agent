@@ -155,11 +155,15 @@ def hard_page(L, p, slide):
     chain = slide['chain']
     gap = 14
     w = (FIG_RIGHT - LEFT - gap * (len(chain) - 1)) / len(chain)
-    for i, (head, body) in enumerate(chain):
+    for i, (head, body, *art) in enumerate(chain):
         x = LEFT + i * (w + gap)
         card(L, p, x, TOP, w, 46)
-        put(L, p, head, x + 8, TOP + 9, w - 16, 12, 'ink', True)
-        put(L, p, body, x + 8, TOP + 26, w - 16, 8, 'body')
+        tx = x + 8
+        if art:
+            icon(L, p, f'assets/icons/{art[0]}-blue.png', head, x + 8, TOP + 13, 22)
+            tx = x + 38
+        put(L, p, head, tx, TOP + 9, x + w - 8 - tx, 12, 'ink', True)
+        put(L, p, body, tx, TOP + 26, x + w - 8 - tx, 8, 'body')
         if i < len(chain) - 1:
             p.connector(x + w + 2, TOP + 23, x + w + gap - 2, TOP + 23, color=L.t.color('rule'))
     fig = slide['figure']
@@ -295,8 +299,12 @@ def aim_page(L, p, slide):
     for i, c in enumerate(slide['promises']):
         x = LEFT + i * (w + gap)
         card(L, p, x, TOP, w, 44)
-        put(L, p, c['title'], x + 10, TOP + 9, w - 20, 12, 'ink', True)
-        put(L, p, c['text'], x + 10, TOP + 26, w - 20, 10)
+        tx = x + 10
+        if c.get('icon'):
+            icon(L, p, f"assets/icons/{c['icon']}-blue.png", c['title'], x + 10, TOP + 12, 22)
+            tx = x + 40
+        put(L, p, c['title'], tx, TOP + 9, x + w - 10 - tx, 12, 'ink', True)
+        put(L, p, c['text'], tx, TOP + 26, x + w - 10 - tx, 10)
         if c.get('marker'):
             marks[c['marker']] = (x + w - 10, TOP + 10)
     mx, my = LEFT, TOP + 66
@@ -315,12 +323,97 @@ def aim_page(L, p, slide):
     for pt in slide['points']:
         cx, cy = mx + pt['x'] * mw, my + (1 - pt['y']) * mh
         colour = SERIES['primary'] if pt.get('ours') else L.t.color('ink')
-        p.rect(cx - 4, cy - 4, 8, 8, colour, 'ELLIPSE')
+        if pt.get('art'):
+            icon(L, p, pt['art'], pt['label'], cx - 8, cy - 8, 16)
+        else:
+            p.rect(cx - 4, cy - 4, 8, 8, colour, 'ELLIPSE')
         tw = width_of(L, pt['label'], 10, bool(pt.get('ours'))) + 2
-        paint(L, p, pt['label'], cx + 8, cy - 7, tw, 10, colour, bool(pt.get('ours')))
+        paint(L, p, pt['label'], cx + 12, cy - 7, tw, 10, colour, bool(pt.get('ours')))
         if pt.get('marker'):
-            marks[pt['marker']] = (cx + 8 + tw + 12, cy)
+            marks[pt['marker']] = (cx + 12 + tw + 12, cy)
     right_column(L, p, slide, marks)
 
 
-LAYOUTS = {'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+def tools_page(L, p, slide):
+    """Other tools: one row per approach with its logo, grouped in bands, effort as three dots."""
+    cols = slide['columns']   # [(header, width)]
+    xs, x = [], LEFT
+    for _, w in cols:
+        xs.append(x)
+        x += w
+    y = TOP
+    kx = RIGHT - 250
+    cap(L, p, 'Effort', kx, y, 40, 'body')
+    kx += 36
+    for n, lab in ((3, 'High'), (2, 'Moderate'), (1, 'Low'), (0, 'None')):
+        dots(L, p, n, kx, y + 2.5)
+        tw = width_of(L, lab, 8) + 2
+        put(L, p, lab, kx + 20, y, tw, 8, 'body')
+        kx += 20 + tw + 12
+    y += 18
+    for (head, _), x0, (_, w) in zip(cols, xs, cols):
+        cap(L, p, head, x0, y, w - 8, 'body')
+    y += 14
+    p.rect(LEFT, y, RIGHT - LEFT, 1, L.t.color('ink'))
+    acc = L.t.data['accents']
+    for row in slide['rows']:
+        if 'band' in row:
+            a = acc[row['accent']]
+            p.rect(LEFT, y + 1, RIGHT - LEFT, 17, a['fill'])
+            p.rect(LEFT, y + 1, 2.5, 17, a['ink'])
+            cap(L, p, row['band'], LEFT + 8, y + 5, 400, 'ink')
+            y += 18
+            continue
+        h = slide.get('row_height', 34)
+        if row.get('ours'):
+            p.rect(LEFT, y, RIGHT - LEFT, h, acc['ochre']['fill'])
+        if row.get('logo'):
+            icon(L, p, row['logo'], row['cells'][0], LEFT + 4, y + (h - 18) / 2, 18)
+        for j, (cell, x0, (_, w)) in enumerate(zip(row['cells'], xs, cols)):
+            if isinstance(cell, list):   # [dots, text]
+                if cell[0] is not None:
+                    dots(L, p, cell[0], x0, y + h / 2 - 9)
+                put(L, p, cell[1], x0, y + h / 2 - 1, w - 8, 8, 'body')
+                continue
+            tx = x0 + (28 if j == 0 else 0)
+            th = need(L, cell, x0 + w - 8 - tx, 10, j == 0)
+            put(L, p, cell, tx, y + (h - th) / 2, x0 + w - 8 - tx, 10, 'ink' if j == 0 else 'body', j == 0)
+        y += h
+        p.rect(LEFT, y, RIGHT - LEFT, 0.5, L.t.color('hair'))
+    y += 8
+    if slide.get('note'):
+        note(L, p, slide['note'], LEFT, y, RIGHT - LEFT)
+    L.band(p, slide.get('takeaway'))
+
+
+def dots(L, p, n, x, y):
+    for k in range(3):
+        p.rect(x + k * 6, y, 4.5, 4.5, SERIES['primary'] if k < n else L.t.color('hair'), 'ELLIPSE')
+
+
+def close_page(L, p, slide):
+    """Closing page, modelled on the old deck's: UTS logo, the claim on a pale band, live demo and code links,
+    byline, and the cover illustration at the right. Cover-like: no header or footer."""
+    p.ops.clear()
+    slide.pop('chapter_badges', None)
+    if L.content.get('identity') == 'uts':
+        L.image(p, {'path': 'assets/brand/uts-logo.svg', 'alt': 'University of Technology Sydney'}, 43.5, 39, 64, 64)
+    y = 150
+    p.rect(0, y, 505, 160, L.t.color('accent_pale'))
+    p.rect(0, y, 8, 160, L.t.color('accent'))
+    cap(L, p, slide['kicker'], LEFT, y + 18, 420, 'accent')
+    th = put(L, p, slide['title'], LEFT, y + 36, 440, 24, 'ink', True)
+    put(L, p, slide['subtitle'], LEFT, y + 36 + th + 8, 440, 12, 'body')
+    yy = 334
+    for lab, text, url, art in slide['links']:
+        icon(L, p, f'assets/icons/{art}-blue.png', lab, LEFT, yy + 1, 14)
+        put(L, p, lab, LEFT + 22, yy, 90, 10, 'ink', True)
+        L.text(p, text, LEFT + 112, yy, 340, 14, 10, 'body')
+        next(op for op in reversed(p.ops) if op['op'] == 'add-textbox')['href'] = url
+        yy += 22
+    put(L, p, L.content['author'], LEFT, 410, 420, 12, 'ink', True)
+    put(L, p, f"{L.content['affiliation']}  \u00b7  {L.content['date']}", LEFT, 428, 420, 10, 'body')
+    L.image(p, slide['image'], 505, 0, 455, 540)
+
+
+LAYOUTS = {'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}

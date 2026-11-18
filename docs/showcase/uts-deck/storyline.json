@@ -584,7 +584,7 @@
           "op": "add-textbox",
           "slide": "agenda",
           "id": "t3",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -598,7 +598,7 @@
           "op": "style-paragraph",
           "element": "t3",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -2377,7 +2377,7 @@
           "op": "add-textbox",
           "slide": "summary",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -2391,7 +2391,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -2889,19 +2889,23 @@
       "chain": [
         [
           "Question",
-          "What the person asks"
+          "What the person asks",
+          "chat"
         ],
         [
           "Schema",
-          "Tables and columns"
+          "Tables and columns",
+          "schema"
         ],
         [
           "SQL",
-          "The generated query"
+          "The generated query",
+          "code"
         ],
         [
           "Rows",
-          "The answer returned"
+          "The answer returned",
+          "table_rows"
         ]
       ],
       "figure": {
@@ -3345,7 +3349,7 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -3359,7 +3363,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -3414,13 +3418,23 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im23",
+          "path": "assets/icons/chat-blue.png",
+          "alt": "Question",
+          "x": 51.5,
+          "y": 145.0,
+          "width": 22,
+          "height": 22
+        },
+        {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t23",
+          "id": "t24",
           "text": "Question",
-          "x": 44.3,
+          "x": 74.3,
           "y": 133.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -3429,14 +3443,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t23",
+          "element": "t24",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t23",
+          "element": "t24",
           "start": 0,
           "end": 8,
           "bold": true
@@ -3444,11 +3458,11 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t24",
+          "id": "t25",
           "text": "What the person asks",
-          "x": 44.3,
+          "x": 74.3,
           "y": 150.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -3457,7 +3471,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t24",
+          "element": "t25",
           "start": 0,
           "end": 20,
           "line_spacing": 135
@@ -3465,7 +3479,7 @@
         {
           "op": "add-line",
           "slide": "hard",
-          "id": "l25",
+          "id": "l26",
           "x": 186.625,
           "y": 155.0,
           "width": 10.0,
@@ -3477,7 +3491,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r26",
+          "id": "r27",
           "shape_type": "RECTANGLE",
           "x": 198.625,
           "y": 132.0,
@@ -3488,7 +3502,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r27",
+          "id": "r28",
           "shape_type": "RECTANGLE",
           "x": 198.625,
           "y": 132.0,
@@ -3497,13 +3511,23 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im29",
+          "path": "assets/icons/schema-blue.png",
+          "alt": "Schema",
+          "x": 206.625,
+          "y": 145.0,
+          "width": 22,
+          "height": 22
+        },
+        {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t28",
+          "id": "t30",
           "text": "Schema",
-          "x": 199.425,
+          "x": 229.425,
           "y": 133.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -3512,14 +3536,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t28",
+          "element": "t30",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t28",
+          "element": "t30",
           "start": 0,
           "end": 6,
           "bold": true
@@ -3527,11 +3551,11 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t29",
+          "id": "t31",
           "text": "Tables and columns",
-          "x": 199.425,
+          "x": 229.425,
           "y": 150.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -3540,7 +3564,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t29",
+          "element": "t31",
           "start": 0,
           "end": 18,
           "line_spacing": 135
@@ -3548,7 +3572,7 @@
         {
           "op": "add-line",
           "slide": "hard",
-          "id": "l30",
+          "id": "l32",
           "x": 341.75,
           "y": 155.0,
           "width": 10.0,
@@ -3560,7 +3584,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r31",
+          "id": "r33",
           "shape_type": "RECTANGLE",
           "x": 353.75,
           "y": 132.0,
@@ -3571,7 +3595,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r32",
+          "id": "r34",
           "shape_type": "RECTANGLE",
           "x": 353.75,
           "y": 132.0,
@@ -3580,13 +3604,23 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im35",
+          "path": "assets/icons/code-blue.png",
+          "alt": "SQL",
+          "x": 361.75,
+          "y": 145.0,
+          "width": 22,
+          "height": 22
+        },
+        {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t33",
+          "id": "t36",
           "text": "SQL",
-          "x": 354.55,
+          "x": 384.55,
           "y": 133.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -3595,14 +3629,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t33",
+          "element": "t36",
           "start": 0,
           "end": 3,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t33",
+          "element": "t36",
           "start": 0,
           "end": 3,
           "bold": true
@@ -3610,11 +3644,11 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t34",
+          "id": "t37",
           "text": "The generated query",
-          "x": 354.55,
+          "x": 384.55,
           "y": 150.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -3623,7 +3657,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t34",
+          "element": "t37",
           "start": 0,
           "end": 19,
           "line_spacing": 135
@@ -3631,7 +3665,7 @@
         {
           "op": "add-line",
           "slide": "hard",
-          "id": "l35",
+          "id": "l38",
           "x": 496.875,
           "y": 155.0,
           "width": 10.0,
@@ -3643,7 +3677,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r36",
+          "id": "r39",
           "shape_type": "RECTANGLE",
           "x": 508.875,
           "y": 132.0,
@@ -3654,7 +3688,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r37",
+          "id": "r40",
           "shape_type": "RECTANGLE",
           "x": 508.875,
           "y": 132.0,
@@ -3663,13 +3697,23 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im41",
+          "path": "assets/icons/table_rows-blue.png",
+          "alt": "Rows",
+          "x": 516.875,
+          "y": 145.0,
+          "width": 22,
+          "height": 22
+        },
+        {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t38",
+          "id": "t42",
           "text": "Rows",
-          "x": 509.675,
+          "x": 539.675,
           "y": 133.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -3678,14 +3722,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t38",
+          "element": "t42",
           "start": 0,
           "end": 4,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t38",
+          "element": "t42",
           "start": 0,
           "end": 4,
           "bold": true
@@ -3693,11 +3737,11 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t39",
+          "id": "t43",
           "text": "The answer returned",
-          "x": 509.675,
+          "x": 539.675,
           "y": 150.8,
-          "width": 139.525,
+          "width": 109.525,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -3706,7 +3750,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t39",
+          "element": "t43",
           "start": 0,
           "end": 19,
           "line_spacing": 135
@@ -3714,7 +3758,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t40",
+          "id": "t44",
           "text": "Published scores fall on enterprise tasks",
           "x": 36.3,
           "y": 186.8,
@@ -3727,14 +3771,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t40",
+          "element": "t44",
           "start": 0,
           "end": 41,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t40",
+          "element": "t44",
           "start": 0,
           "end": 41,
           "bold": true
@@ -3742,7 +3786,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t41",
+          "id": "t45",
           "text": "Spider 1.0",
           "x": 36.3,
           "y": 213.8,
@@ -3755,7 +3799,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t41",
+          "element": "t45",
           "start": 0,
           "end": 10,
           "line_spacing": 135
@@ -3763,7 +3807,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r42",
+          "id": "r46",
           "shape_type": "RECTANGLE",
           "x": 193.5,
           "y": 216.0,
@@ -3774,7 +3818,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t43",
+          "id": "t47",
           "text": "91.2\u00a0%",
           "x": 499.188,
           "y": 213.8,
@@ -3787,14 +3831,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t43",
+          "element": "t47",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t43",
+          "element": "t47",
           "start": 0,
           "end": 6,
           "bold": true
@@ -3802,7 +3846,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t44",
+          "id": "t48",
           "text": "BIRD",
           "x": 36.3,
           "y": 254.9666666666667,
@@ -3815,7 +3859,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t44",
+          "element": "t48",
           "start": 0,
           "end": 4,
           "line_spacing": 135
@@ -3823,7 +3867,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r45",
+          "id": "r49",
           "shape_type": "RECTANGLE",
           "x": 193.5,
           "y": 257.1666666666667,
@@ -3834,7 +3878,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t46",
+          "id": "t50",
           "text": "73.0\u00a0%",
           "x": 437.945,
           "y": 254.9666666666667,
@@ -3847,14 +3891,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t46",
+          "element": "t50",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t46",
+          "element": "t50",
           "start": 0,
           "end": 6,
           "bold": true
@@ -3862,7 +3906,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t47",
+          "id": "t51",
           "text": "Spider 2.0 enterprise",
           "x": 36.3,
           "y": 296.1333333333334,
@@ -3875,7 +3919,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t47",
+          "element": "t51",
           "start": 0,
           "end": 21,
           "line_spacing": 135
@@ -3883,7 +3927,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r48",
+          "id": "r52",
           "shape_type": "RECTANGLE",
           "x": 193.5,
           "y": 298.33333333333337,
@@ -3894,7 +3938,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t49",
+          "id": "t53",
           "text": "21.3\u00a0%",
           "x": 263.9745,
           "y": 296.1333333333334,
@@ -3907,14 +3951,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t49",
+          "element": "t53",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t49",
+          "element": "t53",
           "start": 0,
           "end": 6,
           "bold": true
@@ -3922,7 +3966,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r50",
+          "id": "r54",
           "shape_type": "RECTANGLE",
           "x": 321.17449999999997,
           "y": 298.33333333333337,
@@ -3933,7 +3977,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t51",
+          "id": "t55",
           "text": "69.9 points below Spider 1.0",
           "x": 321.9745,
           "y": 296.1333333333334,
@@ -3946,14 +3990,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t51",
+          "element": "t55",
           "start": 0,
           "end": 28,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t51",
+          "element": "t55",
           "start": 0,
           "end": 28,
           "bold": true
@@ -3961,7 +4005,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t52",
+          "id": "t56",
           "text": "Source: share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results.",
           "x": 36.3,
           "y": 334.30000000000007,
@@ -3974,14 +4018,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t52",
+          "element": "t56",
           "start": 0,
           "end": 125,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t52",
+          "element": "t56",
           "start": 0,
           "end": 7,
           "bold": true
@@ -3989,7 +4033,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r53",
+          "id": "r57",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 383.5,
@@ -4000,7 +4044,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r54",
+          "id": "r58",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 383.5,
@@ -4011,7 +4055,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t55",
+          "id": "t59",
           "text": "Meaning",
           "x": 48.3,
           "y": 388.3,
@@ -4024,14 +4068,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t55",
+          "element": "t59",
           "start": 0,
           "end": 7,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t55",
+          "element": "t59",
           "start": 0,
           "end": 7,
           "bold": true
@@ -4039,7 +4083,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t56",
+          "id": "t60",
           "text": "Words like \u201crevenue\u201d are not\ncolumns. Gross or net? The schema\ndoes not say.",
           "x": 48.3,
           "y": 408.3,
@@ -4052,7 +4096,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t56",
+          "element": "t60",
           "start": 0,
           "end": 76,
           "line_spacing": 135
@@ -4060,7 +4104,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r57",
+          "id": "r61",
           "shape_type": "RECTANGLE",
           "x": 252.33333333333334,
           "y": 383.5,
@@ -4071,7 +4115,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r58",
+          "id": "r62",
           "shape_type": "RECTANGLE",
           "x": 252.33333333333334,
           "y": 383.5,
@@ -4082,7 +4126,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t59",
+          "id": "t63",
           "text": "Scale",
           "x": 257.1333333333334,
           "y": 388.3,
@@ -4095,98 +4139,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t59",
+          "element": "t63",
           "start": 0,
           "end": 5,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t59",
+          "element": "t63",
           "start": 0,
           "end": 5,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "hard",
-          "id": "t60",
-          "text": "Real schemas are large. Spider 2.0\ndatabases often exceed 1,000\ncolumns.",
-          "x": 257.1333333333334,
-          "y": 408.3,
-          "width": 179.23333333333335,
-          "height": 54.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t60",
-          "start": 0,
-          "end": 72,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "hard",
-          "id": "r61",
-          "shape_type": "RECTANGLE",
-          "x": 461.1666666666667,
-          "y": 383.5,
-          "width": 188.83333333333334,
-          "height": 92.5,
-          "background_color": "#F4F5F6"
-        },
-        {
-          "op": "add-shape",
-          "slide": "hard",
-          "id": "r62",
-          "shape_type": "RECTANGLE",
-          "x": 461.1666666666667,
-          "y": 383.5,
-          "width": 188.83333333333334,
-          "height": 3,
-          "background_color": "#526174"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "hard",
-          "id": "t63",
-          "text": "Risk",
-          "x": 465.9666666666667,
-          "y": 388.3,
-          "width": 179.23333333333335,
-          "height": 30.6,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t63",
-          "start": 0,
-          "end": 4,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t63",
-          "start": 0,
-          "end": 4,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "hard",
           "id": "t64",
-          "text": "Generated SQL runs on real data, so\nit must be stopped from changing it.",
-          "x": 465.9666666666667,
+          "text": "Real schemas are large. Spider 2.0\ndatabases often exceed 1,000\ncolumns.",
+          "x": 257.1333333333334,
           "y": 408.3,
           "width": 179.23333333333335,
-          "height": 41.4,
+          "height": 54.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -4200,9 +4173,80 @@
           "line_spacing": 135
         },
         {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r65",
+          "shape_type": "RECTANGLE",
+          "x": 461.1666666666667,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 92.5,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r66",
+          "shape_type": "RECTANGLE",
+          "x": 461.1666666666667,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t67",
+          "text": "Risk",
+          "x": 465.9666666666667,
+          "y": 388.3,
+          "width": 179.23333333333335,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t67",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t67",
+          "start": 0,
+          "end": 4,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t68",
+          "text": "Generated SQL runs on real data, so\nit must be stopped from changing it.",
+          "x": 465.9666666666667,
+          "y": 408.3,
+          "width": 179.23333333333335,
+          "height": 41.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t68",
+          "start": 0,
+          "end": 72,
+          "line_spacing": 135
+        },
+        {
           "op": "add-line",
           "slide": "hard",
-          "id": "l65",
+          "id": "l69",
           "x": 658,
           "y": 131,
           "width": 0,
@@ -4213,7 +4257,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r66",
+          "id": "r70",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -4224,7 +4268,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r67",
+          "id": "r71",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -4235,7 +4279,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t68",
+          "id": "t72",
           "text": "TAKEAWAY",
           "x": 674.8,
           "y": 135.8,
@@ -4248,14 +4292,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t68",
+          "element": "t72",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t68",
+          "element": "t72",
           "start": 0,
           "end": 8,
           "bold": true
@@ -4263,7 +4307,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t69",
+          "id": "t73",
           "text": "Published scores fall about 70 points on\nenterprise tasks, so a good demo is not\nevidence.",
           "x": 674.8,
           "y": 155.8,
@@ -4276,7 +4320,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t69",
+          "element": "t73",
           "start": 0,
           "end": 90,
           "line_spacing": 135
@@ -4284,7 +4328,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r70",
+          "id": "r74",
           "shape_type": "ELLIPSE",
           "x": 216.33333333333334,
           "y": 387.5,
@@ -4295,7 +4339,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t71",
+          "id": "t75",
           "text": "1",
           "x": 209.13333333333335,
           "y": 380.3,
@@ -4311,7 +4355,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r72",
+          "id": "r76",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 238.64,
@@ -4322,7 +4366,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t73",
+          "id": "t77",
           "text": "1",
           "x": 660.8,
           "y": 231.44,
@@ -4338,7 +4382,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t74",
+          "id": "t78",
           "text": "SQL is the easy part",
           "x": 680.8,
           "y": 229.8,
@@ -4351,14 +4395,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t74",
+          "element": "t78",
           "start": 0,
           "end": 20,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t74",
+          "element": "t78",
           "start": 0,
           "end": 20,
           "bold": true
@@ -4366,7 +4410,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t75",
+          "id": "t79",
           "text": "The hard part is knowing what the question means\nin this database.",
           "x": 680.8,
           "y": 250.0,
@@ -4379,7 +4423,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t75",
+          "element": "t79",
           "start": 0,
           "end": 66,
           "line_spacing": 135
@@ -4387,7 +4431,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r76",
+          "id": "r80",
           "shape_type": "ELLIPSE",
           "x": 508.3879999999999,
           "y": 304.33333333333337,
@@ -4398,7 +4442,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t77",
+          "id": "t81",
           "text": "2",
           "x": 501.18799999999993,
           "y": 297.1333333333334,
@@ -4414,7 +4458,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r78",
+          "id": "r82",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 297.84,
@@ -4425,7 +4469,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t79",
+          "id": "t83",
           "text": "2",
           "x": 660.8,
           "y": 290.64,
@@ -4441,7 +4485,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t80",
+          "id": "t84",
           "text": "We see the same direction",
           "x": 680.8,
           "y": 289.0,
@@ -4454,14 +4498,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t80",
+          "element": "t84",
           "start": 0,
           "end": 25,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t80",
+          "element": "t84",
           "start": 0,
           "end": 25,
           "bold": true
@@ -4469,7 +4513,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t81",
+          "id": "t85",
           "text": "Spider 2.0 sits 69.9 points below Spider 1.0. Our\nmodel also falls on the harder test, from 64.6 % on\nSpider to 35.2 % on BIRD, using our own scorer.",
           "x": 680.8,
           "y": 309.2,
@@ -4482,7 +4526,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t81",
+          "element": "t85",
           "start": 0,
           "end": 149,
           "line_spacing": 135
@@ -4490,7 +4534,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r82",
+          "id": "r86",
           "shape_type": "ELLIPSE",
           "x": 634.0,
           "y": 387.5,
@@ -4501,7 +4545,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t83",
+          "id": "t87",
           "text": "3",
           "x": 626.8,
           "y": 380.3,
@@ -4517,7 +4561,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r84",
+          "id": "r88",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 371.53999999999996,
@@ -4528,7 +4572,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t85",
+          "id": "t89",
           "text": "3",
           "x": 660.8,
           "y": 364.34,
@@ -4544,7 +4588,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t86",
+          "id": "t90",
           "text": "Keep a person in the loop",
           "x": 680.8,
           "y": 361.7,
@@ -4557,14 +4601,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t86",
+          "element": "t90",
           "start": 0,
           "end": 25,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t86",
+          "element": "t90",
           "start": 0,
           "end": 25,
           "bold": true
@@ -4572,7 +4616,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t87",
+          "id": "t91",
           "text": "A valid query can still answer the wrong question.\nDashboards and analyst SQL remain best for\ndefined, recurring metrics.",
           "x": 680.8,
           "y": 381.9,
@@ -4585,7 +4629,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t87",
+          "element": "t91",
           "start": 0,
           "end": 121,
           "line_spacing": 135
@@ -4594,93 +4638,153 @@
     },
     {
       "id": "tools",
-      "layout": "table_page",
+      "layout": "tools_page",
       "section": "Problem",
       "topic": "Other tools",
       "accent": "slate",
       "title": "Other tools get business meaning through setup",
       "subtitle": "Two routes to meaning, compared on the same criteria; sources read 6 November 2026",
-      "tables": [
+      "columns": [
+        [
+          "Approach",
+          190
+        ],
+        [
+          "Source of meaning",
+          150
+        ],
+        [
+          "Setup",
+          130
+        ],
+        [
+          "Upkeep",
+          130
+        ],
+        [
+          "Best for",
+          135.5
+        ],
+        [
+          "Risk",
+          140
+        ]
+      ],
+      "row_height": 31,
+      "rows": [
         {
-          "headers": [
-            "Approach",
-            "Source of meaning",
-            "Setup",
-            "Upkeep",
-            "Best for",
-            "Risk"
-          ],
-          "widths": [
-            150,
-            150,
-            150,
-            150,
-            135.5,
-            140
-          ],
-          "size": 10,
-          "row_height": 30,
-          "rows": [
-            {
-              "band": "People define the meaning",
-              "accent": "slate"
-            },
+          "band": "People define the meaning",
+          "accent": "slate"
+        },
+        {
+          "logo": "assets/logos/snowflake.png",
+          "cells": [
+            "Snowflake Cortex Analyst",
+            "Semantic view",
             [
-              "Snowflake Cortex Analyst",
-              "Semantic view",
-              "Define the view",
-              "Refine with evaluations",
-              "Agreed metrics",
-              "Stale definitions"
+              2,
+              "Define the view"
             ],
             [
-              "Databricks Genie Agents",
-              "SQL expressions, example SQL",
-              "Expert curation",
-              "Iterate with feedback",
-              "One topic and audience",
-              "Depends on the curator"
+              2,
+              "Refine with evaluations"
+            ],
+            "Agreed metrics",
+            "Stale definitions"
+          ]
+        },
+        {
+          "logo": "assets/logos/databricks.png",
+          "cells": [
+            "Databricks Genie Agents",
+            "SQL expressions, example SQL",
+            [
+              3,
+              "Expert curation"
             ],
             [
-              "WrenAI",
-              "Semantic layer in Git",
-              "Define the MDL model",
-              "Review in Git",
-              "Versioned definitions",
-              "Unmodelled data"
+              2,
+              "Iterate with feedback"
             ],
-            {
-              "band": "Systems work it out",
-              "accent": "blue"
-            },
+            "One topic and audience",
+            "Depends on the curator"
+          ]
+        },
+        {
+          "logo": "assets/logos/wren.png",
+          "cells": [
+            "WrenAI",
+            "Semantic layer in Git",
             [
-              "Vanna",
-              "Saved past queries",
-              "Learns from use",
-              "Self-maintained",
-              "Repeated questions",
-              "Repeats past errors"
+              2,
+              "Define the MDL model"
             ],
             [
-              "BIRD leaderboard systems",
-              "Mostly not listed",
-              "Not listed",
-              "Not listed",
-              "Benchmark scores",
-              "Transfer unproven"
+              2,
+              "Review in Git"
             ],
-            {
-              "band": "This project",
-              "accent": "ochre"
-            },
+            "Versioned definitions",
+            "Unmodelled data"
+          ]
+        },
+        {
+          "band": "Systems work it out",
+          "accent": "blue"
+        },
+        {
+          "logo": "assets/logos/vanna.png",
+          "cells": [
+            "Vanna",
+            "Saved past queries",
             [
-              "This project",
-              "Schema and bounded hints",
-              "Connect only",
-              "None",
-              "A first look",
-              "A person checks the meaning"
-            ]
+              1,
+              "Learns from use"
+            ],
+            [
+              2,
+              "Self-maintained"
+            ],
+            "Repeated questions",
+            "Repeats past errors"
+          ]
+        },
+        {
+          "logo": "assets/icons/monitoring-ink.png",
+          "cells": [
+            "BIRD leaderboard systems",
+            "Mostly not listed",
+            [
+              null,
+              "Not listed"
+            ],
+            [
+              null,
+              "Not listed"
+            ],
+            "Benchmark scores",
+            "Transfer unproven"
+          ]
+        },
+        {
+          "band": "This project",
+          "accent": "ochre"
+        },
+        {
+          "logo": "assets/icons/fact_check-blue.png",
+          "ours": true,
+          "cells": [
+            "This project",
+            "Schema and bounded hints",
+            [
+              0,
+              "Connect only"
+            ],
+            [
+              0,
+              "None"
+            ],
+            "A first look",
+            "A person checks the meaning"
           ]
         }
       ],
@@ -5032,7 +5136,7 @@
           "op": "add-textbox",
           "slide": "tools",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -5046,7 +5150,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -5082,11 +5186,11 @@
           "op": "add-textbox",
           "slide": "tools",
           "id": "t21",
-          "text": "Approach",
-          "x": 36.3,
+          "text": "EFFORT",
+          "x": 661.8,
           "y": 124.8,
-          "width": 156.4,
-          "height": 26.4,
+          "width": 54.4,
+          "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -5096,276 +5200,167 @@
           "op": "style-paragraph",
           "element": "t21",
           "start": 0,
-          "end": 8,
+          "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t21",
           "start": 0,
-          "end": 8,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t22",
-          "text": "Source of meaning",
-          "x": 186.3,
-          "y": 124.8,
-          "width": 156.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t22",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t22",
-          "start": 0,
-          "end": 17,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t23",
-          "text": "Setup",
-          "x": 336.3,
-          "y": 124.8,
-          "width": 156.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t23",
-          "start": 0,
-          "end": 5,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t23",
-          "start": 0,
-          "end": 5,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t24",
-          "text": "Upkeep",
-          "x": 486.3,
-          "y": 124.8,
-          "width": 156.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t24",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t24",
-          "start": 0,
           "end": 6,
           "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r22",
+          "shape_type": "ELLIPSE",
+          "x": 705.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r23",
+          "shape_type": "ELLIPSE",
+          "x": 711.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r24",
+          "shape_type": "ELLIPSE",
+          "x": 717.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t25",
-          "text": "Best for",
-          "x": 636.3,
+          "text": "High",
+          "x": 717.8,
           "y": 124.8,
-          "width": 141.9,
-          "height": 26.4,
+          "width": 32.86666666666667,
+          "height": 25.200000000000003,
           "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t25",
-          "start": 0,
-          "end": 8,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t25",
-          "start": 0,
-          "end": 8,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t26",
-          "text": "Risk",
-          "x": 771.8,
-          "y": 124.8,
-          "width": 146.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t26",
-          "start": 0,
-          "end": 4,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t26",
-          "start": 0,
-          "end": 4,
-          "bold": true
-        },
-        {
-          "op": "add-line",
-          "slide": "tools",
-          "id": "l27",
-          "x": 43.5,
-          "y": 146,
-          "width": 875.5,
-          "height": 0,
-          "color": "#89949D",
-          "line_weight": 0.75
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r28",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 146,
-          "width": 875.5,
-          "height": 16,
-          "background_color": "#EDF0F3"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r29",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 146,
-          "width": 2.5,
-          "height": 16,
-          "background_color": "#526174"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t30",
-          "text": "People define the meaning",
-          "x": 42.3,
-          "y": 140.8,
-          "width": 849.9,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t30",
-          "start": 0,
-          "end": 25,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t30",
-          "start": 0,
-          "end": 25,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t31",
-          "text": "Snowflake Cortex Analyst",
-          "x": 36.3,
-          "y": 157.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t31",
-          "start": 0,
-          "end": 24,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t31",
-          "start": 0,
-          "end": 24,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t32",
-          "text": "Semantic view",
-          "x": 186.3,
-          "y": 157.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t32",
+          "element": "t25",
           "start": 0,
-          "end": 13,
+          "end": 4,
           "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r26",
+          "shape_type": "ELLIPSE",
+          "x": 755.4666666666667,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r27",
+          "shape_type": "ELLIPSE",
+          "x": 761.4666666666667,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r28",
+          "shape_type": "ELLIPSE",
+          "x": 767.4666666666667,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t29",
+          "text": "Moderate",
+          "x": 768.2666666666667,
+          "y": 124.8,
+          "width": 51.93333333333333,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t29",
+          "start": 0,
+          "end": 8,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r30",
+          "shape_type": "ELLIPSE",
+          "x": 825.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r31",
+          "shape_type": "ELLIPSE",
+          "x": 831.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r32",
+          "shape_type": "ELLIPSE",
+          "x": 837.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t33",
-          "text": "Define the view",
-          "x": 336.3,
-          "y": 157.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
+          "text": "Low",
+          "x": 837.8,
+          "y": 124.8,
+          "width": 31.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
@@ -5374,236 +5369,311 @@
           "op": "style-paragraph",
           "element": "t33",
           "start": 0,
-          "end": 15,
+          "end": 3,
           "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r34",
+          "shape_type": "ELLIPSE",
+          "x": 874.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r35",
+          "shape_type": "ELLIPSE",
+          "x": 880.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r36",
+          "shape_type": "ELLIPSE",
+          "x": 886.0,
+          "y": 134.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t34",
-          "text": "Refine with evaluations",
-          "x": 486.3,
-          "y": 157.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
+          "id": "t37",
+          "text": "None",
+          "x": 886.8,
+          "y": 124.8,
+          "width": 35.733333333333334,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t34",
+          "element": "t37",
           "start": 0,
-          "end": 23,
+          "end": 4,
           "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t35",
-          "text": "Agreed metrics",
-          "x": 636.3,
-          "y": 157.8,
-          "width": 141.9,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t35",
-          "start": 0,
-          "end": 14,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t36",
-          "text": "Stale definitions",
-          "x": 771.8,
-          "y": 157.8,
-          "width": 146.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t36",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-line",
-          "slide": "tools",
-          "id": "l37",
-          "x": 43.5,
-          "y": 192,
-          "width": 875.5,
-          "height": 0,
-          "color": "#D8DEE3",
-          "line_weight": 0.75
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t38",
-          "text": "Databricks Genie Agents",
+          "text": "APPROACH",
           "x": 36.3,
-          "y": 187.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
+          "y": 142.8,
+          "width": 196.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#1B2430",
+          "color": "#5A6370",
           "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t38",
           "start": 0,
-          "end": 23,
+          "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t38",
           "start": 0,
-          "end": 23,
+          "end": 8,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t39",
-          "text": "SQL expressions, example SQL",
-          "x": 186.3,
-          "y": 187.8,
+          "text": "SOURCE OF MEANING",
+          "x": 226.3,
+          "y": 142.8,
           "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t39",
           "start": 0,
-          "end": 28,
+          "end": 17,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t39",
+          "start": 0,
+          "end": 17,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t40",
-          "text": "Expert curation",
-          "x": 336.3,
-          "y": 187.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
+          "text": "SETUP",
+          "x": 376.3,
+          "y": 142.8,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t40",
           "start": 0,
-          "end": 15,
+          "end": 5,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t40",
+          "start": 0,
+          "end": 5,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t41",
-          "text": "Iterate with feedback",
-          "x": 486.3,
-          "y": 187.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
+          "text": "UPKEEP",
+          "x": 506.3,
+          "y": 142.8,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t41",
           "start": 0,
-          "end": 21,
+          "end": 6,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t41",
+          "start": 0,
+          "end": 6,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t42",
-          "text": "One topic and audience",
+          "text": "BEST FOR",
           "x": 636.3,
-          "y": 187.8,
+          "y": 142.8,
           "width": 141.9,
-          "height": 40.4,
-          "font_size": 10,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t42",
           "start": 0,
-          "end": 22,
+          "end": 8,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t42",
+          "start": 0,
+          "end": 8,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t43",
-          "text": "Depends on the curator",
+          "text": "RISK",
           "x": 771.8,
-          "y": 187.8,
+          "y": 142.8,
           "width": 146.4,
-          "height": 40.4,
-          "font_size": 10,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t43",
           "start": 0,
-          "end": 22,
+          "end": 4,
           "line_spacing": 135
         },
         {
-          "op": "add-line",
+          "op": "style-text",
+          "element": "t43",
+          "start": 0,
+          "end": 4,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
           "slide": "tools",
-          "id": "l44",
+          "id": "r44",
+          "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 222,
+          "y": 164.0,
           "width": 875.5,
-          "height": 0,
-          "color": "#D8DEE3",
-          "line_weight": 0.75
+          "height": 1,
+          "background_color": "#1B2430"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r45",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 165.0,
+          "width": 875.5,
+          "height": 17,
+          "background_color": "#EDF0F3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r46",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 165.0,
+          "width": 2.5,
+          "height": 17,
+          "background_color": "#526174"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t45",
-          "text": "WrenAI",
-          "x": 36.3,
-          "y": 217.8,
-          "width": 156.4,
-          "height": 40.4,
+          "id": "t47",
+          "text": "PEOPLE DEFINE THE MEANING",
+          "x": 44.3,
+          "y": 161.8,
+          "width": 414.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t47",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t47",
+          "start": 0,
+          "end": 25,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im48",
+          "path": "assets/logos/snowflake.png",
+          "alt": "Snowflake Cortex Analyst",
+          "x": 47.5,
+          "y": 188.5,
+          "width": 18,
+          "height": 18
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t49",
+          "text": "Snowflake Cortex Analyst",
+          "x": 64.3,
+          "y": 183.55,
+          "width": 168.4,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -5611,111 +5681,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t45",
+          "element": "t49",
           "start": 0,
-          "end": 6,
+          "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t45",
+          "element": "t49",
           "start": 0,
-          "end": 6,
+          "end": 24,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t46",
-          "text": "Semantic layer in Git",
-          "x": 186.3,
-          "y": 217.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t46",
-          "start": 0,
-          "end": 21,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t47",
-          "text": "Define the MDL model",
-          "x": 336.3,
-          "y": 217.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t47",
-          "start": 0,
-          "end": 20,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t48",
-          "text": "Review in Git",
-          "x": 486.3,
-          "y": 217.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t48",
-          "start": 0,
-          "end": 13,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t49",
-          "text": "Versioned definitions",
-          "x": 636.3,
-          "y": 217.8,
-          "width": 141.9,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t49",
-          "start": 0,
-          "end": 21,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
           "id": "t50",
-          "text": "Unmodelled data",
-          "x": 771.8,
-          "y": 217.8,
-          "width": 146.4,
-          "height": 40.4,
+          "text": "Semantic view",
+          "x": 226.3,
+          "y": 183.55,
+          "width": 156.4,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -5725,160 +5711,106 @@
           "op": "style-paragraph",
           "element": "t50",
           "start": 0,
-          "end": 15,
+          "end": 13,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "tools",
           "id": "r51",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 252,
-          "width": 875.5,
-          "height": 16,
-          "background_color": "#EAF0F6"
+          "shape_type": "ELLIPSE",
+          "x": 383.5,
+          "y": 188.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
         },
         {
           "op": "add-shape",
           "slide": "tools",
           "id": "r52",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 252,
-          "width": 2.5,
-          "height": 16,
-          "background_color": "#32658A"
+          "shape_type": "ELLIPSE",
+          "x": 389.5,
+          "y": 188.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "tools",
-          "id": "t53",
-          "text": "Systems work it out",
-          "x": 42.3,
-          "y": 246.8,
-          "width": 849.9,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t53",
-          "start": 0,
-          "end": 19,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t53",
-          "start": 0,
-          "end": 19,
-          "bold": true
+          "id": "r53",
+          "shape_type": "ELLIPSE",
+          "x": 395.5,
+          "y": 188.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t54",
-          "text": "Vanna",
-          "x": 36.3,
-          "y": 263.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
+          "text": "Define the view",
+          "x": 376.3,
+          "y": 189.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
+          "color": "#5A6370",
+          "bold": false
         },
         {
           "op": "style-paragraph",
           "element": "t54",
           "start": 0,
-          "end": 5,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t54",
-          "start": 0,
-          "end": 5,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t55",
-          "text": "Saved past queries",
-          "x": 186.3,
-          "y": 263.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t55",
-          "start": 0,
-          "end": 18,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t56",
-          "text": "Learns from use",
-          "x": 336.3,
-          "y": 263.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t56",
-          "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "tools",
-          "id": "t57",
-          "text": "Self-maintained",
-          "x": 486.3,
-          "y": 263.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
+          "id": "r55",
+          "shape_type": "ELLIPSE",
+          "x": 513.5,
+          "y": 188.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
         },
         {
-          "op": "style-paragraph",
-          "element": "t57",
-          "start": 0,
-          "end": 15,
-          "line_spacing": 135
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r56",
+          "shape_type": "ELLIPSE",
+          "x": 519.5,
+          "y": 188.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r57",
+          "shape_type": "ELLIPSE",
+          "x": 525.5,
+          "y": 188.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t58",
-          "text": "Repeated questions",
-          "x": 636.3,
-          "y": 263.8,
-          "width": 141.9,
-          "height": 40.4,
-          "font_size": 10,
+          "text": "Refine with evaluations",
+          "x": 506.3,
+          "y": 189.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
@@ -5887,18 +5819,18 @@
           "op": "style-paragraph",
           "element": "t58",
           "start": 0,
-          "end": 18,
+          "end": 23,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t59",
-          "text": "Repeats past errors",
-          "x": 771.8,
-          "y": 263.8,
-          "width": 146.4,
-          "height": 40.4,
+          "text": "Agreed metrics",
+          "x": 636.3,
+          "y": 183.55,
+          "width": 141.9,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -5908,29 +5840,60 @@
           "op": "style-paragraph",
           "element": "t59",
           "start": 0,
-          "end": 19,
+          "end": 14,
           "line_spacing": 135
-        },
-        {
-          "op": "add-line",
-          "slide": "tools",
-          "id": "l60",
-          "x": 43.5,
-          "y": 298,
-          "width": 875.5,
-          "height": 0,
-          "color": "#D8DEE3",
-          "line_weight": 0.75
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t61",
-          "text": "BIRD leaderboard systems",
-          "x": 36.3,
-          "y": 293.8,
-          "width": 156.4,
-          "height": 40.4,
+          "id": "t60",
+          "text": "Stale definitions",
+          "x": 771.8,
+          "y": 183.55,
+          "width": 146.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t60",
+          "start": 0,
+          "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r61",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 213.0,
+          "width": 875.5,
+          "height": 0.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-image",
+          "id": "im62",
+          "path": "assets/logos/databricks.png",
+          "alt": "Databricks Genie Agents",
+          "x": 47.5,
+          "y": 219.5,
+          "width": 18,
+          "height": 18
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t63",
+          "text": "Databricks Genie Agents",
+          "x": 64.3,
+          "y": 214.55,
+          "width": 168.4,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -5938,69 +5901,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t61",
+          "element": "t63",
           "start": 0,
-          "end": 24,
+          "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t61",
+          "element": "t63",
           "start": 0,
-          "end": 24,
+          "end": 23,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t62",
-          "text": "Mostly not listed",
-          "x": 186.3,
-          "y": 293.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t62",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t63",
-          "text": "Not listed",
-          "x": 336.3,
-          "y": 293.8,
-          "width": 156.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t63",
-          "start": 0,
-          "end": 10,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
           "id": "t64",
-          "text": "Not listed",
-          "x": 486.3,
-          "y": 293.8,
+          "text": "SQL expressions, example SQL",
+          "x": 226.3,
+          "y": 214.55,
           "width": 156.4,
-          "height": 40.4,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -6010,160 +5931,106 @@
           "op": "style-paragraph",
           "element": "t64",
           "start": 0,
-          "end": 10,
+          "end": 28,
           "line_spacing": 135
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "tools",
-          "id": "t65",
-          "text": "Benchmark scores",
-          "x": 636.3,
-          "y": 293.8,
-          "width": 141.9,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
+          "id": "r65",
+          "shape_type": "ELLIPSE",
+          "x": 383.5,
+          "y": 219.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
         },
         {
-          "op": "style-paragraph",
-          "element": "t65",
-          "start": 0,
-          "end": 16,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "tools",
-          "id": "t66",
-          "text": "Transfer unproven",
-          "x": 771.8,
-          "y": 293.8,
-          "width": 146.4,
-          "height": 40.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t66",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
+          "id": "r66",
+          "shape_type": "ELLIPSE",
+          "x": 389.5,
+          "y": 219.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
         },
         {
           "op": "add-shape",
           "slide": "tools",
           "id": "r67",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 328,
-          "width": 875.5,
-          "height": 16,
-          "background_color": "#F6F1E5"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r68",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 328,
-          "width": 2.5,
-          "height": 16,
-          "background_color": "#896521"
+          "shape_type": "ELLIPSE",
+          "x": 395.5,
+          "y": 219.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t69",
-          "text": "This project",
-          "x": 42.3,
-          "y": 322.8,
-          "width": 849.9,
-          "height": 26.4,
+          "id": "t68",
+          "text": "Expert curation",
+          "x": 376.3,
+          "y": 220.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
           "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t69",
-          "start": 0,
-          "end": 12,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t69",
-          "start": 0,
-          "end": 12,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t70",
-          "text": "This project",
-          "x": 36.3,
-          "y": 339.8,
-          "width": 156.4,
-          "height": 44.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t70",
-          "start": 0,
-          "end": 12,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t70",
-          "start": 0,
-          "end": 12,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t71",
-          "text": "Schema and bounded hints",
-          "x": 186.3,
-          "y": 339.8,
-          "width": 156.4,
-          "height": 44.4,
-          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t71",
+          "element": "t68",
           "start": 0,
-          "end": 24,
+          "end": 15,
           "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r69",
+          "shape_type": "ELLIPSE",
+          "x": 513.5,
+          "y": 219.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r70",
+          "shape_type": "ELLIPSE",
+          "x": 519.5,
+          "y": 219.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r71",
+          "shape_type": "ELLIPSE",
+          "x": 525.5,
+          "y": 219.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t72",
-          "text": "Connect only",
-          "x": 336.3,
-          "y": 339.8,
-          "width": 156.4,
-          "height": 44.4,
-          "font_size": 10,
+          "text": "Iterate with feedback",
+          "x": 506.3,
+          "y": 220.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
@@ -6172,18 +6039,18 @@
           "op": "style-paragraph",
           "element": "t72",
           "start": 0,
-          "end": 12,
+          "end": 21,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t73",
-          "text": "None",
-          "x": 486.3,
-          "y": 339.8,
-          "width": 156.4,
-          "height": 44.4,
+          "text": "One topic and audience",
+          "x": 636.3,
+          "y": 214.55,
+          "width": 141.9,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -6193,18 +6060,18 @@
           "op": "style-paragraph",
           "element": "t73",
           "start": 0,
-          "end": 4,
+          "end": 22,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t74",
-          "text": "A first look",
-          "x": 636.3,
-          "y": 339.8,
-          "width": 141.9,
-          "height": 44.4,
+          "text": "Depends on the curator",
+          "x": 771.8,
+          "y": 214.55,
+          "width": 146.4,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -6214,18 +6081,67 @@
           "op": "style-paragraph",
           "element": "t74",
           "start": 0,
-          "end": 12,
+          "end": 22,
           "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r75",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 244.0,
+          "width": 875.5,
+          "height": 0.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-image",
+          "id": "im76",
+          "path": "assets/logos/wren.png",
+          "alt": "WrenAI",
+          "x": 47.5,
+          "y": 250.5,
+          "width": 18,
+          "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t75",
-          "text": "A person checks the\nmeaning",
-          "x": 771.8,
-          "y": 339.8,
-          "width": 146.4,
-          "height": 44.4,
+          "id": "t77",
+          "text": "WrenAI",
+          "x": 64.3,
+          "y": 245.55,
+          "width": 168.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t77",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t77",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t78",
+          "text": "Semantic layer in Git",
+          "x": 226.3,
+          "y": 245.55,
+          "width": 156.4,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -6233,26 +6149,910 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t75",
+          "element": "t78",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r79",
+          "shape_type": "ELLIPSE",
+          "x": 383.5,
+          "y": 250.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r80",
+          "shape_type": "ELLIPSE",
+          "x": 389.5,
+          "y": 250.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r81",
+          "shape_type": "ELLIPSE",
+          "x": 395.5,
+          "y": 250.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t82",
+          "text": "Define the MDL model",
+          "x": 376.3,
+          "y": 251.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t82",
+          "start": 0,
+          "end": 20,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r83",
+          "shape_type": "ELLIPSE",
+          "x": 513.5,
+          "y": 250.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r84",
+          "shape_type": "ELLIPSE",
+          "x": 519.5,
+          "y": 250.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r85",
+          "shape_type": "ELLIPSE",
+          "x": 525.5,
+          "y": 250.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t86",
+          "text": "Review in Git",
+          "x": 506.3,
+          "y": 251.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t86",
+          "start": 0,
+          "end": 13,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t87",
+          "text": "Versioned definitions",
+          "x": 636.3,
+          "y": 245.55,
+          "width": 141.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t87",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t88",
+          "text": "Unmodelled data",
+          "x": 771.8,
+          "y": 245.55,
+          "width": 146.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t88",
+          "start": 0,
+          "end": 15,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r89",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 275.0,
+          "width": 875.5,
+          "height": 0.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r90",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 276.0,
+          "width": 875.5,
+          "height": 17,
+          "background_color": "#EAF0F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r91",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 276.0,
+          "width": 2.5,
+          "height": 17,
+          "background_color": "#32658A"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t92",
+          "text": "SYSTEMS WORK IT OUT",
+          "x": 44.3,
+          "y": 272.8,
+          "width": 414.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t92",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t92",
+          "start": 0,
+          "end": 19,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im93",
+          "path": "assets/logos/vanna.png",
+          "alt": "Vanna",
+          "x": 47.5,
+          "y": 299.5,
+          "width": 18,
+          "height": 18
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t94",
+          "text": "Vanna",
+          "x": 64.3,
+          "y": 294.55,
+          "width": 168.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t94",
+          "start": 0,
+          "end": 5,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t94",
+          "start": 0,
+          "end": 5,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t95",
+          "text": "Saved past queries",
+          "x": 226.3,
+          "y": 294.55,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t95",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r96",
+          "shape_type": "ELLIPSE",
+          "x": 383.5,
+          "y": 299.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r97",
+          "shape_type": "ELLIPSE",
+          "x": 389.5,
+          "y": 299.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r98",
+          "shape_type": "ELLIPSE",
+          "x": 395.5,
+          "y": 299.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t99",
+          "text": "Learns from use",
+          "x": 376.3,
+          "y": 300.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t99",
+          "start": 0,
+          "end": 15,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r100",
+          "shape_type": "ELLIPSE",
+          "x": 513.5,
+          "y": 299.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r101",
+          "shape_type": "ELLIPSE",
+          "x": 519.5,
+          "y": 299.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r102",
+          "shape_type": "ELLIPSE",
+          "x": 525.5,
+          "y": 299.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t103",
+          "text": "Self-maintained",
+          "x": 506.3,
+          "y": 300.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t103",
+          "start": 0,
+          "end": 15,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t104",
+          "text": "Repeated questions",
+          "x": 636.3,
+          "y": 294.55,
+          "width": 141.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t104",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t105",
+          "text": "Repeats past errors",
+          "x": 771.8,
+          "y": 294.55,
+          "width": 146.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t105",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r106",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 324.0,
+          "width": 875.5,
+          "height": 0.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-image",
+          "id": "im107",
+          "path": "assets/icons/monitoring-ink.png",
+          "alt": "BIRD leaderboard systems",
+          "x": 47.5,
+          "y": 330.5,
+          "width": 18,
+          "height": 18
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t108",
+          "text": "BIRD leaderboard systems",
+          "x": 64.3,
+          "y": 325.55,
+          "width": 168.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t108",
+          "start": 0,
+          "end": 24,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t108",
+          "start": 0,
+          "end": 24,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t109",
+          "text": "Mostly not listed",
+          "x": 226.3,
+          "y": 325.55,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t109",
+          "start": 0,
+          "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t110",
+          "text": "Not listed",
+          "x": 376.3,
+          "y": 331.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t110",
+          "start": 0,
+          "end": 10,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t111",
+          "text": "Not listed",
+          "x": 506.3,
+          "y": 331.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t111",
+          "start": 0,
+          "end": 10,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t112",
+          "text": "Benchmark scores",
+          "x": 636.3,
+          "y": 325.55,
+          "width": 141.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t112",
+          "start": 0,
+          "end": 16,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t113",
+          "text": "Transfer unproven",
+          "x": 771.8,
+          "y": 325.55,
+          "width": 146.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t113",
+          "start": 0,
+          "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r114",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 355.0,
+          "width": 875.5,
+          "height": 0.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r115",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 356.0,
+          "width": 875.5,
+          "height": 17,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r116",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 356.0,
+          "width": 2.5,
+          "height": 17,
+          "background_color": "#896521"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t117",
+          "text": "THIS PROJECT",
+          "x": 44.3,
+          "y": 352.8,
+          "width": 414.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t117",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t117",
+          "start": 0,
+          "end": 12,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r118",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 373.0,
+          "width": 875.5,
+          "height": 31,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-image",
+          "id": "im119",
+          "path": "assets/icons/fact_check-blue.png",
+          "alt": "This project",
+          "x": 47.5,
+          "y": 379.5,
+          "width": 18,
+          "height": 18
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t120",
+          "text": "This project",
+          "x": 64.3,
+          "y": 374.55,
+          "width": 168.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t120",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t120",
+          "start": 0,
+          "end": 12,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t121",
+          "text": "Schema and bounded hints",
+          "x": 226.3,
+          "y": 374.55,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t121",
+          "start": 0,
+          "end": 24,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r122",
+          "shape_type": "ELLIPSE",
+          "x": 383.5,
+          "y": 379.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r123",
+          "shape_type": "ELLIPSE",
+          "x": 389.5,
+          "y": 379.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r124",
+          "shape_type": "ELLIPSE",
+          "x": 395.5,
+          "y": 379.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t125",
+          "text": "Connect only",
+          "x": 376.3,
+          "y": 380.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t125",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r126",
+          "shape_type": "ELLIPSE",
+          "x": 513.5,
+          "y": 379.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r127",
+          "shape_type": "ELLIPSE",
+          "x": 519.5,
+          "y": 379.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r128",
+          "shape_type": "ELLIPSE",
+          "x": 525.5,
+          "y": 379.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t129",
+          "text": "None",
+          "x": 506.3,
+          "y": 380.3,
+          "width": 136.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t129",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t130",
+          "text": "A first look",
+          "x": 636.3,
+          "y": 374.55,
+          "width": 141.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t130",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t131",
+          "text": "A person checks the\nmeaning",
+          "x": 771.8,
+          "y": 367.8,
+          "width": 146.4,
+          "height": 41.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t131",
           "start": 0,
           "end": 27,
           "line_spacing": 135
         },
         {
-          "op": "add-line",
+          "op": "add-shape",
           "slide": "tools",
-          "id": "l76",
+          "id": "r132",
+          "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 378.0,
+          "y": 404.0,
           "width": 875.5,
-          "height": 0.0,
-          "color": "#89949D",
-          "line_weight": 0.75
+          "height": 0.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t133",
+          "text": "Note: Setup and upkeep are our reading of each tool\u2019s documentation, not a ranking. Vanna\u2019s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.",
+          "x": 36.3,
+          "y": 404.8,
+          "width": 889.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t133",
+          "start": 0,
+          "end": 209,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t133",
+          "start": 0,
+          "end": 5,
+          "bold": true,
+          "color": "#1B2430"
         },
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r77",
+          "id": "r134",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -6263,7 +7063,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r78",
+          "id": "r135",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -6274,7 +7074,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t79",
+          "id": "t136",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -6287,14 +7087,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t79",
+          "element": "t136",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t79",
+          "element": "t136",
           "start": 0,
           "end": 8,
           "bold": true
@@ -6302,7 +7102,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t80",
+          "id": "t137",
           "text": "Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.",
           "x": 147.3,
           "y": 442.05,
@@ -6315,14 +7115,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t80",
+          "element": "t137",
           "start": 0,
           "end": 117,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t80",
+          "element": "t137",
           "start": 49,
           "end": 76,
           "bold": true
@@ -6340,11 +7140,13 @@
       "promises": [
         {
           "title": "Useful without setup",
-          "text": "Connect a database and ask a question."
+          "text": "Connect a database and ask a question.",
+          "icon": "query_stats"
         },
         {
           "title": "Checkable by default",
           "text": "SQL shown, validated and run read-only.",
+          "icon": "fact_check",
           "marker": 1
         }
       ],
@@ -6359,36 +7161,48 @@
       "points": [
         {
           "label": "BI dashboards",
-          "x": 0.86,
-          "y": 0.9
+          "x": 0.8,
+          "y": 0.9,
+          "art": "assets/icons/monitoring-ink.png"
         },
         {
           "label": "Databricks Genie Agents",
           "x": 0.66,
-          "y": 0.7
+          "y": 0.7,
+          "art": "assets/logos/databricks.png"
         },
         {
           "label": "Snowflake Cortex Analyst",
           "x": 0.55,
-          "y": 0.8
+          "y": 0.8,
+          "art": "assets/logos/snowflake.png"
         },
         {
           "label": "WrenAI",
           "x": 0.58,
-          "y": 0.6
+          "y": 0.6,
+          "art": "assets/logos/wren.png"
+        },
+        {
+          "label": "Vanna",
+          "x": 0.3,
+          "y": 0.3,
+          "art": "assets/logos/vanna.png"
         },
         {
           "label": "This project",
           "x": 0.06,
           "y": 0.38,
           "ours": true,
-          "marker": 2
+          "marker": 2,
+          "art": "assets/icons/fact_check-blue.png"
         },
         {
           "label": "General chatbot",
           "x": 0.06,
           "y": 0.14,
-          "marker": 3
+          "marker": 3,
+          "art": "assets/icons/chat-ink.png"
         }
       ],
       "takeaway": "A quick start that **people check**, not a governed metrics layer.",
@@ -6478,12 +7292,12 @@
         },
         {
           "number": 2,
-          "cx": 158.47333333333333,
+          "cx": 162.47333333333333,
           "cy": 356.72
         },
         {
           "number": 3,
-          "cx": 175.72333333333336,
+          "cx": 179.72333333333336,
           "cy": 418.15999999999997
         }
       ],
@@ -6794,7 +7608,7 @@
           "op": "add-textbox",
           "slide": "aim",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -6808,7 +7622,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -6863,13 +7677,23 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im23",
+          "path": "assets/icons/query_stats-blue.png",
+          "alt": "Useful without setup",
+          "x": 53.5,
+          "y": 144.0,
+          "width": 22,
+          "height": 22
+        },
+        {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t23",
+          "id": "t24",
           "text": "Useful without setup",
-          "x": 46.3,
+          "x": 76.3,
           "y": 133.8,
-          "width": 290.65,
+          "width": 260.65,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -6878,14 +7702,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t23",
+          "element": "t24",
           "start": 0,
           "end": 20,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t23",
+          "element": "t24",
           "start": 0,
           "end": 20,
           "bold": true
@@ -6893,11 +7717,11 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t24",
+          "id": "t25",
           "text": "Connect a database and ask a question.",
-          "x": 46.3,
+          "x": 76.3,
           "y": 150.8,
-          "width": 290.65,
+          "width": 260.65,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -6906,7 +7730,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t24",
+          "element": "t25",
           "start": 0,
           "end": 38,
           "line_spacing": 135
@@ -6914,7 +7738,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r25",
+          "id": "r26",
           "shape_type": "RECTANGLE",
           "x": 353.75,
           "y": 132.0,
@@ -6925,7 +7749,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r26",
+          "id": "r27",
           "shape_type": "RECTANGLE",
           "x": 353.75,
           "y": 132.0,
@@ -6934,13 +7758,23 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im28",
+          "path": "assets/icons/fact_check-blue.png",
+          "alt": "Checkable by default",
+          "x": 363.75,
+          "y": 144.0,
+          "width": 22,
+          "height": 22
+        },
+        {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t27",
+          "id": "t29",
           "text": "Checkable by default",
-          "x": 356.55,
+          "x": 386.55,
           "y": 133.8,
-          "width": 290.65,
+          "width": 260.65,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -6949,14 +7783,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t27",
+          "element": "t29",
           "start": 0,
           "end": 20,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t27",
+          "element": "t29",
           "start": 0,
           "end": 20,
           "bold": true
@@ -6964,11 +7798,11 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t28",
+          "id": "t30",
           "text": "SQL shown, validated and run read-only.",
-          "x": 356.55,
+          "x": 386.55,
           "y": 150.8,
-          "width": 290.65,
+          "width": 260.65,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -6977,7 +7811,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t28",
+          "element": "t30",
           "start": 0,
           "end": 39,
           "line_spacing": 135
@@ -6985,7 +7819,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r29",
+          "id": "r31",
           "shape_type": "RECTANGLE",
           "x": 44.5,
           "y": 199.0,
@@ -6996,7 +7830,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t30",
+          "id": "t32",
           "text": "MEANING WITHOUT SETUP: THE IDEAL",
           "x": 44.3,
           "y": 197.8,
@@ -7009,14 +7843,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t30",
+          "element": "t32",
           "start": 0,
           "end": 32,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t30",
+          "element": "t32",
           "start": 0,
           "end": 32,
           "bold": true
@@ -7024,7 +7858,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r31",
+          "id": "r33",
           "shape_type": "RECTANGLE",
           "x": 347.75,
           "y": 199.0,
@@ -7035,7 +7869,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t32",
+          "id": "t34",
           "text": "MEANING THROUGH SETUP: CURATED TOOLS",
           "x": 347.55,
           "y": 197.8,
@@ -7048,14 +7882,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t32",
+          "element": "t34",
           "start": 0,
           "end": 36,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t32",
+          "element": "t34",
           "start": 0,
           "end": 36,
           "bold": true
@@ -7063,7 +7897,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r33",
+          "id": "r35",
           "shape_type": "RECTANGLE",
           "x": 44.5,
           "y": 327.0,
@@ -7074,7 +7908,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t34",
+          "id": "t36",
           "text": "QUICK START: PEOPLE CHECK THE MEANING",
           "x": 44.3,
           "y": 325.8,
@@ -7087,14 +7921,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t34",
+          "element": "t36",
           "start": 0,
           "end": 37,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t34",
+          "element": "t36",
           "start": 0,
           "end": 37,
           "bold": true
@@ -7102,7 +7936,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r35",
+          "id": "r37",
           "shape_type": "RECTANGLE",
           "x": 347.75,
           "y": 327.0,
@@ -7113,7 +7947,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t36",
+          "id": "t38",
           "text": "SETUP WITHOUT MEANING: TO AVOID",
           "x": 347.55,
           "y": 325.8,
@@ -7126,14 +7960,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t36",
+          "element": "t38",
           "start": 0,
           "end": 31,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t36",
+          "element": "t38",
           "start": 0,
           "end": 31,
           "bold": true
@@ -7141,7 +7975,7 @@
         {
           "op": "add-line",
           "slide": "aim",
-          "id": "l37",
+          "id": "l39",
           "x": 43.5,
           "y": 198.0,
           "width": 0.0,
@@ -7152,7 +7986,7 @@
         {
           "op": "add-line",
           "slide": "aim",
-          "id": "l38",
+          "id": "l40",
           "x": 43.5,
           "y": 454.0,
           "width": 606.5,
@@ -7163,7 +7997,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t39",
+          "id": "t41",
           "text": "Setup before the first useful answer \u2192",
           "x": 36.3,
           "y": 452.8,
@@ -7176,14 +8010,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t39",
+          "element": "t41",
           "start": 0,
           "end": 38,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t39",
+          "element": "t41",
           "start": 0,
           "end": 38,
           "bold": true
@@ -7191,7 +8025,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t40",
+          "id": "t42",
           "text": "\u2191 Business meaning built in",
           "x": 36.3,
           "y": 176.8,
@@ -7204,35 +8038,34 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t40",
+          "element": "t42",
           "start": 0,
           "end": 27,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t40",
+          "element": "t42",
           "start": 0,
           "end": 27,
           "bold": true
         },
         {
-          "op": "add-shape",
-          "slide": "aim",
-          "id": "r41",
-          "shape_type": "ELLIPSE",
-          "x": 561.09,
-          "y": 219.6,
-          "width": 8,
-          "height": 8,
-          "background_color": "#1B2430"
+          "op": "add-image",
+          "id": "im43",
+          "path": "assets/icons/monitoring-ink.png",
+          "alt": "BI dashboards",
+          "x": 520.7,
+          "y": 215.6,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t42",
+          "id": "t44",
           "text": "BI dashboards",
-          "x": 565.89,
+          "x": 533.5,
           "y": 209.4,
           "width": 80.48333333333333,
           "height": 27.9,
@@ -7243,28 +8076,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t42",
+          "element": "t44",
           "start": 0,
           "end": 13,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "aim",
-          "id": "r43",
-          "shape_type": "ELLIPSE",
-          "x": 439.79,
-          "y": 270.8,
-          "width": 8,
-          "height": 8,
-          "background_color": "#1B2430"
+          "op": "add-image",
+          "id": "im45",
+          "path": "assets/logos/databricks.png",
+          "alt": "Databricks Genie Agents",
+          "x": 435.79,
+          "y": 266.8,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t44",
+          "id": "t46",
           "text": "Databricks Genie Agents",
-          "x": 444.59000000000003,
+          "x": 448.59000000000003,
           "y": 260.6,
           "width": 128.4,
           "height": 27.9,
@@ -7275,28 +8107,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t44",
+          "element": "t46",
           "start": 0,
           "end": 23,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "aim",
-          "id": "r45",
-          "shape_type": "ELLIPSE",
-          "x": 373.07500000000005,
-          "y": 245.2,
-          "width": 8,
-          "height": 8,
-          "background_color": "#1B2430"
+          "op": "add-image",
+          "id": "im47",
+          "path": "assets/logos/snowflake.png",
+          "alt": "Snowflake Cortex Analyst",
+          "x": 369.07500000000005,
+          "y": 241.2,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t46",
+          "id": "t48",
           "text": "Snowflake Cortex Analyst",
-          "x": 377.87500000000006,
+          "x": 381.87500000000006,
           "y": 235.0,
           "width": 131.56666666666666,
           "height": 27.9,
@@ -7307,28 +8138,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t46",
+          "element": "t48",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "aim",
-          "id": "r47",
-          "shape_type": "ELLIPSE",
-          "x": 391.27,
-          "y": 296.4,
-          "width": 8,
-          "height": 8,
-          "background_color": "#1B2430"
+          "op": "add-image",
+          "id": "im49",
+          "path": "assets/logos/wren.png",
+          "alt": "WrenAI",
+          "x": 387.27,
+          "y": 292.4,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t48",
+          "id": "t50",
           "text": "WrenAI",
-          "x": 396.07,
+          "x": 400.07,
           "y": 286.2,
           "width": 49.733333333333334,
           "height": 27.9,
@@ -7339,69 +8169,29 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t48",
+          "element": "t50",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "aim",
-          "id": "r49",
-          "shape_type": "ELLIPSE",
-          "x": 75.89,
-          "y": 352.72,
-          "width": 8,
-          "height": 8,
-          "background_color": "#31688E"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "aim",
-          "id": "t50",
-          "text": "This project",
-          "x": 80.69,
-          "y": 342.52000000000004,
-          "width": 72.98333333333333,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#31688E",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t50",
-          "start": 0,
-          "end": 12,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t50",
-          "start": 0,
-          "end": 12,
-          "bold": true
-        },
-        {
-          "op": "add-shape",
-          "slide": "aim",
-          "id": "r51",
-          "shape_type": "ELLIPSE",
-          "x": 75.89,
-          "y": 414.15999999999997,
-          "width": 8,
-          "height": 8,
-          "background_color": "#1B2430"
+          "op": "add-image",
+          "id": "im51",
+          "path": "assets/logos/vanna.png",
+          "alt": "Vanna",
+          "x": 217.45,
+          "y": 369.2,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "aim",
           "id": "t52",
-          "text": "General chatbot",
-          "x": 80.69,
-          "y": 403.96,
-          "width": 90.23333333333335,
+          "text": "Vanna",
+          "x": 230.25,
+          "y": 363.0,
+          "width": 44.56666666666667,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -7412,13 +8202,82 @@
           "op": "style-paragraph",
           "element": "t52",
           "start": 0,
+          "end": 5,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im53",
+          "path": "assets/icons/fact_check-blue.png",
+          "alt": "This project",
+          "x": 71.89,
+          "y": 348.72,
+          "width": 16,
+          "height": 16
+        },
+        {
+          "op": "add-textbox",
+          "slide": "aim",
+          "id": "t54",
+          "text": "This project",
+          "x": 84.69,
+          "y": 342.52000000000004,
+          "width": 72.98333333333333,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#31688E",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t54",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t54",
+          "start": 0,
+          "end": 12,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im55",
+          "path": "assets/icons/chat-ink.png",
+          "alt": "General chatbot",
+          "x": 71.89,
+          "y": 410.15999999999997,
+          "width": 16,
+          "height": 16
+        },
+        {
+          "op": "add-textbox",
+          "slide": "aim",
+          "id": "t56",
+          "text": "General chatbot",
+          "x": 84.69,
+          "y": 403.96,
+          "width": 90.23333333333335,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t56",
+          "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
           "op": "add-line",
           "slide": "aim",
-          "id": "l53",
+          "id": "l57",
           "x": 658,
           "y": 131,
           "width": 0,
@@ -7429,7 +8288,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r54",
+          "id": "r58",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -7440,7 +8299,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r55",
+          "id": "r59",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -7451,7 +8310,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t56",
+          "id": "t60",
           "text": "TAKEAWAY",
           "x": 674.8,
           "y": 135.8,
@@ -7464,14 +8323,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t56",
+          "element": "t60",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t56",
+          "element": "t60",
           "start": 0,
           "end": 8,
           "bold": true
@@ -7479,7 +8338,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t57",
+          "id": "t61",
           "text": "A quick start that people check, not a\ngoverned metrics layer.",
           "x": 674.8,
           "y": 155.8,
@@ -7492,14 +8351,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t57",
+          "element": "t61",
           "start": 0,
           "end": 62,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t57",
+          "element": "t61",
           "start": 19,
           "end": 31,
           "bold": true
@@ -7507,7 +8366,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r58",
+          "id": "r62",
           "shape_type": "ELLIPSE",
           "x": 634.0,
           "y": 136.0,
@@ -7518,7 +8377,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t59",
+          "id": "t63",
           "text": "1",
           "x": 626.8,
           "y": 128.8,
@@ -7534,7 +8393,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r60",
+          "id": "r64",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 238.64,
@@ -7545,7 +8404,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t61",
+          "id": "t65",
           "text": "1",
           "x": 660.8,
           "y": 231.44,
@@ -7561,7 +8420,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t62",
+          "id": "t66",
           "text": "Who it helps",
           "x": 680.8,
           "y": 229.8,
@@ -7574,14 +8433,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t62",
+          "element": "t66",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t62",
+          "element": "t66",
           "start": 0,
           "end": 12,
           "bold": true
@@ -7589,7 +8448,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t63",
+          "id": "t67",
           "text": "An analyst who knows the question but not the\nschema, and a reviewer deciding whether to trust\nthe answer.",
           "x": 680.8,
           "y": 250.0,
@@ -7602,7 +8461,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t63",
+          "element": "t67",
           "start": 0,
           "end": 106,
           "line_spacing": 135
@@ -7610,9 +8469,9 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r64",
+          "id": "r68",
           "shape_type": "ELLIPSE",
-          "x": 152.47333333333333,
+          "x": 156.47333333333333,
           "y": 350.72,
           "width": 12,
           "height": 12,
@@ -7621,9 +8480,9 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t65",
+          "id": "t69",
           "text": "2",
-          "x": 145.27333333333334,
+          "x": 149.27333333333334,
           "y": 343.52000000000004,
           "width": 26.4,
           "height": 26.4,
@@ -7637,7 +8496,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r66",
+          "id": "r70",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 312.34,
@@ -7648,7 +8507,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t67",
+          "id": "t71",
           "text": "2",
           "x": 660.8,
           "y": 305.14,
@@ -7664,7 +8523,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t68",
+          "id": "t72",
           "text": "What we chose",
           "x": 680.8,
           "y": 302.5,
@@ -7677,14 +8536,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t68",
+          "element": "t72",
           "start": 0,
           "end": 13,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t68",
+          "element": "t72",
           "start": 0,
           "end": 13,
           "bold": true
@@ -7692,7 +8551,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t69",
+          "id": "t73",
           "text": "A quick start that uses the real schema and\nbounded hints. Query-result rows are never sent to\nthe model.",
           "x": 680.8,
           "y": 322.7,
@@ -7705,7 +8564,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t69",
+          "element": "t73",
           "start": 0,
           "end": 105,
           "line_spacing": 135
@@ -7713,9 +8572,9 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r70",
+          "id": "r74",
           "shape_type": "ELLIPSE",
-          "x": 169.72333333333336,
+          "x": 173.72333333333336,
           "y": 412.15999999999997,
           "width": 12,
           "height": 12,
@@ -7724,9 +8583,9 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t71",
+          "id": "t75",
           "text": "3",
-          "x": 162.52333333333337,
+          "x": 166.52333333333337,
           "y": 404.96,
           "width": 26.4,
           "height": 26.4,
@@ -7740,7 +8599,7 @@
         {
           "op": "add-shape",
           "slide": "aim",
-          "id": "r72",
+          "id": "r76",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 384.03999999999996,
@@ -7751,7 +8610,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t73",
+          "id": "t77",
           "text": "3",
           "x": 660.8,
           "y": 376.84,
@@ -7767,7 +8626,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t74",
+          "id": "t78",
           "text": "What we gave up",
           "x": 680.8,
           "y": 375.2,
@@ -7780,14 +8639,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t74",
+          "element": "t78",
           "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t74",
+          "element": "t78",
           "start": 0,
           "end": 15,
           "bold": true
@@ -7795,7 +8654,7 @@
         {
           "op": "add-textbox",
           "slide": "aim",
-          "id": "t75",
+          "id": "t79",
           "text": "No governed metric definitions, so a word like\nrevenue stays ambiguous until a person checks it. If\nmetrics must match across teams, choose a\ncurated tool.",
           "x": 680.8,
           "y": 395.4,
@@ -7808,7 +8667,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t75",
+          "element": "t79",
           "start": 0,
           "end": 155,
           "line_spacing": 135
@@ -8253,7 +9112,7 @@
           "op": "add-textbox",
           "slide": "demo",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -8267,7 +9126,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -9272,7 +10131,7 @@
           "op": "add-textbox",
           "slide": "boundary",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -9286,7 +10145,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -10350,7 +11209,7 @@
           "op": "add-textbox",
           "slide": "architecture",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -10364,7 +11223,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -11291,7 +12150,7 @@
           "op": "add-textbox",
           "slide": "safety",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -11305,7 +12164,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -12987,7 +13846,7 @@
           "op": "add-textbox",
           "slide": "method",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -13001,7 +13860,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -14535,7 +15394,7 @@
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -14549,7 +15408,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -16436,7 +17295,7 @@
           "op": "add-textbox",
           "slide": "large",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -16450,7 +17309,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -18260,7 +19119,7 @@
           "op": "add-textbox",
           "slide": "trials",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -18274,7 +19133,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -19813,7 +20672,7 @@
           "op": "add-textbox",
           "slide": "retrieval",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -19827,7 +20686,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -21233,7 +22092,7 @@
           "op": "add-textbox",
           "slide": "next",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -21247,7 +22106,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -22255,7 +23114,7 @@
           "op": "add-textbox",
           "slide": "references",
           "id": "t19",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -22269,7 +23128,7 @@
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {
@@ -22437,21 +23296,36 @@
     },
     {
       "id": "close",
-      "layout": "close",
-      "section": "Close",
-      "accent": "slate",
-      "title": "Inspectable SQL, measured trade-offs, and a clear next experiment",
-      "subtitle": "The repository holds the code, runs and decisions behind every claim",
-      "items": [
-        "Table selection stays the default: it improved the large-schema comparison.",
-        "Answer accuracy remains limited, and better retrieval alone has not added a gain.",
-        "Next: targeted recovery, reporting both groups."
+      "layout": "close_page",
+      "section": "",
+      "accent": "blue",
+      "header_style": "appendix",
+      "kicker": "Thank you",
+      "title": "Inspectable SQL, measured trade-offs and a clear next experiment",
+      "subtitle": "Questions and feedback are welcome.",
+      "links": [
+        [
+          "Live demo",
+          "aipa-text-to-sql-agent.streamlit.app",
+          "https://aipa-text-to-sql-agent.streamlit.app",
+          "query_stats"
+        ],
+        [
+          "Code and runs",
+          "github.com/tuannm3812/text-to-sql-agent",
+          "https://github.com/tuannm3812/text-to-sql-agent",
+          "code"
+        ]
       ],
+      "image": {
+        "path": "assets/figures/close-art.png",
+        "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data."
+      },
       "notes": {
         "purpose": "Close on the contribution.",
         "script": [
-          "The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited.",
-          "This began as a UTS group project with Huy Duc Vu, Ngoc Bao Tran Nguyen and Nguyen Nghia Doan Dang, and I have refined it since. Thank you."
+          "The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.",
+          "[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you."
         ],
         "references": [
           "sources.md",
@@ -22463,98 +23337,278 @@
       "marker_pairs": [],
       "ops": [
         {
+          "op": "add-image",
+          "id": "im10",
+          "path": "assets/brand/uts-logo.svg",
+          "alt": "University of Technology Sydney",
+          "x": 43.5,
+          "y": 39,
+          "width": 64,
+          "height": 64
+        },
+        {
+          "op": "add-shape",
+          "slide": "close",
+          "id": "r11",
+          "shape_type": "RECTANGLE",
+          "x": 0,
+          "y": 150,
+          "width": 505,
+          "height": 160,
+          "background_color": "#EAF0F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "close",
+          "id": "r12",
+          "shape_type": "RECTANGLE",
+          "x": 0,
+          "y": 150,
+          "width": 8,
+          "height": 160,
+          "background_color": "#32658A"
+        },
+        {
           "op": "add-textbox",
           "slide": "close",
-          "id": "t1",
-          "text": "CLOSE",
+          "id": "t13",
+          "text": "THANK YOU",
           "x": 36.3,
-          "y": 72.8,
-          "width": 814.4,
-          "height": 32.4,
-          "font_size": 10,
+          "y": 160.8,
+          "width": 434.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#526174",
+          "color": "#32658A",
           "bold": true
         },
         {
           "op": "style-paragraph",
-          "element": "t1",
+          "element": "t13",
           "start": 0,
-          "end": 5,
+          "end": 9,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t1",
+          "element": "t13",
           "start": 0,
-          "end": 5,
+          "end": 9,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "close",
-          "id": "t2",
-          "text": "Inspectable SQL, measured trade-offs, and a\nclear next experiment",
+          "id": "t14",
+          "text": "Inspectable SQL, measured trade-offs\nand a clear next experiment",
           "x": 36.3,
-          "y": 132.8,
-          "width": 864.4,
-          "height": 134.4,
-          "font_size": 36,
+          "y": 178.8,
+          "width": 454.4,
+          "height": 79.20000000000002,
+          "font_size": 24,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": true
         },
         {
           "op": "style-paragraph",
-          "element": "t2",
+          "element": "t14",
           "start": 0,
-          "end": 65,
+          "end": 64,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t2",
+          "element": "t14",
           "start": 0,
-          "end": 43,
+          "end": 36,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t2",
-          "start": 44,
-          "end": 65,
+          "element": "t14",
+          "start": 37,
+          "end": 64,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "close",
-          "id": "t3",
-          "text": "The repository holds the code, runs and decisions behind every claim",
+          "id": "t15",
+          "text": "Questions and feedback are welcome.",
           "x": 36.3,
-          "y": 275.8,
-          "width": 814.4,
-          "height": 84.4,
-          "font_size": 18,
+          "y": 251.60000000000002,
+          "width": 454.4,
+          "height": 30.6,
+          "font_size": 12,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t3",
+          "element": "t15",
           "start": 0,
-          "end": 68,
+          "end": 35,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im16",
+          "path": "assets/icons/query_stats-blue.png",
+          "alt": "Live demo",
+          "x": 43.5,
+          "y": 335,
+          "width": 14,
+          "height": 14
+        },
+        {
+          "op": "add-textbox",
+          "slide": "close",
+          "id": "t17",
+          "text": "Live demo",
+          "x": 58.3,
+          "y": 326.8,
+          "width": 104.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t17",
+          "start": 0,
+          "end": 9,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t17",
+          "start": 0,
+          "end": 9,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "close",
+          "id": "t18",
+          "text": "aipa-text-to-sql-agent.streamlit.app",
+          "x": 148.3,
+          "y": 326.8,
+          "width": 354.4,
+          "height": 28.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false,
+          "href": "https://aipa-text-to-sql-agent.streamlit.app"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t18",
+          "start": 0,
+          "end": 36,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im19",
+          "path": "assets/icons/code-blue.png",
+          "alt": "Code and runs",
+          "x": 43.5,
+          "y": 357,
+          "width": 14,
+          "height": 14
+        },
+        {
+          "op": "add-textbox",
+          "slide": "close",
+          "id": "t20",
+          "text": "Code and runs",
+          "x": 58.3,
+          "y": 348.8,
+          "width": 104.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t20",
+          "start": 0,
+          "end": 13,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t20",
+          "start": 0,
+          "end": 13,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "close",
+          "id": "t21",
+          "text": "github.com/tuannm3812/text-to-sql-agent",
+          "x": 148.3,
+          "y": 348.8,
+          "width": 354.4,
+          "height": 28.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t21",
+          "start": 0,
+          "end": 39,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "close",
-          "id": "t4",
-          "text": "Table selection stays the default: it improved the large-schema comparison.",
-          "x": 45.3,
-          "y": 377.8,
-          "width": 855.4,
-          "height": 109.4,
+          "id": "t22",
+          "text": "Manh Tuan Nguyen",
+          "x": 36.3,
+          "y": 402.8,
+          "width": 434.4,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t22",
+          "start": 0,
+          "end": 16,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t22",
+          "start": 0,
+          "end": 16,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "close",
+          "id": "t23",
+          "text": "University of Technology Sydney  \u00b7  November 2026",
+          "x": 36.3,
+          "y": 420.8,
+          "width": 434.4,
+          "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -22562,85 +23616,20 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t4",
+          "element": "t23",
           "start": 0,
-          "end": 75,
+          "end": 49,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "close",
-          "id": "r5",
-          "shape_type": "ELLIPSE",
-          "x": 43.5,
-          "y": 390,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "close",
-          "id": "t6",
-          "text": "Answer accuracy remains limited, and better retrieval alone has not added a gain.",
-          "x": 45.3,
-          "y": 398.3,
-          "width": 855.4,
-          "height": 88.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t6",
-          "start": 0,
-          "end": 81,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "close",
-          "id": "r7",
-          "shape_type": "ELLIPSE",
-          "x": 43.5,
-          "y": 410.5,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "close",
-          "id": "t8",
-          "text": "Next: targeted recovery, reporting both groups.",
-          "x": 45.3,
-          "y": 418.8,
-          "width": 855.4,
-          "height": 68.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t8",
-          "start": 0,
-          "end": 47,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "close",
-          "id": "r9",
-          "shape_type": "ELLIPSE",
-          "x": 43.5,
-          "y": 431.0,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
+          "op": "add-image",
+          "id": "im24",
+          "path": "assets/figures/close-art.png",
+          "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.",
+          "x": 505,
+          "y": 0,
+          "width": 455,
+          "height": 540
         }
       ]
     },
@@ -22969,7 +23958,7 @@
           "op": "add-textbox",
           "slide": "appendix-rag",
           "id": "t10",
-          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "text": "Text-to-SQL Agent",
           "x": 36.3,
           "y": 493.8,
           "width": 834.4,
@@ -22983,7 +23972,7 @@
           "op": "style-paragraph",
           "element": "t10",
           "start": 0,
-          "end": 77,
+          "end": 17,
           "line_spacing": 135
         },
         {

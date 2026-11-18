@@ -33,7 +33,7 @@
     "takeaway_w": 231
   },
   "footer": {
-    "text": "**Text-to-SQL Agent**   36121 Artificial Intelligence Principles and Applications"
+    "text": "**Text-to-SQL Agent**"
   },
   "qa": {
     "allowed_numbers": [
@@ -47,7 +47,8 @@
       "9B",
       "2024",
       "2026",
-      "36121"
+      "36121",
+      "3812"
     ],
     "skip_frame": [
       "cover",

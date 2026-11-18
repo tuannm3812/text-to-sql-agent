@@ -207,19 +207,23 @@
       "chain": [
         [
           "Question",
-          "What the person asks"
+          "What the person asks",
+          "chat"
         ],
         [
           "Schema",
-          "Tables and columns"
+          "Tables and columns",
+          "schema"
         ],
         [
           "SQL",
-          "The generated query"
+          "The generated query",
+          "code"
         ],
         [
           "Rows",
-          "The answer returned"
+          "The answer returned",
+          "table_rows"
         ]
       ],
       "figure": {
@@ -292,93 +296,153 @@
     },
     {
       "id": "tools",
-      "layout": "table_page",
+      "layout": "tools_page",
       "section": "Problem",
       "topic": "Other tools",
       "accent": "slate",
       "title": "Other tools get business meaning through setup",
       "subtitle": "Two routes to meaning, compared on the same criteria; sources read 6 November 2026",
-      "tables": [
+      "columns": [
+        [
+          "Approach",
+          190
+        ],
+        [
+          "Source of meaning",
+          150
+        ],
+        [
+          "Setup",
+          130
+        ],
+        [
+          "Upkeep",
+          130
+        ],
+        [
+          "Best for",
+          135.5
+        ],
+        [
+          "Risk",
+          140
+        ]
+      ],
+      "row_height": 31,
+      "rows": [
         {
-          "headers": [
-            "Approach",
-            "Source of meaning",
-            "Setup",
-            "Upkeep",
-            "Best for",
-            "Risk"
-          ],
-          "widths": [
-            150,
-            150,
-            150,
-            150,
-            135.5,
-            140
-          ],
-          "size": 10,
-          "row_height": 30,
-          "rows": [
-            {
-              "band": "People define the meaning",
-              "accent": "slate"
-            },
+          "band": "People define the meaning",
+          "accent": "slate"
+        },
+        {
+          "logo": "assets/logos/snowflake.png",
+          "cells": [
+            "Snowflake Cortex Analyst",
+            "Semantic view",
             [
-              "Snowflake Cortex Analyst",
-              "Semantic view",
-              "Define the view",
-              "Refine with evaluations",
-              "Agreed metrics",
-              "Stale definitions"
+              2,
+              "Define the view"
             ],
             [
-              "Databricks Genie Agents",
-              "SQL expressions, example SQL",
-              "Expert curation",
-              "Iterate with feedback",
-              "One topic and audience",
-              "Depends on the curator"
+              2,
+              "Refine with evaluations"
+            ],
+            "Agreed metrics",
+            "Stale definitions"
+          ]
+        },
+        {
+          "logo": "assets/logos/databricks.png",
+          "cells": [
+            "Databricks Genie Agents",
+            "SQL expressions, example SQL",
+            [
+              3,
+              "Expert curation"
             ],
             [
-              "WrenAI",
-              "Semantic layer in Git",
-              "Define the MDL model",
-              "Review in Git",
-              "Versioned definitions",
-              "Unmodelled data"
+              2,
+              "Iterate with feedback"
             ],
-            {
-              "band": "Systems work it out",
-              "accent": "blue"
-            },
+            "One topic and audience",
+            "Depends on the curator"
+          ]
+        },
+        {
+          "logo": "assets/logos/wren.png",
+          "cells": [
+            "WrenAI",
+            "Semantic layer in Git",
             [
-              "Vanna",
-              "Saved past queries",
-              "Learns from use",
-              "Self-maintained",
-              "Repeated questions",
-              "Repeats past errors"
+              2,
+              "Define the MDL model"
             ],
             [
-              "BIRD leaderboard systems",
-              "Mostly not listed",
-              "Not listed",
-              "Not listed",
-              "Benchmark scores",
-              "Transfer unproven"
+              2,
+              "Review in Git"
             ],
-            {
-              "band": "This project",
-              "accent": "ochre"
-            },
+            "Versioned definitions",
+            "Unmodelled data"
+          ]
+        },
+        {
+          "band": "Systems work it out",
+          "accent": "blue"
+        },
+        {
+          "logo": "assets/logos/vanna.png",
+          "cells": [
+            "Vanna",
+            "Saved past queries",
             [
-              "This project",
-              "Schema and bounded hints",
-              "Connect only",
-              "None",
-              "A first look",
-              "A person checks the meaning"
-            ]
+              1,
+              "Learns from use"
+            ],
+            [
+              2,
+              "Self-maintained"
+            ],
+            "Repeated questions",
+            "Repeats past errors"
+          ]
+        },
+        {
+          "logo": "assets/icons/monitoring-ink.png",
+          "cells": [
+            "BIRD leaderboard systems",
+            "Mostly not listed",
+            [
+              null,
+              "Not listed"
+            ],
+            [
+              null,
+              "Not listed"
+            ],
+            "Benchmark scores",
+            "Transfer unproven"
+          ]
+        },
+        {
+          "band": "This project",
+          "accent": "ochre"
+        },
+        {
+          "logo": "assets/icons/fact_check-blue.png",
+          "ours": true,
+          "cells": [
+            "This project",
+            "Schema and bounded hints",
+            [
+              0,
+              "Connect only"
+            ],
+            [
+              0,
+              "None"
+            ],
+            "A first look",
+            "A person checks the meaning"
           ]
         }
       ],
@@ -410,11 +474,13 @@
       "promises": [
         {
           "title": "Useful without setup",
-          "text": "Connect a database and ask a question."
+          "text": "Connect a database and ask a question.",
+          "icon": "query_stats"
         },
         {
           "title": "Checkable by default",
           "text": "SQL shown, validated and run read-only.",
+          "icon": "fact_check",
           "marker": 1
         }
       ],
@@ -429,36 +495,48 @@
       "points": [
         {
           "label": "BI dashboards",
-          "x": 0.86,
-          "y": 0.9
+          "x": 0.8,
+          "y": 0.9,
+          "art": "assets/icons/monitoring-ink.png"
         },
         {
           "label": "Databricks Genie Agents",
           "x": 0.66,
-          "y": 0.7
+          "y": 0.7,
+          "art": "assets/logos/databricks.png"
         },
         {
           "label": "Snowflake Cortex Analyst",
           "x": 0.55,
-          "y": 0.8
+          "y": 0.8,
+          "art": "assets/logos/snowflake.png"
         },
         {
           "label": "WrenAI",
           "x": 0.58,
-          "y": 0.6
+          "y": 0.6,
+          "art": "assets/logos/wren.png"
+        },
+        {
+          "label": "Vanna",
+          "x": 0.3,
+          "y": 0.3,
+          "art": "assets/logos/vanna.png"
         },
         {
           "label": "This project",
           "x": 0.06,
           "y": 0.38,
           "ours": true,
-          "marker": 2
+          "marker": 2,
+          "art": "assets/icons/fact_check-blue.png"
         },
         {
           "label": "General chatbot",
           "x": 0.06,
           "y": 0.14,
-          "marker": 3
+          "marker": 3,
+          "art": "assets/icons/chat-ink.png"
         }
       ],
       "takeaway": "A quick start that **people check**, not a governed metrics layer.",
@@ -1493,21 +1571,36 @@
     },
     {
       "id": "close",
-      "layout": "close",
-      "section": "Close",
-      "accent": "slate",
-      "title": "Inspectable SQL, measured trade-offs, and a clear next experiment",
-      "subtitle": "The repository holds the code, runs and decisions behind every claim",
-      "items": [
-        "Table selection stays the default: it improved the large-schema comparison.",
-        "Answer accuracy remains limited, and better retrieval alone has not added a gain.",
-        "Next: targeted recovery, reporting both groups."
+      "layout": "close_page",
+      "section": "",
+      "accent": "blue",
+      "header_style": "appendix",
+      "kicker": "Thank you",
+      "title": "Inspectable SQL, measured trade-offs and a clear next experiment",
+      "subtitle": "Questions and feedback are welcome.",
+      "links": [
+        [
+          "Live demo",
+          "aipa-text-to-sql-agent.streamlit.app",
+          "https://aipa-text-to-sql-agent.streamlit.app",
+          "query_stats"
+        ],
+        [
+          "Code and runs",
+          "github.com/tuannm3812/text-to-sql-agent",
+          "https://github.com/tuannm3812/text-to-sql-agent",
+          "code"
+        ]
       ],
+      "image": {
+        "path": "assets/figures/close-art.png",
+        "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data."
+      },
       "notes": {
         "purpose": "Close on the contribution.",
         "script": [
-          "The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited.",
-          "This began as a UTS group project with Huy Duc Vu, Ngoc Bao Tran Nguyen and Nguyen Nghia Doan Dang, and I have refined it since. Thank you."
+          "The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.",
+          "[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you."
         ],
         "references": [
           "sources.md",

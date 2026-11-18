@@ -29,7 +29,7 @@ Message: Show the order of the talk.
 
 Exact face text:
 
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 2
 - Agenda
 - 1
@@ -87,7 +87,7 @@ Exact face text:
 - Executive summary
 - Inspectable SQL, with measured limits
 - What the agent does, how well it did, and what to keep in mind
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 3
 - The problem
 - People need answers from databases without writing SQL, but a fluent answer can still be / wrong.
@@ -122,7 +122,7 @@ Exact face text:
 - Why it is hard
 - A fluent answer can still be the wrong answer
 - Text-to-SQL turns a question into SQL over a schema, then returns rows; each step can go wrong
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 4
 - Question
 - What the person asks
@@ -164,7 +164,7 @@ Exact face text:
 
 ## 5. Other tools get business meaning through setup
 
-Layout: table_page
+Layout: tools_page
 
 Reader question: 
 
@@ -180,15 +180,20 @@ Exact face text:
 - Other tools
 - Other tools get business meaning through setup
 - Two routes to meaning, compared on the same criteria; sources read 6 November 2026
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 5
-- Approach
-- Source of meaning
-- Setup
-- Upkeep
-- Best for
-- Risk
-- People define the meaning
+- EFFORT
+- High
+- Moderate
+- Low
+- None
+- APPROACH
+- SOURCE OF MEANING
+- SETUP
+- UPKEEP
+- BEST FOR
+- RISK
+- PEOPLE DEFINE THE MEANING
 - Snowflake Cortex Analyst
 - Semantic view
 - Define the view
@@ -207,7 +212,7 @@ Exact face text:
 - Review in Git
 - Versioned definitions
 - Unmodelled data
-- Systems work it out
+- SYSTEMS WORK IT OUT
 - Vanna
 - Saved past queries
 - Learns from use
@@ -220,13 +225,14 @@ Exact face text:
 - Not listed
 - Benchmark scores
 - Transfer unproven
-- This project
+- THIS PROJECT
 - This project
 - Schema and bounded hints
 - Connect only
 - None
 - A first look
 - A person checks the / meaning
+- Note: Setup and upkeep are our reading of each tool’s documentation, not a ranking. Vanna’s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.
 - TAKEAWAY
 - Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.
 
@@ -248,7 +254,7 @@ Exact face text:
 - Our aim
 - Our aim: useful without setup, and checkable by default
 - A narrower tool: no curated semantic model, with the checking in the user’s hands
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 6
 - Useful without setup
 - Connect a database and ask a question.
@@ -264,6 +270,7 @@ Exact face text:
 - Databricks Genie Agents
 - Snowflake Cortex Analyst
 - WrenAI
+- Vanna
 - This project
 - General chatbot
 - TAKEAWAY
@@ -299,7 +306,7 @@ Exact face text:
 - Demo
 - The SQL shows which revenue the answer counted
 - Retail demo database, local 9B model; the app’s answer, chart and SQL for one question
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 7
 - 
 - The running app on the retail demo database; screenshot cropped.
@@ -337,7 +344,7 @@ Exact face text:
 - Data boundary
 - The model sees the schema and a few stored values, never result rows
 - What the prompt held for the demo question on the retail database
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 8
 - TAKEAWAY
 - Before using real data, check what the / prompt contains and where it goes.
@@ -379,7 +386,7 @@ Exact face text:
 - Architecture
 - One question, four stages, and only one model call
 - The path of a question through the app, on SQLite, DuckDB or PostgreSQL
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 9
 - Ask and prepare
 - A person asks in plain English. The app / reads the schema, selects the top 6 / tables and neighbours, and builds the / prompt, with no model.
@@ -411,7 +418,7 @@ Exact face text:
 - Safety
 - Safety does not rest on the model
 - Three lines of defence stop different threats, and each is tested on its own
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 10
 - Threat and example
 - 1 Model declines
@@ -475,7 +482,7 @@ Exact face text:
 - Method
 - Read the interval, not the point
 - 3,817 questions in five suites, 37 recorded runs, each change paired against a named baseline
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 11
 - Questions per suite
 - Spider dev
@@ -527,7 +534,7 @@ Exact face text:
 - Benchmarks
 - The local model scored 64.6 % on Spider and 35.2 % on BIRD
 - Share of answers that matched the reference; one local 9B model, runs of 10 October 2026
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 12
 - With evidence hints (BIRD) or overall
 - Without evidence hints
@@ -590,7 +597,7 @@ Exact face text:
 - Large schemas
 - On large databases, sending fewer tables scored 3.6 points higher
 - 1,222 BIRD train questions on 4 databases of 21 to 65 tables; runs of 19 October 2026
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 13
 - Answers matched, by schema sent
 - Every table + hints
@@ -651,7 +658,7 @@ Exact face text:
 - Trials
 - Later trials found trade-offs, not a further accuracy gain
 - 1,222 large-schema questions; paired change against each row’s own baseline
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 14
 - Trial
 - Change, and its baseline
@@ -709,7 +716,7 @@ Exact face text:
 - Retrieval
 - Better table coverage did not measurably improve accuracy
 - Correct answers gained and lost by each fix against selected tables, on 1,222 questions
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 15
 - Gained on the 128 where a table was missed
 - Lost on the 1,094 where all were sent
@@ -762,7 +769,7 @@ Exact face text:
 - Next tests
 - Four tests would close the main gaps in the evidence
 - Each needs a measured outcome before any default changes
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 16
 - Test
 - Why it is needed
@@ -805,7 +812,7 @@ Exact face text:
 - Sources
 - Sources behind the claims
 - Every number traces to the repository or to a source read on the date given
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 17
 - Repository: README Evaluation Results and evaluation/results/
 - Spider 2.0 paper, arXiv 2411.07763 (read 6 November 2026)
@@ -814,9 +821,9 @@ Exact face text:
 - Databricks Genie best practices (read 6 November 2026)
 - WrenAI and Vanna repositories (read 6 November 2026)
 
-## 18. Inspectable SQL, measured trade-offs, and a clear next experiment
+## 18. Inspectable SQL, measured trade-offs and a clear next experiment
 
-Layout: close
+Layout: close_page
 
 Reader question: 
 
@@ -824,12 +831,15 @@ Message: Close on the contribution.
 
 Exact face text:
 
-- CLOSE
-- Inspectable SQL, measured trade-offs, and a / clear next experiment
-- The repository holds the code, runs and decisions behind every claim
-- Table selection stays the default: it improved the large-schema comparison.
-- Answer accuracy remains limited, and better retrieval alone has not added a gain.
-- Next: targeted recovery, reporting both groups.
+- THANK YOU
+- Inspectable SQL, measured trade-offs / and a clear next experiment
+- Questions and feedback are welcome.
+- Live demo
+- aipa-text-to-sql-agent.streamlit.app
+- Code and runs
+- github.com/tuannm3812/text-to-sql-agent
+- Manh Tuan Nguyen
+- University of Technology Sydney  ·  November 2026
 
 ## 19. Backup: how the top 6 tables are chosen
 
@@ -845,7 +855,7 @@ Exact face text:
 - Schema RAG
 - Backup: how the top 6 tables are chosen
 - Relevance score by table for: Which product categories generate the most revenue?
-- Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications
+- Text-to-SQL Agent
 - 19
 - Top 6, sent
 - Foreign-key neighbour, sent
