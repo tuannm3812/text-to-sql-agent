@@ -177,7 +177,7 @@
           "value": "45 of 45",
           "text": "tests passed, none skipped, on 3 database engines",
           "icon": "verified_user",
-          "accent": "slate",
+          "series": "primary",
           "marker": 1
         },
         {
@@ -185,7 +185,7 @@
           "value": "64.6 %",
           "text": "of answers matched: common test, local 9B model",
           "icon": "target",
-          "accent": "blue",
+          "series": "primary",
           "marker": 3
         },
         {
@@ -193,14 +193,14 @@
           "value": "35.2 %",
           "text": "of answers matched: harder test, with evidence hints",
           "icon": "target",
-          "accent": "blue"
+          "series": "primary"
         },
         {
           "label": "Large databases",
           "value": "+3.6 pts",
           "text": "from choosing tables [+1.4, +5.8]",
           "icon": "trending_up",
-          "accent": "ochre"
+          "series": "secondary"
         }
       ],
       "panel_title": "Large databases: more correct answers from less context",
@@ -498,7 +498,7 @@
           "accent": "ochre"
         },
         {
-          "logo": "assets/icons/fact_check-blue.png",
+          "logo": "assets/icons/fact_check-teal.png",
           "ours": true,
           "cells": [
             "This project",
@@ -605,7 +605,7 @@
           "y": 0.38,
           "ours": true,
           "marker": 2,
-          "art": "assets/icons/fact_check-blue.png"
+          "art": "assets/icons/fact_check-teal.png"
         },
         {
           "label": "General chatbot",
@@ -804,7 +804,7 @@
             "The question"
           ],
           "check_circle",
-          "blue"
+          "teal"
         ],
         [
           "Not in the prompt",
@@ -814,7 +814,7 @@
             "All other stored values"
           ],
           "cancel",
-          "ochre"
+          "purple"
         ]
       ],
       "models": [
@@ -829,7 +829,7 @@
           "chat"
         ]
       ],
-      "note": "Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in pale blue. Numeric columns send no values.",
+      "note": "Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.",
       "takeaway": "Before using real data, **check what the prompt contains** and where it goes.",
       "annotations": [
         {
@@ -915,7 +915,7 @@
           "title": "Generate",
           "text": "Gemini or Ollama writes one SQL statement, or declines.",
           "model": true,
-          "rule": "#32658A",
+          "rule": "#FDE725",
           "logos": [
             "assets/logos/tech-ollama.png",
             "assets/logos/tech-googlegemini.png"
@@ -1228,16 +1228,19 @@
             {
               "label": "Spider dev",
               "value": 1034,
+              "series": "published",
               "text": "1,034  accuracy"
             },
             {
               "label": "BIRD dev",
               "value": 1534,
+              "series": "published",
               "text": "1,534  accuracy"
             },
             {
               "label": "Large schemas",
               "value": 1222,
+              "series": "published",
               "text": "1,222  table selection",
               "marker": 1
             },
@@ -1320,18 +1323,6 @@
       "accent": "plum",
       "title": "The local model scored 64.6 % on Spider and 35.2 % on BIRD",
       "subtitle": "Share of answers that matched the reference; one local 9B model, runs of 10 October 2026",
-      "legend": [
-        {
-          "kind": "swatch",
-          "color": "#31688E",
-          "label": "With evidence hints (BIRD) or overall"
-        },
-        {
-          "kind": "swatch",
-          "color": "#A9B4BF",
-          "label": "Without evidence hints"
-        }
-      ],
       "panels": [
         {
           "title": "Overall, with 95 % interval",
@@ -1376,18 +1367,22 @@
           "rows": [
             {
               "label": "Easy",
+              "series": "d1",
               "value": 84.3
             },
             {
               "label": "Medium",
+              "series": "d2",
               "value": 65.9
             },
             {
               "label": "Hard",
+              "series": "d3",
               "value": 58.6
             },
             {
               "label": "Extra hard",
+              "series": "d4",
               "value": 38.0
             }
           ]
@@ -1403,7 +1398,8 @@
           "rows": [
             {
               "label": "Simple",
-              "value": 43.1
+              "value": 43.1,
+              "series": "d1"
             },
             {
               "label": "Simple, no evidence",
@@ -1412,7 +1408,8 @@
             },
             {
               "label": "Challenging",
-              "value": 17.3
+              "value": 17.3,
+              "series": "d3"
             },
             {
               "label": "Challenging, no evidence",
@@ -1719,18 +1716,6 @@
       "accent": "plum",
       "title": "Better table coverage did not measurably improve accuracy",
       "subtitle": "Correct answers gained and lost by each fix against selected tables, on 1,222 questions",
-      "legend": [
-        {
-          "kind": "swatch",
-          "color": "#35B779",
-          "label": "Gained on the 128 where a table was missed"
-        },
-        {
-          "kind": "swatch",
-          "color": "#440154",
-          "label": "Lost on the 1,094 where all were sent"
-        }
-      ],
       "panels": [
         {
           "title": "Dense embeddings: net +2 answers",
@@ -1995,17 +1980,17 @@
       "legend": [
         {
           "kind": "swatch",
-          "color": "#31688E",
+          "color": "#21918C",
           "label": "Top 6, sent"
         },
         {
           "kind": "swatch",
-          "color": "#35B779",
-          "label": "Foreign-key neighbour, sent"
+          "color": "#5EC962",
+          "label": "Foreign-key neighbour, added"
         },
         {
           "kind": "swatch",
-          "color": "#A9B4BF",
+          "color": "#ADB5BD",
           "label": "Not sent"
         }
       ],

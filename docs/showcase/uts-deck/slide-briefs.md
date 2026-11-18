@@ -419,7 +419,7 @@ Exact face text:
 - The prompt stays on your machine.
 - Hosted model
 - Question, schema and hints go to the provider.
-- Note: Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in pale blue. Numeric columns send no values.
+- Note: Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.
 - TAKEAWAY
 - Before using real data, check what the / prompt contains and where it goes.
 - 1
@@ -649,8 +649,6 @@ Exact face text:
 - Share of answers that matched the reference; one local 9B model, runs of 10 October 2026
 - Text-to-SQL Agent
 - 12
-- With evidence hints (BIRD) or overall
-- Without evidence hints
 - Overall, with 95 % interval
 - Spider dev
 - BIRD dev, with evidence
@@ -831,8 +829,6 @@ Exact face text:
 - Correct answers gained and lost by each fix against selected tables, on 1,222 questions
 - Text-to-SQL Agent
 - 15
-- Gained on the 128 where a table was missed
-- Lost on the 1,094 where all were sent
 - Dense embeddings: net +2 answers
 - Gained
 - Lost
@@ -971,7 +967,7 @@ Exact face text:
 - Text-to-SQL Agent
 - 19
 - Top 6, sent
-- Foreign-key neighbour, sent
+- Foreign-key neighbour, added
 - Not sent
 - Score, no fixed scale; it only ranks tables for one question
 - products

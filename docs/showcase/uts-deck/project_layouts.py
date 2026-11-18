@@ -145,7 +145,15 @@ def caption(L, p, slide, y=418, w=606.5):
 
 
 
-VIRIDIS = {'ours': '#31688E', 'published': '#31688E', 'gap': '#D6E1EC'}   # Viridis blue; the gap is its tint
+# Colour key (Viridis, one meaning per colour, used the same way on every figure; see DESIGN.project.md):
+#   teal    #21918C  this project: its measured result, its default setting, what it sends
+#   indigo  #3B528B  published or reference results: other papers, the benchmark's own answer
+#   green   #5EC962  gained or added: answers won, tables added, lines a better question adds
+#   purple  #440154  lost, dropped or not stopped
+#   yellow  #FDE725  the model and its gaps: the one model step, a gap still to close (pale #FDF3A6 as a fill)
+#   grey    #ADB5BD  baseline or comparison arm, not sent, behaviour-only suites
+#   difficulty runs green to purple: easy #5EC962, medium #21918C, hard #3B528B, extra hard #440154
+VIRIDIS = {'ours': '#21918C', 'published': '#3B528B', 'gap': '#FDF3A6'}
 
 
 # -- problem ---------------------------------------------------------------------------------
@@ -160,7 +168,7 @@ def hard_page(L, p, slide):
         card(L, p, x, TOP, w, 46)
         tx = x + 8
         if art:
-            icon(L, p, f'assets/icons/{art[0]}-blue.png', head, x + 8, TOP + 13, 22)
+            icon(L, p, f'assets/icons/{art[0]}-ink.png', head, x + 8, TOP + 13, 22)
             tx = x + 38
         put(L, p, head, tx, TOP + 9, x + w - 8 - tx, 12, 'ink', True)
         put(L, p, body, tx, TOP + 26, x + w - 8 - tx, 8, 'body')
@@ -187,7 +195,7 @@ def hard_page(L, p, slide):
         if bar.get('gap'):
             gx, gw = LEFT + lw + bwid + 56, bw * (top - bar['value']) / 100 - 56
             p.rect(gx, y, gw, 24, VIRIDIS['gap'])
-            paint(L, p, bar['gap'], gx + 8, y + 5, gw - 16, 10, VIRIDIS['ours'], True)
+            paint(L, p, bar['gap'], gx + 8, y + 5, gw - 16, 10, L.t.color('ink'), True)
             end = gx + gw
         if bar.get('marker'):
             marks[bar['marker']] = (end + 14, y + 12)
@@ -207,7 +215,8 @@ def hard_page(L, p, slide):
     right_column(L, p, slide, marks)
 
 
-SERIES = {'primary': '#31688E', 'secondary': '#35B779', 'muted': '#A9B4BF', 'loss': '#440154', 'pale': '#D6E1EC'}
+SERIES = {'primary': '#21918C', 'published': '#3B528B', 'secondary': '#5EC962', 'muted': '#ADB5BD', 'loss': '#440154',
+          'pale': '#FDF3A6', 'model': '#FDE725', 'd1': '#5EC962', 'd2': '#21918C', 'd3': '#3B528B', 'd4': '#440154'}
 
 
 def _fmt(v, unit):
@@ -301,7 +310,7 @@ def aim_page(L, p, slide):
         card(L, p, x, TOP, w, 44)
         tx = x + 10
         if c.get('icon'):
-            icon(L, p, f"assets/icons/{c['icon']}-blue.png", c['title'], x + 10, TOP + 12, 22)
+            icon(L, p, f"assets/icons/{c['icon']}-ink.png", c['title'], x + 10, TOP + 12, 22)
             tx = x + 40
         put(L, p, c['title'], tx, TOP + 9, x + w - 10 - tx, 12, 'ink', True)
         put(L, p, c['text'], tx, TOP + 26, x + w - 10 - tx, 10)
@@ -391,7 +400,7 @@ def tools_page(L, p, slide):
 
 def dots(L, p, n, x, y):
     for k in range(3):
-        p.rect(x + k * 6, y, 4.5, 4.5, SERIES['primary'] if k < n else L.t.color('hair'), 'ELLIPSE')
+        p.rect(x + k * 6, y, 4.5, 4.5, L.t.color('ink') if k < n else L.t.color('hair'), 'ELLIPSE')
 
 
 def close_page(L, p, slide):
@@ -409,7 +418,7 @@ def close_page(L, p, slide):
     put(L, p, slide['subtitle'], LEFT, y + 36 + th + 8, 440, 12, 'body')
     yy = 334
     for lab, text, url, art in slide['links']:
-        icon(L, p, f'assets/icons/{art}-blue.png', lab, LEFT, yy + 1, 14)
+        icon(L, p, f'assets/icons/{art}-ink.png', lab, LEFT, yy + 1, 14)
         put(L, p, lab, LEFT + 22, yy, 90, 10, 'ink', True)
         L.text(p, text, LEFT + 112, yy, 340, 14, 10, 'body')
         next(op for op in reversed(p.ops) if op['op'] == 'add-textbox')['href'] = url
@@ -419,7 +428,7 @@ def close_page(L, p, slide):
     L.image(p, slide['image'], 505, 0, 455, 540)
 
 
-CODE_BG, CODE_INK, CODE_ADD = '#1B2430', '#FFFFFF', '#9CC3E0'   # added lines in pale blue, never amber on navy
+CODE_BG, CODE_INK, CODE_ADD = '#1B2430', '#FFFFFF', '#5EC962'   # added lines in Viridis green (added), never amber on navy
 
 
 def code_panel(L, p, x, y, w, h, title, lines):
@@ -458,9 +467,9 @@ def demo_page(L, p, slide):
     for k, b in enumerate(slide['bars']):
         put(L, p, b['label'], LEFT, y + 4, lw - 8, 10, 'ink')
         w = bw * b['value'] / top
-        hbar(L, p, LEFT + lw, y, w, 22, SERIES['muted' if k == 0 else 'primary'], b['text'], '#1B2430' if k == 0 else '#FFFFFF')
+        hbar(L, p, LEFT + lw, y, w, 22, SERIES['primary' if k == 0 else 'published'], b['text'])
         if b.get('gap'):
-            hbar(L, p, LEFT + lw + w, y, bw - w, 22, SERIES['pale'], b['gap'], SERIES['primary'])
+            hbar(L, p, LEFT + lw + w, y, bw - w, 22, SERIES['pale'], b['gap'], L.t.color('ink'))
             marks[3] = (FIG_RIGHT - 12, y + 11)
         y += 28
     note(L, p, slide['note'], LEFT, y + 4, FIG_RIGHT - LEFT)
@@ -504,7 +513,7 @@ def boundary_page(L, p, slide):
     for k, (title, text, art) in enumerate(slide['models']):
         x = LEFT + k * (cw + 14)
         card(L, p, x, y, cw, 46)
-        icon(L, p, f'assets/icons/{art}-blue.png', title, x + 10, y + 13, 20)
+        icon(L, p, f'assets/icons/{art}-ink.png', title, x + 10, y + 13, 20)
         put(L, p, title, x + 38, y + 9, cw - 48, 12, 'ink', True)
         put(L, p, text, x + 38, y + 26, cw - 48, 8, 'body')
     marks[3] = (LEFT + cw + 7, y - 4)
@@ -564,7 +573,7 @@ def arch_page(L, p, slide):
     p.connector(xs[3] + bw / 2, ey + eh + 2, xs[3] + bw / 2, y2 - 2, color=L.t.color('rule'))
     for k, st in enumerate(slide['bottom']):   # 5 at the right, 8 at the left
         x = xs[3 - k]
-        box(x, y2, st, acc['blue']['fill'] if st.get('model') else None)
+        box(x, y2, st, SERIES['pale'] if st.get('model') else None)
         if k < 3:
             p.connector(x - 2, y2 + bh / 2, x - gap + 2, y2 + bh / 2, color=L.t.color('rule'))
     marks[1] = (xs[3] + bw - 10, y2 + 12)
@@ -573,9 +582,9 @@ def arch_page(L, p, slide):
     p.connector(run_x, y2 - 2, run_x, ey + eh + 2, color=L.t.color('rule'))
     # one repair try: dashed from Run back to Generate, under the row
     ry = y2 + bh + 12
-    p.line(xs[1] + bw / 2, y2 + bh, xs[1] + bw / 2, ry, SERIES['primary'], 1.2, dash='DASH')
-    p.line(xs[1] + bw / 2, ry, xs[3] + bw / 2, ry, SERIES['primary'], 1.2, dash='DASH')
-    p.connector(xs[3] + bw / 2, ry, xs[3] + bw / 2, y2 + bh + 2, color=SERIES['primary'])
+    p.line(xs[1] + bw / 2, y2 + bh, xs[1] + bw / 2, ry, L.t.color('ink'), 1.2, dash='DASH')
+    p.line(xs[1] + bw / 2, ry, xs[3] + bw / 2, ry, L.t.color('ink'), 1.2, dash='DASH')
+    p.connector(xs[3] + bw / 2, ry, xs[3] + bw / 2, y2 + bh + 2, color=L.t.color('ink'))
     put(L, p, slide['repair'], xs[2] - 10, ry + 3, bw + 40, 8, 'body')
     marks[4] = (xs[2] - 22, ry)
     py = END - 30   # the person at both ends
@@ -619,12 +628,12 @@ def summary_page(L, p, slide):
     th = 116
     for k, t in enumerate(slide['tiles']):
         x = LEFT + k * (tw + gap)
-        a = acc[t['accent']]
-        p.rect(x, TOP, tw, th, a['fill'])
-        p.rect(x, TOP, tw, 3, a['ink'])
-        icon(L, p, f"assets/icons/{t['icon']}-{t['accent'] if t['accent'] != 'slate' else 'ink'}.png", t['label'], x + tw - 28, TOP + 12, 18)
+        colour = SERIES[t['series']]
+        p.rect(x, TOP, tw, th, L.t.color('card'))
+        p.rect(x, TOP, tw, 4, colour)
+        icon(L, p, f"assets/icons/{t['icon']}-ink.png", t['label'], x + tw - 28, TOP + 12, 18)
         put(L, p, t['label'], x + 12, TOP + 12, tw - 46, 10, 'ink', True)
-        paint(L, p, t['value'], x + 12, TOP + 34, tw - 24, 24, a['ink'], True)
+        paint(L, p, t['value'], x + 12, TOP + 34, tw - 24, 24, L.t.color('ink'), True)
         put(L, p, t['text'], x + 12, TOP + 72, tw - 24, 8, 'body')
         if t.get('marker'):
             marks[t['marker']] = (x + 8, TOP - 1)

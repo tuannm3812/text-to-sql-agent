@@ -36,7 +36,7 @@ other_tools = {
         {'logo': 'assets/logos/vanna.png', 'cells': ['Vanna', 'Saved past queries', [1, 'Learns from use'], [2, 'Self-maintained'], 'Repeated questions', 'Repeats past errors']},
         {'logo': 'assets/icons/monitoring-ink.png', 'cells': ['BIRD leaderboard systems', 'Mostly not listed', [None, 'Not listed'], [None, 'Not listed'], 'Benchmark scores', 'Transfer unproven']},
         {'band': 'This project', 'accent': 'ochre'},
-        {'logo': 'assets/icons/fact_check-blue.png', 'ours': True, 'cells': ['This project', 'Schema and bounded hints', [0, 'Connect only'], [0, 'None'], 'A first look', 'A person checks the meaning']},
+        {'logo': 'assets/icons/fact_check-teal.png', 'ours': True, 'cells': ['This project', 'Schema and bounded hints', [0, 'Connect only'], [0, 'None'], 'A first look', 'A person checks the meaning']},
     ],
     'note': 'Setup and upkeep are our reading of each tool’s documentation, not a ranking. Vanna’s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.',
     'takeaway': 'Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.',
@@ -66,7 +66,7 @@ aim = {
         {'label': 'Snowflake Cortex Analyst', 'x': 0.55, 'y': 0.8, 'art': 'assets/logos/snowflake.png'},
         {'label': 'WrenAI', 'x': 0.58, 'y': 0.6, 'art': 'assets/logos/wren.png'},
         {'label': 'Vanna', 'x': 0.3, 'y': 0.3, 'art': 'assets/logos/vanna.png'},
-        {'label': 'This project', 'x': 0.06, 'y': 0.38, 'ours': True, 'marker': 2, 'art': 'assets/icons/fact_check-blue.png'},
+        {'label': 'This project', 'x': 0.06, 'y': 0.38, 'ours': True, 'marker': 2, 'art': 'assets/icons/fact_check-teal.png'},
         {'label': 'General chatbot', 'x': 0.06, 'y': 0.14, 'marker': 3, 'art': 'assets/icons/chat-ink.png'},
     ],
     'takeaway': 'A quick start that **people check**, not a governed metrics layer.',
@@ -121,11 +121,11 @@ boundary = {
     'code': [['CREATE TABLE orders (', False], ['  order_id INTEGER PRIMARY KEY,', False], ['  order_status TEXT NOT NULL ...', False], [');', False],
              ['-- order_status sample values:', True], ['     Completed, Returned, Cancelled', True], ['-- gender sample values: Female, Other, Male', True],
              ['### User question', False], ['Which product categories generate the most revenue?', False]],
-    'lists': [['In the prompt', ['Tables, columns, keys', '79 stored values as hints', 'The question'], 'check_circle', 'blue'],
-              ['Not in the prompt', ['Result rows', 'Names and emails: over the limit', 'All other stored values'], 'cancel', 'ochre']],
+    'lists': [['In the prompt', ['Tables, columns, keys', '79 stored values as hints', 'The question'], 'check_circle', 'teal'],
+              ['Not in the prompt', ['Result rows', 'Names and emails: over the limit', 'All other stored values'], 'cancel', 'purple']],
     'models': [['Local model', 'The prompt stays on your machine.', 'verified_user'],
                ['Hosted model', 'Question, schema and hints go to the provider.', 'chat']],
-    'note': 'Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in pale blue. Numeric columns send no values.',
+    'note': 'Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.',
     'takeaway': 'Before using real data, **check what the prompt contains** and where it goes.',
     'annotations': [
         {'title': 'The prompt is mostly structure', 'text': 'About 71 % of the schema text is table definitions; hints are the rest.'},
@@ -152,7 +152,7 @@ architecture = {
         {'n': 4, 'title': 'Build prompt', 'text': 'Dialect rules, the schema and the question.', 'logos': ['assets/logos/tech-langchain.png']},
     ],
     'bottom': [
-        {'n': 5, 'title': 'Generate', 'text': 'Gemini or Ollama writes one SQL statement, or declines.', 'model': True, 'rule': '#32658A', 'logos': ['assets/logos/tech-ollama.png', 'assets/logos/tech-googlegemini.png']},
+        {'n': 5, 'title': 'Generate', 'text': 'Gemini or Ollama writes one SQL statement, or declines.', 'model': True, 'rule': '#FDE725', 'logos': ['assets/logos/tech-ollama.png', 'assets/logos/tech-googlegemini.png']},
         {'n': 6, 'title': 'Validate', 'text': 'One SELECT or WITH, no engine internals.', 'logos': ['assets/logos/tech-sqlglot.png']},
         {'n': 7, 'title': 'Run', 'text': 'Read-only, with a work budget and a 1,000-row cap.', 'logos': ['assets/logos/tech-python.png']},
         {'n': 8, 'title': 'Show', 'text': 'Answer, table, chart, the SQL and why those tables.', 'logos': ['assets/logos/tech-streamlit.png', 'assets/logos/tech-pandas.png']},
@@ -210,9 +210,9 @@ method = {
     'subtitle': '3,817 questions in five suites, 37 recorded runs, each change paired against a named baseline',
     'panels': [
         {'title': 'Questions per suite', 'scale': [0, 1600], 'unit': '', 'rows': [
-            {'label': 'Spider dev', 'value': 1034, 'text': '1,034  accuracy'},
-            {'label': 'BIRD dev', 'value': 1534, 'text': '1,534  accuracy'},
-            {'label': 'Large schemas', 'value': 1222, 'text': '1,222  table selection', 'marker': 1},
+            {'label': 'Spider dev', 'value': 1034, 'series': 'published', 'text': '1,034  accuracy'},
+            {'label': 'BIRD dev', 'value': 1534, 'series': 'published', 'text': '1,534  accuracy'},
+            {'label': 'Large schemas', 'value': 1222, 'series': 'published', 'text': '1,222  table selection', 'marker': 1},
             {'label': 'Demo', 'value': 12, 'text': '12  behaviour', 'series': 'muted'},
             {'label': 'Safety', 'value': 15, 'text': '15  behaviour', 'series': 'muted', 'marker': 2},
         ]},
@@ -239,8 +239,6 @@ benchmarks = {
     'id': 'benchmarks', 'layout': 'bars_page', 'section': 'Evidence', 'topic': 'Benchmarks', 'accent': 'plum',
     'title': 'The local model scored 64.6 % on Spider and 35.2 % on BIRD',
     'subtitle': 'Share of answers that matched the reference; one local 9B model, runs of 10 October 2026',
-    'legend': [{'kind': 'swatch', 'color': '#31688E', 'label': 'With evidence hints (BIRD) or overall'},
-               {'kind': 'swatch', 'color': '#A9B4BF', 'label': 'Without evidence hints'}],
     'panels': [
         {'title': 'Overall, with 95 % interval', 'kind': 'dot', 'scale': [0, 100], 'unit': '%', 'rows': [
             {'label': 'Spider dev', 'value': 64.6, 'lo': 61.6, 'hi': 67.5},
@@ -248,12 +246,12 @@ benchmarks = {
             {'label': 'Demo suite, 4 of 12', 'value': 33.3, 'lo': 8.3, 'hi': 58.3, 'series': 'muted', 'text': '4 of 12, interval 50 points wide', 'marker': 3},
         ]},
         {'title': 'Spider by difficulty', 'scale': [0, 100], 'unit': '%', 'marker': 1, 'rows': [
-            {'label': 'Easy', 'value': 84.3}, {'label': 'Medium', 'value': 65.9},
-            {'label': 'Hard', 'value': 58.6}, {'label': 'Extra hard', 'value': 38.0},
+            {'label': 'Easy', 'series': 'd1', 'value': 84.3}, {'label': 'Medium', 'series': 'd2', 'value': 65.9},
+            {'label': 'Hard', 'series': 'd3', 'value': 58.6}, {'label': 'Extra hard', 'series': 'd4', 'value': 38.0},
         ]},
         {'title': 'BIRD by difficulty, with and without evidence', 'scale': [0, 100], 'unit': '%', 'marker': 2, 'rows': [
-            {'label': 'Simple', 'value': 43.1}, {'label': 'Simple, no evidence', 'value': 34.2, 'series': 'muted'},
-            {'label': 'Challenging', 'value': 17.3}, {'label': 'Challenging, no evidence', 'value': 8.2, 'series': 'muted'},
+            {'label': 'Simple', 'value': 43.1, 'series': 'd1'}, {'label': 'Simple, no evidence', 'value': 34.2, 'series': 'muted'},
+            {'label': 'Challenging', 'value': 17.3, 'series': 'd3'}, {'label': 'Challenging, no evidence', 'value': 8.2, 'series': 'muted'},
         ]},
     ],
     'max_step': 22,
@@ -338,8 +336,6 @@ retrieval = {
     'id': 'retrieval', 'layout': 'bars_page', 'section': 'Evidence', 'topic': 'Retrieval', 'accent': 'plum',
     'title': 'Better table coverage did not measurably improve accuracy',
     'subtitle': 'Correct answers gained and lost by each fix against selected tables, on 1,222 questions',
-    'legend': [{'kind': 'swatch', 'color': '#35B779', 'label': 'Gained on the 128 where a table was missed'},
-               {'kind': 'swatch', 'color': '#440154', 'label': 'Lost on the 1,094 where all were sent'}],
     'panels': [
         {'title': 'Dense embeddings: net +2 answers', 'scale': [-50, 25], 'unit': '', 'marker': 1, 'rows': [
             {'label': 'Gained', 'value': 18, 'series': 'secondary', 'text': '+18'},
@@ -425,9 +421,9 @@ appendix = {
     'header_style': 'appendix',
     'title': 'Backup: how the top 6 tables are chosen',
     'subtitle': 'Relevance score by table for: Which product categories generate the most revenue?',
-    'legend': [{'kind': 'swatch', 'color': '#31688E', 'label': 'Top 6, sent'},
-               {'kind': 'swatch', 'color': '#35B779', 'label': 'Foreign-key neighbour, sent'},
-               {'kind': 'swatch', 'color': '#A9B4BF', 'label': 'Not sent'}],
+    'legend': [{'kind': 'swatch', 'color': '#21918C', 'label': 'Top 6, sent'},
+               {'kind': 'swatch', 'color': '#5EC962', 'label': 'Foreign-key neighbour, added'},
+               {'kind': 'swatch', 'color': '#ADB5BD', 'label': 'Not sent'}],
     'label_width': 170,
     'panels': [{'title': 'Score, no fixed scale; it only ranks tables for one question', 'scale': [0, 40], 'unit': '', 'rows': [
         {'label': 'products', 'value': 30.13, 'mono': True, 'text': '30.1  used by the SQL'},
@@ -578,10 +574,10 @@ for k in ('problem', 'approach', 'findings'):
 summary.update({
     'layout': 'summary_page',
     'tiles': [
-        {'label': 'Read-only checks', 'value': '45 of 45', 'text': 'tests passed, none skipped, on 3 database engines', 'icon': 'verified_user', 'accent': 'slate', 'marker': 1},
-        {'label': 'Spider', 'value': '64.6 %', 'text': 'of answers matched: common test, local 9B model', 'icon': 'target', 'accent': 'blue', 'marker': 3},
-        {'label': 'BIRD', 'value': '35.2 %', 'text': 'of answers matched: harder test, with evidence hints', 'icon': 'target', 'accent': 'blue'},
-        {'label': 'Large databases', 'value': '+3.6 pts', 'text': 'from choosing tables [+1.4, +5.8]', 'icon': 'trending_up', 'accent': 'ochre'},
+        {'label': 'Read-only checks', 'value': '45 of 45', 'text': 'tests passed, none skipped, on 3 database engines', 'icon': 'verified_user', 'series': 'primary', 'marker': 1},
+        {'label': 'Spider', 'value': '64.6 %', 'text': 'of answers matched: common test, local 9B model', 'icon': 'target', 'series': 'primary', 'marker': 3},
+        {'label': 'BIRD', 'value': '35.2 %', 'text': 'of answers matched: harder test, with evidence hints', 'icon': 'target', 'series': 'primary'},
+        {'label': 'Large databases', 'value': '+3.6 pts', 'text': 'from choosing tables [+1.4, +5.8]', 'icon': 'trending_up', 'series': 'secondary'},
     ],
     'panel_title': 'Large databases: more correct answers from less context',
     'panel_marker': 2,

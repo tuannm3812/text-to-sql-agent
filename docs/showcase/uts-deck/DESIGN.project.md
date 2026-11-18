@@ -12,17 +12,23 @@ Relation to the Google Slides deck: the live Google deck stays the presenting co
 
 Local token/layout overrides and reasons: footer names the project and subject. `project_layouts.py` adds `hard_page` (why it is hard), `aim_page` (the setup-against-meaning matrix with logos), `tools_page` (logos and effort dots), `demo_page`, `boundary_page`, `arch_page` (eight steps, engine band, logos), `stack_page`, `close_page` and `bars_page` (bar and interval panels; value labels that nearly align are snapped into one column); kit `table_page` draws the tables; helpers are copied from the fire-occurrence UTS consumer so markers, legends and the right column behave the same.
 
-Figure palette, category mappings, units and scale choices:
-- Data bars: Viridis blue #31688E for the main series; grey #A9B4BF for a reference or baseline arm; Viridis green #35B779 for gains or added tables; Viridis purple #440154 for losses. A gap to a reference is the blue tint #D6E1EC with its label in #31688E.
-- Percentages are shown with one decimal and a space before %, as in the README.
-- Bar scale: 0–100 %, linear, one shared scale per chart.
+Figure palette: Viridis, one meaning per colour, used the same way on every figure and the illustration, so no legend is needed where rows are labelled (19 November 2026, owner's request):
+- teal #21918C: this project: its measured result, its default setting, what it sends to the model, tables the agent chose.
+- indigo #3B528B: published or reference results and benchmark data: other papers, the benchmark's own answer, schema tables in the art.
+- green #5EC962: gained or added: answers won, foreign-key tables added, SQL lines a better question adds.
+- purple #440154: lost, dropped or not stopped.
+- yellow #FDE725 (pale #FDF3A6 as a fill): the model and the gaps: the one model step, a gap still to close.
+- grey #ADB5BD: baseline or comparison arm, not sent, behaviour-only suites.
+- Difficulty runs green to purple: easy #5EC962, medium #21918C, hard #3B528B, extra hard #440154.
+- Icons that only label structure are ink #1B2430; chapter accents (slate, blue, plum, ochre) stay structure only. Text never sits in amber or yellow on navy.
+- Percentages are shown with one decimal and a space before %, as in the README; bar scales are linear, one per panel.
 
 Glossary (names and colours used across slides):
 - Chapters: Summary blue, Problem slate, Solution blue, Evidence plum, Next steps ochre. Chapter colour is structure only.
 - "Top 6": the six most relevant tables plus neighbours sent to the model. "Every table + hints": the full schema with value hints.
 - "Our scorer": this project's typed result comparison, not leaderboard scoring.
 
-Icons and logos: `assets/icons/` are the old deck's Material icons recoloured to palette A (blue, ink, ochre, plum, white, red); `assets/logos/` are the old deck's product logos with white made transparent, kept in their own colours. Safety ticks are `assets/project/icons/yes.svg` and `no.svg`. Code panels use pale blue #9CC3E0 for added lines, never amber on navy. The close has no team credit (owner's decision, 7 November 2026).
+Icons and logos: `assets/icons/` are the old deck's Material icons recoloured to palette A (blue, ink, ochre, plum, white, red); `assets/logos/` are the old deck's product logos with white made transparent, kept in their own colours. Safety ticks are `assets/project/icons/yes.svg` and `no.svg`. Code panels show added lines in Viridis green, never amber on navy. The close has no team credit (owner's decision, 7 November 2026).
 
 Asset origins, licences: `assets/figures/cover-art.png` and `cover-art-close.png` drawn by `make_cover.py` (decorative, no real data), recoloured from `docs/showcase/slides/build_cover_art.py`.
 

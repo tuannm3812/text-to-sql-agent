@@ -1993,7 +1993,7 @@
           "value": "45 of 45",
           "text": "tests passed, none skipped, on 3 database engines",
           "icon": "verified_user",
-          "accent": "slate",
+          "series": "primary",
           "marker": 1
         },
         {
@@ -2001,7 +2001,7 @@
           "value": "64.6 %",
           "text": "of answers matched: common test, local 9B model",
           "icon": "target",
-          "accent": "blue",
+          "series": "primary",
           "marker": 3
         },
         {
@@ -2009,14 +2009,14 @@
           "value": "35.2 %",
           "text": "of answers matched: harder test, with evidence hints",
           "icon": "target",
-          "accent": "blue"
+          "series": "primary"
         },
         {
           "label": "Large databases",
           "value": "+3.6 pts",
           "text": "from choosing tables [+1.4, +5.8]",
           "icon": "trending_up",
-          "accent": "ochre"
+          "series": "secondary"
         }
       ],
       "panel_title": "Large databases: more correct answers from less context",
@@ -2523,7 +2523,7 @@
           "y": 132.0,
           "width": 144.125,
           "height": 116,
-          "background_color": "#EDF0F3"
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
@@ -2533,8 +2533,8 @@
           "x": 43.5,
           "y": 132.0,
           "width": 144.125,
-          "height": 3,
-          "background_color": "#526174"
+          "height": 4,
+          "background_color": "#21918C"
         },
         {
           "op": "add-image",
@@ -2585,7 +2585,7 @@
           "height": 46.800000000000004,
           "font_size": 24,
           "font_family": "Google Sans",
-          "color": "#526174",
+          "color": "#1B2430",
           "bold": true
         },
         {
@@ -2632,7 +2632,7 @@
           "y": 132.0,
           "width": 144.125,
           "height": 116,
-          "background_color": "#EAF0F6"
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
@@ -2642,13 +2642,13 @@
           "x": 197.625,
           "y": 132.0,
           "width": 144.125,
-          "height": 3,
-          "background_color": "#32658A"
+          "height": 4,
+          "background_color": "#21918C"
         },
         {
           "op": "add-image",
           "id": "im29",
-          "path": "assets/icons/target-blue.png",
+          "path": "assets/icons/target-ink.png",
           "alt": "Spider",
           "x": 313.75,
           "y": 144.0,
@@ -2694,7 +2694,7 @@
           "height": 46.800000000000004,
           "font_size": 24,
           "font_family": "Google Sans",
-          "color": "#32658A",
+          "color": "#1B2430",
           "bold": true
         },
         {
@@ -2741,7 +2741,7 @@
           "y": 132.0,
           "width": 144.125,
           "height": 116,
-          "background_color": "#EAF0F6"
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
@@ -2751,13 +2751,13 @@
           "x": 351.75,
           "y": 132.0,
           "width": 144.125,
-          "height": 3,
-          "background_color": "#32658A"
+          "height": 4,
+          "background_color": "#21918C"
         },
         {
           "op": "add-image",
           "id": "im35",
-          "path": "assets/icons/target-blue.png",
+          "path": "assets/icons/target-ink.png",
           "alt": "BIRD",
           "x": 467.875,
           "y": 144.0,
@@ -2803,7 +2803,7 @@
           "height": 46.800000000000004,
           "font_size": 24,
           "font_family": "Google Sans",
-          "color": "#32658A",
+          "color": "#1B2430",
           "bold": true
         },
         {
@@ -2850,7 +2850,7 @@
           "y": 132.0,
           "width": 144.125,
           "height": 116,
-          "background_color": "#F6F1E5"
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
@@ -2860,13 +2860,13 @@
           "x": 505.875,
           "y": 132.0,
           "width": 144.125,
-          "height": 3,
-          "background_color": "#896521"
+          "height": 4,
+          "background_color": "#5EC962"
         },
         {
           "op": "add-image",
           "id": "im41",
-          "path": "assets/icons/trending_up-ochre.png",
+          "path": "assets/icons/trending_up-ink.png",
           "alt": "Large databases",
           "x": 622.0,
           "y": 144.0,
@@ -2912,7 +2912,7 @@
           "height": 46.800000000000004,
           "font_size": 24,
           "font_family": "Google Sans",
-          "color": "#896521",
+          "color": "#1B2430",
           "bold": true
         },
         {
@@ -3058,7 +3058,7 @@
           "y": 328.0,
           "width": 94.23046875,
           "height": 22,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -3118,7 +3118,7 @@
           "y": 360.0,
           "width": 107.53359375000001,
           "height": 22,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -3249,7 +3249,7 @@
           "y": 328.0,
           "width": 107.5,
           "height": 22,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -3309,7 +3309,7 @@
           "y": 360.0,
           "width": 33.325,
           "height": 22,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -4485,7 +4485,7 @@
         {
           "op": "add-image",
           "id": "im23",
-          "path": "assets/icons/chat-blue.png",
+          "path": "assets/icons/chat-ink.png",
           "alt": "Question",
           "x": 51.5,
           "y": 145.0,
@@ -4578,7 +4578,7 @@
         {
           "op": "add-image",
           "id": "im29",
-          "path": "assets/icons/schema-blue.png",
+          "path": "assets/icons/schema-ink.png",
           "alt": "Schema",
           "x": 206.625,
           "y": 145.0,
@@ -4671,7 +4671,7 @@
         {
           "op": "add-image",
           "id": "im35",
-          "path": "assets/icons/code-blue.png",
+          "path": "assets/icons/code-ink.png",
           "alt": "SQL",
           "x": 361.75,
           "y": 145.0,
@@ -4764,7 +4764,7 @@
         {
           "op": "add-image",
           "id": "im41",
-          "path": "assets/icons/table_rows-blue.png",
+          "path": "assets/icons/table_rows-ink.png",
           "alt": "Rows",
           "x": 516.875,
           "y": 145.0,
@@ -4878,7 +4878,7 @@
           "y": 216.0,
           "width": 306.888,
           "height": 24,
-          "background_color": "#31688E"
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
@@ -4938,7 +4938,7 @@
           "y": 257.1666666666667,
           "width": 245.645,
           "height": 24,
-          "background_color": "#31688E"
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
@@ -4998,7 +4998,7 @@
           "y": 298.33333333333337,
           "width": 71.6745,
           "height": 24,
-          "background_color": "#31688E"
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
@@ -5037,7 +5037,7 @@
           "y": 298.33333333333337,
           "width": 179.2135,
           "height": 24,
-          "background_color": "#D6E1EC"
+          "background_color": "#FDF3A6"
         },
         {
           "op": "add-textbox",
@@ -5050,7 +5050,7 @@
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#31688E",
+          "color": "#1B2430",
           "bold": true
         },
         {
@@ -5835,7 +5835,7 @@
           "accent": "ochre"
         },
         {
-          "logo": "assets/icons/fact_check-blue.png",
+          "logo": "assets/icons/fact_check-teal.png",
           "ours": true,
           "cells": [
             "This project",
@@ -6284,7 +6284,7 @@
           "y": 134.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6295,7 +6295,7 @@
           "y": 134.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6306,7 +6306,7 @@
           "y": 134.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-textbox",
@@ -6338,7 +6338,7 @@
           "y": 134.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6349,7 +6349,7 @@
           "y": 134.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6392,7 +6392,7 @@
           "y": 134.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6788,7 +6788,7 @@
           "y": 188.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6799,7 +6799,7 @@
           "y": 188.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6842,7 +6842,7 @@
           "y": 188.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -6853,7 +6853,7 @@
           "y": 188.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7008,7 +7008,7 @@
           "y": 219.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7019,7 +7019,7 @@
           "y": 219.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7030,7 +7030,7 @@
           "y": 219.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-textbox",
@@ -7062,7 +7062,7 @@
           "y": 219.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7073,7 +7073,7 @@
           "y": 219.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7228,7 +7228,7 @@
           "y": 250.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7239,7 +7239,7 @@
           "y": 250.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7282,7 +7282,7 @@
           "y": 250.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7293,7 +7293,7 @@
           "y": 250.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7498,7 +7498,7 @@
           "y": 299.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7552,7 +7552,7 @@
           "y": 299.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7563,7 +7563,7 @@
           "y": 299.5,
           "width": 4.5,
           "height": 4.5,
-          "background_color": "#31688E"
+          "background_color": "#1B2430"
         },
         {
           "op": "add-shape",
@@ -7868,7 +7868,7 @@
         {
           "op": "add-image",
           "id": "im119",
-          "path": "assets/icons/fact_check-blue.png",
+          "path": "assets/icons/fact_check-teal.png",
           "alt": "This project",
           "x": 47.5,
           "y": 379.5,
@@ -8266,7 +8266,7 @@
           "y": 0.38,
           "ours": true,
           "marker": 2,
-          "art": "assets/icons/fact_check-blue.png"
+          "art": "assets/icons/fact_check-teal.png"
         },
         {
           "label": "General chatbot",
@@ -8750,7 +8750,7 @@
         {
           "op": "add-image",
           "id": "im23",
-          "path": "assets/icons/query_stats-blue.png",
+          "path": "assets/icons/query_stats-ink.png",
           "alt": "Useful without setup",
           "x": 53.5,
           "y": 144.0,
@@ -8831,7 +8831,7 @@
         {
           "op": "add-image",
           "id": "im28",
-          "path": "assets/icons/fact_check-blue.png",
+          "path": "assets/icons/fact_check-ink.png",
           "alt": "Checkable by default",
           "x": 363.75,
           "y": 144.0,
@@ -9321,7 +9321,7 @@
         {
           "op": "add-image",
           "id": "im55",
-          "path": "assets/icons/fact_check-blue.png",
+          "path": "assets/icons/fact_check-teal.png",
           "alt": "This project",
           "x": 71.89,
           "y": 348.72,
@@ -9339,7 +9339,7 @@
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#31688E",
+          "color": "#21918C",
           "bold": true
         },
         {
@@ -10393,7 +10393,7 @@
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#9CC3E0",
+          "color": "#5EC962",
           "bold": true
         },
         {
@@ -10534,7 +10534,7 @@
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#9CC3E0",
+          "color": "#5EC962",
           "bold": true
         },
         {
@@ -10563,7 +10563,7 @@
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#9CC3E0",
+          "color": "#5EC962",
           "bold": true
         },
         {
@@ -10695,7 +10695,7 @@
           "y": 391.8487394957983,
           "width": 436.5,
           "height": 22,
-          "background_color": "#A9B4BF"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -10708,7 +10708,7 @@
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#1B2430",
+          "color": "#FFFFFF",
           "bold": true
         },
         {
@@ -10755,7 +10755,7 @@
           "y": 419.8487394957983,
           "width": 344.8975923768213,
           "height": 22,
-          "background_color": "#31688E"
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
@@ -10794,7 +10794,7 @@
           "y": 419.8487394957983,
           "width": 91.60240762317869,
           "height": 22,
-          "background_color": "#D6E1EC"
+          "background_color": "#FDF3A6"
         },
         {
           "op": "add-textbox",
@@ -10807,7 +10807,7 @@
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#31688E",
+          "color": "#1B2430",
           "bold": true
         },
         {
@@ -11353,7 +11353,7 @@
             "The question"
           ],
           "check_circle",
-          "blue"
+          "teal"
         ],
         [
           "Not in the prompt",
@@ -11363,7 +11363,7 @@
             "All other stored values"
           ],
           "cancel",
-          "ochre"
+          "purple"
         ]
       ],
       "models": [
@@ -11378,7 +11378,7 @@
           "chat"
         ]
       ],
-      "note": "Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in pale blue. Numeric columns send no values.",
+      "note": "Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.",
       "takeaway": "Before using real data, **check what the prompt contains** and where it goes.",
       "annotations": [
         {
@@ -11881,7 +11881,7 @@
           "y": 152.0,
           "width": 78.80509868421052,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -12133,7 +12133,7 @@
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#9CC3E0",
+          "color": "#5EC962",
           "bold": true
         },
         {
@@ -12162,7 +12162,7 @@
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#9CC3E0",
+          "color": "#5EC962",
           "bold": true
         },
         {
@@ -12191,7 +12191,7 @@
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#9CC3E0",
+          "color": "#5EC962",
           "bold": true
         },
         {
@@ -12318,7 +12318,7 @@
         {
           "op": "add-image",
           "id": "im41",
-          "path": "assets/icons/check_circle-blue.png",
+          "path": "assets/icons/check_circle-teal.png",
           "alt": "",
           "x": 397.5,
           "y": 219.0,
@@ -12349,7 +12349,7 @@
         {
           "op": "add-image",
           "id": "im43",
-          "path": "assets/icons/check_circle-blue.png",
+          "path": "assets/icons/check_circle-teal.png",
           "alt": "",
           "x": 397.5,
           "y": 231.0,
@@ -12380,7 +12380,7 @@
         {
           "op": "add-image",
           "id": "im45",
-          "path": "assets/icons/check_circle-blue.png",
+          "path": "assets/icons/check_circle-teal.png",
           "alt": "",
           "x": 397.5,
           "y": 243.0,
@@ -12461,7 +12461,7 @@
         {
           "op": "add-image",
           "id": "im50",
-          "path": "assets/icons/cancel-ochre.png",
+          "path": "assets/icons/cancel-purple.png",
           "alt": "",
           "x": 397.5,
           "y": 291.0,
@@ -12492,7 +12492,7 @@
         {
           "op": "add-image",
           "id": "im52",
-          "path": "assets/icons/cancel-ochre.png",
+          "path": "assets/icons/cancel-purple.png",
           "alt": "",
           "x": 397.5,
           "y": 303.0,
@@ -12523,7 +12523,7 @@
         {
           "op": "add-image",
           "id": "im54",
-          "path": "assets/icons/cancel-ochre.png",
+          "path": "assets/icons/cancel-purple.png",
           "alt": "",
           "x": 397.5,
           "y": 315.0,
@@ -12576,7 +12576,7 @@
         {
           "op": "add-image",
           "id": "im58",
-          "path": "assets/icons/verified_user-blue.png",
+          "path": "assets/icons/verified_user-ink.png",
           "alt": "Local model",
           "x": 53.5,
           "y": 357.0,
@@ -12657,7 +12657,7 @@
         {
           "op": "add-image",
           "id": "im63",
-          "path": "assets/icons/chat-blue.png",
+          "path": "assets/icons/chat-ink.png",
           "alt": "Hosted model",
           "x": 363.75,
           "y": 357.0,
@@ -12717,7 +12717,7 @@
           "op": "add-textbox",
           "slide": "boundary",
           "id": "t66",
-          "text": "Note: Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in pale blue. Numeric columns send no values.",
+          "text": "Note: Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.",
           "x": 36.3,
           "y": 392.8,
           "width": 620.9,
@@ -12731,7 +12731,7 @@
           "op": "style-paragraph",
           "element": "t66",
           "start": 0,
-          "end": 140,
+          "end": 136,
           "line_spacing": 135
         },
         {
@@ -13348,7 +13348,7 @@
           "title": "Generate",
           "text": "Gemini or Ollama writes one SQL statement, or declines.",
           "model": true,
-          "rule": "#32658A",
+          "rule": "#FDE725",
           "logos": [
             "assets/logos/tech-ollama.png",
             "assets/logos/tech-googlegemini.png"
@@ -14671,7 +14671,7 @@
           "y": 302.0,
           "width": 138.125,
           "height": 66,
-          "background_color": "#EAF0F6"
+          "background_color": "#FDF3A6"
         },
         {
           "op": "add-shape",
@@ -14682,7 +14682,7 @@
           "y": 302.0,
           "width": 138.125,
           "height": 3,
-          "background_color": "#32658A"
+          "background_color": "#FDE725"
         },
         {
           "op": "add-shape",
@@ -15222,7 +15222,7 @@
           "y": 368.0,
           "width": 0.0,
           "height": 12.0,
-          "color": "#31688E",
+          "color": "#1B2430",
           "line_weight": 1.2,
           "dash_style": "DASH"
         },
@@ -15234,7 +15234,7 @@
           "y": 380.0,
           "width": 312.25,
           "height": 0.0,
-          "color": "#31688E",
+          "color": "#1B2430",
           "line_weight": 1.2,
           "dash_style": "DASH"
         },
@@ -15246,7 +15246,7 @@
           "y": 370.0,
           "width": 0.0,
           "height": 10.0,
-          "color": "#31688E",
+          "color": "#1B2430",
           "line_weight": 0.75,
           "end_arrow": "FILL_ARROW"
         },
@@ -17858,16 +17858,19 @@
             {
               "label": "Spider dev",
               "value": 1034,
+              "series": "published",
               "text": "1,034  accuracy"
             },
             {
               "label": "BIRD dev",
               "value": 1534,
+              "series": "published",
               "text": "1,534  accuracy"
             },
             {
               "label": "Large schemas",
               "value": 1222,
+              "series": "published",
               "text": "1,222  table selection",
               "marker": 1
             },
@@ -18419,7 +18422,7 @@
           "y": 158.0,
           "width": 253.653125,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
@@ -18451,7 +18454,7 @@
           "y": 188.0,
           "width": 376.30937500000005,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
@@ -18483,7 +18486,7 @@
           "y": 218.0,
           "width": 299.771875,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
@@ -18515,7 +18518,7 @@
           "y": 248.0,
           "width": 2.9437499999999943,
           "height": 18,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -18547,7 +18550,7 @@
           "y": 278.0,
           "width": 3.6796875,
           "height": 18,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -18607,7 +18610,7 @@
           "y": 349.75,
           "width": 172.70000000000005,
           "height": 2.5,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -18618,7 +18621,7 @@
           "y": 346.0,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -18629,7 +18632,7 @@
           "y": 346.0,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -18640,7 +18643,7 @@
           "y": 346.5,
           "width": 9,
           "height": 9,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -18672,7 +18675,7 @@
           "y": 379.75,
           "width": 137.375,
           "height": 2.5,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -18683,7 +18686,7 @@
           "y": 376.0,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -18694,7 +18697,7 @@
           "y": 376.0,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -18705,7 +18708,7 @@
           "y": 376.5,
           "width": 9,
           "height": 9,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -19357,18 +19360,6 @@
       "accent": "plum",
       "title": "The local model scored 64.6 % on Spider and 35.2 % on BIRD",
       "subtitle": "Share of answers that matched the reference; one local 9B model, runs of 10 October 2026",
-      "legend": [
-        {
-          "kind": "swatch",
-          "color": "#31688E",
-          "label": "With evidence hints (BIRD) or overall"
-        },
-        {
-          "kind": "swatch",
-          "color": "#A9B4BF",
-          "label": "Without evidence hints"
-        }
-      ],
       "panels": [
         {
           "title": "Overall, with 95 % interval",
@@ -19413,18 +19404,22 @@
           "rows": [
             {
               "label": "Easy",
+              "series": "d1",
               "value": 84.3
             },
             {
               "label": "Medium",
+              "series": "d2",
               "value": 65.9
             },
             {
               "label": "Hard",
+              "series": "d3",
               "value": 58.6
             },
             {
               "label": "Extra hard",
+              "series": "d4",
               "value": 38.0
             }
           ]
@@ -19440,7 +19435,8 @@
           "rows": [
             {
               "label": "Simple",
-              "value": 43.1
+              "value": 43.1,
+              "series": "d1"
             },
             {
               "label": "Simple, no evidence",
@@ -19449,7 +19445,8 @@
             },
             {
               "label": "Challenging",
-              "value": 17.3
+              "value": 17.3,
+              "series": "d3"
             },
             {
               "label": "Challenging, no evidence",
@@ -19543,17 +19540,17 @@
         {
           "number": 1,
           "cx": 148.41666666666669,
-          "cy": 252.81818181818187
+          "cy": 237.6909090909091
         },
         {
           "number": 2,
           "cx": 272.83333333333337,
-          "cy": 365.509090909091
+          "cy": 357.94545454545454
         },
         {
           "number": 3,
           "cx": 560.0333333333333,
-          "cy": 221.98181818181823
+          "cy": 205.9090909090909
         }
       ],
       "ops": [
@@ -19910,76 +19907,12 @@
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "benchmarks",
-          "id": "r21",
-          "shape_type": "RECTANGLE",
-          "x": 45.5,
-          "y": 134.0,
-          "width": 14,
-          "height": 6,
-          "background_color": "#31688E"
-        },
-        {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t22",
-          "text": "With evidence hints (BIRD) or overall",
-          "x": 60.3,
-          "y": 124.8,
-          "width": 144.23333333333332,
-          "height": 25.200000000000003,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t22",
-          "start": 0,
-          "end": 37,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "benchmarks",
-          "id": "r23",
-          "shape_type": "RECTANGLE",
-          "x": 215.23333333333332,
-          "y": 134.0,
-          "width": 14,
-          "height": 6,
-          "background_color": "#A9B4BF"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t24",
-          "text": "Without evidence hints",
-          "x": 230.03333333333333,
-          "y": 124.8,
-          "width": 97.03333333333333,
-          "height": 25.200000000000003,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t24",
-          "start": 0,
-          "end": 22,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t25",
+          "id": "t21",
           "text": "Overall, with 95 % interval",
           "x": 36.3,
-          "y": 145.60000000000002,
+          "y": 124.8,
           "width": 620.9,
           "height": 27.9,
           "font_size": 10,
@@ -19989,14 +19922,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t25",
+          "element": "t21",
           "start": 0,
           "end": 27,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t25",
+          "element": "t21",
           "start": 0,
           "end": 27,
           "bold": true
@@ -20004,10 +19937,10 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t26",
+          "id": "t22",
           "text": "Spider dev",
           "x": 36.3,
-          "y": 168.68636363636367,
+          "y": 148.8318181818182,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -20017,7 +19950,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t26",
+          "element": "t22",
           "start": 0,
           "end": 10,
           "line_spacing": 135
@@ -20025,54 +19958,54 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r27",
+          "id": "r23",
           "shape_type": "RECTANGLE",
           "x": 435.28,
-          "y": 181.38636363636365,
+          "y": 161.53181818181818,
           "width": 23.157500000000027,
           "height": 2.5,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r28",
+          "id": "r24",
           "shape_type": "RECTANGLE",
           "x": 434.53,
-          "y": 177.63636363636365,
+          "y": 157.78181818181818,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r29",
+          "id": "r25",
           "shape_type": "RECTANGLE",
           "x": 457.6875,
-          "y": 177.63636363636365,
+          "y": 157.78181818181818,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r30",
+          "id": "r26",
           "shape_type": "ELLIPSE",
           "x": 442.55499999999995,
-          "y": 178.13636363636365,
+          "y": 158.28181818181818,
           "width": 9,
           "height": 9,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t31",
+          "id": "t27",
           "text": "BIRD dev, with evidence",
           "x": 36.3,
-          "y": 188.35909090909095,
+          "y": 170.39545454545456,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -20082,7 +20015,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t31",
+          "element": "t27",
           "start": 0,
           "end": 23,
           "line_spacing": 135
@@ -20090,54 +20023,54 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r32",
+          "id": "r28",
           "shape_type": "RECTANGLE",
           "x": 322.6325,
-          "y": 201.05909090909094,
+          "y": 183.09545454545454,
           "width": 18.447500000000048,
           "height": 2.5,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r33",
+          "id": "r29",
           "shape_type": "RECTANGLE",
           "x": 321.8825,
-          "y": 197.30909090909094,
+          "y": 179.34545454545454,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r34",
+          "id": "r30",
           "shape_type": "RECTANGLE",
           "x": 340.33000000000004,
-          "y": 197.30909090909094,
+          "y": 179.34545454545454,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r35",
+          "id": "r31",
           "shape_type": "ELLIPSE",
           "x": 327.16,
-          "y": 197.80909090909094,
+          "y": 179.84545454545454,
           "width": 9,
           "height": 9,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t36",
+          "id": "t32",
           "text": "Demo suite, 4 of 12",
           "x": 36.3,
-          "y": 208.03181818181824,
+          "y": 191.95909090909092,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -20147,7 +20080,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t36",
+          "element": "t32",
           "start": 0,
           "end": 19,
           "line_spacing": 135
@@ -20155,54 +20088,54 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r37",
+          "id": "r33",
           "shape_type": "RECTANGLE",
           "x": 226.0775,
-          "y": 220.73181818181823,
+          "y": 204.6590909090909,
           "width": 196.25,
           "height": 2.5,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r38",
+          "id": "r34",
           "shape_type": "RECTANGLE",
           "x": 225.3275,
-          "y": 216.98181818181823,
+          "y": 200.9090909090909,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r39",
+          "id": "r35",
           "shape_type": "RECTANGLE",
           "x": 421.5775,
-          "y": 216.98181818181823,
+          "y": 200.9090909090909,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r40",
+          "id": "r36",
           "shape_type": "ELLIPSE",
           "x": 319.7025,
-          "y": 217.48181818181823,
+          "y": 201.4090909090909,
           "width": 9,
           "height": 9,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t41",
+          "id": "t37",
           "text": "Spider by difficulty",
           "x": 36.3,
-          "y": 238.61818181818188,
+          "y": 223.4909090909091,
           "width": 620.9,
           "height": 27.9,
           "font_size": 10,
@@ -20212,14 +20145,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t41",
+          "element": "t37",
           "start": 0,
           "end": 20,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t41",
+          "element": "t37",
           "start": 0,
           "end": 20,
           "bold": true
@@ -20227,10 +20160,74 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t42",
+          "id": "t38",
           "text": "Easy",
           "x": 36.3,
-          "y": 261.7045454545455,
+          "y": 247.52272727272728,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t38",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "benchmarks",
+          "id": "r39",
+          "shape_type": "RECTANGLE",
+          "x": 193.5,
+          "y": 253.69090909090912,
+          "width": 330.87750000000005,
+          "height": 15.563636363636363,
+          "background_color": "#5EC962"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t40",
+          "text": "Medium",
+          "x": 36.3,
+          "y": 269.0863636363636,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t40",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "benchmarks",
+          "id": "r41",
+          "shape_type": "RECTANGLE",
+          "x": 193.5,
+          "y": 275.25454545454545,
+          "width": 258.6575,
+          "height": 15.563636363636363,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t42",
+          "text": "Hard",
+          "x": 36.3,
+          "y": 290.65000000000003,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -20251,18 +20248,18 @@
           "id": "r43",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 268.81818181818187,
-          "width": 330.87750000000005,
-          "height": 13.672727272727272,
-          "background_color": "#31688E"
+          "y": 296.81818181818187,
+          "width": 230.005,
+          "height": 15.563636363636363,
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t44",
-          "text": "Medium",
+          "text": "Extra hard",
           "x": 36.3,
-          "y": 281.3772727272728,
+          "y": 312.21363636363634,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -20274,7 +20271,7 @@
           "op": "style-paragraph",
           "element": "t44",
           "start": 0,
-          "end": 6,
+          "end": 10,
           "line_spacing": 135
         },
         {
@@ -20283,82 +20280,18 @@
           "id": "r45",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 288.49090909090916,
-          "width": 258.6575,
-          "height": 13.672727272727272,
-          "background_color": "#31688E"
+          "y": 318.3818181818182,
+          "width": 149.14999999999998,
+          "height": 15.563636363636363,
+          "background_color": "#440154"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t46",
-          "text": "Hard",
-          "x": 36.3,
-          "y": 301.05000000000007,
-          "width": 156.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t46",
-          "start": 0,
-          "end": 4,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "benchmarks",
-          "id": "r47",
-          "shape_type": "RECTANGLE",
-          "x": 193.5,
-          "y": 308.16363636363644,
-          "width": 230.005,
-          "height": 13.672727272727272,
-          "background_color": "#31688E"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t48",
-          "text": "Extra hard",
-          "x": 36.3,
-          "y": 320.72272727272735,
-          "width": 156.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t48",
-          "start": 0,
-          "end": 10,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "benchmarks",
-          "id": "r49",
-          "shape_type": "RECTANGLE",
-          "x": 193.5,
-          "y": 327.8363636363637,
-          "width": 149.14999999999998,
-          "height": 13.672727272727272,
-          "background_color": "#31688E"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t50",
           "text": "BIRD by difficulty, with and without evidence",
           "x": 36.3,
-          "y": 351.309090909091,
+          "y": 343.74545454545455,
           "width": 620.9,
           "height": 27.9,
           "font_size": 10,
@@ -20368,14 +20301,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t50",
+          "element": "t46",
           "start": 0,
           "end": 45,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t50",
+          "element": "t46",
           "start": 0,
           "end": 45,
           "bold": true
@@ -20383,10 +20316,74 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t51",
+          "id": "t47",
           "text": "Simple",
           "x": 36.3,
-          "y": 374.39545454545464,
+          "y": 367.77727272727276,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t47",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "benchmarks",
+          "id": "r48",
+          "shape_type": "RECTANGLE",
+          "x": 193.5,
+          "y": 373.9454545454546,
+          "width": 169.16750000000002,
+          "height": 15.563636363636363,
+          "background_color": "#5EC962"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t49",
+          "text": "Simple, no evidence",
+          "x": 36.3,
+          "y": 389.34090909090907,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t49",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "benchmarks",
+          "id": "r50",
+          "shape_type": "RECTANGLE",
+          "x": 193.5,
+          "y": 395.5090909090909,
+          "width": 134.235,
+          "height": 15.563636363636363,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t51",
+          "text": "Challenging",
+          "x": 36.3,
+          "y": 410.9045454545455,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -20398,7 +20395,7 @@
           "op": "style-paragraph",
           "element": "t51",
           "start": 0,
-          "end": 6,
+          "end": 11,
           "line_spacing": 135
         },
         {
@@ -20407,18 +20404,18 @@
           "id": "r52",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 381.509090909091,
-          "width": 169.16750000000002,
-          "height": 13.672727272727272,
-          "background_color": "#31688E"
+          "y": 417.0727272727273,
+          "width": 67.90250000000003,
+          "height": 15.563636363636363,
+          "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t53",
-          "text": "Simple, no evidence",
+          "text": "Challenging, no evidence",
           "x": 36.3,
-          "y": 394.0681818181819,
+          "y": 432.4681818181818,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -20430,7 +20427,7 @@
           "op": "style-paragraph",
           "element": "t53",
           "start": 0,
-          "end": 19,
+          "end": 24,
           "line_spacing": 135
         },
         {
@@ -20439,82 +20436,18 @@
           "id": "r54",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 401.1818181818183,
-          "width": 134.235,
-          "height": 13.672727272727272,
-          "background_color": "#A9B4BF"
+          "y": 438.6363636363636,
+          "width": 32.185,
+          "height": 15.563636363636363,
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t55",
-          "text": "Challenging",
-          "x": 36.3,
-          "y": 413.7409090909092,
-          "width": 156.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t55",
-          "start": 0,
-          "end": 11,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "benchmarks",
-          "id": "r56",
-          "shape_type": "RECTANGLE",
-          "x": 193.5,
-          "y": 420.8545454545456,
-          "width": 67.90250000000003,
-          "height": 13.672727272727272,
-          "background_color": "#31688E"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t57",
-          "text": "Challenging, no evidence",
-          "x": 36.3,
-          "y": 433.4136363636365,
-          "width": 156.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t57",
-          "start": 0,
-          "end": 24,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "benchmarks",
-          "id": "r58",
-          "shape_type": "RECTANGLE",
-          "x": 193.5,
-          "y": 440.5272727272729,
-          "width": 32.185,
-          "height": 13.672727272727272,
-          "background_color": "#A9B4BF"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t59",
           "text": "64.6 %  [61.6 %, 67.5 %]",
           "x": 457.24,
-          "y": 168.93636363636367,
+          "y": 149.0818181818182,
           "width": 103.86666666666667,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -20524,14 +20457,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t59",
+          "element": "t55",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t59",
+          "element": "t55",
           "start": 0,
           "end": 24,
           "bold": true
@@ -20539,10 +20472,10 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t60",
+          "id": "t56",
           "text": "35.2 %  [32.9 %, 37.6 %]",
           "x": 341.45,
-          "y": 188.60909090909095,
+          "y": 170.64545454545456,
           "width": 104.0,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -20552,14 +20485,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t60",
+          "element": "t56",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t60",
+          "element": "t56",
           "start": 0,
           "end": 24,
           "bold": true
@@ -20567,10 +20500,10 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t61",
+          "id": "t57",
           "text": "4 of 12, interval 50 points wide",
           "x": 422.3,
-          "y": 208.28181818181824,
+          "y": 192.20909090909092,
           "width": 132.93333333333334,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -20580,14 +20513,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t61",
+          "element": "t57",
           "start": 0,
           "end": 32,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t61",
+          "element": "t57",
           "start": 0,
           "end": 32,
           "bold": true
@@ -20595,11 +20528,123 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t62",
+          "id": "t58",
           "text": "84.3 %",
           "x": 523.18,
-          "y": 261.9545454545455,
+          "y": 247.7727272727273,
           "width": 48.15,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t58",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t58",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t59",
+          "text": "65.9 %",
+          "x": 450.96000000000004,
+          "y": 269.3363636363636,
+          "width": 47.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t59",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t59",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t60",
+          "text": "58.6 %",
+          "x": 422.3,
+          "y": 290.90000000000003,
+          "width": 47.65,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t60",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t60",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t61",
+          "text": "38.0 %",
+          "x": 341.45,
+          "y": 312.46363636363634,
+          "width": 48.65,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t61",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t61",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "benchmarks",
+          "id": "t62",
+          "text": "43.1 %",
+          "x": 361.47,
+          "y": 368.02727272727276,
+          "width": 46.73333333333333,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -20624,10 +20669,10 @@
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t63",
-          "text": "65.9 %",
-          "x": 450.96000000000004,
-          "y": 281.6272727272728,
-          "width": 47.4,
+          "text": "34.2 %",
+          "x": 326.54,
+          "y": 389.59090909090907,
+          "width": 47.65,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -20652,10 +20697,10 @@
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t64",
-          "text": "58.6 %",
-          "x": 422.3,
-          "y": 301.30000000000007,
-          "width": 47.65,
+          "text": "17.3 %",
+          "x": 260.2,
+          "y": 411.1545454545455,
+          "width": 46.06666666666667,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -20680,121 +20725,9 @@
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t65",
-          "text": "38.0 %",
-          "x": 341.45,
-          "y": 320.97272727272735,
-          "width": 48.65,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t65",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t65",
-          "start": 0,
-          "end": 6,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t66",
-          "text": "43.1 %",
-          "x": 361.47,
-          "y": 374.64545454545464,
-          "width": 46.73333333333333,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t66",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t66",
-          "start": 0,
-          "end": 6,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t67",
-          "text": "34.2 %",
-          "x": 326.54,
-          "y": 394.3181818181819,
-          "width": 47.65,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t67",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t67",
-          "start": 0,
-          "end": 6,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t68",
-          "text": "17.3 %",
-          "x": 260.2,
-          "y": 413.9909090909092,
-          "width": 46.06666666666667,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t68",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t68",
-          "start": 0,
-          "end": 6,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "benchmarks",
-          "id": "t69",
           "text": "8.2 %",
           "x": 224.49,
-          "y": 433.6636363636365,
+          "y": 432.7181818181818,
           "width": 41.65,
           "height": 27.9,
           "font_size": 10,
@@ -20804,14 +20737,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t69",
+          "element": "t65",
           "start": 0,
           "end": 5,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t69",
+          "element": "t65",
           "start": 0,
           "end": 5,
           "bold": true
@@ -20819,7 +20752,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t70",
+          "id": "t66",
           "text": "Source: release runs at 7708295, qwen3.5 9B; this project\u2019s scorer, not leaderboard scores. Spider 1,034 and BIRD 1,534 questions.",
           "x": 36.3,
           "y": 458.0,
@@ -20832,14 +20765,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t70",
+          "element": "t66",
           "start": 0,
           "end": 130,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t70",
+          "element": "t66",
           "start": 0,
           "end": 7,
           "bold": true
@@ -20847,7 +20780,7 @@
         {
           "op": "add-line",
           "slide": "benchmarks",
-          "id": "l71",
+          "id": "l67",
           "x": 658,
           "y": 131,
           "width": 0,
@@ -20858,7 +20791,7 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r72",
+          "id": "r68",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -20869,7 +20802,7 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r73",
+          "id": "r69",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -20880,7 +20813,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t74",
+          "id": "t70",
           "text": "TAKEAWAY",
           "x": 674.8,
           "y": 135.8,
@@ -20893,14 +20826,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t74",
+          "element": "t70",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t74",
+          "element": "t70",
           "start": 0,
           "end": 8,
           "bold": true
@@ -20908,7 +20841,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t75",
+          "id": "t71",
           "text": "Harder questions score lower, and a\ngood demo proves little.",
           "x": 674.8,
           "y": 155.8,
@@ -20921,21 +20854,21 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t75",
+          "element": "t71",
           "start": 0,
           "end": 60,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t75",
+          "element": "t71",
           "start": 34,
           "end": 35,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t75",
+          "element": "t71",
           "start": 36,
           "end": 59,
           "bold": true
@@ -20943,10 +20876,10 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r76",
+          "id": "r72",
           "shape_type": "ELLIPSE",
           "x": 142.41666666666669,
-          "y": 246.81818181818187,
+          "y": 231.6909090909091,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -20954,10 +20887,10 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t77",
+          "id": "t73",
           "text": "1",
           "x": 135.2166666666667,
-          "y": 239.61818181818188,
+          "y": 224.4909090909091,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -20970,7 +20903,7 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r78",
+          "id": "r74",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 238.64,
@@ -20981,7 +20914,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t79",
+          "id": "t75",
           "text": "1",
           "x": 660.8,
           "y": 231.44,
@@ -20997,7 +20930,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t80",
+          "id": "t76",
           "text": "Harder questions score lower",
           "x": 680.8,
           "y": 229.8,
@@ -21010,14 +20943,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t80",
+          "element": "t76",
           "start": 0,
           "end": 28,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t80",
+          "element": "t76",
           "start": 0,
           "end": 28,
           "bold": true
@@ -21025,7 +20958,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t81",
+          "id": "t77",
           "text": "Spider sets the level from how many SQL parts a\nquery needs. Scores fall from 84.3 % to 38.0 %.",
           "x": 680.8,
           "y": 250.0,
@@ -21038,7 +20971,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t81",
+          "element": "t77",
           "start": 0,
           "end": 95,
           "line_spacing": 135
@@ -21046,10 +20979,10 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r82",
+          "id": "r78",
           "shape_type": "ELLIPSE",
           "x": 266.83333333333337,
-          "y": 359.509090909091,
+          "y": 351.94545454545454,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -21057,10 +20990,10 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t83",
+          "id": "t79",
           "text": "2",
           "x": 259.6333333333334,
-          "y": 352.309090909091,
+          "y": 344.74545454545455,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -21073,7 +21006,7 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r84",
+          "id": "r80",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 297.84,
@@ -21084,7 +21017,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t85",
+          "id": "t81",
           "text": "2",
           "x": 660.8,
           "y": 290.64,
@@ -21100,7 +21033,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t86",
+          "id": "t82",
           "text": "Evidence hints help",
           "x": 680.8,
           "y": 289.0,
@@ -21113,14 +21046,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t86",
+          "element": "t82",
           "start": 0,
           "end": 19,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t86",
+          "element": "t82",
           "start": 0,
           "end": 19,
           "bold": true
@@ -21128,7 +21061,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t87",
+          "id": "t83",
           "text": "Paired on the same questions, BIRD\u2019s evidence\nhints add 10.1 points, at every level.",
           "x": 680.8,
           "y": 309.2,
@@ -21141,7 +21074,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t87",
+          "element": "t83",
           "start": 0,
           "end": 84,
           "line_spacing": 135
@@ -21149,10 +21082,10 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r88",
+          "id": "r84",
           "shape_type": "ELLIPSE",
           "x": 554.0333333333333,
-          "y": 215.98181818181823,
+          "y": 199.9090909090909,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -21160,10 +21093,10 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t89",
+          "id": "t85",
           "text": "3",
           "x": 546.8333333333333,
-          "y": 208.78181818181824,
+          "y": 192.70909090909092,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -21176,7 +21109,7 @@
         {
           "op": "add-shape",
           "slide": "benchmarks",
-          "id": "r90",
+          "id": "r86",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 357.03999999999996,
@@ -21187,7 +21120,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t91",
+          "id": "t87",
           "text": "3",
           "x": 660.8,
           "y": 349.84,
@@ -21203,7 +21136,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t92",
+          "id": "t88",
           "text": "The demo suite is too small",
           "x": 680.8,
           "y": 348.2,
@@ -21216,14 +21149,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t92",
+          "element": "t88",
           "start": 0,
           "end": 27,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t92",
+          "element": "t88",
           "start": 0,
           "end": 27,
           "bold": true
@@ -21231,7 +21164,7 @@
         {
           "op": "add-textbox",
           "slide": "benchmarks",
-          "id": "t93",
+          "id": "t89",
           "text": "It matched 4 of 12. Turning model thinking off\nadded 8.5 points on Spider, by not running out of\noutput.",
           "x": 680.8,
           "y": 368.4,
@@ -21244,7 +21177,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t93",
+          "element": "t89",
           "start": 0,
           "end": 104,
           "line_spacing": 135
@@ -21868,7 +21801,7 @@
           "y": 155.0,
           "width": 250.21875,
           "height": 15,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -21900,7 +21833,7 @@
           "y": 176.0,
           "width": 262.975,
           "height": 15,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -21939,7 +21872,7 @@
           "y": 197.0,
           "width": 285.54375,
           "height": 15,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -21999,7 +21932,7 @@
           "y": 258.25,
           "width": 153.07500000000005,
           "height": 2.5,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -22010,7 +21943,7 @@
           "y": 254.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -22021,7 +21954,7 @@
           "y": 254.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -22032,7 +21965,7 @@
           "y": 255.0,
           "width": 9,
           "height": 9,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -22064,7 +21997,7 @@
           "y": 279.25,
           "width": 168.7750000000001,
           "height": 2.5,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -22075,7 +22008,7 @@
           "y": 275.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -22086,7 +22019,7 @@
           "y": 275.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
@@ -22097,7 +22030,7 @@
           "y": 276.0,
           "width": 9,
           "height": 9,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -22129,7 +22062,7 @@
           "y": 300.25,
           "width": 170.7375,
           "height": 2.5,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -22140,7 +22073,7 @@
           "y": 296.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -22151,7 +22084,7 @@
           "y": 296.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -22162,7 +22095,7 @@
           "y": 297.0,
           "width": 9,
           "height": 9,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -22194,7 +22127,7 @@
           "y": 321.25,
           "width": 198.21249999999998,
           "height": 2.5,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -22205,7 +22138,7 @@
           "y": 317.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -22216,7 +22149,7 @@
           "y": 317.5,
           "width": 1.5,
           "height": 10,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -22227,7 +22160,7 @@
           "y": 318.0,
           "width": 9,
           "height": 9,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-shape",
@@ -22298,7 +22231,7 @@
           "y": 370.0,
           "width": 322.83124999999995,
           "height": 15,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -22330,7 +22263,7 @@
           "y": 391.0,
           "width": 261.99375,
           "height": 15,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -22394,7 +22327,7 @@
           "y": 433.0,
           "width": 176.625,
           "height": 15,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -24655,18 +24588,6 @@
       "accent": "plum",
       "title": "Better table coverage did not measurably improve accuracy",
       "subtitle": "Correct answers gained and lost by each fix against selected tables, on 1,222 questions",
-      "legend": [
-        {
-          "kind": "swatch",
-          "color": "#35B779",
-          "label": "Gained on the 128 where a table was missed"
-        },
-        {
-          "kind": "swatch",
-          "color": "#440154",
-          "label": "Lost on the 1,094 where all were sent"
-        }
-      ],
       "panels": [
         {
           "title": "Dense embeddings: net +2 answers",
@@ -24821,17 +24742,17 @@
         {
           "number": 1,
           "cx": 226.33333333333331,
-          "cy": 159.8
+          "cy": 139.0
         },
         {
           "number": 2,
           "cx": 265.0833333333333,
-          "cy": 253.8
+          "cy": 233.0
         },
         {
           "number": 3,
           "cx": 251.08333333333334,
-          "cy": 347.8
+          "cy": 327.0
         }
       ],
       "ops": [
@@ -25188,76 +25109,12 @@
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "retrieval",
-          "id": "r21",
-          "shape_type": "RECTANGLE",
-          "x": 45.5,
-          "y": 134.0,
-          "width": 14,
-          "height": 6,
-          "background_color": "#35B779"
-        },
-        {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t22",
-          "text": "Gained on the 128 where a table was missed",
-          "x": 60.3,
-          "y": 124.8,
-          "width": 173.43333333333334,
-          "height": 25.200000000000003,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t22",
-          "start": 0,
-          "end": 42,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "retrieval",
-          "id": "r23",
-          "shape_type": "RECTANGLE",
-          "x": 244.43333333333334,
-          "y": 134.0,
-          "width": 14,
-          "height": 6,
-          "background_color": "#440154"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t24",
-          "text": "Lost on the 1,094 where all were sent",
-          "x": 259.23333333333335,
-          "y": 124.8,
-          "width": 147.7,
-          "height": 25.200000000000003,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t24",
-          "start": 0,
-          "end": 37,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t25",
+          "id": "t21",
           "text": "Dense embeddings: net +2 answers",
           "x": 36.3,
-          "y": 145.60000000000002,
+          "y": 124.8,
           "width": 620.9,
           "height": 27.9,
           "font_size": 10,
@@ -25267,14 +25124,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t25",
+          "element": "t21",
           "start": 0,
           "end": 32,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t25",
+          "element": "t21",
           "start": 0,
           "end": 32,
           "bold": true
@@ -25282,10 +25139,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t26",
+          "id": "t22",
           "text": "Gained",
           "x": 36.3,
-          "y": 173.85000000000002,
+          "y": 153.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -25295,7 +25152,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t26",
+          "element": "t22",
           "start": 0,
           "end": 6,
           "line_spacing": 135
@@ -25303,21 +25160,92 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r27",
+          "id": "r23",
           "shape_type": "RECTANGLE",
           "x": 455.16666666666663,
-          "y": 178.8,
+          "y": 158.0,
           "width": 94.20000000000005,
           "height": 18,
-          "background_color": "#35B779"
+          "background_color": "#5EC962"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t24",
+          "text": "Lost",
+          "x": 36.3,
+          "y": 183.05,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t24",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r25",
+          "shape_type": "RECTANGLE",
+          "x": 371.43333333333334,
+          "y": 188.0,
+          "width": 83.73333333333329,
+          "height": 18,
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r26",
+          "shape_type": "RECTANGLE",
+          "x": 454.66666666666663,
+          "y": 150.0,
+          "width": 1,
+          "height": 62.0,
+          "background_color": "#89949D"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t27",
+          "text": "Every table, shared layout: net \u221229 answers",
+          "x": 36.3,
+          "y": 218.8,
+          "width": 620.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t27",
+          "start": 0,
+          "end": 43,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t27",
+          "start": 0,
+          "end": 43,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
           "id": "t28",
-          "text": "Lost",
+          "text": "Gained",
           "x": 36.3,
-          "y": 203.85000000000002,
+          "y": 247.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -25329,7 +25257,7 @@
           "op": "style-paragraph",
           "element": "t28",
           "start": 0,
-          "end": 4,
+          "end": 6,
           "line_spacing": 135
         },
         {
@@ -25337,58 +25265,19 @@
           "slide": "retrieval",
           "id": "r29",
           "shape_type": "RECTANGLE",
-          "x": 371.43333333333334,
-          "y": 208.8,
-          "width": 83.73333333333329,
+          "x": 455.16666666666663,
+          "y": 252.0,
+          "width": 78.50000000000011,
           "height": 18,
-          "background_color": "#440154"
-        },
-        {
-          "op": "add-shape",
-          "slide": "retrieval",
-          "id": "r30",
-          "shape_type": "RECTANGLE",
-          "x": 454.66666666666663,
-          "y": 170.8,
-          "width": 1,
-          "height": 62.0,
-          "background_color": "#89949D"
+          "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t31",
-          "text": "Every table, shared layout: net \u221229 answers",
+          "id": "t30",
+          "text": "Lost",
           "x": 36.3,
-          "y": 239.60000000000002,
-          "width": 620.9,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t31",
-          "start": 0,
-          "end": 43,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t31",
-          "start": 0,
-          "end": 43,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t32",
-          "text": "Gained",
-          "x": 36.3,
-          "y": 267.85,
+          "y": 277.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -25398,29 +25287,68 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t32",
+          "element": "t30",
           "start": 0,
-          "end": 6,
+          "end": 4,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r33",
+          "id": "r31",
           "shape_type": "RECTANGLE",
-          "x": 455.16666666666663,
-          "y": 272.8,
-          "width": 78.50000000000011,
+          "x": 224.9,
+          "y": 282.0,
+          "width": 230.26666666666662,
           "height": 18,
-          "background_color": "#35B779"
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r32",
+          "shape_type": "RECTANGLE",
+          "x": 454.66666666666663,
+          "y": 244.0,
+          "width": 1,
+          "height": 62.0,
+          "background_color": "#89949D"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t33",
+          "text": "Shared plus summaries: net \u221226 answers",
+          "x": 36.3,
+          "y": 312.8,
+          "width": 620.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t33",
+          "start": 0,
+          "end": 38,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t33",
+          "start": 0,
+          "end": 38,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
           "id": "t34",
-          "text": "Lost",
+          "text": "Gained",
           "x": 36.3,
-          "y": 297.85,
+          "y": 341.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -25432,7 +25360,7 @@
           "op": "style-paragraph",
           "element": "t34",
           "start": 0,
-          "end": 4,
+          "end": 6,
           "line_spacing": 135
         },
         {
@@ -25440,90 +25368,19 @@
           "slide": "retrieval",
           "id": "r35",
           "shape_type": "RECTANGLE",
-          "x": 224.9,
-          "y": 302.8,
-          "width": 230.26666666666662,
-          "height": 18,
-          "background_color": "#440154"
-        },
-        {
-          "op": "add-shape",
-          "slide": "retrieval",
-          "id": "r36",
-          "shape_type": "RECTANGLE",
-          "x": 454.66666666666663,
-          "y": 264.8,
-          "width": 1,
-          "height": 62.0,
-          "background_color": "#89949D"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t37",
-          "text": "Shared plus summaries: net \u221226 answers",
-          "x": 36.3,
-          "y": 333.6,
-          "width": 620.9,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t37",
-          "start": 0,
-          "end": 38,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t37",
-          "start": 0,
-          "end": 38,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t38",
-          "text": "Gained",
-          "x": 36.3,
-          "y": 361.85,
-          "width": 156.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t38",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "retrieval",
-          "id": "r39",
-          "shape_type": "RECTANGLE",
           "x": 455.16666666666663,
-          "y": 366.8,
+          "y": 346.0,
           "width": 68.03333333333342,
           "height": 18,
-          "background_color": "#35B779"
+          "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t40",
+          "id": "t36",
           "text": "Lost",
           "x": 36.3,
-          "y": 391.85,
+          "y": 371.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -25533,7 +25390,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t40",
+          "element": "t36",
           "start": 0,
           "end": 4,
           "line_spacing": 135
@@ -25541,10 +25398,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r41",
+          "id": "r37",
           "shape_type": "RECTANGLE",
           "x": 251.06666666666666,
-          "y": 396.8,
+          "y": 376.0,
           "width": 204.09999999999997,
           "height": 18,
           "background_color": "#440154"
@@ -25552,10 +25409,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r42",
+          "id": "r38",
           "shape_type": "RECTANGLE",
           "x": 454.66666666666663,
-          "y": 358.8,
+          "y": 338.0,
           "width": 1,
           "height": 62.0,
           "background_color": "#89949D"
@@ -25563,11 +25420,123 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t43",
+          "id": "t39",
           "text": "+18",
           "x": 548.17,
-          "y": 174.10000000000002,
+          "y": 153.3,
           "width": 32.81666666666666,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t39",
+          "start": 0,
+          "end": 3,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t39",
+          "start": 0,
+          "end": 3,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t40",
+          "text": "\u221216",
+          "x": 453.97,
+          "y": 183.3,
+          "width": 32.56666666666667,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t40",
+          "start": 0,
+          "end": 3,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t40",
+          "start": 0,
+          "end": 3,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t41",
+          "text": "+15",
+          "x": 532.4699999999999,
+          "y": 247.3,
+          "width": 32.56666666666667,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t41",
+          "start": 0,
+          "end": 3,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t41",
+          "start": 0,
+          "end": 3,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t42",
+          "text": "\u221244",
+          "x": 453.97,
+          "y": 277.3,
+          "width": 34.733333333333334,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t42",
+          "start": 0,
+          "end": 3,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t42",
+          "start": 0,
+          "end": 3,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t43",
+          "text": "+13",
+          "x": 522.0,
+          "y": 341.3,
+          "width": 32.56666666666667,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -25592,10 +25561,10 @@
           "op": "add-textbox",
           "slide": "retrieval",
           "id": "t44",
-          "text": "\u221216",
+          "text": "\u221239",
           "x": 453.97,
-          "y": 204.10000000000002,
-          "width": 32.56666666666667,
+          "y": 371.3,
+          "width": 33.733333333333334,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -25620,118 +25589,6 @@
           "op": "add-textbox",
           "slide": "retrieval",
           "id": "t45",
-          "text": "+15",
-          "x": 532.4699999999999,
-          "y": 268.1,
-          "width": 32.56666666666667,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t45",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t45",
-          "start": 0,
-          "end": 3,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t46",
-          "text": "\u221244",
-          "x": 453.97,
-          "y": 298.1,
-          "width": 34.733333333333334,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t46",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t46",
-          "start": 0,
-          "end": 3,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t47",
-          "text": "+13",
-          "x": 522.0,
-          "y": 362.1,
-          "width": 32.56666666666667,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t47",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t47",
-          "start": 0,
-          "end": 3,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t48",
-          "text": "\u221239",
-          "x": 453.97,
-          "y": 392.1,
-          "width": 33.733333333333334,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t48",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t48",
-          "start": 0,
-          "end": 3,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t49",
           "text": "Note: gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.",
           "x": 36.3,
           "y": 458.0,
@@ -25744,14 +25601,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t49",
+          "element": "t45",
           "start": 0,
           "end": 148,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t49",
+          "element": "t45",
           "start": 0,
           "end": 5,
           "bold": true
@@ -25759,7 +25616,7 @@
         {
           "op": "add-line",
           "slide": "retrieval",
-          "id": "l50",
+          "id": "l46",
           "x": 658,
           "y": 131,
           "width": 0,
@@ -25770,7 +25627,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r51",
+          "id": "r47",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -25781,7 +25638,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r52",
+          "id": "r48",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -25792,7 +25649,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t53",
+          "id": "t49",
           "text": "TAKEAWAY",
           "x": 674.8,
           "y": 135.8,
@@ -25805,14 +25662,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t53",
+          "element": "t49",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t53",
+          "element": "t49",
           "start": 0,
           "end": 8,
           "bold": true
@@ -25820,7 +25677,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t54",
+          "id": "t50",
           "text": "Each fix helps where it aims, and the\nother questions pay.",
           "x": 674.8,
           "y": 155.8,
@@ -25833,21 +25690,21 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t54",
+          "element": "t50",
           "start": 0,
           "end": 58,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t54",
+          "element": "t50",
           "start": 34,
           "end": 37,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t54",
+          "element": "t50",
           "start": 38,
           "end": 57,
           "bold": true
@@ -25855,10 +25712,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r55",
+          "id": "r51",
           "shape_type": "ELLIPSE",
           "x": 220.33333333333331,
-          "y": 153.8,
+          "y": 133.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -25866,10 +25723,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t56",
+          "id": "t52",
           "text": "1",
           "x": 213.13333333333333,
-          "y": 146.60000000000002,
+          "y": 125.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -25882,7 +25739,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r57",
+          "id": "r53",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 238.64,
@@ -25893,7 +25750,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t58",
+          "id": "t54",
           "text": "1",
           "x": 660.8,
           "y": 231.44,
@@ -25909,7 +25766,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t59",
+          "id": "t55",
           "text": "Fixes help where they aim",
           "x": 680.8,
           "y": 229.8,
@@ -25922,14 +25779,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t59",
+          "element": "t55",
           "start": 0,
           "end": 25,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t59",
+          "element": "t55",
           "start": 0,
           "end": 25,
           "bold": true
@@ -25937,7 +25794,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t60",
+          "id": "t56",
           "text": "Dense embeddings took the missed-table\nquestions from 8 to 26 correct.",
           "x": 680.8,
           "y": 250.0,
@@ -25950,7 +25807,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t60",
+          "element": "t56",
           "start": 0,
           "end": 70,
           "line_spacing": 135
@@ -25958,10 +25815,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r61",
+          "id": "r57",
           "shape_type": "ELLIPSE",
           "x": 259.0833333333333,
-          "y": 247.8,
+          "y": 227.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -25969,10 +25826,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t62",
+          "id": "t58",
           "text": "2",
           "x": 251.88333333333333,
-          "y": 240.60000000000002,
+          "y": 219.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -25985,7 +25842,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r63",
+          "id": "r59",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 297.84,
@@ -25996,7 +25853,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t64",
+          "id": "t60",
           "text": "2",
           "x": 660.8,
           "y": 290.64,
@@ -26012,7 +25869,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t65",
+          "id": "t61",
           "text": "The other questions pay",
           "x": 680.8,
           "y": 289.0,
@@ -26025,14 +25882,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t65",
+          "element": "t61",
           "start": 0,
           "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t65",
+          "element": "t61",
           "start": 0,
           "end": 23,
           "bold": true
@@ -26040,7 +25897,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t66",
+          "id": "t62",
           "text": "Sending every table won 15 answers and lost 44.\nEven reordering the same tables changed 22 of\n480 answers.",
           "x": 680.8,
           "y": 309.2,
@@ -26053,7 +25910,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t66",
+          "element": "t62",
           "start": 0,
           "end": 106,
           "line_spacing": 135
@@ -26061,10 +25918,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r67",
+          "id": "r63",
           "shape_type": "ELLIPSE",
           "x": 245.08333333333334,
-          "y": 341.8,
+          "y": 321.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -26072,10 +25929,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t68",
+          "id": "t64",
           "text": "3",
           "x": 237.88333333333335,
-          "y": 334.6,
+          "y": 313.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -26088,7 +25945,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r69",
+          "id": "r65",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 371.53999999999996,
@@ -26099,7 +25956,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t70",
+          "id": "t66",
           "text": "3",
           "x": 660.8,
           "y": 364.34,
@@ -26115,7 +25972,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t71",
+          "id": "t67",
           "text": "A live system cannot see the groups",
           "x": 680.8,
           "y": 361.7,
@@ -26128,14 +25985,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t71",
+          "element": "t67",
           "start": 0,
           "end": 35,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t71",
+          "element": "t67",
           "start": 0,
           "end": 35,
           "bold": true
@@ -26143,7 +26000,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t72",
+          "id": "t68",
           "text": "The next test is targeted recovery: recover missed\ntables only where needed, and report both groups.",
           "x": 680.8,
           "y": 381.9,
@@ -26156,7 +26013,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t72",
+          "element": "t68",
           "start": 0,
           "end": 100,
           "line_spacing": 135
@@ -27924,7 +27781,7 @@
         {
           "op": "add-image",
           "id": "im16",
-          "path": "assets/icons/query_stats-blue.png",
+          "path": "assets/icons/query_stats-ink.png",
           "alt": "Live demo",
           "x": 43.5,
           "y": 335,
@@ -27984,7 +27841,7 @@
         {
           "op": "add-image",
           "id": "im19",
-          "path": "assets/icons/code-blue.png",
+          "path": "assets/icons/code-ink.png",
           "alt": "Code and runs",
           "x": 43.5,
           "y": 357,
@@ -28114,17 +27971,17 @@
       "legend": [
         {
           "kind": "swatch",
-          "color": "#31688E",
+          "color": "#21918C",
           "label": "Top 6, sent"
         },
         {
           "kind": "swatch",
-          "color": "#35B779",
-          "label": "Foreign-key neighbour, sent"
+          "color": "#5EC962",
+          "label": "Foreign-key neighbour, added"
         },
         {
           "kind": "swatch",
-          "color": "#A9B4BF",
+          "color": "#ADB5BD",
           "label": "Not sent"
         }
       ],
@@ -28482,7 +28339,7 @@
           "y": 134.0,
           "width": 14,
           "height": 6,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -28514,16 +28371,16 @@
           "y": 134.0,
           "width": 14,
           "height": 6,
-          "background_color": "#35B779"
+          "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
           "slide": "appendix-rag",
           "id": "t15",
-          "text": "Foreign-key neighbour, sent",
+          "text": "Foreign-key neighbour, added",
           "x": 139.83333333333334,
           "y": 124.8,
-          "width": 115.76666666666667,
+          "width": 123.23333333333333,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -28534,7 +28391,7 @@
           "op": "style-paragraph",
           "element": "t15",
           "start": 0,
-          "end": 27,
+          "end": 28,
           "line_spacing": 135
         },
         {
@@ -28542,18 +28399,18 @@
           "slide": "appendix-rag",
           "id": "r16",
           "shape_type": "RECTANGLE",
-          "x": 266.29999999999995,
+          "x": 273.76666666666665,
           "y": 134.0,
           "width": 14,
           "height": 6,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
           "slide": "appendix-rag",
           "id": "t17",
           "text": "Not sent",
-          "x": 281.09999999999997,
+          "x": 288.56666666666666,
           "y": 124.8,
           "width": 45.36666666666667,
           "height": 25.200000000000003,
@@ -28627,7 +28484,7 @@
           "y": 176.72727272727275,
           "width": 280.585625,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -28659,7 +28516,7 @@
           "y": 202.5818181818182,
           "width": 109.23562500000003,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -28691,7 +28548,7 @@
           "y": 228.43636363636364,
           "width": 92.38,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -28723,7 +28580,7 @@
           "y": 254.29090909090905,
           "width": 91.07625000000002,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -28755,7 +28612,7 @@
           "y": 280.1454545454545,
           "width": 54.19875000000002,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -28787,7 +28644,7 @@
           "y": 306.0,
           "width": 15.924374999999998,
           "height": 18,
-          "background_color": "#31688E"
+          "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
@@ -28819,7 +28676,7 @@
           "y": 331.8545454545455,
           "width": 15.365624999999994,
           "height": 18,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -28851,7 +28708,7 @@
           "y": 357.70909090909095,
           "width": 13.503125000000011,
           "height": 18,
-          "background_color": "#35B779"
+          "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
@@ -28883,7 +28740,7 @@
           "y": 383.5636363636364,
           "width": 12.199375000000003,
           "height": 18,
-          "background_color": "#A9B4BF"
+          "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
@@ -28915,7 +28772,7 @@
           "y": 409.4181818181819,
           "width": 12.199375000000003,
           "height": 18,
-          "background_color": "#35B779"
+          "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
@@ -28947,7 +28804,7 @@
           "y": 435.27272727272737,
           "width": 12.106249999999989,
           "height": 18,
-          "background_color": "#35B779"
+          "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
