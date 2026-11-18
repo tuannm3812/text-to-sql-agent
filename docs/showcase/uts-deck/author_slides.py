@@ -169,10 +169,10 @@ architecture = {
         {'title': 'One repair try', 'text': 'The repair passes the same checks; nothing skips a gate.'},
     ],
     'notes': notes('Walk one question through the whole path.',
-        'This is the whole path of one question: four stages, and only one is the model. [Point: Ask and prepare] A person picks a database and asks in plain English. The application reads the schema, selects the most relevant tables and builds the prompt, with no model.',
-        '[Point: Generate] Stage two is the only model call. It writes one SQL statement, or declines. It never sees result rows. [Point: Check and run] Then two separate gates: sqlglot refuses anything that is not a single read, and the engine runs the query read-only with a work budget and a row cap.',
-        '[Point: Answer] If a query raises an error, that error goes back to the model once, and the repair passes the same checks. The flow ends with the person, who can inspect the SQL before trusting it.',
-        'Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms). Conformance: 45 tests, 15 per engine, 0 skipped.'),
+        'This is the whole path of one question: eight steps, and only one is the model. [Point: top row] A person asks in plain English. The application reads the schema, selects the top six tables and their neighbours, and builds the prompt. None of this uses a model.',
+        '[Point: Generate, marker 1] Step five is the only model call. Gemini or Ollama writes one SQL statement, or declines. It never sees result rows. [Point: Validate and Run, marker 2] Then two separate gates, right to left: sqlglot refuses anything that is not a single read, and the engine runs the query read-only with a work budget and a 1,000-row cap.',
+        '[Point: engine band, marker 3] The same steps work on SQLite, DuckDB and PostgreSQL; each passes the same 15 conformance tests. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. [Point: person] The flow ends with the person, who inspects the answer and the SQL.',
+        'Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms); ui/connection.py. Conformance: 45 tests, 15 per engine, 0 skipped.'),
 }
 
 W10 = [190, 165.5, 160, 190, 170]
@@ -182,7 +182,7 @@ safety = {
     'subtitle': 'Three lines of defence stop different threats, and each is tested on its own',
     'icon_key': [['yes', 'Stops it'], ['no', 'Does not stop it']],
     'tables': [{
-        'headers': ['Threat and example', '1 Model declines', '2 Application check', '3 Engine, read-only', 'Lines of defence'],
+        'headers': ['Threat and example', '1 Model declines (behaviour)', '2 Application check', '3 Engine, read-only', 'Lines of defence'],
         'widths': W10, 'size': 10, 'row_height': 30,
         'rows': [
             ['Write or schema change: drop the students table', {'items': [['yes', 'Declined 6 of 6']]}, {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied on 3 engines']]}, '3'],
@@ -371,7 +371,7 @@ next_tests = {
     'subtitle': 'Each needs a measured outcome before any default changes',
     'tables': [{
         'headers': ['Test', 'Why it is needed', 'What we would measure', 'What it decides'],
-        'widths': W16, 'size': 10, 'row_height': 58,
+        'widths': W16, 'size': 10, 'row_height': 60,
         'rows': [
             ['1  Business definitions', 'Revenue stays ambiguous until a person checks it.', 'Answers on ambiguous questions, with and without a few definitions.', 'Whether to carry a definitions layer.'],
             ['2  Targeted table recovery', 'On 128 questions a needed table is missed.', 'Gains on those, and losses on the other 1,094.', 'Whether recovery keeps its gains.'],
@@ -396,7 +396,9 @@ references = {
         {'label': 'BIRD leaderboard (read 6 November 2026)', 'url': 'https://bird-bench.github.io/'},
         {'label': 'Snowflake Cortex Analyst documentation (read 6 November 2026)', 'url': 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst'},
         {'label': 'Databricks Genie best practices (read 6 November 2026)', 'url': 'https://docs.databricks.com/en/genie/best-practices.html'},
-        {'label': 'WrenAI and Vanna repositories (read 6 November 2026)', 'url': 'https://github.com/Canner/WrenAI'},
+        {'label': 'WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)', 'url': 'https://github.com/Canner/WrenAI'},
+        {'label': 'Large-schema results: evaluation/results/bird_train_large', 'url': 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md'},
+        {'label': 'Retrieval results: evaluation/results/retrieval', 'url': 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/retrieval/README.md'},
     ],
     'notes': notes('List where the audience can check the claims.', 'These are the sources behind every number in the deck.'),
 }

@@ -431,14 +431,14 @@ def close_page(L, p, slide):
 CODE_BG, CODE_INK, CODE_ADD = '#1B2430', '#FFFFFF', '#5EC962'   # added lines in Viridis green (added), never amber on navy
 
 
-def code_panel(L, p, x, y, w, h, title, lines):
+def code_panel(L, p, x, y, w, h, title, lines, step=12):
     """A dark code panel: small caps title, then code lines; an added line is bold pale blue."""
     p.rect(x, y, w, h, CODE_BG)
     paint(L, p, title.upper(), x + 10, y + 8, w - 20, 8, '#FFFFFF', True)
     yy = y + 26
     for text, added in lines:
         paint(L, p, f'`{text}`', x + 10, yy, w - 20, 8, CODE_ADD if added else CODE_INK, added)
-        yy += 12
+        yy += step
     return yy
 
 
@@ -493,31 +493,31 @@ def boundary_page(L, p, slide):
     put(L, p, slide['bar_caption'], LEFT, y, W, 8, 'body')
     y += 18
     pw = 330
-    end = code_panel(L, p, LEFT, y, pw, 140, slide['code_title'], slide['code'])
+    end = code_panel(L, p, LEFT, y, pw, 160, slide['code_title'], slide['code'], 14)
     marks[2] = (LEFT + pw - 12, y + 12)
     lx = LEFT + pw + 14
     lw = FIG_RIGHT - lx
     ly = y
     for title, items, art, colour in slide['lists']:   # rows on the code panel's 12 pt line grid
-        card(L, p, lx, ly, lw, 64, weight=0)
+        card(L, p, lx, ly, lw, 76, weight=0)
         cap(L, p, title, lx + 10, ly + 8, lw - 20, 'ink')
         iy = ly + 26
         for t in items:
             icon(L, p, f'assets/icons/{art}-{colour}.png', '', lx + 10, iy + 1, 10)
             put(L, p, t, lx + 24, iy, lw - 34, 8, 'body')
-            iy += 12
-        ly += 72
-    marks[4] = (FIG_RIGHT - 12, y + 72 + 10)
-    y += 152
+            iy += 14
+        ly += 84
+    marks[4] = (FIG_RIGHT - 12, y + 84 + 10)
+    y += 176
     cw = (W - 14) / 2
     for k, (title, text, art) in enumerate(slide['models']):
         x = LEFT + k * (cw + 14)
-        card(L, p, x, y, cw, 46)
-        icon(L, p, f'assets/icons/{art}-ink.png', title, x + 10, y + 13, 20)
-        put(L, p, title, x + 38, y + 9, cw - 48, 12, 'ink', True)
-        put(L, p, text, x + 38, y + 26, cw - 48, 8, 'body')
+        card(L, p, x, y, cw, 54)
+        icon(L, p, f'assets/icons/{art}-ink.png', title, x + 10, y + 17, 20)
+        put(L, p, title, x + 38, y + 12, cw - 48, 12, 'ink', True)
+        put(L, p, text, x + 38, y + 30, cw - 48, 10, 'body')
     marks[3] = (LEFT + cw + 7, y - 4)
-    note(L, p, slide['note'], LEFT, y + 56, W)
+    note(L, p, slide['note'], LEFT, y + 66, W)
     right_column(L, p, slide, marks, halo=True)
 
 

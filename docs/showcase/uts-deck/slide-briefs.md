@@ -534,7 +534,7 @@ Exact face text:
 - Stops it
 - Does not stop it
 - Threat and example
-- 1 Model declines
+- 1 Model declines (behaviour)
 - 2 Application check
 - 3 Engine, read-only
 - Lines of defence
@@ -928,7 +928,9 @@ Exact face text:
 - BIRD leaderboard (read 6 November 2026)
 - Snowflake Cortex Analyst documentation (read 6 November 2026)
 - Databricks Genie best practices (read 6 November 2026)
-- WrenAI and Vanna repositories (read 6 November 2026)
+- WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)
+- Large-schema results: evaluation/results/bird_train_large
+- Retrieval results: evaluation/results/retrieval
 
 ## 18. Inspectable SQL, measured trade-offs and a clear next experiment
 

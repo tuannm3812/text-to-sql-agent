@@ -20,3 +20,11 @@ Tick a step after recording evidence. For a partial delivery or an inapplicable 
 - [ ] **Handoff.** Open the requested deliverables. Record paths, companion files, outstanding checks and their impact.
 
 See the [agent workflow](https://github.com/tuannm3812/uts-deck-kit/blob/main/AGENT-WORKFLOW.md) in the private kit for the decision paths and commands.
+
+## Review record, 19 November 2026
+
+- Pages reviewed by eye: all 23 (cover, agenda, summary, 13 body slides, sources, close, five appendix slides).
+- Kit build, export_pdf, check_deck, audit_layout and check_markers: 0 findings.
+- Links: live demo and repository on the close; eight source links on page 17.
+- Colour: Viridis key in DESIGN.project.md on every figure; cover and close art keep the earlier palette-A colours at the owner's request.
+- Limitations: the demo is a still screenshot, not the GIF; numbers carried from the Google deck were spot-checked, not all re-derived.

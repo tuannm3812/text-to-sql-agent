@@ -16,15 +16,15 @@ BARS = [250, 150, 136, 92, 50]
 CX, CY, R = 372, 330, 178
 
 
-def card(x: int, y: int, fill: str = "#3B528B") -> str:
-    """One schema table: a header bar and three column rows (indigo = data; teal = a table the agent chose)."""
+def card(x: int, y: int) -> str:
+    """One schema table: a header bar and three column rows."""
     rows = "".join(
         f'<rect x="{x + 14}" y="{y + 40 + i * 22}" width="{122 - (i % 2) * 24}" height="9" '
         'rx="4.5" fill="#8FA9C0"/>'
         for i in range(3)
     )
     return (
-        f'<rect x="{x}" y="{y}" width="150" height="118" rx="14" fill="{fill}"/>'
+        f'<rect x="{x}" y="{y}" width="150" height="118" rx="14" fill="#32658A"/>'
         f'<rect x="{x + 14}" y="{y + 14}" width="90" height="12" rx="6" fill="#C9D6E3"/>{rows}'
     )
 
@@ -36,16 +36,16 @@ def art() -> str:
         f'y2="{TABLES[b][1] + 59}" stroke="#8FA9C0" stroke-width="4"/>'
         for a, b in LINKS
     )
-    cards = "".join(card(x, y, "#21918C" if i in (0, 2) else "#3B528B") for i, (x, y) in enumerate(TABLES))
+    cards = "".join(card(x, y) for x, y in TABLES)
     bars = "".join(
         f'<rect x="{CX - 125}" y="{CY - 100 + i * 42}" width="{w}" height="26" rx="8" '
-        f'fill="{"#21918C" if i == 0 else "#5EC962"}"/>'
+        f'fill="{"#32658A" if i == 0 else "#B89245"}"/>'
         for i, w in enumerate(BARS)
     )
     lens = (
         f'<line x1="{CX + 128}" y1="{CY + 128}" x2="{CX + 236}" y2="{CY + 236}" stroke="#1B2430" '
         'stroke-width="30" stroke-linecap="round"/>'
-        f'<line x1="{CX + 128}" y1="{CY + 128}" x2="{CX + 160}" y2="{CY + 160}" stroke="#FDE725" '
+        f'<line x1="{CX + 128}" y1="{CY + 128}" x2="{CX + 160}" y2="{CY + 160}" stroke="#B89245" '
         'stroke-width="30"/>'
         f'<circle cx="{CX}" cy="{CY}" r="{R}" fill="#fff" stroke="#1B2430" stroke-width="18"/>'
         f"{bars}"

@@ -105,10 +105,10 @@ References:
 
 Walk one question through the whole path.
 
-This is the whole path of one question: four stages, and only one is the model. [Point: Ask and prepare] A person picks a database and asks in plain English. The application reads the schema, selects the most relevant tables and builds the prompt, with no model.
-[Point: Generate] Stage two is the only model call. It writes one SQL statement, or declines. It never sees result rows. [Point: Check and run] Then two separate gates: sqlglot refuses anything that is not a single read, and the engine runs the query read-only with a work budget and a row cap.
-[Point: Answer] If a query raises an error, that error goes back to the model once, and the repair passes the same checks. The flow ends with the person, who can inspect the SQL before trusting it.
-Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms). Conformance: 45 tests, 15 per engine, 0 skipped.
+This is the whole path of one question: eight steps, and only one is the model. [Point: top row] A person asks in plain English. The application reads the schema, selects the top six tables and their neighbours, and builds the prompt. None of this uses a model.
+[Point: Generate, marker 1] Step five is the only model call. Gemini or Ollama writes one SQL statement, or declines. It never sees result rows. [Point: Validate and Run, marker 2] Then two separate gates, right to left: sqlglot refuses anything that is not a single read, and the engine runs the query read-only with a work budget and a 1,000-row cap.
+[Point: engine band, marker 3] The same steps work on SQLite, DuckDB and PostgreSQL; each passes the same 15 conformance tests. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. [Point: person] The flow ends with the person, who inspects the answer and the SQL.
+Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms); ui/connection.py. Conformance: 45 tests, 15 per engine, 0 skipped.
 
 References:
 - sources.md
