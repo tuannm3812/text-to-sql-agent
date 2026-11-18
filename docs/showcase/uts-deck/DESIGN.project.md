@@ -10,10 +10,10 @@ Kit version and exact commit: see kit-pin.json (UTS deck kit v0.6.0). Shared eng
 
 Relation to the Google Slides deck: the live Google deck stays the presenting copy until this port is approved. Wording and notes come from it and from `docs/showcase/speaker-notes.md`; this port re-lays them on the kit.
 
-Local token/layout overrides and reasons: footer names the project and subject. `project_layouts.py` adds `hard_page` (why it is hard); helpers are copied from the fire-occurrence UTS consumer so markers, legends and the right column behave the same.
+Local token/layout overrides and reasons: footer names the project and subject. `project_layouts.py` adds `hard_page` (why it is hard), `aim_page` (the setup-against-meaning matrix) and `bars_page` (bar and interval panels; value labels that nearly align are snapped into one column); kit `table_page` draws the tables; helpers are copied from the fire-occurrence UTS consumer so markers, legends and the right column behave the same.
 
 Figure palette, category mappings, units and scale choices:
-- Data bars: Viridis blue #31688E; a gap to a reference is its tint #D6E1EC with the label in #31688E.
+- Data bars: Viridis blue #31688E for the main series; grey #A9B4BF for a reference or baseline arm; Viridis green #35B779 for gains or added tables; Viridis purple #440154 for losses. A gap to a reference is the blue tint #D6E1EC with its label in #31688E.
 - Percentages are shown with one decimal and a space before %, as in the README.
 - Bar scale: 0–100 %, linear, one shared scale per chart.
 
@@ -26,4 +26,6 @@ Asset origins, licences: `assets/figures/cover-art.png` and `cover-art-close.png
 
 UTS identity use: identity uts (UTS subject deliverable).
 
-Final output checks and unperformed checks: batch 1 (pages 1–3) builds; check_deck, audit_layout and check_markers report 0 findings (18 November 2026). Agenda waits until all chapter slides exist.
+Slide content: `author_slides.py` writes slides 2 and 4 to 19 into brief-content.json from the live deck's bodies and notes; edit it and rerun rather than editing the JSON by hand.
+
+Final output checks and unperformed checks: all 19 pages build; check_deck, audit_layout and check_markers report 0 findings (18 November 2026). Not yet done: the owner's page-by-page review; the demo GIF is shown as a still screenshot.

@@ -125,6 +125,8 @@ def right_column(L, p, slide, marks, halo=False):
     y = 237
     slide['figure_marks'] = []
     for number, item in enumerate(slide['annotations'], 1):
+        if number not in marks:
+            raise ValueError(f'{p.id}: no figure marker {number}')
         cx, cy = marks[number]
         figure_marker(L, p, slide, number, cx, cy, halo)
         L.marker(p, number, 668, y)
@@ -201,4 +203,124 @@ def hard_page(L, p, slide):
     right_column(L, p, slide, marks)
 
 
-LAYOUTS = {'hard_page': hard_page}
+SERIES = {'primary': '#31688E', 'secondary': '#35B779', 'muted': '#A9B4BF', 'loss': '#440154', 'pale': '#D6E1EC'}
+
+
+def _fmt(v, unit):
+    sign = '+' if unit == 'points' and v > 0 else ''
+    text = f"{v:.1f}" if isinstance(v, float) else f"{v}"
+    text = text.replace('-', '\u2212')
+    return sign + text + (' %' if unit == '%' else '')
+
+
+# -- evidence --------------------------------------------------------------------------------
+def bars_page(L, p, slide):
+    """Stacked bar or interval panels in the figure column, a legend above, markers paired with the right column.
+    panel: title, scale [lo, hi], unit ('%', 'points' or ''), kind 'bar' or 'dot', rows of
+    {label, value, lo, hi, series, marker, mono}. Numbers come from the slide fields unchanged."""
+    slide.setdefault('marker_pairs', [])
+    marks = {}
+    y = TOP
+    if slide.get('legend'):
+        y += legend(L, p, slide['legend'], LEFT, y, FIG_RIGHT - LEFT) + 10
+    panels = slide['panels']
+    cap_h = need(L, slide['caption'], FIG_RIGHT - LEFT, L.size('caption')) + 8 if slide.get('caption') else 0
+    rows = sum(len(pn['rows']) for pn in panels)
+    titles = 20 * len(panels) + 14 * (len(panels) - 1)
+    step = min(slide.get('max_step', 30), (END - cap_h - y - titles) / rows)
+    bh = min(18, step - 6)
+    lw = slide.get('label_width', 150)
+    labels = []
+    for pi, pn in enumerate(panels):
+        put(L, p, pn['title'], LEFT, y, FIG_RIGHT - LEFT, 10, 'ink', True)
+        y += 20
+        lo, hi = pn['scale']
+        x0, x1 = LEFT + lw, FIG_RIGHT - 64
+        X = lambda v: x0 + (v - lo) / (hi - lo) * (x1 - x0)
+        top_y = y
+        for r in pn['rows']:
+            mono = r.get('mono')
+            put(L, p, r['label'], LEFT, y + (step - 13.5) / 2, lw - 8, 10 if not mono else 8, 'ink', bool(r.get('bold')))
+            colour = SERIES[r.get('series', 'primary')]
+            cy = y + step / 2
+            if pn.get('kind', 'bar') == 'bar':
+                a, b = sorted((X(max(lo, 0)), X(r['value'])))
+                p.rect(a, cy - bh / 2, max(b - a, 1.5), bh, colour)
+                end = b
+            else:
+                p.rect(X(r['lo']), cy - 1.25, X(r['hi']) - X(r['lo']), 2.5, colour)
+                for v in (r['lo'], r['hi']):
+                    p.rect(X(v) - .75, cy - 5, 1.5, 10, colour)
+                p.rect(X(r['value']) - 4.5, cy - 4.5, 9, 9, colour, 'ELLIPSE')
+                end = X(r['hi'])
+            label = r.get('text') or _fmt(r['value'], pn.get('unit', ''))
+            if r.get('lo') is not None and pn.get('kind', 'bar') == 'dot' and not r.get('text'):
+                label += f"  [{_fmt(r['lo'], pn.get('unit',''))}, {_fmt(r['hi'], pn.get('unit',''))}]"
+            size = 8 if pn.get('kind') == 'dot' else 10
+            tw = width_of(L, label, size, True) + 2
+            labels.append([end + 6, cy - 6.5, tw, size, label, r.get('marker'), cy])
+            y += step
+        if lo < 0 < hi:
+            p.rect(X(0) - .5, top_y - 2, 1, y - top_y + 2, L.t.color('rule'))
+        if pn.get('marker'):
+            marks[pn['marker']] = (LEFT + width_of(L, pn['title'], 10, True) + 14, top_y - 13)
+        y += 14
+    xs = sorted({round(lab[0], 2) for lab in labels})   # snap label columns that nearly align (audit near-miss)
+    snap, groups = {}, []
+    for x in xs:   # chain neighbours closer than 4 pt into one column, placed at the group's right edge
+        if groups and x - groups[-1][-1] < 4:
+            groups[-1].append(x)
+        else:
+            groups.append([x])
+    for g in groups:
+        for x in g:
+            snap[x] = g[-1]
+    for x, y0, tw, size, label, marker, cy in labels:
+        x = snap[round(x, 2)]
+        paint(L, p, label, x, y0, tw, size, L.t.color('ink'), True)
+        if marker:
+            marks[marker] = (x + tw + 12, cy)
+    if slide.get('caption'):
+        put(L, p, slide['caption'], LEFT, END - cap_h + 8, FIG_RIGHT - LEFT, L.size('caption'))
+    right_column(L, p, slide, marks)
+
+
+# -- problem ---------------------------------------------------------------------------------
+def aim_page(L, p, slide):
+    """Our aim: two promise cards, then the setup-against-meaning matrix with the tools placed on it."""
+    slide.setdefault('marker_pairs', [])
+    marks = {}
+    gap = 14
+    w = (FIG_RIGHT - LEFT - gap) / 2
+    for i, c in enumerate(slide['promises']):
+        x = LEFT + i * (w + gap)
+        card(L, p, x, TOP, w, 44)
+        put(L, p, c['title'], x + 10, TOP + 9, w - 20, 12, 'ink', True)
+        put(L, p, c['text'], x + 10, TOP + 26, w - 20, 10)
+        if c.get('marker'):
+            marks[c['marker']] = (x + w - 10, TOP + 10)
+    mx, my = LEFT, TOP + 66
+    mw, mh = FIG_RIGHT - mx, END - 22 - my
+    hw, hh = mw / 2, mh / 2
+    acc = L.t.data['accents']
+    fills = [acc['ochre']['fill'], acc['blue']['fill'], acc['slate']['fill'], L.t.color('card')]
+    for k, q in enumerate(slide['quadrants']):
+        qx, qy = mx + (k % 2) * hw, my + (k // 2) * hh
+        p.rect(qx + 1, qy + 1, hw - 2, hh - 2, fills[k])
+        cap(L, p, q, qx + 8, qy + 7, hw - 16, 'ink')
+    p.line(mx, my, mx, my + mh, L.t.color('rule'), 1)
+    p.line(mx, my + mh, mx + mw, my + mh, L.t.color('rule'), 1)
+    put(L, p, slide['x_axis'], mx, my + mh + 6, mw, 8, 'body', True)
+    put(L, p, slide['y_axis'], mx, my - 14, mw, 8, 'body', True)
+    for pt in slide['points']:
+        cx, cy = mx + pt['x'] * mw, my + (1 - pt['y']) * mh
+        colour = SERIES['primary'] if pt.get('ours') else L.t.color('ink')
+        p.rect(cx - 4, cy - 4, 8, 8, colour, 'ELLIPSE')
+        tw = width_of(L, pt['label'], 10, bool(pt.get('ours'))) + 2
+        paint(L, p, pt['label'], cx + 8, cy - 7, tw, 10, colour, bool(pt.get('ours')))
+        if pt.get('marker'):
+            marks[pt['marker']] = (cx + 8 + tw + 12, cy)
+    right_column(L, p, slide, marks)
+
+
+LAYOUTS = {'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}

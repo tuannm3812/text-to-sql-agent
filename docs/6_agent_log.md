@@ -8617,3 +8617,12 @@ Poster refined after Mike's review: subject line 36121 in the header, amber high
 `docs/showcase/speaker-notes.md` regenerated from the live deck's notes (18 slides). Codex's earlier uncommitted version of the file is replaced; the deck's notes supersede it.
 
 Poster header reworked after Mike's review: amber text on blue and navy replaced by a white highlight band and a query-styled highlights card; footer reordered and centred; diagram cards shortened so the connector arrows have room. Showcase handoff written for the portfolio agents, README gains a Showcase section, poster PDF and PNG exported from the live poster. Codex's app design work (blue and amber UI, SQL highlighting, screenshots) committed at Mike's request to commit and push, after ruff, mypy and pytest passed (1549 passed, 353 skipped). `poster.html` stays uncommitted: historical.
+
+## 2026-11-18 — Claude: deck ported to the UTS deck kit (v0.6.0)
+
+- New consumer `docs/showcase/uts-deck/`: all 19 pages (cover, agenda, summary, 13 body slides, sources, close,
+  schema-RAG appendix) rebuilt on the kit as HTML and PDF. The Google Slides deck is untouched.
+- Every number on the pages is in `claims-register.md` with its source; large-schema, demo and retrieval numbers
+  re-checked against `evaluation/results/` READMEs and the README v2 table.
+- Verified: kit build, export_pdf, check_deck, audit_layout and check_markers all report 0 findings. Not verified:
+  owner review. Kit limitation found: a non-breaking space does not keep a number with its unit when wrapping.
