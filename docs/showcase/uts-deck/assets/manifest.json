@@ -1,0 +1,74 @@
+[
+  {
+    "path": "assets/fonts/GoogleSans-Regular.ttf",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/GoogleSans-Regular.ttf",
+    "sha256": "2ab1f257d8c87bd7a376fc8504238fd0ffbc435d7605907196db31a1867cb59e",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/fonts/GoogleSans-Bold.ttf",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/GoogleSans-Bold.ttf",
+    "sha256": "280eab71ebed3dca9281ca7b071a219d48a4b379f3277b4a10c1b21b7e697126",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/fonts/GoogleSans-Italic.ttf",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/GoogleSans-Italic.ttf",
+    "sha256": "11c615dfb40c29100e95c2b251580517acabbc48918d824f778f13aad259eb72",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/fonts/GoogleSansCode-Regular.ttf",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/GoogleSansCode-Regular.ttf",
+    "sha256": "6ca9ff39aa7d343fb0d11b6ec0798671b9893b0323e7a4940757b0804f699c19",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/fonts/GoogleSansCode-Bold.ttf",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/GoogleSansCode-Bold.ttf",
+    "sha256": "5bda0478ff13b060de1b8c26934be3a048fb153f4e81de6445a3f0e13751c89d",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/fonts/OFL.txt",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/OFL.txt",
+    "sha256": "831b6e041705873c3e6efb18c4c96202bc41c8be42a456d3d26c47abf14816d0",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/fonts/OFL-google-sans-code.txt",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/OFL-google-sans-code.txt",
+    "sha256": "2eefd866fc443591ec2242640b97f9f6219d37b4b3102982446f4f6bdab4c20f",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/fonts/code-font-sources.json",
+    "source_repository": "kaggle-deck-kit",
+    "source_revision": "258aa4ed2ad9ff3a668c6853d1f98a6f338d07ef",
+    "source_path": "assets/fonts/code-font-sources.json",
+    "sha256": "8d383ce2da9c6241b9f61fda6c6317089c5f5eeef9abb3a9c067cffd716a46cc",
+    "modifications": "none"
+  },
+  {
+    "path": "assets/brand/uts-logo.svg",
+    "source": "https://www.uts.edu.au/globalassets/resizer/restricted/media/all-pages-sitewide/header/restricteduts-logoheader.svg",
+    "via": "TechFest showcase/assets/BRANDING.md; retrieved there 2026-10-24",
+    "sha256": "9090430197b651e341224af5212ed9bbc86ec72d5779f35c9ab6d3376df244e4",
+    "modifications": "none",
+    "rights": "UTS property; identification only, no endorsement or corporate-template certification"
+  }
+]

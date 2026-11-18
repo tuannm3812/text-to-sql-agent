@@ -1,0 +1,177 @@
+{
+  "title": "Ask your data. Inspect the answer.",
+  "identity": "uts",
+  "author": "Manh Tuan Nguyen",
+  "affiliation": "University of Technology Sydney",
+  "date": "November 2026",
+  "project_layouts": "project_layouts.py",
+  "tracker_align": "logos",
+  "slides": [
+    {
+      "id": "cover",
+      "layout": "cover",
+      "cover_style": "report",
+      "accent": "blue",
+      "section": "36121 Artificial Intelligence Principles and Applications | Capstone project",
+      "title": "Ask your data. Inspect the answer.",
+      "subtitle": "A text-to-SQL agent that writes read-only SQL from a plain question, shows its work, and measures where it fails",
+      "image": {
+        "path": "assets/figures/cover-art.png",
+        "alt": "Illustration: table cards, one lifted under a lens showing a small bar chart. Decorative, no real data."
+      },
+      "notes": {
+        "purpose": "Open with the one idea of the deck.",
+        "script": [
+          "This deck is about one idea: ask your data, then inspect the answer. It began as a UTS group project and has since been refined as a portfolio project. The illustration shows what the agent does: it finds the right tables, then lets you look closely at the result.",
+          "Reference: cover illustration from make_cover.py in this folder. It is decorative and shows no real data."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
+    },
+    {
+      "id": "summary",
+      "layout": "research_summary",
+      "section": "Summary",
+      "topic": "Executive summary",
+      "accent": "blue",
+      "title": "Inspectable SQL, with measured limits",
+      "subtitle": "What the agent does, how well it did, and what to keep in mind",
+      "problem": "People need answers from databases without writing SQL, but a fluent answer can still be wrong.",
+      "approach": "An agent picks the relevant tables, writes SQL that runs read-only, and shows it with the rows.",
+      "findings": [
+        {
+          "headline": "Read-only holds: 45 of 45",
+          "text": "Safety tests passed on 3 database engines, none skipped.",
+          "accent": "slate"
+        },
+        {
+          "headline": "64.6 % on Spider, 35.2 % on BIRD",
+          "text": "Answers matched on a local 9B model, with this project's scorer, not leaderboard scoring.",
+          "accent": "blue"
+        },
+        {
+          "headline": "+3.6 points on large databases",
+          "text": "Sending the top 6 tables beat every table with hints [+1.4, +5.8], with a 69 % smaller prompt.",
+          "accent": "plum"
+        },
+        {
+          "headline": "Smaller prompts were not faster",
+          "text": "Each answer took about 2 s longer, because the local model could not reuse its cache.",
+          "accent": "ochre"
+        }
+      ],
+      "takeaway": "About one answer in three still did not match on Spider, so a person should review results.",
+      "notes": {
+        "purpose": "Give the whole story before the detail.",
+        "script": [
+          "Here is the whole story before the detail. [Point: 45 of 45] Read-only comes first: generated SQL is validated and run read-only, and all 45 tests passed on three database engines with none skipped.",
+          "[Point: 64.6 % and 35.2 %] With a local 9B model, 64.6 % of Spider dev answers and 35.2 % of the harder BIRD dev answers matched, using this project's scorer. These are not leaderboard scores.",
+          "[Point: +3.6 points] On databases of 21 to 65 tables, sending the top six tables and their neighbours scored 3.6 points above sending every table with hints, using 69 % fewer prompt tokens. The gain comes from the 65- and 34-table databases.",
+          "[Point: not faster] Those smaller prompts took about two seconds longer per answer, because each question gets a different schema and the local model cannot reuse its cache. [Point: takeaway] About one in three Spider answers still did not match, so a person should review results.",
+          "Reference: README Evaluation Results, release runs of 10 October 2026 at 7708295; bird_train_large at 47284f5, 19 October 2026. AGENTS.md 4 November 2026: conformance 45 passed, 0 skipped."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
+    },
+    {
+      "id": "hard",
+      "layout": "hard_page",
+      "section": "Problem",
+      "topic": "Why it is hard",
+      "accent": "slate",
+      "title": "A fluent answer can still be the wrong answer",
+      "subtitle": "Text-to-SQL turns a question into SQL over a schema, then returns rows; each step can go wrong",
+      "chain": [
+        [
+          "Question",
+          "What the person asks"
+        ],
+        [
+          "Schema",
+          "Tables and columns"
+        ],
+        [
+          "SQL",
+          "The generated query"
+        ],
+        [
+          "Rows",
+          "The answer returned"
+        ]
+      ],
+      "figure": {
+        "title": "Published scores fall on enterprise tasks",
+        "bars": [
+          {
+            "label": "Spider 1.0",
+            "value": 91.2,
+            "series": "published"
+          },
+          {
+            "label": "BIRD",
+            "value": 73.0,
+            "series": "published"
+          },
+          {
+            "label": "Spider 2.0 enterprise",
+            "value": 21.3,
+            "series": "published",
+            "marker": 2,
+            "gap": "69.9 points below Spider 1.0"
+          }
+        ],
+        "caption": "**Source:** share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results."
+      },
+      "causes": [
+        {
+          "title": "Meaning",
+          "text": "Words like “revenue” are not columns. Gross or net? The schema does not say.",
+          "marker": 1
+        },
+        {
+          "title": "Scale",
+          "text": "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns."
+        },
+        {
+          "title": "Risk",
+          "text": "Generated SQL runs on real data, so it must be stopped from changing it.",
+          "marker": 3
+        }
+      ],
+      "takeaway": "Published scores fall about 70 points on enterprise tasks, so a good demo is not evidence.",
+      "annotations": [
+        {
+          "title": "SQL is the easy part",
+          "text": "The hard part is knowing what the question means in this database."
+        },
+        {
+          "title": "We see the same direction",
+          "text": "Spider 2.0 sits 69.9 points below Spider 1.0. Our model also falls on the harder test, from 64.6 % on Spider to 35.2 % on BIRD, using our own scorer."
+        },
+        {
+          "title": "Keep a person in the loop",
+          "text": "A valid query can still answer the wrong question. Dashboards and analyst SQL remain best for defined, recurring metrics."
+        }
+      ],
+      "notes": {
+        "purpose": "Say why a fluent answer is not enough.",
+        "script": [
+          "Text-to-SQL turns a question into SQL over a schema and returns rows. Writing the SQL is the easy part. [Point: Meaning] The hard part is what the question means here. A word like revenue is not a column. [Point: Scale] Real schemas are also large: Spider 2.0 databases often exceed 1,000 columns.",
+          "[Point: Spider 2.0 bar] In the Spider 2.0 paper, an o1-preview agent solved 21.3 % of enterprise tasks, against 91.2 % on Spider 1.0 and 73.0 % on BIRD. Our local model also falls on the harder test, from 64.6 % to 35.2 %, on our own scorer.",
+          "[Point: Risk] The SQL runs on real data, so it must be stopped from changing that data, and a valid query can still answer the wrong question.",
+          "Reference: Spider 2.0 paper, arXiv 2411.07763, read 6 November 2026. 91.2 minus 21.3 is 69.9 points. Project scores: README Evaluation Results."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
+    }
+  ]
+}

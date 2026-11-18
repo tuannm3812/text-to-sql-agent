@@ -1,0 +1,83 @@
+{
+  "name": "UTS palette A — slate, blue, plum and ochre",
+  "font": "Google Sans",
+  "colors": {
+    "ink": "#1B2430",
+    "body": "#5A6370",
+    "secondary": "#526174",
+    "accent": "#526174",
+    "card": "#F4F5F6",
+    "ground": "#FFFFFF",
+    "neutral": "#5A6370",
+    "marker": "#B8452E",
+    "rule": "#89949D",
+    "hair": "#D8DEE3",
+    "takeaway_fill": "#F6F1E5",
+    "takeaway_rule": "#B89245",
+    "takeaway_label": "#765718",
+    "accent_pale": "#EDF0F3"
+  },
+  "on": {
+    "marker": "ground",
+    "secondary": "ground",
+    "accent": "ground"
+  },
+  "type": {
+    "title": 24,
+    "heading": 12,
+    "body": 10,
+    "caption": 8
+  },
+  "grid": {
+    "takeaway_x": 688,
+    "takeaway_w": 231
+  },
+  "footer": {
+    "text": "**Text-to-SQL Agent**   36121 Artificial Intelligence Principles and Applications"
+  },
+  "qa": {
+    "allowed_numbers": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "6",
+      "9",
+      "9B",
+      "2024",
+      "2026",
+      "36121"
+    ],
+    "skip_frame": [
+      "cover",
+      "close",
+      "references"
+    ],
+    "marker_tolerance": 1.0
+  },
+  "paths": {
+    "register": "claims-register.md",
+    "storyline": "storyline.json",
+    "output": "output",
+    "markers": "marker_layout.json"
+  },
+  "accents": {
+    "slate": {
+      "ink": "#526174",
+      "fill": "#EDF0F3"
+    },
+    "blue": {
+      "ink": "#32658A",
+      "fill": "#EAF0F6"
+    },
+    "plum": {
+      "ink": "#825578",
+      "fill": "#F3EDF3"
+    },
+    "ochre": {
+      "ink": "#896521",
+      "fill": "#F6F1E5"
+    }
+  }
+}

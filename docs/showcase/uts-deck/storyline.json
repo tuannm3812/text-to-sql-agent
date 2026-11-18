@@ -1,0 +1,2500 @@
+{
+  "title": "Ask your data. Inspect the answer.",
+  "identity": "uts",
+  "author": "Manh Tuan Nguyen",
+  "affiliation": "University of Technology Sydney",
+  "date": "November 2026",
+  "project_layouts": "project_layouts.py",
+  "tracker_align": "logos",
+  "slides": [
+    {
+      "id": "cover",
+      "layout": "cover",
+      "cover_style": "report",
+      "accent": "blue",
+      "section": "36121 Artificial Intelligence Principles and Applications | Capstone project",
+      "title": "Ask your data. Inspect the answer.",
+      "subtitle": "A text-to-SQL agent that writes read-only SQL from a plain question, shows its work, and measures where it fails",
+      "image": {
+        "path": "assets/figures/cover-art.png",
+        "alt": "Illustration: table cards, one lifted under a lens showing a small bar chart. Decorative, no real data."
+      },
+      "notes": {
+        "purpose": "Open with the one idea of the deck.",
+        "script": [
+          "This deck is about one idea: ask your data, then inspect the answer. It began as a UTS group project and has since been refined as a portfolio project. The illustration shows what the agent does: it finds the right tables, then lets you look closely at the result.",
+          "Reference: cover illustration from make_cover.py in this folder. It is decorative and shows no real data."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      },
+      "n": 1,
+      "takeaways": [],
+      "marker_pairs": [],
+      "ops": [
+        {
+          "op": "add-image",
+          "id": "im1",
+          "path": "assets/figures/cover-art.png",
+          "alt": "Illustration: table cards, one lifted under a lens showing a small bar chart. Decorative, no real data.",
+          "x": 560,
+          "y": 0,
+          "width": 400,
+          "height": 540
+        },
+        {
+          "op": "add-image",
+          "id": "im2",
+          "path": "assets/brand/uts-logo.svg",
+          "alt": "University of Technology Sydney",
+          "x": 43.5,
+          "y": 39,
+          "width": 64,
+          "height": 64
+        },
+        {
+          "op": "add-shape",
+          "slide": "cover",
+          "id": "r3",
+          "shape_type": "RECTANGLE",
+          "x": 0,
+          "y": 150,
+          "width": 560,
+          "height": 188,
+          "background_color": "#EAF0F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "cover",
+          "id": "r4",
+          "shape_type": "RECTANGLE",
+          "x": 0,
+          "y": 150,
+          "width": 8,
+          "height": 188,
+          "background_color": "#32658A"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "cover",
+          "id": "t5",
+          "text": "36121 ARTIFICIAL INTELLIGENCE PRINCIPLES AND APPLICATIONS | CAPSTONE PROJECT",
+          "x": 36.3,
+          "y": 156.8,
+          "width": 504.4,
+          "height": 31.4,
+          "font_size": 9,
+          "font_family": "Google Sans",
+          "color": "#32658A",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t5",
+          "start": 0,
+          "end": 76,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t5",
+          "start": 0,
+          "end": 76,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "cover",
+          "id": "t6",
+          "text": "Ask your data. Inspect the\nanswer.",
+          "x": 36.3,
+          "y": 176.8,
+          "width": 504.4,
+          "height": 98.4,
+          "font_size": 30,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t6",
+          "start": 0,
+          "end": 34,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t6",
+          "start": 0,
+          "end": 26,
+          "bold": true
+        },
+        {
+          "op": "style-text",
+          "element": "t6",
+          "start": 27,
+          "end": 34,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "cover",
+          "id": "t7",
+          "text": "A text-to-SQL agent that writes read-only SQL from a plain question, shows its work, and\nmeasures where it fails",
+          "x": 36.3,
+          "y": 266.8,
+          "width": 504.4,
+          "height": 54.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t7",
+          "start": 0,
+          "end": 112,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "cover",
+          "id": "t8",
+          "text": "Manh Tuan Nguyen",
+          "x": 36.3,
+          "y": 347.8,
+          "width": 504.4,
+          "height": 32.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t8",
+          "start": 0,
+          "end": 16,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t8",
+          "start": 0,
+          "end": 16,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "cover",
+          "id": "t9",
+          "text": "University of Technology Sydney",
+          "x": 36.3,
+          "y": 366.8,
+          "width": 504.4,
+          "height": 29.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t9",
+          "start": 0,
+          "end": 31,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "cover",
+          "id": "t10",
+          "text": "November 2026",
+          "x": 36.3,
+          "y": 382.8,
+          "width": 504.4,
+          "height": 29.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t10",
+          "start": 0,
+          "end": 13,
+          "line_spacing": 135
+        }
+      ]
+    },
+    {
+      "id": "summary",
+      "layout": "research_summary",
+      "section": "Summary",
+      "topic": "Executive summary",
+      "accent": "blue",
+      "title": "Inspectable SQL, with measured limits",
+      "subtitle": "What the agent does, how well it did, and what to keep in mind",
+      "problem": "People need answers from databases without writing SQL, but a fluent answer can still be wrong.",
+      "approach": "An agent picks the relevant tables, writes SQL that runs read-only, and shows it with the rows.",
+      "findings": [
+        {
+          "headline": "Read-only holds: 45 of 45",
+          "text": "Safety tests passed on 3 database engines, none skipped.",
+          "accent": "slate"
+        },
+        {
+          "headline": "64.6 % on Spider, 35.2 % on BIRD",
+          "text": "Answers matched on a local 9B model, with this project's scorer, not leaderboard scoring.",
+          "accent": "blue"
+        },
+        {
+          "headline": "+3.6 points on large databases",
+          "text": "Sending the top 6 tables beat every table with hints [+1.4, +5.8], with a 69 % smaller prompt.",
+          "accent": "plum"
+        },
+        {
+          "headline": "Smaller prompts were not faster",
+          "text": "Each answer took about 2 s longer, because the local model could not reuse its cache.",
+          "accent": "ochre"
+        }
+      ],
+      "takeaway": "About one answer in three still did not match on Spider, so a person should review results.",
+      "notes": {
+        "purpose": "Give the whole story before the detail.",
+        "script": [
+          "Here is the whole story before the detail. [Point: 45 of 45] Read-only comes first: generated SQL is validated and run read-only, and all 45 tests passed on three database engines with none skipped.",
+          "[Point: 64.6 % and 35.2 %] With a local 9B model, 64.6 % of Spider dev answers and 35.2 % of the harder BIRD dev answers matched, using this project's scorer. These are not leaderboard scores.",
+          "[Point: +3.6 points] On databases of 21 to 65 tables, sending the top six tables and their neighbours scored 3.6 points above sending every table with hints, using 69 % fewer prompt tokens. The gain comes from the 65- and 34-table databases.",
+          "[Point: not faster] Those smaller prompts took about two seconds longer per answer, because each question gets a different schema and the local model cannot reuse its cache. [Point: takeaway] About one in three Spider answers still did not match, so a person should review results.",
+          "Reference: README Evaluation Results, release runs of 10 October 2026 at 7708295; bird_train_large at 47284f5, 19 October 2026. AGENTS.md 4 November 2026: conformance 45 passed, 0 skipped."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      },
+      "n": 2,
+      "takeaways": [],
+      "marker_pairs": [],
+      "summary_cards": [
+        {
+          "x": 43.5,
+          "y": 208.2,
+          "width": 427.75,
+          "height": 93.9
+        },
+        {
+          "x": 491.25,
+          "y": 208.2,
+          "width": 427.75,
+          "height": 93.9
+        },
+        {
+          "x": 43.5,
+          "y": 322.1,
+          "width": 427.75,
+          "height": 93.9
+        },
+        {
+          "x": 491.25,
+          "y": 322.1,
+          "width": 427.75,
+          "height": 93.9
+        }
+      ],
+      "summary_bands": [
+        {
+          "x": 43.5,
+          "y": 436.0,
+          "width": 875.5,
+          "height": 40
+        }
+      ],
+      "ops": [
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t1",
+          "text": "SUMMARY",
+          "x": 36.3,
+          "y": 22.3,
+          "width": 67.23333333333333,
+          "height": 28.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t1",
+          "start": 0,
+          "end": 7,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t1",
+          "start": 0,
+          "end": 7,
+          "bold": true
+        },
+        {
+          "op": "add-line",
+          "slide": "summary",
+          "id": "l2",
+          "x": 102.33333333333333,
+          "y": 31,
+          "width": 0.0,
+          "height": 11,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t3",
+          "text": "Executive summary",
+          "x": 103.13333333333333,
+          "y": 22.3,
+          "width": 779.0666666666666,
+          "height": 28.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t3",
+          "start": 0,
+          "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r4",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 43,
+          "width": 28,
+          "height": 2,
+          "background_color": "#32658A"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t5",
+          "text": "Inspectable SQL, with measured limits",
+          "x": 36.3,
+          "y": 43.8,
+          "width": 889.9,
+          "height": 48.4,
+          "font_size": 24,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t5",
+          "start": 0,
+          "end": 37,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t5",
+          "start": 0,
+          "end": 37,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t6",
+          "text": "What the agent does, how well it did, and what to keep in mind",
+          "x": 36.3,
+          "y": 88.8,
+          "width": 889.9,
+          "height": 46.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t6",
+          "start": 0,
+          "end": 62,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "summary",
+          "id": "l7",
+          "x": 0,
+          "y": 492,
+          "width": 960,
+          "height": 0,
+          "color": "#1B2430",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r8",
+          "shape_type": "RECTANGLE",
+          "x": 0,
+          "y": 489,
+          "width": 43.5,
+          "height": 3,
+          "background_color": "#32658A"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t9",
+          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "x": 36.3,
+          "y": 493.8,
+          "width": 834.4,
+          "height": 27.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t9",
+          "start": 0,
+          "end": 77,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t9",
+          "start": 0,
+          "end": 17,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t10",
+          "text": "2",
+          "x": 881.8,
+          "y": 493.8,
+          "width": 44.4,
+          "height": 27.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false,
+          "alignment": "right"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t10",
+          "start": 0,
+          "end": 1,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t11",
+          "text": "The problem",
+          "x": 36.3,
+          "y": 131.8,
+          "width": 442.15,
+          "height": 31.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t11",
+          "start": 0,
+          "end": 11,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t11",
+          "start": 0,
+          "end": 11,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t12",
+          "text": "People need answers from databases without writing SQL, but a fluent answer can still be\nwrong.",
+          "x": 36.3,
+          "y": 154.0,
+          "width": 442.15,
+          "height": 42.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t12",
+          "start": 0,
+          "end": 95,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t13",
+          "text": "The approach",
+          "x": 484.05,
+          "y": 131.8,
+          "width": 442.15,
+          "height": 31.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t13",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t13",
+          "start": 0,
+          "end": 12,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t14",
+          "text": "An agent picks the relevant tables, writes SQL that runs read-only, and shows it with the rows.",
+          "x": 484.05,
+          "y": 154.0,
+          "width": 442.15,
+          "height": 42.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t14",
+          "start": 0,
+          "end": 95,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r15",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 208.2,
+          "width": 427.75,
+          "height": 93.9,
+          "background_color": "#EDF0F3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r16",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 208.2,
+          "width": 427.75,
+          "height": 2,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t17",
+          "text": "Read-only holds: 45 of 45",
+          "x": 48.3,
+          "y": 213.0,
+          "width": 418.15,
+          "height": 84.30000000000004,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t17",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t17",
+          "start": 0,
+          "end": 25,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t18",
+          "text": "Safety tests passed on 3 database engines, none skipped.",
+          "x": 48.3,
+          "y": 235.2,
+          "width": 418.15,
+          "height": 62.100000000000044,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t18",
+          "start": 0,
+          "end": 56,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r19",
+          "shape_type": "RECTANGLE",
+          "x": 491.25,
+          "y": 208.2,
+          "width": 427.75,
+          "height": 93.9,
+          "background_color": "#EAF0F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r20",
+          "shape_type": "RECTANGLE",
+          "x": 491.25,
+          "y": 208.2,
+          "width": 427.75,
+          "height": 2,
+          "background_color": "#32658A"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t21",
+          "text": "64.6 % on Spider, 35.2 % on BIRD",
+          "x": 496.05,
+          "y": 213.0,
+          "width": 418.15,
+          "height": 84.30000000000004,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t21",
+          "start": 0,
+          "end": 32,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t21",
+          "start": 0,
+          "end": 32,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t22",
+          "text": "Answers matched on a local 9B model, with this project's scorer, not leaderboard scoring.",
+          "x": 496.05,
+          "y": 235.2,
+          "width": 418.15,
+          "height": 62.100000000000044,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t22",
+          "start": 0,
+          "end": 89,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r23",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 322.1,
+          "width": 427.75,
+          "height": 93.9,
+          "background_color": "#F3EDF3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r24",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 322.1,
+          "width": 427.75,
+          "height": 2,
+          "background_color": "#825578"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t25",
+          "text": "+3.6 points on large databases",
+          "x": 48.3,
+          "y": 326.90000000000003,
+          "width": 418.15,
+          "height": 84.29999999999998,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t25",
+          "start": 0,
+          "end": 30,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t25",
+          "start": 0,
+          "end": 30,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t26",
+          "text": "Sending the top 6 tables beat every table with hints [+1.4, +5.8], with a 69 % smaller\nprompt.",
+          "x": 48.3,
+          "y": 349.1,
+          "width": 418.15,
+          "height": 62.09999999999999,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t26",
+          "start": 0,
+          "end": 94,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r27",
+          "shape_type": "RECTANGLE",
+          "x": 491.25,
+          "y": 322.1,
+          "width": 427.75,
+          "height": 93.9,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r28",
+          "shape_type": "RECTANGLE",
+          "x": 491.25,
+          "y": 322.1,
+          "width": 427.75,
+          "height": 2,
+          "background_color": "#896521"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t29",
+          "text": "Smaller prompts were not faster",
+          "x": 496.05,
+          "y": 326.90000000000003,
+          "width": 418.15,
+          "height": 84.29999999999998,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t29",
+          "start": 0,
+          "end": 31,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t29",
+          "start": 0,
+          "end": 31,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t30",
+          "text": "Each answer took about 2 s longer, because the local model could not reuse its cache.",
+          "x": 496.05,
+          "y": 349.1,
+          "width": 418.15,
+          "height": 62.09999999999999,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t30",
+          "start": 0,
+          "end": 85,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r31",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 436.0,
+          "width": 875.5,
+          "height": 40,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r32",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 436.0,
+          "width": 3,
+          "height": 40,
+          "background_color": "#B89245"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t33",
+          "text": "TAKEAWAY",
+          "x": 50.3,
+          "y": 444.05,
+          "width": 99.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#765718",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t33",
+          "start": 0,
+          "end": 8,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t33",
+          "start": 0,
+          "end": 8,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t34",
+          "text": "About one answer in three still did not match on Spider, so a person should review results.",
+          "x": 147.3,
+          "y": 442.05,
+          "width": 761.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t34",
+          "start": 0,
+          "end": 91,
+          "line_spacing": 135
+        }
+      ]
+    },
+    {
+      "id": "hard",
+      "layout": "hard_page",
+      "section": "Problem",
+      "topic": "Why it is hard",
+      "accent": "slate",
+      "title": "A fluent answer can still be the wrong answer",
+      "subtitle": "Text-to-SQL turns a question into SQL over a schema, then returns rows; each step can go wrong",
+      "chain": [
+        [
+          "Question",
+          "What the person asks"
+        ],
+        [
+          "Schema",
+          "Tables and columns"
+        ],
+        [
+          "SQL",
+          "The generated query"
+        ],
+        [
+          "Rows",
+          "The answer returned"
+        ]
+      ],
+      "figure": {
+        "title": "Published scores fall on enterprise tasks",
+        "bars": [
+          {
+            "label": "Spider 1.0",
+            "value": 91.2,
+            "series": "published"
+          },
+          {
+            "label": "BIRD",
+            "value": 73.0,
+            "series": "published"
+          },
+          {
+            "label": "Spider 2.0 enterprise",
+            "value": 21.3,
+            "series": "published",
+            "marker": 2,
+            "gap": "69.9 points below Spider 1.0"
+          }
+        ],
+        "caption": "**Source:** share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results."
+      },
+      "causes": [
+        {
+          "title": "Meaning",
+          "text": "Words like \u201crevenue\u201d are not columns. Gross or net? The schema does not say.",
+          "marker": 1
+        },
+        {
+          "title": "Scale",
+          "text": "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns."
+        },
+        {
+          "title": "Risk",
+          "text": "Generated SQL runs on real data, so it must be stopped from changing it.",
+          "marker": 3
+        }
+      ],
+      "takeaway": "Published scores fall about 70 points on enterprise tasks, so a good demo is not evidence.",
+      "annotations": [
+        {
+          "title": "SQL is the easy part",
+          "text": "The hard part is knowing what the question means in this database."
+        },
+        {
+          "title": "We see the same direction",
+          "text": "Spider 2.0 sits 69.9 points below Spider 1.0. Our model also falls on the harder test, from 64.6 % on Spider to 35.2 % on BIRD, using our own scorer."
+        },
+        {
+          "title": "Keep a person in the loop",
+          "text": "A valid query can still answer the wrong question. Dashboards and analyst SQL remain best for defined, recurring metrics."
+        }
+      ],
+      "notes": {
+        "purpose": "Say why a fluent answer is not enough.",
+        "script": [
+          "Text-to-SQL turns a question into SQL over a schema and returns rows. Writing the SQL is the easy part. [Point: Meaning] The hard part is what the question means here. A word like revenue is not a column. [Point: Scale] Real schemas are also large: Spider 2.0 databases often exceed 1,000 columns.",
+          "[Point: Spider 2.0 bar] In the Spider 2.0 paper, an o1-preview agent solved 21.3 % of enterprise tasks, against 91.2 % on Spider 1.0 and 73.0 % on BIRD. Our local model also falls on the harder test, from 64.6 % to 35.2 %, on our own scorer.",
+          "[Point: Risk] The SQL runs on real data, so it must be stopped from changing that data, and a valid query can still answer the wrong question.",
+          "Reference: Spider 2.0 paper, arXiv 2411.07763, read 6 November 2026. 91.2 minus 21.3 is 69.9 points. Project scores: README Evaluation Results."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      },
+      "n": 3,
+      "takeaways": [],
+      "marker_pairs": [
+        {
+          "number": 1,
+          "insight_heading": "SQL is the easy part",
+          "insight_anchor": {
+            "text": "SQL is the easy part",
+            "y": 237
+          }
+        },
+        {
+          "number": 2,
+          "insight_heading": "We see the same direction",
+          "insight_anchor": {
+            "text": "We see the same direction",
+            "y": 296.2
+          }
+        },
+        {
+          "number": 3,
+          "insight_heading": "Keep a person in the loop",
+          "insight_anchor": {
+            "text": "Keep a person in the loop",
+            "y": 368.9
+          }
+        }
+      ],
+      "figure_marks": [
+        {
+          "number": 1,
+          "cx": 222.33333333333334,
+          "cy": 393.5
+        },
+        {
+          "number": 2,
+          "cx": 514.3879999999999,
+          "cy": 310.33333333333337
+        },
+        {
+          "number": 3,
+          "cx": 640.0,
+          "cy": 393.5
+        }
+      ],
+      "ops": [
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t1",
+          "text": "PROBLEM",
+          "x": 36.3,
+          "y": 22.3,
+          "width": 64.06666666666666,
+          "height": 28.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t1",
+          "start": 0,
+          "end": 7,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t1",
+          "start": 0,
+          "end": 7,
+          "bold": true
+        },
+        {
+          "op": "add-line",
+          "slide": "hard",
+          "id": "l2",
+          "x": 99.16666666666666,
+          "y": 31,
+          "width": 0.0,
+          "height": 11,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t3",
+          "text": "Why it is hard",
+          "x": 99.96666666666665,
+          "y": 22.3,
+          "width": 782.2333333333333,
+          "height": 28.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t3",
+          "start": 0,
+          "end": 14,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r4",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 43,
+          "width": 28,
+          "height": 2,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t5",
+          "text": "A fluent answer can still be the wrong answer",
+          "x": 36.3,
+          "y": 43.8,
+          "width": 889.9,
+          "height": 48.4,
+          "font_size": 24,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t5",
+          "start": 0,
+          "end": 45,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t5",
+          "start": 0,
+          "end": 45,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t6",
+          "text": "Text-to-SQL turns a question into SQL over a schema, then returns rows; each step can go wrong",
+          "x": 36.3,
+          "y": 88.8,
+          "width": 889.9,
+          "height": 46.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t6",
+          "start": 0,
+          "end": 94,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "hard",
+          "id": "l7",
+          "x": 0,
+          "y": 492,
+          "width": 960,
+          "height": 0,
+          "color": "#1B2430",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r8",
+          "shape_type": "RECTANGLE",
+          "x": 0,
+          "y": 489,
+          "width": 43.5,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t9",
+          "text": "Text-to-SQL Agent   36121 Artificial Intelligence Principles and Applications",
+          "x": 36.3,
+          "y": 493.8,
+          "width": 834.4,
+          "height": 27.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t9",
+          "start": 0,
+          "end": 77,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t9",
+          "start": 0,
+          "end": 17,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t10",
+          "text": "3",
+          "x": 881.8,
+          "y": 493.8,
+          "width": 44.4,
+          "height": 27.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false,
+          "alignment": "right"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t10",
+          "start": 0,
+          "end": 1,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r11",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 46,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r12",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t13",
+          "text": "Question",
+          "x": 44.3,
+          "y": 133.8,
+          "width": 139.525,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t13",
+          "start": 0,
+          "end": 8,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t13",
+          "start": 0,
+          "end": 8,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t14",
+          "text": "What the person asks",
+          "x": 44.3,
+          "y": 150.8,
+          "width": 139.525,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t14",
+          "start": 0,
+          "end": 20,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "hard",
+          "id": "l15",
+          "x": 186.625,
+          "y": 155.0,
+          "width": 10.0,
+          "height": 0.0,
+          "color": "#89949D",
+          "line_weight": 0.75,
+          "end_arrow": "FILL_ARROW"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r16",
+          "shape_type": "RECTANGLE",
+          "x": 198.625,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 46,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r17",
+          "shape_type": "RECTANGLE",
+          "x": 198.625,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t18",
+          "text": "Schema",
+          "x": 199.425,
+          "y": 133.8,
+          "width": 139.525,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t18",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t18",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t19",
+          "text": "Tables and columns",
+          "x": 199.425,
+          "y": 150.8,
+          "width": 139.525,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t19",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "hard",
+          "id": "l20",
+          "x": 341.75,
+          "y": 155.0,
+          "width": 10.0,
+          "height": 0.0,
+          "color": "#89949D",
+          "line_weight": 0.75,
+          "end_arrow": "FILL_ARROW"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r21",
+          "shape_type": "RECTANGLE",
+          "x": 353.75,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 46,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r22",
+          "shape_type": "RECTANGLE",
+          "x": 353.75,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t23",
+          "text": "SQL",
+          "x": 354.55,
+          "y": 133.8,
+          "width": 139.525,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t23",
+          "start": 0,
+          "end": 3,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t23",
+          "start": 0,
+          "end": 3,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t24",
+          "text": "The generated query",
+          "x": 354.55,
+          "y": 150.8,
+          "width": 139.525,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t24",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "hard",
+          "id": "l25",
+          "x": 496.875,
+          "y": 155.0,
+          "width": 10.0,
+          "height": 0.0,
+          "color": "#89949D",
+          "line_weight": 0.75,
+          "end_arrow": "FILL_ARROW"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r26",
+          "shape_type": "RECTANGLE",
+          "x": 508.875,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 46,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r27",
+          "shape_type": "RECTANGLE",
+          "x": 508.875,
+          "y": 132.0,
+          "width": 141.125,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t28",
+          "text": "Rows",
+          "x": 509.675,
+          "y": 133.8,
+          "width": 139.525,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t28",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t28",
+          "start": 0,
+          "end": 4,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t29",
+          "text": "The answer returned",
+          "x": 509.675,
+          "y": 150.8,
+          "width": 139.525,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t29",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t30",
+          "text": "Published scores fall on enterprise tasks",
+          "x": 36.3,
+          "y": 186.8,
+          "width": 620.9,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t30",
+          "start": 0,
+          "end": 41,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t30",
+          "start": 0,
+          "end": 41,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t31",
+          "text": "Spider 1.0",
+          "x": 36.3,
+          "y": 213.8,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t31",
+          "start": 0,
+          "end": 10,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r32",
+          "shape_type": "RECTANGLE",
+          "x": 193.5,
+          "y": 216.0,
+          "width": 306.888,
+          "height": 24,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t33",
+          "text": "91.2\u00a0%",
+          "x": 499.188,
+          "y": 213.8,
+          "width": 74.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t33",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t33",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t34",
+          "text": "BIRD",
+          "x": 36.3,
+          "y": 254.9666666666667,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t34",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r35",
+          "shape_type": "RECTANGLE",
+          "x": 193.5,
+          "y": 257.1666666666667,
+          "width": 245.645,
+          "height": 24,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t36",
+          "text": "73.0\u00a0%",
+          "x": 437.945,
+          "y": 254.9666666666667,
+          "width": 74.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t36",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t36",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t37",
+          "text": "Spider 2.0 enterprise",
+          "x": 36.3,
+          "y": 296.1333333333334,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t37",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r38",
+          "shape_type": "RECTANGLE",
+          "x": 193.5,
+          "y": 298.33333333333337,
+          "width": 71.6745,
+          "height": 24,
+          "background_color": "#31688E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t39",
+          "text": "21.3\u00a0%",
+          "x": 263.9745,
+          "y": 296.1333333333334,
+          "width": 74.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t39",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t39",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r40",
+          "shape_type": "RECTANGLE",
+          "x": 321.17449999999997,
+          "y": 298.33333333333337,
+          "width": 179.2135,
+          "height": 24,
+          "background_color": "#D6E1EC"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t41",
+          "text": "69.9 points below Spider 1.0",
+          "x": 321.9745,
+          "y": 296.1333333333334,
+          "width": 177.61350000000002,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#31688E",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t41",
+          "start": 0,
+          "end": 28,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t41",
+          "start": 0,
+          "end": 28,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t42",
+          "text": "Source: share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results.",
+          "x": 36.3,
+          "y": 334.30000000000007,
+          "width": 620.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t42",
+          "start": 0,
+          "end": 125,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t42",
+          "start": 0,
+          "end": 7,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r43",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 92.5,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r44",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t45",
+          "text": "Meaning",
+          "x": 48.3,
+          "y": 388.3,
+          "width": 179.23333333333335,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t45",
+          "start": 0,
+          "end": 7,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t45",
+          "start": 0,
+          "end": 7,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t46",
+          "text": "Words like \u201crevenue\u201d are not\ncolumns. Gross or net? The schema\ndoes not say.",
+          "x": 48.3,
+          "y": 408.3,
+          "width": 179.23333333333335,
+          "height": 54.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t46",
+          "start": 0,
+          "end": 76,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r47",
+          "shape_type": "RECTANGLE",
+          "x": 252.33333333333334,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 92.5,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r48",
+          "shape_type": "RECTANGLE",
+          "x": 252.33333333333334,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t49",
+          "text": "Scale",
+          "x": 257.1333333333334,
+          "y": 388.3,
+          "width": 179.23333333333335,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t49",
+          "start": 0,
+          "end": 5,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t49",
+          "start": 0,
+          "end": 5,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t50",
+          "text": "Real schemas are large. Spider 2.0\ndatabases often exceed 1,000\ncolumns.",
+          "x": 257.1333333333334,
+          "y": 408.3,
+          "width": 179.23333333333335,
+          "height": 54.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t50",
+          "start": 0,
+          "end": 72,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r51",
+          "shape_type": "RECTANGLE",
+          "x": 461.1666666666667,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 92.5,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r52",
+          "shape_type": "RECTANGLE",
+          "x": 461.1666666666667,
+          "y": 383.5,
+          "width": 188.83333333333334,
+          "height": 3,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t53",
+          "text": "Risk",
+          "x": 465.9666666666667,
+          "y": 388.3,
+          "width": 179.23333333333335,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t53",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t53",
+          "start": 0,
+          "end": 4,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t54",
+          "text": "Generated SQL runs on real data, so\nit must be stopped from changing it.",
+          "x": 465.9666666666667,
+          "y": 408.3,
+          "width": 179.23333333333335,
+          "height": 41.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t54",
+          "start": 0,
+          "end": 72,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "hard",
+          "id": "l55",
+          "x": 658,
+          "y": 131,
+          "width": 0,
+          "height": 345.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r56",
+          "shape_type": "RECTANGLE",
+          "x": 668,
+          "y": 131,
+          "width": 251,
+          "height": 94,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r57",
+          "shape_type": "RECTANGLE",
+          "x": 668,
+          "y": 131,
+          "width": 3,
+          "height": 94,
+          "background_color": "#B89245"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t58",
+          "text": "TAKEAWAY",
+          "x": 674.8,
+          "y": 135.8,
+          "width": 237.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#765718",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t58",
+          "start": 0,
+          "end": 8,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t58",
+          "start": 0,
+          "end": 8,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t59",
+          "text": "Published scores fall about 70 points on\nenterprise tasks, so a good demo is not\nevidence.",
+          "x": 674.8,
+          "y": 155.8,
+          "width": 237.4,
+          "height": 66.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t59",
+          "start": 0,
+          "end": 90,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r60",
+          "shape_type": "ELLIPSE",
+          "x": 216.33333333333334,
+          "y": 387.5,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t61",
+          "text": "1",
+          "x": 209.13333333333335,
+          "y": 380.3,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r62",
+          "shape_type": "ELLIPSE",
+          "x": 668,
+          "y": 238.64,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t63",
+          "text": "1",
+          "x": 660.8,
+          "y": 231.44,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t64",
+          "text": "SQL is the easy part",
+          "x": 680.8,
+          "y": 229.8,
+          "width": 245.4,
+          "height": 61.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t64",
+          "start": 0,
+          "end": 20,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t64",
+          "start": 0,
+          "end": 20,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t65",
+          "text": "The hard part is knowing what the question means\nin this database.",
+          "x": 680.8,
+          "y": 250.0,
+          "width": 245.4,
+          "height": 233.20000000000002,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t65",
+          "start": 0,
+          "end": 66,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r66",
+          "shape_type": "ELLIPSE",
+          "x": 508.3879999999999,
+          "y": 304.33333333333337,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t67",
+          "text": "2",
+          "x": 501.18799999999993,
+          "y": 297.1333333333334,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r68",
+          "shape_type": "ELLIPSE",
+          "x": 668,
+          "y": 297.84,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t69",
+          "text": "2",
+          "x": 660.8,
+          "y": 290.64,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t70",
+          "text": "We see the same direction",
+          "x": 680.8,
+          "y": 289.0,
+          "width": 245.4,
+          "height": 61.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t70",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t70",
+          "start": 0,
+          "end": 25,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t71",
+          "text": "Spider 2.0 sits 69.9 points below Spider 1.0. Our\nmodel also falls on the harder test, from 64.6 % on\nSpider to 35.2 % on BIRD, using our own scorer.",
+          "x": 680.8,
+          "y": 309.2,
+          "width": 245.4,
+          "height": 174.00000000000003,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t71",
+          "start": 0,
+          "end": 149,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r72",
+          "shape_type": "ELLIPSE",
+          "x": 634.0,
+          "y": 387.5,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t73",
+          "text": "3",
+          "x": 626.8,
+          "y": 380.3,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r74",
+          "shape_type": "ELLIPSE",
+          "x": 668,
+          "y": 371.53999999999996,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t75",
+          "text": "3",
+          "x": 660.8,
+          "y": 364.34,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t76",
+          "text": "Keep a person in the loop",
+          "x": 680.8,
+          "y": 361.7,
+          "width": 245.4,
+          "height": 61.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t76",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t76",
+          "start": 0,
+          "end": 25,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t77",
+          "text": "A valid query can still answer the wrong question.\nDashboards and analyst SQL remain best for\ndefined, recurring metrics.",
+          "x": 680.8,
+          "y": 381.9,
+          "width": 245.4,
+          "height": 101.30000000000004,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t77",
+          "start": 0,
+          "end": 121,
+          "line_spacing": 135
+        }
+      ]
+    }
+  ]
+}

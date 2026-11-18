@@ -1,0 +1,17 @@
+{
+  "id": "cover",
+  "layout": "cover",
+  "cover_style": "report",
+  "section": "[Subject code and name] | [Assignment, project or paper]",
+  "title": "[Presentation title]",
+  "subtitle": "[What this presentation explains or examines]",
+  "image_placeholder": "[Project or subject image]",
+  "accent": "slate",
+  "notes": {
+    "purpose": "[Introduce the project and its purpose]",
+    "script": [
+      "[Opening sentence for this audience]"
+    ],
+    "references": []
+  }
+}

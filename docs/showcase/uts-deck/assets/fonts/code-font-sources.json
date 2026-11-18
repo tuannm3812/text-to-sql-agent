@@ -1,0 +1,19 @@
+{
+  "family": "Google Sans Code",
+  "upstream": "https://github.com/googlefonts/googlesans-code",
+  "retrieved": "2026-11-11",
+  "licence": "OFL-google-sans-code.txt",
+  "preparation": "Existing licensed Google Fonts static WOFF2 assets used by the reviewed FarmLens deck, converted losslessly to SFNT TTF with fontTools 4.67.0. Internal names and glyphs retained. No routine build dependency.",
+  "files": {
+    "GoogleSansCode-Regular.ttf": {
+      "weight": 400,
+      "source_woff2_sha256": "4fb87d098d6101331820b0505d7e7174391b1e732508302a74e5d6077a78c382",
+      "sha256": "6ca9ff39aa7d343fb0d11b6ec0798671b9893b0323e7a4940757b0804f699c19"
+    },
+    "GoogleSansCode-Bold.ttf": {
+      "weight": 700,
+      "source_woff2_sha256": "ccaea4537d20008ab44666a6530a1b5678479d931f7d9e3fda9420859a0b3797",
+      "sha256": "5bda0478ff13b060de1b8c26934be3a048fb153f4e81de6445a3f0e13751c89d"
+    }
+  }
+}

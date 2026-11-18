@@ -1,0 +1,16 @@
+{
+  "id": "summary",
+  "layout": "research_summary",
+  "section": "[Chapter label]",
+  "topic": "[Agenda entry]",
+  "title": "[One-page summary title]",
+  "subtitle": "[Scope of the problem, approach and key points]",
+  "problem": "[The question or problem.]",
+  "approach": "[The approach or method.]",
+  "findings": [],
+  "notes": {
+    "purpose": "Choose 1–5 points from the actual brief and evidence; optional next/takeaway/source/note are documented in references/authoring.md.",
+    "script": [],
+    "references": []
+  }
+}

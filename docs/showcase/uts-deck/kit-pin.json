@@ -1,0 +1,52 @@
+{
+  "version": "0.6.0",
+  "kit": {
+    "commit": "dc2f12fcef4aa4bc886141e9bb2f1ce53ce57d69",
+    "dirty": false,
+    "files": {
+      "uts_kit/__init__.py": "d1b304f2671749ddf6f65333bccf7effb3a367b22fcf9b8cf438cc2511e78403",
+      "uts_kit/airflow_story.py": "451a06fb77841d2f28167b8df797030fe9bfba600b9aa75a09be231f803faf53",
+      "uts_kit/analysis_story.py": "bba8c725ef61d92f222eeafdd6d5970abc8f5d57f95d3f4a918f696f5e6b18d4",
+      "uts_kit/build.py": "f97a3914dbc12a769fda65d978298587ac4e30830b4c6a99d2fbad92960107b7",
+      "uts_kit/ending_story.py": "2e9ce4975bf1868be557bc0e3735e2d6b2239d4e3bdd9e159deac3809b992bdc",
+      "uts_kit/engineering_story.py": "ac9c0c169c192d1abb15e026a46ce1c75c0687299a0bef4984d2b7c59c1a5560",
+      "uts_kit/final_pipeline.py": "a7d2e62a40570cee6db1ad414de4139314823640825f72e68e6551afd7fc22ad",
+      "uts_kit/handover_story.py": "f3a0e1e2a39e62e137953bcfe00270622b41d5a4e15719eda75fc439fe96d10a",
+      "uts_kit/headers.py": "a12bfa2ac8627f74ec500ce50435695383157b36a0a00d50f74acea829c96f69",
+      "uts_kit/layouts.py": "b84f0953242625ece0cd471baba0c2939641c114e5873ea4b818e8dfe53b9153",
+      "uts_kit/legend.py": "af3233e036d451e5385835b9ac492481b17677383a6b0b42543bfd1126bb2eff",
+      "uts_kit/mart_story.py": "88b8eae3bc2a081d9cb91e53706b4a32f0d5cfbdc7baff9c1e0cbfdfa275701b",
+      "uts_kit/medallion_story.py": "9ed69a9e7c425b85bd3d4f6416de0e9da324b1cfcff305ce5ad966ecd22f9720",
+      "uts_kit/palette.py": "f80942a9564596df3aa85d56caa65554b7308ab0a68aae074b35fb2aff550f0d",
+      "uts_kit/project.py": "36f11ce8cbf9619879e94c90afd7d958ecb8e5a74ce07af5798d7fad19360360",
+      "uts_kit/qa.py": "2b458e38fc4bd5e67a8463c6c11bb517b46c4b17ebc0b4f5193d35be5e026da3",
+      "uts_kit/render.py": "b4e15404a626e320ddb5c58705484665ffbb44c4f52da05b774866d6c61b4672",
+      "uts_kit/sql_story.py": "d26add13a8209ff655cc3f7ace5cd74f76db378b4f5a798c2f9320b0a61b6fee",
+      "uts_kit/story_layouts.py": "f2705ec108a0ae22ebb02c8db9b2866ca5a7ad264b60fc1254a06b019cc64ffc",
+      "uts_kit/summary.py": "85a2efdb9a4cdd624b771c1e9946c75fa05382aa60437ed3e0d78bfd7c3af9c4",
+      "uts_kit/supporting_text.py": "eead101f7b48790aacd767223f876abc172a8f5725b5110e1fc3d393fdc3fa98",
+      "uts_kit/synogize_story.py": "96198e5fe5f5b28c35f6bb81999ff06199fb6dbf3d7d3efcf3fbcc8bc1e1c95d",
+      "uts_kit/takeaway.py": "55d49e9c9709819466dfbd6ab4974b523960f19eca47fd8033202e84b483244e",
+      "uts_kit/typography.py": "152fb88a8738f0551121f7abb47e83be2ad6c91b6c496abe12ebdf946bdab96f",
+      "uts_kit/worked_example.py": "b6c0604e2d504f3f198f74255a25f0f651a38e1e0473a04e480fedee9a163dda"
+    }
+  },
+  "engine": {
+    "commit": "96bf255f7defb8ddacffcfec7b4df2b4f69f0c5d",
+    "dirty": true,
+    "files": {
+      "deck_kit/__init__.py": "30d66c386cfab55c6a617a8835b251afed9fbb4c0e4744dd5fd5b61857c3cfc7",
+      "deck_kit/__main__.py": "a22eae5afc703f6e9931e93bac0f991ec34e96ebb740df3139921f8d176fd403",
+      "deck_kit/gslides.py": "307520a768814838a59993cb09bb9d1c9f23f31d995de1d2e5dcb25beb536315",
+      "deck_kit/images.py": "326e88dc9b6f3ad3d05d04d3d96231808eaca6a11db2afd8c475ecf286cf7516",
+      "deck_kit/maps.py": "35784ed7d792e41375f5898c2c27f9bc1f473445a37e8e8518c659c433b4f2d7",
+      "deck_kit/notes.py": "ed9630234314f09297eb8185cd43488150cd710db6dc47c1b34230904e0c2540",
+      "deck_kit/page.py": "af4d74c9adf1ad47cd999a03ce3096cf121ff93c8daad99f05afa6d664660d73",
+      "deck_kit/poster.py": "ef584a73fc57edd5c88f5d347ef48207dedbfd13d1577be4687f281d5b9ca208",
+      "deck_kit/poster_slides.py": "dec4b59275d8f5da35c90c85a1c77aa089063732cf6decf861e41f8a492b84bb",
+      "deck_kit/preview.py": "630cf68b9f07ca4e74096817d3765fd378aab4496f88a0e34abdfff75b709541",
+      "deck_kit/qa.py": "f3fc823f3c6b8e19e5cd1363c23770798950196719943ea24640117d7b2e4b93",
+      "deck_kit/tokens.py": "6c18b55e94b97934d253949b1724b793aa92f72d87e6d27964efd3f6c9145bac"
+    }
+  }
+}
