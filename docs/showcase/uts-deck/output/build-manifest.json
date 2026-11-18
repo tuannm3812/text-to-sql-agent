@@ -50,11 +50,11 @@
     }
   },
   "inputs": {
-    "brief-content.json": "93d7219c0afbad586e56fb82c9b93065ac1daf261f9f7f8eb96d72ea32688f86",
+    "brief-content.json": "cff07e4a271f52e0a9c83ec85872ad9ec7205f6d240ec44a480d2357b36825dd",
     "deck-kit.json": "d62d69af77f4c56d573abdbc345e8c3faf148bf029a35d4d841b73db02ed0ac0",
-    "claims-register.md": "03e9328602f8465518dd25748dbb66f8a0b70189518442ca9c060dc626e05a90",
+    "claims-register.md": "5db63dcd3cdab546f979f86041999aa909e87de689ffeddd50a0c37147bf8215",
     "kit-pin.json": "fab1758a95b0a452fc8b028ebeaf27783a75db5e2d2a0b587ca79501de3b43c6",
-    "project_layouts.py": "4536dc1b05839798e3c2a9a1ca0001d7b2b319d0f63664d099fd89631e2ec9f7"
+    "project_layouts.py": "b5d3b91a01007b4eb579bfa33f5645d70f8be4d9839a0dbe0ba94674e5fb6c90"
   },
   "assets": {
     "assets/PROVENANCE.md": "5fca3195bdc91ba0f25ad38c2ab9a87f11523d9ed939e66c43699ac33d323f96",
@@ -210,8 +210,8 @@
     "assets/project/icons/yes.svg": "b45844e45ab9ce14a790ed17be7b37fc9a4bc78111789fcb2284935059364f14"
   },
   "outputs": {
-    "deck.html": "a098325a71a8a4cfca4f7fff2766d49d4107edb5f9f2180dbaad4c21fe69fa7a",
-    "deck.pdf": "4375e74fdfafb94851b10f3430cd32269821c2538335c93a118814d7180760cc"
+    "deck.html": "3a176cf856e718fa2f4811f8bfa404ed50b78dcf954e930faa06b90f70098ba5",
+    "deck.pdf": "b22be8d23177f8d488f44860bbc71c29c111a932bbc4dcce1301877d80356f7c"
   },
   "slide_count": 23
 }

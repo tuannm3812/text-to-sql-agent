@@ -315,6 +315,9 @@ def aim_page(L, p, slide):
     for k, q in enumerate(slide['quadrants']):
         qx, qy = mx + (k % 2) * hw, my + (k // 2) * hh
         p.rect(qx + 1, qy + 1, hw - 2, hh - 2, fills[k])
+        if isinstance(q, list):
+            q, sub = q
+            put(L, p, sub, qx + 8, qy + 22, hw - 16, 8, 'body')
         cap(L, p, q, qx + 8, qy + 7, hw - 16, 'ink')
     p.line(mx, my, mx, my + mh, L.t.color('rule'), 1)
     p.line(mx, my + mh, mx + mw, my + mh, L.t.color('rule'), 1)
@@ -605,4 +608,49 @@ def stack_page(L, p, slide):
     L.band(p, slide.get('takeaway'))
 
 
-LAYOUTS = {'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+def summary_page(L, p, slide):
+    """Executive summary: four stat tiles, then the large-database comparison in two small bar panels."""
+    slide.setdefault('marker_pairs', [])
+    marks = {}
+    acc = L.t.data['accents']
+    W = FIG_RIGHT - LEFT
+    gap = 10
+    tw = (W - 3 * gap) / 4
+    th = 116
+    for k, t in enumerate(slide['tiles']):
+        x = LEFT + k * (tw + gap)
+        a = acc[t['accent']]
+        p.rect(x, TOP, tw, th, a['fill'])
+        p.rect(x, TOP, tw, 3, a['ink'])
+        icon(L, p, f"assets/icons/{t['icon']}-{t['accent'] if t['accent'] != 'slate' else 'ink'}.png", t['label'], x + tw - 28, TOP + 12, 18)
+        put(L, p, t['label'], x + 12, TOP + 12, tw - 46, 10, 'ink', True)
+        paint(L, p, t['value'], x + 12, TOP + 34, tw - 24, 24, a['ink'], True)
+        put(L, p, t['text'], x + 12, TOP + 72, tw - 24, 8, 'body')
+        if t.get('marker'):
+            marks[t['marker']] = (x + 8, TOP - 1)
+    y = TOP + th + 18
+    put(L, p, slide['panel_title'], LEFT, y, W, 12, 'ink', True)
+    marks[slide['panel_marker']] = (LEFT + width_of(L, slide['panel_title'], 12, True) + 14, y + 8)
+    y += 24
+    pw = 2 * tw + gap   # each panel spans two tiles, so their text columns line up
+    ph = END - 30 - y
+    for k, pn in enumerate(slide['panels']):
+        x = LEFT + k * (pw + gap)
+        card(L, p, x, y, pw, ph, weight=0)
+        put(L, p, pn['title'], x + 12, y + 12, pw - 24, 12, 'ink', True)
+        lw, bw = 112, pw - 24 - 112 - 44
+        by = y + 38
+        for r in pn['rows']:
+            put(L, p, r['label'], x + 12, by + 4, lw - 6, 10, 'body')
+            w = bw * r['value'] / pn['max']
+            p.rect(x + 12 + lw, by, w, 22, SERIES[r['series']])
+            paint(L, p, r['text'], x + 12 + lw + w + 6, by + 4, 44, 10, L.t.color('ink'), True)
+            by += 32
+        put(L, p, pn['reading'], x + 12, by + 6, pw - 24, 10, 'body')
+        if pn.get('marker'):
+            marks[pn['marker']] = (x + pw - 12, y + 12)
+    note(L, p, slide['note'], LEFT, END - 22, W)
+    right_column(L, p, slide, marks, halo=True)
+
+
+LAYOUTS = {'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}

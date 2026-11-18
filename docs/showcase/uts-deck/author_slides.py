@@ -53,11 +53,11 @@ aim = {
     'title': 'Our aim: useful without setup, and checkable by default',
     'subtitle': 'A narrower tool: no curated semantic model, with the checking in the user’s hands',
     'promises': [
-        {'title': 'Useful without setup', 'text': 'Connect a database and ask a question.', 'icon': 'query_stats'},
-        {'title': 'Checkable by default', 'text': 'SQL shown, validated and run read-only.', 'icon': 'fact_check', 'marker': 1},
+        {'title': 'Useful without setup', 'text': 'Connect a database and ask a question.', 'icon': 'query_stats', 'marker': 1},
+        {'title': 'Checkable by default', 'text': 'SQL shown, validated and run read-only.', 'icon': 'fact_check'},
     ],
-    'quadrants': ['Meaning without setup: the ideal', 'Meaning through setup: curated tools',
-                  'Quick start: people check the meaning', 'Setup without meaning: to avoid'],
+    'quadrants': [['Meaning without setup: the ideal', 'Not yet available.'], 'Meaning through setup: curated tools',
+                  'Quick start: people check the meaning', ['Setup without meaning: to avoid', 'Effort spent, but meaning still left to the reader.']],
     'y_axis': '↑ Business meaning built in',
     'x_axis': 'Setup before the first useful answer →',
     'points': [
@@ -573,6 +573,37 @@ brief = json.loads((HERE / 'brief-content.json').read_text())
 first = [s for s in brief['slides'] if s['id'] in ('cover', 'summary', 'hard')]
 cover, summary, hard = first
 summary['section'] = 'Problem'
+for k in ('problem', 'approach', 'findings'):
+    summary.pop(k, None)
+summary.update({
+    'layout': 'summary_page',
+    'tiles': [
+        {'label': 'Read-only checks', 'value': '45 of 45', 'text': 'tests passed, none skipped, on 3 database engines', 'icon': 'verified_user', 'accent': 'slate', 'marker': 1},
+        {'label': 'Spider', 'value': '64.6 %', 'text': 'of answers matched: common test, local 9B model', 'icon': 'target', 'accent': 'blue', 'marker': 3},
+        {'label': 'BIRD', 'value': '35.2 %', 'text': 'of answers matched: harder test, with evidence hints', 'icon': 'target', 'accent': 'blue'},
+        {'label': 'Large databases', 'value': '+3.6 pts', 'text': 'from choosing tables [+1.4, +5.8]', 'icon': 'trending_up', 'accent': 'ochre'},
+    ],
+    'panel_title': 'Large databases: more correct answers from less context',
+    'panel_marker': 2,
+    'panels': [
+        {'title': 'Answers matched', 'max': 32, 'rows': [
+            {'label': 'Every table + hints', 'value': 25.5, 'text': '25.5 %', 'series': 'muted'},
+            {'label': 'Top 6 tables', 'value': 29.1, 'text': '29.1 %', 'series': 'primary'}],
+         'reading': 'Sending only the most relevant tables scored 3.6 points higher.'},
+        {'title': 'Prompt size, every table = 100', 'max': 110, 'marker': 4, 'rows': [
+            {'label': 'Every table + hints', 'value': 100, 'text': '100', 'series': 'muted'},
+            {'label': 'Top 6 tables', 'value': 31, 'text': '31', 'series': 'primary'}],
+         'reading': 'The prompt was 69 % smaller, but each answer took about two seconds longer.'},
+    ],
+    'note': 'Accuracy uses this project’s result comparison, not leaderboard scoring. Large databases: 1,222 questions on 4 databases of 21 to 65 tables.',
+    'takeaway': 'Inspectable and read-only, but **a person should still review** each answer.',
+    'annotations': [
+        {'title': 'Read-only is not the same as right', 'text': 'The controls limit what can run. They do not show the answer is correct.'},
+        {'title': 'Selection helps at scale', 'text': 'The gain comes from the 65- and 34-table databases. It is not a universal result.'},
+        {'title': 'Judge the whole answer', 'text': 'About one in three Spider answers still did not match.'},
+        {'title': 'Smaller prompts are not faster here', 'text': 'Each question gets a different schema, so the local model cannot reuse its cache.'},
+    ],
+})
 hard['chain'] = [['Question', 'What the person asks', 'chat'], ['Schema', 'Tables and columns', 'schema'], ['SQL', 'The generated query', 'code'], ['Rows', 'The answer returned', 'table_rows']]
 summary['accent'] = 'slate'
 brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,

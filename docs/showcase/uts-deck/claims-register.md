@@ -68,3 +68,4 @@ large-schema, demo and retrieval rows were spot-checked again on 18 November 202
 | Conformance tests per engine; total | 15; 45 | AGENTS.md, 2026-11-04 |
 | Number tolerance | one part in a million (1e-6 relative) | text_to_sql_agent/evaluation_v2/comparator.py |
 | Scorer version | 2 | text_to_sql_agent/evaluation_v2/scoring.py |
+| Prompt size index, every table + hints = 100; top 6 | 100; 31 | 2,670 / 8,501 = 31.4 % (derived; 69 % smaller is 68.6 % rounded) |

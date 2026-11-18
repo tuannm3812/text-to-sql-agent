@@ -71,11 +71,11 @@ Exact face text:
 
 ## 3. Inspectable SQL, with measured limits
 
-Layout: research_summary
+Layout: summary_page
 
 Reader question: 
 
-Message: About one answer in three still did not match on Spider, so a person should review results.
+Message: Inspectable and read-only, but **a person should still review** each answer.
 
 Exact face text:
 
@@ -89,20 +89,50 @@ Exact face text:
 - What the agent does, how well it did, and what to keep in mind
 - Text-to-SQL Agent
 - 3
-- The problem
-- People need answers from databases without writing SQL, but a fluent answer can still be / wrong.
-- The approach
-- An agent picks the relevant tables, writes SQL that runs read-only, and shows it with the rows.
-- Read-only holds: 45 of 45
-- Safety tests passed on 3 database engines, none skipped.
-- 64.6 % on Spider, 35.2 % on BIRD
-- Answers matched on a local 9B model, with this project's scorer, not leaderboard scoring.
-- +3.6 points on large databases
-- Sending the top 6 tables beat every table with hints [+1.4, +5.8], with a 69 % smaller / prompt.
-- Smaller prompts were not faster
-- Each answer took about 2 s longer, because the local model could not reuse its cache.
+- Read-only checks
+- 45 of 45
+- tests passed, none skipped, on 3 / database engines
+- Spider
+- 64.6 %
+- of answers matched: common / test, local 9B model
+- BIRD
+- 35.2 %
+- of answers matched: harder test, / with evidence hints
+- Large databases
+- +3.6 pts
+- from choosing tables [+1.4, +5.8]
+- Large databases: more correct answers from less context
+- Answers matched
+- Every table + hints
+- 25.5 %
+- Top 6 tables
+- 29.1 %
+- Sending only the most relevant tables scored 3.6 points / higher.
+- Prompt size, every table = 100
+- Every table + hints
+- 100
+- Top 6 tables
+- 31
+- The prompt was 69 % smaller, but each answer took about / two seconds longer.
+- Note: Accuracy uses this project’s result comparison, not leaderboard scoring. Large databases: 1,222 questions on 4 databases of 21 to 65 tables.
 - TAKEAWAY
-- About one answer in three still did not match on Spider, so a person should review results.
+- Inspectable and read-only, but a person / should still review each answer.
+- 1
+- 1
+- Read-only is not the same as right
+- The controls limit what can run. They do not show / the answer is correct.
+- 2
+- 2
+- Selection helps at scale
+- The gain comes from the 65- and 34-table / databases. It is not a universal result.
+- 3
+- 3
+- Judge the whole answer
+- About one in three Spider answers still did not / match.
+- 4
+- 4
+- Smaller prompts are not faster here
+- Each question gets a different schema, so the local / model cannot reuse its cache.
 
 ## 4. A fluent answer can still be the wrong answer
 
@@ -260,9 +290,11 @@ Exact face text:
 - Connect a database and ask a question.
 - Checkable by default
 - SQL shown, validated and run read-only.
+- Not yet available.
 - MEANING WITHOUT SETUP: THE IDEAL
 - MEANING THROUGH SETUP: CURATED TOOLS
 - QUICK START: PEOPLE CHECK THE MEANING
+- Effort spent, but meaning still left to the reader.
 - SETUP WITHOUT MEANING: TO AVOID
 - Setup before the first useful answer →
 - ↑ Business meaning built in
