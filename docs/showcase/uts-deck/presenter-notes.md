@@ -239,12 +239,13 @@ References:
 - sources.md
 - claims-register.md
 
-## 20. Backup: the full flow, step by step
+## 20. Backup: the full flow, from question to answer
 
 Backup for questions about the full flow.
 
-Steps one to four prepare the prompt with no model. Step five is the only model call. Steps six and seven are the two gates in code. Step eight shows everything to the person. A query error goes back to the model once.
-Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; docs/2_architecture.md.
+Six stages run left to right for every question. Prepare uses no model; Generate is the only model call; Validate and Run are the two gates in code; Show puts the answer and the SQL in front of the person.
+[Point: bands] Three things cut across every stage: one repair try, read-only engines and the evaluation harness that measures the whole pipeline.
+Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; evaluation/results.
 
 References:
 - sources.md

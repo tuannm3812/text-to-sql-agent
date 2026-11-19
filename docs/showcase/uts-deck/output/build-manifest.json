@@ -50,11 +50,11 @@
     }
   },
   "inputs": {
-    "brief-content.json": "81cde20ead24569fd06be96bfd8a88c7abc1f1d753341d8d4064e9953ee9b8e2",
+    "brief-content.json": "164610389c39c3ba60acda9a18a364cee02832559a6240d69e55f5ed54c272b8",
     "deck-kit.json": "d62d69af77f4c56d573abdbc345e8c3faf148bf029a35d4d841b73db02ed0ac0",
     "claims-register.md": "76b082ecade4a272fa6e20485f0fb6628f97e7b658fd83a00ec792d995187806",
     "kit-pin.json": "fab1758a95b0a452fc8b028ebeaf27783a75db5e2d2a0b587ca79501de3b43c6",
-    "project_layouts.py": "9f165e2279a8c1dc0f97fd28be64500225a9d07b1b8699cce382a82666a51469"
+    "project_layouts.py": "b45eb824aa1c80c9d3606d49b5fd9054a7a7e7a34d800b6942ea5becacefa837"
   },
   "assets": {
     "assets/PROVENANCE.md": "5fca3195bdc91ba0f25ad38c2ab9a87f11523d9ed939e66c43699ac33d323f96",
@@ -300,8 +300,8 @@
     "assets/project/icons/yes.svg": "dbff942ec1c85811264a97caae3f850a35cc004310cc37f7c7e58b6ca734d52d"
   },
   "outputs": {
-    "deck.html": "56b8f74d0a2982fd8085066b53937264a2fe43aa8881bb57d43283dfa9fe7cca",
-    "deck.pdf": "b6fe2ba9c9b630225b0ca2192b2c5cf182264ad9cfb07cd09a62223947140668"
+    "deck.html": "468cabed92687d71bc6d14ef86d0b236066eb7fd95cb71b9cb2c34342b9b0de5",
+    "deck.pdf": "ee13f6a91cb9a91904fc9aba8ac66fc75ce04cc9c4701cdf0ece1b7f8dab4edd"
   },
   "slide_count": 24
 }

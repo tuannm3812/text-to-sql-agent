@@ -540,33 +540,29 @@ stack = {
 }
 
 arch_full = {
-    'id': 'appendix-architecture', 'layout': 'arch_detail', 'section': 'Appendix', 'topic': 'Full architecture', 'accent': 'slate',
+    'id': 'appendix-architecture', 'layout': 'arch_board', 'section': 'Appendix', 'topic': 'Full architecture', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: the full flow, step by step',
-    'subtitle': 'Eight steps from question to answer; top row left to right, then right to left',
+    'title': 'Backup: the full flow, from question to answer',
+    'subtitle': 'Six stages left to right, with the concerns that cut across every stage below',
     'legend_kinds': [['app', 'App step, no model'], ['model', 'The model: behaviour'], ['code', 'Enforced in code']],
-    'rows': ['Ask and prepare'],
-    'top': [
-        {'n': 1, 'title': 'Ask', 'kind': 'app', 'text': 'Pick a demo database, a file, a connection string or CSV uploads, then ask in plain English.', 'logos': ['assets/logos/tech-streamlit.png']},
-        {'n': 2, 'title': 'Read schema', 'kind': 'app', 'text': 'Tables, columns, keys and up to 6 values from small text columns, cached per schema version.', 'logos': ['assets/logos/tech-python.png']},
-        {'n': 3, 'title': 'Select tables', 'kind': 'app', 'text': 'Score every table against the question; keep the top 6 and the tables one foreign key away.', 'logos': ['assets/logos/tech-python.png']},
-        {'n': 4, 'title': 'Build prompt', 'kind': 'app', 'text': 'Dialect rules, the chosen schema and the question. No result rows are ever included.', 'logos': ['assets/logos/tech-langchain.png']},
+    'legend_note': 'Stages run left to right for every question.',
+    'columns': [
+        {'title': 'Ask', 'kind': 'app', 'pill': 'Streamlit app', 'lines': ['Pick a demo database, a file, a connection string or CSV uploads', 'Ask in plain English', 'Each question is answered on its own'], 'logos': ['assets/logos/tech-streamlit.png']},
+        {'title': 'Prepare', 'kind': 'app', 'pill': 'No model', 'lines': ['Read tables, columns and keys', 'Up to 6 values from small text columns', 'Keep the top 6 tables plus foreign-key neighbours', 'Build the prompt: no result rows'], 'logos': ['assets/logos/tech-python.png', 'assets/logos/tech-langchain.png']},
+        {'title': 'Generate', 'kind': 'model', 'pill': 'The one model call', 'lines': ['Gemini, hosted, or Ollama, local', 'Writes one SQL statement', 'Declines a write or an unanswerable question'], 'logos': ['assets/logos/tech-ollama.png', 'assets/logos/tech-googlegemini.png']},
+        {'title': 'Validate', 'kind': 'code', 'pill': 'Gate 1', 'lines': ['sqlglot parses the SQL', 'Accepts one SELECT or WITH', 'Refuses writes and engine internals'], 'logos': ['assets/logos/tech-sqlglot.png']},
+        {'title': 'Run', 'kind': 'code', 'pill': 'Gate 2', 'lines': ['Read-only connection', 'Work budget: 100,000 steps or 5,000 ms', 'Results cut at 1,000 rows'], 'logos': ['assets/logos/tech-sqlite.png', 'assets/logos/tech-duckdb.png', 'assets/logos/tech-postgresql.png']},
+        {'title': 'Show', 'kind': 'app', 'pill': 'For the person', 'lines': ['The answer and the table', 'A chart when the result suits one', 'The SQL and why those tables were chosen'], 'logos': ['assets/logos/tech-streamlit.png', 'assets/logos/tech-pandas.png']},
     ],
-    'bottom': [
-        {'n': 5, 'title': 'Generate', 'kind': 'model', 'text': 'Gemini (hosted) or Ollama (local) writes one SQL statement, or declines a write or an unanswerable question.', 'logos': ['assets/logos/tech-ollama.png', 'assets/logos/tech-googlegemini.png']},
-        {'n': 6, 'title': 'Validate', 'kind': 'code', 'text': 'sqlglot accepts one SELECT or WITH and refuses writes and engine internals.', 'logos': ['assets/logos/tech-sqlglot.png']},
-        {'n': 7, 'title': 'Run', 'kind': 'code', 'text': 'A read-only connection with a work budget (100,000 steps or 5,000 ms) and a 1,000-row cap.', 'logos': ['assets/logos/tech-python.png']},
-        {'n': 8, 'title': 'Show', 'kind': 'app', 'text': 'The answer, table, a chart when it suits, the SQL and why those tables were chosen.', 'logos': ['assets/logos/tech-streamlit.png', 'assets/logos/tech-pandas.png']},
+    'bands': [
+        {'title': 'Repair', 'icon': 'construction', 'kind': 'model', 'text': 'A query error goes back to the model once; the repaired query passes both gates again. A query stopped by the budget is not retried.', 'pill': 'One try'},
+        {'title': 'Read-only engines', 'icon': 'verified_user', 'kind': 'code', 'text': 'SQLite: read-only connection and authorizer. DuckDB: read_only, no external access. PostgreSQL: least-privilege role, read-only transaction.', 'pill': '15 tests each'},
+        {'title': 'Evaluation', 'icon': 'science', 'kind': 'app', 'text': 'The same pipeline answers 3,817 benchmark questions; every run pins its commit, data, prompt and model.', 'pill': '37 recorded runs'},
     ],
-    'repair': 'A query error goes back to the model once; the repair passes steps 6 and 7 again',
-    'engine': {'title': 'Database engine', 'text': 'Set by the connection string; 15 conformance tests each.',
-               'detail': [['assets/logos/tech-sqlite.png', 'SQLite', 'Read-only connection, query_only and an authorizer that denies writes and ATTACH.'],
-                          ['assets/logos/tech-duckdb.png', 'DuckDB', 'The read_only flag, with external access off so file readers are refused.'],
-                          ['assets/logos/tech-postgresql.png', 'PostgreSQL', 'A least-privilege role and a read-only transaction.']]},
-    'person': 'The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8. A query stopped by the work budget is not retried.',
     'notes': notes('Backup for questions about the full flow.',
-        'Steps one to four prepare the prompt with no model. Step five is the only model call. Steps six and seven are the two gates in code. Step eight shows everything to the person. A query error goes back to the model once.',
-        'Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; docs/2_architecture.md.'),
+        'Six stages run left to right for every question. Prepare uses no model; Generate is the only model call; Validate and Run are the two gates in code; Show puts the answer and the SQL in front of the person.',
+        '[Point: bands] Three things cut across every stage: one repair try, read-only engines and the evaluation harness that measures the whole pipeline.',
+        'Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; evaluation/results.'),
 }
 
 agenda = {

@@ -836,4 +836,60 @@ def arch_detail(L, p, slide):
     put(L, p, slide['person'], LEFT, py, W, 8, 'body')
 
 
-LAYOUTS = {'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+PILL = {'app': ('#E3E6EA', '#1B2430'), 'model': ('#FDF3A6', '#1B2430'), 'code': ('#D3EDEB', '#14605C')}
+HEAD_INK = {'app': '#FFFFFF', 'model': '#1B2430', 'code': '#FFFFFF'}
+
+
+def pill(L, p, text, kind, x, y):
+    fill, ink = PILL[kind]
+    w = width_of(L, text, 8, True) + 16
+    p.rect(x, y, w, 14, fill, 'ROUND_RECTANGLE')
+    paint(L, p, text, x + 8, y + 1.5, w - 12, 8, ink, True)
+    return w
+
+
+def arch_board(L, p, slide):
+    """Appendix architecture board, after the transit lakehouse diagram: one column per stage with a coloured
+    header bar, a status pill, short lines and its tools; full-width bands below for what cuts across stages."""
+    W = RIGHT - LEFT
+    x = LEFT
+    for kind, label in slide['legend_kinds']:   # the pills double as the legend
+        x += pill(L, p, label, kind, x, TOP) + 8
+    put(L, p, slide['legend_note'], x + 4, TOP + 1.5, RIGHT - x - 4, 8, 'body')
+    cols = slide['columns']
+    gap = 16
+    cw = (W - gap * (len(cols) - 1)) / len(cols)
+    y0 = TOP + 24
+    ch = 214
+    for k, c in enumerate(cols):
+        cx = LEFT + k * (cw + gap)
+        rule = KIND[c['kind']][0]
+        p.rect(cx, y0, cw, ch, KIND[c['kind']][1])
+        p.rect(cx, y0, cw, 24, rule)
+        paint(L, p, c['title'], cx + 8, y0 + 5, cw - 16, 12, HEAD_INK[c['kind']], True)
+        yy = y0 + 32
+        pill(L, p, c['pill'], c['kind'], cx + 8, yy)
+        yy += 22
+        for line in c['lines']:
+            yy += put(L, p, line, cx + 8, yy, cw - 16, 8, 'ink') + 5
+        lx = cx + 8
+        for logo in c.get('logos', []):
+            icon(L, p, logo, '', lx, y0 + ch - 22, 14)
+            lx += 20
+        if k < len(cols) - 1:
+            p.connector(cx + cw + 2, y0 + ch / 2, cx + cw + gap - 2, y0 + ch / 2, color=L.t.color('ink'))
+    by = y0 + ch + 10
+    bh = (END - by - 2 * 4) / len(slide['bands'])
+    for b in slide['bands']:
+        rule = KIND[b['kind']][0]
+        p.rect(LEFT, by, W, bh, L.t.color('card'))
+        p.rect(LEFT, by, 3, bh, rule)
+        icon(L, p, f"assets/icons/{b['icon']}-ink.png", b['title'], LEFT + 12, by + (bh - 16) / 2, 16)
+        put(L, p, b['title'], LEFT + 36, by + (bh - 16) / 2, 150, 12, 'ink', True)
+        put(L, p, b['text'], LEFT + 196, by + (bh - 10.8) / 2, W - 196 - 130, 8, 'ink')
+        pw = width_of(L, b['pill'], 8, True) + 16
+        pill(L, p, b['pill'], b['kind'], RIGHT - pw - 10, by + (bh - 14) / 2)
+        by += bh + 4
+
+
+LAYOUTS = {'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}

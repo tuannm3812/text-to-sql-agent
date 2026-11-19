@@ -1012,9 +1012,9 @@ Exact face text:
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
 
-## 20. Backup: the full flow, step by step
+## 20. Backup: the full flow, from question to answer
 
-Layout: arch_detail
+Layout: arch_board
 
 Reader question: 
 
@@ -1024,48 +1024,54 @@ Exact face text:
 
 - APPENDIX
 - Full architecture
-- Backup: the full flow, step by step
-- Eight steps from question to answer; top row left to right, then right to left
+- Backup: the full flow, from question to answer
+- Six stages left to right, with the concerns that cut across every stage below
 - Text-to-SQL Agent
 - 20
 - App step, no model
 - The model: behaviour
 - Enforced in code
-- ASK AND PREPARE
-- 1
+- Stages run left to right for every question.
 - Ask
-- Pick a demo database, a file, a connection string / or CSV uploads, then ask in plain English.
-- 2
-- Read schema
-- Tables, columns, keys and up to 6 values from / small text columns, cached per schema version.
-- 3
-- Select tables
-- Score every table against the question; keep the / top 6 and the tables one foreign key away.
-- 4
-- Build prompt
-- Dialect rules, the chosen schema and the / question. No result rows are ever included.
-- 5
+- Streamlit app
+- Pick a demo database, a file, a / connection string or CSV / uploads
+- Ask in plain English
+- Each question is answered on its / own
+- Prepare
+- No model
+- Read tables, columns and keys
+- Up to 6 values from small text / columns
+- Keep the top 6 tables plus / foreign-key neighbours
+- Build the prompt: no result rows
 - Generate
-- Gemini (hosted) or Ollama (local) writes one SQL / statement, or declines a write or an unanswerable / question.
-- 6
+- The one model call
+- Gemini, hosted, or Ollama, local
+- Writes one SQL statement
+- Declines a write or an / unanswerable question
 - Validate
-- sqlglot accepts one SELECT or WITH and refuses / writes and engine internals.
-- 7
+- Gate 1
+- sqlglot parses the SQL
+- Accepts one SELECT or WITH
+- Refuses writes and engine / internals
 - Run
-- A read-only connection with a work budget / (100,000 steps or 5,000 ms) and a 1,000-row / cap.
-- 8
+- Gate 2
+- Read-only connection
+- Work budget: 100,000 steps or / 5,000 ms
+- Results cut at 1,000 rows
 - Show
-- The answer, table, a chart when it suits, the SQL / and why those tables were chosen.
-- A query error goes back to the model once; the repair passes steps 6 and 7 again
-- Database engine
-- Set by the connection string; 15 conformance / tests each.
-- SQLite
-- Read-only connection, query_only and an authorizer that / denies writes and ATTACH.
-- DuckDB
-- The read_only flag, with external access off so file readers / are refused.
-- PostgreSQL
-- A least-privilege role and a read-only transaction.
-- The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8. A query stopped by the work budget is not retried.
+- For the person
+- The answer and the table
+- A chart when the result suits / one
+- The SQL and why those tables / were chosen
+- Repair
+- A query error goes back to the model once; the repaired query passes both gates again. A query stopped by the budget is not retried.
+- One try
+- Read-only engines
+- SQLite: read-only connection and authorizer. DuckDB: read_only, no external access. PostgreSQL: least-privilege role, read-only transaction.
+- 15 tests each
+- Evaluation
+- The same pipeline answers 3,817 benchmark questions; every run pins its commit, data, prompt and model.
+- 37 recorded runs
 
 ## 21. Backup: matched means the same rows as the reference
 
