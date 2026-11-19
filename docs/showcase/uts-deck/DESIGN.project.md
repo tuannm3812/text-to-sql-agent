@@ -28,6 +28,8 @@ Glossary (names and colours used across slides):
 - "Top 6": the six most relevant tables plus neighbours sent to the model. "Every table + hints": the full schema with value hints.
 - "Our scorer": this project's typed result comparison, not leaderboard scoring.
 
+Notes follow the kit (DESIGN.md, v0.6.0): **Note:** ¹ with a matching superscript on the figure or header text; red markers stay separate and carry a white ring. Ticks are green and crosses red everywhere (assets/project/icons). Architecture: slide 9 is a four-stage summary; the full eight-step flow is the appendix page, full width with no takeaway column; box rules mean ink = app step with no model, yellow = the model, teal = enforced in code, shown in a legend above each diagram.
+
 Icons and logos: `assets/icons/` are the old deck's Material icons recoloured to palette A (blue, ink, ochre, plum, white, red); `assets/logos/` are the old deck's product logos with white made transparent, kept in their own colours. Safety ticks are `assets/project/icons/yes.svg` and `no.svg`. Code panels show added lines in Viridis green, never amber on navy. The close has no team credit (owner's decision, 7 November 2026).
 
 Asset origins, licences: `assets/figures/cover-art.png` and `cover-art-close.png` drawn by `make_cover.py` (decorative, no real data), recoloured from `docs/showcase/slides/build_cover_art.py`.

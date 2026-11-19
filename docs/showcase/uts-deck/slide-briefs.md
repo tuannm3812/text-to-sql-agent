@@ -96,7 +96,7 @@ Exact face text:
 - Read-only, not proof of right / answers.
 - Spider
 - 64.6 %
-- of answers matched: common / test, local 9B model
+- of answers matched¹: common / test, local 9B model
 - Our scorer, not the leaderboard.
 - BIRD
 - 35.2 %
@@ -106,7 +106,7 @@ Exact face text:
 - +3.6 pts
 - from choosing tables [+1.4, +5.8]
 - From 2 of 4 databases.
-- Large databases: more correct answers from less context
+- Large databases: more correct answers from less context²
 - Answers matched
 - Every table + hints
 - 25.5 %
@@ -119,7 +119,7 @@ Exact face text:
 - Top 6 tables
 - 31
 - The prompt was 69 % smaller, but each answer took about two seconds / longer.
-- Note: Accuracy uses this project’s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD / train questions on 4 databases of 21 to 65 tables.
+- Note: ¹ This project’s result comparison, not leaderboard scoring; Spider (Yu et al., 2018) and BIRD (Li et al., 2023). ² 1,222 BIRD train questions on 4 databases of 21 to 65 / tables.
 - TAKEAWAY
 - Inspectable and read-only, but a person / should still review each answer.
 - 1
@@ -225,8 +225,8 @@ Exact face text:
 - None
 - APPROACH
 - SOURCE OF MEANING
-- SETUP
-- UPKEEP
+- SETUP¹
+- UPKEEP¹
 - BEST FOR
 - RISK
 - PEOPLE DEFINE THE MEANING
@@ -262,13 +262,13 @@ Exact face text:
 - Repeated questions
 - Learns from saved queries
 - Repeats past errors
-- Repository archived
+- Repository archived³
 - BIRD leaderboard systems
 - Mostly not listed
 - Not listed
 - Not listed
 - Benchmark scores
-- Top test entry 83.40 %
+- Top test entry 83.40 %²
 - Transfer unproven
 - Methods rarely listed
 - This project
@@ -279,7 +279,7 @@ Exact face text:
 - SQL shown, run read-only
 - A person checks the meaning
 - No governed metrics
-- Note: Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.
+- Note: ¹ Setup and upkeep are our reading of each tool’s documentation, read 6 November 2026, not a ranking. ² AskData, the top BIRD test entry; humans score 92.96 %. ³ Archived on 29 March 2026.
 - TAKEAWAY
 - Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.
 
@@ -313,7 +313,7 @@ Exact face text:
 - QUICK START: PEOPLE CHECK THE MEANING
 - Effort spent, but meaning still left to the reader.
 - SETUP WITHOUT MEANING: TO AVOID
-- Setup before the first useful answer →
+- Setup before the first useful answer¹ →
 - ↑ Business meaning built in
 - BI dashboards
 - Databricks Genie Agents
@@ -359,7 +359,7 @@ Exact face text:
 - 7
 - Try it live
 - aipa-text-to-sql-agent.streamlit.app: the same question on / the same demo database
-- THE SQL, AND WHAT COMPLETED REVENUE ADDS
+- THE SQL, AND WHAT COMPLETED REVENUE ADDS²
 - SELECT category, SUM(unit_price * quantity
 - +   * (1 - discount_pct)
 -   ) AS total_revenue
@@ -370,13 +370,13 @@ Exact face text:
 - + WHERE o.order_status = 'Completed'
 - GROUP BY category
 - ORDER BY total_revenue DESC;
-- Same top category, two definitions of revenue
+- Same top category, two definitions of revenue¹
 - All 220 orders, list price
 - 173,366
 - 179 completed, after discounts
 - 136,984
 - 21 % lower
-- Note: Electronics revenue, recomputed on data/retail_analytics.db. Lines marked + are added by the benchmark’s completed-revenue question. This illustrates / inspection, not a benchmark failure.
+- Note: ¹ Electronics revenue, recomputed on data/retail_analytics.db; this illustrates inspection, not a benchmark failure. ² Lines marked + are added by the benchmark’s / completed-revenue question.
 - TAKEAWAY
 - Neither figure is wrong. The question did / not say which revenue, so a person / decides.
 - 1
@@ -412,9 +412,9 @@ Exact face text:
 - What the prompt held for the demo question on the retail database
 - Text-to-SQL Agent
 - 8
-- 79 of the 608 stored text values reach the prompt
+- 79 of the 608 stored text values reach the prompt¹
 - Each square is one distinct stored text value across the database’s 30 text columns: 79 sent as lists, never linked to a row; 529 not sent.
-- FROM THE REAL PROMPT (SHORTENED)
+- FROM THE REAL PROMPT (SHORTENED)²
 - CREATE TABLE orders (
 -   order_id INTEGER PRIMARY KEY,
 -   order_status TEXT NOT NULL ...
@@ -436,7 +436,7 @@ Exact face text:
 - The prompt stays on your machine.
 - Hosted model
 - Question, schema and hints go to the provider.
-- Note: Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.
+- Note: ¹ Counted for this question on data/retail_analytics.db; it varies by question. Numeric columns send no values. ² Hint lines in green.
 - TAKEAWAY
 - Before using real data, check what the / prompt contains and where it goes.
 - 1
@@ -458,11 +458,11 @@ Exact face text:
 
 ## 9. The model proposes SQL; the application controls execution
 
-Layout: arch_page
+Layout: arch_summary
 
 Reader question: 
 
-Message: One step of eight uses a model; **the application decides** what runs.
+Message: One stage uses a model; **the application decides** what runs.
 
 Exact face text:
 
@@ -473,53 +473,36 @@ Exact face text:
 - SOLUTION
 - Architecture
 - The model proposes SQL; the application controls execution
-- Eight steps take one question to an answer, with the technology behind each step
+- One question’s path through the app, in four stages; the full eight-step flow is in the appendix
 - Text-to-SQL Agent
 - 9
-- ASK AND PREPARE: NO MODEL
-- 1
-- Ask
-- A demo, a file, a connection string / or CSV uploads, then a plain / question.
-- 2
-- Read schema
-- Tables, keys and value hints from / the database.
-- 3
-- Select tables
-- Top 6 by hybrid score, plus / foreign-key neighbours.
-- 4
-- Build prompt
-- Dialect rules, the schema and the / question.
+- App step, no model
+- The model: behaviour
+- Enforced in code
+- Ask and / prepare
+- A plain question. The app reads / the schema, keeps the top 6 / tables and builds the prompt.
+- Generate
+- Gemini or Ollama writes one / SQL statement, or declines. It / never sees result rows.
+- Check and run
+- sqlglot allows one read only; the / engine runs it read-only with a / budget and a row cap.
+- Answer
+- The answer, table, chart, the / SQL and why those tables, for / the person to inspect.
+- One repair try on a query error
 - Database engine
-- Set by the connection string.
+- Set by the connection string; read-only on all three.
 - SQLite
 - DuckDB
 - PostgreSQL
-- RIGHT TO LEFT
-- ENFORCED IN CODE
-- BEHAVIOUR: THE MODEL
-- 5
-- Generate
-- Gemini or Ollama writes one SQL / statement, or declines.
-- 6
-- Validate
-- One SELECT or WITH, no engine / internals.
-- 7
-- Run
-- Read-only, with a work budget / and a 1,000-row cap.
-- 8
-- Show
-- Answer, table, chart, the SQL and / why those tables.
-- A query error goes back to the model once
-- The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8.
+- The person asks first and inspects last: the SQL is always shown with the answer.
 - TAKEAWAY
-- One step of eight uses a model; the / application decides what runs.
+- One stage uses a model; the application / decides what runs.
 - 1
 - 1
-- Only step 5 is a model
+- Only one stage is a model
 - It returns text and never sees result rows.
 - 2
 - 2
-- Two separate gates
+- Two gates, both in code
 - sqlglot, then a read-only engine. Neither checks / meaning.
 - 3
 - 3
@@ -528,7 +511,7 @@ Exact face text:
 - 4
 - 4
 - One repair try
-- The repair passes the same checks; nothing skips a / gate.
+- The repaired query passes the same checks; / nothing skips a gate.
 
 ## 10. Safety does not rest on the model
 
@@ -552,50 +535,50 @@ Exact face text:
 - 10
 - Stops it
 - Does not stop it
-- Threat and example
-- 1 Model declines (behaviour)
+- Threat, with an example
+- 1 Model declines¹
 - 2 Application check
 - 3 Engine, read-only
 - Lines of defence
 - Stopped in code by the application or the engine
-- Write or schema change: drop the students table
+- Write or schema change  DROP TABLE students
 - Declined 6 of 6
 - Blocked
 - Denied on 3 engines
 - 3 LINES
-- Reading engine internals: show me sqlite_master
+- Engine internals  SELECT * FROM sqlite_master
 - Declined 3 of 3
 - Blocked
 - Would run
 - 2 LINES
-- Reading files on disk: read_csv on a local file
+- Files on disk  read_csv('local.csv')
 - –
 - Blocked
 - Denied
 - 2 LINES
-- Runaway query: a cross join on large tables
+- Runaway query  a cross join of large tables
 - –
 - –
 - Stopped by work budget
 - 1 LINE
-- Oversized result: more rows than the cap
+- Oversized result  more rows than the cap
 - –
 - –
 - Cut at 1,000 rows
 - 1 LINE
 - Only the model declines
-- Data the schema lacks: each patient’s blood type
+- Data the schema lacks  each patient’s blood type
 - Declined 5 of 6
 - –
 - –
 - 1 LINE
 - The limit: no layer checks meaning
-- Asked for average shipping weight
+- Wrong meaning  average shipping weight
 - Returned average unit cost
 - Passed: valid read
 - Ran
 - NONE
-- Note: The model column is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. Ticks in the other columns are enforced in code and tested on their own.
+- Note: ⁠¹ The model’s decline is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. The other two columns are enforced in code and tested on their own.
 - TAKEAWAY
 - Writes meet three lines of defence. A wrong meaning meets none, so the person is the last check.
 
@@ -625,7 +608,7 @@ Exact face text:
 - Large schemas
 - Demo
 - Safety
-- How to read a paired change, accuracy points
+- How to read a paired change, accuracy points¹
 - Top 6 vs every table + hints
 - Shared + summaries vs shared
 - 1,034  accuracy
@@ -635,7 +618,7 @@ Exact face text:
 - 15  behaviour
 - +3.6  [+1.4, +5.8]
 - +0.2  [−1.5, +2.0]
-- Note: results are compared by value and type, so the SQL’s wording does not matter. Intervals are 95 % paired bootstrap, 10,000 resamples. Not leaderboard scoring.
+- Note: ¹ Results are compared by value and type, so the SQL’s wording does not matter. Intervals are 95 % paired bootstrap, 10,000 resamples. Not leaderboard scoring.
 - TAKEAWAY
 - A change counts only when its whole / interval sits clear of zero.
 - 1
@@ -795,7 +778,7 @@ Exact face text:
 - 14
 - Trial
 - Change, and its baseline
-- Accuracy points
+- Accuracy points¹
 - Side effect
 - Decision
 - Top 6 + neighbours
@@ -828,7 +811,7 @@ Exact face text:
 - −2.1 [−4.3, +0.0]
 - Same speed as shared
 - OPT-IN
-- Note: Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.
+- Note: ⁠¹ Paired 95 % intervals. Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.
 - TAKEAWAY
 - Table selection is the one clear gain. Five later trials traded speed or recall, not accuracy.
 
@@ -852,7 +835,7 @@ Exact face text:
 - Correct answers gained and lost by each fix against selected tables, on 1,222 questions
 - Text-to-SQL Agent
 - 15
-- Dense embeddings: net +2 answers
+- Dense embeddings: net +2 answers¹
 - Gained
 - Lost
 - Every table, shared layout: net −29 answers
@@ -867,7 +850,7 @@ Exact face text:
 - −44
 - +13
 - −39
-- Note: gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.
+- Note: ¹ Gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.
 - TAKEAWAY
 - Each fix helps where it aims, and the / other questions pay.
 - 1
@@ -906,7 +889,7 @@ Exact face text:
 - Test
 - Why it is needed
 - What we would measure
-- What it decides
+- What it decides¹
 - 1  Business definitions
 - Revenue stays ambiguous until a person checks it.
 - Answers on ambiguous questions, with and / without a few definitions.
@@ -923,7 +906,7 @@ Exact face text:
 - All results use one local model.
 - The same suites on a hosted model.
 - Whether it is worth sending it the prompt.
-- Note: The last column states proposals, not results. Broader value hints would need a data-boundary decision first.
+- Note: ⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first.
 - TAKEAWAY
 - Measure first, then change a default only on evidence.
 
@@ -1029,7 +1012,62 @@ Exact face text:
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
 
-## 20. Backup: matched means the same rows as the reference
+## 20. Backup: the full flow, step by step
+
+Layout: arch_detail
+
+Reader question: 
+
+Message: Backup for questions about the full flow.
+
+Exact face text:
+
+- APPENDIX
+- Full architecture
+- Backup: the full flow, step by step
+- Eight steps from question to answer; top row left to right, then right to left
+- Text-to-SQL Agent
+- 20
+- App step, no model
+- The model: behaviour
+- Enforced in code
+- ASK AND PREPARE
+- 1
+- Ask
+- Pick a demo database, a file, a connection string / or CSV uploads, then ask in plain English.
+- 2
+- Read schema
+- Tables, columns, keys and up to 6 values from / small text columns, cached per schema version.
+- 3
+- Select tables
+- Score every table against the question; keep the / top 6 and the tables one foreign key away.
+- 4
+- Build prompt
+- Dialect rules, the chosen schema and the / question. No result rows are ever included.
+- 5
+- Generate
+- Gemini (hosted) or Ollama (local) writes one SQL / statement, or declines a write or an unanswerable / question.
+- 6
+- Validate
+- sqlglot accepts one SELECT or WITH and refuses / writes and engine internals.
+- 7
+- Run
+- A read-only connection with a work budget / (100,000 steps or 5,000 ms) and a 1,000-row / cap.
+- 8
+- Show
+- The answer, table, a chart when it suits, the SQL / and why those tables were chosen.
+- A query error goes back to the model once; the repair passes steps 6 and 7 again
+- Database engine
+- Set by the connection string; 15 conformance / tests each.
+- SQLite
+- Read-only connection, query_only and an authorizer that / denies writes and ATTACH.
+- DuckDB
+- The read_only flag, with external access off so file readers / are refused.
+- PostgreSQL
+- A least-privilege role and a read-only transaction.
+- The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8. A query stopped by the work budget is not retried.
+
+## 21. Backup: matched means the same rows as the reference
 
 Layout: table_page
 
@@ -1044,7 +1082,7 @@ Exact face text:
 - Backup: matched means the same rows as the reference
 - The project’s own result comparison, used for every accuracy figure in this deck
 - Text-to-SQL Agent
-- 20
+- 21
 - How two result sets are compared
 - Part
 - Rule
@@ -1061,7 +1099,7 @@ Exact face text:
 - Text and NULL
 - Text matches exactly after trimming and never equals a number. NULL equals only / NULL.
 - No loose string matching.
-- What each outcome means
+- What each outcome means¹
 - Outcome
 - When
 - Counts as
@@ -1071,11 +1109,11 @@ Exact face text:
 - Wrong, refused, / unanswerable or error
 - Rows differ, a safe question was blocked or declined, or the SQL failed or came back / empty.
 - Not matched
-- Note: This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal.
+- Note: ⁠¹ This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal.
 - TAKEAWAY
 - Matched means the same rows, not similar SQL.
 
-## 21. Backup: each engine enforces read-only in its own way
+## 22. Backup: each engine enforces read-only in its own way
 
 Layout: table_page
 
@@ -1090,8 +1128,8 @@ Exact face text:
 - Backup: each engine enforces read-only in its own way
 - The engine layer of the safety slide; each mechanism is required, not optional
 - Text-to-SQL Agent
-- 21
-- Engine
+- 22
+- Engine¹
 - Writes refused by
 - Files and internals
 - Work budget
@@ -1107,11 +1145,11 @@ Exact face text:
 - A least-privilege role and a read-only transaction, each enough / on its own.
 - A superuser or file-reading role is refused at / connect.
 - 5,000 ms, then the query stops.
-- Note: All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.
+- Note: ⁠¹ All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.
 - TAKEAWAY
 - Read-only is enforced by each engine, not assumed from the application check.
 
-## 22. Backup: the technology behind each step
+## 23. Backup: the technology behind each step
 
 Layout: stack_page
 
@@ -1126,7 +1164,7 @@ Exact face text:
 - Backup: the technology behind each step
 - Open-source tools, plus a hosted model only when the user picks one
 - Text-to-SQL Agent
-- 22
+- 23
 - APP
 - Streamlit
 - The question box, answer, chart and SQL
@@ -1154,7 +1192,7 @@ Exact face text:
 - TAKEAWAY
 - No model is trained: the app wraps an existing model with checks around it.
 
-## 23. Backup: terms used in this deck
+## 24. Backup: terms used in this deck
 
 Layout: table_page
 
@@ -1169,7 +1207,7 @@ Exact face text:
 - Backup: terms used in this deck
 - Plain meanings for the words on the evidence slides
 - Text-to-SQL Agent
-- 23
+- 24
 - Term
 - Meaning
 - Where it appears

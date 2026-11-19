@@ -192,7 +192,7 @@
         {
           "label": "Spider",
           "value": "64.6 %",
-          "text": "of answers matched: common test, local 9B model",
+          "text": "of answers matched¹: common test, local 9B model",
           "icon": "target",
           "series": "primary",
           "marker": 3,
@@ -228,7 +228,7 @@
           "caveat": "From 2 of 4 databases."
         }
       ],
-      "panel_title": "Large databases: more correct answers from less context",
+      "panel_title": "Large databases: more correct answers from less context²",
       "panel_marker": 2,
       "panels": [
         {
@@ -271,7 +271,7 @@
           "reading": "The prompt was 69 % smaller, but each answer took about two seconds longer."
         }
       ],
-      "note": "Accuracy uses this project’s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD train questions on 4 databases of 21 to 65 tables.",
+      "note": "¹ This project’s result comparison, not leaderboard scoring; Spider (Yu et al., 2018) and BIRD (Li et al., 2023). ² 1,222 BIRD train questions on 4 databases of 21 to 65 tables.",
       "annotations": [
         {
           "title": "Read-only is not the same as right",
@@ -412,11 +412,11 @@
           150
         ],
         [
-          "Setup",
+          "Setup¹",
           130
         ],
         [
-          "Upkeep",
+          "Upkeep¹",
           130
         ],
         [
@@ -553,7 +553,7 @@
               "mark": "cross",
               "items": [
                 "Repeats **past errors**",
-                "Repository archived"
+                "Repository archived³"
               ]
             }
           ]
@@ -576,7 +576,7 @@
               "mark": "tick",
               "items": [
                 "**Benchmark** scores",
-                "Top test entry 83.40 %"
+                "Top test entry 83.40 %²"
               ]
             },
             {
@@ -620,7 +620,7 @@
           ]
         }
       ],
-      "note": "Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.",
+      "note": "¹ Setup and upkeep are our reading of each tool’s documentation, read 6 November 2026, not a ranking. ² AskData, the top BIRD test entry; humans score 92.96 %. ³ Archived on 29 March 2026.",
       "takeaway": "Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.",
       "notes": {
         "purpose": "Place the project among the tools that already exist.",
@@ -671,7 +671,7 @@
         ]
       ],
       "y_axis": "↑ Business meaning built in",
-      "x_axis": "Setup before the first useful answer →",
+      "x_axis": "Setup before the first useful answer¹ →",
       "points": [
         {
           "label": "BI dashboards",
@@ -734,7 +734,7 @@
           "text": "No governed metric definitions, so a word like revenue stays ambiguous until a person checks it. If metrics must match across teams, choose a curated tool."
         }
       ],
-      "note": "Product positions follow the Setup column on the previous slide; other placements are our judgement.",
+      "note": "¹ Product positions follow the Setup column on the previous slide; other placements are our judgement.",
       "notes": {
         "purpose": "State the aim and what it costs.",
         "script": [
@@ -768,7 +768,7 @@
       "qr_title": "Try it live",
       "qr_text": "aipa-text-to-sql-agent.streamlit.app: the same question on the same demo database",
       "qr_url": "https://aipa-text-to-sql-agent.streamlit.app",
-      "code_title": "The SQL, and what completed revenue adds",
+      "code_title": "The SQL, and what completed revenue adds²",
       "code": [
         [
           "SELECT category, SUM(unit_price * quantity",
@@ -811,7 +811,7 @@
           false
         ]
       ],
-      "bars_title": "Same top category, two definitions of revenue",
+      "bars_title": "Same top category, two definitions of revenue¹",
       "bars": [
         {
           "label": "All 220 orders, list price",
@@ -825,7 +825,7 @@
           "gap": "21 % lower"
         }
       ],
-      "note": "Electronics revenue, recomputed on data/retail_analytics.db. Lines marked + are added by the benchmark’s completed-revenue question. This illustrates inspection, not a benchmark failure.",
+      "note": "¹ Electronics revenue, recomputed on data/retail_analytics.db; this illustrates inspection, not a benchmark failure. ² Lines marked + are added by the benchmark’s completed-revenue question.",
       "annotations": [
         {
           "title": "The answer looks finished",
@@ -863,11 +863,11 @@
       "accent": "blue",
       "title": "The model sees the schema and a few stored values, never result rows",
       "subtitle": "What the prompt held for the demo question on the retail database",
-      "bar_title": "79 of the 608 stored text values reach the prompt",
+      "bar_title": "79 of the 608 stored text values reach the prompt¹",
       "sent": 79,
       "total": 608,
       "bar_caption": "Each square is one distinct stored text value across the database’s 30 text columns: 79 sent as lists, never linked to a row; 529 not sent.",
-      "code_title": "From the real prompt (shortened)",
+      "code_title": "From the real prompt (shortened)²",
       "code": [
         [
           "CREATE TABLE orders (",
@@ -940,7 +940,7 @@
           "chat"
         ]
       ],
-      "note": "Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.",
+      "note": "¹ Counted for this question on data/retail_analytics.db; it varies by question. Numeric columns send no values. ² Hint lines in green.",
       "takeaway": "Before using real data, **check what the prompt contains** and where it goes.",
       "annotations": [
         {
@@ -976,95 +976,72 @@
     },
     {
       "id": "architecture",
-      "layout": "arch_page",
+      "layout": "arch_summary",
       "section": "Solution",
       "topic": "Architecture",
       "accent": "blue",
       "title": "The model proposes SQL; the application controls execution",
-      "subtitle": "Eight steps take one question to an answer, with the technology behind each step",
-      "rows": [
-        "Ask and prepare: no model",
-        "Right to left"
+      "subtitle": "One question’s path through the app, in four stages; the full eight-step flow is in the appendix",
+      "legend_kinds": [
+        [
+          "app",
+          "App step, no model"
+        ],
+        [
+          "model",
+          "The model: behaviour"
+        ],
+        [
+          "code",
+          "Enforced in code"
+        ]
       ],
-      "brackets": [
-        "Enforced in code",
-        "Behaviour: the model"
-      ],
-      "top": [
+      "stages": [
         {
-          "n": 1,
-          "title": "Ask",
-          "text": "A demo, a file, a connection string or CSV uploads, then a plain question.",
+          "title": "Ask and prepare",
+          "kind": "app",
+          "icon": "chat",
+          "text": "A plain question. The app reads the schema, keeps the top 6 tables and builds the prompt.",
           "logos": [
-            "assets/logos/tech-streamlit.png"
-          ]
-        },
-        {
-          "n": 2,
-          "title": "Read schema",
-          "text": "Tables, keys and value hints from the database.",
-          "logos": [
+            "assets/logos/tech-streamlit.png",
             "assets/logos/tech-python.png"
           ]
         },
         {
-          "n": 3,
-          "title": "Select tables",
-          "text": "Top 6 by hybrid score, plus foreign-key neighbours.",
-          "logos": [
-            "assets/logos/tech-python.png"
-          ]
-        },
-        {
-          "n": 4,
-          "title": "Build prompt",
-          "text": "Dialect rules, the schema and the question.",
-          "logos": [
-            "assets/logos/tech-langchain.png"
-          ]
-        }
-      ],
-      "bottom": [
-        {
-          "n": 5,
           "title": "Generate",
-          "text": "Gemini or Ollama writes one SQL statement, or declines.",
-          "model": true,
-          "rule": "#FDE725",
+          "kind": "model",
+          "icon": "code",
+          "marker": 1,
+          "text": "Gemini or Ollama writes one SQL statement, or declines. It never sees result rows.",
           "logos": [
             "assets/logos/tech-ollama.png",
             "assets/logos/tech-googlegemini.png"
           ]
         },
         {
-          "n": 6,
-          "title": "Validate",
-          "text": "One SELECT or WITH, no engine internals.",
+          "title": "Check and run",
+          "kind": "code",
+          "icon": "verified_user",
+          "marker": 2,
+          "text": "sqlglot allows one read only; the engine runs it read-only with a budget and a row cap.",
           "logos": [
             "assets/logos/tech-sqlglot.png"
           ]
         },
         {
-          "n": 7,
-          "title": "Run",
-          "text": "Read-only, with a work budget and a 1,000-row cap.",
+          "title": "Answer",
+          "kind": "app",
+          "icon": "table_rows",
+          "text": "The answer, table, chart, the SQL and why those tables, for the person to inspect.",
           "logos": [
-            "assets/logos/tech-python.png"
-          ]
-        },
-        {
-          "n": 8,
-          "title": "Show",
-          "text": "Answer, table, chart, the SQL and why those tables.",
-          "logos": [
-            "assets/logos/tech-streamlit.png",
-            "assets/logos/tech-pandas.png"
+            "assets/logos/tech-streamlit.png"
           ]
         }
       ],
+      "repair": "One repair try on a query error",
       "engine": {
         "title": "Database engine",
-        "text": "Set by the connection string.",
+        "text": "Set by the connection string; read-only on all three.",
         "logos": [
           [
             "assets/logos/tech-sqlite.png",
@@ -1080,16 +1057,15 @@
           ]
         ]
       },
-      "repair": "A query error goes back to the model once",
-      "person": "The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8.",
-      "takeaway": "One step of eight uses a model; **the application decides** what runs.",
+      "person": "The person asks first and inspects last: the SQL is always shown with the answer.",
+      "takeaway": "One stage uses a model; **the application decides** what runs.",
       "annotations": [
         {
-          "title": "Only step 5 is a model",
+          "title": "Only one stage is a model",
           "text": "It returns text and never sees result rows."
         },
         {
-          "title": "Two separate gates",
+          "title": "Two gates, both in code",
           "text": "sqlglot, then a read-only engine. Neither checks meaning."
         },
         {
@@ -1098,16 +1074,16 @@
         },
         {
           "title": "One repair try",
-          "text": "The repair passes the same checks; nothing skips a gate."
+          "text": "The repaired query passes the same checks; nothing skips a gate."
         }
       ],
       "notes": {
-        "purpose": "Walk one question through the whole path.",
+        "purpose": "Walk one question through the app.",
         "script": [
-          "This is the whole path of one question: eight steps, and only one is the model. [Point: top row] A person asks in plain English. The application reads the schema, selects the top six tables and their neighbours, and builds the prompt. None of this uses a model.",
-          "[Point: Generate, marker 1] Step five is the only model call. Gemini or Ollama writes one SQL statement, or declines. It never sees result rows. [Point: Validate and Run, marker 2] Then two separate gates, right to left: sqlglot refuses anything that is not a single read, and the engine runs the query read-only with a work budget and a 1,000-row cap.",
-          "[Point: engine band, marker 3] The same steps work on SQLite, DuckDB and PostgreSQL; each passes the same 15 conformance tests. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. [Point: person] The flow ends with the person, who inspects the answer and the SQL.",
-          "Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms); ui/connection.py. Conformance: 45 tests, 15 per engine, 0 skipped."
+          "This is the path of one question in four stages, and only one is the model. [Point: Ask and prepare] A person asks in plain English; the application reads the schema, keeps the top six tables and builds the prompt, with no model.",
+          "[Point: Generate, marker 1] The model writes one SQL statement, or declines. It never sees result rows. [Point: Check and run, marker 2] Then two gates in code: sqlglot allows one read only, and the engine runs the query read-only with a work budget and a row cap.",
+          "[Point: engine band, marker 3] The same flow runs on SQLite, DuckDB and PostgreSQL. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. The full eight-step flow is in the appendix.",
+          "Reference: pipeline.answer_question (max_repair_attempts=1); config.py; docs/2_architecture.md. Conformance: 45 tests, 15 per engine, 0 skipped."
         ],
         "references": [
           "sources.md",
@@ -1135,9 +1111,10 @@
       ],
       "tables": [
         {
+          "bold_first": false,
           "headers": [
-            "Threat and example",
-            "1 Model declines (behaviour)",
+            "Threat, with an example",
+            "1 Model declines¹",
             "2 Application check",
             "3 Engine, read-only",
             "Lines of defence"
@@ -1157,7 +1134,7 @@
               "accent": "blue"
             },
             [
-              "Write or schema change: drop the students table",
+              "**Write or schema change**  `DROP TABLE students`",
               {
                 "items": [
                   [
@@ -1190,7 +1167,7 @@
               ]
             ],
             [
-              "Reading engine internals: show me sqlite_master",
+              "**Engine internals**  `SELECT * FROM sqlite_master`",
               {
                 "items": [
                   [
@@ -1223,7 +1200,7 @@
               ]
             ],
             [
-              "Reading files on disk: read_csv on a local file",
+              "**Files on disk**  `read_csv('local.csv')`",
               "–",
               {
                 "items": [
@@ -1249,7 +1226,7 @@
               ]
             ],
             [
-              "Runaway query: a cross join on large tables",
+              "**Runaway query**  a cross join of large tables",
               "–",
               "–",
               {
@@ -1268,7 +1245,7 @@
               ]
             ],
             [
-              "Oversized result: more rows than the cap",
+              "**Oversized result**  more rows than the cap",
               "–",
               "–",
               {
@@ -1291,7 +1268,7 @@
               "accent": "ochre"
             },
             [
-              "Data the schema lacks: each patient’s blood type",
+              "**Data the schema lacks**  each patient’s blood type",
               {
                 "items": [
                   [
@@ -1314,7 +1291,7 @@
               "accent": "plum"
             },
             [
-              "Asked for average shipping weight",
+              "**Wrong meaning**  average shipping weight",
               {
                 "items": [
                   [
@@ -1365,7 +1342,7 @@
         ]
       },
       "notes_on_face": [
-        "The model column is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. Ticks in the other columns are enforced in code and tested on their own."
+        "⁠¹ The model’s decline is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. The other two columns are enforced in code and tested on their own."
       ]
     },
     {
@@ -1420,7 +1397,7 @@
           ]
         },
         {
-          "title": "How to read a paired change, accuracy points",
+          "title": "How to read a paired change, accuracy points¹",
           "kind": "dot",
           "scale": [
             -3,
@@ -1445,7 +1422,7 @@
           ]
         }
       ],
-      "caption": "**Note:** results are compared by value and type, so the SQL’s wording does not matter. Intervals are 95 % paired bootstrap, 10,000 resamples. Not leaderboard scoring.",
+      "caption": "**Note:** ¹ Results are compared by value and type, so the SQL’s wording does not matter. Intervals are 95 % paired bootstrap, 10,000 resamples. Not leaderboard scoring.",
       "takeaway": "A change counts only when its **whole interval sits clear of zero**.",
       "annotations": [
         {
@@ -1766,7 +1743,7 @@
           "headers": [
             "Trial",
             "Change, and its baseline",
-            "Accuracy points",
+            "Accuracy points¹",
             "Side effect",
             "Decision"
           ],
@@ -1870,7 +1847,7 @@
         ]
       },
       "notes_on_face": [
-        "Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero."
+        "⁠¹ Paired 95 % intervals. Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero."
       ]
     },
     {
@@ -1883,7 +1860,7 @@
       "subtitle": "Correct answers gained and lost by each fix against selected tables, on 1,222 questions",
       "panels": [
         {
-          "title": "Dense embeddings: net +2 answers",
+          "title": "Dense embeddings: net +2 answers¹",
           "scale": [
             -50,
             25
@@ -1952,7 +1929,7 @@
           ]
         }
       ],
-      "caption": "**Note:** gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.",
+      "caption": "**Note:** ¹ Gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.",
       "takeaway": "Each fix helps where it aims, and **the other questions pay**.",
       "annotations": [
         {
@@ -1997,7 +1974,7 @@
             "Test",
             "Why it is needed",
             "What we would measure",
-            "What it decides"
+            "What it decides¹"
           ],
           "widths": [
             180,
@@ -2049,7 +2026,7 @@
         ]
       },
       "notes_on_face": [
-        "The last column states proposals, not results. Broader value hints would need a data-boundary decision first."
+        "⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first."
       ]
     },
     {
@@ -2279,6 +2256,145 @@
       "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py"
     },
     {
+      "id": "appendix-architecture",
+      "layout": "arch_detail",
+      "section": "Appendix",
+      "topic": "Full architecture",
+      "accent": "slate",
+      "header_style": "appendix",
+      "title": "Backup: the full flow, step by step",
+      "subtitle": "Eight steps from question to answer; top row left to right, then right to left",
+      "legend_kinds": [
+        [
+          "app",
+          "App step, no model"
+        ],
+        [
+          "model",
+          "The model: behaviour"
+        ],
+        [
+          "code",
+          "Enforced in code"
+        ]
+      ],
+      "rows": [
+        "Ask and prepare"
+      ],
+      "top": [
+        {
+          "n": 1,
+          "title": "Ask",
+          "kind": "app",
+          "text": "Pick a demo database, a file, a connection string or CSV uploads, then ask in plain English.",
+          "logos": [
+            "assets/logos/tech-streamlit.png"
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Read schema",
+          "kind": "app",
+          "text": "Tables, columns, keys and up to 6 values from small text columns, cached per schema version.",
+          "logos": [
+            "assets/logos/tech-python.png"
+          ]
+        },
+        {
+          "n": 3,
+          "title": "Select tables",
+          "kind": "app",
+          "text": "Score every table against the question; keep the top 6 and the tables one foreign key away.",
+          "logos": [
+            "assets/logos/tech-python.png"
+          ]
+        },
+        {
+          "n": 4,
+          "title": "Build prompt",
+          "kind": "app",
+          "text": "Dialect rules, the chosen schema and the question. No result rows are ever included.",
+          "logos": [
+            "assets/logos/tech-langchain.png"
+          ]
+        }
+      ],
+      "bottom": [
+        {
+          "n": 5,
+          "title": "Generate",
+          "kind": "model",
+          "text": "Gemini (hosted) or Ollama (local) writes one SQL statement, or declines a write or an unanswerable question.",
+          "logos": [
+            "assets/logos/tech-ollama.png",
+            "assets/logos/tech-googlegemini.png"
+          ]
+        },
+        {
+          "n": 6,
+          "title": "Validate",
+          "kind": "code",
+          "text": "sqlglot accepts one SELECT or WITH and refuses writes and engine internals.",
+          "logos": [
+            "assets/logos/tech-sqlglot.png"
+          ]
+        },
+        {
+          "n": 7,
+          "title": "Run",
+          "kind": "code",
+          "text": "A read-only connection with a work budget (100,000 steps or 5,000 ms) and a 1,000-row cap.",
+          "logos": [
+            "assets/logos/tech-python.png"
+          ]
+        },
+        {
+          "n": 8,
+          "title": "Show",
+          "kind": "app",
+          "text": "The answer, table, a chart when it suits, the SQL and why those tables were chosen.",
+          "logos": [
+            "assets/logos/tech-streamlit.png",
+            "assets/logos/tech-pandas.png"
+          ]
+        }
+      ],
+      "repair": "A query error goes back to the model once; the repair passes steps 6 and 7 again",
+      "engine": {
+        "title": "Database engine",
+        "text": "Set by the connection string; 15 conformance tests each.",
+        "detail": [
+          [
+            "assets/logos/tech-sqlite.png",
+            "SQLite",
+            "Read-only connection, query_only and an authorizer that denies writes and ATTACH."
+          ],
+          [
+            "assets/logos/tech-duckdb.png",
+            "DuckDB",
+            "The read_only flag, with external access off so file readers are refused."
+          ],
+          [
+            "assets/logos/tech-postgresql.png",
+            "PostgreSQL",
+            "A least-privilege role and a read-only transaction."
+          ]
+        ]
+      },
+      "person": "The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8. A query stopped by the work budget is not retried.",
+      "notes": {
+        "purpose": "Backup for questions about the full flow.",
+        "script": [
+          "Steps one to four prepare the prompt with no model. Step five is the only model call. Steps six and seven are the two gates in code. Step eight shows everything to the person. A query error goes back to the model once.",
+          "Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; docs/2_architecture.md."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
+    },
+    {
       "id": "appendix-scoring",
       "layout": "table_page",
       "section": "Appendix",
@@ -2326,7 +2442,7 @@
           ]
         },
         {
-          "title": "What each outcome means",
+          "title": "What each outcome means¹",
           "headers": [
             "Outcome",
             "When",
@@ -2366,7 +2482,7 @@
         ]
       },
       "notes_on_face": [
-        "This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal."
+        "⁠¹ This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal."
       ]
     },
     {
@@ -2381,7 +2497,7 @@
       "tables": [
         {
           "headers": [
-            "Engine",
+            "Engine¹",
             "Writes refused by",
             "Files and internals",
             "Work budget"
@@ -2429,7 +2545,7 @@
         ]
       },
       "notes_on_face": [
-        "All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows."
+        "⁠¹ All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows."
       ]
     },
     {

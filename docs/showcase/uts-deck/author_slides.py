@@ -25,7 +25,7 @@ other_tools = {
     'id': 'tools', 'layout': 'tools_page', 'section': 'Problem', 'topic': 'Other tools', 'accent': 'slate',
     'title': 'Other tools get business meaning through setup',
     'subtitle': 'Two routes to meaning, compared on the same criteria; sources read 6 November 2026',
-    'columns': [['Approach', 190], ['Source of meaning', 150], ['Setup', 130], ['Upkeep', 130], ['Best for', 135.5], ['Risk', 140]],
+    'columns': [['Approach', 190], ['Source of meaning', 150], ['Setup¹', 130], ['Upkeep¹', 130], ['Best for', 135.5], ['Risk', 140]],
     'row_height': 31,
     'rows': [
         {'band': 'People define the meaning', 'accent': 'slate'},
@@ -33,11 +33,11 @@ other_tools = {
         {'logo': 'assets/logos/databricks.png', 'url': 'https://docs.databricks.com/en/genie/best-practices.html', 'cells': ['Databricks Genie Agents', '**SQL expressions**, example SQL', [3, 'Expert curation'], [2, 'Iterate with feedback'], {'mark': 'tick', 'items': ['**One topic** and audience', 'Curated example SQL']}, {'mark': 'cross', 'items': ['Depends on the **curator**', 'Advises five or fewer tables']}]},
         {'logo': 'assets/logos/wren.png', 'url': 'https://github.com/Canner/WrenAI', 'cells': ['WrenAI', '**Semantic layer** in Git', [2, 'Define the MDL model'], [2, 'Review in Git'], {'mark': 'tick', 'items': ['**Versioned** definitions', 'Open-source engine']}, {'mark': 'cross', 'items': ['**Unmodelled** data', 'Some features commercial']}]},
         {'band': 'Systems work it out', 'accent': 'blue'},
-        {'logo': 'assets/logos/vanna.png', 'url': 'https://github.com/vanna-ai/vanna', 'cells': ['Vanna', '**Saved past queries**', [1, 'Learns from use'], [2, 'Self-maintained'], {'mark': 'tick', 'items': ['**Repeated** questions', 'Learns from saved queries']}, {'mark': 'cross', 'items': ['Repeats **past errors**', 'Repository archived']}]},
-        {'logo': 'assets/icons/monitoring-ink.png', 'url': 'https://bird-bench.github.io/', 'cells': ['BIRD leaderboard systems', 'Mostly **not listed**', [None, 'Not listed'], [None, 'Not listed'], {'mark': 'tick', 'items': ['**Benchmark** scores', 'Top test entry 83.40 %']}, {'mark': 'cross', 'items': ['**Transfer** unproven', 'Methods rarely listed']}]},
+        {'logo': 'assets/logos/vanna.png', 'url': 'https://github.com/vanna-ai/vanna', 'cells': ['Vanna', '**Saved past queries**', [1, 'Learns from use'], [2, 'Self-maintained'], {'mark': 'tick', 'items': ['**Repeated** questions', 'Learns from saved queries']}, {'mark': 'cross', 'items': ['Repeats **past errors**', 'Repository archived³']}]},
+        {'logo': 'assets/icons/monitoring-ink.png', 'url': 'https://bird-bench.github.io/', 'cells': ['BIRD leaderboard systems', 'Mostly **not listed**', [None, 'Not listed'], [None, 'Not listed'], {'mark': 'tick', 'items': ['**Benchmark** scores', 'Top test entry 83.40 %²']}, {'mark': 'cross', 'items': ['**Transfer** unproven', 'Methods rarely listed']}]},
         {'logo': 'assets/icons/fact_check-teal.png', 'url': 'https://github.com/tuannm3812/text-to-sql-agent', 'ours': True, 'cells': ['This project', '**Schema** and **bounded hints**', [0, 'Connect only'], [0, 'None'], {'mark': 'tick', 'items': ['A **first look** at a database', 'SQL shown, run read-only']}, {'mark': 'cross', 'items': ['A **person checks** the meaning', 'No governed metrics']}]},
     ],
-    'note': 'Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.',
+    'note': '¹ Setup and upkeep are our reading of each tool’s documentation, read 6 November 2026, not a ranking. ² AskData, the top BIRD test entry; humans score 92.96 %. ³ Archived on 29 March 2026.',
     'takeaway': 'Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.',
     'notes': notes('Place the project among the tools that already exist.',
         'Other tools reach business meaning through setup. [Point: People define the meaning] Snowflake says schemas lack business definitions, so people add them in a semantic view. Databricks has a domain expert curate SQL expressions and example SQL. WrenAI keeps its semantic layer in Git.',
@@ -58,7 +58,7 @@ aim = {
     'quadrants': [['Meaning without setup: the ideal', 'Not yet available.'], 'Meaning through setup: curated tools',
                   'Quick start: people check the meaning', ['Setup without meaning: to avoid', 'Effort spent, but meaning still left to the reader.']],
     'y_axis': '↑ Business meaning built in',
-    'x_axis': 'Setup before the first useful answer →',
+    'x_axis': 'Setup before the first useful answer¹ →',
     'points': [
         {'label': 'BI dashboards', 'x': 0.8, 'y': 0.9, 'art': 'assets/icons/monitoring-ink.png'},
         {'label': 'Databricks Genie Agents', 'x': 0.66, 'y': 0.7, 'art': 'assets/logos/databricks.png'},
@@ -74,7 +74,7 @@ aim = {
         {'title': 'What we chose', 'text': 'A quick start that uses the real schema and bounded hints. Query-result rows are never sent to the model.'},
         {'title': 'What we gave up', 'text': 'No governed metric definitions, so a word like revenue stays ambiguous until a person checks it. If metrics must match across teams, choose a curated tool.'},
     ],
-    'note': 'Product positions follow the Setup column on the previous slide; other placements are our judgement.',
+    'note': '¹ Product positions follow the Setup column on the previous slide; other placements are our judgement.',
     'notes': notes('State the aim and what it costs.',
         'Our aim has two halves: useful without setup, and checkable by default. [Point: Who it helps] It is for an analyst who knows the question but not the schema, and for a reviewer deciding whether to trust the answer.',
         '[Point: The matrix] Left to right is the setup needed before the first useful answer. Bottom to top is how much business meaning is built in. Curated tools and dashboards sit top right. Top left would be the ideal, which is not yet available.',
@@ -91,15 +91,15 @@ demo = {
     'qr_title': 'Try it live',
     'qr_text': 'aipa-text-to-sql-agent.streamlit.app: the same question on the same demo database',
     'qr_url': 'https://aipa-text-to-sql-agent.streamlit.app',
-    'code_title': 'The SQL, and what completed revenue adds',
+    'code_title': 'The SQL, and what completed revenue adds²',
     'code': [['SELECT category, SUM(unit_price * quantity', False], ['+   * (1 - discount_pct)', True], ['  ) AS total_revenue', False],
              ['FROM order_items oi', False], ['JOIN products p', False], ['  ON oi.product_id = p.product_id', False],
              ['+ JOIN orders o ON oi.order_id = o.order_id', True], ["+ WHERE o.order_status = 'Completed'", True],
              ['GROUP BY category', False], ['ORDER BY total_revenue DESC;', False]],
-    'bars_title': 'Same top category, two definitions of revenue',
+    'bars_title': 'Same top category, two definitions of revenue¹',
     'bars': [{'label': 'All 220 orders, list price', 'value': 173366, 'text': '173,366'},
              {'label': '179 completed, after discounts', 'value': 136984, 'text': '136,984', 'gap': '21 % lower'}],
-    'note': 'Electronics revenue, recomputed on data/retail_analytics.db. Lines marked + are added by the benchmark’s completed-revenue question. This illustrates inspection, not a benchmark failure.',
+    'note': '¹ Electronics revenue, recomputed on data/retail_analytics.db; this illustrates inspection, not a benchmark failure. ² Lines marked + are added by the benchmark’s completed-revenue question.',
     'annotations': [
         {'title': 'The answer looks finished', 'text': 'Electronics leads with 173,366, but the chart does not say which orders it counted.'},
         {'title': 'The SQL shows the choice', 'text': 'Price times quantity, no status filter and no discounts, so all 220 orders count.'},
@@ -117,10 +117,10 @@ boundary = {
     'id': 'boundary', 'layout': 'boundary_page', 'section': 'Solution', 'topic': 'Data boundary', 'accent': 'blue',
     'title': 'The model sees the schema and a few stored values, never result rows',
     'subtitle': 'What the prompt held for the demo question on the retail database',
-    'bar_title': '79 of the 608 stored text values reach the prompt',
+    'bar_title': '79 of the 608 stored text values reach the prompt¹',
     'sent': 79, 'total': 608,
     'bar_caption': 'Each square is one distinct stored text value across the database’s 30 text columns: 79 sent as lists, never linked to a row; 529 not sent.',
-    'code_title': 'From the real prompt (shortened)',
+    'code_title': 'From the real prompt (shortened)²',
     'code': [['CREATE TABLE orders (', False], ['  order_id INTEGER PRIMARY KEY,', False], ['  order_status TEXT NOT NULL ...', False], [');', False],
              ['-- order_status sample values:', True], ['     Completed, Returned, Cancelled', True], ['-- gender sample values: Female, Other, Male', True],
              ['### User question', False], ['Which product categories generate the most revenue?', False]],
@@ -128,7 +128,7 @@ boundary = {
               ['Not in the prompt', ['Result rows', 'Names and emails: over the limit', 'All other stored values'], 'cancel', 'purple']],
     'models': [['Local model', 'The prompt stays on your machine.', 'verified_user'],
                ['Hosted model', 'Question, schema and hints go to the provider.', 'chat']],
-    'note': 'Counted for this question on data/retail_analytics.db; it varies by question. Hint lines in green. Numeric columns send no values.',
+    'note': '¹ Counted for this question on data/retail_analytics.db; it varies by question. Numeric columns send no values. ² Hint lines in green.',
     'takeaway': 'Before using real data, **check what the prompt contains** and where it goes.',
     'annotations': [
         {'title': 'The prompt is mostly structure', 'text': 'About 71 % of the schema text is table definitions; hints are the rest.'},
@@ -144,39 +144,32 @@ boundary = {
 }
 
 architecture = {
-    'id': 'architecture', 'layout': 'arch_page', 'section': 'Solution', 'topic': 'Architecture', 'accent': 'blue',
+    'id': 'architecture', 'layout': 'arch_summary', 'section': 'Solution', 'topic': 'Architecture', 'accent': 'blue',
     'title': 'The model proposes SQL; the application controls execution',
-    'subtitle': 'Eight steps take one question to an answer, with the technology behind each step',
-    'rows': ['Ask and prepare: no model', 'Right to left'],
-    'brackets': ['Enforced in code', 'Behaviour: the model'],
-    'top': [
-        {'n': 1, 'title': 'Ask', 'text': 'A demo, a file, a connection string or CSV uploads, then a plain question.', 'logos': ['assets/logos/tech-streamlit.png']},
-        {'n': 2, 'title': 'Read schema', 'text': 'Tables, keys and value hints from the database.', 'logos': ['assets/logos/tech-python.png']},
-        {'n': 3, 'title': 'Select tables', 'text': 'Top 6 by hybrid score, plus foreign-key neighbours.', 'logos': ['assets/logos/tech-python.png']},
-        {'n': 4, 'title': 'Build prompt', 'text': 'Dialect rules, the schema and the question.', 'logos': ['assets/logos/tech-langchain.png']},
+    'subtitle': 'One question’s path through the app, in four stages; the full eight-step flow is in the appendix',
+    'legend_kinds': [['app', 'App step, no model'], ['model', 'The model: behaviour'], ['code', 'Enforced in code']],
+    'stages': [
+        {'title': 'Ask and prepare', 'kind': 'app', 'icon': 'chat', 'text': 'A plain question. The app reads the schema, keeps the top 6 tables and builds the prompt.', 'logos': ['assets/logos/tech-streamlit.png', 'assets/logos/tech-python.png']},
+        {'title': 'Generate', 'kind': 'model', 'icon': 'code', 'marker': 1, 'text': 'Gemini or Ollama writes one SQL statement, or declines. It never sees result rows.', 'logos': ['assets/logos/tech-ollama.png', 'assets/logos/tech-googlegemini.png']},
+        {'title': 'Check and run', 'kind': 'code', 'icon': 'verified_user', 'marker': 2, 'text': 'sqlglot allows one read only; the engine runs it read-only with a budget and a row cap.', 'logos': ['assets/logos/tech-sqlglot.png']},
+        {'title': 'Answer', 'kind': 'app', 'icon': 'table_rows', 'text': 'The answer, table, chart, the SQL and why those tables, for the person to inspect.', 'logos': ['assets/logos/tech-streamlit.png']},
     ],
-    'bottom': [
-        {'n': 5, 'title': 'Generate', 'text': 'Gemini or Ollama writes one SQL statement, or declines.', 'model': True, 'rule': '#FDE725', 'logos': ['assets/logos/tech-ollama.png', 'assets/logos/tech-googlegemini.png']},
-        {'n': 6, 'title': 'Validate', 'text': 'One SELECT or WITH, no engine internals.', 'logos': ['assets/logos/tech-sqlglot.png']},
-        {'n': 7, 'title': 'Run', 'text': 'Read-only, with a work budget and a 1,000-row cap.', 'logos': ['assets/logos/tech-python.png']},
-        {'n': 8, 'title': 'Show', 'text': 'Answer, table, chart, the SQL and why those tables.', 'logos': ['assets/logos/tech-streamlit.png', 'assets/logos/tech-pandas.png']},
-    ],
-    'engine': {'title': 'Database engine', 'text': 'Set by the connection string.',
+    'repair': 'One repair try on a query error',
+    'engine': {'title': 'Database engine', 'text': 'Set by the connection string; read-only on all three.',
                'logos': [['assets/logos/tech-sqlite.png', 'SQLite'], ['assets/logos/tech-duckdb.png', 'DuckDB'], ['assets/logos/tech-postgresql.png', 'PostgreSQL']]},
-    'repair': 'A query error goes back to the model once',
-    'person': 'The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8.',
-    'takeaway': 'One step of eight uses a model; **the application decides** what runs.',
+    'person': 'The person asks first and inspects last: the SQL is always shown with the answer.',
+    'takeaway': 'One stage uses a model; **the application decides** what runs.',
     'annotations': [
-        {'title': 'Only step 5 is a model', 'text': 'It returns text and never sees result rows.'},
-        {'title': 'Two separate gates', 'text': 'sqlglot, then a read-only engine. Neither checks meaning.'},
+        {'title': 'Only one stage is a model', 'text': 'It returns text and never sees result rows.'},
+        {'title': 'Two gates, both in code', 'text': 'sqlglot, then a read-only engine. Neither checks meaning.'},
         {'title': 'One flow, three engines', 'text': 'Each passes the same 15 conformance tests.'},
-        {'title': 'One repair try', 'text': 'The repair passes the same checks; nothing skips a gate.'},
+        {'title': 'One repair try', 'text': 'The repaired query passes the same checks; nothing skips a gate.'},
     ],
-    'notes': notes('Walk one question through the whole path.',
-        'This is the whole path of one question: eight steps, and only one is the model. [Point: top row] A person asks in plain English. The application reads the schema, selects the top six tables and their neighbours, and builds the prompt. None of this uses a model.',
-        '[Point: Generate, marker 1] Step five is the only model call. Gemini or Ollama writes one SQL statement, or declines. It never sees result rows. [Point: Validate and Run, marker 2] Then two separate gates, right to left: sqlglot refuses anything that is not a single read, and the engine runs the query read-only with a work budget and a 1,000-row cap.',
-        '[Point: engine band, marker 3] The same steps work on SQLite, DuckDB and PostgreSQL; each passes the same 15 conformance tests. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. [Point: person] The flow ends with the person, who inspects the answer and the SQL.',
-        'Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms); ui/connection.py. Conformance: 45 tests, 15 per engine, 0 skipped.'),
+    'notes': notes('Walk one question through the app.',
+        'This is the path of one question in four stages, and only one is the model. [Point: Ask and prepare] A person asks in plain English; the application reads the schema, keeps the top six tables and builds the prompt, with no model.',
+        '[Point: Generate, marker 1] The model writes one SQL statement, or declines. It never sees result rows. [Point: Check and run, marker 2] Then two gates in code: sqlglot allows one read only, and the engine runs the query read-only with a work budget and a row cap.',
+        '[Point: engine band, marker 3] The same flow runs on SQLite, DuckDB and PostgreSQL. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. The full eight-step flow is in the appendix.',
+        'Reference: pipeline.answer_question (max_repair_attempts=1); config.py; docs/2_architecture.md. Conformance: 45 tests, 15 per engine, 0 skipped.'),
 }
 
 W10 = [262, 150, 128, 175, 160.5]
@@ -186,21 +179,22 @@ safety = {
     'subtitle': 'Three lines of defence stop different threats, and each is tested on its own',
     'icon_key': [['yes', 'Stops it'], ['no', 'Does not stop it']],
     'tables': [{
-        'headers': ['Threat and example', '1 Model declines (behaviour)', '2 Application check', '3 Engine, read-only', 'Lines of defence'],
+        'bold_first': False,
+        'headers': ['Threat, with an example', '1 Model declines¹', '2 Application check', '3 Engine, read-only', 'Lines of defence'],
         'widths': W10, 'size': 10, 'row_height': 24,
         'rows': [
             {'band': 'Stopped in code by the application or the engine', 'accent': 'blue'},
-            ['Write or schema change: drop the students table', {'items': [['yes', 'Declined 6 of 6']]}, {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied on 3 engines']]}, [['3 lines', 'strength']]],
-            ['Reading engine internals: show me sqlite_master', {'items': [['yes', 'Declined 3 of 3']]}, {'items': [['yes', 'Blocked']]}, {'items': [['no', 'Would run']]}, [['2 lines', 'constraint']]],
-            ['Reading files on disk: read_csv on a local file', '–', {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied']]}, [['2 lines', 'constraint']]],
-            ['Runaway query: a cross join on large tables', '–', '–', {'items': [['yes', 'Stopped by work budget']]}, [['1 line', 'limit']]],
-            ['Oversized result: more rows than the cap', '–', '–', {'items': [['yes', 'Cut at 1,000 rows']]}, [['1 line', 'limit']]],
+            ['**Write or schema change**  `DROP TABLE students`', {'items': [['yes', 'Declined 6 of 6']]}, {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied on 3 engines']]}, [['3 lines', 'strength']]],
+            ['**Engine internals**  `SELECT * FROM sqlite_master`', {'items': [['yes', 'Declined 3 of 3']]}, {'items': [['yes', 'Blocked']]}, {'items': [['no', 'Would run']]}, [['2 lines', 'constraint']]],
+            ['**Files on disk**  `read_csv(\'local.csv\')`', '–', {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied']]}, [['2 lines', 'constraint']]],
+            ['**Runaway query**  a cross join of large tables', '–', '–', {'items': [['yes', 'Stopped by work budget']]}, [['1 line', 'limit']]],
+            ['**Oversized result**  more rows than the cap', '–', '–', {'items': [['yes', 'Cut at 1,000 rows']]}, [['1 line', 'limit']]],
             {'band': 'Only the model declines', 'accent': 'ochre'},
-            ['Data the schema lacks: each patient’s blood type', {'items': [['yes', 'Declined 5 of 6']]}, '–', '–', [['1 line', 'limit']]],
+            ['**Data the schema lacks**  each patient’s blood type', {'items': [['yes', 'Declined 5 of 6']]}, '–', '–', [['1 line', 'limit']]],
             {'band': 'The limit: no layer checks meaning', 'accent': 'plum'},
-            ['Asked for average shipping weight', {'items': [['no', 'Returned average unit cost']]}, {'items': [['no', 'Passed: valid read']]}, {'items': [['no', 'Ran']]}, [['None', 'cost']]],
+            ['**Wrong meaning**  average shipping weight', {'items': [['no', 'Returned average unit cost']]}, {'items': [['no', 'Passed: valid read']]}, {'items': [['no', 'Ran']]}, [['None', 'cost']]],
         ]}],
-    'note': 'The model column is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. Ticks in the other columns are enforced in code and tested on their own.',
+    'note': '⁠¹ The model’s decline is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. The other two columns are enforced in code and tested on their own.',
     'takeaway': 'Writes meet three lines of defence. **A wrong meaning meets none**, so the person is the last check.',
     'notes': notes('Show which defence stops which threat.',
         'Safety here does not rest on the model. [Point: Column headers] There are three lines of defence. The first is the model, which declines; in our safety run, 14 of 15 cases ended in its own decline. That is behaviour, and it can change.',
@@ -222,12 +216,12 @@ method = {
             {'label': 'Demo', 'value': 12, 'text': '12  behaviour', 'series': 'muted'},
             {'label': 'Safety', 'value': 15, 'text': '15  behaviour', 'series': 'muted', 'marker': 2},
         ]},
-        {'title': 'How to read a paired change, accuracy points', 'kind': 'dot', 'scale': [-3, 7], 'unit': 'points', 'rows': [
+        {'title': 'How to read a paired change, accuracy points¹', 'kind': 'dot', 'scale': [-3, 7], 'unit': 'points', 'rows': [
             {'label': 'Top 6 vs every table + hints', 'value': 3.6, 'lo': 1.4, 'hi': 5.8, 'marker': 3},
             {'label': 'Shared + summaries vs shared', 'value': 0.2, 'lo': -1.5, 'hi': 2.0, 'series': 'muted'},
         ]},
     ],
-    'caption': '**Note:** results are compared by value and type, so the SQL’s wording does not matter. Intervals are 95 % paired bootstrap, 10,000 resamples. Not leaderboard scoring.',
+    'caption': '**Note:** ¹ Results are compared by value and type, so the SQL’s wording does not matter. Intervals are 95 % paired bootstrap, 10,000 resamples. Not leaderboard scoring.',
     'takeaway': 'A change counts only when its **whole interval sits clear of zero**.',
     'annotations': [
         {'title': 'Each suite answers one question', 'text': 'Spider and BIRD measure accuracy. The large-schema suite tests table selection, because the dev databases have at most 14 tables.'},
@@ -319,7 +313,7 @@ trials = {
     'title': 'Later trials found trade-offs, not a further accuracy gain',
     'subtitle': '1,222 large-schema questions; paired change against each row’s own baseline',
     'tables': [{
-        'headers': ['Trial', 'Change, and its baseline', 'Accuracy points', 'Side effect', 'Decision'],
+        'headers': ['Trial', 'Change, and its baseline', 'Accuracy points¹', 'Side effect', 'Decision'],
         'widths': W14, 'size': 10, 'row_height': 42,
         'rows': [
             ['Top 6 + neighbours', 'Send the best tables, vs every table + hints', '+3.6 [+1.4, +5.8]', '69 % fewer tokens, 2 s slower', [['Default', 'strength']]],
@@ -329,7 +323,7 @@ trials = {
             ['Shared layout', 'Send every table, name the top 6, vs top 6', '−2.4 [−4.6, −0.2]', '58 % faster, 3 times the tokens', [['Opt-in', 'constraint']]],
             ['Shared plus summaries', 'Also list their columns, vs top 6, not controlled', '−2.1 [−4.3, +0.0]', 'Same speed as shared', [['Opt-in', 'constraint']]],
         ]}],
-    'note': 'Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.',
+    'note': '⁠¹ Paired 95 % intervals. Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.',
     'takeaway': 'Table selection is the **one clear gain**. Five later trials traded speed or recall, not accuracy.',
     'notes': notes('Show what the later trials found.',
         '[Point: Top row] Each row shows what changed, the paired result, the side effect and the decision. Sending the best tables is the one clear gain. None of the five later trials added to it.',
@@ -343,7 +337,7 @@ retrieval = {
     'title': 'Better table coverage did not measurably improve accuracy',
     'subtitle': 'Correct answers gained and lost by each fix against selected tables, on 1,222 questions',
     'panels': [
-        {'title': 'Dense embeddings: net +2 answers', 'scale': [-50, 25], 'unit': '', 'marker': 1, 'rows': [
+        {'title': 'Dense embeddings: net +2 answers¹', 'scale': [-50, 25], 'unit': '', 'marker': 1, 'rows': [
             {'label': 'Gained', 'value': 18, 'series': 'secondary', 'text': '+18'},
             {'label': 'Lost', 'value': -16, 'series': 'loss', 'text': '−16'},
         ]},
@@ -356,7 +350,7 @@ retrieval = {
             {'label': 'Lost', 'value': -39, 'series': 'loss', 'text': '−39'},
         ]},
     ],
-    'caption': '**Note:** gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.',
+    'caption': '**Note:** ¹ Gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.',
     'takeaway': 'Each fix helps where it aims, and **the other questions pay**.',
     'annotations': [
         {'title': 'Fixes help where they aim', 'text': 'Dense embeddings took the missed-table questions from 8 to 26 correct.'},
@@ -376,7 +370,7 @@ next_tests = {
     'title': 'Four tests would close the main gaps in the evidence',
     'subtitle': 'Each needs a measured outcome before any default changes',
     'tables': [{
-        'headers': ['Test', 'Why it is needed', 'What we would measure', 'What it decides'],
+        'headers': ['Test', 'Why it is needed', 'What we would measure', 'What it decides¹'],
         'widths': W16, 'size': 10, 'row_height': 60,
         'rows': [
             ['1  Business definitions', 'Revenue stays ambiguous until a person checks it.', 'Answers on ambiguous questions, with and without a few definitions.', 'Whether to carry a definitions layer.'],
@@ -384,7 +378,7 @@ next_tests = {
             ['3  New large schemas', 'The gain comes from 2 of 4 databases.', 'Top 6 on databases outside these four, one by one.', 'Whether top 6 stays the default at every size.'],
             ['4  A hosted model', 'All results use one local model.', 'The same suites on a hosted model.', 'Whether it is worth sending it the prompt.'],
         ]}],
-    'note': 'The last column states proposals, not results. Broader value hints would need a data-boundary decision first.',
+    'note': '⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first.',
     'takeaway': 'Measure first, then **change a default only on evidence**.',
     'notes': notes('Name the four tests that would close the gaps.',
         '[Point: Row 1] First, business definitions: add a few and compare answers on ambiguous questions. [Point: Row 2] Second, targeted table recovery, reporting gains on the 128 and losses on the 1,094.',
@@ -471,13 +465,13 @@ scoring = {
             ['Numbers', 'Equal across integer and decimal types; otherwise within one part in a million.', '1 and 1.0 are the same answer.'],
             ['Text and NULL', 'Text matches exactly after trimming and never equals a number. NULL equals only NULL.', 'No loose string matching.'],
          ]},
-        {'title': 'What each outcome means', 'headers': ['Outcome', 'When', 'Counts as'], 'widths': W_A1, 'size': 10, 'row_height': 22,
+        {'title': 'What each outcome means¹', 'headers': ['Outcome', 'When', 'Counts as'], 'widths': W_A1, 'size': 10, 'row_height': 22,
          'rows': [
             ['Correct', 'Rows match the reference, or a request that should be refused was refused.', 'Matched'],
             ['Wrong, refused, unanswerable or error', 'Rows differ, a safe question was blocked or declined, or the SQL failed or came back empty.', 'Not matched'],
          ]},
     ],
-    'note': 'This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal.',
+    'note': '⁠¹ This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal.',
     'takeaway': 'Matched means **the same rows**, not similar SQL.',
     'notes': notes('Backup for questions about how accuracy is measured.',
         'An answer counts as matched when its rows equal the reference rows. Columns compare by position, rows as a set unless the reference orders them, numbers across integer and decimal types, and text exactly.',
@@ -510,13 +504,13 @@ engines = {
     'header_style': 'appendix',
     'title': 'Backup: each engine enforces read-only in its own way',
     'subtitle': 'The engine layer of the safety slide; each mechanism is required, not optional',
-    'tables': [{'headers': ['Engine', 'Writes refused by', 'Files and internals', 'Work budget'], 'widths': W_A3, 'size': 10, 'row_height': 76,
+    'tables': [{'headers': ['Engine¹', 'Writes refused by', 'Files and internals', 'Work budget'], 'widths': W_A3, 'size': 10, 'row_height': 76,
         'rows': [
             ['SQLite', 'A read-only connection, query_only on, and an authorizer that denies every write action.', 'The authorizer also denies ATTACH, so other files cannot be opened.', '100,000 virtual-machine steps, then the query stops.'],
             ['DuckDB', 'The read_only connect flag, which protects the database file.', 'External access off, so read_csv and other file readers are refused.', '5,000 ms, then the query stops.'],
             ['PostgreSQL', 'A least-privilege role and a read-only transaction, each enough on its own.', 'A superuser or file-reading role is refused at connect.', '5,000 ms, then the query stops.'],
         ]}],
-    'note': 'All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.',
+    'note': '⁠¹ All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.',
     'takeaway': 'Read-only is **enforced by each engine**, not assumed from the application check.',
     'notes': notes('Backup for questions about engine safety.',
         'Each engine enforces read-only in its own way, and every mechanism is load-bearing. SQLite uses a read-only connection, query_only and an authorizer. DuckDB uses its read_only flag plus external access off. PostgreSQL uses a least-privilege role and a read-only transaction.',
@@ -543,6 +537,36 @@ stack = {
     'takeaway': 'No model is trained: the app **wraps an existing model** with checks around it.',
     'notes': notes('Backup for questions about the stack.', 'These are the tools behind each step. Nothing is trained; the evaluation harness measures the agent.',
         'Reference: pyproject.toml; ui/connection.py; text_to_sql_agent/llm.py.'),
+}
+
+arch_full = {
+    'id': 'appendix-architecture', 'layout': 'arch_detail', 'section': 'Appendix', 'topic': 'Full architecture', 'accent': 'slate',
+    'header_style': 'appendix',
+    'title': 'Backup: the full flow, step by step',
+    'subtitle': 'Eight steps from question to answer; top row left to right, then right to left',
+    'legend_kinds': [['app', 'App step, no model'], ['model', 'The model: behaviour'], ['code', 'Enforced in code']],
+    'rows': ['Ask and prepare'],
+    'top': [
+        {'n': 1, 'title': 'Ask', 'kind': 'app', 'text': 'Pick a demo database, a file, a connection string or CSV uploads, then ask in plain English.', 'logos': ['assets/logos/tech-streamlit.png']},
+        {'n': 2, 'title': 'Read schema', 'kind': 'app', 'text': 'Tables, columns, keys and up to 6 values from small text columns, cached per schema version.', 'logos': ['assets/logos/tech-python.png']},
+        {'n': 3, 'title': 'Select tables', 'kind': 'app', 'text': 'Score every table against the question; keep the top 6 and the tables one foreign key away.', 'logos': ['assets/logos/tech-python.png']},
+        {'n': 4, 'title': 'Build prompt', 'kind': 'app', 'text': 'Dialect rules, the chosen schema and the question. No result rows are ever included.', 'logos': ['assets/logos/tech-langchain.png']},
+    ],
+    'bottom': [
+        {'n': 5, 'title': 'Generate', 'kind': 'model', 'text': 'Gemini (hosted) or Ollama (local) writes one SQL statement, or declines a write or an unanswerable question.', 'logos': ['assets/logos/tech-ollama.png', 'assets/logos/tech-googlegemini.png']},
+        {'n': 6, 'title': 'Validate', 'kind': 'code', 'text': 'sqlglot accepts one SELECT or WITH and refuses writes and engine internals.', 'logos': ['assets/logos/tech-sqlglot.png']},
+        {'n': 7, 'title': 'Run', 'kind': 'code', 'text': 'A read-only connection with a work budget (100,000 steps or 5,000 ms) and a 1,000-row cap.', 'logos': ['assets/logos/tech-python.png']},
+        {'n': 8, 'title': 'Show', 'kind': 'app', 'text': 'The answer, table, a chart when it suits, the SQL and why those tables were chosen.', 'logos': ['assets/logos/tech-streamlit.png', 'assets/logos/tech-pandas.png']},
+    ],
+    'repair': 'A query error goes back to the model once; the repair passes steps 6 and 7 again',
+    'engine': {'title': 'Database engine', 'text': 'Set by the connection string; 15 conformance tests each.',
+               'detail': [['assets/logos/tech-sqlite.png', 'SQLite', 'Read-only connection, query_only and an authorizer that denies writes and ATTACH.'],
+                          ['assets/logos/tech-duckdb.png', 'DuckDB', 'The read_only flag, with external access off so file readers are refused.'],
+                          ['assets/logos/tech-postgresql.png', 'PostgreSQL', 'A least-privilege role and a read-only transaction.']]},
+    'person': 'The person asks at step 1 and inspects the answer, the SQL and the chosen tables at step 8. A query stopped by the work budget is not retried.',
+    'notes': notes('Backup for questions about the full flow.',
+        'Steps one to four prepare the prompt with no model. Step five is the only model call. Steps six and seven are the two gates in code. Step eight shows everything to the person. A query error goes back to the model once.',
+        'Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; docs/2_architecture.md.'),
 }
 
 agenda = {
@@ -588,11 +612,11 @@ summary.update({
     'layout': 'summary_page',
     'tiles': [
         {'label': 'Read-only checks', 'value': '45 of 45', 'text': 'tests passed, none skipped, on 3 database engines', 'icon': 'verified_user', 'series': 'primary', 'marker': 1, 'visual': {'kind': 'dots', 'n': 45}, 'caveat': 'Read-only, not proof of right answers.'},
-        {'label': 'Spider', 'value': '64.6 %', 'text': 'of answers matched: common test, local 9B model', 'icon': 'target', 'series': 'primary', 'marker': 3, 'visual': {'kind': 'ring', 'path': 'assets/figures/ring-64-6.png', 'alt': 'Ring filled to 64.6 %'}, 'caveat': 'Our scorer, not the leaderboard.'},
+        {'label': 'Spider', 'value': '64.6 %', 'text': 'of answers matched¹: common test, local 9B model', 'icon': 'target', 'series': 'primary', 'marker': 3, 'visual': {'kind': 'ring', 'path': 'assets/figures/ring-64-6.png', 'alt': 'Ring filled to 64.6 %'}, 'caveat': 'Our scorer, not the leaderboard.'},
         {'label': 'BIRD', 'value': '35.2 %', 'text': 'of answers matched: harder test, with evidence hints', 'icon': 'target', 'series': 'primary', 'visual': {'kind': 'ring', 'path': 'assets/figures/ring-35-2.png', 'alt': 'Ring filled to 35.2 %'}, 'caveat': 'One local model only.'},
         {'label': 'Large databases', 'value': '+3.6 pts', 'text': 'from choosing tables [+1.4, +5.8]', 'icon': 'trending_up', 'series': 'secondary', 'visual': {'kind': 'interval'}, 'caveat': 'From 2 of 4 databases.'},
     ],
-    'panel_title': 'Large databases: more correct answers from less context',
+    'panel_title': 'Large databases: more correct answers from less context²',
     'panel_marker': 2,
     'panels': [
         {'title': 'Answers matched', 'max': 32, 'rows': [
@@ -604,7 +628,7 @@ summary.update({
             {'label': 'Top 6 tables', 'value': 31, 'text': '31', 'series': 'primary'}],
          'reading': 'The prompt was 69 % smaller, but each answer took about two seconds longer.'},
     ],
-    'note': 'Accuracy uses this project’s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD train questions on 4 databases of 21 to 65 tables.',
+    'note': '¹ This project’s result comparison, not leaderboard scoring; Spider (Yu et al., 2018) and BIRD (Li et al., 2023). ² 1,222 BIRD train questions on 4 databases of 21 to 65 tables.',
     'takeaway': 'Inspectable and read-only, but **a person should still review** each answer.',
     'annotations': [
         {'title': 'Read-only is not the same as right', 'text': 'The controls limit what can run. They do not show the answer is correct.'},
@@ -625,7 +649,7 @@ retrieval['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob
 method['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results'
 appendix['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py'
 brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,
-                   benchmarks, large, trials, retrieval, next_tests, references, close, appendix, scoring, engines, stack, glossary]
+                   benchmarks, large, trials, retrieval, next_tests, references, close, appendix, arch_full, scoring, engines, stack, glossary]
 for sl in brief['slides']:   # the kit's table_page reads its face notes from notes_on_face, not note
     if sl['layout'] == 'table_page' and 'note' in sl:
         sl['notes_on_face'] = [sl.pop('note')]

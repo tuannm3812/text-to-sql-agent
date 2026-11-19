@@ -104,12 +104,12 @@ References:
 
 ## 9. The model proposes SQL; the application controls execution
 
-Walk one question through the whole path.
+Walk one question through the app.
 
-This is the whole path of one question: eight steps, and only one is the model. [Point: top row] A person asks in plain English. The application reads the schema, selects the top six tables and their neighbours, and builds the prompt. None of this uses a model.
-[Point: Generate, marker 1] Step five is the only model call. Gemini or Ollama writes one SQL statement, or declines. It never sees result rows. [Point: Validate and Run, marker 2] Then two separate gates, right to left: sqlglot refuses anything that is not a single read, and the engine runs the query read-only with a work budget and a 1,000-row cap.
-[Point: engine band, marker 3] The same steps work on SQLite, DuckDB and PostgreSQL; each passes the same 15 conformance tests. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. [Point: person] The flow ends with the person, who inspects the answer and the SQL.
-Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms); ui/connection.py. Conformance: 45 tests, 15 per engine, 0 skipped.
+This is the path of one question in four stages, and only one is the model. [Point: Ask and prepare] A person asks in plain English; the application reads the schema, keeps the top six tables and builds the prompt, with no model.
+[Point: Generate, marker 1] The model writes one SQL statement, or declines. It never sees result rows. [Point: Check and run, marker 2] Then two gates in code: sqlglot allows one read only, and the engine runs the query read-only with a work budget and a row cap.
+[Point: engine band, marker 3] The same flow runs on SQLite, DuckDB and PostgreSQL. [Point: dashed arrow, marker 4] A query error goes back to the model once, and the repair passes the same checks. The full eight-step flow is in the appendix.
+Reference: pipeline.answer_question (max_repair_attempts=1); config.py; docs/2_architecture.md. Conformance: 45 tests, 15 per engine, 0 skipped.
 
 References:
 - sources.md
@@ -239,7 +239,18 @@ References:
 - sources.md
 - claims-register.md
 
-## 20. Backup: matched means the same rows as the reference
+## 20. Backup: the full flow, step by step
+
+Backup for questions about the full flow.
+
+Steps one to four prepare the prompt with no model. Step five is the only model call. Steps six and seven are the two gates in code. Step eight shows everything to the person. A query error goes back to the model once.
+Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; docs/2_architecture.md.
+
+References:
+- sources.md
+- claims-register.md
+
+## 21. Backup: matched means the same rows as the reference
 
 Backup for questions about how accuracy is measured.
 
@@ -250,7 +261,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 21. Backup: each engine enforces read-only in its own way
+## 22. Backup: each engine enforces read-only in its own way
 
 Backup for questions about engine safety.
 
@@ -261,7 +272,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 22. Backup: the technology behind each step
+## 23. Backup: the technology behind each step
 
 Backup for questions about the stack.
 
@@ -272,7 +283,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 23. Backup: terms used in this deck
+## 24. Backup: terms used in this deck
 
 Backup glossary.
 

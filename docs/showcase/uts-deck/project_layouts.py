@@ -119,7 +119,7 @@ def figure_marker(L, p, slide, number, cx, cy, halo=True):
     slide.setdefault('figure_marks', []).append({'number': number, 'cx': cx, 'cy': cy})
 
 
-def right_column(L, p, slide, marks, halo=False):
+def right_column(L, p, slide, marks, halo=True):
     """The kit's figure_evidence right column: hairline, optional takeaway, numbered headings and texts,
     with the paired markers placed on the figure at marks[number]."""
     p.line(658, 131, 658, END, L.t.color('hair'))
@@ -713,4 +713,127 @@ def summary_page(L, p, slide):
     right_column(L, p, slide, marks, halo=True)
 
 
-LAYOUTS = {'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+KIND = {'app': ('#1B2430', '#F4F5F6'), 'model': ('#FDE725', '#FDF7C7'), 'code': ('#21918C', '#E4F2F1')}
+
+
+def flow_legend(L, p, slide, x, y, w):
+    items = [{'kind': 'swatch', 'color': KIND[k][0], 'label': lab} for k, lab in slide['legend_kinds']]
+    return legend(L, p, items, x, y, w)
+
+
+def flow_box(L, p, x, y, w, h, st, size=10):
+    rule, fill = KIND[st['kind']]
+    p.rect(x, y, w, h, fill)
+    p.rect(x, y, w, 3, rule)
+    tx = x + 10
+    if st.get('n'):
+        p.rect(x + 10, y + 11, 14, 14, L.t.color('ink'))
+        paint(L, p, str(st['n']), x + 10, y + 11.5, 14, 8, '#FFFFFF', True, 'center')
+        tx = x + 30
+    elif st.get('icon'):
+        icon(L, p, f"assets/icons/{st['icon']}-ink.png", st['title'], x + 10, y + 9, 18)
+        tx = x + 34
+    th = put(L, p, st['title'], tx, y + 10, x + w - 10 - tx, 12 if size > 9 else 10, 'ink', True)
+    put(L, p, st['text'], x + 10, y + max(32, 10 + th + 6), w - 20, 8, 'body')
+    lx = x + w - 10
+    for logo in reversed(st.get('logos', [])):
+        lx -= 15
+        icon(L, p, logo, '', lx, y + h - 19, 12)
+    return tx
+
+
+def arch_summary(L, p, slide):
+    """Architecture in four stages: what runs where, the one model call, the two gates, the one repair try."""
+    slide.setdefault('marker_pairs', [])
+    marks = {}
+    W = FIG_RIGHT - LEFT
+    flow_legend(L, p, slide, LEFT, TOP, W)
+    gap = 22
+    bw = (W - 3 * gap) / 4
+    bh = 140
+    y0 = TOP + 58
+    xs = [LEFT + k * (bw + gap) for k in range(4)]
+    for k, st in enumerate(slide['stages']):
+        tx = flow_box(L, p, xs[k], y0, bw, bh, st)
+        if st.get('marker'):
+            marks[st['marker']] = (tx + width_of(L, st['title'], 12, True) + 12, y0 + 18)
+        if k < 3:
+            p.connector(xs[k] + bw + 3, y0 + bh / 2, xs[k + 1] - 3, y0 + bh / 2, color=L.t.color('ink'))
+    # one repair try: dashed from Check and run back to Generate, above the row
+    ry = y0 - 12
+    a, b = xs[2] + bw / 2, xs[1] + bw / 2
+    p.line(a, y0 - 2, a, ry, L.t.color('ink'), 1.2, dash='DASH')
+    p.line(a, ry, b, ry, L.t.color('ink'), 1.2, dash='DASH')
+    p.connector(b, ry, b, y0 - 2, color=L.t.color('ink'))
+    put(L, p, slide['repair'], b + 8, ry - 13, a - b - 16, 8, 'body', align='center')
+    marks[4] = (a + 14, ry)
+    # engine band under the row; the app reads the schema from it and runs the query on it
+    ey = y0 + bh + 30
+    eh = 44
+    p.rect(LEFT, ey, W, eh, KIND['code'][1])
+    p.rect(LEFT, ey, 2.5, eh, KIND['code'][0])
+    put(L, p, slide['engine']['title'], LEFT + 10, ey + 8, 200, 12, 'ink', True)
+    put(L, p, slide['engine']['text'], LEFT + 10, ey + 26, 220, 8, 'body')
+    marks[3] = (LEFT + 10 + width_of(L, slide['engine']['title'], 12, True) + 12, ey + 16)
+    ex = LEFT + 250
+    for logo, name in slide['engine']['logos']:
+        icon(L, p, logo, name, ex, ey + 14, 16)
+        tw = width_of(L, name, 10, True) + 2
+        put(L, p, name, ex + 20, ey + 15, tw, 10, 'ink', True)
+        ex += 20 + tw + 22
+    for k in (0, 2):
+        p.connector(xs[k] + bw / 2, y0 + bh + 3, xs[k] + bw / 2, ey - 3, start=True, color=L.t.color('ink'))
+    py = END - 30
+    card(L, p, LEFT, py, W, 30, weight=0)
+    icon(L, p, 'assets/icons/person-ink.png', 'Person', LEFT + 10, py + 7, 16)
+    put(L, p, slide['person'], LEFT + 34, py + 8, W - 44, 10, 'ink')
+    right_column(L, p, slide, marks)
+
+
+def arch_detail(L, p, slide):
+    """Appendix: the full eight-step flow across the whole width, with each step explained; no takeaway column."""
+    W = RIGHT - LEFT
+    flow_legend(L, p, slide, LEFT, TOP, W)
+    gap = 26
+    bw = (W - 3 * gap) / 4
+    bh = 82
+    ya = TOP + 26
+    xs = [LEFT + k * (bw + gap) for k in range(4)]
+    cap(L, p, slide['rows'][0], LEFT, ya - 2, W, 'body')
+    ya += 12
+    for k, st in enumerate(slide['top']):
+        flow_box(L, p, xs[k], ya, bw, bh, st, 9)
+        if k < 3:
+            p.connector(xs[k] + bw + 3, ya + bh / 2, xs[k + 1] - 3, ya + bh / 2, color=L.t.color('ink'))
+    yb = ya + bh + 44
+    p.connector(xs[3] + bw / 2, ya + bh + 3, xs[3] + bw / 2, yb - 3, color=L.t.color('ink'))
+    for k, st in enumerate(slide['bottom']):   # 5 at the right, 8 at the left
+        x = xs[3 - k]
+        flow_box(L, p, x, yb, bw, bh, st, 9)
+        if k < 3:
+            p.connector(x - 3, yb + bh / 2, x - gap + 3, yb + bh / 2, color=L.t.color('ink'))
+    # repair: from Run (column 2) back to Generate (column 4), in the gap above the lower row
+    ry = yb - 14
+    a, b = xs[1] + bw / 2, xs[3] + 30
+    p.line(a, yb - 2, a, ry, L.t.color('ink'), 1.2, dash='DASH')
+    p.line(a, ry, b, ry, L.t.color('ink'), 1.2, dash='DASH')
+    p.connector(b, ry, b, yb - 2, color=L.t.color('ink'))
+    put(L, p, slide['repair'], a + 10, ry - 13, b - a - 30, 8, 'body')
+    ey = yb + bh + 16
+    eh = 46
+    p.rect(LEFT, ey, W, eh, KIND['code'][1])
+    p.rect(LEFT, ey, 2.5, eh, KIND['code'][0])
+    put(L, p, slide['engine']['title'], LEFT + 10, ey + 8, 170, 10, 'ink', True)
+    put(L, p, slide['engine']['text'], LEFT + 10, ey + 26, 170, 8, 'body')
+    ew = (W - 200) / 3
+    for k, (logo, name, how) in enumerate(slide['engine']['detail']):
+        x = LEFT + 190 + k * ew
+        icon(L, p, logo, name, x, ey + 8, 14)
+        put(L, p, name, x + 20, ey + 8, ew - 30, 10, 'ink', True)
+        put(L, p, how, x, ey + 26, ew - 14, 8, 'body')
+    p.connector(xs[1] + bw / 2, yb + bh + 3, xs[1] + bw / 2, ey - 3, color=L.t.color('ink'))
+    py = ey + eh + 8
+    put(L, p, slide['person'], LEFT, py, W, 8, 'body')
+
+
+LAYOUTS = {'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
