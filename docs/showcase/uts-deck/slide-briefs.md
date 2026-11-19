@@ -271,7 +271,6 @@ Exact face text:
 - Top test entry 83.40 %
 - Transfer unproven
 - Methods rarely listed
-- THIS PROJECT
 - This project
 - Schema and bounded hints
 - Connect only

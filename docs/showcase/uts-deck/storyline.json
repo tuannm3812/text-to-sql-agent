@@ -2170,8 +2170,8 @@
       "figure_marks": [
         {
           "number": 1,
-          "cx": 51.5,
-          "cy": 131.0
+          "cx": 162.5,
+          "cy": 194.0
         },
         {
           "number": 2,
@@ -2180,13 +2180,13 @@
         },
         {
           "number": 3,
-          "cx": 205.625,
-          "cy": 131.0
+          "cx": 299.225,
+          "cy": 194.0
         },
         {
           "number": 4,
-          "cx": 638.0,
-          "cy": 328.0
+          "cx": 551.45,
+          "cy": 336.0
         }
       ],
       "ops": [
@@ -4168,8 +4168,8 @@
           "slide": "summary",
           "id": "r126",
           "shape_type": "ELLIPSE",
-          "x": 44.5,
-          "y": 124.0,
+          "x": 155.5,
+          "y": 187.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -4179,8 +4179,8 @@
           "slide": "summary",
           "id": "r127",
           "shape_type": "ELLIPSE",
-          "x": 45.5,
-          "y": 125.0,
+          "x": 156.5,
+          "y": 188.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -4190,8 +4190,8 @@
           "slide": "summary",
           "id": "t128",
           "text": "1",
-          "x": 38.3,
-          "y": 117.8,
+          "x": 149.3,
+          "y": 180.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -4396,8 +4396,8 @@
           "slide": "summary",
           "id": "r140",
           "shape_type": "ELLIPSE",
-          "x": 198.625,
-          "y": 124.0,
+          "x": 292.225,
+          "y": 187.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -4407,8 +4407,8 @@
           "slide": "summary",
           "id": "r141",
           "shape_type": "ELLIPSE",
-          "x": 199.625,
-          "y": 125.0,
+          "x": 293.225,
+          "y": 188.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -4418,8 +4418,8 @@
           "slide": "summary",
           "id": "t142",
           "text": "3",
-          "x": 192.425,
-          "y": 117.8,
+          "x": 286.02500000000003,
+          "y": 180.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -4510,8 +4510,8 @@
           "slide": "summary",
           "id": "r147",
           "shape_type": "ELLIPSE",
-          "x": 631.0,
-          "y": 321.0,
+          "x": 544.45,
+          "y": 329.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -4521,8 +4521,8 @@
           "slide": "summary",
           "id": "r148",
           "shape_type": "ELLIPSE",
-          "x": 632.0,
-          "y": 322.0,
+          "x": 545.45,
+          "y": 330.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -4532,8 +4532,8 @@
           "slide": "summary",
           "id": "t149",
           "text": "4",
-          "x": 624.8,
-          "y": 314.8,
+          "x": 538.25,
+          "y": 322.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -4776,8 +4776,8 @@
       "figure_marks": [
         {
           "number": 1,
-          "cx": 51.5,
-          "cy": 383.5
+          "cx": 117.0,
+          "cy": 403.5
         },
         {
           "number": 2,
@@ -4786,8 +4786,8 @@
         },
         {
           "number": 3,
-          "cx": 469.1666666666667,
-          "cy": 383.5
+          "cx": 508.6666666666667,
+          "cy": 403.5
         }
       ],
       "ops": [
@@ -6159,8 +6159,8 @@
           "slide": "hard",
           "id": "r80",
           "shape_type": "ELLIPSE",
-          "x": 45.5,
-          "y": 377.5,
+          "x": 111.0,
+          "y": 397.5,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -6170,8 +6170,8 @@
           "slide": "hard",
           "id": "t81",
           "text": "1",
-          "x": 38.3,
-          "y": 370.3,
+          "x": 103.8,
+          "y": 390.3,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -6365,8 +6365,8 @@
           "slide": "hard",
           "id": "r92",
           "shape_type": "ELLIPSE",
-          "x": 463.1666666666667,
-          "y": 377.5,
+          "x": 502.6666666666667,
+          "y": 397.5,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -6376,8 +6376,8 @@
           "slide": "hard",
           "id": "t93",
           "text": "3",
-          "x": 455.9666666666667,
-          "y": 370.3,
+          "x": 495.4666666666667,
+          "y": 390.3,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -6658,10 +6658,6 @@
               ]
             }
           ]
-        },
-        {
-          "band": "This project",
-          "accent": "ochre"
         },
         {
           "logo": "assets/icons/fact_check-teal.png",
@@ -9172,78 +9168,28 @@
           "id": "r145",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 356.0,
-          "width": 875.5,
-          "height": 17,
-          "background_color": "#F6F1E5"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r146",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 356.0,
-          "width": 2.5,
-          "height": 17,
-          "background_color": "#896521"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t147",
-          "text": "THIS PROJECT",
-          "x": 44.3,
-          "y": 352.8,
-          "width": 414.4,
-          "height": 25.200000000000003,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t147",
-          "start": 0,
-          "end": 12,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t147",
-          "start": 0,
-          "end": 12,
-          "bold": true
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r148",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 373.0,
+          "y": 355.0,
           "width": 875.5,
           "height": 31,
           "background_color": "#F6F1E5"
         },
         {
           "op": "add-image",
-          "id": "im149",
+          "id": "im146",
           "path": "assets/icons/fact_check-teal.png",
           "alt": "This project",
           "x": 47.5,
-          "y": 379.5,
+          "y": 361.5,
           "width": 18,
           "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t150",
+          "id": "t147",
           "text": "This project",
           "x": 64.3,
-          "y": 374.55,
+          "y": 356.55,
           "width": 168.4,
           "height": 27.9,
           "font_size": 10,
@@ -9254,14 +9200,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t150",
+          "element": "t147",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t150",
+          "element": "t147",
           "start": 0,
           "end": 12,
           "bold": true
@@ -9269,10 +9215,10 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t151",
+          "id": "t148",
           "text": "Schema and bounded hints",
           "x": 232.3,
-          "y": 374.55,
+          "y": 356.55,
           "width": 150.4,
           "height": 27.9,
           "font_size": 10,
@@ -9282,21 +9228,21 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t151",
+          "element": "t148",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t151",
+          "element": "t148",
           "start": 0,
           "end": 6,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t151",
+          "element": "t148",
           "start": 11,
           "end": 24,
           "bold": true
@@ -9304,10 +9250,10 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r152",
+          "id": "r149",
           "shape_type": "ELLIPSE",
           "x": 389.5,
-          "y": 380.5,
+          "y": 362.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -9315,10 +9261,53 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r153",
+          "id": "r150",
           "shape_type": "ELLIPSE",
           "x": 395.5,
-          "y": 380.5,
+          "y": 362.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r151",
+          "shape_type": "ELLIPSE",
+          "x": 401.5,
+          "y": 362.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t152",
+          "text": "Connect only",
+          "x": 382.3,
+          "y": 362.3,
+          "width": 130.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t152",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r153",
+          "shape_type": "ELLIPSE",
+          "x": 519.5,
+          "y": 362.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -9328,51 +9317,8 @@
           "slide": "tools",
           "id": "r154",
           "shape_type": "ELLIPSE",
-          "x": 401.5,
-          "y": 380.5,
-          "width": 4.5,
-          "height": 4.5,
-          "background_color": "#D8DEE3"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t155",
-          "text": "Connect only",
-          "x": 382.3,
-          "y": 380.3,
-          "width": 130.4,
-          "height": 25.200000000000003,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t155",
-          "start": 0,
-          "end": 12,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r156",
-          "shape_type": "ELLIPSE",
-          "x": 519.5,
-          "y": 380.5,
-          "width": 4.5,
-          "height": 4.5,
-          "background_color": "#D8DEE3"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r157",
-          "shape_type": "ELLIPSE",
           "x": 525.5,
-          "y": 380.5,
+          "y": 362.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -9380,10 +9326,10 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r158",
+          "id": "r155",
           "shape_type": "ELLIPSE",
           "x": 531.5,
-          "y": 380.5,
+          "y": 362.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -9391,10 +9337,10 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t159",
+          "id": "t156",
           "text": "None",
           "x": 512.3,
-          "y": 380.3,
+          "y": 362.3,
           "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -9404,28 +9350,28 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t159",
+          "element": "t156",
           "start": 0,
           "end": 4,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im160",
+          "id": "im157",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
           "x": 649.5,
-          "y": 377.7,
+          "y": 359.7,
           "width": 8,
           "height": 8
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t161",
+          "id": "t158",
           "text": "A first look at a database",
           "x": 654.3,
-          "y": 369.5,
+          "y": 351.5,
           "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -9435,35 +9381,35 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t161",
+          "element": "t158",
           "start": 0,
           "end": 26,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t161",
+          "element": "t158",
           "start": 2,
           "end": 12,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im162",
+          "id": "im159",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
           "x": 649.5,
-          "y": 390.5,
+          "y": 372.5,
           "width": 8,
           "height": 8
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t163",
+          "id": "t160",
           "text": "SQL shown, run read-only",
           "x": 654.3,
-          "y": 382.3,
+          "y": 364.3,
           "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -9473,28 +9419,28 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t163",
+          "element": "t160",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im164",
+          "id": "im161",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
           "x": 785.0,
-          "y": 377.7,
+          "y": 359.7,
           "width": 8,
           "height": 8
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t165",
+          "id": "t162",
           "text": "A person checks the meaning",
           "x": 789.8,
-          "y": 369.5,
+          "y": 351.5,
           "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -9504,35 +9450,35 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t165",
+          "element": "t162",
           "start": 0,
           "end": 27,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t165",
+          "element": "t162",
           "start": 2,
           "end": 15,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im166",
+          "id": "im163",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
           "x": 785.0,
-          "y": 390.5,
+          "y": 372.5,
           "width": 8,
           "height": 8
         },
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t167",
+          "id": "t164",
           "text": "No governed metrics",
           "x": 789.8,
-          "y": 382.3,
+          "y": 364.3,
           "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -9542,7 +9488,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t167",
+          "element": "t164",
           "start": 0,
           "end": 19,
           "line_spacing": 135
@@ -9550,10 +9496,10 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r168",
+          "id": "r165",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 404.0,
+          "y": 386.0,
           "width": 875.5,
           "height": 0.5,
           "background_color": "#D8DEE3"
@@ -9561,10 +9507,10 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t169",
+          "id": "t166",
           "text": "Note: Our reading of each tool\u2019s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.",
           "x": 36.3,
-          "y": 404.8,
+          "y": 386.8,
           "width": 889.9,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -9574,14 +9520,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t169",
+          "element": "t166",
           "start": 0,
           "end": 193,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t169",
+          "element": "t166",
           "start": 0,
           "end": 5,
           "bold": true,
@@ -9590,7 +9536,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r170",
+          "id": "r167",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -9601,7 +9547,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r171",
+          "id": "r168",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -9612,7 +9558,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t172",
+          "id": "t169",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -9625,14 +9571,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t172",
+          "element": "t169",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t172",
+          "element": "t169",
           "start": 0,
           "end": 8,
           "bold": true
@@ -9640,7 +9586,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t173",
+          "id": "t170",
           "text": "Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.",
           "x": 147.3,
           "y": 442.05,
@@ -9653,14 +9599,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t173",
+          "element": "t170",
           "start": 0,
           "end": 117,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t173",
+          "element": "t170",
           "start": 49,
           "end": 76,
           "bold": true
@@ -9831,8 +9777,8 @@
       "figure_marks": [
         {
           "number": 1,
-          "cx": 329.75,
-          "cy": 142.0
+          "cx": 215.1,
+          "cy": 149.0
         },
         {
           "number": 2,
@@ -10954,8 +10900,8 @@
           "slide": "aim",
           "id": "r64",
           "shape_type": "ELLIPSE",
-          "x": 323.75,
-          "y": 136.0,
+          "x": 209.1,
+          "y": 143.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -10965,8 +10911,8 @@
           "slide": "aim",
           "id": "t65",
           "text": "1",
-          "x": 316.55,
-          "y": 128.8,
+          "x": 201.9,
+          "y": 135.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -11416,12 +11362,12 @@
         },
         {
           "number": 2,
-          "cx": 638.0,
-          "cy": 144.0
+          "cx": 572.9,
+          "cy": 145.5
         },
         {
           "number": 3,
-          "cx": 638.0,
+          "cx": 194.58333333333334,
           "cy": 430.8487394957983
         }
       ],
@@ -12541,8 +12487,8 @@
           "slide": "demo",
           "id": "r56",
           "shape_type": "ELLIPSE",
-          "x": 631.0,
-          "y": 137.0,
+          "x": 565.9,
+          "y": 138.5,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -12552,8 +12498,8 @@
           "slide": "demo",
           "id": "r57",
           "shape_type": "ELLIPSE",
-          "x": 632.0,
-          "y": 138.0,
+          "x": 566.9,
+          "y": 139.5,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -12563,8 +12509,8 @@
           "slide": "demo",
           "id": "t58",
           "text": "2",
-          "x": 624.8,
-          "y": 130.8,
+          "x": 559.6999999999999,
+          "y": 132.3,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -12655,7 +12601,7 @@
           "slide": "demo",
           "id": "r63",
           "shape_type": "ELLIPSE",
-          "x": 631.0,
+          "x": 187.58333333333334,
           "y": 423.8487394957983,
           "width": 14,
           "height": 14,
@@ -12666,7 +12612,7 @@
           "slide": "demo",
           "id": "r64",
           "shape_type": "ELLIPSE",
-          "x": 632.0,
+          "x": 188.58333333333334,
           "y": 424.8487394957983,
           "width": 12,
           "height": 12,
@@ -12677,7 +12623,7 @@
           "slide": "demo",
           "id": "t65",
           "text": "3",
-          "x": 624.8,
+          "x": 181.38333333333335,
           "y": 417.64873949579834,
           "width": 26.4,
           "height": 26.4,
@@ -12945,23 +12891,23 @@
       "figure_marks": [
         {
           "number": 1,
-          "cx": 638.0,
-          "cy": 161.0
+          "cx": 343.4,
+          "cy": 140.0
         },
         {
           "number": 2,
-          "cx": 361.5,
-          "cy": 204.0
+          "cx": 219.03333333333333,
+          "cy": 205.5
         },
         {
           "number": 3,
-          "cx": 346.75,
-          "cy": 364.0
+          "cx": 484.15,
+          "cy": 388.0
         },
         {
           "number": 4,
-          "cx": 638.0,
-          "cy": 286.0
+          "cx": 489.23333333333335,
+          "cy": 289.5
         }
       ],
       "ops": [
@@ -14316,8 +14262,8 @@
           "slide": "boundary",
           "id": "r72",
           "shape_type": "ELLIPSE",
-          "x": 631.0,
-          "y": 154.0,
+          "x": 336.4,
+          "y": 133.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -14327,8 +14273,8 @@
           "slide": "boundary",
           "id": "r73",
           "shape_type": "ELLIPSE",
-          "x": 632.0,
-          "y": 155.0,
+          "x": 337.4,
+          "y": 134.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -14338,8 +14284,8 @@
           "slide": "boundary",
           "id": "t74",
           "text": "1",
-          "x": 624.8,
-          "y": 147.8,
+          "x": 330.2,
+          "y": 126.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -14430,8 +14376,8 @@
           "slide": "boundary",
           "id": "r79",
           "shape_type": "ELLIPSE",
-          "x": 354.5,
-          "y": 197.0,
+          "x": 212.03333333333333,
+          "y": 198.5,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -14441,8 +14387,8 @@
           "slide": "boundary",
           "id": "r80",
           "shape_type": "ELLIPSE",
-          "x": 355.5,
-          "y": 198.0,
+          "x": 213.03333333333333,
+          "y": 199.5,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -14452,8 +14398,8 @@
           "slide": "boundary",
           "id": "t81",
           "text": "2",
-          "x": 348.3,
-          "y": 190.8,
+          "x": 205.83333333333334,
+          "y": 192.3,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -14544,8 +14490,8 @@
           "slide": "boundary",
           "id": "r86",
           "shape_type": "ELLIPSE",
-          "x": 339.75,
-          "y": 357.0,
+          "x": 477.15,
+          "y": 381.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -14555,8 +14501,8 @@
           "slide": "boundary",
           "id": "r87",
           "shape_type": "ELLIPSE",
-          "x": 340.75,
-          "y": 358.0,
+          "x": 478.15,
+          "y": 382.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -14566,8 +14512,8 @@
           "slide": "boundary",
           "id": "t88",
           "text": "3",
-          "x": 333.55,
-          "y": 350.8,
+          "x": 470.95,
+          "y": 374.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -14658,8 +14604,8 @@
           "slide": "boundary",
           "id": "r93",
           "shape_type": "ELLIPSE",
-          "x": 631.0,
-          "y": 279.0,
+          "x": 482.23333333333335,
+          "y": 282.5,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -14669,8 +14615,8 @@
           "slide": "boundary",
           "id": "r94",
           "shape_type": "ELLIPSE",
-          "x": 632.0,
-          "y": 280.0,
+          "x": 483.23333333333335,
+          "y": 283.5,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -14680,8 +14626,8 @@
           "slide": "boundary",
           "id": "t95",
           "text": "4",
-          "x": 624.8,
-          "y": 272.8,
+          "x": 476.03333333333336,
+          "y": 276.3,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -14966,23 +14912,23 @@
       "figure_marks": [
         {
           "number": 1,
-          "cx": 640.0,
-          "cy": 314.0
+          "cx": 597.5416666666666,
+          "cy": 318.0
         },
         {
           "number": 2,
-          "cx": 483.875,
-          "cy": 314.0
+          "cx": 435.1666666666667,
+          "cy": 318.0
         },
         {
           "number": 3,
-          "cx": 638.0,
-          "cy": 244.0
+          "cx": 143.66666666666669,
+          "cy": 246.0
         },
         {
           "number": 4,
-          "cx": 333.75,
-          "cy": 380.0
+          "cx": 512.0833333333334,
+          "cy": 388.5
         }
       ],
       "ops": [
@@ -16898,8 +16844,8 @@
           "slide": "architecture",
           "id": "r114",
           "shape_type": "ELLIPSE",
-          "x": 633.0,
-          "y": 307.0,
+          "x": 590.5416666666666,
+          "y": 311.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -16909,8 +16855,8 @@
           "slide": "architecture",
           "id": "r115",
           "shape_type": "ELLIPSE",
-          "x": 634.0,
-          "y": 308.0,
+          "x": 591.5416666666666,
+          "y": 312.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -16920,8 +16866,8 @@
           "slide": "architecture",
           "id": "t116",
           "text": "1",
-          "x": 626.8,
-          "y": 300.8,
+          "x": 584.3416666666666,
+          "y": 304.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -17012,8 +16958,8 @@
           "slide": "architecture",
           "id": "r121",
           "shape_type": "ELLIPSE",
-          "x": 476.875,
-          "y": 307.0,
+          "x": 428.1666666666667,
+          "y": 311.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -17023,8 +16969,8 @@
           "slide": "architecture",
           "id": "r122",
           "shape_type": "ELLIPSE",
-          "x": 477.875,
-          "y": 308.0,
+          "x": 429.1666666666667,
+          "y": 312.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -17034,8 +16980,8 @@
           "slide": "architecture",
           "id": "t123",
           "text": "2",
-          "x": 470.675,
-          "y": 300.8,
+          "x": 421.9666666666667,
+          "y": 304.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -17126,8 +17072,8 @@
           "slide": "architecture",
           "id": "r128",
           "shape_type": "ELLIPSE",
-          "x": 631.0,
-          "y": 237.0,
+          "x": 136.66666666666669,
+          "y": 239.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -17137,8 +17083,8 @@
           "slide": "architecture",
           "id": "r129",
           "shape_type": "ELLIPSE",
-          "x": 632.0,
-          "y": 238.0,
+          "x": 137.66666666666669,
+          "y": 240.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -17148,8 +17094,8 @@
           "slide": "architecture",
           "id": "t130",
           "text": "3",
-          "x": 624.8,
-          "y": 230.8,
+          "x": 130.4666666666667,
+          "y": 232.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -17240,8 +17186,8 @@
           "slide": "architecture",
           "id": "r135",
           "shape_type": "ELLIPSE",
-          "x": 326.75,
-          "y": 373.0,
+          "x": 505.08333333333337,
+          "y": 381.5,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -17251,8 +17197,8 @@
           "slide": "architecture",
           "id": "r136",
           "shape_type": "ELLIPSE",
-          "x": 327.75,
-          "y": 374.0,
+          "x": 506.08333333333337,
+          "y": 382.5,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -17262,8 +17208,8 @@
           "slide": "architecture",
           "id": "t137",
           "text": "4",
-          "x": 320.55,
-          "y": 366.8,
+          "x": 498.8833333333334,
+          "y": 375.3,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,

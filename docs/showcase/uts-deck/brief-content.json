@@ -589,10 +589,6 @@
           ]
         },
         {
-          "band": "This project",
-          "accent": "ochre"
-        },
-        {
           "logo": "assets/icons/fact_check-teal.png",
           "url": "https://github.com/tuannm3812/text-to-sql-agent",
           "ours": true,

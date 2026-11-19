@@ -219,7 +219,7 @@ def hard_page(L, p, slide):
         put(L, p, c['title'], x + 12, y + 12, cw - 24, 12, 'ink', True)
         put(L, p, c['text'], x + 12, y + 32, cw - 24, 10)
         if c.get('marker'):
-            marks[c['marker']] = (x + 8, y)
+            marks[c['marker']] = (x + 12 + width_of(L, c['title'], 12, True) + 12, y + 20)
     if y + ch > END:
         raise ValueError(f'{p.id}: causes run past the content area')
     right_column(L, p, slide, marks)
@@ -325,7 +325,7 @@ def aim_page(L, p, slide):
         put(L, p, c['title'], tx, TOP + 9, x + w - 10 - tx, 12, 'ink', True)
         put(L, p, c['text'], tx, TOP + 26, x + w - 10 - tx, 10)
         if c.get('marker'):
-            marks[c['marker']] = (x + w - 10, TOP + 10)
+            marks[c['marker']] = (tx + width_of(L, c['title'], 12, True) + 12, TOP + 17)
     mx, my = LEFT, TOP + 66
     mw, mh = FIG_RIGHT - mx, END - 22 - my
     hw, hh = mw / 2, mh / 2
@@ -478,7 +478,7 @@ def demo_page(L, p, slide):
     marks[1] = (LEFT + iw * 0.37, TOP + ih * 0.34)
     cx = LEFT + iw + 14
     code_panel(L, p, cx, TOP, FIG_RIGHT - cx, ih, slide['code_title'], slide['code'])
-    marks[2] = (FIG_RIGHT - 12, TOP + 12)
+    marks[2] = (cx + 10 + width_of(L, slide['code_title'].upper(), 8, True) + 12, TOP + 13.5)
     y = TOP + ih + 16
     put(L, p, slide['bars_title'], LEFT, y, FIG_RIGHT - LEFT, 12, 'ink', True)
     y += 22
@@ -490,7 +490,7 @@ def demo_page(L, p, slide):
         hbar(L, p, LEFT + lw, y, w, 22, SERIES['primary' if k == 0 else 'published'], b['text'])
         if b.get('gap'):
             hbar(L, p, LEFT + lw + w, y, bw - w, 22, SERIES['pale'], b['gap'], L.t.color('ink'))
-            marks[3] = (FIG_RIGHT - 12, y + 11)
+            marks[3] = (LEFT + width_of(L, b['label'], 10) + 12, y + 11)
         y += 28
     note(L, p, slide['note'], LEFT, y + 4, FIG_RIGHT - LEFT)
     right_column(L, p, slide, marks, halo=True)
@@ -508,13 +508,13 @@ def boundary_page(L, p, slide):
     sw = max(W * sent / total, 60)
     hbar(L, p, LEFT, y, sw, 18, SERIES['primary'], f'{sent} sent')
     hbar(L, p, LEFT + sw, y, W - sw, 18, L.t.color('card'), f'{total - sent} not sent', L.t.color('body'))
-    marks[1] = (FIG_RIGHT - 12, y + 9)
+    marks[1] = (LEFT + width_of(L, slide['bar_title'], 12, True) + 14, y - 12)
     y += 22
     put(L, p, slide['bar_caption'], LEFT, y, W, 8, 'body')
     y += 18
     pw = 330
     end = code_panel(L, p, LEFT, y, pw, 160, slide['code_title'], slide['code'], 14)
-    marks[2] = (LEFT + pw - 12, y + 12)
+    marks[2] = (LEFT + 10 + width_of(L, slide['code_title'].upper(), 8, True) + 12, y + 13.5)
     lx = LEFT + pw + 14
     lw = FIG_RIGHT - lx
     ly = y
@@ -527,7 +527,7 @@ def boundary_page(L, p, slide):
             put(L, p, t, lx + 24, iy, lw - 34, 8, 'body')
             iy += 14
         ly += 84
-    marks[4] = (FIG_RIGHT - 12, y + 84 + 10)
+    marks[4] = (lx + 10 + width_of(L, slide['lists'][1][0].upper(), 8, True) + 12, y + 84 + 13.5)
     y += 176
     cw = (W - 14) / 2
     for k, (title, text, art) in enumerate(slide['models']):
@@ -536,7 +536,7 @@ def boundary_page(L, p, slide):
         icon(L, p, f'assets/icons/{art}-ink.png', title, x + 10, y + 17, 20)
         put(L, p, title, x + 38, y + 12, cw - 48, 12, 'ink', True)
         put(L, p, text, x + 38, y + 30, cw - 48, 10, 'body')
-    marks[3] = (LEFT + cw + 7, y - 4)
+    marks[3] = (LEFT + cw + 14 + 38 + width_of(L, slide['models'][1][0], 12, True) + 12, y + 20)
     note(L, p, slide['note'], LEFT, y + 66, W)
     right_column(L, p, slide, marks, halo=True)
 
@@ -583,7 +583,7 @@ def arch_page(L, p, slide):
         tw = width_of(L, name, 10, True) + 2
         put(L, p, name, ex + 20, ey + 10, tw, 10, 'ink', True)
         ex += 20 + tw + 18
-    marks[3] = (FIG_RIGHT - 12, ey + 10)
+    marks[3] = (LEFT + 8 + width_of(L, slide['engine']['title'], 10, True) + 12, ey + 12)
     # read schema reads the engine; prepare flows down into generate
     p.connector(LEFT + bw + gap + bw / 2, ey - 2, LEFT + bw + gap + bw / 2, y1 + bh + 2, color=L.t.color('rule'))
     y2 = ey + eh + 34
@@ -596,8 +596,8 @@ def arch_page(L, p, slide):
         box(x, y2, st, SERIES['pale'] if st.get('model') else None)
         if k < 3:
             p.connector(x - 2, y2 + bh / 2, x - gap + 2, y2 + bh / 2, color=L.t.color('rule'))
-    marks[1] = (xs[3] + bw - 10, y2 + 12)
-    marks[2] = (xs[2] + bw - 10, y2 + 12)
+    marks[1] = (xs[3] + 28 + width_of(L, slide['bottom'][0]['title'], 10, True) + 12, y2 + 16)
+    marks[2] = (xs[2] + 28 + width_of(L, slide['bottom'][1]['title'], 10, True) + 12, y2 + 16)
     run_x = xs[1] + bw / 2
     p.connector(run_x, y2 - 2, run_x, ey + eh + 2, color=L.t.color('rule'))
     # one repair try: dashed from Run back to Generate, under the row
@@ -606,7 +606,7 @@ def arch_page(L, p, slide):
     p.line(xs[1] + bw / 2, ry, xs[3] + bw / 2, ry, L.t.color('ink'), 1.2, dash='DASH')
     p.connector(xs[3] + bw / 2, ry, xs[3] + bw / 2, y2 + bh + 2, color=L.t.color('ink'))
     put(L, p, slide['repair'], xs[2] - 10, ry + 3, bw + 40, 8, 'body')
-    marks[4] = (xs[2] - 22, ry)
+    marks[4] = (xs[2] - 10 + width_of(L, slide['repair'], 8) + 12, ry + 8.5)
     py = END - 30   # the person at both ends
     card(L, p, LEFT, py, W, 30, weight=0)
     icon(L, p, 'assets/icons/person-ink.png', 'Person', LEFT + 10, py + 7, 16)
@@ -671,7 +671,7 @@ def summary_page(L, p, slide):
             p.line(x + 12, TOP + 108, x + tw - 12, TOP + 108, L.t.color('hair'))
             put(L, p, t['caveat'], x + 12, TOP + 113, tw - 24, 8, 'ink')
         if t.get('marker'):
-            marks[t['marker']] = (x + 8, TOP - 1)
+            marks[t['marker']] = (x + 12 + width_of(L, t['value'], 24, True) + 14, TOP + 62)
     y = TOP + th + 18
     put(L, p, slide['panel_title'], LEFT, y, W, 12, 'ink', True)
     marks[slide['panel_marker']] = (LEFT + width_of(L, slide['panel_title'], 12, True) + 14, y + 8)
@@ -692,7 +692,7 @@ def summary_page(L, p, slide):
             by += 28
         put(L, p, pn['reading'], x + 12, by + 2, pw - 24, 8, 'body')
         if pn.get('marker'):
-            marks[pn['marker']] = (x + pw - 12, y + 12)
+            marks[pn['marker']] = (x + 12 + width_of(L, pn['title'], 12, True) + 14, y + 20)
     note(L, p, slide['note'], LEFT, END - 22, W)
     right_column(L, p, slide, marks, halo=True)
 

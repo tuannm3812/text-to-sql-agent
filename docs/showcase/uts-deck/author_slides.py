@@ -35,7 +35,6 @@ other_tools = {
         {'band': 'Systems work it out', 'accent': 'blue'},
         {'logo': 'assets/logos/vanna.png', 'url': 'https://github.com/vanna-ai/vanna', 'cells': ['Vanna', '**Saved past queries**', [1, 'Learns from use'], [2, 'Self-maintained'], {'mark': 'tick', 'items': ['**Repeated** questions', 'Learns from saved queries']}, {'mark': 'cross', 'items': ['Repeats **past errors**', 'Repository archived']}]},
         {'logo': 'assets/icons/monitoring-ink.png', 'url': 'https://bird-bench.github.io/', 'cells': ['BIRD leaderboard systems', 'Mostly **not listed**', [None, 'Not listed'], [None, 'Not listed'], {'mark': 'tick', 'items': ['**Benchmark** scores', 'Top test entry 83.40 %']}, {'mark': 'cross', 'items': ['**Transfer** unproven', 'Methods rarely listed']}]},
-        {'band': 'This project', 'accent': 'ochre'},
         {'logo': 'assets/icons/fact_check-teal.png', 'url': 'https://github.com/tuannm3812/text-to-sql-agent', 'ours': True, 'cells': ['This project', '**Schema** and **bounded hints**', [0, 'Connect only'], [0, 'None'], {'mark': 'tick', 'items': ['A **first look** at a database', 'SQL shown, run read-only']}, {'mark': 'cross', 'items': ['A **person checks** the meaning', 'No governed metrics']}]},
     ],
     'note': 'Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.',
