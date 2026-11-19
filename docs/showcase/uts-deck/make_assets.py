@@ -64,3 +64,8 @@ for name, share in (('ring-64-6', .646), ('ring-35-2', .352)):
     d.arc(box, -90, -90 + 360 * share, fill='#21918C', width=56)
     im.resize((120, 120), Image.LANCZOS).save(FIG / f'{name}.png')
 print('ok')
+
+# 5. Batch 2 (19 November 2026): the demo's answer card crop. The QR code is made with segno:
+#    uv run --no-project --with segno python -c "import segno; segno.make('https://aipa-text-to-sql-agent.streamlit.app',
+#    error='m').save('assets/figures/qr-live-demo.svg', scale=4, border=0, dark='#1B2430', light=None)"
+Image.open(HERE / '../slides/captures/2026-11-06-retail-syntax.png').convert('RGB').crop((136, 357, 823, 680)).save(FIG / 'demo-answer.png')

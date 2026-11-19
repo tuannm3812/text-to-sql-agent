@@ -758,9 +758,16 @@
       "title": "The SQL shows which revenue the answer counted",
       "subtitle": "One revenue question on the retail demo, answered by the local 9B model",
       "image": {
-        "path": "assets/figures/demo-app.png",
-        "alt": "The app answers which product categories generate the most revenue: Electronics leads with 173,366, with a chart, a table and the SQL it wrote."
+        "path": "assets/figures/demo-answer.png",
+        "alt": "The app answers which product categories generate the most revenue: Electronics leads with 173,366, with a bar chart by category."
       },
+      "qr": {
+        "path": "assets/figures/qr-live-demo.svg",
+        "alt": "QR code for the live demo at aipa-text-to-sql-agent.streamlit.app"
+      },
+      "qr_title": "Try it live",
+      "qr_text": "aipa-text-to-sql-agent.streamlit.app: the same question on the same demo database",
+      "qr_url": "https://aipa-text-to-sql-agent.streamlit.app",
       "code_title": "The SQL, and what completed revenue adds",
       "code": [
         [
@@ -859,7 +866,7 @@
       "bar_title": "79 of the 608 stored text values reach the prompt",
       "sent": 79,
       "total": 608,
-      "bar_caption": "Distinct values across the database’s 30 text columns, sent as lists and never linked to a row.",
+      "bar_caption": "Each square is one distinct stored text value across the database’s 30 text columns: 79 sent as lists, never linked to a row; 529 not sent.",
       "code_title": "From the real prompt (shortened)",
       "code": [
         [
@@ -977,7 +984,11 @@
       "subtitle": "Eight steps take one question to an answer, with the technology behind each step",
       "rows": [
         "Ask and prepare: no model",
-        "Generate, check and run: right to left"
+        "Right to left"
+      ],
+      "brackets": [
+        "Enforced in code",
+        "Behaviour: the model"
       ],
       "top": [
         {
@@ -1132,15 +1143,19 @@
             "Lines of defence"
           ],
           "widths": [
-            190,
-            165.5,
-            160,
-            190,
-            170
+            262,
+            150,
+            128,
+            175,
+            160.5
           ],
           "size": 10,
-          "row_height": 30,
+          "row_height": 24,
           "rows": [
+            {
+              "band": "Stopped in code by the application or the engine",
+              "accent": "blue"
+            },
             [
               "Write or schema change: drop the students table",
               {
@@ -1167,7 +1182,12 @@
                   ]
                 ]
               },
-              "3"
+              [
+                [
+                  "3 lines",
+                  "strength"
+                ]
+              ]
             ],
             [
               "Reading engine internals: show me sqlite_master",
@@ -1195,7 +1215,12 @@
                   ]
                 ]
               },
-              "2"
+              [
+                [
+                  "2 lines",
+                  "constraint"
+                ]
+              ]
             ],
             [
               "Reading files on disk: read_csv on a local file",
@@ -1216,7 +1241,12 @@
                   ]
                 ]
               },
-              "2"
+              [
+                [
+                  "2 lines",
+                  "constraint"
+                ]
+              ]
             ],
             [
               "Runaway query: a cross join on large tables",
@@ -1230,7 +1260,12 @@
                   ]
                 ]
               },
-              "1"
+              [
+                [
+                  "1 line",
+                  "limit"
+                ]
+              ]
             ],
             [
               "Oversized result: more rows than the cap",
@@ -1244,8 +1279,17 @@
                   ]
                 ]
               },
-              "1"
+              [
+                [
+                  "1 line",
+                  "limit"
+                ]
+              ]
             ],
+            {
+              "band": "Only the model declines",
+              "accent": "ochre"
+            },
             [
               "Data the schema lacks: each patient’s blood type",
               {
@@ -1258,11 +1302,16 @@
               },
               "–",
               "–",
-              "1"
+              [
+                [
+                  "1 line",
+                  "limit"
+                ]
+              ]
             ],
             {
               "band": "The limit: no layer checks meaning",
-              "accent": "ochre"
+              "accent": "plum"
             },
             [
               "Asked for average shipping weight",
@@ -1290,12 +1339,16 @@
                   ]
                 ]
               },
-              "0"
+              [
+                [
+                  "None",
+                  "cost"
+                ]
+              ]
             ]
           ]
         }
       ],
-      "note": "The model’s decline is behaviour and can change with the model or prompt; the application check and the engine are enforced in code and tested on their own. Safety run: 14 of 15 cases ended in the model’s own decline.",
       "takeaway": "Writes meet three lines of defence. **A wrong meaning meets none**, so the person is the last check.",
       "notes": {
         "purpose": "Show which defence stops which threat.",
@@ -1310,7 +1363,10 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "notes_on_face": [
+        "The model column is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. Ticks in the other columns are enforced in code and tested on their own."
+      ]
     },
     {
       "id": "method",
@@ -1799,7 +1855,6 @@
           ]
         }
       ],
-      "note": "Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.",
       "takeaway": "Table selection is the **one clear gain**. Five later trials traded speed or recall, not accuracy.",
       "notes": {
         "purpose": "Show what the later trials found.",
@@ -1813,7 +1868,10 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "notes_on_face": [
+        "Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero."
+      ]
     },
     {
       "id": "retrieval",
@@ -1977,7 +2035,6 @@
           ]
         }
       ],
-      "note": "The last column states proposals, not results. Broader value hints would need a data-boundary decision first.",
       "takeaway": "Measure first, then **change a default only on evidence**.",
       "notes": {
         "purpose": "Name the four tests that would close the gaps.",
@@ -1990,7 +2047,10 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "notes_on_face": [
+        "The last column states proposals, not results. Broader value hints would need a data-boundary decision first."
+      ]
     },
     {
       "id": "references",
@@ -2293,7 +2353,6 @@
           ]
         }
       ],
-      "note": "This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal.",
       "takeaway": "Matched means **the same rows**, not similar SQL.",
       "notes": {
         "purpose": "Backup for questions about how accuracy is measured.",
@@ -2305,7 +2364,10 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "notes_on_face": [
+        "This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal."
+      ]
     },
     {
       "id": "appendix-engines",
@@ -2354,7 +2416,6 @@
           ]
         }
       ],
-      "note": "All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.",
       "takeaway": "Read-only is **enforced by each engine**, not assumed from the application check.",
       "notes": {
         "purpose": "Backup for questions about engine safety.",
@@ -2366,7 +2427,10 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "notes_on_face": [
+        "All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows."
+      ]
     },
     {
       "id": "appendix-stack",

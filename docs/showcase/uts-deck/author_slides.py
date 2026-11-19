@@ -86,7 +86,11 @@ demo = {
     'id': 'demo', 'layout': 'demo_page', 'section': 'Solution', 'topic': 'Demo', 'accent': 'blue',
     'title': 'The SQL shows which revenue the answer counted',
     'subtitle': 'One revenue question on the retail demo, answered by the local 9B model',
-    'image': {'path': 'assets/figures/demo-app.png', 'alt': 'The app answers which product categories generate the most revenue: Electronics leads with 173,366, with a chart, a table and the SQL it wrote.'},
+    'image': {'path': 'assets/figures/demo-answer.png', 'alt': 'The app answers which product categories generate the most revenue: Electronics leads with 173,366, with a bar chart by category.'},
+    'qr': {'path': 'assets/figures/qr-live-demo.svg', 'alt': 'QR code for the live demo at aipa-text-to-sql-agent.streamlit.app'},
+    'qr_title': 'Try it live',
+    'qr_text': 'aipa-text-to-sql-agent.streamlit.app: the same question on the same demo database',
+    'qr_url': 'https://aipa-text-to-sql-agent.streamlit.app',
     'code_title': 'The SQL, and what completed revenue adds',
     'code': [['SELECT category, SUM(unit_price * quantity', False], ['+   * (1 - discount_pct)', True], ['  ) AS total_revenue', False],
              ['FROM order_items oi', False], ['JOIN products p', False], ['  ON oi.product_id = p.product_id', False],
@@ -115,7 +119,7 @@ boundary = {
     'subtitle': 'What the prompt held for the demo question on the retail database',
     'bar_title': '79 of the 608 stored text values reach the prompt',
     'sent': 79, 'total': 608,
-    'bar_caption': 'Distinct values across the database’s 30 text columns, sent as lists and never linked to a row.',
+    'bar_caption': 'Each square is one distinct stored text value across the database’s 30 text columns: 79 sent as lists, never linked to a row; 529 not sent.',
     'code_title': 'From the real prompt (shortened)',
     'code': [['CREATE TABLE orders (', False], ['  order_id INTEGER PRIMARY KEY,', False], ['  order_status TEXT NOT NULL ...', False], [');', False],
              ['-- order_status sample values:', True], ['     Completed, Returned, Cancelled', True], ['-- gender sample values: Female, Other, Male', True],
@@ -143,7 +147,8 @@ architecture = {
     'id': 'architecture', 'layout': 'arch_page', 'section': 'Solution', 'topic': 'Architecture', 'accent': 'blue',
     'title': 'The model proposes SQL; the application controls execution',
     'subtitle': 'Eight steps take one question to an answer, with the technology behind each step',
-    'rows': ['Ask and prepare: no model', 'Generate, check and run: right to left'],
+    'rows': ['Ask and prepare: no model', 'Right to left'],
+    'brackets': ['Enforced in code', 'Behaviour: the model'],
     'top': [
         {'n': 1, 'title': 'Ask', 'text': 'A demo, a file, a connection string or CSV uploads, then a plain question.', 'logos': ['assets/logos/tech-streamlit.png']},
         {'n': 2, 'title': 'Read schema', 'text': 'Tables, keys and value hints from the database.', 'logos': ['assets/logos/tech-python.png']},
@@ -174,7 +179,7 @@ architecture = {
         'Reference: pipeline.answer_question (max_repair_attempts=1); config.py (top 6, one foreign-key hop, 1,000 rows, 100,000 VM steps, 5,000 ms); ui/connection.py. Conformance: 45 tests, 15 per engine, 0 skipped.'),
 }
 
-W10 = [190, 165.5, 160, 190, 170]
+W10 = [262, 150, 128, 175, 160.5]
 safety = {
     'id': 'safety', 'layout': 'table_page', 'section': 'Solution', 'topic': 'Safety', 'accent': 'blue',
     'title': 'Safety does not rest on the model',
@@ -182,18 +187,20 @@ safety = {
     'icon_key': [['yes', 'Stops it'], ['no', 'Does not stop it']],
     'tables': [{
         'headers': ['Threat and example', '1 Model declines (behaviour)', '2 Application check', '3 Engine, read-only', 'Lines of defence'],
-        'widths': W10, 'size': 10, 'row_height': 30,
+        'widths': W10, 'size': 10, 'row_height': 24,
         'rows': [
-            ['Write or schema change: drop the students table', {'items': [['yes', 'Declined 6 of 6']]}, {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied on 3 engines']]}, '3'],
-            ['Reading engine internals: show me sqlite_master', {'items': [['yes', 'Declined 3 of 3']]}, {'items': [['yes', 'Blocked']]}, {'items': [['no', 'Would run']]}, '2'],
-            ['Reading files on disk: read_csv on a local file', '–', {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied']]}, '2'],
-            ['Runaway query: a cross join on large tables', '–', '–', {'items': [['yes', 'Stopped by work budget']]}, '1'],
-            ['Oversized result: more rows than the cap', '–', '–', {'items': [['yes', 'Cut at 1,000 rows']]}, '1'],
-            ['Data the schema lacks: each patient’s blood type', {'items': [['yes', 'Declined 5 of 6']]}, '–', '–', '1'],
-            {'band': 'The limit: no layer checks meaning', 'accent': 'ochre'},
-            ['Asked for average shipping weight', {'items': [['no', 'Returned average unit cost']]}, {'items': [['no', 'Passed: valid read']]}, {'items': [['no', 'Ran']]}, '0'],
+            {'band': 'Stopped in code by the application or the engine', 'accent': 'blue'},
+            ['Write or schema change: drop the students table', {'items': [['yes', 'Declined 6 of 6']]}, {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied on 3 engines']]}, [['3 lines', 'strength']]],
+            ['Reading engine internals: show me sqlite_master', {'items': [['yes', 'Declined 3 of 3']]}, {'items': [['yes', 'Blocked']]}, {'items': [['no', 'Would run']]}, [['2 lines', 'constraint']]],
+            ['Reading files on disk: read_csv on a local file', '–', {'items': [['yes', 'Blocked']]}, {'items': [['yes', 'Denied']]}, [['2 lines', 'constraint']]],
+            ['Runaway query: a cross join on large tables', '–', '–', {'items': [['yes', 'Stopped by work budget']]}, [['1 line', 'limit']]],
+            ['Oversized result: more rows than the cap', '–', '–', {'items': [['yes', 'Cut at 1,000 rows']]}, [['1 line', 'limit']]],
+            {'band': 'Only the model declines', 'accent': 'ochre'},
+            ['Data the schema lacks: each patient’s blood type', {'items': [['yes', 'Declined 5 of 6']]}, '–', '–', [['1 line', 'limit']]],
+            {'band': 'The limit: no layer checks meaning', 'accent': 'plum'},
+            ['Asked for average shipping weight', {'items': [['no', 'Returned average unit cost']]}, {'items': [['no', 'Passed: valid read']]}, {'items': [['no', 'Ran']]}, [['None', 'cost']]],
         ]}],
-    'note': 'The model’s decline is behaviour and can change with the model or prompt; the application check and the engine are enforced in code and tested on their own. Safety run: 14 of 15 cases ended in the model’s own decline.',
+    'note': 'The model column is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. Ticks in the other columns are enforced in code and tested on their own.',
     'takeaway': 'Writes meet three lines of defence. **A wrong meaning meets none**, so the person is the last check.',
     'notes': notes('Show which defence stops which threat.',
         'Safety here does not rest on the model. [Point: Column headers] There are three lines of defence. The first is the model, which declines; in our safety run, 14 of 15 cases ended in its own decline. That is behaviour, and it can change.',
@@ -619,5 +626,8 @@ method['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/ma
 appendix['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py'
 brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,
                    benchmarks, large, trials, retrieval, next_tests, references, close, appendix, scoring, engines, stack, glossary]
+for sl in brief['slides']:   # the kit's table_page reads its face notes from notes_on_face, not note
+    if sl['layout'] == 'table_page' and 'note' in sl:
+        sl['notes_on_face'] = [sl.pop('note')]
 (HERE / 'brief-content.json').write_text(json.dumps(brief, indent=2, ensure_ascii=False) + '\n')
 print(len(brief['slides']), 'slides')

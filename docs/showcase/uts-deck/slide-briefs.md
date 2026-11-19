@@ -357,6 +357,8 @@ Exact face text:
 - One revenue question on the retail demo, answered by the local 9B model
 - Text-to-SQL Agent
 - 7
+- Try it live
+- aipa-text-to-sql-agent.streamlit.app: the same question on / the same demo database
 - THE SQL, AND WHAT COMPLETED REVENUE ADDS
 - SELECT category, SUM(unit_price * quantity
 - +   * (1 - discount_pct)
@@ -411,9 +413,7 @@ Exact face text:
 - Text-to-SQL Agent
 - 8
 - 79 of the 608 stored text values reach the prompt
-- 79 sent
-- 529 not sent
-- Distinct values across the database’s 30 text columns, sent as lists and never linked to a row.
+- Each square is one distinct stored text value across the database’s 30 text columns: 79 sent as lists, never linked to a row; 529 not sent.
 - FROM THE REAL PROMPT (SHORTENED)
 - CREATE TABLE orders (
 -   order_id INTEGER PRIMARY KEY,
@@ -494,7 +494,9 @@ Exact face text:
 - SQLite
 - DuckDB
 - PostgreSQL
-- GENERATE, CHECK AND RUN: RIGHT TO LEFT
+- RIGHT TO LEFT
+- ENFORCED IN CODE
+- BEHAVIOUR: THE MODEL
 - 5
 - Generate
 - Gemini or Ollama writes one SQL / statement, or declines.
@@ -555,42 +557,45 @@ Exact face text:
 - 2 Application check
 - 3 Engine, read-only
 - Lines of defence
-- Write or schema change: drop the / students table
+- Stopped in code by the application or the engine
+- Write or schema change: drop the students table
 - Declined 6 of 6
 - Blocked
 - Denied on 3 engines
-- 3
-- Reading engine internals: show me / sqlite_master
+- 3 LINES
+- Reading engine internals: show me sqlite_master
 - Declined 3 of 3
 - Blocked
 - Would run
-- 2
-- Reading files on disk: read_csv on a / local file
+- 2 LINES
+- Reading files on disk: read_csv on a local file
 - –
 - Blocked
 - Denied
-- 2
-- Runaway query: a cross join on large / tables
+- 2 LINES
+- Runaway query: a cross join on large tables
 - –
 - –
 - Stopped by work budget
-- 1
-- Oversized result: more rows than the / cap
+- 1 LINE
+- Oversized result: more rows than the cap
 - –
 - –
 - Cut at 1,000 rows
-- 1
-- Data the schema lacks: each patient’s / blood type
+- 1 LINE
+- Only the model declines
+- Data the schema lacks: each patient’s blood type
 - Declined 5 of 6
 - –
 - –
-- 1
+- 1 LINE
 - The limit: no layer checks meaning
 - Asked for average shipping weight
 - Returned average unit cost
 - Passed: valid read
 - Ran
-- 0
+- NONE
+- Note: The model column is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. Ticks in the other columns are enforced in code and tested on their own.
 - TAKEAWAY
 - Writes meet three lines of defence. A wrong meaning meets none, so the person is the last check.
 
@@ -823,6 +828,7 @@ Exact face text:
 - −2.1 [−4.3, +0.0]
 - Same speed as shared
 - OPT-IN
+- Note: Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.
 - TAKEAWAY
 - Table selection is the one clear gain. Five later trials traded speed or recall, not accuracy.
 
@@ -917,6 +923,7 @@ Exact face text:
 - All results use one local model.
 - The same suites on a hosted model.
 - Whether it is worth sending it the prompt.
+- Note: The last column states proposals, not results. Broader value hints would need a data-boundary decision first.
 - TAKEAWAY
 - Measure first, then change a default only on evidence.
 
@@ -1064,6 +1071,7 @@ Exact face text:
 - Wrong, refused, / unanswerable or error
 - Rows differ, a safe question was blocked or declined, or the SQL failed or came back / empty.
 - Not matched
+- Note: This is not the Spider or BIRD leaderboard scorer, so scores are not comparable with published ones. An empty answer is an error, never a correct refusal.
 - TAKEAWAY
 - Matched means the same rows, not similar SQL.
 
@@ -1099,6 +1107,7 @@ Exact face text:
 - A least-privilege role and a read-only transaction, each enough / on its own.
 - A superuser or file-reading role is refused at / connect.
 - 5,000 ms, then the query stops.
+- Note: All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.
 - TAKEAWAY
 - Read-only is enforced by each engine, not assumed from the application check.
 

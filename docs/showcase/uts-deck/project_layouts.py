@@ -473,9 +473,20 @@ def demo_page(L, p, slide):
     slide.setdefault('marker_pairs', [])
     marks = {}
     iw = 300
-    ih = iw * 880 / 1190
-    L.image(p, slide['image'], LEFT, TOP, iw, ih)
-    marks[1] = (LEFT + iw * 0.37, TOP + ih * 0.34)
+    ih = 222   # the code panel's height; the answer card and the QR row share it
+    ah = iw * 323 / 687
+    p.rect(LEFT, TOP, iw, ah, '#FFFFFF')
+    L.image(p, slide['image'], LEFT, TOP, iw, ah)
+    p.line(LEFT, TOP, LEFT + iw, TOP, L.t.color('hair'))
+    p.line(LEFT, TOP + ah, LEFT + iw, TOP + ah, L.t.color('hair'))
+    marks[1] = (LEFT + iw * 0.56, TOP + ah * 0.2)
+    qy = TOP + ah + 12
+    qs = ih - ah - 12
+    card(L, p, LEFT, qy, iw, qs, weight=0)
+    L.image(p, slide['qr'], LEFT + 10, qy + 8, qs - 16, qs - 16)
+    tx = LEFT + qs + 2
+    put(L, p, slide['qr_title'], tx, qy + 12, iw - qs - 12, 12, 'ink', True)
+    put(L, p, slide['qr_text'], tx, qy + 30, iw - qs - 12, 8, 'body', href=slide['qr_url'])
     cx = LEFT + iw + 14
     code_panel(L, p, cx, TOP, FIG_RIGHT - cx, ih, slide['code_title'], slide['code'])
     marks[2] = (cx + 10 + width_of(L, slide['code_title'].upper(), 8, True) + 12, TOP + 13.5)
@@ -505,21 +516,22 @@ def boundary_page(L, p, slide):
     y += 20
     sent, total = slide['sent'], slide['total']
     W = FIG_RIGHT - LEFT
-    sw = max(W * sent / total, 60)
-    hbar(L, p, LEFT, y, sw, 18, SERIES['primary'], f'{sent} sent')
-    hbar(L, p, LEFT + sw, y, W - sw, 18, L.t.color('card'), f'{total - sent} not sent', L.t.color('body'))
+    per, step = 110, W / 110   # one square per distinct stored text value, sent ones first
+    for k in range(total):
+        p.rect(LEFT + (k % per) * step, y + (k // per) * step, step - 1.2, step - 1.2,
+               SERIES['primary'] if k < sent else L.t.color('hair'))
     marks[1] = (LEFT + width_of(L, slide['bar_title'], 12, True) + 14, y - 12)
-    y += 22
+    y += ((total - 1) // per + 1) * step + 6
     put(L, p, slide['bar_caption'], LEFT, y, W, 8, 'body')
-    y += 18
+    y += 16
     pw = 330
-    end = code_panel(L, p, LEFT, y, pw, 160, slide['code_title'], slide['code'], 14)
+    end = code_panel(L, p, LEFT, y, pw, 152, slide['code_title'], slide['code'], 14)
     marks[2] = (LEFT + 10 + width_of(L, slide['code_title'].upper(), 8, True) + 12, y + 13.5)
     lx = LEFT + pw + 14
     lw = FIG_RIGHT - lx
     ly = y
     for title, items, art, colour in slide['lists']:   # rows on the code panel's 12 pt line grid
-        card(L, p, lx, ly, lw, 76, weight=0)
+        card(L, p, lx, ly, lw, 68, weight=0)
         cap(L, p, title, lx + 10, ly + 8, lw - 20, 'ink')
         iy = ly + 26
         for t in items:
@@ -528,7 +540,7 @@ def boundary_page(L, p, slide):
             iy += 14
         ly += 84
     marks[4] = (lx + 10 + width_of(L, slide['lists'][1][0].upper(), 8, True) + 12, y + 84 + 13.5)
-    y += 176
+    y += 166
     cw = (W - 14) / 2
     for k, (title, text, art) in enumerate(slide['models']):
         x = LEFT + k * (cw + 14)
@@ -587,8 +599,12 @@ def arch_page(L, p, slide):
     # read schema reads the engine; prepare flows down into generate
     p.connector(LEFT + bw + gap + bw / 2, ey - 2, LEFT + bw + gap + bw / 2, y1 + bh + 2, color=L.t.color('rule'))
     y2 = ey + eh + 34
-    cap(L, p, slide['rows'][1], LEFT, y2 - 14, W, 'body')
     xs = [LEFT + k * (bw + gap) for k in range(4)]
+    cap(L, p, slide['rows'][1], LEFT, y2 - 16, bw, 'body')
+    for (x_a, x_b, label, colour) in ((xs[1], xs[2] + bw, slide['brackets'][0], SERIES['primary']),
+                                      (xs[3], xs[3] + bw, slide['brackets'][1], SERIES['model'])):
+        p.rect(x_a, y2 - 6, x_b - x_a, 2.5, colour)
+        cap(L, p, label, x_a, y2 - 16, x_b - x_a, 'ink')
     p.connector(xs[3] + bw / 2, y1 + bh + 2, xs[3] + bw / 2, ey - 2, color=L.t.color('rule'))
     p.connector(xs[3] + bw / 2, ey + eh + 2, xs[3] + bw / 2, y2 - 2, color=L.t.color('rule'))
     for k, st in enumerate(slide['bottom']):   # 5 at the right, 8 at the left
