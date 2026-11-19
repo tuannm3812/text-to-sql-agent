@@ -16,8 +16,8 @@
       "title": "Ask your data.\nInspect the answer.",
       "subtitle": "A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails",
       "image": {
-        "path": "assets/figures/cover-combined.png",
-        "alt": "Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366."
+        "path": "assets/figures/cover-portrait.png",
+        "alt": "Illustration: linked table cards around a lens over a small bar chart. Decorative, no real data."
       },
       "notes": {
         "purpose": "Open with the one idea of the deck.",
@@ -41,8 +41,8 @@
         {
           "op": "add-image",
           "id": "im1",
-          "path": "assets/figures/cover-combined.png",
-          "alt": "Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366.",
+          "path": "assets/figures/cover-portrait.png",
+          "alt": "Illustration: linked table cards around a lens over a small bar chart. Decorative, no real data.",
           "x": 560,
           "y": 0,
           "width": 400,
@@ -345,18 +345,6 @@
           ]
         }
       ],
-      "endmatter": [
-        {
-          "title": "Close",
-          "from": "close",
-          "through": "close"
-        },
-        {
-          "title": "Appendix: schema selection, scoring, engines, technology, glossary",
-          "from": "appendix-rag",
-          "through": "appendix-glossary"
-        }
-      ],
       "notes": {
         "purpose": "Show the order of the talk.",
         "script": [
@@ -551,32 +539,6 @@
           "pages_bounds": [
             874.0,
             908.0
-          ]
-        },
-        {
-          "label": "Close",
-          "pages": "18",
-          "mid": 423,
-          "label_bounds": [
-            42.5,
-            854.5
-          ],
-          "pages_bounds": [
-            874,
-            920
-          ]
-        },
-        {
-          "label": "Appendix: schema selection, scoring, engines, technology, glossary",
-          "pages": "19\u201323",
-          "mid": 455,
-          "label_bounds": [
-            42.5,
-            854.5
-          ],
-          "pages_bounds": [
-            874,
-            920
           ]
         }
       ],
@@ -2006,156 +1968,6 @@
           "start": 0,
           "end": 7,
           "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "agenda",
-          "id": "t76",
-          "text": "AFTER THE MAIN SECTIONS",
-          "x": 36.3,
-          "y": 386.8,
-          "width": 889.9,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t76",
-          "start": 0,
-          "end": 23,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t76",
-          "start": 0,
-          "end": 23,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "agenda",
-          "id": "t77",
-          "text": "Close",
-          "x": 36.3,
-          "y": 408.8,
-          "width": 824.4,
-          "height": 30.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t77",
-          "start": 0,
-          "end": 5,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "agenda",
-          "id": "r78",
-          "shape_type": "RECTANGLE",
-          "x": 875,
-          "y": 414,
-          "width": 44,
-          "height": 18,
-          "background_color": "#EDF0F3"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "agenda",
-          "id": "t79",
-          "text": "18",
-          "x": 867.8,
-          "y": 410.3,
-          "width": 58.4,
-          "height": 27.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#526174",
-          "bold": true,
-          "alignment": "center"
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t79",
-          "start": 0,
-          "end": 2,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t79",
-          "start": 0,
-          "end": 2,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "agenda",
-          "id": "t80",
-          "text": "Appendix: schema selection, scoring, engines, technology, glossary",
-          "x": 36.3,
-          "y": 440.8,
-          "width": 824.4,
-          "height": 30.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t80",
-          "start": 0,
-          "end": 66,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "agenda",
-          "id": "r81",
-          "shape_type": "RECTANGLE",
-          "x": 875,
-          "y": 446,
-          "width": 44,
-          "height": 18,
-          "background_color": "#EDF0F3"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "agenda",
-          "id": "t82",
-          "text": "19\u201323",
-          "x": 867.8,
-          "y": 442.3,
-          "width": 58.4,
-          "height": 27.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#526174",
-          "bold": true,
-          "alignment": "center"
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t82",
-          "start": 0,
-          "end": 5,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t82",
-          "start": 0,
-          "end": 5,
-          "bold": true
         }
       ]
     },
@@ -4860,7 +4672,8 @@
             "gap": "69.9 points below Spider 1.0"
           }
         ],
-        "caption": "**Source:** share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results."
+        "caption": "**Source:** share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results.",
+        "caption_url": "https://arxiv.org/abs/2411.07763"
       },
       "causes": [
         {
@@ -5949,7 +5762,8 @@
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": false,
+          "href": "https://arxiv.org/abs/2411.07763"
         },
         {
           "op": "style-paragraph",
@@ -6693,9 +6507,10 @@
         },
         {
           "logo": "assets/logos/snowflake.png",
+          "url": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst",
           "cells": [
             "Snowflake Cortex Analyst",
-            "Semantic view",
+            "**Semantic view**",
             [
               2,
               "Define the view"
@@ -6707,14 +6522,14 @@
             {
               "mark": "tick",
               "items": [
-                "Agreed metrics",
+                "**Agreed metrics**",
                 "Teams already on Snowflake"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Stale definitions",
+                "**Stale definitions**",
                 "Upkeep as metrics change"
               ]
             }
@@ -6722,9 +6537,10 @@
         },
         {
           "logo": "assets/logos/databricks.png",
+          "url": "https://docs.databricks.com/en/genie/best-practices.html",
           "cells": [
             "Databricks Genie Agents",
-            "SQL expressions, example SQL",
+            "**SQL expressions**, example SQL",
             [
               3,
               "Expert curation"
@@ -6736,14 +6552,14 @@
             {
               "mark": "tick",
               "items": [
-                "One topic and audience",
+                "**One topic** and audience",
                 "Curated example SQL"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Depends on the curator",
+                "Depends on the **curator**",
                 "Advises five or fewer tables"
               ]
             }
@@ -6751,9 +6567,10 @@
         },
         {
           "logo": "assets/logos/wren.png",
+          "url": "https://github.com/Canner/WrenAI",
           "cells": [
             "WrenAI",
-            "Semantic layer in Git",
+            "**Semantic layer** in Git",
             [
               2,
               "Define the MDL model"
@@ -6765,14 +6582,14 @@
             {
               "mark": "tick",
               "items": [
-                "Versioned definitions",
+                "**Versioned** definitions",
                 "Open-source engine"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Unmodelled data",
+                "**Unmodelled** data",
                 "Some features commercial"
               ]
             }
@@ -6784,9 +6601,10 @@
         },
         {
           "logo": "assets/logos/vanna.png",
+          "url": "https://github.com/vanna-ai/vanna",
           "cells": [
             "Vanna",
-            "Saved past queries",
+            "**Saved past queries**",
             [
               1,
               "Learns from use"
@@ -6798,14 +6616,14 @@
             {
               "mark": "tick",
               "items": [
-                "Repeated questions",
+                "**Repeated** questions",
                 "Learns from saved queries"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Repeats past errors",
+                "Repeats **past errors**",
                 "Repository archived"
               ]
             }
@@ -6813,9 +6631,10 @@
         },
         {
           "logo": "assets/icons/monitoring-ink.png",
+          "url": "https://bird-bench.github.io/",
           "cells": [
             "BIRD leaderboard systems",
-            "Mostly not listed",
+            "Mostly **not listed**",
             [
               null,
               "Not listed"
@@ -6827,14 +6646,14 @@
             {
               "mark": "tick",
               "items": [
-                "Benchmark scores",
+                "**Benchmark** scores",
                 "Top test entry 83.40 %"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Transfer unproven",
+                "**Transfer** unproven",
                 "Methods rarely listed"
               ]
             }
@@ -6846,14 +6665,11 @@
         },
         {
           "logo": "assets/icons/fact_check-teal.png",
+          "url": "https://github.com/tuannm3812/text-to-sql-agent",
           "ours": true,
-          "shade": [
-            2,
-            3
-          ],
           "cells": [
             "This project",
-            "Schema and bounded hints",
+            "**Schema** and **bounded hints**",
             [
               0,
               "Connect only"
@@ -6865,14 +6681,14 @@
             {
               "mark": "tick",
               "items": [
-                "A first look at a database",
+                "A **first look** at a database",
                 "SQL shown, run read-only"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "A person checks the meaning",
+                "A **person checks** the meaning",
                 "No governed metrics"
               ]
             }
@@ -7768,7 +7584,8 @@
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
-          "bold": true
+          "bold": true,
+          "href": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
         },
         {
           "op": "style-paragraph",
@@ -7789,9 +7606,9 @@
           "slide": "tools",
           "id": "t50",
           "text": "Semantic view",
-          "x": 226.3,
+          "x": 232.3,
           "y": 183.55,
-          "width": 156.4,
+          "width": 150.4,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -7806,12 +7623,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t50",
+          "start": 0,
+          "end": 13,
+          "bold": true
+        },
+        {
           "op": "add-shape",
           "slide": "tools",
           "id": "r51",
           "shape_type": "ELLIPSE",
-          "x": 383.5,
-          "y": 188.5,
+          "x": 389.5,
+          "y": 189.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -7821,8 +7645,8 @@
           "slide": "tools",
           "id": "r52",
           "shape_type": "ELLIPSE",
-          "x": 389.5,
-          "y": 188.5,
+          "x": 395.5,
+          "y": 189.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -7832,8 +7656,8 @@
           "slide": "tools",
           "id": "r53",
           "shape_type": "ELLIPSE",
-          "x": 395.5,
-          "y": 188.5,
+          "x": 401.5,
+          "y": 189.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -7843,9 +7667,9 @@
           "slide": "tools",
           "id": "t54",
           "text": "Define the view",
-          "x": 376.3,
+          "x": 382.3,
           "y": 189.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -7864,8 +7688,8 @@
           "slide": "tools",
           "id": "r55",
           "shape_type": "ELLIPSE",
-          "x": 513.5,
-          "y": 188.5,
+          "x": 519.5,
+          "y": 189.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -7875,8 +7699,8 @@
           "slide": "tools",
           "id": "r56",
           "shape_type": "ELLIPSE",
-          "x": 519.5,
-          "y": 188.5,
+          "x": 525.5,
+          "y": 189.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -7886,8 +7710,8 @@
           "slide": "tools",
           "id": "r57",
           "shape_type": "ELLIPSE",
-          "x": 525.5,
-          "y": 188.5,
+          "x": 531.5,
+          "y": 189.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -7897,9 +7721,9 @@
           "slide": "tools",
           "id": "t58",
           "text": "Refine with evaluations",
-          "x": 506.3,
+          "x": 512.3,
           "y": 189.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -7918,8 +7742,8 @@
           "id": "im59",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 189.0,
+          "x": 649.5,
+          "y": 186.7,
           "width": 8,
           "height": 8
         },
@@ -7928,9 +7752,9 @@
           "slide": "tools",
           "id": "t60",
           "text": "Agreed metrics",
-          "x": 648.3,
-          "y": 180.8,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 178.5,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -7945,12 +7769,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t60",
+          "start": 0,
+          "end": 14,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im61",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 201.8,
+          "x": 649.5,
+          "y": 199.5,
           "width": 8,
           "height": 8
         },
@@ -7959,9 +7790,9 @@
           "slide": "tools",
           "id": "t62",
           "text": "Teams already on Snowflake",
-          "x": 648.3,
-          "y": 193.60000000000002,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 191.3,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -7980,8 +7811,8 @@
           "id": "im63",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 189.0,
+          "x": 785.0,
+          "y": 186.7,
           "width": 8,
           "height": 8
         },
@@ -7990,9 +7821,9 @@
           "slide": "tools",
           "id": "t64",
           "text": "Stale definitions",
-          "x": 783.8,
-          "y": 180.8,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 178.5,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8007,12 +7838,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t64",
+          "start": 0,
+          "end": 17,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im65",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 201.8,
+          "x": 785.0,
+          "y": 199.5,
           "width": 8,
           "height": 8
         },
@@ -8021,9 +7859,9 @@
           "slide": "tools",
           "id": "t66",
           "text": "Upkeep as metrics change",
-          "x": 783.8,
-          "y": 193.60000000000002,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 191.3,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8070,7 +7908,8 @@
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
-          "bold": true
+          "bold": true,
+          "href": "https://docs.databricks.com/en/genie/best-practices.html"
         },
         {
           "op": "style-paragraph",
@@ -8090,11 +7929,11 @@
           "op": "add-textbox",
           "slide": "tools",
           "id": "t70",
-          "text": "SQL expressions, example SQL",
-          "x": 226.3,
-          "y": 214.55,
-          "width": 156.4,
-          "height": 27.9,
+          "text": "SQL expressions, example\nSQL",
+          "x": 232.3,
+          "y": 207.8,
+          "width": 150.4,
+          "height": 41.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -8108,12 +7947,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t70",
+          "start": 0,
+          "end": 15,
+          "bold": true
+        },
+        {
           "op": "add-shape",
           "slide": "tools",
           "id": "r71",
           "shape_type": "ELLIPSE",
-          "x": 383.5,
-          "y": 219.5,
+          "x": 389.5,
+          "y": 220.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8123,8 +7969,8 @@
           "slide": "tools",
           "id": "r72",
           "shape_type": "ELLIPSE",
-          "x": 389.5,
-          "y": 219.5,
+          "x": 395.5,
+          "y": 220.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8134,8 +7980,8 @@
           "slide": "tools",
           "id": "r73",
           "shape_type": "ELLIPSE",
-          "x": 395.5,
-          "y": 219.5,
+          "x": 401.5,
+          "y": 220.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8145,9 +7991,9 @@
           "slide": "tools",
           "id": "t74",
           "text": "Expert curation",
-          "x": 376.3,
+          "x": 382.3,
           "y": 220.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8166,8 +8012,8 @@
           "slide": "tools",
           "id": "r75",
           "shape_type": "ELLIPSE",
-          "x": 513.5,
-          "y": 219.5,
+          "x": 519.5,
+          "y": 220.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8177,8 +8023,8 @@
           "slide": "tools",
           "id": "r76",
           "shape_type": "ELLIPSE",
-          "x": 519.5,
-          "y": 219.5,
+          "x": 525.5,
+          "y": 220.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8188,8 +8034,8 @@
           "slide": "tools",
           "id": "r77",
           "shape_type": "ELLIPSE",
-          "x": 525.5,
-          "y": 219.5,
+          "x": 531.5,
+          "y": 220.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -8199,9 +8045,9 @@
           "slide": "tools",
           "id": "t78",
           "text": "Iterate with feedback",
-          "x": 506.3,
+          "x": 512.3,
           "y": 220.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8220,8 +8066,8 @@
           "id": "im79",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 220.0,
+          "x": 649.5,
+          "y": 217.7,
           "width": 8,
           "height": 8
         },
@@ -8230,9 +8076,9 @@
           "slide": "tools",
           "id": "t80",
           "text": "One topic and audience",
-          "x": 648.3,
-          "y": 211.8,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 209.5,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8247,12 +8093,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t80",
+          "start": 0,
+          "end": 9,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im81",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 232.8,
+          "x": 649.5,
+          "y": 230.5,
           "width": 8,
           "height": 8
         },
@@ -8261,9 +8114,9 @@
           "slide": "tools",
           "id": "t82",
           "text": "Curated example SQL",
-          "x": 648.3,
-          "y": 224.60000000000002,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 222.3,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8282,8 +8135,8 @@
           "id": "im83",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 220.0,
+          "x": 785.0,
+          "y": 217.7,
           "width": 8,
           "height": 8
         },
@@ -8292,9 +8145,9 @@
           "slide": "tools",
           "id": "t84",
           "text": "Depends on the curator",
-          "x": 783.8,
-          "y": 211.8,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 209.5,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8309,12 +8162,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t84",
+          "start": 15,
+          "end": 22,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im85",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 232.8,
+          "x": 785.0,
+          "y": 230.5,
           "width": 8,
           "height": 8
         },
@@ -8323,9 +8183,9 @@
           "slide": "tools",
           "id": "t86",
           "text": "Advises five or fewer tables",
-          "x": 783.8,
-          "y": 224.60000000000002,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 222.3,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8372,7 +8232,8 @@
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
-          "bold": true
+          "bold": true,
+          "href": "https://github.com/Canner/WrenAI"
         },
         {
           "op": "style-paragraph",
@@ -8393,9 +8254,9 @@
           "slide": "tools",
           "id": "t90",
           "text": "Semantic layer in Git",
-          "x": 226.3,
+          "x": 232.3,
           "y": 245.55,
-          "width": 156.4,
+          "width": 150.4,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -8410,12 +8271,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t90",
+          "start": 0,
+          "end": 14,
+          "bold": true
+        },
+        {
           "op": "add-shape",
           "slide": "tools",
           "id": "r91",
           "shape_type": "ELLIPSE",
-          "x": 383.5,
-          "y": 250.5,
+          "x": 389.5,
+          "y": 251.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8425,8 +8293,8 @@
           "slide": "tools",
           "id": "r92",
           "shape_type": "ELLIPSE",
-          "x": 389.5,
-          "y": 250.5,
+          "x": 395.5,
+          "y": 251.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8436,8 +8304,8 @@
           "slide": "tools",
           "id": "r93",
           "shape_type": "ELLIPSE",
-          "x": 395.5,
-          "y": 250.5,
+          "x": 401.5,
+          "y": 251.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -8447,9 +8315,9 @@
           "slide": "tools",
           "id": "t94",
           "text": "Define the MDL model",
-          "x": 376.3,
+          "x": 382.3,
           "y": 251.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8468,8 +8336,8 @@
           "slide": "tools",
           "id": "r95",
           "shape_type": "ELLIPSE",
-          "x": 513.5,
-          "y": 250.5,
+          "x": 519.5,
+          "y": 251.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8479,8 +8347,8 @@
           "slide": "tools",
           "id": "r96",
           "shape_type": "ELLIPSE",
-          "x": 519.5,
-          "y": 250.5,
+          "x": 525.5,
+          "y": 251.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8490,8 +8358,8 @@
           "slide": "tools",
           "id": "r97",
           "shape_type": "ELLIPSE",
-          "x": 525.5,
-          "y": 250.5,
+          "x": 531.5,
+          "y": 251.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -8501,9 +8369,9 @@
           "slide": "tools",
           "id": "t98",
           "text": "Review in Git",
-          "x": 506.3,
+          "x": 512.3,
           "y": 251.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8522,8 +8390,8 @@
           "id": "im99",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 251.0,
+          "x": 649.5,
+          "y": 248.7,
           "width": 8,
           "height": 8
         },
@@ -8532,9 +8400,9 @@
           "slide": "tools",
           "id": "t100",
           "text": "Versioned definitions",
-          "x": 648.3,
-          "y": 242.8,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 240.5,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8549,12 +8417,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t100",
+          "start": 0,
+          "end": 9,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im101",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 263.8,
+          "x": 649.5,
+          "y": 261.5,
           "width": 8,
           "height": 8
         },
@@ -8563,9 +8438,9 @@
           "slide": "tools",
           "id": "t102",
           "text": "Open-source engine",
-          "x": 648.3,
-          "y": 255.60000000000002,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 253.3,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8584,8 +8459,8 @@
           "id": "im103",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 251.0,
+          "x": 785.0,
+          "y": 248.7,
           "width": 8,
           "height": 8
         },
@@ -8594,9 +8469,9 @@
           "slide": "tools",
           "id": "t104",
           "text": "Unmodelled data",
-          "x": 783.8,
-          "y": 242.8,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 240.5,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8611,12 +8486,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t104",
+          "start": 0,
+          "end": 10,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im105",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 263.8,
+          "x": 785.0,
+          "y": 261.5,
           "width": 8,
           "height": 8
         },
@@ -8625,9 +8507,9 @@
           "slide": "tools",
           "id": "t106",
           "text": "Some features commercial",
-          "x": 783.8,
-          "y": 255.60000000000002,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 253.3,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8724,7 +8606,8 @@
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
-          "bold": true
+          "bold": true,
+          "href": "https://github.com/vanna-ai/vanna"
         },
         {
           "op": "style-paragraph",
@@ -8745,9 +8628,9 @@
           "slide": "tools",
           "id": "t113",
           "text": "Saved past queries",
-          "x": 226.3,
+          "x": 232.3,
           "y": 294.55,
-          "width": 156.4,
+          "width": 150.4,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -8762,12 +8645,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t113",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
           "op": "add-shape",
           "slide": "tools",
           "id": "r114",
           "shape_type": "ELLIPSE",
-          "x": 383.5,
-          "y": 299.5,
+          "x": 389.5,
+          "y": 300.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8777,8 +8667,8 @@
           "slide": "tools",
           "id": "r115",
           "shape_type": "ELLIPSE",
-          "x": 389.5,
-          "y": 299.5,
+          "x": 395.5,
+          "y": 300.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -8788,8 +8678,8 @@
           "slide": "tools",
           "id": "r116",
           "shape_type": "ELLIPSE",
-          "x": 395.5,
-          "y": 299.5,
+          "x": 401.5,
+          "y": 300.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -8799,9 +8689,9 @@
           "slide": "tools",
           "id": "t117",
           "text": "Learns from use",
-          "x": 376.3,
+          "x": 382.3,
           "y": 300.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8820,8 +8710,8 @@
           "slide": "tools",
           "id": "r118",
           "shape_type": "ELLIPSE",
-          "x": 513.5,
-          "y": 299.5,
+          "x": 519.5,
+          "y": 300.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8831,8 +8721,8 @@
           "slide": "tools",
           "id": "r119",
           "shape_type": "ELLIPSE",
-          "x": 519.5,
-          "y": 299.5,
+          "x": 525.5,
+          "y": 300.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#1B2430"
@@ -8842,8 +8732,8 @@
           "slide": "tools",
           "id": "r120",
           "shape_type": "ELLIPSE",
-          "x": 525.5,
-          "y": 299.5,
+          "x": 531.5,
+          "y": 300.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -8853,9 +8743,9 @@
           "slide": "tools",
           "id": "t121",
           "text": "Self-maintained",
-          "x": 506.3,
+          "x": 512.3,
           "y": 300.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8874,8 +8764,8 @@
           "id": "im122",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 300.0,
+          "x": 649.5,
+          "y": 297.7,
           "width": 8,
           "height": 8
         },
@@ -8884,9 +8774,9 @@
           "slide": "tools",
           "id": "t123",
           "text": "Repeated questions",
-          "x": 648.3,
-          "y": 291.8,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 289.5,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8901,12 +8791,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t123",
+          "start": 0,
+          "end": 8,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im124",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 312.8,
+          "x": 649.5,
+          "y": 310.5,
           "width": 8,
           "height": 8
         },
@@ -8915,9 +8812,9 @@
           "slide": "tools",
           "id": "t125",
           "text": "Learns from saved queries",
-          "x": 648.3,
-          "y": 304.6,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 302.3,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8936,8 +8833,8 @@
           "id": "im126",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 300.0,
+          "x": 785.0,
+          "y": 297.7,
           "width": 8,
           "height": 8
         },
@@ -8946,9 +8843,9 @@
           "slide": "tools",
           "id": "t127",
           "text": "Repeats past errors",
-          "x": 783.8,
-          "y": 291.8,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 289.5,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -8963,12 +8860,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t127",
+          "start": 8,
+          "end": 19,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im128",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 312.8,
+          "x": 785.0,
+          "y": 310.5,
           "width": 8,
           "height": 8
         },
@@ -8977,9 +8881,9 @@
           "slide": "tools",
           "id": "t129",
           "text": "Repository archived",
-          "x": 783.8,
-          "y": 304.6,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 302.3,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9026,7 +8930,8 @@
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
-          "bold": true
+          "bold": true,
+          "href": "https://bird-bench.github.io/"
         },
         {
           "op": "style-paragraph",
@@ -9047,9 +8952,9 @@
           "slide": "tools",
           "id": "t133",
           "text": "Mostly not listed",
-          "x": 226.3,
+          "x": 232.3,
           "y": 325.55,
-          "width": 156.4,
+          "width": 150.4,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -9064,13 +8969,20 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t133",
+          "start": 7,
+          "end": 17,
+          "bold": true
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t134",
           "text": "Not listed",
-          "x": 376.3,
+          "x": 382.3,
           "y": 331.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9089,9 +9001,9 @@
           "slide": "tools",
           "id": "t135",
           "text": "Not listed",
-          "x": 506.3,
+          "x": 512.3,
           "y": 331.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9110,8 +9022,8 @@
           "id": "im136",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 331.0,
+          "x": 649.5,
+          "y": 328.7,
           "width": 8,
           "height": 8
         },
@@ -9120,9 +9032,9 @@
           "slide": "tools",
           "id": "t137",
           "text": "Benchmark scores",
-          "x": 648.3,
-          "y": 322.8,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 320.5,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9137,12 +9049,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t137",
+          "start": 0,
+          "end": 9,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im138",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 343.8,
+          "x": 649.5,
+          "y": 341.5,
           "width": 8,
           "height": 8
         },
@@ -9151,9 +9070,9 @@
           "slide": "tools",
           "id": "t139",
           "text": "Top test entry 83.40 %",
-          "x": 648.3,
-          "y": 335.6,
-          "width": 129.9,
+          "x": 654.3,
+          "y": 333.3,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9172,8 +9091,8 @@
           "id": "im140",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 331.0,
+          "x": 785.0,
+          "y": 328.7,
           "width": 8,
           "height": 8
         },
@@ -9182,9 +9101,9 @@
           "slide": "tools",
           "id": "t141",
           "text": "Transfer unproven",
-          "x": 783.8,
-          "y": 322.8,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 320.5,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9199,12 +9118,19 @@
           "line_spacing": 135
         },
         {
+          "op": "style-text",
+          "element": "t141",
+          "start": 0,
+          "end": 8,
+          "bold": true
+        },
+        {
           "op": "add-image",
           "id": "im142",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 343.8,
+          "x": 785.0,
+          "y": 341.5,
           "width": 8,
           "height": 8
         },
@@ -9213,9 +9139,9 @@
           "slide": "tools",
           "id": "t143",
           "text": "Methods rarely listed",
-          "x": 783.8,
-          "y": 335.6,
-          "width": 134.4,
+          "x": 789.8,
+          "y": 333.3,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9302,30 +9228,8 @@
           "background_color": "#F6F1E5"
         },
         {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r149",
-          "shape_type": "RECTANGLE",
-          "x": 383.5,
-          "y": 373.0,
-          "width": 126,
-          "height": 31,
-          "background_color": "#D3EDEB"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r150",
-          "shape_type": "RECTANGLE",
-          "x": 513.5,
-          "y": 373.0,
-          "width": 126,
-          "height": 31,
-          "background_color": "#D3EDEB"
-        },
-        {
           "op": "add-image",
-          "id": "im151",
+          "id": "im149",
           "path": "assets/icons/fact_check-teal.png",
           "alt": "This project",
           "x": 47.5,
@@ -9336,7 +9240,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t152",
+          "id": "t150",
           "text": "This project",
           "x": 64.3,
           "y": 374.55,
@@ -9345,18 +9249,19 @@
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
-          "bold": true
+          "bold": true,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent"
         },
         {
           "op": "style-paragraph",
-          "element": "t152",
+          "element": "t150",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t152",
+          "element": "t150",
           "start": 0,
           "end": 12,
           "bold": true
@@ -9364,11 +9269,11 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t153",
+          "id": "t151",
           "text": "Schema and bounded hints",
-          "x": 226.3,
+          "x": 232.3,
           "y": 374.55,
-          "width": 156.4,
+          "width": 150.4,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -9377,40 +9282,54 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t153",
+          "element": "t151",
           "start": 0,
           "end": 24,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t151",
+          "start": 0,
+          "end": 6,
+          "bold": true
+        },
+        {
+          "op": "style-text",
+          "element": "t151",
+          "start": 11,
+          "end": 24,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r152",
+          "shape_type": "ELLIPSE",
+          "x": 389.5,
+          "y": 380.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r153",
+          "shape_type": "ELLIPSE",
+          "x": 395.5,
+          "y": 380.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
         },
         {
           "op": "add-shape",
           "slide": "tools",
           "id": "r154",
           "shape_type": "ELLIPSE",
-          "x": 383.5,
-          "y": 379.5,
-          "width": 4.5,
-          "height": 4.5,
-          "background_color": "#D8DEE3"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r155",
-          "shape_type": "ELLIPSE",
-          "x": 389.5,
-          "y": 379.5,
-          "width": 4.5,
-          "height": 4.5,
-          "background_color": "#D8DEE3"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r156",
-          "shape_type": "ELLIPSE",
-          "x": 395.5,
-          "y": 379.5,
+          "x": 401.5,
+          "y": 380.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -9418,11 +9337,11 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t157",
+          "id": "t155",
           "text": "Connect only",
-          "x": 376.3,
+          "x": 382.3,
           "y": 380.3,
-          "width": 136.4,
+          "width": 130.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9431,7 +9350,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t157",
+          "element": "t155",
           "start": 0,
           "end": 12,
           "line_spacing": 135
@@ -9439,21 +9358,10 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r158",
-          "shape_type": "ELLIPSE",
-          "x": 513.5,
-          "y": 379.5,
-          "width": 4.5,
-          "height": 4.5,
-          "background_color": "#D8DEE3"
-        },
-        {
-          "op": "add-shape",
-          "slide": "tools",
-          "id": "r159",
+          "id": "r156",
           "shape_type": "ELLIPSE",
           "x": 519.5,
-          "y": 379.5,
+          "y": 380.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -9461,10 +9369,21 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r160",
+          "id": "r157",
           "shape_type": "ELLIPSE",
           "x": 525.5,
-          "y": 379.5,
+          "y": 380.5,
+          "width": 4.5,
+          "height": 4.5,
+          "background_color": "#D8DEE3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r158",
+          "shape_type": "ELLIPSE",
+          "x": 531.5,
+          "y": 380.5,
           "width": 4.5,
           "height": 4.5,
           "background_color": "#D8DEE3"
@@ -9472,11 +9391,42 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t161",
+          "id": "t159",
           "text": "None",
-          "x": 506.3,
+          "x": 512.3,
           "y": 380.3,
-          "width": 136.4,
+          "width": 130.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t159",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im160",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 649.5,
+          "y": 377.7,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t161",
+          "text": "A first look at a database",
+          "x": 654.3,
+          "y": 369.5,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9487,16 +9437,23 @@
           "op": "style-paragraph",
           "element": "t161",
           "start": 0,
-          "end": 4,
+          "end": 26,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t161",
+          "start": 2,
+          "end": 12,
+          "bold": true
         },
         {
           "op": "add-image",
           "id": "im162",
           "path": "assets/project/icons/tick.svg",
           "alt": "Best for",
-          "x": 643.5,
-          "y": 380.0,
+          "x": 649.5,
+          "y": 390.5,
           "width": 8,
           "height": 8
         },
@@ -9504,10 +9461,10 @@
           "op": "add-textbox",
           "slide": "tools",
           "id": "t163",
-          "text": "A first look at a database",
-          "x": 648.3,
-          "y": 371.8,
-          "width": 129.9,
+          "text": "SQL shown, run read-only",
+          "x": 654.3,
+          "y": 382.3,
+          "width": 123.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9518,16 +9475,16 @@
           "op": "style-paragraph",
           "element": "t163",
           "start": 0,
-          "end": 26,
+          "end": 24,
           "line_spacing": 135
         },
         {
           "op": "add-image",
           "id": "im164",
-          "path": "assets/project/icons/tick.svg",
-          "alt": "Best for",
-          "x": 643.5,
-          "y": 392.8,
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 785.0,
+          "y": 377.7,
           "width": 8,
           "height": 8
         },
@@ -9535,10 +9492,10 @@
           "op": "add-textbox",
           "slide": "tools",
           "id": "t165",
-          "text": "SQL shown, run read-only",
-          "x": 648.3,
-          "y": 384.6,
-          "width": 129.9,
+          "text": "A person checks the meaning",
+          "x": 789.8,
+          "y": 369.5,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9549,16 +9506,23 @@
           "op": "style-paragraph",
           "element": "t165",
           "start": 0,
-          "end": 24,
+          "end": 27,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t165",
+          "start": 2,
+          "end": 15,
+          "bold": true
         },
         {
           "op": "add-image",
           "id": "im166",
           "path": "assets/project/icons/cross.svg",
           "alt": "Risk",
-          "x": 779.0,
-          "y": 380.0,
+          "x": 785.0,
+          "y": 390.5,
           "width": 8,
           "height": 8
         },
@@ -9566,10 +9530,10 @@
           "op": "add-textbox",
           "slide": "tools",
           "id": "t167",
-          "text": "A person checks the meaning",
-          "x": 783.8,
-          "y": 371.8,
-          "width": 134.4,
+          "text": "No governed metrics",
+          "x": 789.8,
+          "y": 382.3,
+          "width": 128.4,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -9580,44 +9544,13 @@
           "op": "style-paragraph",
           "element": "t167",
           "start": 0,
-          "end": 27,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-image",
-          "id": "im168",
-          "path": "assets/project/icons/cross.svg",
-          "alt": "Risk",
-          "x": 779.0,
-          "y": 392.8,
-          "width": 8,
-          "height": 8
-        },
-        {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t169",
-          "text": "No governed metrics",
-          "x": 783.8,
-          "y": 384.6,
-          "width": 134.4,
-          "height": 25.200000000000003,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t169",
-          "start": 0,
           "end": 19,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r170",
+          "id": "r168",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 404.0,
@@ -9628,7 +9561,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t171",
+          "id": "t169",
           "text": "Note: Our reading of each tool\u2019s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.",
           "x": 36.3,
           "y": 404.8,
@@ -9641,14 +9574,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t171",
+          "element": "t169",
           "start": 0,
           "end": 193,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t171",
+          "element": "t169",
           "start": 0,
           "end": 5,
           "bold": true,
@@ -9657,7 +9590,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r172",
+          "id": "r170",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -9668,7 +9601,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r173",
+          "id": "r171",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -9679,7 +9612,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t174",
+          "id": "t172",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -9692,14 +9625,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t174",
+          "element": "t172",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t174",
+          "element": "t172",
           "start": 0,
           "end": 8,
           "bold": true
@@ -9707,7 +9640,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t175",
+          "id": "t173",
           "text": "Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.",
           "x": 147.3,
           "y": 442.05,
@@ -9720,14 +9653,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t175",
+          "element": "t173",
           "start": 0,
           "end": 117,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t175",
+          "element": "t173",
           "start": 49,
           "end": 76,
           "bold": true
@@ -19484,6 +19417,7 @@
           "claims-register.md"
         ]
       },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results",
       "n": 11,
       "takeaways": [],
       "marker_pairs": [
@@ -20469,7 +20403,8 @@
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": false,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results"
         },
         {
           "op": "style-paragraph",
@@ -21026,6 +20961,7 @@
           "claims-register.md"
         ]
       },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md",
       "n": 12,
       "takeaways": [],
       "marker_pairs": [
@@ -22301,7 +22237,8 @@
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": false,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
         },
         {
           "op": "style-paragraph",
@@ -22863,6 +22800,7 @@
           "claims-register.md"
         ]
       },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md",
       "n": 13,
       "takeaways": [],
       "marker_pairs": [
@@ -24189,7 +24127,8 @@
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": false,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md"
         },
         {
           "op": "style-paragraph",
@@ -26228,6 +26167,7 @@
           "claims-register.md"
         ]
       },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md",
       "n": 15,
       "takeaways": [],
       "marker_pairs": [
@@ -27137,7 +27077,8 @@
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": false,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md"
         },
         {
           "op": "style-paragraph",
@@ -29210,7 +29151,7 @@
         ]
       ],
       "image": {
-        "path": "assets/figures/close-art.png",
+        "path": "assets/figures/close-portrait.png",
         "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data."
       },
       "notes": {
@@ -29516,7 +29457,7 @@
         {
           "op": "add-image",
           "id": "im24",
-          "path": "assets/figures/close-art.png",
+          "path": "assets/figures/close-portrait.png",
           "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.",
           "x": 505,
           "y": 0,
@@ -29661,6 +29602,7 @@
           "claims-register.md"
         ]
       },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py",
       "n": 19,
       "takeaways": [],
       "marker_pairs": [
@@ -30692,7 +30634,8 @@
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": false,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py"
         },
         {
           "op": "style-paragraph",

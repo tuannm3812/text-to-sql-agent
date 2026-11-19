@@ -69,11 +69,6 @@ Exact face text:
 - Next tests
 - 17
 - Sources
-- AFTER THE MAIN SECTIONS
-- Close
-- 18
-- Appendix: schema selection, scoring, engines, technology, glossary
-- 19–23
 
 ## 3. Inspectable SQL, with measured limits
 
@@ -244,7 +239,7 @@ Exact face text:
 - Stale definitions
 - Upkeep as metrics change
 - Databricks Genie Agents
-- SQL expressions, example SQL
+- SQL expressions, example / SQL
 - Expert curation
 - Iterate with feedback
 - One topic and audience

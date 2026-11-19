@@ -23,10 +23,12 @@ def need(L, raw, w, size, bold=False):
     return L.metrics.wrap(str(raw), w, size, bold=bold)[2] * size * 1.35
 
 
-def put(L, p, raw, x, y, w, size=10, role='body', bold=False, align=None, h=None):
-    """Kit text in a frame measured to its own height; returns the height used."""
+def put(L, p, raw, x, y, w, size=10, role='body', bold=False, align=None, h=None, href=None):
+    """Kit text in a frame measured to its own height; returns the height used. href links the whole frame."""
     h = need(L, raw, w, size, bold) if h is None else h
     L.text(p, raw, x, y, w, h, size, role, bold, align)
+    if href:
+        next(op for op in reversed(p.ops) if op['op'] == 'add-textbox')['href'] = href
     return h
 
 
@@ -202,7 +204,7 @@ def hard_page(L, p, slide):
             marks[bar['marker']] = (end + 14, y + 12)
         y += step
     y += 2
-    put(L, p, fig['caption'], LEFT, y, FIG_RIGHT - LEFT, L.size('caption'))
+    put(L, p, fig['caption'], LEFT, y, FIG_RIGHT - LEFT, L.size('caption'), href=fig.get('caption_url'))
     if slide.get('ours'):
         sy = y + 16
         p.rect(LEFT, sy, FIG_RIGHT - LEFT, 20, '#E4F2F1')
@@ -302,7 +304,7 @@ def bars_page(L, p, slide):
         if marker:
             marks[marker] = (x + tw + 12, cy)
     if slide.get('caption'):
-        put(L, p, slide['caption'], LEFT, END - cap_h + 8, FIG_RIGHT - LEFT, L.size('caption'))
+        put(L, p, slide['caption'], LEFT, END - cap_h + 8, FIG_RIGHT - LEFT, L.size('caption'), href=slide.get('caption_url'))
     right_column(L, p, slide, marks)
 
 
@@ -387,25 +389,27 @@ def tools_page(L, p, slide):
         h = slide.get('row_height', 34)
         if row.get('ours'):
             p.rect(LEFT, y, RIGHT - LEFT, h, acc['ochre']['fill'])
-            for j in row.get('shade', []):   # this project's cells that differ most, in a teal tint
-                p.rect(xs[j], y, cols[j][1] - 4, h, '#D3EDEB')
         if row.get('logo'):
             icon(L, p, row['logo'], row['cells'][0], LEFT + 4, y + (h - 18) / 2, 18)
         for j, (cell, x0, (_, w)) in enumerate(zip(row['cells'], xs, cols)):
-            if isinstance(cell, dict):   # bullets with a tick or a cross
-                by = y + 6
+            if j > 0:
+                x0, w = x0 + 6, w - 6   # inner padding from the column rule
+            if isinstance(cell, dict):   # bullets with a tick or a cross, centred in the row
+                hs = [need(L, t, w - 20, 8) for t in cell['items']]
+                by = y + (h - sum(hs) - 2 * (len(hs) - 1)) / 2
                 for t in cell['items']:
                     L.image(p, {'path': f"assets/project/icons/{cell['mark']}.svg", 'alt': 'Best for' if cell['mark'] == 'tick' else 'Risk'}, x0, by + 1, 8, 8)
                     by += put(L, p, t, x0 + 12, by, w - 20, 8, 'body') + 2
                 continue
-            if isinstance(cell, list):   # [dots, text]
+            if isinstance(cell, list):   # [dots, text], centred as a pair
                 if cell[0] is not None:
-                    dots(L, p, cell[0], x0, y + h / 2 - 9)
+                    dots(L, p, cell[0], x0, y + h / 2 - 8)
                 put(L, p, cell[1], x0, y + h / 2 - 1, w - 8, 8, 'body')
                 continue
             tx = x0 + (28 if j == 0 else 0)
             th = need(L, cell, x0 + w - 8 - tx, 10, j == 0)
-            put(L, p, cell, tx, y + (h - th) / 2, x0 + w - 8 - tx, 10, 'ink' if j == 0 else 'body', j == 0)
+            put(L, p, cell, tx, y + (h - th) / 2, x0 + w - 8 - tx, 10, 'ink' if j == 0 else 'body', j == 0,
+                href=row.get('url') if j == 0 else None)
         y += h
         p.rect(LEFT, y, RIGHT - LEFT, 0.5, L.t.color('hair'))
     y += 8

@@ -29,14 +29,14 @@ other_tools = {
     'row_height': 31,
     'rows': [
         {'band': 'People define the meaning', 'accent': 'slate'},
-        {'logo': 'assets/logos/snowflake.png', 'cells': ['Snowflake Cortex Analyst', 'Semantic view', [2, 'Define the view'], [2, 'Refine with evaluations'], {'mark': 'tick', 'items': ['Agreed metrics', 'Teams already on Snowflake']}, {'mark': 'cross', 'items': ['Stale definitions', 'Upkeep as metrics change']}]},
-        {'logo': 'assets/logos/databricks.png', 'cells': ['Databricks Genie Agents', 'SQL expressions, example SQL', [3, 'Expert curation'], [2, 'Iterate with feedback'], {'mark': 'tick', 'items': ['One topic and audience', 'Curated example SQL']}, {'mark': 'cross', 'items': ['Depends on the curator', 'Advises five or fewer tables']}]},
-        {'logo': 'assets/logos/wren.png', 'cells': ['WrenAI', 'Semantic layer in Git', [2, 'Define the MDL model'], [2, 'Review in Git'], {'mark': 'tick', 'items': ['Versioned definitions', 'Open-source engine']}, {'mark': 'cross', 'items': ['Unmodelled data', 'Some features commercial']}]},
+        {'logo': 'assets/logos/snowflake.png', 'url': 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst', 'cells': ['Snowflake Cortex Analyst', '**Semantic view**', [2, 'Define the view'], [2, 'Refine with evaluations'], {'mark': 'tick', 'items': ['**Agreed metrics**', 'Teams already on Snowflake']}, {'mark': 'cross', 'items': ['**Stale definitions**', 'Upkeep as metrics change']}]},
+        {'logo': 'assets/logos/databricks.png', 'url': 'https://docs.databricks.com/en/genie/best-practices.html', 'cells': ['Databricks Genie Agents', '**SQL expressions**, example SQL', [3, 'Expert curation'], [2, 'Iterate with feedback'], {'mark': 'tick', 'items': ['**One topic** and audience', 'Curated example SQL']}, {'mark': 'cross', 'items': ['Depends on the **curator**', 'Advises five or fewer tables']}]},
+        {'logo': 'assets/logos/wren.png', 'url': 'https://github.com/Canner/WrenAI', 'cells': ['WrenAI', '**Semantic layer** in Git', [2, 'Define the MDL model'], [2, 'Review in Git'], {'mark': 'tick', 'items': ['**Versioned** definitions', 'Open-source engine']}, {'mark': 'cross', 'items': ['**Unmodelled** data', 'Some features commercial']}]},
         {'band': 'Systems work it out', 'accent': 'blue'},
-        {'logo': 'assets/logos/vanna.png', 'cells': ['Vanna', 'Saved past queries', [1, 'Learns from use'], [2, 'Self-maintained'], {'mark': 'tick', 'items': ['Repeated questions', 'Learns from saved queries']}, {'mark': 'cross', 'items': ['Repeats past errors', 'Repository archived']}]},
-        {'logo': 'assets/icons/monitoring-ink.png', 'cells': ['BIRD leaderboard systems', 'Mostly not listed', [None, 'Not listed'], [None, 'Not listed'], {'mark': 'tick', 'items': ['Benchmark scores', 'Top test entry 83.40 %']}, {'mark': 'cross', 'items': ['Transfer unproven', 'Methods rarely listed']}]},
+        {'logo': 'assets/logos/vanna.png', 'url': 'https://github.com/vanna-ai/vanna', 'cells': ['Vanna', '**Saved past queries**', [1, 'Learns from use'], [2, 'Self-maintained'], {'mark': 'tick', 'items': ['**Repeated** questions', 'Learns from saved queries']}, {'mark': 'cross', 'items': ['Repeats **past errors**', 'Repository archived']}]},
+        {'logo': 'assets/icons/monitoring-ink.png', 'url': 'https://bird-bench.github.io/', 'cells': ['BIRD leaderboard systems', 'Mostly **not listed**', [None, 'Not listed'], [None, 'Not listed'], {'mark': 'tick', 'items': ['**Benchmark** scores', 'Top test entry 83.40 %']}, {'mark': 'cross', 'items': ['**Transfer** unproven', 'Methods rarely listed']}]},
         {'band': 'This project', 'accent': 'ochre'},
-        {'logo': 'assets/icons/fact_check-teal.png', 'ours': True, 'shade': [2, 3], 'cells': ['This project', 'Schema and bounded hints', [0, 'Connect only'], [0, 'None'], {'mark': 'tick', 'items': ['A first look at a database', 'SQL shown, run read-only']}, {'mark': 'cross', 'items': ['A person checks the meaning', 'No governed metrics']}]},
+        {'logo': 'assets/icons/fact_check-teal.png', 'url': 'https://github.com/tuannm3812/text-to-sql-agent', 'ours': True, 'cells': ['This project', '**Schema** and **bounded hints**', [0, 'Connect only'], [0, 'None'], {'mark': 'tick', 'items': ['A **first look** at a database', 'SQL shown, run read-only']}, {'mark': 'cross', 'items': ['A **person checks** the meaning', 'No governed metrics']}]},
     ],
     'note': 'Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.',
     'takeaway': 'Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.',
@@ -411,7 +411,7 @@ close = {
         ['Live demo', 'aipa-text-to-sql-agent.streamlit.app', 'https://aipa-text-to-sql-agent.streamlit.app', 'query_stats'],
         ['Code and runs', 'github.com/tuannm3812/text-to-sql-agent', 'https://github.com/tuannm3812/text-to-sql-agent', 'code'],
     ],
-    'image': {'path': 'assets/figures/close-art.png', 'alt': 'Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.'},
+    'image': {'path': 'assets/figures/close-portrait.png', 'alt': 'Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.'},
     'notes': notes('Close on the contribution.',
         'The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.',
         '[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you.'),
@@ -562,8 +562,6 @@ agenda = {
             {'title': 'Next tests', 'from': 'next', 'through': 'next'},
             {'title': 'Sources', 'from': 'references', 'through': 'references'}]},
     ],
-    'endmatter': [{'title': 'Close', 'from': 'close', 'through': 'close'},
-                  {'title': 'Appendix: schema selection, scoring, engines, technology, glossary', 'from': 'appendix-rag', 'through': 'appendix-glossary'}],
     'notes': notes('Show the order of the talk.',
         'The deck follows four questions. [Point: Problem] Why is this hard, and what do other tools do? [Point: Solution] What was built, and how it is controlled. [Point: Evidence] What was measured, including the ideas that did not help. [Point: Next steps] What is still unproven and how to test it.'),
 }
@@ -574,7 +572,7 @@ cover, summary, hard = first
 summary['section'] = 'Problem'
 cover['title'] = 'Ask your data.\nInspect the answer.'
 cover['subtitle'] = 'A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails'
-cover['image'] = {'path': 'assets/figures/cover-combined.png', 'alt': 'Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366.'}
+cover['image'] = {'path': 'assets/figures/cover-portrait.png', 'alt': 'Illustration: linked table cards around a lens over a small bar chart. Decorative, no real data.'}
 cover['motif'] = {'path': 'assets/figures/cover-motif.svg', 'alt': 'Decorative row of small table cards, two highlighted as chosen.'}
 brief['author'] = 'Manh Tuan (Mike) Nguyen'
 brief['affiliation'] = 'TD School, University of Technology Sydney'
@@ -614,6 +612,12 @@ for c, ic in zip(hard['causes'], ('menu_book', 'table_rows', 'verified_user')):
     c['icon'] = ic
 hard['chain'] = [['Question', 'What the person asks', 'chat'], ['Schema', 'Tables and columns', 'schema'], ['SQL', 'The generated query', 'code'], ['Rows', 'The answer returned', 'table_rows']]
 summary['accent'] = 'slate'
+hard['figure']['caption_url'] = 'https://arxiv.org/abs/2411.07763'
+benchmarks['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md'
+large['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md'
+retrieval['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md'
+method['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results'
+appendix['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py'
 brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,
                    benchmarks, large, trials, retrieval, next_tests, references, close, appendix, scoring, engines, stack, glossary]
 (HERE / 'brief-content.json').write_text(json.dumps(brief, indent=2, ensure_ascii=False) + '\n')

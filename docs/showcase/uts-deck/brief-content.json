@@ -16,8 +16,8 @@
       "title": "Ask your data.\nInspect the answer.",
       "subtitle": "A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails",
       "image": {
-        "path": "assets/figures/cover-combined.png",
-        "alt": "Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366."
+        "path": "assets/figures/cover-portrait.png",
+        "alt": "Illustration: linked table cards around a lens over a small bar chart. Decorative, no real data."
       },
       "notes": {
         "purpose": "Open with the one idea of the deck.",
@@ -139,18 +139,6 @@
               "through": "references"
             }
           ]
-        }
-      ],
-      "endmatter": [
-        {
-          "title": "Close",
-          "from": "close",
-          "through": "close"
-        },
-        {
-          "title": "Appendix: schema selection, scoring, engines, technology, glossary",
-          "from": "appendix-rag",
-          "through": "appendix-glossary"
         }
       ],
       "notes": {
@@ -354,7 +342,8 @@
             "gap": "69.9 points below Spider 1.0"
           }
         ],
-        "caption": "**Source:** share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results."
+        "caption": "**Source:** share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results.",
+        "caption_url": "https://arxiv.org/abs/2411.07763"
       },
       "causes": [
         {
@@ -447,9 +436,10 @@
         },
         {
           "logo": "assets/logos/snowflake.png",
+          "url": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst",
           "cells": [
             "Snowflake Cortex Analyst",
-            "Semantic view",
+            "**Semantic view**",
             [
               2,
               "Define the view"
@@ -461,14 +451,14 @@
             {
               "mark": "tick",
               "items": [
-                "Agreed metrics",
+                "**Agreed metrics**",
                 "Teams already on Snowflake"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Stale definitions",
+                "**Stale definitions**",
                 "Upkeep as metrics change"
               ]
             }
@@ -476,9 +466,10 @@
         },
         {
           "logo": "assets/logos/databricks.png",
+          "url": "https://docs.databricks.com/en/genie/best-practices.html",
           "cells": [
             "Databricks Genie Agents",
-            "SQL expressions, example SQL",
+            "**SQL expressions**, example SQL",
             [
               3,
               "Expert curation"
@@ -490,14 +481,14 @@
             {
               "mark": "tick",
               "items": [
-                "One topic and audience",
+                "**One topic** and audience",
                 "Curated example SQL"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Depends on the curator",
+                "Depends on the **curator**",
                 "Advises five or fewer tables"
               ]
             }
@@ -505,9 +496,10 @@
         },
         {
           "logo": "assets/logos/wren.png",
+          "url": "https://github.com/Canner/WrenAI",
           "cells": [
             "WrenAI",
-            "Semantic layer in Git",
+            "**Semantic layer** in Git",
             [
               2,
               "Define the MDL model"
@@ -519,14 +511,14 @@
             {
               "mark": "tick",
               "items": [
-                "Versioned definitions",
+                "**Versioned** definitions",
                 "Open-source engine"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Unmodelled data",
+                "**Unmodelled** data",
                 "Some features commercial"
               ]
             }
@@ -538,9 +530,10 @@
         },
         {
           "logo": "assets/logos/vanna.png",
+          "url": "https://github.com/vanna-ai/vanna",
           "cells": [
             "Vanna",
-            "Saved past queries",
+            "**Saved past queries**",
             [
               1,
               "Learns from use"
@@ -552,14 +545,14 @@
             {
               "mark": "tick",
               "items": [
-                "Repeated questions",
+                "**Repeated** questions",
                 "Learns from saved queries"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Repeats past errors",
+                "Repeats **past errors**",
                 "Repository archived"
               ]
             }
@@ -567,9 +560,10 @@
         },
         {
           "logo": "assets/icons/monitoring-ink.png",
+          "url": "https://bird-bench.github.io/",
           "cells": [
             "BIRD leaderboard systems",
-            "Mostly not listed",
+            "Mostly **not listed**",
             [
               null,
               "Not listed"
@@ -581,14 +575,14 @@
             {
               "mark": "tick",
               "items": [
-                "Benchmark scores",
+                "**Benchmark** scores",
                 "Top test entry 83.40 %"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "Transfer unproven",
+                "**Transfer** unproven",
                 "Methods rarely listed"
               ]
             }
@@ -600,14 +594,11 @@
         },
         {
           "logo": "assets/icons/fact_check-teal.png",
+          "url": "https://github.com/tuannm3812/text-to-sql-agent",
           "ours": true,
-          "shade": [
-            2,
-            3
-          ],
           "cells": [
             "This project",
-            "Schema and bounded hints",
+            "**Schema** and **bounded hints**",
             [
               0,
               "Connect only"
@@ -619,14 +610,14 @@
             {
               "mark": "tick",
               "items": [
-                "A first look at a database",
+                "A **first look** at a database",
                 "SQL shown, run read-only"
               ]
             },
             {
               "mark": "cross",
               "items": [
-                "A person checks the meaning",
+                "A **person checks** the meaning",
                 "No governed metrics"
               ]
             }
@@ -1430,7 +1421,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results"
     },
     {
       "id": "benchmarks",
@@ -1565,7 +1557,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
     },
     {
       "id": "large",
@@ -1705,7 +1698,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md"
     },
     {
       "id": "trials",
@@ -1932,7 +1926,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md"
     },
     {
       "id": "next",
@@ -2074,7 +2069,7 @@
         ]
       ],
       "image": {
-        "path": "assets/figures/close-art.png",
+        "path": "assets/figures/close-portrait.png",
         "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data."
       },
       "notes": {
@@ -2224,7 +2219,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py"
     },
     {
       "id": "appendix-scoring",
