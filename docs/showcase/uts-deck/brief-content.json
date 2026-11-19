@@ -1,8 +1,8 @@
 {
   "title": "Ask your data. Inspect the answer.",
   "identity": "uts",
-  "author": "Manh Tuan Nguyen",
-  "affiliation": "University of Technology Sydney",
+  "author": "Manh Tuan (Mike) Nguyen",
+  "affiliation": "TD School, University of Technology Sydney",
   "date": "November 2026",
   "project_layouts": "project_layouts.py",
   "tracker_align": "logos",
@@ -13,11 +13,11 @@
       "cover_style": "report",
       "accent": "blue",
       "section": "36121 Artificial Intelligence Principles and Applications | Capstone project",
-      "title": "Ask your data. Inspect the answer.",
-      "subtitle": "A text-to-SQL agent that writes read-only SQL from a plain question, shows its work, and measures where it fails",
+      "title": "Ask your data.\nInspect the answer.",
+      "subtitle": "A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails",
       "image": {
-        "path": "assets/figures/cover-art.png",
-        "alt": "Illustration: table cards, one lifted under a lens showing a small bar chart. Decorative, no real data."
+        "path": "assets/figures/cover-combined.png",
+        "alt": "Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366."
       },
       "notes": {
         "purpose": "Open with the one idea of the deck.",
@@ -29,6 +29,10 @@
           "sources.md",
           "claims-register.md"
         ]
+      },
+      "motif": {
+        "path": "assets/figures/cover-motif.svg",
+        "alt": "Decorative row of small table cards, two highlighted as chosen."
       }
     },
     {
@@ -137,6 +141,18 @@
           ]
         }
       ],
+      "endmatter": [
+        {
+          "title": "Close",
+          "from": "close",
+          "through": "close"
+        },
+        {
+          "title": "Appendix: schema selection, scoring, engines, technology, glossary",
+          "from": "appendix-rag",
+          "through": "appendix-glossary"
+        }
+      ],
       "notes": {
         "purpose": "Show the order of the talk.",
         "script": [
@@ -178,7 +194,12 @@
           "text": "tests passed, none skipped, on 3 database engines",
           "icon": "verified_user",
           "series": "primary",
-          "marker": 1
+          "marker": 1,
+          "visual": {
+            "kind": "dots",
+            "n": 45
+          },
+          "caveat": "Read-only, not proof of right answers."
         },
         {
           "label": "Spider",
@@ -186,21 +207,37 @@
           "text": "of answers matched: common test, local 9B model",
           "icon": "target",
           "series": "primary",
-          "marker": 3
+          "marker": 3,
+          "visual": {
+            "kind": "ring",
+            "path": "assets/figures/ring-64-6.png",
+            "alt": "Ring filled to 64.6 %"
+          },
+          "caveat": "Our scorer, not the leaderboard."
         },
         {
           "label": "BIRD",
           "value": "35.2 %",
           "text": "of answers matched: harder test, with evidence hints",
           "icon": "target",
-          "series": "primary"
+          "series": "primary",
+          "visual": {
+            "kind": "ring",
+            "path": "assets/figures/ring-35-2.png",
+            "alt": "Ring filled to 35.2 %"
+          },
+          "caveat": "One local model only."
         },
         {
           "label": "Large databases",
           "value": "+3.6 pts",
           "text": "from choosing tables [+1.4, +5.8]",
           "icon": "trending_up",
-          "series": "secondary"
+          "series": "secondary",
+          "visual": {
+            "kind": "interval"
+          },
+          "caveat": "From 2 of 4 databases."
         }
       ],
       "panel_title": "Large databases: more correct answers from less context",
@@ -246,7 +283,7 @@
           "reading": "The prompt was 69 % smaller, but each answer took about two seconds longer."
         }
       ],
-      "note": "Accuracy uses this project’s result comparison, not leaderboard scoring. Large databases: 1,222 questions on 4 databases of 21 to 65 tables.",
+      "note": "Accuracy uses this project’s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD train questions on 4 databases of 21 to 65 tables.",
       "annotations": [
         {
           "title": "Read-only is not the same as right",
@@ -323,16 +360,19 @@
         {
           "title": "Meaning",
           "text": "Words like “revenue” are not columns. Gross or net? The schema does not say.",
-          "marker": 1
+          "marker": 1,
+          "icon": "menu_book"
         },
         {
           "title": "Scale",
-          "text": "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns."
+          "text": "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns.",
+          "icon": "table_rows"
         },
         {
           "title": "Risk",
           "text": "Generated SQL runs on real data, so it must be stopped from changing it.",
-          "marker": 3
+          "marker": 3,
+          "icon": "verified_user"
         }
       ],
       "takeaway": "Published scores fall about 70 points on enterprise tasks, so a good demo is not evidence.",
@@ -362,7 +402,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "ours": "**This project, for comparison:** 64.6 % on Spider dev and 35.2 % on BIRD dev, local 9B model, our own scorer; not comparable with the bars above."
     },
     {
       "id": "tools",
@@ -417,8 +458,20 @@
               2,
               "Refine with evaluations"
             ],
-            "Agreed metrics",
-            "Stale definitions"
+            {
+              "mark": "tick",
+              "items": [
+                "Agreed metrics",
+                "Teams already on Snowflake"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Stale definitions",
+                "Upkeep as metrics change"
+              ]
+            }
           ]
         },
         {
@@ -434,8 +487,20 @@
               2,
               "Iterate with feedback"
             ],
-            "One topic and audience",
-            "Depends on the curator"
+            {
+              "mark": "tick",
+              "items": [
+                "One topic and audience",
+                "Curated example SQL"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Depends on the curator",
+                "Advises five or fewer tables"
+              ]
+            }
           ]
         },
         {
@@ -451,8 +516,20 @@
               2,
               "Review in Git"
             ],
-            "Versioned definitions",
-            "Unmodelled data"
+            {
+              "mark": "tick",
+              "items": [
+                "Versioned definitions",
+                "Open-source engine"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Unmodelled data",
+                "Some features commercial"
+              ]
+            }
           ]
         },
         {
@@ -472,8 +549,20 @@
               2,
               "Self-maintained"
             ],
-            "Repeated questions",
-            "Repeats past errors"
+            {
+              "mark": "tick",
+              "items": [
+                "Repeated questions",
+                "Learns from saved queries"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Repeats past errors",
+                "Repository archived"
+              ]
+            }
           ]
         },
         {
@@ -489,8 +578,20 @@
               null,
               "Not listed"
             ],
-            "Benchmark scores",
-            "Transfer unproven"
+            {
+              "mark": "tick",
+              "items": [
+                "Benchmark scores",
+                "Top test entry 83.40 %"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Transfer unproven",
+                "Methods rarely listed"
+              ]
+            }
           ]
         },
         {
@@ -500,6 +601,10 @@
         {
           "logo": "assets/icons/fact_check-teal.png",
           "ours": true,
+          "shade": [
+            2,
+            3
+          ],
           "cells": [
             "This project",
             "Schema and bounded hints",
@@ -511,12 +616,24 @@
               0,
               "None"
             ],
-            "A first look",
-            "A person checks the meaning"
+            {
+              "mark": "tick",
+              "items": [
+                "A first look at a database",
+                "SQL shown, run read-only"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "A person checks the meaning",
+                "No governed metrics"
+              ]
+            }
           ]
         }
       ],
-      "note": "Setup and upkeep are our reading of each tool’s documentation, not a ranking. Vanna’s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.",
+      "note": "Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.",
       "takeaway": "Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.",
       "notes": {
         "purpose": "Place the project among the tools that already exist.",
@@ -1894,16 +2011,20 @@
       "subtitle": "Every number traces to the repository or to a source read on the date given",
       "items": [
         {
-          "label": "Repository: README Evaluation Results and evaluation/results/",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent"
+          "label": "Repository: README Evaluation Results; large-schema and retrieval results",
+          "url": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
         },
         {
-          "label": "Spider 2.0 paper, arXiv 2411.07763 (read 6 November 2026)",
-          "url": "https://arxiv.org/abs/2411.07763"
+          "label": "Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887",
+          "url": "https://arxiv.org/abs/1809.08887"
         },
         {
-          "label": "BIRD leaderboard (read 6 November 2026)",
+          "label": "BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026",
           "url": "https://bird-bench.github.io/"
+        },
+        {
+          "label": "Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)",
+          "url": "https://arxiv.org/abs/2411.07763"
         },
         {
           "label": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
@@ -1916,14 +2037,6 @@
         {
           "label": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
           "url": "https://github.com/Canner/WrenAI"
-        },
-        {
-          "label": "Large-schema results: evaluation/results/bird_train_large",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md"
-        },
-        {
-          "label": "Retrieval results: evaluation/results/retrieval",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/retrieval/README.md"
         }
       ],
       "notes": {

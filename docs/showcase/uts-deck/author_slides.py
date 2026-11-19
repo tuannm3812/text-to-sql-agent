@@ -29,16 +29,16 @@ other_tools = {
     'row_height': 31,
     'rows': [
         {'band': 'People define the meaning', 'accent': 'slate'},
-        {'logo': 'assets/logos/snowflake.png', 'cells': ['Snowflake Cortex Analyst', 'Semantic view', [2, 'Define the view'], [2, 'Refine with evaluations'], 'Agreed metrics', 'Stale definitions']},
-        {'logo': 'assets/logos/databricks.png', 'cells': ['Databricks Genie Agents', 'SQL expressions, example SQL', [3, 'Expert curation'], [2, 'Iterate with feedback'], 'One topic and audience', 'Depends on the curator']},
-        {'logo': 'assets/logos/wren.png', 'cells': ['WrenAI', 'Semantic layer in Git', [2, 'Define the MDL model'], [2, 'Review in Git'], 'Versioned definitions', 'Unmodelled data']},
+        {'logo': 'assets/logos/snowflake.png', 'cells': ['Snowflake Cortex Analyst', 'Semantic view', [2, 'Define the view'], [2, 'Refine with evaluations'], {'mark': 'tick', 'items': ['Agreed metrics', 'Teams already on Snowflake']}, {'mark': 'cross', 'items': ['Stale definitions', 'Upkeep as metrics change']}]},
+        {'logo': 'assets/logos/databricks.png', 'cells': ['Databricks Genie Agents', 'SQL expressions, example SQL', [3, 'Expert curation'], [2, 'Iterate with feedback'], {'mark': 'tick', 'items': ['One topic and audience', 'Curated example SQL']}, {'mark': 'cross', 'items': ['Depends on the curator', 'Advises five or fewer tables']}]},
+        {'logo': 'assets/logos/wren.png', 'cells': ['WrenAI', 'Semantic layer in Git', [2, 'Define the MDL model'], [2, 'Review in Git'], {'mark': 'tick', 'items': ['Versioned definitions', 'Open-source engine']}, {'mark': 'cross', 'items': ['Unmodelled data', 'Some features commercial']}]},
         {'band': 'Systems work it out', 'accent': 'blue'},
-        {'logo': 'assets/logos/vanna.png', 'cells': ['Vanna', 'Saved past queries', [1, 'Learns from use'], [2, 'Self-maintained'], 'Repeated questions', 'Repeats past errors']},
-        {'logo': 'assets/icons/monitoring-ink.png', 'cells': ['BIRD leaderboard systems', 'Mostly not listed', [None, 'Not listed'], [None, 'Not listed'], 'Benchmark scores', 'Transfer unproven']},
+        {'logo': 'assets/logos/vanna.png', 'cells': ['Vanna', 'Saved past queries', [1, 'Learns from use'], [2, 'Self-maintained'], {'mark': 'tick', 'items': ['Repeated questions', 'Learns from saved queries']}, {'mark': 'cross', 'items': ['Repeats past errors', 'Repository archived']}]},
+        {'logo': 'assets/icons/monitoring-ink.png', 'cells': ['BIRD leaderboard systems', 'Mostly not listed', [None, 'Not listed'], [None, 'Not listed'], {'mark': 'tick', 'items': ['Benchmark scores', 'Top test entry 83.40 %']}, {'mark': 'cross', 'items': ['Transfer unproven', 'Methods rarely listed']}]},
         {'band': 'This project', 'accent': 'ochre'},
-        {'logo': 'assets/icons/fact_check-teal.png', 'ours': True, 'cells': ['This project', 'Schema and bounded hints', [0, 'Connect only'], [0, 'None'], 'A first look', 'A person checks the meaning']},
+        {'logo': 'assets/icons/fact_check-teal.png', 'ours': True, 'shade': [2, 3], 'cells': ['This project', 'Schema and bounded hints', [0, 'Connect only'], [0, 'None'], {'mark': 'tick', 'items': ['A first look at a database', 'SQL shown, run read-only']}, {'mark': 'cross', 'items': ['A person checks the meaning', 'No governed metrics']}]},
     ],
-    'note': 'Setup and upkeep are our reading of each tool’s documentation, not a ranking. Vanna’s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.',
+    'note': 'Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.',
     'takeaway': 'Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.',
     'notes': notes('Place the project among the tools that already exist.',
         'Other tools reach business meaning through setup. [Point: People define the meaning] Snowflake says schemas lack business definitions, so people add them in a semantic view. Databricks has a domain expert curate SQL expressions and example SQL. WrenAI keeps its semantic layer in Git.',
@@ -391,14 +391,13 @@ references = {
     'title': 'Sources behind the claims',
     'subtitle': 'Every number traces to the repository or to a source read on the date given',
     'items': [
-        {'label': 'Repository: README Evaluation Results and evaluation/results/', 'url': 'https://github.com/tuannm3812/text-to-sql-agent'},
-        {'label': 'Spider 2.0 paper, arXiv 2411.07763 (read 6 November 2026)', 'url': 'https://arxiv.org/abs/2411.07763'},
-        {'label': 'BIRD leaderboard (read 6 November 2026)', 'url': 'https://bird-bench.github.io/'},
+        {'label': 'Repository: README Evaluation Results; large-schema and retrieval results', 'url': 'https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results'},
+        {'label': 'Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887', 'url': 'https://arxiv.org/abs/1809.08887'},
+        {'label': 'BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026', 'url': 'https://bird-bench.github.io/'},
+        {'label': 'Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)', 'url': 'https://arxiv.org/abs/2411.07763'},
         {'label': 'Snowflake Cortex Analyst documentation (read 6 November 2026)', 'url': 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst'},
         {'label': 'Databricks Genie best practices (read 6 November 2026)', 'url': 'https://docs.databricks.com/en/genie/best-practices.html'},
         {'label': 'WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)', 'url': 'https://github.com/Canner/WrenAI'},
-        {'label': 'Large-schema results: evaluation/results/bird_train_large', 'url': 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md'},
-        {'label': 'Retrieval results: evaluation/results/retrieval', 'url': 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/retrieval/README.md'},
     ],
     'notes': notes('List where the audience can check the claims.', 'These are the sources behind every number in the deck.'),
 }
@@ -563,6 +562,8 @@ agenda = {
             {'title': 'Next tests', 'from': 'next', 'through': 'next'},
             {'title': 'Sources', 'from': 'references', 'through': 'references'}]},
     ],
+    'endmatter': [{'title': 'Close', 'from': 'close', 'through': 'close'},
+                  {'title': 'Appendix: schema selection, scoring, engines, technology, glossary', 'from': 'appendix-rag', 'through': 'appendix-glossary'}],
     'notes': notes('Show the order of the talk.',
         'The deck follows four questions. [Point: Problem] Why is this hard, and what do other tools do? [Point: Solution] What was built, and how it is controlled. [Point: Evidence] What was measured, including the ideas that did not help. [Point: Next steps] What is still unproven and how to test it.'),
 }
@@ -571,15 +572,21 @@ brief = json.loads((HERE / 'brief-content.json').read_text())
 first = [s for s in brief['slides'] if s['id'] in ('cover', 'summary', 'hard')]
 cover, summary, hard = first
 summary['section'] = 'Problem'
+cover['title'] = 'Ask your data.\nInspect the answer.'
+cover['subtitle'] = 'A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails'
+cover['image'] = {'path': 'assets/figures/cover-combined.png', 'alt': 'Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366.'}
+cover['motif'] = {'path': 'assets/figures/cover-motif.svg', 'alt': 'Decorative row of small table cards, two highlighted as chosen.'}
+brief['author'] = 'Manh Tuan (Mike) Nguyen'
+brief['affiliation'] = 'TD School, University of Technology Sydney'
 for k in ('problem', 'approach', 'findings'):
     summary.pop(k, None)
 summary.update({
     'layout': 'summary_page',
     'tiles': [
-        {'label': 'Read-only checks', 'value': '45 of 45', 'text': 'tests passed, none skipped, on 3 database engines', 'icon': 'verified_user', 'series': 'primary', 'marker': 1},
-        {'label': 'Spider', 'value': '64.6 %', 'text': 'of answers matched: common test, local 9B model', 'icon': 'target', 'series': 'primary', 'marker': 3},
-        {'label': 'BIRD', 'value': '35.2 %', 'text': 'of answers matched: harder test, with evidence hints', 'icon': 'target', 'series': 'primary'},
-        {'label': 'Large databases', 'value': '+3.6 pts', 'text': 'from choosing tables [+1.4, +5.8]', 'icon': 'trending_up', 'series': 'secondary'},
+        {'label': 'Read-only checks', 'value': '45 of 45', 'text': 'tests passed, none skipped, on 3 database engines', 'icon': 'verified_user', 'series': 'primary', 'marker': 1, 'visual': {'kind': 'dots', 'n': 45}, 'caveat': 'Read-only, not proof of right answers.'},
+        {'label': 'Spider', 'value': '64.6 %', 'text': 'of answers matched: common test, local 9B model', 'icon': 'target', 'series': 'primary', 'marker': 3, 'visual': {'kind': 'ring', 'path': 'assets/figures/ring-64-6.png', 'alt': 'Ring filled to 64.6 %'}, 'caveat': 'Our scorer, not the leaderboard.'},
+        {'label': 'BIRD', 'value': '35.2 %', 'text': 'of answers matched: harder test, with evidence hints', 'icon': 'target', 'series': 'primary', 'visual': {'kind': 'ring', 'path': 'assets/figures/ring-35-2.png', 'alt': 'Ring filled to 35.2 %'}, 'caveat': 'One local model only.'},
+        {'label': 'Large databases', 'value': '+3.6 pts', 'text': 'from choosing tables [+1.4, +5.8]', 'icon': 'trending_up', 'series': 'secondary', 'visual': {'kind': 'interval'}, 'caveat': 'From 2 of 4 databases.'},
     ],
     'panel_title': 'Large databases: more correct answers from less context',
     'panel_marker': 2,
@@ -593,7 +600,7 @@ summary.update({
             {'label': 'Top 6 tables', 'value': 31, 'text': '31', 'series': 'primary'}],
          'reading': 'The prompt was 69 % smaller, but each answer took about two seconds longer.'},
     ],
-    'note': 'Accuracy uses this project’s result comparison, not leaderboard scoring. Large databases: 1,222 questions on 4 databases of 21 to 65 tables.',
+    'note': 'Accuracy uses this project’s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD train questions on 4 databases of 21 to 65 tables.',
     'takeaway': 'Inspectable and read-only, but **a person should still review** each answer.',
     'annotations': [
         {'title': 'Read-only is not the same as right', 'text': 'The controls limit what can run. They do not show the answer is correct.'},
@@ -602,6 +609,9 @@ summary.update({
         {'title': 'Smaller prompts are not faster here', 'text': 'Each question gets a different schema, so the local model cannot reuse its cache.'},
     ],
 })
+hard['ours'] = '**This project, for comparison:** 64.6 % on Spider dev and 35.2 % on BIRD dev, local 9B model, our own scorer; not comparable with the bars above.'
+for c, ic in zip(hard['causes'], ('menu_book', 'table_rows', 'verified_user')):
+    c['icon'] = ic
 hard['chain'] = [['Question', 'What the person asks', 'chat'], ['Schema', 'Tables and columns', 'schema'], ['SQL', 'The generated query', 'code'], ['Rows', 'The answer returned', 'table_rows']]
 summary['accent'] = 'slate'
 brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,

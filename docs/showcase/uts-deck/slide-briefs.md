@@ -2,7 +2,8 @@
 
 Edit brief-content.json, then rebuild.
 
-## 1. Ask your data. Inspect the answer.
+## 1. Ask your data.
+Inspect the answer.
 
 Layout: cover
 
@@ -13,10 +14,10 @@ Message: Open with the one idea of the deck.
 Exact face text:
 
 - 36121 ARTIFICIAL INTELLIGENCE PRINCIPLES AND APPLICATIONS | CAPSTONE PROJECT
-- Ask your data. Inspect the / answer.
-- A text-to-SQL agent that writes read-only SQL from a plain question, shows its work, and / measures where it fails
-- Manh Tuan Nguyen
-- University of Technology Sydney
+- Ask your data. / Inspect the answer.
+- A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails
+- Manh Tuan (Mike) Nguyen
+- TD School, University of Technology Sydney
 - November 2026
 
 ## 2. Agenda
@@ -68,6 +69,11 @@ Exact face text:
 - Next tests
 - 17
 - Sources
+- AFTER THE MAIN SECTIONS
+- Close
+- 18
+- Appendix: schema selection, scoring, engines, technology, glossary
+- 19–23
 
 ## 3. Inspectable SQL, with measured limits
 
@@ -89,32 +95,36 @@ Exact face text:
 - What the agent does, how well it did, and what to keep in mind
 - Text-to-SQL Agent
 - 3
-- Read-only checks
+- Read-only / checks
 - 45 of 45
 - tests passed, none skipped, on 3 / database engines
+- Read-only, not proof of right / answers.
 - Spider
 - 64.6 %
 - of answers matched: common / test, local 9B model
+- Our scorer, not the leaderboard.
 - BIRD
 - 35.2 %
 - of answers matched: harder test, / with evidence hints
-- Large databases
+- One local model only.
+- Large / databases
 - +3.6 pts
 - from choosing tables [+1.4, +5.8]
+- From 2 of 4 databases.
 - Large databases: more correct answers from less context
 - Answers matched
 - Every table + hints
 - 25.5 %
 - Top 6 tables
 - 29.1 %
-- Sending only the most relevant tables scored 3.6 points / higher.
+- Sending only the most relevant tables scored 3.6 points higher.
 - Prompt size, every table = 100
 - Every table + hints
 - 100
 - Top 6 tables
 - 31
-- The prompt was 69 % smaller, but each answer took about / two seconds longer.
-- Note: Accuracy uses this project’s result comparison, not leaderboard scoring. Large databases: 1,222 questions on 4 databases of 21 to 65 tables.
+- The prompt was 69 % smaller, but each answer took about two seconds / longer.
+- Note: Accuracy uses this project’s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD / train questions on 4 databases of 21 to 65 tables.
 - TAKEAWAY
 - Inspectable and read-only, but a person / should still review each answer.
 - 1
@@ -171,6 +181,7 @@ Exact face text:
 - 21.3 %
 - 69.9 points below Spider 1.0
 - Source: share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results.
+- This project, for comparison: 64.6 % on Spider dev and 35.2 % on BIRD dev, local 9B model, our own scorer; not comparable with the bars above.
 - Meaning
 - Words like “revenue” are not / columns. Gross or net? The schema / does not say.
 - Scale
@@ -229,40 +240,52 @@ Exact face text:
 - Define the view
 - Refine with evaluations
 - Agreed metrics
+- Teams already on Snowflake
 - Stale definitions
+- Upkeep as metrics change
 - Databricks Genie Agents
 - SQL expressions, example SQL
 - Expert curation
 - Iterate with feedback
 - One topic and audience
+- Curated example SQL
 - Depends on the curator
+- Advises five or fewer tables
 - WrenAI
 - Semantic layer in Git
 - Define the MDL model
 - Review in Git
 - Versioned definitions
+- Open-source engine
 - Unmodelled data
+- Some features commercial
 - SYSTEMS WORK IT OUT
 - Vanna
 - Saved past queries
 - Learns from use
 - Self-maintained
 - Repeated questions
+- Learns from saved queries
 - Repeats past errors
+- Repository archived
 - BIRD leaderboard systems
 - Mostly not listed
 - Not listed
 - Not listed
 - Benchmark scores
+- Top test entry 83.40 %
 - Transfer unproven
+- Methods rarely listed
 - THIS PROJECT
 - This project
 - Schema and bounded hints
 - Connect only
 - None
-- A first look
-- A person checks the / meaning
-- Note: Setup and upkeep are our reading of each tool’s documentation, not a ranking. Vanna’s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.
+- A first look at a database
+- SQL shown, run read-only
+- A person checks the meaning
+- No governed metrics
+- Note: Our reading of each tool’s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.
 - TAKEAWAY
 - Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.
 
@@ -923,14 +946,13 @@ Exact face text:
 - Every number traces to the repository or to a source read on the date given
 - Text-to-SQL Agent
 - 17
-- Repository: README Evaluation Results and evaluation/results/
-- Spider 2.0 paper, arXiv 2411.07763 (read 6 November 2026)
-- BIRD leaderboard (read 6 November 2026)
+- Repository: README Evaluation Results; large-schema and retrieval results
+- Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887
+- BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026
+- Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)
 - Snowflake Cortex Analyst documentation (read 6 November 2026)
 - Databricks Genie best practices (read 6 November 2026)
 - WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)
-- Large-schema results: evaluation/results/bird_train_large
-- Retrieval results: evaluation/results/retrieval
 
 ## 18. Inspectable SQL, measured trade-offs and a clear next experiment
 
@@ -949,8 +971,8 @@ Exact face text:
 - aipa-text-to-sql-agent.streamlit.app
 - Code and runs
 - github.com/tuannm3812/text-to-sql-agent
-- Manh Tuan Nguyen
-- University of Technology Sydney  ·  November 2026
+- Manh Tuan (Mike) Nguyen
+- TD School, University of Technology Sydney  ·  November 2026
 
 ## 19. Backup: how the top 6 tables are chosen
 

@@ -1,8 +1,8 @@
 {
   "title": "Ask your data. Inspect the answer.",
   "identity": "uts",
-  "author": "Manh Tuan Nguyen",
-  "affiliation": "University of Technology Sydney",
+  "author": "Manh Tuan (Mike) Nguyen",
+  "affiliation": "TD School, University of Technology Sydney",
   "date": "November 2026",
   "project_layouts": "project_layouts.py",
   "tracker_align": "logos",
@@ -13,11 +13,11 @@
       "cover_style": "report",
       "accent": "blue",
       "section": "36121 Artificial Intelligence Principles and Applications | Capstone project",
-      "title": "Ask your data. Inspect the answer.",
-      "subtitle": "A text-to-SQL agent that writes read-only SQL from a plain question, shows its work, and measures where it fails",
+      "title": "Ask your data.\nInspect the answer.",
+      "subtitle": "A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails",
       "image": {
-        "path": "assets/figures/cover-art.png",
-        "alt": "Illustration: table cards, one lifted under a lens showing a small bar chart. Decorative, no real data."
+        "path": "assets/figures/cover-combined.png",
+        "alt": "Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366."
       },
       "notes": {
         "purpose": "Open with the one idea of the deck.",
@@ -30,6 +30,10 @@
           "claims-register.md"
         ]
       },
+      "motif": {
+        "path": "assets/figures/cover-motif.svg",
+        "alt": "Decorative row of small table cards, two highlighted as chosen."
+      },
       "n": 1,
       "takeaways": [],
       "marker_pairs": [],
@@ -37,8 +41,8 @@
         {
           "op": "add-image",
           "id": "im1",
-          "path": "assets/figures/cover-art.png",
-          "alt": "Illustration: table cards, one lifted under a lens showing a small bar chart. Decorative, no real data.",
+          "path": "assets/figures/cover-combined.png",
+          "alt": "Illustration of linked table cards and a lens over a bar chart, with a real screenshot of the app answering: Electronics leads with 173,366.",
           "x": 560,
           "y": 0,
           "width": 400,
@@ -108,7 +112,7 @@
           "op": "add-textbox",
           "slide": "cover",
           "id": "t6",
-          "text": "Ask your data. Inspect the\nanswer.",
+          "text": "Ask your data.\nInspect the answer.",
           "x": 36.3,
           "y": 176.8,
           "width": 504.4,
@@ -129,13 +133,6 @@
           "op": "style-text",
           "element": "t6",
           "start": 0,
-          "end": 26,
-          "bold": true
-        },
-        {
-          "op": "style-text",
-          "element": "t6",
-          "start": 27,
           "end": 34,
           "bold": true
         },
@@ -143,7 +140,7 @@
           "op": "add-textbox",
           "slide": "cover",
           "id": "t7",
-          "text": "A text-to-SQL agent that writes read-only SQL from a plain question, shows its work, and\nmeasures where it fails",
+          "text": "A text-to-SQL agent that writes read-only SQL, shows its work and measures where it fails",
           "x": 36.3,
           "y": 266.8,
           "width": 504.4,
@@ -157,14 +154,14 @@
           "op": "style-paragraph",
           "element": "t7",
           "start": 0,
-          "end": 112,
+          "end": 89,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "cover",
           "id": "t8",
-          "text": "Manh Tuan Nguyen",
+          "text": "Manh Tuan (Mike) Nguyen",
           "x": 36.3,
           "y": 347.8,
           "width": 504.4,
@@ -178,21 +175,21 @@
           "op": "style-paragraph",
           "element": "t8",
           "start": 0,
-          "end": 16,
+          "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t8",
           "start": 0,
-          "end": 16,
+          "end": 23,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "cover",
           "id": "t9",
-          "text": "University of Technology Sydney",
+          "text": "TD School, University of Technology Sydney",
           "x": 36.3,
           "y": 366.8,
           "width": 504.4,
@@ -206,7 +203,7 @@
           "op": "style-paragraph",
           "element": "t9",
           "start": 0,
-          "end": 31,
+          "end": 42,
           "line_spacing": 135
         },
         {
@@ -229,6 +226,16 @@
           "start": 0,
           "end": 13,
           "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im11",
+          "path": "assets/figures/cover-motif.svg",
+          "alt": "Decorative row of small table cards, two highlighted as chosen.",
+          "x": 43.5,
+          "y": 440,
+          "width": 478,
+          "height": 46
         }
       ]
     },
@@ -336,6 +343,18 @@
               "through": "references"
             }
           ]
+        }
+      ],
+      "endmatter": [
+        {
+          "title": "Close",
+          "from": "close",
+          "through": "close"
+        },
+        {
+          "title": "Appendix: schema selection, scoring, engines, technology, glossary",
+          "from": "appendix-rag",
+          "through": "appendix-glossary"
         }
       ],
       "notes": {
@@ -532,6 +551,32 @@
           "pages_bounds": [
             874.0,
             908.0
+          ]
+        },
+        {
+          "label": "Close",
+          "pages": "18",
+          "mid": 423,
+          "label_bounds": [
+            42.5,
+            854.5
+          ],
+          "pages_bounds": [
+            874,
+            920
+          ]
+        },
+        {
+          "label": "Appendix: schema selection, scoring, engines, technology, glossary",
+          "pages": "19\u201323",
+          "mid": 455,
+          "label_bounds": [
+            42.5,
+            854.5
+          ],
+          "pages_bounds": [
+            874,
+            920
           ]
         }
       ],
@@ -1961,6 +2006,156 @@
           "start": 0,
           "end": 7,
           "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "agenda",
+          "id": "t76",
+          "text": "AFTER THE MAIN SECTIONS",
+          "x": 36.3,
+          "y": 386.8,
+          "width": 889.9,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t76",
+          "start": 0,
+          "end": 23,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t76",
+          "start": 0,
+          "end": 23,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "agenda",
+          "id": "t77",
+          "text": "Close",
+          "x": 36.3,
+          "y": 408.8,
+          "width": 824.4,
+          "height": 30.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t77",
+          "start": 0,
+          "end": 5,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "agenda",
+          "id": "r78",
+          "shape_type": "RECTANGLE",
+          "x": 875,
+          "y": 414,
+          "width": 44,
+          "height": 18,
+          "background_color": "#EDF0F3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "agenda",
+          "id": "t79",
+          "text": "18",
+          "x": 867.8,
+          "y": 410.3,
+          "width": 58.4,
+          "height": 27.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#526174",
+          "bold": true,
+          "alignment": "center"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t79",
+          "start": 0,
+          "end": 2,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t79",
+          "start": 0,
+          "end": 2,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "agenda",
+          "id": "t80",
+          "text": "Appendix: schema selection, scoring, engines, technology, glossary",
+          "x": 36.3,
+          "y": 440.8,
+          "width": 824.4,
+          "height": 30.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t80",
+          "start": 0,
+          "end": 66,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "agenda",
+          "id": "r81",
+          "shape_type": "RECTANGLE",
+          "x": 875,
+          "y": 446,
+          "width": 44,
+          "height": 18,
+          "background_color": "#EDF0F3"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "agenda",
+          "id": "t82",
+          "text": "19\u201323",
+          "x": 867.8,
+          "y": 442.3,
+          "width": 58.4,
+          "height": 27.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#526174",
+          "bold": true,
+          "alignment": "center"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t82",
+          "start": 0,
+          "end": 5,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t82",
+          "start": 0,
+          "end": 5,
+          "bold": true
         }
       ]
     },
@@ -1994,7 +2189,12 @@
           "text": "tests passed, none skipped, on 3 database engines",
           "icon": "verified_user",
           "series": "primary",
-          "marker": 1
+          "marker": 1,
+          "visual": {
+            "kind": "dots",
+            "n": 45
+          },
+          "caveat": "Read-only, not proof of right answers."
         },
         {
           "label": "Spider",
@@ -2002,21 +2202,37 @@
           "text": "of answers matched: common test, local 9B model",
           "icon": "target",
           "series": "primary",
-          "marker": 3
+          "marker": 3,
+          "visual": {
+            "kind": "ring",
+            "path": "assets/figures/ring-64-6.png",
+            "alt": "Ring filled to 64.6 %"
+          },
+          "caveat": "Our scorer, not the leaderboard."
         },
         {
           "label": "BIRD",
           "value": "35.2 %",
           "text": "of answers matched: harder test, with evidence hints",
           "icon": "target",
-          "series": "primary"
+          "series": "primary",
+          "visual": {
+            "kind": "ring",
+            "path": "assets/figures/ring-35-2.png",
+            "alt": "Ring filled to 35.2 %"
+          },
+          "caveat": "One local model only."
         },
         {
           "label": "Large databases",
           "value": "+3.6 pts",
           "text": "from choosing tables [+1.4, +5.8]",
           "icon": "trending_up",
-          "series": "secondary"
+          "series": "secondary",
+          "visual": {
+            "kind": "interval"
+          },
+          "caveat": "From 2 of 4 databases."
         }
       ],
       "panel_title": "Large databases: more correct answers from less context",
@@ -2062,7 +2278,7 @@
           "reading": "The prompt was 69 % smaller, but each answer took about two seconds longer."
         }
       ],
-      "note": "Accuracy uses this project\u2019s result comparison, not leaderboard scoring. Large databases: 1,222 questions on 4 databases of 21 to 65 tables.",
+      "note": "Accuracy uses this project\u2019s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD train questions on 4 databases of 21 to 65 tables.",
       "annotations": [
         {
           "title": "Read-only is not the same as right",
@@ -2148,7 +2364,7 @@
         {
           "number": 2,
           "cx": 389.0,
-          "cy": 274.0
+          "cy": 300.0
         },
         {
           "number": 3,
@@ -2158,7 +2374,7 @@
         {
           "number": 4,
           "cx": 638.0,
-          "cy": 302.0
+          "cy": 328.0
         }
       ],
       "ops": [
@@ -2522,7 +2738,7 @@
           "x": 43.5,
           "y": 132.0,
           "width": 144.125,
-          "height": 116,
+          "height": 142,
           "background_color": "#F4F5F6"
         },
         {
@@ -2537,107 +2753,631 @@
           "background_color": "#21918C"
         },
         {
-          "op": "add-image",
-          "id": "im23",
-          "path": "assets/icons/verified_user-ink.png",
-          "alt": "Read-only checks",
-          "x": 159.625,
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r23",
+          "shape_type": "ELLIPSE",
+          "x": 129.625,
           "y": 144.0,
-          "width": 18,
-          "height": 18
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "summary",
-          "id": "t24",
-          "text": "Read-only checks",
-          "x": 48.3,
-          "y": 136.8,
-          "width": 112.525,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
+          "id": "r24",
+          "shape_type": "ELLIPSE",
+          "x": 135.225,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
         },
         {
-          "op": "style-paragraph",
-          "element": "t24",
-          "start": 0,
-          "end": 16,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t24",
-          "start": 0,
-          "end": 16,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "summary",
-          "id": "t25",
-          "text": "45 of 45",
-          "x": 48.3,
-          "y": 158.8,
-          "width": 134.525,
-          "height": 46.800000000000004,
-          "font_size": 24,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
+          "id": "r25",
+          "shape_type": "ELLIPSE",
+          "x": 140.825,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
         },
         {
-          "op": "style-paragraph",
-          "element": "t25",
-          "start": 0,
-          "end": 8,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t25",
-          "start": 0,
-          "end": 8,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "summary",
-          "id": "t26",
-          "text": "tests passed, none skipped, on 3\ndatabase engines",
-          "x": 48.3,
-          "y": 196.8,
-          "width": 134.525,
-          "height": 36.0,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t26",
-          "start": 0,
-          "end": 49,
-          "line_spacing": 135
+          "id": "r26",
+          "shape_type": "ELLIPSE",
+          "x": 146.425,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "summary",
           "id": "r27",
-          "shape_type": "RECTANGLE",
-          "x": 197.625,
-          "y": 132.0,
-          "width": 144.125,
-          "height": 116,
-          "background_color": "#F4F5F6"
+          "shape_type": "ELLIPSE",
+          "x": 152.025,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
         },
         {
           "op": "add-shape",
           "slide": "summary",
           "id": "r28",
+          "shape_type": "ELLIPSE",
+          "x": 157.625,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r29",
+          "shape_type": "ELLIPSE",
+          "x": 163.225,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r30",
+          "shape_type": "ELLIPSE",
+          "x": 168.825,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r31",
+          "shape_type": "ELLIPSE",
+          "x": 174.425,
+          "y": 144.0,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r32",
+          "shape_type": "ELLIPSE",
+          "x": 129.625,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r33",
+          "shape_type": "ELLIPSE",
+          "x": 135.225,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r34",
+          "shape_type": "ELLIPSE",
+          "x": 140.825,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r35",
+          "shape_type": "ELLIPSE",
+          "x": 146.425,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r36",
+          "shape_type": "ELLIPSE",
+          "x": 152.025,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r37",
+          "shape_type": "ELLIPSE",
+          "x": 157.625,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r38",
+          "shape_type": "ELLIPSE",
+          "x": 163.225,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r39",
+          "shape_type": "ELLIPSE",
+          "x": 168.825,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r40",
+          "shape_type": "ELLIPSE",
+          "x": 174.425,
+          "y": 149.6,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r41",
+          "shape_type": "ELLIPSE",
+          "x": 129.625,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r42",
+          "shape_type": "ELLIPSE",
+          "x": 135.225,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r43",
+          "shape_type": "ELLIPSE",
+          "x": 140.825,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r44",
+          "shape_type": "ELLIPSE",
+          "x": 146.425,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r45",
+          "shape_type": "ELLIPSE",
+          "x": 152.025,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r46",
+          "shape_type": "ELLIPSE",
+          "x": 157.625,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r47",
+          "shape_type": "ELLIPSE",
+          "x": 163.225,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r48",
+          "shape_type": "ELLIPSE",
+          "x": 168.825,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r49",
+          "shape_type": "ELLIPSE",
+          "x": 174.425,
+          "y": 155.2,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r50",
+          "shape_type": "ELLIPSE",
+          "x": 129.625,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r51",
+          "shape_type": "ELLIPSE",
+          "x": 135.225,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r52",
+          "shape_type": "ELLIPSE",
+          "x": 140.825,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r53",
+          "shape_type": "ELLIPSE",
+          "x": 146.425,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r54",
+          "shape_type": "ELLIPSE",
+          "x": 152.025,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r55",
+          "shape_type": "ELLIPSE",
+          "x": 157.625,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r56",
+          "shape_type": "ELLIPSE",
+          "x": 163.225,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r57",
+          "shape_type": "ELLIPSE",
+          "x": 168.825,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r58",
+          "shape_type": "ELLIPSE",
+          "x": 174.425,
+          "y": 160.8,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r59",
+          "shape_type": "ELLIPSE",
+          "x": 129.625,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r60",
+          "shape_type": "ELLIPSE",
+          "x": 135.225,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r61",
+          "shape_type": "ELLIPSE",
+          "x": 140.825,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r62",
+          "shape_type": "ELLIPSE",
+          "x": 146.425,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r63",
+          "shape_type": "ELLIPSE",
+          "x": 152.025,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r64",
+          "shape_type": "ELLIPSE",
+          "x": 157.625,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r65",
+          "shape_type": "ELLIPSE",
+          "x": 163.225,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r66",
+          "shape_type": "ELLIPSE",
+          "x": 168.825,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r67",
+          "shape_type": "ELLIPSE",
+          "x": 174.425,
+          "y": 166.4,
+          "width": 4.2,
+          "height": 4.2,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t68",
+          "text": "Read-only\nchecks",
+          "x": 48.3,
+          "y": 138.8,
+          "width": 88.525,
+          "height": 41.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t68",
+          "start": 0,
+          "end": 16,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t68",
+          "start": 0,
+          "end": 9,
+          "bold": true
+        },
+        {
+          "op": "style-text",
+          "element": "t68",
+          "start": 10,
+          "end": 16,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t69",
+          "text": "45 of 45",
+          "x": 48.3,
+          "y": 170.8,
+          "width": 134.525,
+          "height": 46.800000000000004,
+          "font_size": 24,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t69",
+          "start": 0,
+          "end": 8,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t69",
+          "start": 0,
+          "end": 8,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t70",
+          "text": "tests passed, none skipped, on 3\ndatabase engines",
+          "x": 48.3,
+          "y": 204.8,
+          "width": 134.525,
+          "height": 36.0,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t70",
+          "start": 0,
+          "end": 49,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "summary",
+          "id": "l71",
+          "x": 55.5,
+          "y": 240.0,
+          "width": 120.125,
+          "height": 0.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t72",
+          "text": "Read-only, not proof of right\nanswers.",
+          "x": 48.3,
+          "y": 237.8,
+          "width": 134.525,
+          "height": 36.0,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t72",
+          "start": 0,
+          "end": 38,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r73",
+          "shape_type": "RECTANGLE",
+          "x": 197.625,
+          "y": 132.0,
+          "width": 144.125,
+          "height": 142,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r74",
           "shape_type": "RECTANGLE",
           "x": 197.625,
           "y": 132.0,
@@ -2647,22 +3387,22 @@
         },
         {
           "op": "add-image",
-          "id": "im29",
-          "path": "assets/icons/target-ink.png",
-          "alt": "Spider",
-          "x": 313.75,
-          "y": 144.0,
-          "width": 18,
-          "height": 18
+          "id": "im75",
+          "path": "assets/figures/ring-64-6.png",
+          "alt": "Ring filled to 64.6 %",
+          "x": 301.75,
+          "y": 142.0,
+          "width": 30,
+          "height": 30
         },
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t30",
+          "id": "t76",
           "text": "Spider",
           "x": 202.425,
-          "y": 136.8,
-          "width": 112.525,
+          "y": 138.8,
+          "width": 88.525,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -2671,14 +3411,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t30",
+          "element": "t76",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t30",
+          "element": "t76",
           "start": 0,
           "end": 6,
           "bold": true
@@ -2686,10 +3426,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t31",
+          "id": "t77",
           "text": "64.6 %",
           "x": 202.425,
-          "y": 158.8,
+          "y": 170.8,
           "width": 134.525,
           "height": 46.800000000000004,
           "font_size": 24,
@@ -2699,14 +3439,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t31",
+          "element": "t77",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t31",
+          "element": "t77",
           "start": 0,
           "end": 6,
           "bold": true
@@ -2714,10 +3454,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t32",
+          "id": "t78",
           "text": "of answers matched: common\ntest, local 9B model",
           "x": 202.425,
-          "y": 196.8,
+          "y": 204.8,
           "width": 134.525,
           "height": 36.0,
           "font_size": 8,
@@ -2727,26 +3467,58 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t32",
+          "element": "t78",
           "start": 0,
           "end": 47,
           "line_spacing": 135
         },
         {
+          "op": "add-line",
+          "slide": "summary",
+          "id": "l79",
+          "x": 209.625,
+          "y": 240.0,
+          "width": 120.125,
+          "height": 0.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t80",
+          "text": "Our scorer, not the leaderboard.",
+          "x": 202.425,
+          "y": 237.8,
+          "width": 134.525,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t80",
+          "start": 0,
+          "end": 32,
+          "line_spacing": 135
+        },
+        {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r33",
+          "id": "r81",
           "shape_type": "RECTANGLE",
           "x": 351.75,
           "y": 132.0,
           "width": 144.125,
-          "height": 116,
+          "height": 142,
           "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r34",
+          "id": "r82",
           "shape_type": "RECTANGLE",
           "x": 351.75,
           "y": 132.0,
@@ -2756,22 +3528,22 @@
         },
         {
           "op": "add-image",
-          "id": "im35",
-          "path": "assets/icons/target-ink.png",
-          "alt": "BIRD",
-          "x": 467.875,
-          "y": 144.0,
-          "width": 18,
-          "height": 18
+          "id": "im83",
+          "path": "assets/figures/ring-35-2.png",
+          "alt": "Ring filled to 35.2 %",
+          "x": 455.875,
+          "y": 142.0,
+          "width": 30,
+          "height": 30
         },
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t36",
+          "id": "t84",
           "text": "BIRD",
           "x": 356.55,
-          "y": 136.8,
-          "width": 112.525,
+          "y": 138.8,
+          "width": 88.525,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -2780,14 +3552,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t36",
+          "element": "t84",
           "start": 0,
           "end": 4,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t36",
+          "element": "t84",
           "start": 0,
           "end": 4,
           "bold": true
@@ -2795,10 +3567,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t37",
+          "id": "t85",
           "text": "35.2 %",
           "x": 356.55,
-          "y": 158.8,
+          "y": 170.8,
           "width": 134.525,
           "height": 46.800000000000004,
           "font_size": 24,
@@ -2808,14 +3580,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t37",
+          "element": "t85",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t37",
+          "element": "t85",
           "start": 0,
           "end": 6,
           "bold": true
@@ -2823,10 +3595,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t38",
+          "id": "t86",
           "text": "of answers matched: harder test,\nwith evidence hints",
           "x": 356.55,
-          "y": 196.8,
+          "y": 204.8,
           "width": 134.525,
           "height": 36.0,
           "font_size": 8,
@@ -2836,26 +3608,58 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t38",
+          "element": "t86",
           "start": 0,
           "end": 52,
           "line_spacing": 135
         },
         {
+          "op": "add-line",
+          "slide": "summary",
+          "id": "l87",
+          "x": 363.75,
+          "y": 240.0,
+          "width": 120.125,
+          "height": 0.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t88",
+          "text": "One local model only.",
+          "x": 356.55,
+          "y": 237.8,
+          "width": 134.525,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t88",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r39",
+          "id": "r89",
           "shape_type": "RECTANGLE",
           "x": 505.875,
           "y": 132.0,
           "width": 144.125,
-          "height": 116,
+          "height": 142,
           "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r40",
+          "id": "r90",
           "shape_type": "RECTANGLE",
           "x": 505.875,
           "y": 132.0,
@@ -2864,24 +3668,47 @@
           "background_color": "#5EC962"
         },
         {
-          "op": "add-image",
-          "id": "im41",
-          "path": "assets/icons/trending_up-ink.png",
-          "alt": "Large databases",
-          "x": 622.0,
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r91",
+          "shape_type": "RECTANGLE",
+          "x": 602.0,
           "y": 144.0,
-          "width": 18,
-          "height": 18
+          "width": 1,
+          "height": 26,
+          "background_color": "#89949D"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r92",
+          "shape_type": "RECTANGLE",
+          "x": 608.0,
+          "y": 156.0,
+          "width": 30,
+          "height": 2.5,
+          "background_color": "#5EC962"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r93",
+          "shape_type": "ELLIPSE",
+          "x": 619.0,
+          "y": 153.0,
+          "width": 8,
+          "height": 8,
+          "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t42",
-          "text": "Large databases",
+          "id": "t94",
+          "text": "Large\ndatabases",
           "x": 510.675,
-          "y": 136.8,
-          "width": 112.525,
-          "height": 27.9,
+          "y": 138.8,
+          "width": 88.525,
+          "height": 41.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -2889,25 +3716,32 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t42",
+          "element": "t94",
           "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t42",
+          "element": "t94",
           "start": 0,
+          "end": 5,
+          "bold": true
+        },
+        {
+          "op": "style-text",
+          "element": "t94",
+          "start": 6,
           "end": 15,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t43",
+          "id": "t95",
           "text": "+3.6 pts",
           "x": 510.675,
-          "y": 158.8,
+          "y": 170.8,
           "width": 134.525,
           "height": 46.800000000000004,
           "font_size": 24,
@@ -2917,14 +3751,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t43",
+          "element": "t95",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t43",
+          "element": "t95",
           "start": 0,
           "end": 8,
           "bold": true
@@ -2932,10 +3766,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t44",
+          "id": "t96",
           "text": "from choosing tables [+1.4, +5.8]",
           "x": 510.675,
-          "y": 196.8,
+          "y": 204.8,
           "width": 134.525,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -2945,18 +3779,50 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t44",
+          "element": "t96",
           "start": 0,
           "end": 33,
           "line_spacing": 135
         },
         {
+          "op": "add-line",
+          "slide": "summary",
+          "id": "l97",
+          "x": 517.875,
+          "y": 240.0,
+          "width": 120.125,
+          "height": 0.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t45",
+          "id": "t98",
+          "text": "From 2 of 4 databases.",
+          "x": 510.675,
+          "y": 237.8,
+          "width": 134.525,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t98",
+          "start": 0,
+          "end": 22,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t99",
           "text": "Large databases: more correct answers from less context",
           "x": 36.3,
-          "y": 258.8,
+          "y": 284.8,
           "width": 620.9,
           "height": 30.6,
           "font_size": 12,
@@ -2966,14 +3832,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t45",
+          "element": "t99",
           "start": 0,
           "end": 55,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t45",
+          "element": "t99",
           "start": 0,
           "end": 55,
           "bold": true
@@ -2981,21 +3847,21 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r46",
+          "id": "r100",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 290.0,
+          "y": 316.0,
           "width": 298.25,
-          "height": 156.0,
+          "height": 130.0,
           "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r47",
+          "id": "r101",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 290.0,
+          "y": 316.0,
           "width": 298.25,
           "height": 0,
           "background_color": "#526174"
@@ -3003,10 +3869,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t48",
+          "id": "t102",
           "text": "Answers matched",
           "x": 48.3,
-          "y": 294.8,
+          "y": 320.8,
           "width": 288.65,
           "height": 30.6,
           "font_size": 12,
@@ -3016,14 +3882,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t48",
+          "element": "t102",
           "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t48",
+          "element": "t102",
           "start": 0,
           "end": 15,
           "bold": true
@@ -3031,10 +3897,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t49",
+          "id": "t103",
           "text": "Every table + hints",
           "x": 48.3,
-          "y": 324.8,
+          "y": 346.8,
           "width": 120.4,
           "height": 27.9,
           "font_size": 10,
@@ -3044,7 +3910,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t49",
+          "element": "t103",
           "start": 0,
           "end": 19,
           "line_spacing": 135
@@ -3052,10 +3918,10 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r50",
+          "id": "r104",
           "shape_type": "RECTANGLE",
           "x": 167.5,
-          "y": 328.0,
+          "y": 350.0,
           "width": 94.23046875,
           "height": 22,
           "background_color": "#ADB5BD"
@@ -3063,10 +3929,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t51",
+          "id": "t105",
           "text": "25.5 %",
           "x": 260.53046875,
-          "y": 324.8,
+          "y": 346.8,
           "width": 58.4,
           "height": 27.9,
           "font_size": 10,
@@ -3076,14 +3942,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t51",
+          "element": "t105",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t51",
+          "element": "t105",
           "start": 0,
           "end": 6,
           "bold": true
@@ -3091,10 +3957,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t52",
+          "id": "t106",
           "text": "Top 6 tables",
           "x": 48.3,
-          "y": 356.8,
+          "y": 374.8,
           "width": 120.4,
           "height": 27.9,
           "font_size": 10,
@@ -3104,7 +3970,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t52",
+          "element": "t106",
           "start": 0,
           "end": 12,
           "line_spacing": 135
@@ -3112,10 +3978,10 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r53",
+          "id": "r107",
           "shape_type": "RECTANGLE",
           "x": 167.5,
-          "y": 360.0,
+          "y": 378.0,
           "width": 107.53359375000001,
           "height": 22,
           "background_color": "#21918C"
@@ -3123,10 +3989,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t54",
+          "id": "t108",
           "text": "29.1 %",
           "x": 273.83359375000003,
-          "y": 356.8,
+          "y": 374.8,
           "width": 58.4,
           "height": 27.9,
           "font_size": 10,
@@ -3136,14 +4002,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t54",
+          "element": "t108",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t54",
+          "element": "t108",
           "start": 0,
           "end": 6,
           "bold": true
@@ -3151,223 +4017,11 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t55",
-          "text": "Sending only the most relevant tables scored 3.6 points\nhigher.",
+          "id": "t109",
+          "text": "Sending only the most relevant tables scored 3.6 points higher.",
           "x": 48.3,
-          "y": 390.8,
+          "y": 400.8,
           "width": 288.65,
-          "height": 41.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t55",
-          "start": 0,
-          "end": 63,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "summary",
-          "id": "r56",
-          "shape_type": "RECTANGLE",
-          "x": 351.75,
-          "y": 290.0,
-          "width": 298.25,
-          "height": 156.0,
-          "background_color": "#F4F5F6"
-        },
-        {
-          "op": "add-shape",
-          "slide": "summary",
-          "id": "r57",
-          "shape_type": "RECTANGLE",
-          "x": 351.75,
-          "y": 290.0,
-          "width": 298.25,
-          "height": 0,
-          "background_color": "#526174"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "summary",
-          "id": "t58",
-          "text": "Prompt size, every table = 100",
-          "x": 356.55,
-          "y": 294.8,
-          "width": 288.65,
-          "height": 30.6,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t58",
-          "start": 0,
-          "end": 30,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t58",
-          "start": 0,
-          "end": 30,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "summary",
-          "id": "t59",
-          "text": "Every table + hints",
-          "x": 356.55,
-          "y": 324.8,
-          "width": 120.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t59",
-          "start": 0,
-          "end": 19,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "summary",
-          "id": "r60",
-          "shape_type": "RECTANGLE",
-          "x": 475.75,
-          "y": 328.0,
-          "width": 107.5,
-          "height": 22,
-          "background_color": "#ADB5BD"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "summary",
-          "id": "t61",
-          "text": "100",
-          "x": 582.05,
-          "y": 324.8,
-          "width": 58.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t61",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t61",
-          "start": 0,
-          "end": 3,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "summary",
-          "id": "t62",
-          "text": "Top 6 tables",
-          "x": 356.55,
-          "y": 356.8,
-          "width": 120.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t62",
-          "start": 0,
-          "end": 12,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "summary",
-          "id": "r63",
-          "shape_type": "RECTANGLE",
-          "x": 475.75,
-          "y": 360.0,
-          "width": 33.325,
-          "height": 22,
-          "background_color": "#21918C"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "summary",
-          "id": "t64",
-          "text": "31",
-          "x": 507.87500000000006,
-          "y": 356.8,
-          "width": 58.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t64",
-          "start": 0,
-          "end": 2,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t64",
-          "start": 0,
-          "end": 2,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "summary",
-          "id": "t65",
-          "text": "The prompt was 69 % smaller, but each answer took about\ntwo seconds longer.",
-          "x": 356.55,
-          "y": 390.8,
-          "width": 288.65,
-          "height": 41.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t65",
-          "start": 0,
-          "end": 75,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "summary",
-          "id": "t66",
-          "text": "Note: Accuracy uses this project\u2019s result comparison, not leaderboard scoring. Large databases: 1,222 questions on 4 databases of 21 to 65 tables.",
-          "x": 36.3,
-          "y": 446.8,
-          "width": 620.9,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -3376,14 +4030,226 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t66",
+          "element": "t109",
           "start": 0,
-          "end": 146,
+          "end": 63,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r110",
+          "shape_type": "RECTANGLE",
+          "x": 351.75,
+          "y": 316.0,
+          "width": 298.25,
+          "height": 130.0,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r111",
+          "shape_type": "RECTANGLE",
+          "x": 351.75,
+          "y": 316.0,
+          "width": 298.25,
+          "height": 0,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t112",
+          "text": "Prompt size, every table = 100",
+          "x": 356.55,
+          "y": 320.8,
+          "width": 288.65,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t112",
+          "start": 0,
+          "end": 30,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t66",
+          "element": "t112",
+          "start": 0,
+          "end": 30,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t113",
+          "text": "Every table + hints",
+          "x": 356.55,
+          "y": 346.8,
+          "width": 120.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t113",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r114",
+          "shape_type": "RECTANGLE",
+          "x": 475.75,
+          "y": 350.0,
+          "width": 107.5,
+          "height": 22,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t115",
+          "text": "100",
+          "x": 582.05,
+          "y": 346.8,
+          "width": 58.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t115",
+          "start": 0,
+          "end": 3,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t115",
+          "start": 0,
+          "end": 3,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t116",
+          "text": "Top 6 tables",
+          "x": 356.55,
+          "y": 374.8,
+          "width": 120.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t116",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "summary",
+          "id": "r117",
+          "shape_type": "RECTANGLE",
+          "x": 475.75,
+          "y": 378.0,
+          "width": 33.325,
+          "height": 22,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t118",
+          "text": "31",
+          "x": 507.87500000000006,
+          "y": 374.8,
+          "width": 58.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t118",
+          "start": 0,
+          "end": 2,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t118",
+          "start": 0,
+          "end": 2,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t119",
+          "text": "The prompt was 69 % smaller, but each answer took about two seconds\nlonger.",
+          "x": 356.55,
+          "y": 400.8,
+          "width": 288.65,
+          "height": 36.0,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t119",
+          "start": 0,
+          "end": 75,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "summary",
+          "id": "t120",
+          "text": "Note: Accuracy uses this project\u2019s result comparison, not leaderboard scoring. Benchmarks: Spider (Yu et al., 2018) and BIRD (Li et al., 2023). Large databases: 1,222 BIRD\ntrain questions on 4 databases of 21 to 65 tables.",
+          "x": 36.3,
+          "y": 446.8,
+          "width": 620.9,
+          "height": 36.0,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t120",
+          "start": 0,
+          "end": 222,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t120",
           "start": 0,
           "end": 5,
           "bold": true,
@@ -3392,7 +4258,7 @@
         {
           "op": "add-line",
           "slide": "summary",
-          "id": "l67",
+          "id": "l121",
           "x": 658,
           "y": 131,
           "width": 0,
@@ -3403,7 +4269,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r68",
+          "id": "r122",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -3414,7 +4280,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r69",
+          "id": "r123",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -3425,7 +4291,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t70",
+          "id": "t124",
           "text": "TAKEAWAY",
           "x": 674.8,
           "y": 135.8,
@@ -3438,14 +4304,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t70",
+          "element": "t124",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t70",
+          "element": "t124",
           "start": 0,
           "end": 8,
           "bold": true
@@ -3453,7 +4319,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t71",
+          "id": "t125",
           "text": "Inspectable and read-only, but a person\nshould still review each answer.",
           "x": 674.8,
           "y": 155.8,
@@ -3466,21 +4332,21 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t71",
+          "element": "t125",
           "start": 0,
           "end": 72,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t71",
+          "element": "t125",
           "start": 31,
           "end": 39,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t71",
+          "element": "t125",
           "start": 40,
           "end": 59,
           "bold": true
@@ -3488,7 +4354,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r72",
+          "id": "r126",
           "shape_type": "ELLIPSE",
           "x": 44.5,
           "y": 124.0,
@@ -3499,7 +4365,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r73",
+          "id": "r127",
           "shape_type": "ELLIPSE",
           "x": 45.5,
           "y": 125.0,
@@ -3510,7 +4376,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t74",
+          "id": "t128",
           "text": "1",
           "x": 38.3,
           "y": 117.8,
@@ -3526,7 +4392,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r75",
+          "id": "r129",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 238.64,
@@ -3537,7 +4403,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t76",
+          "id": "t130",
           "text": "1",
           "x": 660.8,
           "y": 231.44,
@@ -3553,7 +4419,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t77",
+          "id": "t131",
           "text": "Read-only is not the same as right",
           "x": 680.8,
           "y": 229.8,
@@ -3566,14 +4432,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t77",
+          "element": "t131",
           "start": 0,
           "end": 34,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t77",
+          "element": "t131",
           "start": 0,
           "end": 34,
           "bold": true
@@ -3581,7 +4447,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t78",
+          "id": "t132",
           "text": "The controls limit what can run. They do not show\nthe answer is correct.",
           "x": 680.8,
           "y": 250.0,
@@ -3594,7 +4460,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t78",
+          "element": "t132",
           "start": 0,
           "end": 72,
           "line_spacing": 135
@@ -3602,10 +4468,10 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r79",
+          "id": "r133",
           "shape_type": "ELLIPSE",
           "x": 382.0,
-          "y": 267.0,
+          "y": 293.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -3613,10 +4479,10 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r80",
+          "id": "r134",
           "shape_type": "ELLIPSE",
           "x": 383.0,
-          "y": 268.0,
+          "y": 294.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -3624,10 +4490,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t81",
+          "id": "t135",
           "text": "2",
           "x": 375.8,
-          "y": 260.8,
+          "y": 286.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -3640,7 +4506,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r82",
+          "id": "r136",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 297.84,
@@ -3651,7 +4517,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t83",
+          "id": "t137",
           "text": "2",
           "x": 660.8,
           "y": 290.64,
@@ -3667,7 +4533,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t84",
+          "id": "t138",
           "text": "Selection helps at scale",
           "x": 680.8,
           "y": 289.0,
@@ -3680,14 +4546,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t84",
+          "element": "t138",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t84",
+          "element": "t138",
           "start": 0,
           "end": 24,
           "bold": true
@@ -3695,7 +4561,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t85",
+          "id": "t139",
           "text": "The gain comes from the 65- and 34-table\ndatabases. It is not a universal result.",
           "x": 680.8,
           "y": 309.2,
@@ -3708,7 +4574,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t85",
+          "element": "t139",
           "start": 0,
           "end": 81,
           "line_spacing": 135
@@ -3716,7 +4582,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r86",
+          "id": "r140",
           "shape_type": "ELLIPSE",
           "x": 198.625,
           "y": 124.0,
@@ -3727,7 +4593,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r87",
+          "id": "r141",
           "shape_type": "ELLIPSE",
           "x": 199.625,
           "y": 125.0,
@@ -3738,7 +4604,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t88",
+          "id": "t142",
           "text": "3",
           "x": 192.425,
           "y": 117.8,
@@ -3754,7 +4620,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r89",
+          "id": "r143",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 357.03999999999996,
@@ -3765,7 +4631,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t90",
+          "id": "t144",
           "text": "3",
           "x": 660.8,
           "y": 349.84,
@@ -3781,7 +4647,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t91",
+          "id": "t145",
           "text": "Judge the whole answer",
           "x": 680.8,
           "y": 348.2,
@@ -3794,14 +4660,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t91",
+          "element": "t145",
           "start": 0,
           "end": 22,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t91",
+          "element": "t145",
           "start": 0,
           "end": 22,
           "bold": true
@@ -3809,7 +4675,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t92",
+          "id": "t146",
           "text": "About one in three Spider answers still did not\nmatch.",
           "x": 680.8,
           "y": 368.4,
@@ -3822,7 +4688,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t92",
+          "element": "t146",
           "start": 0,
           "end": 54,
           "line_spacing": 135
@@ -3830,10 +4696,10 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r93",
+          "id": "r147",
           "shape_type": "ELLIPSE",
           "x": 631.0,
-          "y": 295.0,
+          "y": 321.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -3841,10 +4707,10 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r94",
+          "id": "r148",
           "shape_type": "ELLIPSE",
           "x": 632.0,
-          "y": 296.0,
+          "y": 322.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -3852,10 +4718,10 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t95",
+          "id": "t149",
           "text": "4",
           "x": 624.8,
-          "y": 288.8,
+          "y": 314.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -3868,7 +4734,7 @@
         {
           "op": "add-shape",
           "slide": "summary",
-          "id": "r96",
+          "id": "r150",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 417.2399999999999,
@@ -3879,7 +4745,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t97",
+          "id": "t151",
           "text": "4",
           "x": 660.8,
           "y": 410.0399999999999,
@@ -3895,7 +4761,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t98",
+          "id": "t152",
           "text": "Smaller prompts are not faster here",
           "x": 680.8,
           "y": 407.4,
@@ -3908,14 +4774,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t98",
+          "element": "t152",
           "start": 0,
           "end": 35,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t98",
+          "element": "t152",
           "start": 0,
           "end": 35,
           "bold": true
@@ -3923,7 +4789,7 @@
         {
           "op": "add-textbox",
           "slide": "summary",
-          "id": "t99",
+          "id": "t153",
           "text": "Each question gets a different schema, so the local\nmodel cannot reuse its cache.",
           "x": 680.8,
           "y": 427.59999999999997,
@@ -3936,7 +4802,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t99",
+          "element": "t153",
           "start": 0,
           "end": 81,
           "line_spacing": 135
@@ -4000,16 +4866,19 @@
         {
           "title": "Meaning",
           "text": "Words like \u201crevenue\u201d are not columns. Gross or net? The schema does not say.",
-          "marker": 1
+          "marker": 1,
+          "icon": "menu_book"
         },
         {
           "title": "Scale",
-          "text": "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns."
+          "text": "Real schemas are large. Spider 2.0 databases often exceed 1,000 columns.",
+          "icon": "table_rows"
         },
         {
           "title": "Risk",
           "text": "Generated SQL runs on real data, so it must be stopped from changing it.",
-          "marker": 3
+          "marker": 3,
+          "icon": "verified_user"
         }
       ],
       "takeaway": "Published scores fall about 70 points on enterprise tasks, so a good demo is not evidence.",
@@ -4040,6 +4909,7 @@
           "claims-register.md"
         ]
       },
+      "ours": "**This project, for comparison:** 64.6 % on Spider dev and 35.2 % on BIRD dev, local 9B model, our own scorer; not comparable with the bars above.",
       "n": 4,
       "takeaways": [],
       "marker_pairs": [
@@ -4093,18 +4963,18 @@
       "figure_marks": [
         {
           "number": 1,
-          "cx": 222.33333333333334,
-          "cy": 393.5
+          "cx": 51.5,
+          "cy": 383.5
         },
         {
           "number": 2,
           "cx": 514.3879999999999,
-          "cy": 310.33333333333337
+          "cy": 294.3333333333333
         },
         {
           "number": 3,
-          "cx": 640.0,
-          "cy": 393.5
+          "cx": 469.1666666666667,
+          "cy": 383.5
         }
       ],
       "ops": [
@@ -4914,7 +5784,7 @@
           "id": "t48",
           "text": "BIRD",
           "x": 36.3,
-          "y": 254.9666666666667,
+          "y": 246.96666666666667,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -4935,7 +5805,7 @@
           "id": "r49",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 257.1666666666667,
+          "y": 249.16666666666666,
           "width": 245.645,
           "height": 24,
           "background_color": "#3B528B"
@@ -4946,7 +5816,7 @@
           "id": "t50",
           "text": "73.0\u00a0%",
           "x": 437.945,
-          "y": 254.9666666666667,
+          "y": 246.96666666666667,
           "width": 74.4,
           "height": 27.9,
           "font_size": 10,
@@ -4974,7 +5844,7 @@
           "id": "t51",
           "text": "Spider 2.0 enterprise",
           "x": 36.3,
-          "y": 296.1333333333334,
+          "y": 280.1333333333333,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -4995,7 +5865,7 @@
           "id": "r52",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 298.33333333333337,
+          "y": 282.3333333333333,
           "width": 71.6745,
           "height": 24,
           "background_color": "#3B528B"
@@ -5006,7 +5876,7 @@
           "id": "t53",
           "text": "21.3\u00a0%",
           "x": 263.9745,
-          "y": 296.1333333333334,
+          "y": 280.1333333333333,
           "width": 74.4,
           "height": 27.9,
           "font_size": 10,
@@ -5034,7 +5904,7 @@
           "id": "r54",
           "shape_type": "RECTANGLE",
           "x": 321.17449999999997,
-          "y": 298.33333333333337,
+          "y": 282.3333333333333,
           "width": 179.2135,
           "height": 24,
           "background_color": "#FDF3A6"
@@ -5045,7 +5915,7 @@
           "id": "t55",
           "text": "69.9 points below Spider 1.0",
           "x": 321.9745,
-          "y": 296.1333333333334,
+          "y": 280.1333333333333,
           "width": 177.61350000000002,
           "height": 27.9,
           "font_size": 10,
@@ -5073,7 +5943,7 @@
           "id": "t56",
           "text": "Source: share of tasks solved by an o1-preview agent, as reported in the Spider 2.0 paper (2024); not this project's results.",
           "x": 36.3,
-          "y": 334.30000000000007,
+          "y": 310.3,
           "width": 620.9,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -5101,6 +5971,56 @@
           "id": "r57",
           "shape_type": "RECTANGLE",
           "x": 43.5,
+          "y": 333.5,
+          "width": 606.5,
+          "height": 20,
+          "background_color": "#E4F2F1"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r58",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 333.5,
+          "width": 2.5,
+          "height": 20,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t59",
+          "text": "This project, for comparison: 64.6 % on Spider dev and 35.2 % on BIRD dev, local 9B model, our own scorer; not comparable with the bars above.",
+          "x": 46.3,
+          "y": 330.3,
+          "width": 600.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t59",
+          "start": 0,
+          "end": 142,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t59",
+          "start": 0,
+          "end": 29,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r60",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
           "y": 383.5,
           "width": 188.83333333333334,
           "height": 92.5,
@@ -5109,7 +6029,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r58",
+          "id": "r61",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 383.5,
@@ -5118,9 +6038,19 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im62",
+          "path": "assets/icons/menu_book-ink.png",
+          "alt": "Meaning",
+          "x": 202.33333333333334,
+          "y": 393.5,
+          "width": 18,
+          "height": 18
+        },
+        {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t59",
+          "id": "t63",
           "text": "Meaning",
           "x": 48.3,
           "y": 388.3,
@@ -5133,14 +6063,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t59",
+          "element": "t63",
           "start": 0,
           "end": 7,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t59",
+          "element": "t63",
           "start": 0,
           "end": 7,
           "bold": true
@@ -5148,7 +6078,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t60",
+          "id": "t64",
           "text": "Words like \u201crevenue\u201d are not\ncolumns. Gross or net? The schema\ndoes not say.",
           "x": 48.3,
           "y": 408.3,
@@ -5161,7 +6091,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t60",
+          "element": "t64",
           "start": 0,
           "end": 76,
           "line_spacing": 135
@@ -5169,7 +6099,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r61",
+          "id": "r65",
           "shape_type": "RECTANGLE",
           "x": 252.33333333333334,
           "y": 383.5,
@@ -5180,7 +6110,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r62",
+          "id": "r66",
           "shape_type": "RECTANGLE",
           "x": 252.33333333333334,
           "y": 383.5,
@@ -5189,9 +6119,19 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im67",
+          "path": "assets/icons/table_rows-ink.png",
+          "alt": "Scale",
+          "x": 411.1666666666667,
+          "y": 393.5,
+          "width": 18,
+          "height": 18
+        },
+        {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t63",
+          "id": "t68",
           "text": "Scale",
           "x": 257.1333333333334,
           "y": 388.3,
@@ -5204,14 +6144,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t63",
+          "element": "t68",
           "start": 0,
           "end": 5,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t63",
+          "element": "t68",
           "start": 0,
           "end": 5,
           "bold": true
@@ -5219,7 +6159,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t64",
+          "id": "t69",
           "text": "Real schemas are large. Spider 2.0\ndatabases often exceed 1,000\ncolumns.",
           "x": 257.1333333333334,
           "y": 408.3,
@@ -5232,7 +6172,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t64",
+          "element": "t69",
           "start": 0,
           "end": 72,
           "line_spacing": 135
@@ -5240,7 +6180,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r65",
+          "id": "r70",
           "shape_type": "RECTANGLE",
           "x": 461.1666666666667,
           "y": 383.5,
@@ -5251,7 +6191,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r66",
+          "id": "r71",
           "shape_type": "RECTANGLE",
           "x": 461.1666666666667,
           "y": 383.5,
@@ -5260,9 +6200,19 @@
           "background_color": "#526174"
         },
         {
+          "op": "add-image",
+          "id": "im72",
+          "path": "assets/icons/verified_user-ink.png",
+          "alt": "Risk",
+          "x": 620.0,
+          "y": 393.5,
+          "width": 18,
+          "height": 18
+        },
+        {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t67",
+          "id": "t73",
           "text": "Risk",
           "x": 465.9666666666667,
           "y": 388.3,
@@ -5275,14 +6225,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t67",
+          "element": "t73",
           "start": 0,
           "end": 4,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t67",
+          "element": "t73",
           "start": 0,
           "end": 4,
           "bold": true
@@ -5290,7 +6240,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t68",
+          "id": "t74",
           "text": "Generated SQL runs on real data, so\nit must be stopped from changing it.",
           "x": 465.9666666666667,
           "y": 408.3,
@@ -5303,7 +6253,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t68",
+          "element": "t74",
           "start": 0,
           "end": 72,
           "line_spacing": 135
@@ -5311,7 +6261,7 @@
         {
           "op": "add-line",
           "slide": "hard",
-          "id": "l69",
+          "id": "l75",
           "x": 658,
           "y": 131,
           "width": 0,
@@ -5322,7 +6272,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r70",
+          "id": "r76",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -5333,7 +6283,7 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r71",
+          "id": "r77",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -5344,7 +6294,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t72",
+          "id": "t78",
           "text": "TAKEAWAY",
           "x": 674.8,
           "y": 135.8,
@@ -5357,14 +6307,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t72",
+          "element": "t78",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t72",
+          "element": "t78",
           "start": 0,
           "end": 8,
           "bold": true
@@ -5372,7 +6322,7 @@
         {
           "op": "add-textbox",
           "slide": "hard",
-          "id": "t73",
+          "id": "t79",
           "text": "Published scores fall about 70 points on\nenterprise tasks, so a good demo is not\nevidence.",
           "x": 674.8,
           "y": 155.8,
@@ -5385,7 +6335,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t73",
+          "element": "t79",
           "start": 0,
           "end": 90,
           "line_spacing": 135
@@ -5393,113 +6343,10 @@
         {
           "op": "add-shape",
           "slide": "hard",
-          "id": "r74",
-          "shape_type": "ELLIPSE",
-          "x": 216.33333333333334,
-          "y": 387.5,
-          "width": 12,
-          "height": 12,
-          "background_color": "#B8452E"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "hard",
-          "id": "t75",
-          "text": "1",
-          "x": 209.13333333333335,
-          "y": 380.3,
-          "width": 26.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#FFFFFF",
-          "bold": true,
-          "alignment": "center",
-          "content_alignment": "MIDDLE"
-        },
-        {
-          "op": "add-shape",
-          "slide": "hard",
-          "id": "r76",
-          "shape_type": "ELLIPSE",
-          "x": 668,
-          "y": 238.64,
-          "width": 12,
-          "height": 12,
-          "background_color": "#B8452E"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "hard",
-          "id": "t77",
-          "text": "1",
-          "x": 660.8,
-          "y": 231.44,
-          "width": 26.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#FFFFFF",
-          "bold": true,
-          "alignment": "center",
-          "content_alignment": "MIDDLE"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "hard",
-          "id": "t78",
-          "text": "SQL is the easy part",
-          "x": 680.8,
-          "y": 229.8,
-          "width": 245.4,
-          "height": 61.4,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t78",
-          "start": 0,
-          "end": 20,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t78",
-          "start": 0,
-          "end": 20,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "hard",
-          "id": "t79",
-          "text": "The hard part is knowing what the question means\nin this database.",
-          "x": 680.8,
-          "y": 250.0,
-          "width": 245.4,
-          "height": 233.20000000000002,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t79",
-          "start": 0,
-          "end": 66,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "hard",
           "id": "r80",
           "shape_type": "ELLIPSE",
-          "x": 508.3879999999999,
-          "y": 304.33333333333337,
+          "x": 45.5,
+          "y": 377.5,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -5508,9 +6355,9 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t81",
-          "text": "2",
-          "x": 501.18799999999993,
-          "y": 297.1333333333334,
+          "text": "1",
+          "x": 38.3,
+          "y": 370.3,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -5526,7 +6373,7 @@
           "id": "r82",
           "shape_type": "ELLIPSE",
           "x": 668,
-          "y": 297.84,
+          "y": 238.64,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -5535,9 +6382,9 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t83",
-          "text": "2",
+          "text": "1",
           "x": 660.8,
-          "y": 290.64,
+          "y": 231.44,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -5551,9 +6398,9 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t84",
-          "text": "We see the same direction",
+          "text": "SQL is the easy part",
           "x": 680.8,
-          "y": 289.0,
+          "y": 229.8,
           "width": 245.4,
           "height": 61.4,
           "font_size": 12,
@@ -5565,25 +6412,25 @@
           "op": "style-paragraph",
           "element": "t84",
           "start": 0,
-          "end": 25,
+          "end": 20,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t84",
           "start": 0,
-          "end": 25,
+          "end": 20,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "hard",
           "id": "t85",
-          "text": "Spider 2.0 sits 69.9 points below Spider 1.0. Our\nmodel also falls on the harder test, from 64.6 % on\nSpider to 35.2 % on BIRD, using our own scorer.",
+          "text": "The hard part is knowing what the question means\nin this database.",
           "x": 680.8,
-          "y": 309.2,
+          "y": 250.0,
           "width": 245.4,
-          "height": 174.00000000000003,
+          "height": 233.20000000000002,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -5593,7 +6440,7 @@
           "op": "style-paragraph",
           "element": "t85",
           "start": 0,
-          "end": 149,
+          "end": 66,
           "line_spacing": 135
         },
         {
@@ -5601,8 +6448,8 @@
           "slide": "hard",
           "id": "r86",
           "shape_type": "ELLIPSE",
-          "x": 634.0,
-          "y": 387.5,
+          "x": 508.3879999999999,
+          "y": 288.3333333333333,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -5611,9 +6458,9 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t87",
-          "text": "3",
-          "x": 626.8,
-          "y": 380.3,
+          "text": "2",
+          "x": 501.18799999999993,
+          "y": 281.1333333333333,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -5629,7 +6476,7 @@
           "id": "r88",
           "shape_type": "ELLIPSE",
           "x": 668,
-          "y": 371.53999999999996,
+          "y": 297.84,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -5638,9 +6485,9 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t89",
-          "text": "3",
+          "text": "2",
           "x": 660.8,
-          "y": 364.34,
+          "y": 290.64,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -5654,9 +6501,9 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t90",
-          "text": "Keep a person in the loop",
+          "text": "We see the same direction",
           "x": 680.8,
-          "y": 361.7,
+          "y": 289.0,
           "width": 245.4,
           "height": 61.4,
           "font_size": 12,
@@ -5682,6 +6529,109 @@
           "op": "add-textbox",
           "slide": "hard",
           "id": "t91",
+          "text": "Spider 2.0 sits 69.9 points below Spider 1.0. Our\nmodel also falls on the harder test, from 64.6 % on\nSpider to 35.2 % on BIRD, using our own scorer.",
+          "x": 680.8,
+          "y": 309.2,
+          "width": 245.4,
+          "height": 174.00000000000003,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t91",
+          "start": 0,
+          "end": 149,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r92",
+          "shape_type": "ELLIPSE",
+          "x": 463.1666666666667,
+          "y": 377.5,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t93",
+          "text": "3",
+          "x": 455.9666666666667,
+          "y": 370.3,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-shape",
+          "slide": "hard",
+          "id": "r94",
+          "shape_type": "ELLIPSE",
+          "x": 668,
+          "y": 371.53999999999996,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t95",
+          "text": "3",
+          "x": 660.8,
+          "y": 364.34,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t96",
+          "text": "Keep a person in the loop",
+          "x": 680.8,
+          "y": 361.7,
+          "width": 245.4,
+          "height": 61.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t96",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t96",
+          "start": 0,
+          "end": 25,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "hard",
+          "id": "t97",
           "text": "A valid query can still answer the wrong question.\nDashboards and analyst SQL remain best for\ndefined, recurring metrics.",
           "x": 680.8,
           "y": 381.9,
@@ -5694,7 +6644,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t91",
+          "element": "t97",
           "start": 0,
           "end": 121,
           "line_spacing": 135
@@ -5754,8 +6704,20 @@
               2,
               "Refine with evaluations"
             ],
-            "Agreed metrics",
-            "Stale definitions"
+            {
+              "mark": "tick",
+              "items": [
+                "Agreed metrics",
+                "Teams already on Snowflake"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Stale definitions",
+                "Upkeep as metrics change"
+              ]
+            }
           ]
         },
         {
@@ -5771,8 +6733,20 @@
               2,
               "Iterate with feedback"
             ],
-            "One topic and audience",
-            "Depends on the curator"
+            {
+              "mark": "tick",
+              "items": [
+                "One topic and audience",
+                "Curated example SQL"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Depends on the curator",
+                "Advises five or fewer tables"
+              ]
+            }
           ]
         },
         {
@@ -5788,8 +6762,20 @@
               2,
               "Review in Git"
             ],
-            "Versioned definitions",
-            "Unmodelled data"
+            {
+              "mark": "tick",
+              "items": [
+                "Versioned definitions",
+                "Open-source engine"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Unmodelled data",
+                "Some features commercial"
+              ]
+            }
           ]
         },
         {
@@ -5809,8 +6795,20 @@
               2,
               "Self-maintained"
             ],
-            "Repeated questions",
-            "Repeats past errors"
+            {
+              "mark": "tick",
+              "items": [
+                "Repeated questions",
+                "Learns from saved queries"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Repeats past errors",
+                "Repository archived"
+              ]
+            }
           ]
         },
         {
@@ -5826,8 +6824,20 @@
               null,
               "Not listed"
             ],
-            "Benchmark scores",
-            "Transfer unproven"
+            {
+              "mark": "tick",
+              "items": [
+                "Benchmark scores",
+                "Top test entry 83.40 %"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "Transfer unproven",
+                "Methods rarely listed"
+              ]
+            }
           ]
         },
         {
@@ -5837,6 +6847,10 @@
         {
           "logo": "assets/icons/fact_check-teal.png",
           "ours": true,
+          "shade": [
+            2,
+            3
+          ],
           "cells": [
             "This project",
             "Schema and bounded hints",
@@ -5848,12 +6862,24 @@
               0,
               "None"
             ],
-            "A first look",
-            "A person checks the meaning"
+            {
+              "mark": "tick",
+              "items": [
+                "A first look at a database",
+                "SQL shown, run read-only"
+              ]
+            },
+            {
+              "mark": "cross",
+              "items": [
+                "A person checks the meaning",
+                "No governed metrics"
+              ]
+            }
           ]
         }
       ],
-      "note": "Setup and upkeep are our reading of each tool\u2019s documentation, not a ranking. Vanna\u2019s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.",
+      "note": "Our reading of each tool\u2019s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.",
       "takeaway": "Other tools pay for meaning in setup and upkeep. **This project pays in review**: a person checks what each answer means.",
       "notes": {
         "purpose": "Place the project among the tools that already exist.",
@@ -6888,36 +7914,25 @@
           "line_spacing": 135
         },
         {
-          "op": "add-textbox",
-          "slide": "tools",
-          "id": "t59",
-          "text": "Agreed metrics",
-          "x": 636.3,
-          "y": 183.55,
-          "width": 141.9,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t59",
-          "start": 0,
-          "end": 14,
-          "line_spacing": 135
+          "op": "add-image",
+          "id": "im59",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 189.0,
+          "width": 8,
+          "height": 8
         },
         {
           "op": "add-textbox",
           "slide": "tools",
           "id": "t60",
-          "text": "Stale definitions",
-          "x": 771.8,
-          "y": 183.55,
-          "width": 146.4,
-          "height": 27.9,
-          "font_size": 10,
+          "text": "Agreed metrics",
+          "x": 648.3,
+          "y": 180.8,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
@@ -6926,13 +7941,106 @@
           "op": "style-paragraph",
           "element": "t60",
           "start": 0,
+          "end": 14,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im61",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 201.8,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t62",
+          "text": "Teams already on Snowflake",
+          "x": 648.3,
+          "y": 193.60000000000002,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t62",
+          "start": 0,
+          "end": 26,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im63",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 189.0,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t64",
+          "text": "Stale definitions",
+          "x": 783.8,
+          "y": 180.8,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t64",
+          "start": 0,
           "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im65",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 201.8,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t66",
+          "text": "Upkeep as metrics change",
+          "x": 783.8,
+          "y": 193.60000000000002,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t66",
+          "start": 0,
+          "end": 24,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r61",
+          "id": "r67",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 213.0,
@@ -6942,7 +8050,7 @@
         },
         {
           "op": "add-image",
-          "id": "im62",
+          "id": "im68",
           "path": "assets/logos/databricks.png",
           "alt": "Databricks Genie Agents",
           "x": 47.5,
@@ -6953,7 +8061,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t63",
+          "id": "t69",
           "text": "Databricks Genie Agents",
           "x": 64.3,
           "y": 214.55,
@@ -6966,14 +8074,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t63",
+          "element": "t69",
           "start": 0,
           "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t63",
+          "element": "t69",
           "start": 0,
           "end": 23,
           "bold": true
@@ -6981,7 +8089,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t64",
+          "id": "t70",
           "text": "SQL expressions, example SQL",
           "x": 226.3,
           "y": 214.55,
@@ -6994,7 +8102,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t64",
+          "element": "t70",
           "start": 0,
           "end": 28,
           "line_spacing": 135
@@ -7002,7 +8110,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r65",
+          "id": "r71",
           "shape_type": "ELLIPSE",
           "x": 383.5,
           "y": 219.5,
@@ -7013,7 +8121,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r66",
+          "id": "r72",
           "shape_type": "ELLIPSE",
           "x": 389.5,
           "y": 219.5,
@@ -7024,7 +8132,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r67",
+          "id": "r73",
           "shape_type": "ELLIPSE",
           "x": 395.5,
           "y": 219.5,
@@ -7035,7 +8143,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t68",
+          "id": "t74",
           "text": "Expert curation",
           "x": 376.3,
           "y": 220.3,
@@ -7048,7 +8156,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t68",
+          "element": "t74",
           "start": 0,
           "end": 15,
           "line_spacing": 135
@@ -7056,7 +8164,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r69",
+          "id": "r75",
           "shape_type": "ELLIPSE",
           "x": 513.5,
           "y": 219.5,
@@ -7067,7 +8175,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r70",
+          "id": "r76",
           "shape_type": "ELLIPSE",
           "x": 519.5,
           "y": 219.5,
@@ -7078,7 +8186,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r71",
+          "id": "r77",
           "shape_type": "ELLIPSE",
           "x": 525.5,
           "y": 219.5,
@@ -7089,7 +8197,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t72",
+          "id": "t78",
           "text": "Iterate with feedback",
           "x": 506.3,
           "y": 220.3,
@@ -7102,57 +8210,139 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t72",
+          "element": "t78",
           "start": 0,
           "end": 21,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im79",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 220.0,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t73",
+          "id": "t80",
           "text": "One topic and audience",
-          "x": 636.3,
-          "y": 214.55,
-          "width": 141.9,
-          "height": 27.9,
-          "font_size": 10,
+          "x": 648.3,
+          "y": 211.8,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t73",
+          "element": "t80",
           "start": 0,
           "end": 22,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im81",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 232.8,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t74",
-          "text": "Depends on the curator",
-          "x": 771.8,
-          "y": 214.55,
-          "width": 146.4,
-          "height": 27.9,
-          "font_size": 10,
+          "id": "t82",
+          "text": "Curated example SQL",
+          "x": 648.3,
+          "y": 224.60000000000002,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t74",
+          "element": "t82",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im83",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 220.0,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t84",
+          "text": "Depends on the curator",
+          "x": 783.8,
+          "y": 211.8,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t84",
           "start": 0,
           "end": 22,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im85",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 232.8,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t86",
+          "text": "Advises five or fewer tables",
+          "x": 783.8,
+          "y": 224.60000000000002,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t86",
+          "start": 0,
+          "end": 28,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r75",
+          "id": "r87",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 244.0,
@@ -7162,7 +8352,7 @@
         },
         {
           "op": "add-image",
-          "id": "im76",
+          "id": "im88",
           "path": "assets/logos/wren.png",
           "alt": "WrenAI",
           "x": 47.5,
@@ -7173,7 +8363,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t77",
+          "id": "t89",
           "text": "WrenAI",
           "x": 64.3,
           "y": 245.55,
@@ -7186,14 +8376,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t77",
+          "element": "t89",
           "start": 0,
           "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t77",
+          "element": "t89",
           "start": 0,
           "end": 6,
           "bold": true
@@ -7201,7 +8391,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t78",
+          "id": "t90",
           "text": "Semantic layer in Git",
           "x": 226.3,
           "y": 245.55,
@@ -7214,7 +8404,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t78",
+          "element": "t90",
           "start": 0,
           "end": 21,
           "line_spacing": 135
@@ -7222,7 +8412,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r79",
+          "id": "r91",
           "shape_type": "ELLIPSE",
           "x": 383.5,
           "y": 250.5,
@@ -7233,7 +8423,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r80",
+          "id": "r92",
           "shape_type": "ELLIPSE",
           "x": 389.5,
           "y": 250.5,
@@ -7244,7 +8434,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r81",
+          "id": "r93",
           "shape_type": "ELLIPSE",
           "x": 395.5,
           "y": 250.5,
@@ -7255,7 +8445,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t82",
+          "id": "t94",
           "text": "Define the MDL model",
           "x": 376.3,
           "y": 251.3,
@@ -7268,7 +8458,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t82",
+          "element": "t94",
           "start": 0,
           "end": 20,
           "line_spacing": 135
@@ -7276,7 +8466,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r83",
+          "id": "r95",
           "shape_type": "ELLIPSE",
           "x": 513.5,
           "y": 250.5,
@@ -7287,7 +8477,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r84",
+          "id": "r96",
           "shape_type": "ELLIPSE",
           "x": 519.5,
           "y": 250.5,
@@ -7298,7 +8488,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r85",
+          "id": "r97",
           "shape_type": "ELLIPSE",
           "x": 525.5,
           "y": 250.5,
@@ -7309,7 +8499,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t86",
+          "id": "t98",
           "text": "Review in Git",
           "x": 506.3,
           "y": 251.3,
@@ -7322,57 +8512,139 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t86",
+          "element": "t98",
           "start": 0,
           "end": 13,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im99",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 251.0,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t87",
+          "id": "t100",
           "text": "Versioned definitions",
-          "x": 636.3,
-          "y": 245.55,
-          "width": 141.9,
-          "height": 27.9,
-          "font_size": 10,
+          "x": 648.3,
+          "y": 242.8,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t87",
+          "element": "t100",
           "start": 0,
           "end": 21,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im101",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 263.8,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t88",
-          "text": "Unmodelled data",
-          "x": 771.8,
-          "y": 245.55,
-          "width": 146.4,
-          "height": 27.9,
-          "font_size": 10,
+          "id": "t102",
+          "text": "Open-source engine",
+          "x": 648.3,
+          "y": 255.60000000000002,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t88",
+          "element": "t102",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im103",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 251.0,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t104",
+          "text": "Unmodelled data",
+          "x": 783.8,
+          "y": 242.8,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t104",
           "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im105",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 263.8,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t106",
+          "text": "Some features commercial",
+          "x": 783.8,
+          "y": 255.60000000000002,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t106",
+          "start": 0,
+          "end": 24,
+          "line_spacing": 135
+        },
+        {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r89",
+          "id": "r107",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 275.0,
@@ -7383,7 +8655,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r90",
+          "id": "r108",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 276.0,
@@ -7394,7 +8666,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r91",
+          "id": "r109",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 276.0,
@@ -7405,7 +8677,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t92",
+          "id": "t110",
           "text": "SYSTEMS WORK IT OUT",
           "x": 44.3,
           "y": 272.8,
@@ -7418,21 +8690,21 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t92",
+          "element": "t110",
           "start": 0,
           "end": 19,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t92",
+          "element": "t110",
           "start": 0,
           "end": 19,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im93",
+          "id": "im111",
           "path": "assets/logos/vanna.png",
           "alt": "Vanna",
           "x": 47.5,
@@ -7443,7 +8715,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t94",
+          "id": "t112",
           "text": "Vanna",
           "x": 64.3,
           "y": 294.55,
@@ -7456,14 +8728,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t94",
+          "element": "t112",
           "start": 0,
           "end": 5,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t94",
+          "element": "t112",
           "start": 0,
           "end": 5,
           "bold": true
@@ -7471,7 +8743,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t95",
+          "id": "t113",
           "text": "Saved past queries",
           "x": 226.3,
           "y": 294.55,
@@ -7484,7 +8756,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t95",
+          "element": "t113",
           "start": 0,
           "end": 18,
           "line_spacing": 135
@@ -7492,7 +8764,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r96",
+          "id": "r114",
           "shape_type": "ELLIPSE",
           "x": 383.5,
           "y": 299.5,
@@ -7503,7 +8775,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r97",
+          "id": "r115",
           "shape_type": "ELLIPSE",
           "x": 389.5,
           "y": 299.5,
@@ -7514,7 +8786,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r98",
+          "id": "r116",
           "shape_type": "ELLIPSE",
           "x": 395.5,
           "y": 299.5,
@@ -7525,7 +8797,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t99",
+          "id": "t117",
           "text": "Learns from use",
           "x": 376.3,
           "y": 300.3,
@@ -7538,7 +8810,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t99",
+          "element": "t117",
           "start": 0,
           "end": 15,
           "line_spacing": 135
@@ -7546,7 +8818,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r100",
+          "id": "r118",
           "shape_type": "ELLIPSE",
           "x": 513.5,
           "y": 299.5,
@@ -7557,7 +8829,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r101",
+          "id": "r119",
           "shape_type": "ELLIPSE",
           "x": 519.5,
           "y": 299.5,
@@ -7568,7 +8840,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r102",
+          "id": "r120",
           "shape_type": "ELLIPSE",
           "x": 525.5,
           "y": 299.5,
@@ -7579,7 +8851,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t103",
+          "id": "t121",
           "text": "Self-maintained",
           "x": 506.3,
           "y": 300.3,
@@ -7592,49 +8864,131 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t103",
+          "element": "t121",
           "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im122",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 300.0,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t104",
+          "id": "t123",
           "text": "Repeated questions",
-          "x": 636.3,
-          "y": 294.55,
-          "width": 141.9,
-          "height": 27.9,
-          "font_size": 10,
+          "x": 648.3,
+          "y": 291.8,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t104",
+          "element": "t123",
           "start": 0,
           "end": 18,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im124",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 312.8,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t105",
-          "text": "Repeats past errors",
-          "x": 771.8,
-          "y": 294.55,
-          "width": 146.4,
-          "height": 27.9,
-          "font_size": 10,
+          "id": "t125",
+          "text": "Learns from saved queries",
+          "x": 648.3,
+          "y": 304.6,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t105",
+          "element": "t125",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im126",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 300.0,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t127",
+          "text": "Repeats past errors",
+          "x": 783.8,
+          "y": 291.8,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t127",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im128",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 312.8,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t129",
+          "text": "Repository archived",
+          "x": 783.8,
+          "y": 304.6,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t129",
           "start": 0,
           "end": 19,
           "line_spacing": 135
@@ -7642,7 +8996,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r106",
+          "id": "r130",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 324.0,
@@ -7652,7 +9006,7 @@
         },
         {
           "op": "add-image",
-          "id": "im107",
+          "id": "im131",
           "path": "assets/icons/monitoring-ink.png",
           "alt": "BIRD leaderboard systems",
           "x": 47.5,
@@ -7663,7 +9017,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t108",
+          "id": "t132",
           "text": "BIRD leaderboard systems",
           "x": 64.3,
           "y": 325.55,
@@ -7676,14 +9030,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t108",
+          "element": "t132",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t108",
+          "element": "t132",
           "start": 0,
           "end": 24,
           "bold": true
@@ -7691,7 +9045,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t109",
+          "id": "t133",
           "text": "Mostly not listed",
           "x": 226.3,
           "y": 325.55,
@@ -7704,7 +9058,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t109",
+          "element": "t133",
           "start": 0,
           "end": 17,
           "line_spacing": 135
@@ -7712,7 +9066,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t110",
+          "id": "t134",
           "text": "Not listed",
           "x": 376.3,
           "y": 331.3,
@@ -7725,7 +9079,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t110",
+          "element": "t134",
           "start": 0,
           "end": 10,
           "line_spacing": 135
@@ -7733,7 +9087,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t111",
+          "id": "t135",
           "text": "Not listed",
           "x": 506.3,
           "y": 331.3,
@@ -7746,57 +9100,139 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t111",
+          "element": "t135",
           "start": 0,
           "end": 10,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im136",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 331.0,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t112",
+          "id": "t137",
           "text": "Benchmark scores",
-          "x": 636.3,
-          "y": 325.55,
-          "width": 141.9,
-          "height": 27.9,
-          "font_size": 10,
+          "x": 648.3,
+          "y": 322.8,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t112",
+          "element": "t137",
           "start": 0,
           "end": 16,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im138",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 343.8,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t113",
-          "text": "Transfer unproven",
-          "x": 771.8,
-          "y": 325.55,
-          "width": 146.4,
-          "height": 27.9,
-          "font_size": 10,
+          "id": "t139",
+          "text": "Top test entry 83.40 %",
+          "x": 648.3,
+          "y": 335.6,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t113",
+          "element": "t139",
+          "start": 0,
+          "end": 22,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im140",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 331.0,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t141",
+          "text": "Transfer unproven",
+          "x": 783.8,
+          "y": 322.8,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t141",
           "start": 0,
           "end": 17,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im142",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 343.8,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t143",
+          "text": "Methods rarely listed",
+          "x": 783.8,
+          "y": 335.6,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t143",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r114",
+          "id": "r144",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 355.0,
@@ -7807,7 +9243,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r115",
+          "id": "r145",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 356.0,
@@ -7818,7 +9254,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r116",
+          "id": "r146",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 356.0,
@@ -7829,7 +9265,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t117",
+          "id": "t147",
           "text": "THIS PROJECT",
           "x": 44.3,
           "y": 352.8,
@@ -7842,14 +9278,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t117",
+          "element": "t147",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t117",
+          "element": "t147",
           "start": 0,
           "end": 12,
           "bold": true
@@ -7857,7 +9293,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r118",
+          "id": "r148",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 373.0,
@@ -7866,8 +9302,30 @@
           "background_color": "#F6F1E5"
         },
         {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r149",
+          "shape_type": "RECTANGLE",
+          "x": 383.5,
+          "y": 373.0,
+          "width": 126,
+          "height": 31,
+          "background_color": "#D3EDEB"
+        },
+        {
+          "op": "add-shape",
+          "slide": "tools",
+          "id": "r150",
+          "shape_type": "RECTANGLE",
+          "x": 513.5,
+          "y": 373.0,
+          "width": 126,
+          "height": 31,
+          "background_color": "#D3EDEB"
+        },
+        {
           "op": "add-image",
-          "id": "im119",
+          "id": "im151",
           "path": "assets/icons/fact_check-teal.png",
           "alt": "This project",
           "x": 47.5,
@@ -7878,7 +9336,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t120",
+          "id": "t152",
           "text": "This project",
           "x": 64.3,
           "y": 374.55,
@@ -7891,14 +9349,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t120",
+          "element": "t152",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t120",
+          "element": "t152",
           "start": 0,
           "end": 12,
           "bold": true
@@ -7906,7 +9364,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t121",
+          "id": "t153",
           "text": "Schema and bounded hints",
           "x": 226.3,
           "y": 374.55,
@@ -7919,7 +9377,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t121",
+          "element": "t153",
           "start": 0,
           "end": 24,
           "line_spacing": 135
@@ -7927,7 +9385,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r122",
+          "id": "r154",
           "shape_type": "ELLIPSE",
           "x": 383.5,
           "y": 379.5,
@@ -7938,7 +9396,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r123",
+          "id": "r155",
           "shape_type": "ELLIPSE",
           "x": 389.5,
           "y": 379.5,
@@ -7949,7 +9407,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r124",
+          "id": "r156",
           "shape_type": "ELLIPSE",
           "x": 395.5,
           "y": 379.5,
@@ -7960,7 +9418,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t125",
+          "id": "t157",
           "text": "Connect only",
           "x": 376.3,
           "y": 380.3,
@@ -7973,7 +9431,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t125",
+          "element": "t157",
           "start": 0,
           "end": 12,
           "line_spacing": 135
@@ -7981,7 +9439,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r126",
+          "id": "r158",
           "shape_type": "ELLIPSE",
           "x": 513.5,
           "y": 379.5,
@@ -7992,7 +9450,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r127",
+          "id": "r159",
           "shape_type": "ELLIPSE",
           "x": 519.5,
           "y": 379.5,
@@ -8003,7 +9461,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r128",
+          "id": "r160",
           "shape_type": "ELLIPSE",
           "x": 525.5,
           "y": 379.5,
@@ -8014,7 +9472,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t129",
+          "id": "t161",
           "text": "None",
           "x": 506.3,
           "y": 380.3,
@@ -8027,57 +9485,139 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t129",
+          "element": "t161",
           "start": 0,
           "end": 4,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im162",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 380.0,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t130",
-          "text": "A first look",
-          "x": 636.3,
-          "y": 374.55,
-          "width": 141.9,
-          "height": 27.9,
-          "font_size": 10,
+          "id": "t163",
+          "text": "A first look at a database",
+          "x": 648.3,
+          "y": 371.8,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t130",
+          "element": "t163",
           "start": 0,
-          "end": 12,
+          "end": 26,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im164",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "Best for",
+          "x": 643.5,
+          "y": 392.8,
+          "width": 8,
+          "height": 8
+        },
+        {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t131",
-          "text": "A person checks the\nmeaning",
-          "x": 771.8,
-          "y": 367.8,
-          "width": 146.4,
-          "height": 41.4,
-          "font_size": 10,
+          "id": "t165",
+          "text": "SQL shown, run read-only",
+          "x": 648.3,
+          "y": 384.6,
+          "width": 129.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t131",
+          "element": "t165",
+          "start": 0,
+          "end": 24,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im166",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 380.0,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t167",
+          "text": "A person checks the meaning",
+          "x": 783.8,
+          "y": 371.8,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t167",
           "start": 0,
           "end": 27,
           "line_spacing": 135
         },
         {
+          "op": "add-image",
+          "id": "im168",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "Risk",
+          "x": 779.0,
+          "y": 392.8,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "op": "add-textbox",
+          "slide": "tools",
+          "id": "t169",
+          "text": "No governed metrics",
+          "x": 783.8,
+          "y": 384.6,
+          "width": 134.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t169",
+          "start": 0,
+          "end": 19,
+          "line_spacing": 135
+        },
+        {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r132",
+          "id": "r170",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 404.0,
@@ -8088,8 +9628,8 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t133",
-          "text": "Note: Setup and upkeep are our reading of each tool\u2019s documentation, not a ranking. Vanna\u2019s repository was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %, below 92.96 % for humans.",
+          "id": "t171",
+          "text": "Note: Our reading of each tool\u2019s documentation, read 6 November 2026, not a ranking. Vanna was archived on 29 March 2026. The top BIRD test entry, AskData, scores 83.40 %; humans score 92.96 %.",
           "x": 36.3,
           "y": 404.8,
           "width": 889.9,
@@ -8101,14 +9641,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t133",
+          "element": "t171",
           "start": 0,
-          "end": 209,
+          "end": 193,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t133",
+          "element": "t171",
           "start": 0,
           "end": 5,
           "bold": true,
@@ -8117,7 +9657,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r134",
+          "id": "r172",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -8128,7 +9668,7 @@
         {
           "op": "add-shape",
           "slide": "tools",
-          "id": "r135",
+          "id": "r173",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -8139,7 +9679,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t136",
+          "id": "t174",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -8152,14 +9692,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t136",
+          "element": "t174",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t136",
+          "element": "t174",
           "start": 0,
           "end": 8,
           "bold": true
@@ -8167,7 +9707,7 @@
         {
           "op": "add-textbox",
           "slide": "tools",
-          "id": "t137",
+          "id": "t175",
           "text": "Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.",
           "x": 147.3,
           "y": 442.05,
@@ -8180,14 +9720,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t137",
+          "element": "t175",
           "start": 0,
           "end": 117,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t137",
+          "element": "t175",
           "start": 49,
           "end": 76,
           "bold": true
@@ -27074,16 +28614,20 @@
       "subtitle": "Every number traces to the repository or to a source read on the date given",
       "items": [
         {
-          "label": "Repository: README Evaluation Results and evaluation/results/",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent"
+          "label": "Repository: README Evaluation Results; large-schema and retrieval results",
+          "url": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
         },
         {
-          "label": "Spider 2.0 paper, arXiv 2411.07763 (read 6 November 2026)",
-          "url": "https://arxiv.org/abs/2411.07763"
+          "label": "Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887",
+          "url": "https://arxiv.org/abs/1809.08887"
         },
         {
-          "label": "BIRD leaderboard (read 6 November 2026)",
+          "label": "BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026",
           "url": "https://bird-bench.github.io/"
+        },
+        {
+          "label": "Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)",
+          "url": "https://arxiv.org/abs/2411.07763"
         },
         {
           "label": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
@@ -27096,14 +28640,6 @@
         {
           "label": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
           "url": "https://github.com/Canner/WrenAI"
-        },
-        {
-          "label": "Large-schema results: evaluation/results/bird_train_large",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md"
-        },
-        {
-          "label": "Retrieval results: evaluation/results/retrieval",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/retrieval/README.md"
         }
       ],
       "notes": {
@@ -27498,7 +29034,7 @@
           "op": "add-textbox",
           "slide": "references",
           "id": "t21",
-          "text": "Repository: README Evaluation Results and evaluation/results/",
+          "text": "Repository: README Evaluation Results; large-schema and retrieval results",
           "x": 36.3,
           "y": 143.8,
           "width": 889.9,
@@ -27507,20 +29043,20 @@
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false,
-          "href": "https://github.com/tuannm3812/text-to-sql-agent"
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
         },
         {
           "op": "style-paragraph",
           "element": "t21",
           "start": 0,
-          "end": 61,
+          "end": 73,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t22",
-          "text": "Spider 2.0 paper, arXiv 2411.07763 (read 6 November 2026)",
+          "text": "Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887",
           "x": 36.3,
           "y": 176.0,
           "width": 889.9,
@@ -27529,20 +29065,20 @@
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false,
-          "href": "https://arxiv.org/abs/2411.07763"
+          "href": "https://arxiv.org/abs/1809.08887"
         },
         {
           "op": "style-paragraph",
           "element": "t22",
           "start": 0,
-          "end": 57,
+          "end": 49,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t23",
-          "text": "BIRD leaderboard (read 6 November 2026)",
+          "text": "BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026",
           "x": 36.3,
           "y": 208.2,
           "width": 889.9,
@@ -27557,14 +29093,14 @@
           "op": "style-paragraph",
           "element": "t23",
           "start": 0,
-          "end": 39,
+          "end": 83,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t24",
-          "text": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
+          "text": "Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)",
           "x": 36.3,
           "y": 240.39999999999998,
           "width": 889.9,
@@ -27573,20 +29109,20 @@
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false,
-          "href": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
+          "href": "https://arxiv.org/abs/2411.07763"
         },
         {
           "op": "style-paragraph",
           "element": "t24",
           "start": 0,
-          "end": 61,
+          "end": 70,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t25",
-          "text": "Databricks Genie best practices (read 6 November 2026)",
+          "text": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
           "x": 36.3,
           "y": 272.59999999999997,
           "width": 889.9,
@@ -27595,20 +29131,20 @@
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false,
-          "href": "https://docs.databricks.com/en/genie/best-practices.html"
+          "href": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
         },
         {
           "op": "style-paragraph",
           "element": "t25",
           "start": 0,
-          "end": 54,
+          "end": 61,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t26",
-          "text": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
+          "text": "Databricks Genie best practices (read 6 November 2026)",
           "x": 36.3,
           "y": 304.79999999999995,
           "width": 889.9,
@@ -27617,20 +29153,20 @@
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false,
-          "href": "https://github.com/Canner/WrenAI"
+          "href": "https://docs.databricks.com/en/genie/best-practices.html"
         },
         {
           "op": "style-paragraph",
           "element": "t26",
           "start": 0,
-          "end": 82,
+          "end": 54,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t27",
-          "text": "Large-schema results: evaluation/results/bird_train_large",
+          "text": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
           "x": 36.3,
           "y": 336.99999999999994,
           "width": 889.9,
@@ -27639,35 +29175,13 @@
           "font_family": "Google Sans",
           "color": "#5A6370",
           "bold": false,
-          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md"
+          "href": "https://github.com/Canner/WrenAI"
         },
         {
           "op": "style-paragraph",
           "element": "t27",
           "start": 0,
-          "end": 57,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "references",
-          "id": "t28",
-          "text": "Retrieval results: evaluation/results/retrieval",
-          "x": 36.3,
-          "y": 369.19999999999993,
-          "width": 889.9,
-          "height": 114.00000000000009,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/retrieval/README.md"
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t28",
-          "start": 0,
-          "end": 47,
+          "end": 82,
           "line_spacing": 135
         }
       ]
@@ -27954,7 +29468,7 @@
           "op": "add-textbox",
           "slide": "close",
           "id": "t22",
-          "text": "Manh Tuan Nguyen",
+          "text": "Manh Tuan (Mike) Nguyen",
           "x": 36.3,
           "y": 402.8,
           "width": 434.4,
@@ -27968,21 +29482,21 @@
           "op": "style-paragraph",
           "element": "t22",
           "start": 0,
-          "end": 16,
+          "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t22",
           "start": 0,
-          "end": 16,
+          "end": 23,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "close",
           "id": "t23",
-          "text": "University of Technology Sydney  \u00b7  November 2026",
+          "text": "TD School, University of Technology Sydney  \u00b7  November 2026",
           "x": 36.3,
           "y": 420.8,
           "width": 434.4,
@@ -27996,7 +29510,7 @@
           "op": "style-paragraph",
           "element": "t23",
           "start": 0,
-          "end": 49,
+          "end": 60,
           "line_spacing": 135
         },
         {

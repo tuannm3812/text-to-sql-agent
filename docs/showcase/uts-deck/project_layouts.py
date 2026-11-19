@@ -180,7 +180,8 @@ def hard_page(L, p, slide):
     ch = max(need(L, c['text'], cw - 24, 10) for c in causes) + 52
     causes_y = END - ch
     y = TOP + 62
-    step = (causes_y - 18 - (y + 22) - 26) / len(fig['bars'])   # bars share the height left above the causes
+    strip = 24 if slide.get('ours') else 0
+    step = (causes_y - 18 - (y + 22) - 26 - strip) / len(fig['bars'])   # bars share the height left above the causes
     put(L, p, fig['title'], LEFT, y, FIG_RIGHT - LEFT, 12, 'ink', True)
     y += 22
     lw, bw = 150, FIG_RIGHT - LEFT - 150 - 120
@@ -202,14 +203,21 @@ def hard_page(L, p, slide):
         y += step
     y += 2
     put(L, p, fig['caption'], LEFT, y, FIG_RIGHT - LEFT, L.size('caption'))
+    if slide.get('ours'):
+        sy = y + 16
+        p.rect(LEFT, sy, FIG_RIGHT - LEFT, 20, '#E4F2F1')
+        p.rect(LEFT, sy, 2.5, 20, SERIES['primary'])
+        put(L, p, slide['ours'], LEFT + 10, sy + 4, FIG_RIGHT - LEFT - 20, 8, 'ink')
     y = causes_y
     for i, c in enumerate(causes):
         x = LEFT + i * (cw + 20)
         card(L, p, x, y, cw, ch)
+        if c.get('icon'):
+            icon(L, p, f"assets/icons/{c['icon']}-ink.png", c['title'], x + cw - 30, y + 10, 18)
         put(L, p, c['title'], x + 12, y + 12, cw - 24, 12, 'ink', True)
         put(L, p, c['text'], x + 12, y + 32, cw - 24, 10)
         if c.get('marker'):
-            marks[c['marker']] = (x + cw - 10, y + 10)
+            marks[c['marker']] = (x + 8, y)
     if y + ch > END:
         raise ValueError(f'{p.id}: causes run past the content area')
     right_column(L, p, slide, marks)
@@ -379,9 +387,17 @@ def tools_page(L, p, slide):
         h = slide.get('row_height', 34)
         if row.get('ours'):
             p.rect(LEFT, y, RIGHT - LEFT, h, acc['ochre']['fill'])
+            for j in row.get('shade', []):   # this project's cells that differ most, in a teal tint
+                p.rect(xs[j], y, cols[j][1] - 4, h, '#D3EDEB')
         if row.get('logo'):
             icon(L, p, row['logo'], row['cells'][0], LEFT + 4, y + (h - 18) / 2, 18)
         for j, (cell, x0, (_, w)) in enumerate(zip(row['cells'], xs, cols)):
+            if isinstance(cell, dict):   # bullets with a tick or a cross
+                by = y + 6
+                for t in cell['items']:
+                    L.image(p, {'path': f"assets/project/icons/{cell['mark']}.svg", 'alt': 'Best for' if cell['mark'] == 'tick' else 'Risk'}, x0, by + 1, 8, 8)
+                    by += put(L, p, t, x0 + 12, by, w - 20, 8, 'body') + 2
+                continue
             if isinstance(cell, list):   # [dots, text]
                 if cell[0] is not None:
                     dots(L, p, cell[0], x0, y + h / 2 - 9)
@@ -625,16 +641,31 @@ def summary_page(L, p, slide):
     W = FIG_RIGHT - LEFT
     gap = 10
     tw = (W - 3 * gap) / 4
-    th = 116
+    th = 142
     for k, t in enumerate(slide['tiles']):
         x = LEFT + k * (tw + gap)
         colour = SERIES[t['series']]
         p.rect(x, TOP, tw, th, L.t.color('card'))
         p.rect(x, TOP, tw, 4, colour)
-        icon(L, p, f"assets/icons/{t['icon']}-ink.png", t['label'], x + tw - 28, TOP + 12, 18)
-        put(L, p, t['label'], x + 12, TOP + 12, tw - 46, 10, 'ink', True)
-        paint(L, p, t['value'], x + 12, TOP + 34, tw - 24, 24, L.t.color('ink'), True)
-        put(L, p, t['text'], x + 12, TOP + 72, tw - 24, 8, 'body')
+        v = t.get('visual', {})
+        vx, vy = x + tw - 44, TOP + 10
+        if v.get('kind') == 'dots':   # one dot per test, all passed
+            for k in range(v['n']):
+                p.rect(vx - 14 + (k % 9) * 5.6, vy + 2 + (k // 9) * 5.6, 4.2, 4.2, colour, 'ELLIPSE')
+        elif v.get('kind') == 'ring':
+            L.image(p, {'path': v['path'], 'alt': v['alt']}, vx + 4, vy, 30, 30)
+        elif v.get('kind') == 'interval':   # the paired interval clear of zero
+            p.rect(vx - 4, vy + 2, 1, 26, L.t.color('rule'))
+            p.rect(vx + 2, vy + 14, 30, 2.5, colour)
+            p.rect(vx + 13, vy + 11, 8, 8, colour, 'ELLIPSE')
+        else:
+            icon(L, p, f"assets/icons/{t['icon']}-ink.png", t['label'], x + tw - 28, TOP + 12, 18)
+        put(L, p, t['label'], x + 12, TOP + 14, tw - 70, 10, 'ink', True)
+        paint(L, p, t['value'], x + 12, TOP + 46, tw - 24, 24, L.t.color('ink'), True)
+        put(L, p, t['text'], x + 12, TOP + 80, tw - 24, 8, 'body')
+        if t.get('caveat'):
+            p.line(x + 12, TOP + 108, x + tw - 12, TOP + 108, L.t.color('hair'))
+            put(L, p, t['caveat'], x + 12, TOP + 113, tw - 24, 8, 'ink')
         if t.get('marker'):
             marks[t['marker']] = (x + 8, TOP - 1)
     y = TOP + th + 18
@@ -648,14 +679,14 @@ def summary_page(L, p, slide):
         card(L, p, x, y, pw, ph, weight=0)
         put(L, p, pn['title'], x + 12, y + 12, pw - 24, 12, 'ink', True)
         lw, bw = 112, pw - 24 - 112 - 44
-        by = y + 38
+        by = y + 34
         for r in pn['rows']:
             put(L, p, r['label'], x + 12, by + 4, lw - 6, 10, 'body')
             w = bw * r['value'] / pn['max']
             p.rect(x + 12 + lw, by, w, 22, SERIES[r['series']])
             paint(L, p, r['text'], x + 12 + lw + w + 6, by + 4, 44, 10, L.t.color('ink'), True)
-            by += 32
-        put(L, p, pn['reading'], x + 12, by + 6, pw - 24, 10, 'body')
+            by += 28
+        put(L, p, pn['reading'], x + 12, by + 2, pw - 24, 8, 'body')
         if pn.get('marker'):
             marks[pn['marker']] = (x + pw - 12, y + 12)
     note(L, p, slide['note'], LEFT, END - 22, W)

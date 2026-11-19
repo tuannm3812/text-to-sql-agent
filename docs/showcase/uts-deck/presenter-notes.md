@@ -1,6 +1,7 @@
 # Presenter notes
 
-## 1. Ask your data. Inspect the answer.
+## 1. Ask your data.
+Inspect the answer.
 
 Open with the one idea of the deck.
 
