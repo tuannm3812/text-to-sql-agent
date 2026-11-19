@@ -892,4 +892,40 @@ def arch_board(L, p, slide):
         by += bh + 4
 
 
-LAYOUTS = {'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+def arch_rows(L, p, slide):
+    """Appendix architecture as one row per stage, top to bottom, across the full width: the stage, what happens,
+    where it lives in the code, and what it guarantees or leaves open. Arrows run down the stage column."""
+    cols = [('Stage', 0, 150), ('What happens', 164, 300), ('Where in the code', 476, 190), ('Guarantees and limits', 678, RIGHT - LEFT - 678)]
+    # each stage's pill names its kind (app, model, code), so the colours need no separate legend
+    y = TOP - 2
+    for head, dx, w in cols:
+        if head:
+            cap(L, p, head, LEFT + dx, y, w, 'body')
+    y += 14
+    p.rect(LEFT, y, RIGHT - LEFT, 1, L.t.color('ink'))
+    n = len(slide['stages'])
+    gap = 6
+    rh = (END - y - 4 - gap * (n - 1)) / n
+    y += 4
+    for k, st in enumerate(slide['stages']):
+        rule, fill = KIND[st['kind']]
+        p.rect(LEFT, y, cols[0][2], rh, fill)
+        p.rect(LEFT, y, 3, rh, rule)
+        p.rect(LEFT + 10, y + 8, 14, 14, L.t.color('ink'))
+        paint(L, p, str(k + 1), LEFT + 10, y + 8.5, 14, 8, '#FFFFFF', True, 'center')
+        put(L, p, st['title'], LEFT + 30, y + 7, cols[0][2] - 40, 12, 'ink', True)
+        pill(L, p, st['pill'], st['kind'], LEFT + 10, y + 28)
+        lx = LEFT + cols[0][2] - 10
+        for logo in reversed(st.get('logos', [])):
+            lx -= 15
+            icon(L, p, logo, '', lx, y + rh - 18, 12)
+        put(L, p, st['what'], LEFT + cols[1][1], y + 6, cols[1][2], 8, 'ink')
+        put(L, p, st['code'], LEFT + cols[2][1], y + 6, cols[2][2], 8, 'body')
+        put(L, p, st['limits'], LEFT + cols[3][1], y + 6, cols[3][2], 8, 'body')
+        if k < n - 1:
+            p.line(LEFT + cols[1][1], y + rh + gap / 2, RIGHT, y + rh + gap / 2, L.t.color('hair'))
+            p.connector(LEFT + 75, y + rh, LEFT + 75, y + rh + gap, color=L.t.color('ink'))
+        y += rh + gap
+
+
+LAYOUTS = {'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}

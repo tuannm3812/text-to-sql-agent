@@ -2,7 +2,7 @@
   "version": "0.6.0",
   "kit": {
     "commit": "dc2f12fcef4aa4bc886141e9bb2f1ce53ce57d69",
-    "dirty": false,
+    "dirty": true,
     "files": {
       "uts_kit/__init__.py": "d1b304f2671749ddf6f65333bccf7effb3a367b22fcf9b8cf438cc2511e78403",
       "uts_kit/airflow_story.py": "451a06fb77841d2f28167b8df797030fe9bfba600b9aa75a09be231f803faf53",
@@ -50,11 +50,11 @@
     }
   },
   "inputs": {
-    "brief-content.json": "164610389c39c3ba60acda9a18a364cee02832559a6240d69e55f5ed54c272b8",
+    "brief-content.json": "2a371b6df9cec92b420115856691ebf7936ae5b626945d4250403b3bf3e8401e",
     "deck-kit.json": "d62d69af77f4c56d573abdbc345e8c3faf148bf029a35d4d841b73db02ed0ac0",
     "claims-register.md": "76b082ecade4a272fa6e20485f0fb6628f97e7b658fd83a00ec792d995187806",
     "kit-pin.json": "fab1758a95b0a452fc8b028ebeaf27783a75db5e2d2a0b587ca79501de3b43c6",
-    "project_layouts.py": "b45eb824aa1c80c9d3606d49b5fd9054a7a7e7a34d800b6942ea5becacefa837"
+    "project_layouts.py": "9941f7cf6a5ebe061f4e8122b915fac275caa1f6c9fe19d6cf0d9148fb3555b3"
   },
   "assets": {
     "assets/PROVENANCE.md": "5fca3195bdc91ba0f25ad38c2ab9a87f11523d9ed939e66c43699ac33d323f96",
@@ -300,8 +300,8 @@
     "assets/project/icons/yes.svg": "dbff942ec1c85811264a97caae3f850a35cc004310cc37f7c7e58b6ca734d52d"
   },
   "outputs": {
-    "deck.html": "468cabed92687d71bc6d14ef86d0b236066eb7fd95cb71b9cb2c34342b9b0de5",
-    "deck.pdf": "ee13f6a91cb9a91904fc9aba8ac66fc75ce04cc9c4701cdf0ece1b7f8dab4edd"
+    "deck.html": "cba7d5031c0732413e7b822f868da14b22ce9f6e46b11ca412e22432e5e7f122",
+    "deck.pdf": "09c9269bf0ece04989b52921bd68985555c0637174e5b49aa34989fd56122740"
   },
   "slide_count": 24
 }

@@ -1012,9 +1012,9 @@ Exact face text:
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
 
-## 20. Backup: the full flow, from question to answer
+## 20. Backup: how one question flows through the app, stage by stage
 
-Layout: arch_board
+Layout: arch_rows
 
 Reader question: 
 
@@ -1024,54 +1024,50 @@ Exact face text:
 
 - APPENDIX
 - Full architecture
-- Backup: the full flow, from question to answer
-- Six stages left to right, with the concerns that cut across every stage below
+- Backup: how one question flows through the app, stage by stage
+- 
 - Text-to-SQL Agent
 - 20
-- App step, no model
-- The model: behaviour
-- Enforced in code
-- Stages run left to right for every question.
+- STAGE
+- WHAT HAPPENS
+- WHERE IN THE CODE
+- GUARANTEES AND LIMITS
+- 1
 - Ask
-- Streamlit app
-- Pick a demo database, a file, a / connection string or CSV / uploads
-- Ask in plain English
-- Each question is answered on its / own
+- App, no model
+- Pick a demo database, a file, a connection string or CSV uploads, and a model: / Gemini, hosted, or Ollama, local. Then ask in plain English. Each question is / answered on its own; earlier questions are not sent.
+- app.py, ui/connection.py; the whole turn runs / through pipeline.answer_question
+- A connection string with a password is redacted / before any error is shown.
+- 2
 - Prepare
-- No model
-- Read tables, columns and keys
-- Up to 6 values from small text / columns
-- Keep the top 6 tables plus / foreign-key neighbours
-- Build the prompt: no result rows
+- App, no model
+- Read tables, columns and keys, with up to 6 values from text columns of at most 20 / distinct values. Score every table against the question, keep the top 6 plus tables / one foreign key away, and build the prompt.
+- schema.get_schema_chunks, / rag.retrieve_schema_context, / llm.build_user_prompt
+- No result rows ever enter the prompt. The schema and / its index are cached per schema version, so retrieval / takes about 4 ms.
+- 3
 - Generate
-- The one model call
-- Gemini, hosted, or Ollama, local
-- Writes one SQL statement
-- Declines a write or an / unanswerable question
+- The model: behaviour
+- The one model call. The model writes one SQL statement for the engine’s dialect, or / returns a refusal for a write or a question the schema cannot answer. Thinking is off / by default.
+- llm.generate_sql; gemini_manager.py for / Gemini; LangChain for Ollama
+- Behaviour, not a guarantee: 14 of 15 safety cases / ended in its own decline. A hosted model receives the / whole prompt.
+- 4
 - Validate
-- Gate 1
-- sqlglot parses the SQL
-- Accepts one SELECT or WITH
-- Refuses writes and engine / internals
+- In code: gate 1
+- sqlglot parses the SQL in the engine’s dialect. It accepts one SELECT or WITH / statement and refuses writes, engine internals and unsafe functions.
+- safety.query_refusal, / safety.is_safe_query
+- A refused query never reaches the engine; it returns / BLOCKED_UNSAFE_SQL with a plain explanation.
+- 5
 - Run
-- Gate 2
-- Read-only connection
-- Work budget: 100,000 steps or / 5,000 ms
-- Results cut at 1,000 rows
+- In code: gate 2
+- The engine runs the query on a read-only connection with a work budget and cuts / the result at 1,000 rows. A query error goes back to the model once, and the repair / passes gates 1 and 2 again.
+- execution.execute_query; / engines/sqlite.py, duckdb.py, postgres.py
+- Budgets: 100,000 VM steps on SQLite, 5,000 ms on / DuckDB and PostgreSQL; a budget stop is not retried. / Each engine passes the same 15 conformance tests.
+- 6
 - Show
-- For the person
-- The answer and the table
-- A chart when the result suits / one
-- The SQL and why those tables / were chosen
-- Repair
-- A query error goes back to the model once; the repaired query passes both gates again. A query stopped by the budget is not retried.
-- One try
-- Read-only engines
-- SQLite: read-only connection and authorizer. DuckDB: read_only, no external access. PostgreSQL: least-privilege role, read-only transaction.
-- 15 tests each
-- Evaluation
-- The same pipeline answers 3,817 benchmark questions; every run pins its commit, data, prompt and model.
-- 37 recorded runs
+- App, for the person
+- A one-line answer, the table, a bar chart when the result suits one, the highlighted / SQL and the tables chosen. Errors are shown in plain language.
+- ui/results.py: render_answer, bar_chart, / describe_error
+- No layer checks meaning: the person reads the SQL / before trusting the answer.
 
 ## 21. Backup: matched means the same rows as the reference
 

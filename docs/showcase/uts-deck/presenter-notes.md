@@ -239,13 +239,12 @@ References:
 - sources.md
 - claims-register.md
 
-## 20. Backup: the full flow, from question to answer
+## 20. Backup: how one question flows through the app, stage by stage
 
 Backup for questions about the full flow.
 
-Six stages run left to right for every question. Prepare uses no model; Generate is the only model call; Validate and Run are the two gates in code; Show puts the answer and the SQL in front of the person.
-[Point: bands] Three things cut across every stage: one repair try, read-only engines and the evaluation harness that measures the whole pipeline.
-Reference: pipeline.answer_question; config.py; text_to_sql_agent/engines/; evaluation/results.
+One question passes six stages, top to bottom. Ask and Prepare use no model; Generate is the only model call; Validate and Run are the two gates in code; Show puts the answer and the SQL in front of the person.
+Reference: pipeline.answer_question; schema.py; rag.py; llm.py; safety.py; execution.py; engines/; ui/results.py. AGENTS.md 2026-10-19 for the 4 ms retrieval.
 
 References:
 - sources.md
