@@ -129,6 +129,16 @@
           "accent": "ochre",
           "entries": [
             {
+              "title": "Limitations",
+              "from": "limits",
+              "through": "limits"
+            },
+            {
+              "title": "Who it serves",
+              "from": "serves",
+              "through": "serves"
+            },
+            {
               "title": "Next tests",
               "from": "next",
               "through": "next"
@@ -289,7 +299,8 @@
           "title": "Smaller prompts are not faster here",
           "text": "Each question gets a different schema, so the local model cannot reuse its cache."
         }
-      ]
+      ],
+      "story": "**A store manager asks:** which product categories generate the most revenue? The analyst queue is three days. Here is what this agent offers her."
     },
     {
       "id": "hard",
@@ -392,7 +403,8 @@
           "claims-register.md"
         ]
       },
-      "ours": "**This project, for comparison:** 64.6 % on Spider dev and 35.2 % on BIRD dev, local 9B model, our own scorer; not comparable with the bars above."
+      "ours": "**This project, for comparison:** 64.6 % on Spider dev and 35.2 % on BIRD dev, local 9B model, our own scorer; not comparable with the bars above.",
+      "story": "**Her problem:** she cannot write SQL, the word revenue is not a column, and a model with database access is a risk."
     },
     {
       "id": "tools",
@@ -635,7 +647,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "story": "**Her options today:** curated tools need weeks of setup before her first answer; this project needs only a connection."
     },
     {
       "id": "aim",
@@ -747,7 +760,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "story": "**What she needs:** an answer now, the SQL behind it, and a guarantee that nothing in her data changes."
     },
     {
       "id": "demo",
@@ -853,7 +867,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "story": "**Her question, answered:** Electronics leads with 173,366, and the SQL shows which orders that counts."
     },
     {
       "id": "boundary",
@@ -972,7 +987,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "story": "**What the model saw of her shop:** the schema and 79 stored values, never a result row."
     },
     {
       "id": "architecture",
@@ -1089,7 +1105,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "story": "**Her question’s path:** prepared in code, one model call, two gates in code, then back to her to inspect."
     },
     {
       "id": "safety",
@@ -1341,6 +1358,7 @@
           "claims-register.md"
         ]
       },
+      "story": "**Her data stays safe:** a write is stopped three times over, but a wrong meaning still reaches her, so she checks.",
       "notes_on_face": [
         "⁠¹ The model’s decline is behaviour and can change with the model or prompt: 14 of 15 safety cases ended in its own decline. The other two columns are enforced in code and tested on their own."
       ]
@@ -1451,7 +1469,8 @@
           "claims-register.md"
         ]
       },
-      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results"
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results",
+      "story": "**How we know how often she would be right:** thousands of benchmark questions, each change measured against a baseline."
     },
     {
       "id": "benchmarks",
@@ -1587,7 +1606,8 @@
           "claims-register.md"
         ]
       },
-      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md",
+      "story": "**On questions like hers:** about 2 in 3 matched on the easier test, about 1 in 3 on the harder one."
     },
     {
       "id": "large",
@@ -1728,7 +1748,8 @@
           "claims-register.md"
         ]
       },
-      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md"
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md",
+      "story": "**If her company’s database has 60 tables:** choosing the tables first gave more right answers from less context."
     },
     {
       "id": "trials",
@@ -1825,7 +1846,8 @@
           "sources.md",
           "claims-register.md"
         ]
-      }
+      },
+      "story": "**What did not help her further:** five later ideas changed speed or recall, not how often she gets the right answer."
     },
     {
       "id": "retrieval",
@@ -1948,7 +1970,159 @@
           "claims-register.md"
         ]
       },
-      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md"
+      "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md",
+      "story": "**If a table she needs is missed,** her answer is likely wrong; the fixes tried so far trade one group for another."
+    },
+    {
+      "id": "limits",
+      "layout": "table_page",
+      "section": "Next steps",
+      "topic": "Limitations",
+      "accent": "ochre",
+      "title": "What the store manager should know before she trusts it",
+      "subtitle": "Measured limits, and what nobody has tested yet; each points to the test that would close it",
+      "story": "**Her experience:** a first answer in seconds with the SQL, but she still has to judge what it means.",
+      "bold_first": false,
+      "tables": [
+        {
+          "headers": [
+            "Limitation",
+            "What it means for her",
+            "Closed by"
+          ],
+          "widths": [
+            255,
+            315,
+            305.5
+          ],
+          "size": 10,
+          "row_height": 24,
+          "bold_first": false,
+          "rows": [
+            {
+              "band": "Measured",
+              "accent": "ochre"
+            },
+            [
+              "**Accuracy ceiling:** 64.6 % on Spider, 35.2 % on BIRD¹",
+              "About one answer in three may not match the right rows.",
+              "Next test 4: a hosted model"
+            ],
+            [
+              "**Nothing checks meaning**",
+              "A valid query can answer a different question, such as gross for net revenue.",
+              "Next test 1: business definitions"
+            ],
+            [
+              "**A missed table usually means a wrong answer**",
+              "On large databases, selection sometimes drops a table her question needs.",
+              "Next test 2: targeted table recovery"
+            ],
+            [
+              "**About 2 s slower** with table selection",
+              "Fewer tokens, but the local model cannot reuse its cache.",
+              "Not yet planned"
+            ],
+            {
+              "band": "Not yet tested",
+              "accent": "slate"
+            },
+            [
+              "**Follow-up questions**",
+              "Each question stands alone; she cannot say “and last month?”.",
+              "Not yet planned"
+            ],
+            [
+              "**Real company schemas**",
+              "The largest test database has 65 tables; real warehouses can have hundreds.",
+              "Next test 3: new large schemas"
+            ],
+            [
+              "**Other languages, real users, cost**",
+              "Only English benchmark questions; no user study; running cost not measured.",
+              "Not yet planned"
+            ]
+          ]
+        }
+      ],
+      "takeaway": "Good for **a first, checkable answer**; not yet for decisions nobody reviews.",
+      "notes": {
+        "purpose": "Say plainly what the project cannot yet do.",
+        "script": [
+          "[Point: Measured] These limits are measured. About one answer in three may not match, nothing checks meaning, a missed table usually means a wrong answer, and selection is about two seconds slower.",
+          "[Point: Not yet tested] These have not been tested at all: follow-up questions, real company schemas, other languages, real users and cost. Each row points to the next test that would close it.",
+          "Reference: summary, benchmarks, large schemas and retrieval slides; claims-register.md."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      },
+      "notes_on_face": [
+        "⁠¹ Accuracy uses this project’s comparison on one local 9B model, not leaderboard scoring."
+      ]
+    },
+    {
+      "id": "serves",
+      "layout": "comparison",
+      "section": "Next steps",
+      "topic": "Who it serves",
+      "accent": "ochre",
+      "title": "Who it serves: people who know the question but not the schema",
+      "subtitle": "Where a first, inspectable answer helps, and where a governed tool fits better",
+      "story": "**The store manager is one of them:** she gets an answer today and decides what it means.",
+      "columns": [
+        "Who",
+        "Why it helps",
+        "Where it does not fit"
+      ],
+      "rows": [
+        [
+          "Managers and analysts new to a database",
+          [
+            "An answer in seconds instead of a queue",
+            "The SQL teaches the schema as they go"
+          ],
+          [
+            "Metrics that must match across teams"
+          ]
+        ],
+        [
+          "Privacy-sensitive teams",
+          [
+            "A local model keeps the prompt on the machine",
+            "Result rows never reach the model"
+          ],
+          [
+            "Data where even 79 sample values must not be sent"
+          ]
+        ],
+        [
+          "Teams with large schemas",
+          [
+            "Choosing the top tables helped on 34- and 65-table databases"
+          ],
+          [
+            "Decisions taken with nobody reviewing the answer"
+          ]
+        ]
+      ],
+      "takeaway": "A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.",
+      "source": {
+        "label": "Our aim, data boundary and large-schema slides; README.",
+        "url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
+      },
+      "notes": {
+        "purpose": "Say who this is for.",
+        "script": [
+          "The store manager is one example. More broadly it serves people who know the question but not the schema, teams that need a local model for privacy, and teams with large schemas. It does not replace governed dashboards for metrics that must match across teams.",
+          "Reference: slides 6, 8 and 13."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
     },
     {
       "id": "next",
@@ -2096,8 +2270,8 @@
       "accent": "blue",
       "header_style": "appendix",
       "kicker": "Thank you",
-      "title": "Inspectable SQL, measured trade-offs and a clear next experiment",
-      "subtitle": "Questions and feedback are welcome.",
+      "title": "The store manager got her answer, and the SQL behind it",
+      "subtitle": "Electronics leads with 173,366; nothing in her database changed, and she decided which revenue she meant. Questions and feedback are welcome.",
       "links": [
         [
           "Live demo",
@@ -2123,7 +2297,7 @@
       "notes": {
         "purpose": "Close on the contribution.",
         "script": [
-          "The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.",
+          "Back to the store manager: she asked which categories bring in the most revenue, and in seconds she had 173,366 for Electronics, with the SQL showing it counted every order. Nothing in her database changed, and she decided which revenue she meant. More broadly, the contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.",
           "[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you."
         ],
         "references": [

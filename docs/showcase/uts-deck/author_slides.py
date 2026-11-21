@@ -417,8 +417,8 @@ references = {
 close = {
     'id': 'close', 'layout': 'close_page', 'section': '', 'accent': 'blue', 'header_style': 'appendix',
     'kicker': 'Thank you',
-    'title': 'Inspectable SQL, measured trade-offs and a clear next experiment',
-    'subtitle': 'Questions and feedback are welcome.',
+    'title': 'The store manager got her answer, and the SQL behind it',
+    'subtitle': 'Electronics leads with 173,366; nothing in her database changed, and she decided which revenue she meant. Questions and feedback are welcome.',
     'links': [
         ['Live demo', 'aipa-text-to-sql-agent.streamlit.app', 'https://aipa-text-to-sql-agent.streamlit.app', 'query_stats'],
         ['Code and runs', 'github.com/tuannm3812/text-to-sql-agent', 'https://github.com/tuannm3812/text-to-sql-agent', 'code'],
@@ -426,7 +426,7 @@ close = {
     'qr': {'path': 'assets/figures/qr-live-demo.svg', 'alt': 'QR code for the live demo at aipa-text-to-sql-agent.streamlit.app'},
     'image': {'path': 'assets/figures/close-portrait.png', 'alt': 'Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.'},
     'notes': notes('Close on the contribution.',
-        'The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.',
+        'Back to the store manager: she asked which categories bring in the most revenue, and in seconds she had 173,366 for Electronics, with the SQL showing it counted every order. Nothing in her database changed, and she decided which revenue she meant. More broadly, the contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.',
         '[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you.'),
 }
 
@@ -563,6 +563,53 @@ arch_full = {
         'Reference: pipeline.answer_question; schema.py; rag.py; llm.py; safety.py; execution.py; engines/; ui/results.py. AGENTS.md 2026-10-19 for the 4 ms retrieval.'),
 }
 
+W_LIM = [255, 315, 305.5]
+limits = {
+    'id': 'limits', 'layout': 'table_page', 'section': 'Next steps', 'topic': 'Limitations', 'accent': 'ochre',
+    'title': 'What the store manager should know before she trusts it',
+    'subtitle': 'Measured limits, and what nobody has tested yet; each points to the test that would close it',
+    'story': '**Her experience:** a first answer in seconds with the SQL, but she still has to judge what it means.',
+    'bold_first': False,
+    'tables': [{
+        'headers': ['Limitation', 'What it means for her', 'Closed by'],
+        'widths': W_LIM, 'size': 10, 'row_height': 24, 'bold_first': False,
+        'rows': [
+            {'band': 'Measured', 'accent': 'ochre'},
+            ['**Accuracy ceiling:** 64.6 % on Spider, 35.2 % on BIRD¹', 'About one answer in three may not match the right rows.', 'Next test 4: a hosted model'],
+            ['**Nothing checks meaning**', 'A valid query can answer a different question, such as gross for net revenue.', 'Next test 1: business definitions'],
+            ['**A missed table usually means a wrong answer**', 'On large databases, selection sometimes drops a table her question needs.', 'Next test 2: targeted table recovery'],
+            ['**About 2 s slower** with table selection', 'Fewer tokens, but the local model cannot reuse its cache.', 'Not yet planned'],
+            {'band': 'Not yet tested', 'accent': 'slate'},
+            ['**Follow-up questions**', 'Each question stands alone; she cannot say “and last month?”.', 'Not yet planned'],
+            ['**Real company schemas**', 'The largest test database has 65 tables; real warehouses can have hundreds.', 'Next test 3: new large schemas'],
+            ['**Other languages, real users, cost**', 'Only English benchmark questions; no user study; running cost not measured.', 'Not yet planned'],
+        ]}],
+    'note': '\u2060¹ Accuracy uses this project’s comparison on one local 9B model, not leaderboard scoring.',
+    'takeaway': 'Good for **a first, checkable answer**; not yet for decisions nobody reviews.',
+    'notes': notes('Say plainly what the project cannot yet do.',
+        '[Point: Measured] These limits are measured. About one answer in three may not match, nothing checks meaning, a missed table usually means a wrong answer, and selection is about two seconds slower.',
+        '[Point: Not yet tested] These have not been tested at all: follow-up questions, real company schemas, other languages, real users and cost. Each row points to the next test that would close it.',
+        'Reference: summary, benchmarks, large schemas and retrieval slides; claims-register.md.'),
+}
+
+serves = {
+    'id': 'serves', 'layout': 'comparison', 'section': 'Next steps', 'topic': 'Who it serves', 'accent': 'ochre',
+    'title': 'Who it serves: people who know the question but not the schema',
+    'subtitle': 'Where a first, inspectable answer helps, and where a governed tool fits better',
+    'story': '**The store manager is one of them:** she gets an answer today and decides what it means.',
+    'columns': ['Who', 'Why it helps', 'Where it does not fit'],
+    'rows': [
+        ['Managers and analysts new to a database', ['An answer in seconds instead of a queue', 'The SQL teaches the schema as they go'], ['Metrics that must match across teams']],
+        ['Privacy-sensitive teams', ['A local model keeps the prompt on the machine', 'Result rows never reach the model'], ['Data where even 79 sample values must not be sent']],
+        ['Teams with large schemas', ['Choosing the top tables helped on 34- and 65-table databases'], ['Decisions taken with nobody reviewing the answer']],
+    ],
+    'takeaway': 'A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.',
+    'source': src('Our aim, data boundary and large-schema slides; README.', 'README.md'),
+    'notes': notes('Say who this is for.',
+        'The store manager is one example. More broadly it serves people who know the question but not the schema, teams that need a local model for privacy, and teams with large schemas. It does not replace governed dashboards for metrics that must match across teams.',
+        'Reference: slides 6, 8 and 13.'),
+}
+
 agenda = {
     'id': 'agenda', 'layout': 'agenda', 'agenda_style': 'kaggle', 'page_position': 'right', 'chapter_fill': 'accent_pale',
     'section': 'AGENDA', 'accent': 'slate', 'title': 'Agenda', 'subtitle': '',
@@ -583,6 +630,8 @@ agenda = {
             {'title': 'Large schemas', 'from': 'large', 'through': 'large'},
             {'title': 'Trials and retrieval', 'from': 'trials', 'through': 'retrieval'}]},
         {'title': 'Next steps', 'accent': 'ochre', 'entries': [
+            {'title': 'Limitations', 'from': 'limits', 'through': 'limits'},
+            {'title': 'Who it serves', 'from': 'serves', 'through': 'serves'},
             {'title': 'Next tests', 'from': 'next', 'through': 'next'},
             {'title': 'Sources', 'from': 'references', 'through': 'references'}]},
     ],
@@ -642,8 +691,21 @@ large['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/mai
 retrieval['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md'
 method['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results'
 appendix['caption_url'] = 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/text_to_sql_agent/rag.py'
+hard['story'] = '**Her problem:** she cannot write SQL, the word revenue is not a column, and a model with database access is a risk.'
+other_tools['story'] = '**Her options today:** curated tools need weeks of setup before her first answer; this project needs only a connection.'
+aim['story'] = '**What she needs:** an answer now, the SQL behind it, and a guarantee that nothing in her data changes.'
+demo['story'] = '**Her question, answered:** Electronics leads with 173,366, and the SQL shows which orders that counts.'
+boundary['story'] = '**What the model saw of her shop:** the schema and 79 stored values, never a result row.'
+architecture['story'] = '**Her question’s path:** prepared in code, one model call, two gates in code, then back to her to inspect.'
+safety['story'] = '**Her data stays safe:** a write is stopped three times over, but a wrong meaning still reaches her, so she checks.'
+method['story'] = '**How we know how often she would be right:** thousands of benchmark questions, each change measured against a baseline.'
+benchmarks['story'] = '**On questions like hers:** about 2 in 3 matched on the easier test, about 1 in 3 on the harder one.'
+large['story'] = '**If her company’s database has 60 tables:** choosing the tables first gave more right answers from less context.'
+trials['story'] = '**What did not help her further:** five later ideas changed speed or recall, not how often she gets the right answer.'
+retrieval['story'] = '**If a table she needs is missed,** her answer is likely wrong; the fixes tried so far trade one group for another.'
+summary['story'] = '**A store manager asks:** which product categories generate the most revenue? The analyst queue is three days. Here is what this agent offers her.'
 brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,
-                   benchmarks, large, trials, retrieval, next_tests, references, close, appendix, arch_full, scoring, engines, stack, glossary]
+                   benchmarks, large, trials, retrieval, limits, serves, next_tests, references, close, appendix, arch_full, scoring, engines, stack, glossary]
 for sl in brief['slides']:   # the kit's table_page reads its face notes from notes_on_face, not note
     if sl['layout'] == 'table_page' and 'note' in sl:
         sl['notes_on_face'] = [sl.pop('note')]

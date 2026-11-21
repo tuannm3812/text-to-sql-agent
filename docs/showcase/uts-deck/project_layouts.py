@@ -669,6 +669,7 @@ def stack_page(L, p, slide):
 def summary_page(L, p, slide):
     """Executive summary: four stat tiles, then the large-database comparison in two small bar panels."""
     slide.setdefault('marker_pairs', [])
+    story_strip(L, p, slide)
     marks = {}
     acc = L.t.data['accents']
     W = FIG_RIGHT - LEFT
@@ -950,3 +951,26 @@ def flow_page(L, p, slide):
 
 
 LAYOUTS = {'flow_page': flow_page, 'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+
+
+def story_strip(L, p, slide):
+    """The story line under the subtitle, drawn once per page."""
+    if slide.get('story') and slide.get('_story_page') != p.id:
+        slide['_story_page'] = p.id
+        paint(L, p, slide['story'], LEFT, 116.5, RIGHT - LEFT, 8, '#14605C')   # on the title's edge; teal marks the story
+
+
+# -- story thread (22 November 2026): the store manager's question ------------------------------
+# A one-line strip under the subtitle on any slide with a 'story' field, whatever its layout: a person icon and
+# one sentence tying the slide back to her question. Project-local: wraps the kit's header without editing it.
+from uts_kit.layouts import Layouts as _Layouts
+
+if not getattr(_Layouts.header, '_story', False):
+    _kit_header = _Layouts.header
+
+    def _header(self, p, slide, n):
+        _kit_header(self, p, slide, n)
+        story_strip(self, p, slide)
+
+    _header._story = True
+    _Layouts.header = _header

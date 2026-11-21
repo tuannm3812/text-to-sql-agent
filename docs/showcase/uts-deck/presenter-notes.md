@@ -194,7 +194,30 @@ References:
 - sources.md
 - claims-register.md
 
-## 16. Four tests would close the main gaps in the evidence
+## 16. What the store manager should know before she trusts it
+
+Say plainly what the project cannot yet do.
+
+[Point: Measured] These limits are measured. About one answer in three may not match, nothing checks meaning, a missed table usually means a wrong answer, and selection is about two seconds slower.
+[Point: Not yet tested] These have not been tested at all: follow-up questions, real company schemas, other languages, real users and cost. Each row points to the next test that would close it.
+Reference: summary, benchmarks, large schemas and retrieval slides; claims-register.md.
+
+References:
+- sources.md
+- claims-register.md
+
+## 17. Who it serves: people who know the question but not the schema
+
+Say who this is for.
+
+The store manager is one example. More broadly it serves people who know the question but not the schema, teams that need a local model for privacy, and teams with large schemas. It does not replace governed dashboards for metrics that must match across teams.
+Reference: slides 6, 8 and 13.
+
+References:
+- sources.md
+- claims-register.md
+
+## 18. Four tests would close the main gaps in the evidence
 
 Name the four tests that would close the gaps.
 
@@ -206,7 +229,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 17. Sources behind the claims
+## 19. Sources behind the claims
 
 List where the audience can check the claims.
 
@@ -216,18 +239,18 @@ References:
 - sources.md
 - claims-register.md
 
-## 18. Inspectable SQL, measured trade-offs and a clear next experiment
+## 20. The store manager got her answer, and the SQL behind it
 
 Close on the contribution.
 
-The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.
+Back to the store manager: she asked which categories bring in the most revenue, and in seconds she had 173,366 for Electronics, with the SQL showing it counted every order. Nothing in her database changed, and she decided which revenue she meant. More broadly, the contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.
 [Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you.
 
 References:
 - sources.md
 - claims-register.md
 
-## 19. Backup: how the top 6 tables are chosen
+## 21. Backup: how the top 6 tables are chosen
 
 Backup for questions about table selection.
 
@@ -239,7 +262,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 20. Backup: one question’s path through the app, stage by stage
+## 22. Backup: one question’s path through the app, stage by stage
 
 Backup for questions about the full flow.
 
@@ -250,7 +273,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 21. Backup: matched means the same rows as the reference
+## 23. Backup: matched means the same rows as the reference
 
 Backup for questions about how accuracy is measured.
 
@@ -261,7 +284,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 22. Backup: each engine enforces read-only in its own way
+## 24. Backup: each engine enforces read-only in its own way
 
 Backup for questions about engine safety.
 
@@ -272,7 +295,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 23. Backup: the technology behind each step
+## 25. Backup: the technology behind each step
 
 Backup for questions about the stack.
 
@@ -283,7 +306,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 24. Backup: terms used in this deck
+## 26. Backup: terms used in this deck
 
 Backup glossary.
 

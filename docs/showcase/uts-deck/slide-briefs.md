@@ -66,8 +66,12 @@ Exact face text:
 - 4
 - Next steps
 - 16
-- Next tests
+- Limitations
 - 17
+- Who it serves
+- 18
+- Next tests
+- 19
 - Sources
 
 ## 3. Inspectable SQL, with measured limits
@@ -90,6 +94,7 @@ Exact face text:
 - What the agent does, how well it did, and what to keep in mind
 - Text-to-SQL Agent
 - 3
+- A store manager asks: which product categories generate the most revenue? The analyst queue is three days. Here is what this agent offers her.
 - Read-only / checks
 - 45 of 45
 - tests passed, none skipped, on 3 / database engines
@@ -157,6 +162,7 @@ Exact face text:
 - Why it is hard
 - A fluent answer can still be the wrong answer
 - Text-to-SQL turns a question into SQL over a schema, then returns rows; each step can go wrong
+- Her problem: she cannot write SQL, the word revenue is not a column, and a model with database access is a risk.
 - Text-to-SQL Agent
 - 4
 - Question
@@ -216,6 +222,7 @@ Exact face text:
 - Other tools
 - Other tools get business meaning through setup
 - Two routes to meaning, compared on the same criteria; sources read 6 November 2026
+- Her options today: curated tools need weeks of setup before her first answer; this project needs only a connection.
 - Text-to-SQL Agent
 - 5
 - EFFORT
@@ -301,6 +308,7 @@ Exact face text:
 - Our aim
 - Our aim: useful without setup, and checkable by default
 - A narrower tool: no curated semantic model, with the checking in the user’s hands
+- What she needs: an answer now, the SQL behind it, and a guarantee that nothing in her data changes.
 - Text-to-SQL Agent
 - 6
 - Useful without setup
@@ -355,6 +363,7 @@ Exact face text:
 - Demo
 - The SQL shows which revenue the answer counted
 - One revenue question on the retail demo, answered by the local 9B model
+- Her question, answered: Electronics leads with 173,366, and the SQL shows which orders that counts.
 - Text-to-SQL Agent
 - 7
 - Try it live
@@ -410,6 +419,7 @@ Exact face text:
 - Data boundary
 - The model sees the schema and a few stored values, never result rows
 - What the prompt held for the demo question on the retail database
+- What the model saw of her shop: the schema and 79 stored values, never a result row.
 - Text-to-SQL Agent
 - 8
 - 79 of the 608 stored text values reach the prompt¹
@@ -474,6 +484,7 @@ Exact face text:
 - Architecture
 - The model proposes SQL; the application controls execution
 - One question’s path through the app, in four stages; the full eight-step flow is in the appendix
+- Her question’s path: prepared in code, one model call, two gates in code, then back to her to inspect.
 - Text-to-SQL Agent
 - 9
 - App step, no model
@@ -531,6 +542,7 @@ Exact face text:
 - Safety
 - Safety does not rest on the model
 - Three lines of defence stop different threats, and each is tested on its own
+- Her data stays safe: a write is stopped three times over, but a wrong meaning still reaches her, so she checks.
 - Text-to-SQL Agent
 - 10
 - Stops it
@@ -600,6 +612,7 @@ Exact face text:
 - Method
 - Read the interval, not the point
 - 3,817 questions in five suites, 37 recorded runs, each change paired against a named baseline
+- How we know how often she would be right: thousands of benchmark questions, each change measured against a baseline.
 - Text-to-SQL Agent
 - 11
 - Questions per suite
@@ -652,6 +665,7 @@ Exact face text:
 - Benchmarks
 - The local model scored 64.6 % on Spider and 35.2 % on BIRD
 - Share of answers that matched the reference; one local 9B model, runs of 10 October 2026
+- On questions like hers: about 2 in 3 matched on the easier test, about 1 in 3 on the harder one.
 - Text-to-SQL Agent
 - 12
 - Overall, with 95 % interval
@@ -713,6 +727,7 @@ Exact face text:
 - Large schemas
 - On large databases, sending fewer tables scored 3.6 points higher
 - 1,222 BIRD train questions on 4 databases of 21 to 65 tables; runs of 19 October 2026
+- If her company’s database has 60 tables: choosing the tables first gave more right answers from less context.
 - Text-to-SQL Agent
 - 13
 - Answers matched, by schema sent
@@ -774,6 +789,7 @@ Exact face text:
 - Trials
 - Later trials found trade-offs, not a further accuracy gain
 - 1,222 large-schema questions; each trial paired against its own baseline
+- What did not help her further: five later ideas changed speed or recall, not how often she gets the right answer.
 - Text-to-SQL Agent
 - 14
 - Change in answers matched, accuracy points¹
@@ -823,6 +839,7 @@ Exact face text:
 - Retrieval
 - Better table coverage did not measurably improve accuracy
 - Correct answers gained and lost by each fix against selected tables, on 1,222 questions
+- If a table she needs is missed, her answer is likely wrong; the fixes tried so far trade one group for another.
 - Text-to-SQL Agent
 - 15
 - 128 questions: a needed table was missed
@@ -860,7 +877,97 @@ Exact face text:
 - A live system cannot see the groups
 - The next test is targeted recovery: recover missed / tables only where needed, and report both groups.
 
-## 16. Four tests would close the main gaps in the evidence
+## 16. What the store manager should know before she trusts it
+
+Layout: table_page
+
+Reader question: 
+
+Message: Good for **a first, checkable answer**; not yet for decisions nobody reviews.
+
+Exact face text:
+
+- 1
+- 2
+- 3
+- 4
+- NEXT STEPS
+- Limitations
+- What the store manager should know before she trusts it
+- Measured limits, and what nobody has tested yet; each points to the test that would close it
+- Her experience: a first answer in seconds with the SQL, but she still has to judge what it means.
+- Text-to-SQL Agent
+- 16
+- Limitation
+- What it means for her
+- Closed by
+- Measured
+- Accuracy ceiling: 64.6 % on Spider, 35.2 % on BIRD¹
+- About one answer in three may not match the right rows.
+- Next test 4: a hosted model
+- Nothing checks meaning
+- A valid query can answer a different question, such as gross for net / revenue.
+- Next test 1: business definitions
+- A missed table usually means a wrong answer
+- On large databases, selection sometimes drops a table her question / needs.
+- Next test 2: targeted table recovery
+- About 2 s slower with table selection
+- Fewer tokens, but the local model cannot reuse its cache.
+- Not yet planned
+- Not yet tested
+- Follow-up questions
+- Each question stands alone; she cannot say “and last month?”.
+- Not yet planned
+- Real company schemas
+- The largest test database has 65 tables; real warehouses can have / hundreds.
+- Next test 3: new large schemas
+- Other languages, real users, cost
+- Only English benchmark questions; no user study; running cost not / measured.
+- Not yet planned
+- Note: ⁠¹ Accuracy uses this project’s comparison on one local 9B model, not leaderboard scoring.
+- TAKEAWAY
+- Good for a first, checkable answer; not yet for decisions nobody reviews.
+
+## 17. Who it serves: people who know the question but not the schema
+
+Layout: comparison
+
+Reader question: 
+
+Message: A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.
+
+Exact face text:
+
+- 1
+- 2
+- 3
+- 4
+- NEXT STEPS
+- Who it serves
+- Who it serves: people who know the question but not the schema
+- Where a first, inspectable answer helps, and where a governed tool fits better
+- The store manager is one of them: she gets an answer today and decides what it means.
+- Text-to-SQL Agent
+- 17
+- Who
+- Why it helps
+- Where it does not fit
+- Managers and analysts new to a / database
+- An answer in seconds instead of a queue
+- The SQL teaches the schema as they go
+- Metrics that must match across teams
+- Privacy-sensitive teams
+- A local model keeps the prompt on the machine
+- Result rows never reach the model
+- Data where even 79 sample values must not be sent
+- Teams with large schemas
+- Choosing the top tables helped on 34- and 65-table databases
+- Decisions taken with nobody reviewing the answer
+- Source: Our aim, data boundary and large-schema slides; README.
+- TAKEAWAY
+- A first, checkable answer for people who know the question; governed dashboards stay for agreed metrics.
+
+## 18. Four tests would close the main gaps in the evidence
 
 Layout: table_page
 
@@ -879,7 +986,7 @@ Exact face text:
 - Four tests would close the main gaps in the evidence
 - Each needs a measured outcome before any default changes; the last column points to the slides that show the gap
 - Text-to-SQL Agent
-- 16
+- 18
 - Why it is needed
 - What we would measure
 - What it decides¹
@@ -908,7 +1015,7 @@ Exact face text:
 - TAKEAWAY
 - Measure first, then change a default only on evidence.
 
-## 17. Sources behind the claims
+## 19. Sources behind the claims
 
 Layout: references
 
@@ -927,7 +1034,7 @@ Exact face text:
 - Sources behind the claims
 - Every number traces to the repository or to a source read on the date given
 - Text-to-SQL Agent
-- 17
+- 19
 - Repository: README Evaluation Results; large-schema and retrieval results
 - Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887
 - BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026
@@ -936,7 +1043,7 @@ Exact face text:
 - Databricks Genie best practices (read 6 November 2026)
 - WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)
 
-## 18. Inspectable SQL, measured trade-offs and a clear next experiment
+## 20. The store manager got her answer, and the SQL behind it
 
 Layout: close_page
 
@@ -947,8 +1054,8 @@ Message: Close on the contribution.
 Exact face text:
 
 - THANK YOU
-- Inspectable SQL, measured trade-offs / and a clear next experiment
-- Questions and feedback are welcome.
+- The store manager got her answer, / and the SQL behind it
+- Electronics leads with 173,366; nothing in her database changed, and she decided / which revenue she meant. Questions and feedback are welcome.
 - Live demo
 - aipa-text-to-sql-agent.streamlit.app
 - Code and runs
@@ -957,7 +1064,7 @@ Exact face text:
 - TD School, University of Technology Sydney  ·  November 2026
 - Scan to try it
 
-## 19. Backup: how the top 6 tables are chosen
+## 21. Backup: how the top 6 tables are chosen
 
 Layout: bars_page
 
@@ -972,7 +1079,7 @@ Exact face text:
 - Backup: how the top 6 tables are chosen
 - Relevance score by table for: Which product categories generate the most revenue?
 - Text-to-SQL Agent
-- 19
+- 21
 - Top 6, sent
 - Foreign-key neighbour, added
 - Not sent
@@ -1011,7 +1118,7 @@ Exact face text:
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
 
-## 20. Backup: one question’s path through the app, stage by stage
+## 22. Backup: one question’s path through the app, stage by stage
 
 Layout: flow_page
 
@@ -1026,9 +1133,9 @@ Exact face text:
 - Backup: one question’s path through the app, stage by stage
 - 
 - Text-to-SQL Agent
-- 20
+- 22
 
-## 21. Backup: matched means the same rows as the reference
+## 23. Backup: matched means the same rows as the reference
 
 Layout: table_page
 
@@ -1043,7 +1150,7 @@ Exact face text:
 - Backup: matched means the same rows as the reference
 - The project’s own result comparison, used for every accuracy figure in this deck
 - Text-to-SQL Agent
-- 21
+- 23
 - How two result sets are compared
 - Part
 - Rule
@@ -1074,7 +1181,7 @@ Exact face text:
 - TAKEAWAY
 - Matched means the same rows, not similar SQL.
 
-## 22. Backup: each engine enforces read-only in its own way
+## 24. Backup: each engine enforces read-only in its own way
 
 Layout: table_page
 
@@ -1089,7 +1196,7 @@ Exact face text:
 - Backup: each engine enforces read-only in its own way
 - The engine layer of the safety slide; each mechanism is required, not optional
 - Text-to-SQL Agent
-- 22
+- 24
 - Engine¹
 - Writes refused by
 - Files and internals
@@ -1110,7 +1217,7 @@ Exact face text:
 - TAKEAWAY
 - Read-only is enforced by each engine, not assumed from the application check.
 
-## 23. Backup: the technology behind each step
+## 25. Backup: the technology behind each step
 
 Layout: stack_page
 
@@ -1125,7 +1232,7 @@ Exact face text:
 - Backup: the technology behind each step
 - Open-source tools, plus a hosted model only when the user picks one
 - Text-to-SQL Agent
-- 23
+- 25
 - APP
 - Streamlit
 - The question box, answer, chart and SQL
@@ -1153,7 +1260,7 @@ Exact face text:
 - TAKEAWAY
 - No model is trained: the app wraps an existing model with checks around it.
 
-## 24. Backup: terms used in this deck
+## 26. Backup: terms used in this deck
 
 Layout: table_page
 
@@ -1168,7 +1275,7 @@ Exact face text:
 - Backup: terms used in this deck
 - Plain meanings for the words on the evidence slides
 - Text-to-SQL Agent
-- 24
+- 26
 - Term
 - Meaning
 - Where it appears

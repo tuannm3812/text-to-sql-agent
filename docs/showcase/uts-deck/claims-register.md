@@ -72,3 +72,4 @@ large-schema, demo and retrieval rows were spot-checked again on 18 November 202
 | Benchmark citations: Spider; BIRD | Yu et al. 2018, arXiv 1809.08887; Li et al. 2023, arXiv 2305.03111 | the papers' arXiv records |
 | Retrieval scoring time per question, cached index | about 4 ms | AGENTS.md, 2026-10-19 |
 | Questions per difficulty: Spider easy, medium, hard, extra; BIRD simple, challenging | 248, 446, 174, 166; 860, 231 | release run reports at 7708295 (2026-10-10T071608 Spider, 2026-10-10T080619 BIRD) |
+| Store manager persona | (none) | illustrative persona on the demo's real question; not a real user |
