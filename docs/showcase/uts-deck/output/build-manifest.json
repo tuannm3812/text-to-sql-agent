@@ -50,11 +50,11 @@
     }
   },
   "inputs": {
-    "brief-content.json": "2f4ab1f08bdad69991724b9e07044354f8509d76a6a3768774b7e20dc3184994",
+    "brief-content.json": "a604535f6647c03d8a390212e1b44297ecdc97df48ce7e8ab6c042012ca23a76",
     "deck-kit.json": "d62d69af77f4c56d573abdbc345e8c3faf148bf029a35d4d841b73db02ed0ac0",
     "claims-register.md": "60b5d50f338ff2b7d1971b41fad1d0e67575a293bc51c7e77831ba858bc08d7d",
     "kit-pin.json": "fab1758a95b0a452fc8b028ebeaf27783a75db5e2d2a0b587ca79501de3b43c6",
-    "project_layouts.py": "d396fa8fdbbd2477d21318f1aa5265d27e2466cba3f30fbb08818f7c4bdd1ac8"
+    "project_layouts.py": "fe5b1956e5778c976dc8c3567b671066fd92307b50d17ac244403a58e403dc7f"
   },
   "assets": {
     "assets/PROVENANCE.md": "5fca3195bdc91ba0f25ad38c2ab9a87f11523d9ed939e66c43699ac33d323f96",
@@ -76,6 +76,9 @@
     "assets/figures/qr-live-demo.svg": "8401b0db58c108ac45cda7ce8caceb93c75a96b1b8bae990f13429d0ca39edfd",
     "assets/figures/ring-35-2.png": "3c24235d123460a23d8ad26c5ebc9139e331474b168facf80303cfc3fe7908ef",
     "assets/figures/ring-64-6.png": "c1306a49077dba49666d6ea3426e23d42f3c47f72b0ee619a7dd5d1f7eb0d809",
+    "assets/figures/serve-dc.jpg": "3b5ed9315e13efb3a940978cb3a157142198e9bfbb9e2bc41e4d591b1eed8a2b",
+    "assets/figures/serve-desk.jpg": "09dab46c415a33e9282628599f72ac5a268d88e07e8676e010ec4f611ab6abf6",
+    "assets/figures/serve-lock.jpg": "94387e6170f6cfb4370743db04bb3f75c57ab78ce07a329a836dcb67cefcaa9c",
     "assets/fonts/GoogleSans-Bold.ttf": "280eab71ebed3dca9281ca7b071a219d48a4b379f3277b4a10c1b21b7e697126",
     "assets/fonts/GoogleSans-Italic.ttf": "11c615dfb40c29100e95c2b251580517acabbc48918d824f778f13aad259eb72",
     "assets/fonts/GoogleSans-Regular.ttf": "2ab1f257d8c87bd7a376fc8504238fd0ffbc435d7605907196db31a1867cb59e",
@@ -305,8 +308,8 @@
     "assets/project/icons/yes.svg": "dbff942ec1c85811264a97caae3f850a35cc004310cc37f7c7e58b6ca734d52d"
   },
   "outputs": {
-    "deck.html": "a1cf72e67f710b0300a08f5ae90a1c158fd07e13359d58c883d456723b256742",
-    "deck.pdf": "c6549a0abf75aef515bc4a2fb860e8d25ef2c44b4c1ff04af9a8d5ccf334ce1e"
+    "deck.html": "ae0231cbb528e0c763b6ff3e22fc2e0efbcfb8eebaa6e3e2a7ec9265f2e5873d",
+    "deck.pdf": "5595a29a0e14b965d7c703c1b8de7529a61bd0bff830003ba6033730b886a740"
   },
   "slide_count": 28
 }

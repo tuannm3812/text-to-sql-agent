@@ -407,23 +407,24 @@ Exact face text:
 - WHY IT HELPS
 - An answer in seconds instead of a queue
 - The SQL teaches the schema as they go
-- Like the store manager: knows the / question, not the tables
+- Like the store manager: knows the question, not the / tables
 - WHERE IT DOES NOT FIT
 - Metrics that must match across teams
 - Privacy-sensitive teams
 - WHY IT HELPS
-- A local model keeps the prompt on the / machine
+- A local model keeps the prompt on the machine
 - Result rows never reach the model
 - Read-only on every engine
 - WHERE IT DOES NOT FIT
-- Data where even 79 sample values must not / be sent
+- Data where even 79 sample values must not be sent
 - Teams with large schemas
 - WHY IT HELPS
-- Choosing the top tables helped on 34- and / 65-table databases
+- Choosing the top tables helped on 34- and 65-table / databases
 - Smaller prompts, 69 % fewer tokens
 - WHERE IT DOES NOT FIT
-- Decisions taken with nobody reviewing the / answer
+- Decisions taken with nobody reviewing the answer
 - Questions whose tables are often missed
+- Photos: Pixel.la, CC0; Richard Nowell, CC BY-SA 4.0; Christopher Bowns, CC BY-SA 2.0; all via Wikimedia Commons, cropped
 - TAKEAWAY
 - A first, checkable answer for people who know the question; governed dashboards stay for agreed metrics.
 
@@ -1093,14 +1094,14 @@ Exact face text:
 - An answer in seconds
 - 173,366
 - •  Electronics leads the five categories
-- •  with the SQL that shows it counts all 220 orders
+- •  with the SQL that shows it counts all / 220 orders
 - Nothing changed
 - Read-only
 - •  Two gates in code stopped any write
-- •  only 79 stored values reached the model
+- •  only 79 stored values reached the / model
 - She decided
 - Her call
-- •  List price or completed orders after discounts: 21 % / apart
+- •  List price or completed orders after / discounts: 21 % apart
 - •  the SQL showed her the choice
 - What the project contributes
 - An inspectable SQL application

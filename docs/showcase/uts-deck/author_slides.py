@@ -577,7 +577,7 @@ limits = {
     'bold_first': False,
     'tables': [{
         'headers': ['Limitation', 'What it means for her', 'Closed by'],
-        'widths': W_LIM, 'size': 10, 'row_height': 24, 'bold_first': False,
+        'widths': W_LIM, 'size': 10, 'row_height': 30, 'bold_first': False,
         'rows': [
             {'band': 'Measured', 'accent': 'ochre'},
             ['**Accuracy ceiling:** 64.6 % on Spider, 35.2 % on BIRD¹', 'About one answer in three may not match the right rows.', 'Next test 4: a hosted model'],
@@ -602,6 +602,11 @@ serves = {
     'title': 'Who it serves: people who know the question but not the schema',
     'subtitle': 'Where a first, inspectable answer helps, and where a governed tool fits better',
     'story': '**The store manager is one of them:** others share her need, and some are better served elsewhere.',
+    'photos': [
+        {'image': {'path': 'assets/figures/serve-desk.jpg', 'alt': 'A laptop open on a wooden desk (photograph, cropped).'}, 'credit': 'Pixel.la, CC0'},
+        {'image': {'path': 'assets/figures/serve-lock.jpg', 'alt': 'A closed laptop wrapped in an orange chain and padlock (photograph, cropped).'}, 'credit': 'Richard Nowell, CC BY-SA 4.0'},
+        {'image': {'path': 'assets/figures/serve-dc.jpg', 'alt': 'An aisle between rows of server racks in a data centre (photograph, cropped).'}, 'credit': 'Christopher Bowns, CC BY-SA 2.0; all via Wikimedia Commons, cropped'},
+    ],
     'groups': [
         ['person-ink', 'Managers and analysts new to a database', ['An answer in seconds instead of a queue', 'The SQL teaches the schema as they go', 'Like the store manager: knows the question, not the tables'], ['Metrics that must match across teams']],
         ['verified_user-ink', 'Privacy-sensitive teams', ['A local model keeps the prompt on the machine', 'Result rows never reach the model', 'Read-only on every engine'], ['Data where even 79 sample values must not be sent']],
@@ -643,6 +648,7 @@ answer = {
         ['verified_user-teal', 'Nothing changed', 'Read-only', ['Two gates in code stopped any write', 'only 79 stored values reached the model']],
         ['person-ink', 'She decided', 'Her call', ['List price or completed orders after discounts: 21 % apart', 'the SQL showed her the choice']],
     ],
+    'photo': {'path': 'assets/figures/photo-shop-crop.jpg', 'alt': 'The same shop interior as on the store manager slide (photograph, cropped).'},
     'contribution_title': 'What the project contributes',
     'contribution': [
         ['An inspectable SQL application', 'The answer always comes with its SQL and the tables chosen.'],

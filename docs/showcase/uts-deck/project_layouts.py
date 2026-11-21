@@ -984,10 +984,15 @@ def answer_page(L, p, slide):
     """Her answer: three outcomes as cards with an icon, then what the project contributes."""
     n = len(slide['outcomes'])
     gap = 16
-    cw = (RIGHT - LEFT - gap * (n - 1)) / n
     ch = 170
+    x0 = LEFT
+    if slide.get('photo'):   # a callback to her shop, from the store manager slide
+        pw = ch * 600 / 560
+        L.image(p, slide['photo'], LEFT, TOP, pw, ch)
+        x0 = LEFT + pw + gap
+    cw = (RIGHT - x0 - gap * (n - 1)) / n
     for k, (art, head, big, items) in enumerate(slide['outcomes']):
-        x = LEFT + k * (cw + gap)
+        x = x0 + k * (cw + gap)
         card(L, p, x, TOP, cw, ch, weight=4)
         icon(L, p, f'assets/icons/{art}.png', head, x + 14, TOP + 16, 22)
         put(L, p, head, x + 44, TOP + 18, cw - 58, 12, 'ink', True)
@@ -1039,27 +1044,35 @@ def serves_page(L, p, slide):
     n = len(rows)
     gap = 16
     cw = (RIGHT - LEFT - gap * (n - 1)) / n
-    h = END - 56 - TOP
+    h = END - 66 - TOP
+    photos = slide.get('photos', [])
+    ph = cw / 3   # 3:1 banner
     for k, (art, who, helps, nofit) in enumerate(rows):
         x = LEFT + k * (cw + gap)
-        card(L, p, x, TOP, cw, h, weight=4)
-        p.rect(x + 14, TOP + 16, 34, 34, '#EAF0F6', 'ELLIPSE')
-        icon(L, p, f'assets/icons/{art}.png', who, x + 22, TOP + 24, 18)
-        put(L, p, who, x + 58, TOP + 18, cw - 72, 12, 'ink', True)
-        y = TOP + 66
+        card(L, p, x, TOP, cw, h, weight=0)
+        top = TOP
+        if k < len(photos):
+            L.image(p, photos[k]['image'], x, TOP, cw, ph)
+            top = TOP + ph - 17
+        p.rect(x + 14, top, 34, 34, '#FFFFFF', 'ELLIPSE')
+        icon(L, p, f'assets/icons/{art}.png', who, x + 22, top + 8, 18)
+        put(L, p, who, x + 56, top + 20, cw - 70, 12, 'ink', True)
+        y = top + 50
         cap(L, p, 'Why it helps', x + 14, y, cw - 28, 'body')
         y += 16
         for t in helps:
-            L.image(p, {'path': 'assets/project/icons/tick.svg', 'alt': ''}, x + 14, y + 2.5, 11, 11)
-            y += put(L, p, t, x + 30, y, cw - 44, 12, 'ink') + 12
-        y += 10
+            L.image(p, {'path': 'assets/project/icons/tick.svg', 'alt': ''}, x + 14, y + 1.5, 10, 10)
+            y += put(L, p, t, x + 30, y, cw - 44, 10, 'ink') + 7
+        y += 4
         p.line(x + 14, y, x + cw - 14, y, L.t.color('hair'))
-        y += 14
+        y += 8
         cap(L, p, 'Where it does not fit', x + 14, y, cw - 28, 'body')
         y += 16
         for t in nofit:
-            L.image(p, {'path': 'assets/project/icons/cross.svg', 'alt': ''}, x + 14, y + 2.5, 11, 11)
-            y += put(L, p, t, x + 30, y, cw - 44, 12, 'ink') + 12
+            L.image(p, {'path': 'assets/project/icons/cross.svg', 'alt': ''}, x + 14, y + 1.5, 10, 10)
+            y += put(L, p, t, x + 30, y, cw - 44, 10, 'ink') + 7
+    if photos:
+        put(L, p, 'Photos: ' + '; '.join(ph_['credit'] for ph_ in photos), LEFT, END - 60, RIGHT - LEFT, 8, 'body')
     L.band(p, slide.get('takeaway'))
 
 

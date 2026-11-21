@@ -12580,6 +12580,29 @@
       "title": "Who it serves: people who know the question but not the schema",
       "subtitle": "Where a first, inspectable answer helps, and where a governed tool fits better",
       "story": "**The store manager is one of them:** others share her need, and some are better served elsewhere.",
+      "photos": [
+        {
+          "image": {
+            "path": "assets/figures/serve-desk.jpg",
+            "alt": "A laptop open on a wooden desk (photograph, cropped)."
+          },
+          "credit": "Pixel.la, CC0"
+        },
+        {
+          "image": {
+            "path": "assets/figures/serve-lock.jpg",
+            "alt": "A closed laptop wrapped in an orange chain and padlock (photograph, cropped)."
+          },
+          "credit": "Richard Nowell, CC BY-SA 4.0"
+        },
+        {
+          "image": {
+            "path": "assets/figures/serve-dc.jpg",
+            "alt": "An aisle between rows of server racks in a data centre (photograph, cropped)."
+          },
+          "credit": "Christopher Bowns, CC BY-SA 2.0; all via Wikimedia Commons, cropped"
+        }
+      ],
       "groups": [
         [
           "person-ink",
@@ -13049,7 +13072,7 @@
           "x": 43.5,
           "y": 132.0,
           "width": 281.1666666666667,
-          "height": 288.0,
+          "height": 278.0,
           "background_color": "#F4F5F6"
         },
         {
@@ -13060,38 +13083,48 @@
           "x": 43.5,
           "y": 132.0,
           "width": 281.1666666666667,
-          "height": 4,
+          "height": 0,
           "background_color": "#526174"
+        },
+        {
+          "op": "add-image",
+          "id": "im24",
+          "path": "assets/figures/serve-desk.jpg",
+          "alt": "A laptop open on a wooden desk (photograph, cropped).",
+          "x": 43.5,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 93.72222222222223
         },
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r24",
+          "id": "r25",
           "shape_type": "ELLIPSE",
           "x": 57.5,
-          "y": 148.0,
+          "y": 208.72222222222223,
           "width": 34,
           "height": 34,
-          "background_color": "#EAF0F6"
+          "background_color": "#FFFFFF"
         },
         {
           "op": "add-image",
-          "id": "im25",
+          "id": "im26",
           "path": "assets/icons/person-ink.png",
           "alt": "Managers and analysts new to a database",
           "x": 65.5,
-          "y": 156.0,
+          "y": 216.72222222222223,
           "width": 18,
           "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t26",
+          "id": "t27",
           "text": "Managers and analysts new to a\ndatabase",
-          "x": 94.3,
-          "y": 142.8,
-          "width": 223.5666666666667,
+          "x": 92.3,
+          "y": 221.52222222222224,
+          "width": 225.5666666666667,
           "height": 46.800000000000004,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -13100,21 +13133,21 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t26",
+          "element": "t27",
           "start": 0,
           "end": 39,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t26",
+          "element": "t27",
           "start": 0,
           "end": 30,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t26",
+          "element": "t27",
           "start": 31,
           "end": 39,
           "bold": true
@@ -13122,10 +13155,10 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t27",
+          "id": "t28",
           "text": "WHY IT HELPS",
           "x": 50.3,
-          "y": 190.8,
+          "y": 251.52222222222224,
           "width": 267.56666666666666,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -13135,107 +13168,107 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t27",
+          "element": "t28",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t27",
+          "element": "t28",
           "start": 0,
           "end": 12,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im28",
+          "id": "im29",
           "path": "assets/project/icons/tick.svg",
           "alt": "",
           "x": 57.5,
-          "y": 216.5,
-          "width": 11,
-          "height": 11
+          "y": 276.22222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t29",
+          "id": "t30",
           "text": "An answer in seconds instead of a queue",
           "x": 66.3,
-          "y": 206.8,
+          "y": 267.52222222222224,
           "width": 251.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t29",
+          "element": "t30",
           "start": 0,
           "end": 39,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im30",
+          "id": "im31",
           "path": "assets/project/icons/tick.svg",
           "alt": "",
           "x": 57.5,
-          "y": 244.7,
-          "width": 11,
-          "height": 11
+          "y": 296.72222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t31",
+          "id": "t32",
           "text": "The SQL teaches the schema as they go",
           "x": 66.3,
-          "y": 235.0,
+          "y": 288.02222222222224,
           "width": 251.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t31",
+          "element": "t32",
           "start": 0,
           "end": 37,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im32",
+          "id": "im33",
           "path": "assets/project/icons/tick.svg",
           "alt": "",
           "x": 57.5,
-          "y": 272.9,
-          "width": 11,
-          "height": 11
+          "y": 317.22222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t33",
-          "text": "Like the store manager: knows the\nquestion, not the tables",
+          "id": "t34",
+          "text": "Like the store manager: knows the question, not the\ntables",
           "x": 66.3,
-          "y": 263.2,
+          "y": 308.52222222222224,
           "width": 251.5666666666667,
-          "height": 46.800000000000004,
-          "font_size": 12,
+          "height": 41.4,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t33",
+          "element": "t34",
           "start": 0,
           "end": 58,
           "line_spacing": 135
@@ -13243,9 +13276,9 @@
         {
           "op": "add-line",
           "slide": "serves",
-          "id": "l34",
+          "id": "l35",
           "x": 57.5,
-          "y": 324.79999999999995,
+          "y": 353.72222222222223,
           "width": 253.16666666666669,
           "height": 0.0,
           "color": "#D8DEE3",
@@ -13254,10 +13287,10 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t35",
+          "id": "t36",
           "text": "WHERE IT DOES NOT FIT",
           "x": 50.3,
-          "y": 331.59999999999997,
+          "y": 354.52222222222224,
           "width": 267.56666666666666,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -13267,59 +13300,48 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t35",
+          "element": "t36",
           "start": 0,
           "end": 21,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t35",
+          "element": "t36",
           "start": 0,
           "end": 21,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im36",
+          "id": "im37",
           "path": "assets/project/icons/cross.svg",
           "alt": "",
           "x": 57.5,
-          "y": 357.29999999999995,
-          "width": 11,
-          "height": 11
+          "y": 379.22222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t37",
+          "id": "t38",
           "text": "Metrics that must match across teams",
           "x": 66.3,
-          "y": 347.59999999999997,
+          "y": 370.52222222222224,
           "width": 251.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t37",
+          "element": "t38",
           "start": 0,
           "end": 36,
           "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r38",
-          "shape_type": "RECTANGLE",
-          "x": 340.6666666666667,
-          "y": 132.0,
-          "width": 281.1666666666667,
-          "height": 288.0,
-          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
@@ -13329,38 +13351,59 @@
           "x": 340.6666666666667,
           "y": 132.0,
           "width": 281.1666666666667,
-          "height": 4,
-          "background_color": "#526174"
+          "height": 278.0,
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "serves",
           "id": "r40",
-          "shape_type": "ELLIPSE",
-          "x": 354.6666666666667,
-          "y": 148.0,
-          "width": 34,
-          "height": 34,
-          "background_color": "#EAF0F6"
+          "shape_type": "RECTANGLE",
+          "x": 340.6666666666667,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 0,
+          "background_color": "#526174"
         },
         {
           "op": "add-image",
           "id": "im41",
+          "path": "assets/figures/serve-lock.jpg",
+          "alt": "A closed laptop wrapped in an orange chain and padlock (photograph, cropped).",
+          "x": 340.6666666666667,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 93.72222222222223
+        },
+        {
+          "op": "add-shape",
+          "slide": "serves",
+          "id": "r42",
+          "shape_type": "ELLIPSE",
+          "x": 354.6666666666667,
+          "y": 208.72222222222223,
+          "width": 34,
+          "height": 34,
+          "background_color": "#FFFFFF"
+        },
+        {
+          "op": "add-image",
+          "id": "im43",
           "path": "assets/icons/verified_user-ink.png",
           "alt": "Privacy-sensitive teams",
           "x": 362.6666666666667,
-          "y": 156.0,
+          "y": 216.72222222222223,
           "width": 18,
           "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t42",
+          "id": "t44",
           "text": "Privacy-sensitive teams",
-          "x": 391.4666666666667,
-          "y": 142.8,
-          "width": 223.5666666666667,
+          "x": 389.4666666666667,
+          "y": 221.52222222222224,
+          "width": 225.5666666666667,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -13369,14 +13412,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t42",
+          "element": "t44",
           "start": 0,
           "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t42",
+          "element": "t44",
           "start": 0,
           "end": 23,
           "bold": true
@@ -13384,10 +13427,10 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t43",
+          "id": "t45",
           "text": "WHY IT HELPS",
           "x": 347.4666666666667,
-          "y": 190.8,
+          "y": 251.52222222222224,
           "width": 267.56666666666666,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -13397,48 +13440,17 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t43",
+          "element": "t45",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t43",
+          "element": "t45",
           "start": 0,
           "end": 12,
           "bold": true
-        },
-        {
-          "op": "add-image",
-          "id": "im44",
-          "path": "assets/project/icons/tick.svg",
-          "alt": "",
-          "x": 354.6666666666667,
-          "y": 216.5,
-          "width": 11,
-          "height": 11
-        },
-        {
-          "op": "add-textbox",
-          "slide": "serves",
-          "id": "t45",
-          "text": "A local model keeps the prompt on the\nmachine",
-          "x": 363.4666666666667,
-          "y": 206.8,
-          "width": 251.5666666666667,
-          "height": 46.800000000000004,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t45",
-          "start": 0,
-          "end": 45,
-          "line_spacing": 135
         },
         {
           "op": "add-image",
@@ -13446,20 +13458,20 @@
           "path": "assets/project/icons/tick.svg",
           "alt": "",
           "x": 354.6666666666667,
-          "y": 260.9,
-          "width": 11,
-          "height": 11
+          "y": 276.22222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
           "id": "t47",
-          "text": "Result rows never reach the model",
+          "text": "A local model keeps the prompt on the machine",
           "x": 363.4666666666667,
-          "y": 251.2,
+          "y": 267.52222222222224,
           "width": 251.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
@@ -13468,7 +13480,7 @@
           "op": "style-paragraph",
           "element": "t47",
           "start": 0,
-          "end": 33,
+          "end": 45,
           "line_spacing": 135
         },
         {
@@ -13477,20 +13489,20 @@
           "path": "assets/project/icons/tick.svg",
           "alt": "",
           "x": 354.6666666666667,
-          "y": 289.09999999999997,
-          "width": 11,
-          "height": 11
+          "y": 296.72222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
           "id": "t49",
-          "text": "Read-only on every engine",
+          "text": "Result rows never reach the model",
           "x": 363.4666666666667,
-          "y": 279.4,
+          "y": 288.02222222222224,
           "width": 251.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
@@ -13499,15 +13511,46 @@
           "op": "style-paragraph",
           "element": "t49",
           "start": 0,
+          "end": 33,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im50",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 354.6666666666667,
+          "y": 317.22222222222223,
+          "width": 10,
+          "height": 10
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t51",
+          "text": "Read-only on every engine",
+          "x": 363.4666666666667,
+          "y": 308.52222222222224,
+          "width": 251.5666666666667,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t51",
+          "start": 0,
           "end": 25,
           "line_spacing": 135
         },
         {
           "op": "add-line",
           "slide": "serves",
-          "id": "l50",
+          "id": "l52",
           "x": 354.6666666666667,
-          "y": 324.79999999999995,
+          "y": 340.22222222222223,
           "width": 253.16666666666669,
           "height": 0.0,
           "color": "#D8DEE3",
@@ -13516,10 +13559,10 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t51",
+          "id": "t53",
           "text": "WHERE IT DOES NOT FIT",
           "x": 347.4666666666667,
-          "y": 331.59999999999997,
+          "y": 341.02222222222224,
           "width": 267.56666666666666,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -13529,45 +13572,45 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t51",
+          "element": "t53",
           "start": 0,
           "end": 21,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t51",
+          "element": "t53",
           "start": 0,
           "end": 21,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im52",
+          "id": "im54",
           "path": "assets/project/icons/cross.svg",
           "alt": "",
           "x": 354.6666666666667,
-          "y": 357.29999999999995,
-          "width": 11,
-          "height": 11
+          "y": 365.72222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t53",
-          "text": "Data where even 79 sample values must not\nbe sent",
+          "id": "t55",
+          "text": "Data where even 79 sample values must not be sent",
           "x": 363.4666666666667,
-          "y": 347.59999999999997,
+          "y": 357.02222222222224,
           "width": 251.5666666666667,
-          "height": 46.800000000000004,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t53",
+          "element": "t55",
           "start": 0,
           "end": 49,
           "line_spacing": 135
@@ -13575,54 +13618,64 @@
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r54",
+          "id": "r56",
           "shape_type": "RECTANGLE",
           "x": 637.8333333333334,
           "y": 132.0,
           "width": 281.1666666666667,
-          "height": 288.0,
+          "height": 278.0,
           "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r55",
+          "id": "r57",
           "shape_type": "RECTANGLE",
           "x": 637.8333333333334,
           "y": 132.0,
           "width": 281.1666666666667,
-          "height": 4,
+          "height": 0,
           "background_color": "#526174"
+        },
+        {
+          "op": "add-image",
+          "id": "im58",
+          "path": "assets/figures/serve-dc.jpg",
+          "alt": "An aisle between rows of server racks in a data centre (photograph, cropped).",
+          "x": 637.8333333333334,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 93.72222222222223
         },
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r56",
+          "id": "r59",
           "shape_type": "ELLIPSE",
           "x": 651.8333333333334,
-          "y": 148.0,
+          "y": 208.72222222222223,
           "width": 34,
           "height": 34,
-          "background_color": "#EAF0F6"
+          "background_color": "#FFFFFF"
         },
         {
           "op": "add-image",
-          "id": "im57",
+          "id": "im60",
           "path": "assets/icons/schema-ink.png",
           "alt": "Teams with large schemas",
           "x": 659.8333333333334,
-          "y": 156.0,
+          "y": 216.72222222222223,
           "width": 18,
           "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t58",
+          "id": "t61",
           "text": "Teams with large schemas",
-          "x": 688.6333333333333,
-          "y": 142.8,
-          "width": 223.5666666666667,
+          "x": 686.6333333333333,
+          "y": 221.52222222222224,
+          "width": 225.5666666666667,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -13631,14 +13684,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t58",
+          "element": "t61",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t58",
+          "element": "t61",
           "start": 0,
           "end": 24,
           "bold": true
@@ -13646,10 +13699,10 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t59",
+          "id": "t62",
           "text": "WHY IT HELPS",
           "x": 644.6333333333333,
-          "y": 190.8,
+          "y": 251.52222222222224,
           "width": 267.56666666666666,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -13659,76 +13712,76 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t59",
+          "element": "t62",
           "start": 0,
           "end": 12,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t59",
+          "element": "t62",
           "start": 0,
           "end": 12,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im60",
+          "id": "im63",
           "path": "assets/project/icons/tick.svg",
           "alt": "",
           "x": 651.8333333333334,
-          "y": 216.5,
-          "width": 11,
-          "height": 11
+          "y": 276.22222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t61",
-          "text": "Choosing the top tables helped on 34- and\n65-table databases",
+          "id": "t64",
+          "text": "Choosing the top tables helped on 34- and 65-table\ndatabases",
           "x": 660.6333333333333,
-          "y": 206.8,
+          "y": 267.52222222222224,
           "width": 251.5666666666667,
-          "height": 46.800000000000004,
-          "font_size": 12,
+          "height": 41.4,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t61",
+          "element": "t64",
           "start": 0,
           "end": 60,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im62",
+          "id": "im65",
           "path": "assets/project/icons/tick.svg",
           "alt": "",
           "x": 651.8333333333334,
-          "y": 260.9,
-          "width": 11,
-          "height": 11
+          "y": 310.22222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t63",
+          "id": "t66",
           "text": "Smaller prompts, 69 % fewer tokens",
           "x": 660.6333333333333,
-          "y": 251.2,
+          "y": 301.52222222222224,
           "width": 251.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t63",
+          "element": "t66",
           "start": 0,
           "end": 34,
           "line_spacing": 135
@@ -13736,9 +13789,9 @@
         {
           "op": "add-line",
           "slide": "serves",
-          "id": "l64",
+          "id": "l67",
           "x": 651.8333333333334,
-          "y": 296.59999999999997,
+          "y": 333.22222222222223,
           "width": 253.16666666666663,
           "height": 0.0,
           "color": "#D8DEE3",
@@ -13747,10 +13800,10 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t65",
+          "id": "t68",
           "text": "WHERE IT DOES NOT FIT",
           "x": 644.6333333333333,
-          "y": 303.4,
+          "y": 334.02222222222224,
           "width": 267.56666666666666,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -13760,84 +13813,105 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t65",
+          "element": "t68",
           "start": 0,
           "end": 21,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t65",
+          "element": "t68",
           "start": 0,
           "end": 21,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im66",
+          "id": "im69",
           "path": "assets/project/icons/cross.svg",
           "alt": "",
           "x": 651.8333333333334,
-          "y": 329.09999999999997,
-          "width": 11,
-          "height": 11
+          "y": 358.72222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t67",
-          "text": "Decisions taken with nobody reviewing the\nanswer",
+          "id": "t70",
+          "text": "Decisions taken with nobody reviewing the answer",
           "x": 660.6333333333333,
-          "y": 319.4,
+          "y": 350.02222222222224,
           "width": 251.5666666666667,
-          "height": 46.800000000000004,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t67",
+          "element": "t70",
           "start": 0,
           "end": 48,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im68",
+          "id": "im71",
           "path": "assets/project/icons/cross.svg",
           "alt": "",
           "x": 651.8333333333334,
-          "y": 373.5,
-          "width": 11,
-          "height": 11
+          "y": 379.22222222222223,
+          "width": 10,
+          "height": 10
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t69",
+          "id": "t72",
           "text": "Questions whose tables are often missed",
           "x": 660.6333333333333,
-          "y": 363.8,
+          "y": 370.52222222222224,
           "width": 251.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t69",
+          "element": "t72",
           "start": 0,
           "end": 39,
           "line_spacing": 135
         },
         {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t73",
+          "text": "Photos: Pixel.la, CC0; Richard Nowell, CC BY-SA 4.0; Christopher Bowns, CC BY-SA 2.0; all via Wikimedia Commons, cropped",
+          "x": 36.3,
+          "y": 408.8,
+          "width": 889.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t73",
+          "start": 0,
+          "end": 120,
+          "line_spacing": 135
+        },
+        {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r70",
+          "id": "r74",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -13848,7 +13922,7 @@
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r71",
+          "id": "r75",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -13859,7 +13933,7 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t72",
+          "id": "t76",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -13872,14 +13946,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t72",
+          "element": "t76",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t72",
+          "element": "t76",
           "start": 0,
           "end": 8,
           "bold": true
@@ -13887,7 +13961,7 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t73",
+          "id": "t77",
           "text": "A first, checkable answer for people who know the question; governed dashboards stay for agreed metrics.",
           "x": 147.3,
           "y": 442.05,
@@ -13900,14 +13974,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t73",
+          "element": "t77",
           "start": 0,
           "end": 104,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t73",
+          "element": "t77",
           "start": 2,
           "end": 25,
           "bold": true
@@ -37145,7 +37219,7 @@
             305.5
           ],
           "size": 10,
-          "row_height": 24,
+          "row_height": 30,
           "bold_first": false,
           "rows": [
             {
@@ -37770,7 +37844,7 @@
           "x": 36.3,
           "y": 157.8,
           "width": 261.4,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -37798,7 +37872,7 @@
           "x": 291.3,
           "y": 157.8,
           "width": 321.4,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -37819,7 +37893,7 @@
           "x": 606.3,
           "y": 157.8,
           "width": 311.9,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -37837,7 +37911,7 @@
           "slide": "limits",
           "id": "l32",
           "x": 43.5,
-          "y": 186,
+          "y": 192,
           "width": 875.5,
           "height": 0,
           "color": "#D8DEE3",
@@ -37849,7 +37923,7 @@
           "id": "t33",
           "text": "Nothing checks meaning",
           "x": 36.3,
-          "y": 181.8,
+          "y": 187.8,
           "width": 261.4,
           "height": 44.4,
           "font_size": 10,
@@ -37877,7 +37951,7 @@
           "id": "t34",
           "text": "A valid query can answer a different question, such as gross for net\nrevenue.",
           "x": 291.3,
-          "y": 181.8,
+          "y": 187.8,
           "width": 321.4,
           "height": 44.4,
           "font_size": 10,
@@ -37898,7 +37972,7 @@
           "id": "t35",
           "text": "Next test 1: business definitions",
           "x": 606.3,
-          "y": 181.8,
+          "y": 187.8,
           "width": 311.9,
           "height": 44.4,
           "font_size": 10,
@@ -37918,7 +37992,7 @@
           "slide": "limits",
           "id": "l36",
           "x": 43.5,
-          "y": 220.0,
+          "y": 226.0,
           "width": 875.5,
           "height": 0.0,
           "color": "#D8DEE3",
@@ -37930,7 +38004,7 @@
           "id": "t37",
           "text": "A missed table usually means a wrong answer",
           "x": 36.3,
-          "y": 215.8,
+          "y": 221.8,
           "width": 261.4,
           "height": 44.4,
           "font_size": 10,
@@ -37958,7 +38032,7 @@
           "id": "t38",
           "text": "On large databases, selection sometimes drops a table her question\nneeds.",
           "x": 291.3,
-          "y": 215.8,
+          "y": 221.8,
           "width": 321.4,
           "height": 44.4,
           "font_size": 10,
@@ -37979,7 +38053,7 @@
           "id": "t39",
           "text": "Next test 2: targeted table recovery",
           "x": 606.3,
-          "y": 215.8,
+          "y": 221.8,
           "width": 311.9,
           "height": 44.4,
           "font_size": 10,
@@ -37999,7 +38073,7 @@
           "slide": "limits",
           "id": "l40",
           "x": 43.5,
-          "y": 254.0,
+          "y": 260.0,
           "width": 875.5,
           "height": 0.0,
           "color": "#D8DEE3",
@@ -38011,9 +38085,9 @@
           "id": "t41",
           "text": "About 2 s slower with table selection",
           "x": 36.3,
-          "y": 249.8,
+          "y": 255.8,
           "width": 261.4,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -38039,9 +38113,9 @@
           "id": "t42",
           "text": "Fewer tokens, but the local model cannot reuse its cache.",
           "x": 291.3,
-          "y": 249.8,
+          "y": 255.8,
           "width": 321.4,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -38060,9 +38134,9 @@
           "id": "t43",
           "text": "Not yet planned",
           "x": 606.3,
-          "y": 249.8,
+          "y": 255.8,
           "width": 311.9,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -38081,7 +38155,7 @@
           "id": "r44",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 278.0,
+          "y": 290.0,
           "width": 875.5,
           "height": 16,
           "background_color": "#EDF0F3"
@@ -38092,7 +38166,7 @@
           "id": "r45",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 278.0,
+          "y": 290.0,
           "width": 2.5,
           "height": 16,
           "background_color": "#526174"
@@ -38103,7 +38177,7 @@
           "id": "t46",
           "text": "Not yet tested",
           "x": 42.3,
-          "y": 272.8,
+          "y": 284.8,
           "width": 849.9,
           "height": 26.4,
           "font_size": 8,
@@ -38131,9 +38205,9 @@
           "id": "t47",
           "text": "Follow-up questions",
           "x": 36.3,
-          "y": 289.8,
+          "y": 301.8,
           "width": 261.4,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -38159,9 +38233,9 @@
           "id": "t48",
           "text": "Each question stands alone; she cannot say \u201cand last month?\u201d.",
           "x": 291.3,
-          "y": 289.8,
+          "y": 301.8,
           "width": 321.4,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -38180,9 +38254,9 @@
           "id": "t49",
           "text": "Not yet planned",
           "x": 606.3,
-          "y": 289.8,
+          "y": 301.8,
           "width": 311.9,
-          "height": 34.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -38200,7 +38274,7 @@
           "slide": "limits",
           "id": "l50",
           "x": 43.5,
-          "y": 318.0,
+          "y": 336.0,
           "width": 875.5,
           "height": 0.0,
           "color": "#D8DEE3",
@@ -38212,7 +38286,7 @@
           "id": "t51",
           "text": "Real company schemas",
           "x": 36.3,
-          "y": 313.8,
+          "y": 331.8,
           "width": 261.4,
           "height": 44.4,
           "font_size": 10,
@@ -38240,7 +38314,7 @@
           "id": "t52",
           "text": "The largest test database has 65 tables; real warehouses can have\nhundreds.",
           "x": 291.3,
-          "y": 313.8,
+          "y": 331.8,
           "width": 321.4,
           "height": 44.4,
           "font_size": 10,
@@ -38261,7 +38335,7 @@
           "id": "t53",
           "text": "Next test 3: new large schemas",
           "x": 606.3,
-          "y": 313.8,
+          "y": 331.8,
           "width": 311.9,
           "height": 44.4,
           "font_size": 10,
@@ -38281,7 +38355,7 @@
           "slide": "limits",
           "id": "l54",
           "x": 43.5,
-          "y": 352.0,
+          "y": 370.0,
           "width": 875.5,
           "height": 0.0,
           "color": "#D8DEE3",
@@ -38293,7 +38367,7 @@
           "id": "t55",
           "text": "Other languages, real users, cost",
           "x": 36.3,
-          "y": 347.8,
+          "y": 365.8,
           "width": 261.4,
           "height": 44.4,
           "font_size": 10,
@@ -38321,7 +38395,7 @@
           "id": "t56",
           "text": "Only English benchmark questions; no user study; running cost not\nmeasured.",
           "x": 291.3,
-          "y": 347.8,
+          "y": 365.8,
           "width": 321.4,
           "height": 44.4,
           "font_size": 10,
@@ -38342,7 +38416,7 @@
           "id": "t57",
           "text": "Not yet planned",
           "x": 606.3,
-          "y": 347.8,
+          "y": 365.8,
           "width": 311.9,
           "height": 44.4,
           "font_size": 10,
@@ -38362,7 +38436,7 @@
           "slide": "limits",
           "id": "l58",
           "x": 43.5,
-          "y": 386.0,
+          "y": 404.0,
           "width": 875.5,
           "height": 0.0,
           "color": "#89949D",
@@ -38374,7 +38448,7 @@
           "id": "t59",
           "text": "Note: \u2060\u00b9 Accuracy uses this project\u2019s comparison on one local 9B model, not leaderboard scoring.",
           "x": 36.3,
-          "y": 382.8,
+          "y": 400.8,
           "width": 889.9,
           "height": 26.4,
           "font_size": 8,
@@ -40135,6 +40209,10 @@
           ]
         ]
       ],
+      "photo": {
+        "path": "assets/figures/photo-shop-crop.jpg",
+        "alt": "The same shop interior as on the store manager slide (photograph, cropped)."
+      },
       "contribution_title": "What the project contributes",
       "contribution": [
         [
@@ -40542,33 +40620,43 @@
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "answer",
-          "id": "r21",
-          "shape_type": "RECTANGLE",
+          "op": "add-image",
+          "id": "im21",
+          "path": "assets/figures/photo-shop-crop.jpg",
+          "alt": "The same shop interior as on the store manager slide (photograph, cropped).",
           "x": 43.5,
           "y": 132.0,
-          "width": 281.1666666666667,
-          "height": 170,
-          "background_color": "#F4F5F6"
+          "width": 182.14285714285714,
+          "height": 170
         },
         {
           "op": "add-shape",
           "slide": "answer",
           "id": "r22",
           "shape_type": "RECTANGLE",
-          "x": 43.5,
+          "x": 241.64285714285714,
           "y": 132.0,
-          "width": 281.1666666666667,
+          "width": 215.11904761904762,
+          "height": 170,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "answer",
+          "id": "r23",
+          "shape_type": "RECTANGLE",
+          "x": 241.64285714285714,
+          "y": 132.0,
+          "width": 215.11904761904762,
           "height": 4,
           "background_color": "#896521"
         },
         {
           "op": "add-image",
-          "id": "im23",
+          "id": "im24",
           "path": "assets/icons/check_circle-green.png",
           "alt": "An answer in seconds",
-          "x": 57.5,
+          "x": 255.64285714285714,
           "y": 148.0,
           "width": 22,
           "height": 22
@@ -40576,11 +40664,11 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t24",
+          "id": "t25",
           "text": "An answer in seconds",
-          "x": 80.3,
+          "x": 278.4428571428571,
           "y": 142.8,
-          "width": 237.5666666666667,
+          "width": 171.51904761904763,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -40589,14 +40677,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t24",
+          "element": "t25",
           "start": 0,
           "end": 20,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t24",
+          "element": "t25",
           "start": 0,
           "end": 20,
           "bold": true
@@ -40604,11 +40692,11 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t25",
+          "id": "t26",
           "text": "173,366",
-          "x": 50.3,
+          "x": 248.44285714285715,
           "y": 174.8,
-          "width": 267.56666666666666,
+          "width": 201.51904761904763,
           "height": 46.800000000000004,
           "font_size": 24,
           "font_family": "Google Sans",
@@ -40617,14 +40705,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t25",
+          "element": "t26",
           "start": 0,
           "end": 7,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t25",
+          "element": "t26",
           "start": 0,
           "end": 7,
           "bold": true
@@ -40632,32 +40720,11 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t26",
-          "text": "\u2022  Electronics leads the five categories",
-          "x": 50.3,
-          "y": 216.8,
-          "width": 267.56666666666666,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t26",
-          "start": 0,
-          "end": 40,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "answer",
           "id": "t27",
-          "text": "\u2022  with the SQL that shows it counts all 220 orders",
-          "x": 50.3,
-          "y": 234.3,
-          "width": 267.56666666666666,
+          "text": "\u2022  Electronics leads the five categories",
+          "x": 248.44285714285715,
+          "y": 216.8,
+          "width": 201.51904761904763,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -40668,37 +40735,58 @@
           "op": "style-paragraph",
           "element": "t27",
           "start": 0,
+          "end": 40,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "answer",
+          "id": "t28",
+          "text": "\u2022  with the SQL that shows it counts all\n220 orders",
+          "x": 248.44285714285715,
+          "y": 234.3,
+          "width": 201.51904761904763,
+          "height": 41.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t28",
+          "start": 0,
           "end": 51,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "answer",
-          "id": "r28",
+          "id": "r29",
           "shape_type": "RECTANGLE",
-          "x": 340.6666666666667,
+          "x": 472.76190476190476,
           "y": 132.0,
-          "width": 281.1666666666667,
+          "width": 215.11904761904762,
           "height": 170,
           "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "answer",
-          "id": "r29",
+          "id": "r30",
           "shape_type": "RECTANGLE",
-          "x": 340.6666666666667,
+          "x": 472.76190476190476,
           "y": 132.0,
-          "width": 281.1666666666667,
+          "width": 215.11904761904762,
           "height": 4,
           "background_color": "#896521"
         },
         {
           "op": "add-image",
-          "id": "im30",
+          "id": "im31",
           "path": "assets/icons/verified_user-teal.png",
           "alt": "Nothing changed",
-          "x": 354.6666666666667,
+          "x": 486.76190476190476,
           "y": 148.0,
           "width": 22,
           "height": 22
@@ -40706,11 +40794,11 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t31",
+          "id": "t32",
           "text": "Nothing changed",
-          "x": 377.4666666666667,
+          "x": 509.5619047619048,
           "y": 142.8,
-          "width": 237.5666666666667,
+          "width": 171.51904761904763,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -40719,14 +40807,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t31",
+          "element": "t32",
           "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t31",
+          "element": "t32",
           "start": 0,
           "end": 15,
           "bold": true
@@ -40734,11 +40822,11 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t32",
+          "id": "t33",
           "text": "Read-only",
-          "x": 347.4666666666667,
+          "x": 479.56190476190477,
           "y": 174.8,
-          "width": 267.56666666666666,
+          "width": 201.51904761904763,
           "height": 46.800000000000004,
           "font_size": 24,
           "font_family": "Google Sans",
@@ -40747,14 +40835,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t32",
+          "element": "t33",
           "start": 0,
           "end": 9,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t32",
+          "element": "t33",
           "start": 0,
           "end": 9,
           "bold": true
@@ -40762,32 +40850,11 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t33",
-          "text": "\u2022  Two gates in code stopped any write",
-          "x": 347.4666666666667,
-          "y": 216.8,
-          "width": 267.56666666666666,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t33",
-          "start": 0,
-          "end": 38,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "answer",
           "id": "t34",
-          "text": "\u2022  only 79 stored values reached the model",
-          "x": 347.4666666666667,
-          "y": 234.3,
-          "width": 267.56666666666666,
+          "text": "\u2022  Two gates in code stopped any write",
+          "x": 479.56190476190477,
+          "y": 216.8,
+          "width": 201.51904761904763,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -40798,105 +40865,17 @@
           "op": "style-paragraph",
           "element": "t34",
           "start": 0,
-          "end": 42,
+          "end": 38,
           "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "answer",
-          "id": "r35",
-          "shape_type": "RECTANGLE",
-          "x": 637.8333333333334,
-          "y": 132.0,
-          "width": 281.1666666666667,
-          "height": 170,
-          "background_color": "#F4F5F6"
-        },
-        {
-          "op": "add-shape",
-          "slide": "answer",
-          "id": "r36",
-          "shape_type": "RECTANGLE",
-          "x": 637.8333333333334,
-          "y": 132.0,
-          "width": 281.1666666666667,
-          "height": 4,
-          "background_color": "#896521"
-        },
-        {
-          "op": "add-image",
-          "id": "im37",
-          "path": "assets/icons/person-ink.png",
-          "alt": "She decided",
-          "x": 651.8333333333334,
-          "y": 148.0,
-          "width": 22,
-          "height": 22
         },
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t38",
-          "text": "She decided",
-          "x": 674.6333333333333,
-          "y": 142.8,
-          "width": 237.5666666666667,
-          "height": 30.6,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t38",
-          "start": 0,
-          "end": 11,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t38",
-          "start": 0,
-          "end": 11,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "answer",
-          "id": "t39",
-          "text": "Her call",
-          "x": 644.6333333333333,
-          "y": 174.8,
-          "width": 267.56666666666666,
-          "height": 46.800000000000004,
-          "font_size": 24,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t39",
-          "start": 0,
-          "end": 8,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t39",
-          "start": 0,
-          "end": 8,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "answer",
-          "id": "t40",
-          "text": "\u2022  List price or completed orders after discounts: 21 %\napart",
-          "x": 644.6333333333333,
-          "y": 216.8,
-          "width": 267.56666666666666,
+          "id": "t35",
+          "text": "\u2022  only 79 stored values reached the\nmodel",
+          "x": 479.56190476190477,
+          "y": 234.3,
+          "width": 201.51904761904763,
           "height": 41.4,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -40905,20 +40884,108 @@
         },
         {
           "op": "style-paragraph",
+          "element": "t35",
+          "start": 0,
+          "end": 42,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "answer",
+          "id": "r36",
+          "shape_type": "RECTANGLE",
+          "x": 703.8809523809524,
+          "y": 132.0,
+          "width": 215.11904761904762,
+          "height": 170,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "answer",
+          "id": "r37",
+          "shape_type": "RECTANGLE",
+          "x": 703.8809523809524,
+          "y": 132.0,
+          "width": 215.11904761904762,
+          "height": 4,
+          "background_color": "#896521"
+        },
+        {
+          "op": "add-image",
+          "id": "im38",
+          "path": "assets/icons/person-ink.png",
+          "alt": "She decided",
+          "x": 717.8809523809524,
+          "y": 148.0,
+          "width": 22,
+          "height": 22
+        },
+        {
+          "op": "add-textbox",
+          "slide": "answer",
+          "id": "t39",
+          "text": "She decided",
+          "x": 740.6809523809524,
+          "y": 142.8,
+          "width": 171.51904761904763,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t39",
+          "start": 0,
+          "end": 11,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t39",
+          "start": 0,
+          "end": 11,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "answer",
+          "id": "t40",
+          "text": "Her call",
+          "x": 710.6809523809524,
+          "y": 174.8,
+          "width": 201.51904761904763,
+          "height": 46.800000000000004,
+          "font_size": 24,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
           "element": "t40",
           "start": 0,
-          "end": 61,
+          "end": 8,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t40",
+          "start": 0,
+          "end": 8,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "answer",
           "id": "t41",
-          "text": "\u2022  the SQL showed her the choice",
-          "x": 644.6333333333333,
-          "y": 247.8,
-          "width": 267.56666666666666,
-          "height": 27.9,
+          "text": "\u2022  List price or completed orders after\ndiscounts: 21 % apart",
+          "x": 710.6809523809524,
+          "y": 216.8,
+          "width": 201.51904761904763,
+          "height": 41.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -40928,13 +40995,34 @@
           "op": "style-paragraph",
           "element": "t41",
           "start": 0,
-          "end": 32,
+          "end": 61,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "answer",
           "id": "t42",
+          "text": "\u2022  the SQL showed her the choice",
+          "x": 710.6809523809524,
+          "y": 247.8,
+          "width": 201.51904761904763,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t42",
+          "start": 0,
+          "end": 32,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "answer",
+          "id": "t43",
           "text": "What the project contributes",
           "x": 36.3,
           "y": 316.8,
@@ -40947,14 +41035,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t42",
+          "element": "t43",
           "start": 0,
           "end": 28,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t42",
+          "element": "t43",
           "start": 0,
           "end": 28,
           "bold": true
@@ -40962,7 +41050,7 @@
         {
           "op": "add-shape",
           "slide": "answer",
-          "id": "r43",
+          "id": "r44",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 346.0,
@@ -40973,7 +41061,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t44",
+          "id": "t45",
           "text": "An inspectable SQL application",
           "x": 50.3,
           "y": 338.8,
@@ -40986,14 +41074,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t44",
+          "element": "t45",
           "start": 0,
           "end": 30,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t44",
+          "element": "t45",
           "start": 0,
           "end": 30,
           "bold": true
@@ -41001,7 +41089,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t45",
+          "id": "t46",
           "text": "The answer always comes with its SQL and the tables\nchosen.",
           "x": 50.3,
           "y": 356.8,
@@ -41014,7 +41102,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t45",
+          "element": "t46",
           "start": 0,
           "end": 59,
           "line_spacing": 135
@@ -41022,7 +41110,7 @@
         {
           "op": "add-shape",
           "slide": "answer",
-          "id": "r46",
+          "id": "r47",
           "shape_type": "RECTANGLE",
           "x": 340.6666666666667,
           "y": 346.0,
@@ -41033,7 +41121,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t47",
+          "id": "t48",
           "text": "Read-only on three engines",
           "x": 347.4666666666667,
           "y": 338.8,
@@ -41046,14 +41134,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t47",
+          "element": "t48",
           "start": 0,
           "end": 26,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t47",
+          "element": "t48",
           "start": 0,
           "end": 26,
           "bold": true
@@ -41061,7 +41149,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t48",
+          "id": "t49",
           "text": "SQLite, DuckDB and PostgreSQL, 45 of 45 conformance\ntests passed.",
           "x": 347.4666666666667,
           "y": 356.8,
@@ -41074,7 +41162,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t48",
+          "element": "t49",
           "start": 0,
           "end": 65,
           "line_spacing": 135
@@ -41082,7 +41170,7 @@
         {
           "op": "add-shape",
           "slide": "answer",
-          "id": "r49",
+          "id": "r50",
           "shape_type": "RECTANGLE",
           "x": 637.8333333333334,
           "y": 346.0,
@@ -41093,7 +41181,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t50",
+          "id": "t51",
           "text": "A measured evaluation record",
           "x": 644.6333333333333,
           "y": 338.8,
@@ -41106,14 +41194,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t50",
+          "element": "t51",
           "start": 0,
           "end": 28,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t50",
+          "element": "t51",
           "start": 0,
           "end": 28,
           "bold": true
@@ -41121,7 +41209,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t51",
+          "id": "t52",
           "text": "3,817 questions and 37 recorded runs, with what did not\nhelp.",
           "x": 644.6333333333333,
           "y": 356.8,
@@ -41134,7 +41222,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t51",
+          "element": "t52",
           "start": 0,
           "end": 61,
           "line_spacing": 135
@@ -41142,7 +41230,7 @@
         {
           "op": "add-shape",
           "slide": "answer",
-          "id": "r52",
+          "id": "r53",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -41153,7 +41241,7 @@
         {
           "op": "add-shape",
           "slide": "answer",
-          "id": "r53",
+          "id": "r54",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -41164,7 +41252,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t54",
+          "id": "t55",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -41177,14 +41265,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t54",
+          "element": "t55",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t54",
+          "element": "t55",
           "start": 0,
           "end": 8,
           "bold": true
@@ -41192,7 +41280,7 @@
         {
           "op": "add-textbox",
           "slide": "answer",
-          "id": "t55",
+          "id": "t56",
           "text": "A first, checkable answer today; the next tests decide how far to trust it.",
           "x": 147.3,
           "y": 442.05,
@@ -41205,14 +41293,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t55",
+          "element": "t56",
           "start": 0,
           "end": 75,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t55",
+          "element": "t56",
           "start": 2,
           "end": 25,
           "bold": true

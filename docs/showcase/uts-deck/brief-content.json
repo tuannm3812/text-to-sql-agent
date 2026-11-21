@@ -832,6 +832,29 @@
       "title": "Who it serves: people who know the question but not the schema",
       "subtitle": "Where a first, inspectable answer helps, and where a governed tool fits better",
       "story": "**The store manager is one of them:** others share her need, and some are better served elsewhere.",
+      "photos": [
+        {
+          "image": {
+            "path": "assets/figures/serve-desk.jpg",
+            "alt": "A laptop open on a wooden desk (photograph, cropped)."
+          },
+          "credit": "Pixel.la, CC0"
+        },
+        {
+          "image": {
+            "path": "assets/figures/serve-lock.jpg",
+            "alt": "A closed laptop wrapped in an orange chain and padlock (photograph, cropped)."
+          },
+          "credit": "Richard Nowell, CC BY-SA 4.0"
+        },
+        {
+          "image": {
+            "path": "assets/figures/serve-dc.jpg",
+            "alt": "An aisle between rows of server racks in a data centre (photograph, cropped)."
+          },
+          "credit": "Christopher Bowns, CC BY-SA 2.0; all via Wikimedia Commons, cropped"
+        }
+      ],
       "groups": [
         [
           "person-ink",
@@ -2120,7 +2143,7 @@
             305.5
           ],
           "size": 10,
-          "row_height": 24,
+          "row_height": 30,
           "bold_first": false,
           "rows": [
             {
@@ -2280,6 +2303,10 @@
           ]
         ]
       ],
+      "photo": {
+        "path": "assets/figures/photo-shop-crop.jpg",
+        "alt": "The same shop interior as on the store manager slide (photograph, cropped)."
+      },
       "contribution_title": "What the project contributes",
       "contribution": [
         [

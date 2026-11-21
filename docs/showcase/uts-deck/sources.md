@@ -7,3 +7,6 @@
 | P2 | evaluation/results/bird_train_large/README.md | +3.6 [+1.4, +5.8], 69 %, table counts | 18 Nov 2026 |
 | P3 | AGENTS.md current state | 45 of 45 conformance, 2.0 s latency | 18 Nov 2026 |
 | A1 | [Sabor Espana shop interior, Cala Millor](https://commons.wikimedia.org/wiki/File:Sabor_Espana_shop_interior_Cala_Millor.jpg), Steffen Mokosch, CC BY-SA 4.0 | Store manager slide photo (cropped) | Downloaded 21 Nov 2026 |
+| A2 | [Desk-laptop-working-technology](https://commons.wikimedia.org/wiki/File:Desk-laptop-working-technology_(24299511976).jpg), Pixel.la, CC0 | Who it serves photo | Downloaded 21 Nov 2026 |
+| A3 | [Secured laptop](https://commons.wikimedia.org/wiki/File:Secured_laptop.jpg), Richard Nowell, CC BY-SA 4.0 | Who it serves photo | Downloaded 21 Nov 2026 |
+| A4 | [Virginia Tech data center](https://commons.wikimedia.org/wiki/File:Virginia_Tech_-_data_center.jpg), Christopher Bowns, CC BY-SA 2.0 | Who it serves photo | Downloaded 21 Nov 2026 |
