@@ -239,7 +239,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 20. Backup: one question’s path through the app, as a flowchart
+## 20. Backup: one question’s path through the app, stage by stage
 
 Backup for questions about the full flow.
 

@@ -1012,7 +1012,7 @@ Exact face text:
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
 
-## 20. Backup: one question’s path through the app, as a flowchart
+## 20. Backup: one question’s path through the app, stage by stage
 
 Layout: flow_page
 
@@ -1024,7 +1024,7 @@ Exact face text:
 
 - APPENDIX
 - Full flow
-- Backup: one question’s path through the app, as a flowchart
+- Backup: one question’s path through the app, stage by stage
 - 
 - Text-to-SQL Agent
 - 20

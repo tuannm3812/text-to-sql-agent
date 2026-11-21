@@ -542,7 +542,7 @@ stack = {
 arch_full = {
     'id': 'appendix-architecture', 'layout': 'flow_page', 'section': 'Appendix', 'topic': 'Full flow', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: one question’s path through the app, as a flowchart',
+    'title': 'Backup: one question’s path through the app, stage by stage',
     'subtitle': '',
     'image': {'path': 'assets/figures/flowchart.png', 'alt': 'Flowchart: a plain question goes to read schema, select tables, then generate (the one model call, Ollama or Gemini), then validate. If it is one read, it runs read-only and the answer is shown; if not, it is refused and explained. A query error loops back to generate once.'},
     'notes': notes('Backup for questions about the full flow.',

@@ -37505,7 +37505,7 @@
       "topic": "Full flow",
       "accent": "slate",
       "header_style": "appendix",
-      "title": "Backup: one question\u2019s path through the app, as a flowchart",
+      "title": "Backup: one question\u2019s path through the app, stage by stage",
       "subtitle": "",
       "image": {
         "path": "assets/figures/flowchart.png",
@@ -37611,7 +37611,7 @@
           "op": "add-textbox",
           "slide": "appendix-architecture",
           "id": "t6",
-          "text": "Backup: one question\u2019s path through the app, as a flowchart",
+          "text": "Backup: one question\u2019s path through the app, stage by stage",
           "x": 36.3,
           "y": 51.8,
           "width": 889.9,
@@ -37733,10 +37733,10 @@
           "id": "im12",
           "path": "assets/figures/flowchart.png",
           "alt": "Flowchart: a plain question goes to read schema, select tables, then generate (the one model call, Ollama or Gemini), then validate. If it is one read, it runs read-only and the answer is shown; if not, it is refused and explained. A query error loops back to generate once.",
-          "x": 45.806962025316466,
-          "y": 132.0,
-          "width": 870.8860759493671,
-          "height": 344.0
+          "x": 43.5,
+          "y": 97.78399999999999,
+          "width": 875.5,
+          "height": 378.216
         }
       ]
     },
