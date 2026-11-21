@@ -50,8 +50,10 @@ def img(rel, size=13):
     return f'<img src="{uri(rel)}" style="width:{size}px;height:{size}px;object-fit:contain;flex:none">'
 
 
-def bullets(items):
-    return '<ul class="b">' + "".join(f"<li>{t}</li>" for t in items) + "</ul>"
+def bullets(items, numbered=False):
+    """Short bullets. Under a numbered title the dots sit under the number and the text under the title."""
+    cls = "b bn" if numbered else "b"
+    return f'<ul class="{cls}">' + "".join(f"<li>{t}</li>" for t in items) + "</ul>"
 
 
 def card(x, y, w, h, style, title, items=(), tag="", icon=None, logos=(), lane="prep", n=None):
@@ -68,7 +70,7 @@ def card(x, y, w, h, style, title, items=(), tag="", icon=None, logos=(), lane="
            if n is not None else "")
     art = "".join(img(a, 13) for a in logos) if logos else (img(icon, 14) if icon else "")
     head = f'<div class="h">{num}<span style="color:{ink}">{title}</span><span class="ic">{art}</span></div>'
-    body = bullets(items) if items else ""
+    body = bullets(items, n is not None) if items else ""
     foot = f'<div class="g"><span>{tag}</span></div>' if tag else ""
     decision = style == "decision"
     return (f'<div class="n" style="left:{x}px;top:{y}px;width:{w}px;height:{h}px;background:{fill};'
@@ -229,8 +231,10 @@ body {{ width: {W}px; height: {H}px; position: relative; font-family: GS; backgr
        display: inline-flex; align-items: center; justify-content: center; flex: none; }}
 ul.b {{ list-style: none; padding: 0; margin-top: 4px; }}
 ul.b li {{ font-size: 9px; color: {BODY}; line-height: 1.25; padding-left: 9px; position: relative; }}
-ul.b li::before {{ content: ""; position: absolute; left: 1px; top: 4.5px; width: 3.5px; height: 3.5px;
+ul.b li::before {{ content: ""; position: absolute; left: 1px; top: 3.9px; width: 3.4px; height: 3.4px;
                    border-radius: 50%; background: {BODY}; }}
+ul.b.bn li {{ padding-left: 20px; }}
+ul.b.bn li::before {{ left: 5.8px; }}
 .g {{ font-size: 8.5px; color: {INK}; margin-top: auto; display: flex; align-items: center; gap: 4px; }}
 .g span {{ opacity: .7; }}
 .c {{ position: absolute; height: 26px; border-radius: 8px; background: #FFFFFF; font-size: 10.5px; font-weight: 700;
