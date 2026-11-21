@@ -50,15 +50,16 @@
     }
   },
   "inputs": {
-    "brief-content.json": "ac81d8581c27edfcccde1abce7ab8f203b83d416e003cf0da7183b8847806a63",
+    "brief-content.json": "d6f61fa870e87f9f003300d636de4bc15e81c15c3cfdbbecf447a9f527ff6073",
     "deck-kit.json": "d62d69af77f4c56d573abdbc345e8c3faf148bf029a35d4d841b73db02ed0ac0",
-    "claims-register.md": "b83895400a9ca821fc1fcd1f852efafe6018a0cf7fc79a2865d991366ddfb318",
+    "claims-register.md": "60b5d50f338ff2b7d1971b41fad1d0e67575a293bc51c7e77831ba858bc08d7d",
     "kit-pin.json": "fab1758a95b0a452fc8b028ebeaf27783a75db5e2d2a0b587ca79501de3b43c6",
-    "project_layouts.py": "0194008e4198fd4af1311b34351d3b1019fe0ae02bcab495e8d9db5768957654"
+    "project_layouts.py": "4f11f91b6f042b9e75fe467ccc1bdb48a6358fdffb5f9d162204b8480a2db003"
   },
   "assets": {
     "assets/PROVENANCE.md": "5fca3195bdc91ba0f25ad38c2ab9a87f11523d9ed939e66c43699ac33d323f96",
     "assets/brand/uts-logo.svg": "9090430197b651e341224af5212ed9bbc86ec72d5779f35c9ab6d3376df244e4",
+    "assets/figures/close-answer.png": "0d8f4a194091e9d3b4075ba73b86fd52907db937b46f885183c7cba91ae8a393",
     "assets/figures/close-art.png": "746119396089240f7f15fcefd8043bcd08495d29caff31b86904140c08f560ec",
     "assets/figures/close-portrait.png": "2b08502bcc57193d978e5632effc42084e4f64bfca2db5f42721445c82ea565d",
     "assets/figures/cover-art-close.png": "1e4cdaa477adfc94b4267f892979fced0741230b53da11b2110c1d702b2d511c",
@@ -69,6 +70,7 @@
     "assets/figures/demo-answer.png": "7a30c11583d737965b171f99f3be7b0a5923087cd2b2bcffcfc1ad84a7c7c8d4",
     "assets/figures/demo-app.png": "89d3e331de6f977566df71125289b3b5c6fac3889465abbae343583c69da43ea",
     "assets/figures/flowchart.png": "29de2d51b20bddf6fdb460611f102795b230fa806483b27e984eba3bcbceb492",
+    "assets/figures/persona.png": "4b15270efbbf72af0cb56888e40f4240a4087286394323ee8675f05e9a25c57c",
     "assets/figures/qr-live-demo.svg": "8401b0db58c108ac45cda7ce8caceb93c75a96b1b8bae990f13429d0ca39edfd",
     "assets/figures/ring-35-2.png": "3c24235d123460a23d8ad26c5ebc9139e331474b168facf80303cfc3fe7908ef",
     "assets/figures/ring-64-6.png": "c1306a49077dba49666d6ea3426e23d42f3c47f72b0ee619a7dd5d1f7eb0d809",
@@ -301,8 +303,8 @@
     "assets/project/icons/yes.svg": "dbff942ec1c85811264a97caae3f850a35cc004310cc37f7c7e58b6ca734d52d"
   },
   "outputs": {
-    "deck.html": "cc4faa5f6dab45a7f6a9047ff1f2015a0db36b514af2e675ade706487259979d",
-    "deck.pdf": "8a5e95c0323dc3a9586087ca7d162ca309b7987b3b13888b8f37e74c57e21950"
+    "deck.html": "165b84c23d0e5e12f41f2a8366110be17b30274c620d8f599d84f732e741335f",
+    "deck.pdf": "c1b432ebe6bc4b6e2d4627bdba61c965e6ff68cc66b162ed0799f20e96b7820f"
   },
-  "slide_count": 26
+  "slide_count": 28
 }

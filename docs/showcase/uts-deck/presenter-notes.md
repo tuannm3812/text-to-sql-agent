@@ -36,7 +36,19 @@ References:
 - sources.md
 - claims-register.md
 
-## 4. A fluent answer can still be the wrong answer
+## 4. A store manager has a question, and no quick way to answer it
+
+Introduce the store manager and her question.
+
+Meet a store manager. She knows her business but not SQL, and her data sits in an eleven-table retail database. [Point: question] Her question is simple: which product categories generate the most revenue?
+[Point: options] Today she can wait about three days for an analyst, learn the schema herself, or wait for a curated tool to be set up. [Point: needs] What she needs is an answer today, the SQL behind it so she can check it, and a guarantee that nothing in her data changes.
+Reference: an illustrative persona; the question and database are the demo’s (evaluation/cases.json, data/retail_analytics.db). The three-day queue is illustrative.
+
+References:
+- sources.md
+- claims-register.md
+
+## 5. A fluent answer can still be the wrong answer
 
 Say why a fluent answer is not enough.
 
@@ -49,7 +61,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 5. Other tools get business meaning through setup
+## 6. Other tools get business meaning through setup
 
 Place the project among the tools that already exist.
 
@@ -63,7 +75,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 6. Our aim: useful without setup, and checkable by default
+## 7. Our aim: useful without setup, and checkable by default
 
 State the aim and what it costs.
 
@@ -76,7 +88,18 @@ References:
 - sources.md
 - claims-register.md
 
-## 7. The SQL shows which revenue the answer counted
+## 8. Who it serves: people who know the question but not the schema
+
+Say who this is for.
+
+The store manager is one example. More broadly it serves people who know the question but not the schema, teams that need a local model for privacy, and teams with large schemas. It does not replace governed dashboards for metrics that must match across teams.
+Reference: slides 6, 8 and 13.
+
+References:
+- sources.md
+- claims-register.md
+
+## 9. The SQL shows which revenue the answer counted
 
 Show the agent answering one question, and why the SQL matters.
 
@@ -89,7 +112,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 8. The model sees the schema and a few stored values, never result rows
+## 10. The model sees the schema and a few stored values, never result rows
 
 Say what the model sees before anyone points it at their own data.
 
@@ -102,7 +125,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 9. The model proposes SQL; the application controls execution
+## 11. The model proposes SQL; the application controls execution
 
 Walk one question through the app.
 
@@ -115,7 +138,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 10. Safety does not rest on the model
+## 12. Safety does not rest on the model
 
 Show which defence stops which threat.
 
@@ -129,7 +152,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 11. Read the interval, not the point
+## 13. Read the interval, not the point
 
 Say why the numbers can be trusted and how to read them.
 
@@ -142,7 +165,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 12. The local model scored 64.6 % on Spider and 35.2 % on BIRD
+## 14. The local model scored 64.6 % on Spider and 35.2 % on BIRD
 
 Give the headline results and how to read them.
 
@@ -155,7 +178,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 13. On large databases, sending fewer tables scored 3.6 points higher
+## 15. On large databases, sending fewer tables scored 3.6 points higher
 
 Show the three-sided trade-off of table selection.
 
@@ -168,7 +191,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 14. Later trials found trade-offs, not a further accuracy gain
+## 16. Later trials found trade-offs, not a further accuracy gain
 
 Show what the later trials found.
 
@@ -181,7 +204,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 15. Better table coverage did not measurably improve accuracy
+## 17. Better table coverage did not measurably improve accuracy
 
 Explain why better coverage did not become better accuracy.
 
@@ -194,7 +217,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 16. What the store manager should know before she trusts it
+## 18. What the store manager should know before she trusts it
 
 Say plainly what the project cannot yet do.
 
@@ -206,18 +229,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 17. Who it serves: people who know the question but not the schema
-
-Say who this is for.
-
-The store manager is one example. More broadly it serves people who know the question but not the schema, teams that need a local model for privacy, and teams with large schemas. It does not replace governed dashboards for metrics that must match across teams.
-Reference: slides 6, 8 and 13.
-
-References:
-- sources.md
-- claims-register.md
-
-## 18. Four tests would close the main gaps in the evidence
+## 19. Four tests would close the main gaps in the evidence
 
 Name the four tests that would close the gaps.
 
@@ -229,28 +241,29 @@ References:
 - sources.md
 - claims-register.md
 
-## 19. Sources behind the claims
-
-List where the audience can check the claims.
-
-These are the sources behind every number in the deck.
-
-References:
-- sources.md
-- claims-register.md
-
 ## 20. The store manager got her answer, and the SQL behind it
 
-Close on the contribution.
+Answer her question and state the contribution.
 
-Back to the store manager: she asked which categories bring in the most revenue, and in seconds she had 173,366 for Electronics, with the SQL showing it counted every order. Nothing in her database changed, and she decided which revenue she meant. More broadly, the contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.
-[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you.
+Back to the store manager. [Point: first card] In seconds she had 173,366 for Electronics, with the SQL showing it counted every order. [Point: second card] Nothing in her database changed. [Point: third card] And the SQL showed her the choice between list price and completed orders, so she decided which revenue she meant.
+[Point: contribution] More broadly, the project contributes an inspectable SQL application, read-only on three engines, and a measured evaluation record that keeps what did not help.
+Reference: demo and data boundary slides; AGENTS.md 2026-11-04; evaluation/results.
 
 References:
 - sources.md
 - claims-register.md
 
-## 21. Backup: how the top 6 tables are chosen
+## 21. Ask your data. Inspect the answer.
+
+Close.
+
+Ask your data, then inspect the answer. The demo and the repository are linked here. Thank you.
+
+References:
+- sources.md
+- claims-register.md
+
+## 22. How the top 6 tables are chosen
 
 Backup for questions about table selection.
 
@@ -262,7 +275,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 22. Backup: one question’s path through the app, stage by stage
+## 23. One question’s path through the app, detail for slide 11
 
 Backup for questions about the full flow.
 
@@ -273,7 +286,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 23. Backup: matched means the same rows as the reference
+## 24. Matched means the same rows as the reference
 
 Backup for questions about how accuracy is measured.
 
@@ -284,7 +297,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 24. Backup: each engine enforces read-only in its own way
+## 25. Each engine enforces read-only in its own way
 
 Backup for questions about engine safety.
 
@@ -295,7 +308,7 @@ References:
 - sources.md
 - claims-register.md
 
-## 25. Backup: the technology behind each step
+## 26. The technology behind each step
 
 Backup for questions about the stack.
 
@@ -306,11 +319,21 @@ References:
 - sources.md
 - claims-register.md
 
-## 26. Backup: terms used in this deck
+## 27. Terms used in this deck
 
 Backup glossary.
 
 These are the plain meanings of the terms on the evidence slides.
+
+References:
+- sources.md
+- claims-register.md
+
+## 28. Sources behind the claims
+
+List where the audience can check the claims.
+
+These are the sources behind every number in the deck.
 
 References:
 - sources.md

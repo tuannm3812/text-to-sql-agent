@@ -56,6 +56,11 @@
               "through": "summary"
             },
             {
+              "title": "The store manager",
+              "from": "persona",
+              "through": "persona"
+            },
+            {
               "title": "Why it is hard",
               "from": "hard",
               "through": "hard"
@@ -69,6 +74,11 @@
               "title": "Our aim",
               "from": "aim",
               "through": "aim"
+            },
+            {
+              "title": "Who it serves",
+              "from": "serves",
+              "through": "serves"
             }
           ]
         },
@@ -134,19 +144,14 @@
               "through": "limits"
             },
             {
-              "title": "Who it serves",
-              "from": "serves",
-              "through": "serves"
-            },
-            {
               "title": "Next tests",
               "from": "next",
               "through": "next"
             },
             {
-              "title": "Sources",
-              "from": "references",
-              "through": "references"
+              "title": "Her answer",
+              "from": "answer",
+              "through": "answer"
             }
           ]
         }
@@ -301,6 +306,57 @@
         }
       ],
       "story": "**A store manager asks:** which product categories generate the most revenue? The analyst queue is three days. Here is what this agent offers her."
+    },
+    {
+      "id": "persona",
+      "layout": "persona_page",
+      "section": "Problem",
+      "topic": "The store manager",
+      "accent": "slate",
+      "title": "A store manager has a question, and no quick way to answer it",
+      "subtitle": "An illustrative persona, built on the demo’s real question and data",
+      "image": {
+        "path": "assets/figures/persona.png",
+        "alt": "Illustration of a store manager at a counter with a laptop and a question bubble. Illustrative, not a real person."
+      },
+      "who": "She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table retail database.",
+      "question": "“Which product categories generate the most revenue?”",
+      "question_note": "The question behind every slide that follows; the demo answers it on the retail database.",
+      "columns": [
+        [
+          "Her options today",
+          [
+            "Wait about three days for an analyst",
+            "Learn the schema and SQL herself",
+            "A curated tool that needs weeks of setup"
+          ],
+          "timer-ink",
+          "cross"
+        ],
+        [
+          "What she needs",
+          [
+            "An answer she can use today",
+            "The SQL behind it, so she can check it",
+            "Her data never changed"
+          ],
+          "check_circle-ink",
+          "tick"
+        ]
+      ],
+      "takeaway": "She needs a **fast, checkable** answer, not a black box.",
+      "notes": {
+        "purpose": "Introduce the store manager and her question.",
+        "script": [
+          "Meet a store manager. She knows her business but not SQL, and her data sits in an eleven-table retail database. [Point: question] Her question is simple: which product categories generate the most revenue?",
+          "[Point: options] Today she can wait about three days for an analyst, learn the schema herself, or wait for a curated tool to be set up. [Point: needs] What she needs is an answer today, the SQL behind it so she can check it, and a guarantee that nothing in her data changes.",
+          "Reference: an illustrative persona; the question and database are the demo’s (evaluation/cases.json, data/retail_analytics.db). The three-day queue is illustrative."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
     },
     {
       "id": "hard",
@@ -762,6 +818,68 @@
         ]
       },
       "story": "**What she needs:** an answer now, the SQL behind it, and a guarantee that nothing in her data changes."
+    },
+    {
+      "id": "serves",
+      "layout": "comparison",
+      "section": "Problem",
+      "topic": "Who it serves",
+      "accent": "slate",
+      "title": "Who it serves: people who know the question but not the schema",
+      "subtitle": "Where a first, inspectable answer helps, and where a governed tool fits better",
+      "story": "**The store manager is one of them:** others share her need, and some are better served elsewhere.",
+      "columns": [
+        "Who",
+        "Why it helps",
+        "Where it does not fit"
+      ],
+      "rows": [
+        [
+          "Managers and analysts new to a database",
+          [
+            "An answer in seconds instead of a queue",
+            "The SQL teaches the schema as they go"
+          ],
+          [
+            "Metrics that must match across teams"
+          ]
+        ],
+        [
+          "Privacy-sensitive teams",
+          [
+            "A local model keeps the prompt on the machine",
+            "Result rows never reach the model"
+          ],
+          [
+            "Data where even 79 sample values must not be sent"
+          ]
+        ],
+        [
+          "Teams with large schemas",
+          [
+            "Choosing the top tables helped on 34- and 65-table databases"
+          ],
+          [
+            "Decisions taken with nobody reviewing the answer"
+          ]
+        ]
+      ],
+      "takeaway": "A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.",
+      "source": {
+        "label": "Our aim, data boundary and large-schema slides; README.",
+        "url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
+      },
+      "notes": {
+        "purpose": "Say who this is for.",
+        "script": [
+          "The store manager is one example. More broadly it serves people who know the question but not the schema, teams that need a local model for privacy, and teams with large schemas. It does not replace governed dashboards for metrics that must match across teams.",
+          "Reference: slides 6, 8 and 13."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
     },
     {
       "id": "demo",
@@ -2063,138 +2181,46 @@
       ]
     },
     {
-      "id": "serves",
-      "layout": "comparison",
-      "section": "Next steps",
-      "topic": "Who it serves",
-      "accent": "ochre",
-      "title": "Who it serves: people who know the question but not the schema",
-      "subtitle": "Where a first, inspectable answer helps, and where a governed tool fits better",
-      "story": "**The store manager is one of them:** she gets an answer today and decides what it means.",
-      "columns": [
-        "Who",
-        "Why it helps",
-        "Where it does not fit"
-      ],
-      "rows": [
-        [
-          "Managers and analysts new to a database",
-          [
-            "An answer in seconds instead of a queue",
-            "The SQL teaches the schema as they go"
-          ],
-          [
-            "Metrics that must match across teams"
-          ]
-        ],
-        [
-          "Privacy-sensitive teams",
-          [
-            "A local model keeps the prompt on the machine",
-            "Result rows never reach the model"
-          ],
-          [
-            "Data where even 79 sample values must not be sent"
-          ]
-        ],
-        [
-          "Teams with large schemas",
-          [
-            "Choosing the top tables helped on 34- and 65-table databases"
-          ],
-          [
-            "Decisions taken with nobody reviewing the answer"
-          ]
-        ]
-      ],
-      "takeaway": "A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.",
-      "source": {
-        "label": "Our aim, data boundary and large-schema slides; README.",
-        "url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
-      },
-      "notes": {
-        "purpose": "Say who this is for.",
-        "script": [
-          "The store manager is one example. More broadly it serves people who know the question but not the schema, teams that need a local model for privacy, and teams with large schemas. It does not replace governed dashboards for metrics that must match across teams.",
-          "Reference: slides 6, 8 and 13."
-        ],
-        "references": [
-          "sources.md",
-          "claims-register.md"
-        ]
-      }
-    },
-    {
       "id": "next",
-      "layout": "table_page",
+      "layout": "roadmap_page",
       "section": "Next steps",
       "topic": "Next tests",
       "accent": "ochre",
       "title": "Four tests would close the main gaps in the evidence",
-      "subtitle": "Each needs a measured outcome before any default changes; the last column points to the slides that show the gap",
-      "tables": [
+      "subtitle": "A roadmap: each test needs a measured outcome before any default changes",
+      "story": "**Before her company relies on it:** these four tests decide how far to trust her answers.",
+      "milestones": [
         {
-          "bold_first": false,
-          "headers": [
-            "Why it is needed",
-            "What we would measure",
-            "What it decides¹",
-            "Evidence so far"
-          ],
-          "widths": [
-            255,
-            265,
-            225.5,
-            130
-          ],
-          "size": 10,
-          "row_height": 44,
-          "rows": [
-            {
-              "band": "1  Business definitions",
-              "accent": "ochre",
-              "icon": "assets/icons/menu_book-ink.png"
-            },
-            [
-              "Revenue stays ambiguous until a person checks it.",
-              "Answers on ambiguous questions, with and without a few definitions.",
-              "Whether to carry a definitions layer.",
-              "Slides 6 and 7"
-            ],
-            {
-              "band": "2  Targeted table recovery",
-              "accent": "ochre",
-              "icon": "assets/icons/schema-ink.png"
-            },
-            [
-              "On 128 questions a needed table is missed.",
-              "Gains on those, and losses on the other 1,094.",
-              "Whether recovery keeps its gains.",
-              "Slides 13 and 15"
-            ],
-            {
-              "band": "3  New large schemas",
-              "accent": "ochre",
-              "icon": "assets/icons/table_rows-ink.png"
-            },
-            [
-              "The gain comes from 2 of 4 databases.",
-              "Top 6 on databases outside these four, one by one.",
-              "Whether top 6 stays the default at every size.",
-              "Slide 13"
-            ],
-            {
-              "band": "4  A hosted model",
-              "accent": "ochre",
-              "icon": "assets/icons/chat-ink.png"
-            },
-            [
-              "All results use one local model.",
-              "The same suites on a hosted model.",
-              "Whether it is worth sending it the prompt.",
-              "Slides 8 and 12"
-            ]
-          ]
+          "icon": "menu_book",
+          "title": "Business definitions",
+          "why": "Revenue stays ambiguous until a person checks it.",
+          "measure": "Answers on ambiguous questions, with and without a few definitions.",
+          "decides": "Whether to carry a definitions layer.",
+          "evidence": "Gap shown on the demo and our aim"
+        },
+        {
+          "icon": "schema",
+          "title": "Targeted table recovery",
+          "why": "On 128 questions a needed table is missed.",
+          "measure": "Gains on those, and losses on the other 1,094.",
+          "decides": "Whether recovery keeps its gains.",
+          "evidence": "Gap shown on large schemas and retrieval"
+        },
+        {
+          "icon": "table_rows",
+          "title": "New large schemas",
+          "why": "The gain comes from 2 of 4 databases.",
+          "measure": "Top 6 on databases outside these four, one by one.",
+          "decides": "Whether top 6 stays the default at every size.",
+          "evidence": "Gap shown on large schemas"
+        },
+        {
+          "icon": "chat",
+          "title": "A hosted model",
+          "why": "All results use one local model.",
+          "measure": "The same suites on a hosted model.",
+          "decides": "Whether it is worth sending it the prompt.",
+          "evidence": "Gap shown on benchmarks and data boundary"
         }
       ],
       "takeaway": "Measure first, then **change a default only on evidence**.",
@@ -2209,53 +2235,67 @@
           "sources.md",
           "claims-register.md"
         ]
-      },
-      "notes_on_face": [
-        "⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first."
-      ]
+      }
     },
     {
-      "id": "references",
-      "layout": "references",
+      "id": "answer",
+      "layout": "answer_page",
       "section": "Next steps",
-      "topic": "Sources",
+      "topic": "Her answer",
       "accent": "ochre",
-      "title": "Sources behind the claims",
-      "subtitle": "Every number traces to the repository or to a source read on the date given",
-      "items": [
-        {
-          "label": "Repository: README Evaluation Results; large-schema and retrieval results",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
-        },
-        {
-          "label": "Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887",
-          "url": "https://arxiv.org/abs/1809.08887"
-        },
-        {
-          "label": "BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026",
-          "url": "https://bird-bench.github.io/"
-        },
-        {
-          "label": "Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)",
-          "url": "https://arxiv.org/abs/2411.07763"
-        },
-        {
-          "label": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
-          "url": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
-        },
-        {
-          "label": "Databricks Genie best practices (read 6 November 2026)",
-          "url": "https://docs.databricks.com/en/genie/best-practices.html"
-        },
-        {
-          "label": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
-          "url": "https://github.com/Canner/WrenAI"
-        }
+      "title": "The store manager got her answer, and the SQL behind it",
+      "subtitle": "Back to her question: what she got, what stayed safe, and what she still decided",
+      "outcomes": [
+        [
+          "check_circle-green",
+          "An answer in seconds",
+          "173,366",
+          [
+            "Electronics leads the five categories",
+            "with the SQL that shows it counts all 220 orders"
+          ]
+        ],
+        [
+          "verified_user-teal",
+          "Nothing changed",
+          "Read-only",
+          [
+            "Two gates in code stopped any write",
+            "only 79 stored values reached the model"
+          ]
+        ],
+        [
+          "person-ink",
+          "She decided",
+          "Her call",
+          [
+            "List price or completed orders after discounts: 21 % apart",
+            "the SQL showed her the choice"
+          ]
+        ]
       ],
+      "contribution_title": "What the project contributes",
+      "contribution": [
+        [
+          "An inspectable SQL application",
+          "The answer always comes with its SQL and the tables chosen."
+        ],
+        [
+          "Read-only on three engines",
+          "SQLite, DuckDB and PostgreSQL, 45 of 45 conformance tests passed."
+        ],
+        [
+          "A measured evaluation record",
+          "3,817 questions and 37 recorded runs, with what did not help."
+        ]
+      ],
+      "takeaway": "A **first, checkable answer** today; the next tests decide how far to trust it.",
       "notes": {
-        "purpose": "List where the audience can check the claims.",
+        "purpose": "Answer her question and state the contribution.",
         "script": [
-          "These are the sources behind every number in the deck."
+          "Back to the store manager. [Point: first card] In seconds she had 173,366 for Electronics, with the SQL showing it counted every order. [Point: second card] Nothing in her database changed. [Point: third card] And the SQL showed her the choice between list price and completed orders, so she decided which revenue she meant.",
+          "[Point: contribution] More broadly, the project contributes an inspectable SQL application, read-only on three engines, and a measured evaluation record that keeps what did not help.",
+          "Reference: demo and data boundary slides; AGENTS.md 2026-11-04; evaluation/results."
         ],
         "references": [
           "sources.md",
@@ -2270,8 +2310,8 @@
       "accent": "blue",
       "header_style": "appendix",
       "kicker": "Thank you",
-      "title": "The store manager got her answer, and the SQL behind it",
-      "subtitle": "Electronics leads with 173,366; nothing in her database changed, and she decided which revenue she meant. Questions and feedback are welcome.",
+      "title": "Ask your data. Inspect the answer.",
+      "subtitle": "Questions and feedback are welcome.",
       "links": [
         [
           "Live demo",
@@ -2291,14 +2331,13 @@
         "alt": "QR code for the live demo at aipa-text-to-sql-agent.streamlit.app"
       },
       "image": {
-        "path": "assets/figures/close-portrait.png",
-        "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data."
+        "path": "assets/figures/close-answer.png",
+        "alt": "Illustration: an answer card with a green tick, a small bar chart and a line of SQL. Decorative, no real data."
       },
       "notes": {
-        "purpose": "Close on the contribution.",
+        "purpose": "Close.",
         "script": [
-          "Back to the store manager: she asked which categories bring in the most revenue, and in seconds she had 173,366 for Electronics, with the SQL showing it counted every order. Nothing in her database changed, and she decided which revenue she meant. More broadly, the contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.",
-          "[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you."
+          "Ask your data, then inspect the answer. The demo and the repository are linked here. Thank you."
         ],
         "references": [
           "sources.md",
@@ -2313,8 +2352,8 @@
       "topic": "Schema RAG",
       "accent": "slate",
       "header_style": "appendix",
-      "title": "Backup: how the top 6 tables are chosen",
-      "subtitle": "Relevance score by table for: Which product categories generate the most revenue?",
+      "title": "How the top 6 tables are chosen",
+      "subtitle": "Relevance score by table for the store manager’s question. Detail for slides 11 and 15.",
       "legend": [
         {
           "kind": "swatch",
@@ -2451,7 +2490,7 @@
       "topic": "Full flow",
       "accent": "slate",
       "header_style": "appendix",
-      "title": "Backup: one question’s path through the app, stage by stage",
+      "title": "One question’s path through the app, detail for slide 11",
       "subtitle": "",
       "image": {
         "path": "assets/figures/flowchart.png",
@@ -2476,8 +2515,8 @@
       "topic": "How answers are scored",
       "accent": "slate",
       "header_style": "appendix",
-      "title": "Backup: matched means the same rows as the reference",
-      "subtitle": "The project’s own result comparison, used for every accuracy figure in this deck",
+      "title": "Matched means the same rows as the reference",
+      "subtitle": "The project’s own result comparison, used for every accuracy figure. Detail for slides 13 and 14.",
       "tables": [
         {
           "title": "How two result sets are compared",
@@ -2567,8 +2606,8 @@
       "topic": "Read-only per engine",
       "accent": "slate",
       "header_style": "appendix",
-      "title": "Backup: each engine enforces read-only in its own way",
-      "subtitle": "The engine layer of the safety slide; each mechanism is required, not optional",
+      "title": "Each engine enforces read-only in its own way",
+      "subtitle": "The engine layer of the safety slide; each mechanism is required. Detail for slide 12.",
       "tables": [
         {
           "headers": [
@@ -2630,8 +2669,8 @@
       "topic": "Technology",
       "accent": "slate",
       "header_style": "appendix",
-      "title": "Backup: the technology behind each step",
-      "subtitle": "Open-source tools, plus a hosted model only when the user picks one",
+      "title": "The technology behind each step",
+      "subtitle": "Open-source tools, plus a hosted model only when the user picks one. Detail for slide 11.",
       "groups": [
         {
           "title": "App",
@@ -2724,8 +2763,8 @@
       "topic": "Glossary",
       "accent": "slate",
       "header_style": "appendix",
-      "title": "Backup: terms used in this deck",
-      "subtitle": "Plain meanings for the words on the evidence slides",
+      "title": "Terms used in this deck",
+      "subtitle": "Plain meanings for the words on the evidence slides. Detail for slides 13, 14, 15 and 16.",
       "tables": [
         {
           "headers": [
@@ -2788,6 +2827,56 @@
         "purpose": "Backup glossary.",
         "script": [
           "These are the plain meanings of the terms on the evidence slides."
+        ],
+        "references": [
+          "sources.md",
+          "claims-register.md"
+        ]
+      }
+    },
+    {
+      "id": "references",
+      "layout": "references",
+      "section": "Appendix",
+      "topic": "Sources",
+      "accent": "slate",
+      "header_style": "appendix",
+      "title": "Sources behind the claims",
+      "subtitle": "Every number traces to the repository or to a source read on the date given. Detail for slides 5, 6 and 14.",
+      "items": [
+        {
+          "label": "Repository: README Evaluation Results; large-schema and retrieval results",
+          "url": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
+        },
+        {
+          "label": "Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887",
+          "url": "https://arxiv.org/abs/1809.08887"
+        },
+        {
+          "label": "BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026",
+          "url": "https://bird-bench.github.io/"
+        },
+        {
+          "label": "Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)",
+          "url": "https://arxiv.org/abs/2411.07763"
+        },
+        {
+          "label": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
+          "url": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
+        },
+        {
+          "label": "Databricks Genie best practices (read 6 November 2026)",
+          "url": "https://docs.databricks.com/en/genie/best-practices.html"
+        },
+        {
+          "label": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
+          "url": "https://github.com/Canner/WrenAI"
+        }
+      ],
+      "notes": {
+        "purpose": "List where the audience can check the claims.",
+        "script": [
+          "These are the sources behind every number in the deck."
         ],
         "references": [
           "sources.md",

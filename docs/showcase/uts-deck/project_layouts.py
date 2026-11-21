@@ -945,12 +945,93 @@ def arch_rows(L, p, slide):
 def flow_page(L, p, slide):
     """A full-width rendered flowchart (make_flow.py) from just under the title to the content floor; the page has
     no subtitle, so the figure takes that band too. No takeaway column."""
-    w = RIGHT - LEFT
-    h = w * 432 / 1000
-    L.image(p, slide['image'], LEFT, END - h, w, h)
+    top = TOP - 6 if slide.get('subtitle') else END - (RIGHT - LEFT) * 432 / 1000
+    h = END - top
+    w = min(RIGHT - LEFT, h * 1000 / 432)
+    L.image(p, slide['image'], LEFT + (RIGHT - LEFT - w) / 2, top, w, h)
 
 
-LAYOUTS = {'flow_page': flow_page, 'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+def persona_page(L, p, slide):
+    """The store manager's situation: her illustration at the left, her question, today's options and what she needs."""
+    ih = END - TOP
+    iw = ih * 600 / 560
+    L.image(p, slide['image'], LEFT, TOP, iw, ih)
+    x = LEFT + iw + 20
+    w = RIGHT - x
+    qy = TOP + put(L, p, slide['who'], x, TOP, w, 10, 'body') + 8
+    p.rect(x, qy, w, 50, '#E4F2F1')
+    p.rect(x, qy, 3, 50, '#21918C')
+    paint(L, p, slide['question'], x + 14, qy + 9, w - 28, 12, '#14605C', True)
+    put(L, p, slide['question_note'], x + 14, qy + 30, w - 28, 8, 'body')
+    y = qy + 66
+    gap = 12
+    cw = (w - gap) / 2
+    for k, (head, items, art, tone) in enumerate(slide['columns']):
+        cx = x + k * (cw + gap)
+        card(L, p, cx, y, cw, END - 56 - y, weight=3)
+        icon(L, p, f'assets/icons/{art}.png', head, cx + 12, y + 12, 16)
+        put(L, p, head, cx + 34, y + 12, cw - 46, 12, 'ink', True)
+        yy = y + 44
+        for t in items:
+            L.image(p, {'path': f'assets/project/icons/{tone}.svg', 'alt': ''}, cx + 12, yy + 2, 10, 10)
+            yy += put(L, p, t, cx + 26, yy, cw - 38, 12, 'ink') + 12
+    L.band(p, slide.get('takeaway'), x, END - 44, w, 44)
+
+
+def answer_page(L, p, slide):
+    """Her answer: three outcomes as cards with an icon, then what the project contributes."""
+    n = len(slide['outcomes'])
+    gap = 16
+    cw = (RIGHT - LEFT - gap * (n - 1)) / n
+    ch = 170
+    for k, (art, head, big, items) in enumerate(slide['outcomes']):
+        x = LEFT + k * (cw + gap)
+        card(L, p, x, TOP, cw, ch, weight=4)
+        icon(L, p, f'assets/icons/{art}.png', head, x + 14, TOP + 16, 22)
+        put(L, p, head, x + 44, TOP + 18, cw - 58, 12, 'ink', True)
+        paint(L, p, big, x + 14, TOP + 50, cw - 28, 24, '#1B2430', True)
+        yy = TOP + 92
+        for t in items:
+            yy += put(L, p, '\u2022  ' + t, x + 14, yy, cw - 28, 10, 'body') + 4
+    y = TOP + ch + 22
+    put(L, p, slide['contribution_title'], LEFT, y, RIGHT - LEFT, 12, 'ink', True)
+    y += 22
+    cw2 = (RIGHT - LEFT - gap * 2) / 3
+    for k, (head, body) in enumerate(slide['contribution']):
+        x = LEFT + k * (cw2 + gap)
+        p.rect(x, y, 3, 52, '#21918C')
+        put(L, p, head, x + 14, y, cw2 - 18, 10, 'ink', True)
+        put(L, p, body, x + 14, y + 18, cw2 - 18, 10, 'body')
+    L.band(p, slide.get('takeaway'))
+
+
+def roadmap_page(L, p, slide):
+    """Next tests as a roadmap: four milestones on one line, each with why, what we measure and what it decides."""
+    ms = slide['milestones']
+    n = len(ms)
+    gap = 16
+    cw = (RIGHT - LEFT - gap * (n - 1)) / n
+    ly = TOP + 24
+    p.line(LEFT + cw / 2, ly, RIGHT - cw / 2, ly, L.t.color('rule'), 2)
+    for k, m in enumerate(ms):
+        x = LEFT + k * (cw + gap)
+        cx = x + cw / 2
+        p.rect(cx - 16, ly - 16, 32, 32, '#896521', 'ELLIPSE')
+        icon(L, p, f"assets/icons/{m['icon']}-white.png", m['title'], cx - 9, ly - 9, 18)
+        y = ly + 26
+        cap(L, p, f"Test {k + 1}", x, y, cw, 'ink')
+        put(L, p, m['title'], x, y + 14, cw, 12, 'ink', True)
+        y += 40
+        card(L, p, x, y, cw, END - 56 - y, weight=0)
+        yy = y + 10
+        for head, body in (('Why', m['why']), ('We would measure', m['measure']), ('It decides', m['decides'])):
+            cap(L, p, head, x + 14, yy, cw - 28, 'body')
+            yy += 13 + put(L, p, body, x + 14, yy + 13, cw - 28, 10, 'ink') + 8
+        put(L, p, m['evidence'], x + 14, END - 56 - 22, cw - 28, 8, 'body')
+    L.band(p, slide.get('takeaway'))
+
+
+LAYOUTS = {'persona_page': persona_page, 'answer_page': answer_page, 'roadmap_page': roadmap_page, 'flow_page': flow_page, 'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
 
 
 def story_strip(L, p, slide):

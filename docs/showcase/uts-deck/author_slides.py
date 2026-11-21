@@ -373,24 +373,20 @@ retrieval = {
 
 W16 = [255, 265, 225.5, 130]
 next_tests = {
-    'id': 'next', 'layout': 'table_page', 'section': 'Next steps', 'topic': 'Next tests', 'accent': 'ochre',
+    'id': 'next', 'layout': 'roadmap_page', 'section': 'Next steps', 'topic': 'Next tests', 'accent': 'ochre',
     'title': 'Four tests would close the main gaps in the evidence',
-    'subtitle': 'Each needs a measured outcome before any default changes; the last column points to the slides that show the gap',
-    'tables': [{
-        'bold_first': False,
-        'headers': ['Why it is needed', 'What we would measure', 'What it decides¹', 'Evidence so far'],
-        'widths': W16, 'size': 10, 'row_height': 44,
-        'rows': [
-            {'band': '1  Business definitions', 'accent': 'ochre', 'icon': 'assets/icons/menu_book-ink.png'},
-            ['Revenue stays ambiguous until a person checks it.', 'Answers on ambiguous questions, with and without a few definitions.', 'Whether to carry a definitions layer.', 'Slides 6 and 7'],
-            {'band': '2  Targeted table recovery', 'accent': 'ochre', 'icon': 'assets/icons/schema-ink.png'},
-            ['On 128 questions a needed table is missed.', 'Gains on those, and losses on the other 1,094.', 'Whether recovery keeps its gains.', 'Slides 13 and 15'],
-            {'band': '3  New large schemas', 'accent': 'ochre', 'icon': 'assets/icons/table_rows-ink.png'},
-            ['The gain comes from 2 of 4 databases.', 'Top 6 on databases outside these four, one by one.', 'Whether top 6 stays the default at every size.', 'Slide 13'],
-            {'band': '4  A hosted model', 'accent': 'ochre', 'icon': 'assets/icons/chat-ink.png'},
-            ['All results use one local model.', 'The same suites on a hosted model.', 'Whether it is worth sending it the prompt.', 'Slides 8 and 12'],
-        ]}],
-    'note': '⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first.',
+    'subtitle': 'A roadmap: each test needs a measured outcome before any default changes',
+    'story': '**Before her company relies on it:** these four tests decide how far to trust her answers.',
+    'milestones': [
+        {'icon': 'menu_book', 'title': 'Business definitions', 'why': 'Revenue stays ambiguous until a person checks it.',
+         'measure': 'Answers on ambiguous questions, with and without a few definitions.', 'decides': 'Whether to carry a definitions layer.', 'evidence': 'Gap shown on the demo and our aim'},
+        {'icon': 'schema', 'title': 'Targeted table recovery', 'why': 'On 128 questions a needed table is missed.',
+         'measure': 'Gains on those, and losses on the other 1,094.', 'decides': 'Whether recovery keeps its gains.', 'evidence': 'Gap shown on large schemas and retrieval'},
+        {'icon': 'table_rows', 'title': 'New large schemas', 'why': 'The gain comes from 2 of 4 databases.',
+         'measure': 'Top 6 on databases outside these four, one by one.', 'decides': 'Whether top 6 stays the default at every size.', 'evidence': 'Gap shown on large schemas'},
+        {'icon': 'chat', 'title': 'A hosted model', 'why': 'All results use one local model.',
+         'measure': 'The same suites on a hosted model.', 'decides': 'Whether it is worth sending it the prompt.', 'evidence': 'Gap shown on benchmarks and data boundary'},
+    ],
     'takeaway': 'Measure first, then **change a default only on evidence**.',
     'notes': notes('Name the four tests that would close the gaps.',
         '[Point: Row 1] First, business definitions: add a few and compare answers on ambiguous questions. [Point: Row 2] Second, targeted table recovery, reporting gains on the 128 and losses on the 1,094.',
@@ -399,7 +395,7 @@ next_tests = {
 }
 
 references = {
-    'id': 'references', 'layout': 'references', 'section': 'Next steps', 'topic': 'Sources', 'accent': 'ochre',
+    'id': 'references', 'layout': 'references', 'section': 'Appendix', 'topic': 'Sources', 'accent': 'slate', 'header_style': 'appendix',
     'title': 'Sources behind the claims',
     'subtitle': 'Every number traces to the repository or to a source read on the date given',
     'items': [
@@ -417,23 +413,21 @@ references = {
 close = {
     'id': 'close', 'layout': 'close_page', 'section': '', 'accent': 'blue', 'header_style': 'appendix',
     'kicker': 'Thank you',
-    'title': 'The store manager got her answer, and the SQL behind it',
-    'subtitle': 'Electronics leads with 173,366; nothing in her database changed, and she decided which revenue she meant. Questions and feedback are welcome.',
+    'title': 'Ask your data. Inspect the answer.',
+    'subtitle': 'Questions and feedback are welcome.',
     'links': [
         ['Live demo', 'aipa-text-to-sql-agent.streamlit.app', 'https://aipa-text-to-sql-agent.streamlit.app', 'query_stats'],
         ['Code and runs', 'github.com/tuannm3812/text-to-sql-agent', 'https://github.com/tuannm3812/text-to-sql-agent', 'code'],
     ],
     'qr': {'path': 'assets/figures/qr-live-demo.svg', 'alt': 'QR code for the live demo at aipa-text-to-sql-agent.streamlit.app'},
-    'image': {'path': 'assets/figures/close-portrait.png', 'alt': 'Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.'},
-    'notes': notes('Close on the contribution.',
-        'Back to the store manager: she asked which categories bring in the most revenue, and in seconds she had 173,366 for Electronics, with the SQL showing it counted every order. Nothing in her database changed, and she decided which revenue she meant. More broadly, the contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.',
-        '[Point: links] The demo shows the interaction; the repository holds the code, runs and decisions behind every claim. Thank you.'),
+    'image': {'path': 'assets/figures/close-answer.png', 'alt': 'Illustration: an answer card with a green tick, a small bar chart and a line of SQL. Decorative, no real data.'},
+    'notes': notes('Close.', 'Ask your data, then inspect the answer. The demo and the repository are linked here. Thank you.'),
 }
 
 appendix = {
     'id': 'appendix-rag', 'layout': 'bars_page', 'section': 'Appendix', 'topic': 'Schema RAG', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: how the top 6 tables are chosen',
+    'title': 'how the top 6 tables are chosen',
     'subtitle': 'Relevance score by table for: Which product categories generate the most revenue?',
     'legend': [{'kind': 'swatch', 'color': '#21918C', 'label': 'Top 6, sent'},
                {'kind': 'swatch', 'color': '#5EC962', 'label': 'Foreign-key neighbour, added'},
@@ -468,7 +462,7 @@ W_A1 = [150, 400, 325.5]
 scoring = {
     'id': 'appendix-scoring', 'layout': 'table_page', 'section': 'Appendix', 'topic': 'How answers are scored', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: matched means the same rows as the reference',
+    'title': 'matched means the same rows as the reference',
     'subtitle': 'The project’s own result comparison, used for every accuracy figure in this deck',
     'tables': [
         {'title': 'How two result sets are compared', 'headers': ['Part', 'Rule', 'Why'], 'widths': W_A1, 'size': 10, 'row_height': 26,
@@ -495,7 +489,7 @@ W_A2 = [170, 470, 235.5]
 glossary = {
     'id': 'appendix-glossary', 'layout': 'table_page', 'section': 'Appendix', 'topic': 'Glossary', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: terms used in this deck',
+    'title': 'terms used in this deck',
     'subtitle': 'Plain meanings for the words on the evidence slides',
     'tables': [{'headers': ['Term', 'Meaning', 'Where it appears'], 'widths': W_A2, 'size': 10, 'row_height': 38,
         'rows': [
@@ -515,7 +509,7 @@ W_A3 = [130, 290, 230, 225.5]
 engines = {
     'id': 'appendix-engines', 'layout': 'table_page', 'section': 'Appendix', 'topic': 'Read-only per engine', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: each engine enforces read-only in its own way',
+    'title': 'each engine enforces read-only in its own way',
     'subtitle': 'The engine layer of the safety slide; each mechanism is required, not optional',
     'tables': [{'headers': ['Engine¹', 'Writes refused by', 'Files and internals', 'Work budget'], 'widths': W_A3, 'size': 10, 'row_height': 76,
         'rows': [
@@ -533,7 +527,7 @@ engines = {
 stack = {
     'id': 'appendix-stack', 'layout': 'stack_page', 'section': 'Appendix', 'topic': 'Technology', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: the technology behind each step',
+    'title': 'the technology behind each step',
     'subtitle': 'Open-source tools, plus a hosted model only when the user picks one',
     'groups': [
         {'title': 'App', 'items': [['assets/logos/tech-streamlit.png', 'Streamlit', 'The question box, answer, chart and SQL'],
@@ -555,7 +549,7 @@ stack = {
 arch_full = {
     'id': 'appendix-architecture', 'layout': 'flow_page', 'section': 'Appendix', 'topic': 'Full flow', 'accent': 'slate',
     'header_style': 'appendix',
-    'title': 'Backup: one question’s path through the app, stage by stage',
+    'title': 'one question’s path through the app, stage by stage',
     'subtitle': '',
     'image': {'path': 'assets/figures/flowchart.png', 'alt': 'Flowchart: a plain question goes to read schema, select tables, then generate (the one model call, Ollama or Gemini), then validate. If it is one read, it runs read-only and the answer is shown; if not, it is refused and explained. A query error loops back to generate once.'},
     'notes': notes('Backup for questions about the full flow.',
@@ -593,10 +587,10 @@ limits = {
 }
 
 serves = {
-    'id': 'serves', 'layout': 'comparison', 'section': 'Next steps', 'topic': 'Who it serves', 'accent': 'ochre',
+    'id': 'serves', 'layout': 'comparison', 'section': 'Problem', 'topic': 'Who it serves', 'accent': 'slate',
     'title': 'Who it serves: people who know the question but not the schema',
     'subtitle': 'Where a first, inspectable answer helps, and where a governed tool fits better',
-    'story': '**The store manager is one of them:** she gets an answer today and decides what it means.',
+    'story': '**The store manager is one of them:** others share her need, and some are better served elsewhere.',
     'columns': ['Who', 'Why it helps', 'Where it does not fit'],
     'rows': [
         ['Managers and analysts new to a database', ['An answer in seconds instead of a queue', 'The SQL teaches the schema as they go'], ['Metrics that must match across teams']],
@@ -610,15 +604,58 @@ serves = {
         'Reference: slides 6, 8 and 13.'),
 }
 
+persona = {
+    'id': 'persona', 'layout': 'persona_page', 'section': 'Problem', 'topic': 'The store manager', 'accent': 'slate',
+    'title': 'A store manager has a question, and no quick way to answer it',
+    'subtitle': 'An illustrative persona, built on the demo’s real question and data',
+    'image': {'path': 'assets/figures/persona.png', 'alt': 'Illustration of a store manager at a counter with a laptop and a question bubble. Illustrative, not a real person.'},
+    'who': 'She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table retail database.',
+    'question': '“Which product categories generate the most revenue?”',
+    'question_note': 'The question behind every slide that follows; the demo answers it on the retail database.',
+    'columns': [
+        ['Her options today', ['Wait about three days for an analyst', 'Learn the schema and SQL herself', 'A curated tool that needs weeks of setup'], 'timer-ink', 'cross'],
+        ['What she needs', ['An answer she can use today', 'The SQL behind it, so she can check it', 'Her data never changed'], 'check_circle-ink', 'tick'],
+    ],
+    'takeaway': 'She needs a **fast, checkable** answer, not a black box.',
+    'notes': notes('Introduce the store manager and her question.',
+        'Meet a store manager. She knows her business but not SQL, and her data sits in an eleven-table retail database. [Point: question] Her question is simple: which product categories generate the most revenue?',
+        '[Point: options] Today she can wait about three days for an analyst, learn the schema herself, or wait for a curated tool to be set up. [Point: needs] What she needs is an answer today, the SQL behind it so she can check it, and a guarantee that nothing in her data changes.',
+        'Reference: an illustrative persona; the question and database are the demo’s (evaluation/cases.json, data/retail_analytics.db). The three-day queue is illustrative.'),
+}
+
+answer = {
+    'id': 'answer', 'layout': 'answer_page', 'section': 'Next steps', 'topic': 'Her answer', 'accent': 'ochre',
+    'title': 'The store manager got her answer, and the SQL behind it',
+    'subtitle': 'Back to her question: what she got, what stayed safe, and what she still decided',
+    'outcomes': [
+        ['check_circle-green', 'An answer in seconds', '173,366', ['Electronics leads the five categories', 'with the SQL that shows it counts all 220 orders']],
+        ['verified_user-teal', 'Nothing changed', 'Read-only', ['Two gates in code stopped any write', 'only 79 stored values reached the model']],
+        ['person-ink', 'She decided', 'Her call', ['List price or completed orders after discounts: 21 % apart', 'the SQL showed her the choice']],
+    ],
+    'contribution_title': 'What the project contributes',
+    'contribution': [
+        ['An inspectable SQL application', 'The answer always comes with its SQL and the tables chosen.'],
+        ['Read-only on three engines', 'SQLite, DuckDB and PostgreSQL, 45 of 45 conformance tests passed.'],
+        ['A measured evaluation record', '3,817 questions and 37 recorded runs, with what did not help.'],
+    ],
+    'takeaway': 'A **first, checkable answer** today; the next tests decide how far to trust it.',
+    'notes': notes('Answer her question and state the contribution.',
+        'Back to the store manager. [Point: first card] In seconds she had 173,366 for Electronics, with the SQL showing it counted every order. [Point: second card] Nothing in her database changed. [Point: third card] And the SQL showed her the choice between list price and completed orders, so she decided which revenue she meant.',
+        '[Point: contribution] More broadly, the project contributes an inspectable SQL application, read-only on three engines, and a measured evaluation record that keeps what did not help.',
+        'Reference: demo and data boundary slides; AGENTS.md 2026-11-04; evaluation/results.'),
+}
+
 agenda = {
     'id': 'agenda', 'layout': 'agenda', 'agenda_style': 'kaggle', 'page_position': 'right', 'chapter_fill': 'accent_pale',
     'section': 'AGENDA', 'accent': 'slate', 'title': 'Agenda', 'subtitle': '',
     'contents': [
         {'title': 'Problem', 'accent': 'slate', 'entries': [
             {'title': 'Summary', 'from': 'summary', 'through': 'summary'},
+            {'title': 'The store manager', 'from': 'persona', 'through': 'persona'},
             {'title': 'Why it is hard', 'from': 'hard', 'through': 'hard'},
             {'title': 'Other tools', 'from': 'tools', 'through': 'tools'},
-            {'title': 'Our aim', 'from': 'aim', 'through': 'aim'}]},
+            {'title': 'Our aim', 'from': 'aim', 'through': 'aim'},
+            {'title': 'Who it serves', 'from': 'serves', 'through': 'serves'}]},
         {'title': 'Solution', 'accent': 'blue', 'entries': [
             {'title': 'Demo', 'from': 'demo', 'through': 'demo'},
             {'title': 'Data boundary', 'from': 'boundary', 'through': 'boundary'},
@@ -631,9 +668,8 @@ agenda = {
             {'title': 'Trials and retrieval', 'from': 'trials', 'through': 'retrieval'}]},
         {'title': 'Next steps', 'accent': 'ochre', 'entries': [
             {'title': 'Limitations', 'from': 'limits', 'through': 'limits'},
-            {'title': 'Who it serves', 'from': 'serves', 'through': 'serves'},
             {'title': 'Next tests', 'from': 'next', 'through': 'next'},
-            {'title': 'Sources', 'from': 'references', 'through': 'references'}]},
+            {'title': 'Her answer', 'from': 'answer', 'through': 'answer'}]},
     ],
     'notes': notes('Show the order of the talk.',
         'The deck follows four questions. [Point: Problem] Why is this hard, and what do other tools do? [Point: Solution] What was built, and how it is controlled. [Point: Evidence] What was measured, including the ideas that did not help. [Point: Next steps] What is still unproven and how to test it.'),
@@ -704,10 +740,29 @@ large['story'] = '**If her company’s database has 60 tables:** choosing the ta
 trials['story'] = '**What did not help her further:** five later ideas changed speed or recall, not how often she gets the right answer.'
 retrieval['story'] = '**If a table she needs is missed,** her answer is likely wrong; the fixes tried so far trade one group for another.'
 summary['story'] = '**A store manager asks:** which product categories generate the most revenue? The analyst queue is three days. Here is what this agent offers her.'
-brief['slides'] = [cover, agenda, summary, hard, other_tools, aim, demo, boundary, architecture, safety, method,
-                   benchmarks, large, trials, retrieval, limits, serves, next_tests, references, close, appendix, arch_full, scoring, engines, stack, glossary]
+brief['slides'] = [cover, agenda, summary, persona, hard, other_tools, aim, serves, demo, boundary, architecture, safety, method,
+                   benchmarks, large, trials, retrieval, limits, next_tests, answer, close, appendix, arch_full, scoring, engines, stack, glossary, references]
 for sl in brief['slides']:   # the kit's table_page reads its face notes from notes_on_face, not note
     if sl['layout'] == 'table_page' and 'note' in sl:
         sl['notes_on_face'] = [sl.pop('note')]
+# appendix pages: a capitalised title and a subtitle naming the main slides each one supports
+pos = {sl['id']: n for n, sl in enumerate(brief['slides'], 1)}
+SUPPORTS = {
+    'appendix-rag': (['architecture', 'large'], 'Relevance score by table for the store manager’s question'),
+    'appendix-scoring': (['method', 'benchmarks'], 'The project’s own result comparison, used for every accuracy figure'),
+    'appendix-engines': (['safety'], 'The engine layer of the safety slide; each mechanism is required'),
+    'appendix-stack': (['architecture'], 'Open-source tools, plus a hosted model only when the user picks one'),
+    'appendix-glossary': (['method', 'benchmarks', 'large', 'trials'], 'Plain meanings for the words on the evidence slides'),
+    'references': (['hard', 'tools', 'benchmarks'], 'Every number traces to the repository or to a source read on the date given'),
+}
+for sl in brief['slides']:
+    if sl['id'] in SUPPORTS:
+        ids, sub = SUPPORTS[sl['id']]
+        nums = [str(pos[i]) for i in ids]
+        ref = 'slide ' + nums[0] if len(nums) == 1 else 'slides ' + ', '.join(nums[:-1]) + ' and ' + nums[-1]
+        sl['title'] = sl['title'][:1].upper() + sl['title'][1:]
+        sl['subtitle'] = (sub + '. ' if sub else '') + 'Detail for ' + ref + '.'
+    if sl['id'] == 'appendix-architecture':   # the flowchart keeps the full page: detail for the architecture slide
+        sl['title'] = 'One question’s path through the app, detail for slide ' + str(pos['architecture'])
 (HERE / 'brief-content.json').write_text(json.dumps(brief, indent=2, ensure_ascii=False) + '\n')
 print(len(brief['slides']), 'slides')

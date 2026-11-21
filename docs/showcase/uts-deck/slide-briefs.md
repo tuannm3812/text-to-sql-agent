@@ -38,41 +38,43 @@ Exact face text:
 - 3
 - Summary
 - 4
-- Why it is hard
+- The store manager
 - 5
-- Other tools
+- Why it is hard
 - 6
+- Other tools
+- 7
 - Our aim
+- 8
+- Who it serves
 - 2
 - Solution
-- 7
-- Demo
-- 8
-- Data boundary
 - 9
-- Architecture
+- Demo
 - 10
+- Data boundary
+- 11
+- Architecture
+- 12
 - Safety
 - 3
 - Evidence
-- 11
-- Method
-- 12
-- Benchmarks
 - 13
+- Method
+- 14
+- Benchmarks
+- 15
 - Large schemas
-- 14–15
+- 16–17
 - Trials and retrieval
 - 4
 - Next steps
-- 16
-- Limitations
-- 17
-- Who it serves
 - 18
-- Next tests
+- Limitations
 - 19
-- Sources
+- Next tests
+- 20
+- Her answer
 
 ## 3. Inspectable SQL, with measured limits
 
@@ -144,7 +146,41 @@ Exact face text:
 - Smaller prompts are not faster here
 - Each question gets a different schema, so the local / model cannot reuse its cache.
 
-## 4. A fluent answer can still be the wrong answer
+## 4. A store manager has a question, and no quick way to answer it
+
+Layout: persona_page
+
+Reader question: “Which product categories generate the most revenue?”
+
+Message: She needs a **fast, checkable** answer, not a black box.
+
+Exact face text:
+
+- 1
+- 2
+- 3
+- 4
+- PROBLEM
+- The store manager
+- A store manager has a question, and no quick way to answer it
+- An illustrative persona, built on the demo’s real question and data
+- Text-to-SQL Agent
+- 4
+- She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table / retail database.
+- “Which product categories generate the most revenue?”
+- The question behind every slide that follows; the demo answers it on the retail database.
+- Her options today
+- Wait about three days for an analyst
+- Learn the schema and SQL herself
+- A curated tool that needs weeks of / setup
+- What she needs
+- An answer she can use today
+- The SQL behind it, so she can check / it
+- Her data never changed
+- TAKEAWAY
+- She needs a fast, checkable answer, not a black box.
+
+## 5. A fluent answer can still be the wrong answer
 
 Layout: hard_page
 
@@ -164,7 +200,7 @@ Exact face text:
 - Text-to-SQL turns a question into SQL over a schema, then returns rows; each step can go wrong
 - Her problem: she cannot write SQL, the word revenue is not a column, and a model with database access is a risk.
 - Text-to-SQL Agent
-- 4
+- 5
 - Question
 - What the person asks
 - Schema
@@ -204,7 +240,7 @@ Exact face text:
 - Keep a person in the loop
 - A valid query can still answer the wrong question. / Dashboards and analyst SQL remain best for / defined, recurring metrics.
 
-## 5. Other tools get business meaning through setup
+## 6. Other tools get business meaning through setup
 
 Layout: tools_page
 
@@ -224,7 +260,7 @@ Exact face text:
 - Two routes to meaning, compared on the same criteria; sources read 6 November 2026
 - Her options today: curated tools need weeks of setup before her first answer; this project needs only a connection.
 - Text-to-SQL Agent
-- 5
+- 6
 - EFFORT
 - High
 - Moderate
@@ -290,7 +326,7 @@ Exact face text:
 - TAKEAWAY
 - Other tools pay for meaning in setup and upkeep. This project pays in review: a person checks what each answer means.
 
-## 6. Our aim: useful without setup, and checkable by default
+## 7. Our aim: useful without setup, and checkable by default
 
 Layout: aim_page
 
@@ -310,7 +346,7 @@ Exact face text:
 - A narrower tool: no curated semantic model, with the checking in the user’s hands
 - What she needs: an answer now, the SQL behind it, and a guarantee that nothing in her data changes.
 - Text-to-SQL Agent
-- 6
+- 7
 - Useful without setup
 - Connect a database and ask a question.
 - Checkable by default
@@ -345,7 +381,46 @@ Exact face text:
 - What we gave up
 - No governed metric definitions, so a word like / revenue stays ambiguous until a person checks it. If / metrics must match across teams, choose a / curated tool.
 
-## 7. The SQL shows which revenue the answer counted
+## 8. Who it serves: people who know the question but not the schema
+
+Layout: comparison
+
+Reader question: 
+
+Message: A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.
+
+Exact face text:
+
+- 1
+- 2
+- 3
+- 4
+- PROBLEM
+- Who it serves
+- Who it serves: people who know the question but not the schema
+- Where a first, inspectable answer helps, and where a governed tool fits better
+- The store manager is one of them: others share her need, and some are better served elsewhere.
+- Text-to-SQL Agent
+- 8
+- Who
+- Why it helps
+- Where it does not fit
+- Managers and analysts new to a / database
+- An answer in seconds instead of a queue
+- The SQL teaches the schema as they go
+- Metrics that must match across teams
+- Privacy-sensitive teams
+- A local model keeps the prompt on the machine
+- Result rows never reach the model
+- Data where even 79 sample values must not be sent
+- Teams with large schemas
+- Choosing the top tables helped on 34- and 65-table databases
+- Decisions taken with nobody reviewing the answer
+- Source: Our aim, data boundary and large-schema slides; README.
+- TAKEAWAY
+- A first, checkable answer for people who know the question; governed dashboards stay for agreed metrics.
+
+## 9. The SQL shows which revenue the answer counted
 
 Layout: demo_page
 
@@ -365,7 +440,7 @@ Exact face text:
 - One revenue question on the retail demo, answered by the local 9B model
 - Her question, answered: Electronics leads with 173,366, and the SQL shows which orders that counts.
 - Text-to-SQL Agent
-- 7
+- 9
 - Try it live
 - aipa-text-to-sql-agent.streamlit.app: the same question on / the same demo database
 - THE SQL, AND WHAT COMPLETED REVENUE ADDS²
@@ -401,7 +476,7 @@ Exact face text:
 - Wording changes the number
 - Completed orders after discounts give 136,984, / about 21 % lower, with the same top category.
 
-## 8. The model sees the schema and a few stored values, never result rows
+## 10. The model sees the schema and a few stored values, never result rows
 
 Layout: boundary_page
 
@@ -421,7 +496,7 @@ Exact face text:
 - What the prompt held for the demo question on the retail database
 - What the model saw of her shop: the schema and 79 stored values, never a result row.
 - Text-to-SQL Agent
-- 8
+- 10
 - 79 of the 608 stored text values reach the prompt¹
 - Each square is one distinct stored text value across the database’s 30 text columns: 79 sent as lists, never linked to a row; 529 not sent.
 - FROM THE REAL PROMPT (SHORTENED)²
@@ -466,7 +541,7 @@ Exact face text:
 - Check before real data
 - Review which columns qualify, or turn table / selection off to send no hints.
 
-## 9. The model proposes SQL; the application controls execution
+## 11. The model proposes SQL; the application controls execution
 
 Layout: arch_summary
 
@@ -486,7 +561,7 @@ Exact face text:
 - One question’s path through the app, in four stages; the full eight-step flow is in the appendix
 - Her question’s path: prepared in code, one model call, two gates in code, then back to her to inspect.
 - Text-to-SQL Agent
-- 9
+- 11
 - App step, no model
 - The model: behaviour
 - Enforced in code
@@ -524,7 +599,7 @@ Exact face text:
 - One repair try
 - The repaired query passes the same checks; / nothing skips a gate.
 
-## 10. Safety does not rest on the model
+## 12. Safety does not rest on the model
 
 Layout: table_page
 
@@ -544,7 +619,7 @@ Exact face text:
 - Three lines of defence stop different threats, and each is tested on its own
 - Her data stays safe: a write is stopped three times over, but a wrong meaning still reaches her, so she checks.
 - Text-to-SQL Agent
-- 10
+- 12
 - Stops it
 - Does not stop it
 - Threat, with an example
@@ -594,7 +669,7 @@ Exact face text:
 - TAKEAWAY
 - Writes meet three lines of defence. A wrong meaning meets none, so the person is the last check.
 
-## 11. Read the interval, not the point
+## 13. Read the interval, not the point
 
 Layout: bars_page
 
@@ -614,7 +689,7 @@ Exact face text:
 - 3,817 questions in five suites, 37 recorded runs, each change paired against a named baseline
 - How we know how often she would be right: thousands of benchmark questions, each change measured against a baseline.
 - Text-to-SQL Agent
-- 11
+- 13
 - Questions per suite
 - Spider dev
 - BIRD dev
@@ -647,7 +722,7 @@ Exact face text:
 - Measurable, or not
 - The top change of 3.6 points sits above zero. The / second crosses zero, so we cannot say it did / anything.
 
-## 12. The local model scored 64.6 % on Spider and 35.2 % on BIRD
+## 14. The local model scored 64.6 % on Spider and 35.2 % on BIRD
 
 Layout: bars_page
 
@@ -667,7 +742,7 @@ Exact face text:
 - Share of answers that matched the reference; one local 9B model, runs of 10 October 2026
 - On questions like hers: about 2 in 3 matched on the easier test, about 1 in 3 on the harder one.
 - Text-to-SQL Agent
-- 12
+- 14
 - Overall, with 95 % interval
 - Spider dev
 - BIRD dev, with evidence
@@ -709,7 +784,7 @@ Exact face text:
 - The demo suite is too small
 - It matched 4 of 12. Turning model thinking off / added 8.5 points on Spider, by not running out of / output.
 
-## 13. On large databases, sending fewer tables scored 3.6 points higher
+## 15. On large databases, sending fewer tables scored 3.6 points higher
 
 Layout: bars_page
 
@@ -729,7 +804,7 @@ Exact face text:
 - 1,222 BIRD train questions on 4 databases of 21 to 65 tables; runs of 19 October 2026
 - If her company’s database has 60 tables: choosing the tables first gave more right answers from less context.
 - Text-to-SQL Agent
-- 13
+- 15
 - Answers matched, by schema sent
 - Every table + hints
 - Every table, no hints
@@ -771,7 +846,7 @@ Exact face text:
 - Dropping a table is the real risk
 - Top 6 scored 5.4 % against 18.0 % when a needed / table was dropped. Selection stays the default for / its overall gain.
 
-## 14. Later trials found trade-offs, not a further accuracy gain
+## 16. Later trials found trade-offs, not a further accuracy gain
 
 Layout: bars_page
 
@@ -791,7 +866,7 @@ Exact face text:
 - 1,222 large-schema questions; each trial paired against its own baseline
 - What did not help her further: five later ideas changed speed or recall, not how often she gets the right answer.
 - Text-to-SQL Agent
-- 14
+- 16
 - Change in answers matched, accuracy points¹
 - Top 6 + neighbours, default
 - Question value matching, off
@@ -821,7 +896,7 @@ Exact face text:
 - Faster, but a measurable loss
 - The shared layout cut latency by 58 % and lost 2.4 / points. Both shared layouts stay opt-in.
 
-## 15. Better table coverage did not measurably improve accuracy
+## 17. Better table coverage did not measurably improve accuracy
 
 Layout: bars_page
 
@@ -841,7 +916,7 @@ Exact face text:
 - Correct answers gained and lost by each fix against selected tables, on 1,222 questions
 - If a table she needs is missed, her answer is likely wrong; the fixes tried so far trade one group for another.
 - Text-to-SQL Agent
-- 15
+- 17
 - 128 questions: a needed table was missed
 - 8 answered correctly by top 6
 - 1,094 questions: every needed table was sent
@@ -877,7 +952,7 @@ Exact face text:
 - A live system cannot see the groups
 - The next test is targeted recovery: recover missed / tables only where needed, and report both groups.
 
-## 16. What the store manager should know before she trusts it
+## 18. What the store manager should know before she trusts it
 
 Layout: table_page
 
@@ -897,7 +972,7 @@ Exact face text:
 - Measured limits, and what nobody has tested yet; each points to the test that would close it
 - Her experience: a first answer in seconds with the SQL, but she still has to judge what it means.
 - Text-to-SQL Agent
-- 16
+- 18
 - Limitation
 - What it means for her
 - Closed by
@@ -928,48 +1003,9 @@ Exact face text:
 - TAKEAWAY
 - Good for a first, checkable answer; not yet for decisions nobody reviews.
 
-## 17. Who it serves: people who know the question but not the schema
+## 19. Four tests would close the main gaps in the evidence
 
-Layout: comparison
-
-Reader question: 
-
-Message: A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.
-
-Exact face text:
-
-- 1
-- 2
-- 3
-- 4
-- NEXT STEPS
-- Who it serves
-- Who it serves: people who know the question but not the schema
-- Where a first, inspectable answer helps, and where a governed tool fits better
-- The store manager is one of them: she gets an answer today and decides what it means.
-- Text-to-SQL Agent
-- 17
-- Who
-- Why it helps
-- Where it does not fit
-- Managers and analysts new to a / database
-- An answer in seconds instead of a queue
-- The SQL teaches the schema as they go
-- Metrics that must match across teams
-- Privacy-sensitive teams
-- A local model keeps the prompt on the machine
-- Result rows never reach the model
-- Data where even 79 sample values must not be sent
-- Teams with large schemas
-- Choosing the top tables helped on 34- and 65-table databases
-- Decisions taken with nobody reviewing the answer
-- Source: Our aim, data boundary and large-schema slides; README.
-- TAKEAWAY
-- A first, checkable answer for people who know the question; governed dashboards stay for agreed metrics.
-
-## 18. Four tests would close the main gaps in the evidence
-
-Layout: table_page
+Layout: roadmap_page
 
 Reader question: 
 
@@ -984,44 +1020,56 @@ Exact face text:
 - NEXT STEPS
 - Next tests
 - Four tests would close the main gaps in the evidence
-- Each needs a measured outcome before any default changes; the last column points to the slides that show the gap
+- A roadmap: each test needs a measured outcome before any default changes
+- Before her company relies on it: these four tests decide how far to trust her answers.
 - Text-to-SQL Agent
-- 18
-- Why it is needed
-- What we would measure
-- What it decides¹
-- Evidence so far
-- 1  Business definitions
-- Revenue stays ambiguous until a person checks it.
-- Answers on ambiguous questions, with and without a / few definitions.
+- 19
+- TEST 1
+- Business definitions
+- WHY
+- Revenue stays ambiguous until a / person checks it.
+- WE WOULD MEASURE
+- Answers on ambiguous questions, with / and without a few definitions.
+- IT DECIDES
 - Whether to carry a definitions layer.
-- Slides 6 and 7
-- 2  Targeted table recovery
-- On 128 questions a needed table is missed.
-- Gains on those, and losses on the other 1,094.
+- Gap shown on the demo and our aim
+- TEST 2
+- Targeted table recovery
+- WHY
+- On 128 questions a needed table is / missed.
+- WE WOULD MEASURE
+- Gains on those, and losses on the other / 1,094.
+- IT DECIDES
 - Whether recovery keeps its gains.
-- Slides 13 and 15
-- 3  New large schemas
+- Gap shown on large schemas and retrieval
+- TEST 3
+- New large schemas
+- WHY
 - The gain comes from 2 of 4 databases.
-- Top 6 on databases outside these four, one by one.
-- Whether top 6 stays the default at every size.
-- Slide 13
-- 4  A hosted model
+- WE WOULD MEASURE
+- Top 6 on databases outside these four, / one by one.
+- IT DECIDES
+- Whether top 6 stays the default at / every size.
+- Gap shown on large schemas
+- TEST 4
+- A hosted model
+- WHY
 - All results use one local model.
+- WE WOULD MEASURE
 - The same suites on a hosted model.
-- Whether it is worth sending it the prompt.
-- Slides 8 and 12
-- Note: ⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first.
+- IT DECIDES
+- Whether it is worth sending it the / prompt.
+- Gap shown on benchmarks and data boundary
 - TAKEAWAY
 - Measure first, then change a default only on evidence.
 
-## 19. Sources behind the claims
+## 20. The store manager got her answer, and the SQL behind it
 
-Layout: references
+Layout: answer_page
 
 Reader question: 
 
-Message: List where the audience can check the claims.
+Message: A **first, checkable answer** today; the next tests decide how far to trust it.
 
 Exact face text:
 
@@ -1030,32 +1078,46 @@ Exact face text:
 - 3
 - 4
 - NEXT STEPS
-- Sources
-- Sources behind the claims
-- Every number traces to the repository or to a source read on the date given
+- Her answer
+- The store manager got her answer, and the SQL behind it
+- Back to her question: what she got, what stayed safe, and what she still decided
 - Text-to-SQL Agent
-- 19
-- Repository: README Evaluation Results; large-schema and retrieval results
-- Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887
-- BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026
-- Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)
-- Snowflake Cortex Analyst documentation (read 6 November 2026)
-- Databricks Genie best practices (read 6 November 2026)
-- WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)
+- 20
+- An answer in seconds
+- 173,366
+- •  Electronics leads the five categories
+- •  with the SQL that shows it counts all 220 orders
+- Nothing changed
+- Read-only
+- •  Two gates in code stopped any write
+- •  only 79 stored values reached the model
+- She decided
+- Her call
+- •  List price or completed orders after discounts: 21 % / apart
+- •  the SQL showed her the choice
+- What the project contributes
+- An inspectable SQL application
+- The answer always comes with its SQL and the tables / chosen.
+- Read-only on three engines
+- SQLite, DuckDB and PostgreSQL, 45 of 45 conformance / tests passed.
+- A measured evaluation record
+- 3,817 questions and 37 recorded runs, with what did not / help.
+- TAKEAWAY
+- A first, checkable answer today; the next tests decide how far to trust it.
 
-## 20. The store manager got her answer, and the SQL behind it
+## 21. Ask your data. Inspect the answer.
 
 Layout: close_page
 
 Reader question: 
 
-Message: Close on the contribution.
+Message: Close.
 
 Exact face text:
 
 - THANK YOU
-- The store manager got her answer, / and the SQL behind it
-- Electronics leads with 173,366; nothing in her database changed, and she decided / which revenue she meant. Questions and feedback are welcome.
+- Ask your data. Inspect the answer.
+- Questions and feedback are welcome.
 - Live demo
 - aipa-text-to-sql-agent.streamlit.app
 - Code and runs
@@ -1064,7 +1126,7 @@ Exact face text:
 - TD School, University of Technology Sydney  ·  November 2026
 - Scan to try it
 
-## 21. Backup: how the top 6 tables are chosen
+## 22. How the top 6 tables are chosen
 
 Layout: bars_page
 
@@ -1076,10 +1138,10 @@ Exact face text:
 
 - APPENDIX
 - Schema RAG
-- Backup: how the top 6 tables are chosen
-- Relevance score by table for: Which product categories generate the most revenue?
+- How the top 6 tables are chosen
+- Relevance score by table for the store manager’s question. Detail for slides 11 and 15.
 - Text-to-SQL Agent
-- 21
+- 22
 - Top 6, sent
 - Foreign-key neighbour, added
 - Not sent
@@ -1118,7 +1180,7 @@ Exact face text:
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
 
-## 22. Backup: one question’s path through the app, stage by stage
+## 23. One question’s path through the app, detail for slide 11
 
 Layout: flow_page
 
@@ -1130,12 +1192,12 @@ Exact face text:
 
 - APPENDIX
 - Full flow
-- Backup: one question’s path through the app, stage by stage
+- One question’s path through the app, detail for slide 11
 - 
 - Text-to-SQL Agent
-- 22
+- 23
 
-## 23. Backup: matched means the same rows as the reference
+## 24. Matched means the same rows as the reference
 
 Layout: table_page
 
@@ -1147,10 +1209,10 @@ Exact face text:
 
 - APPENDIX
 - How answers are scored
-- Backup: matched means the same rows as the reference
-- The project’s own result comparison, used for every accuracy figure in this deck
+- Matched means the same rows as the reference
+- The project’s own result comparison, used for every accuracy figure. Detail for slides 13 and 14.
 - Text-to-SQL Agent
-- 23
+- 24
 - How two result sets are compared
 - Part
 - Rule
@@ -1181,7 +1243,7 @@ Exact face text:
 - TAKEAWAY
 - Matched means the same rows, not similar SQL.
 
-## 24. Backup: each engine enforces read-only in its own way
+## 25. Each engine enforces read-only in its own way
 
 Layout: table_page
 
@@ -1193,10 +1255,10 @@ Exact face text:
 
 - APPENDIX
 - Read-only per engine
-- Backup: each engine enforces read-only in its own way
-- The engine layer of the safety slide; each mechanism is required, not optional
+- Each engine enforces read-only in its own way
+- The engine layer of the safety slide; each mechanism is required. Detail for slide 12.
 - Text-to-SQL Agent
-- 24
+- 25
 - Engine¹
 - Writes refused by
 - Files and internals
@@ -1217,7 +1279,7 @@ Exact face text:
 - TAKEAWAY
 - Read-only is enforced by each engine, not assumed from the application check.
 
-## 25. Backup: the technology behind each step
+## 26. The technology behind each step
 
 Layout: stack_page
 
@@ -1229,10 +1291,10 @@ Exact face text:
 
 - APPENDIX
 - Technology
-- Backup: the technology behind each step
-- Open-source tools, plus a hosted model only when the user picks one
+- The technology behind each step
+- Open-source tools, plus a hosted model only when the user picks one. Detail for slide 11.
 - Text-to-SQL Agent
-- 25
+- 26
 - APP
 - Streamlit
 - The question box, answer, chart and SQL
@@ -1260,7 +1322,7 @@ Exact face text:
 - TAKEAWAY
 - No model is trained: the app wraps an existing model with checks around it.
 
-## 26. Backup: terms used in this deck
+## 27. Terms used in this deck
 
 Layout: table_page
 
@@ -1272,10 +1334,10 @@ Exact face text:
 
 - APPENDIX
 - Glossary
-- Backup: terms used in this deck
-- Plain meanings for the words on the evidence slides
+- Terms used in this deck
+- Plain meanings for the words on the evidence slides. Detail for slides 13, 14, 15 and 16.
 - Text-to-SQL Agent
-- 26
+- 27
 - Term
 - Meaning
 - Where it appears
@@ -1303,3 +1365,27 @@ Exact face text:
 - Conformance tests
 - The same 15 read-only tests run on each engine, none skipped.
 - Summary, safety
+
+## 28. Sources behind the claims
+
+Layout: references
+
+Reader question: 
+
+Message: List where the audience can check the claims.
+
+Exact face text:
+
+- APPENDIX
+- Sources
+- Sources behind the claims
+- Every number traces to the repository or to a source read on the date given. Detail for slides 5, 6 and 14.
+- Text-to-SQL Agent
+- 28
+- Repository: README Evaluation Results; large-schema and retrieval results
+- Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887
+- BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026
+- Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)
+- Snowflake Cortex Analyst documentation (read 6 November 2026)
+- Databricks Genie best practices (read 6 November 2026)
+- WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)

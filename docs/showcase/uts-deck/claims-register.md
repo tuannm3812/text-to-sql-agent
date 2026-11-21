@@ -73,3 +73,5 @@ large-schema, demo and retrieval rows were spot-checked again on 18 November 202
 | Retrieval scoring time per question, cached index | about 4 ms | AGENTS.md, 2026-10-19 |
 | Questions per difficulty: Spider easy, medium, hard, extra; BIRD simple, challenging | 248, 446, 174, 166; 860, 231 | release run reports at 7708295 (2026-10-10T071608 Spider, 2026-10-10T080619 BIRD) |
 | Store manager persona | (none) | illustrative persona on the demo's real question; not a real user |
+| Retail demo database tables | 11 | rag.retrieve_schema_context measurement, 6 Nov 2026 (all 11 tables) |
+| Analyst queue in the persona | about three days | illustrative, not measured |
