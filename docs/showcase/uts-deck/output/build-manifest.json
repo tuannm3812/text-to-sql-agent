@@ -68,7 +68,7 @@
     "assets/figures/cover-portrait.png": "322b31def29068eb75040e1726d188bfc032c34171b99f0b4c4598e4329c89ac",
     "assets/figures/demo-answer.png": "7a30c11583d737965b171f99f3be7b0a5923087cd2b2bcffcfc1ad84a7c7c8d4",
     "assets/figures/demo-app.png": "89d3e331de6f977566df71125289b3b5c6fac3889465abbae343583c69da43ea",
-    "assets/figures/flowchart.png": "add8e4fe0dce65bba5c64ba2ca143f5925c0c662d35eac35f881ffe5bb712977",
+    "assets/figures/flowchart.png": "0d9038ed881be55a911eb68e4772bf962b66d83110370890ca9125d9a8da34cc",
     "assets/figures/qr-live-demo.svg": "8401b0db58c108ac45cda7ce8caceb93c75a96b1b8bae990f13429d0ca39edfd",
     "assets/figures/ring-35-2.png": "3c24235d123460a23d8ad26c5ebc9139e331474b168facf80303cfc3fe7908ef",
     "assets/figures/ring-64-6.png": "c1306a49077dba49666d6ea3426e23d42f3c47f72b0ee619a7dd5d1f7eb0d809",
@@ -301,8 +301,8 @@
     "assets/project/icons/yes.svg": "dbff942ec1c85811264a97caae3f850a35cc004310cc37f7c7e58b6ca734d52d"
   },
   "outputs": {
-    "deck.html": "03e651b5aee3c2466577fa933641aea3e3d96d5a8a83759fd15a75fe78186fe6",
-    "deck.pdf": "9487da9ca9d9d2a120557ab810485c042682f85a86913a74cf45e9c8dec51558"
+    "deck.html": "a2c4a5650994658ae5fca7f4bc762c011589fb612c18c1f1d02358bf30edac7d",
+    "deck.pdf": "9a2705d42ef9e3e89f3d9205aff9314d15f385e03f8f7c7d9b56335ff3676dfb"
   },
   "slide_count": 24
 }
