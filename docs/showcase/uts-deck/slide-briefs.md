@@ -166,7 +166,8 @@ Exact face text:
 - An illustrative persona, built on the demo’s real question and data
 - Text-to-SQL Agent
 - 4
-- She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table / retail database.
+- Photo: Steffen Mokosch, Wikimedia Commons, CC BY-SA 4.0, cropped
+- She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table retail / database.
 - “Which product categories generate the most revenue?”
 - The question behind every slide that follows; the demo answers it on the retail database.
 - Her options today
@@ -175,7 +176,7 @@ Exact face text:
 - A curated tool that needs weeks of / setup
 - What she needs
 - An answer she can use today
-- The SQL behind it, so she can check / it
+- The SQL behind it, so she can check it
 - Her data never changed
 - TAKEAWAY
 - She needs a fast, checkable answer, not a black box.
@@ -383,7 +384,7 @@ Exact face text:
 
 ## 8. Who it serves: people who know the question but not the schema
 
-Layout: comparison
+Layout: serves_page
 
 Reader question: 
 
@@ -402,21 +403,27 @@ Exact face text:
 - The store manager is one of them: others share her need, and some are better served elsewhere.
 - Text-to-SQL Agent
 - 8
-- Who
-- Why it helps
-- Where it does not fit
 - Managers and analysts new to a / database
+- WHY IT HELPS
 - An answer in seconds instead of a queue
 - The SQL teaches the schema as they go
+- Like the store manager: knows the / question, not the tables
+- WHERE IT DOES NOT FIT
 - Metrics that must match across teams
 - Privacy-sensitive teams
-- A local model keeps the prompt on the machine
+- WHY IT HELPS
+- A local model keeps the prompt on the / machine
 - Result rows never reach the model
-- Data where even 79 sample values must not be sent
+- Read-only on every engine
+- WHERE IT DOES NOT FIT
+- Data where even 79 sample values must not / be sent
 - Teams with large schemas
-- Choosing the top tables helped on 34- and 65-table databases
-- Decisions taken with nobody reviewing the answer
-- Source: Our aim, data boundary and large-schema slides; README.
+- WHY IT HELPS
+- Choosing the top tables helped on 34- and / 65-table databases
+- Smaller prompts, 69 % fewer tokens
+- WHERE IT DOES NOT FIT
+- Decisions taken with nobody reviewing the / answer
+- Questions whose tables are often missed
 - TAKEAWAY
 - A first, checkable answer for people who know the question; governed dashboards stay for agreed metrics.
 
@@ -1259,19 +1266,22 @@ Exact face text:
 - The engine layer of the safety slide; each mechanism is required. Detail for slide 12.
 - Text-to-SQL Agent
 - 25
-- Engine¹
+- In short¹
 - Writes refused by
 - Files and internals
 - Work budget
-- SQLite
+- SQLite: files and the demo databases
+- Two locks and an / authorizer
 - A read-only connection, query_only on, and an authorizer that / denies every write action.
 - The authorizer also denies ATTACH, so other files / cannot be opened.
 - 100,000 virtual-machine steps, then the query / stops.
-- DuckDB
+- DuckDB: analytical files
+- A flag, no outside access
 - The read_only connect flag, which protects the database file.
 - External access off, so read_csv and other file / readers are refused.
 - 5,000 ms, then the query stops.
-- PostgreSQL
+- PostgreSQL: a live server
+- A role and a transaction
 - A least-privilege role and a read-only transaction, each enough / on its own.
 - A superuser or file-reading role is refused at / connect.
 - 5,000 ms, then the query stops.
@@ -1341,18 +1351,21 @@ Exact face text:
 - Term
 - Meaning
 - Where it appears
+- Schema and prompt
 - Schema
 - The tables, columns and keys of a database, without its rows.
 - Why it is hard, data boundary
 - Value hints
 - Up to 6 stored values from text columns with at most 20 distinct values, sent with the schema.
 - Data boundary, large schemas
+- Table selection
 - Top 6 + neighbours
 - The six most relevant tables for a question, plus tables one foreign key away.
 - Architecture, large schemas
 - Every table + hints
 - The whole schema with value hints; the baseline for table selection.
 - Large schemas, trials
+- Evaluation
 - Evidence hints
 - BIRD’s own note for each question, such as which column a phrase refers to.
 - Benchmarks
@@ -1368,7 +1381,7 @@ Exact face text:
 
 ## 28. Sources behind the claims
 
-Layout: references
+Layout: sources_page
 
 Reader question: 
 
@@ -1382,10 +1395,21 @@ Exact face text:
 - Every number traces to the repository or to a source read on the date given. Detail for slides 5, 6 and 14.
 - Text-to-SQL Agent
 - 28
-- Repository: README Evaluation Results; large-schema and retrieval results
-- Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887
-- BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026
-- Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)
-- Snowflake Cortex Analyst documentation (read 6 November 2026)
-- Databricks Genie best practices (read 6 November 2026)
-- WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)
+- This project
+- README: evaluation results
+- Spider, BIRD, demo and safety runs at 7708295
+- Large-schema and retrieval results
+- evaluation/results/bird_train_large and retrieval
+- Decision log
+- docs/3_decisions.md: every default and why it was kept
+- Live demo
+- aipa-text-to-sql-agent.streamlit.app
+- Outside sources, read 6 November 2026
+- Spider: Yu et al. (2018), EMNLP
+- arXiv 1809.08887
+- BIRD: Li et al. (2023), NeurIPS; leaderboard
+- arXiv 2305.03111; bird-bench.github.io
+- Spider 2.0: Lei et al. (2024)
+- arXiv 2411.07763
+- Snowflake, Databricks, WrenAI and Vanna
+- Product documentation and repositories (other tools slide)

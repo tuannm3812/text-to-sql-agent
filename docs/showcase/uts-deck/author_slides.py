@@ -395,19 +395,24 @@ next_tests = {
 }
 
 references = {
-    'id': 'references', 'layout': 'references', 'section': 'Appendix', 'topic': 'Sources', 'accent': 'slate', 'header_style': 'appendix',
+    'id': 'references', 'layout': 'sources_page', 'section': 'Appendix', 'topic': 'Sources', 'accent': 'slate', 'header_style': 'appendix',
     'title': 'Sources behind the claims',
     'subtitle': 'Every number traces to the repository or to a source read on the date given',
-    'items': [
-        {'label': 'Repository: README Evaluation Results; large-schema and retrieval results', 'url': 'https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results'},
-        {'label': 'Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887', 'url': 'https://arxiv.org/abs/1809.08887'},
-        {'label': 'BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026', 'url': 'https://bird-bench.github.io/'},
-        {'label': 'Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)', 'url': 'https://arxiv.org/abs/2411.07763'},
-        {'label': 'Snowflake Cortex Analyst documentation (read 6 November 2026)', 'url': 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst'},
-        {'label': 'Databricks Genie best practices (read 6 November 2026)', 'url': 'https://docs.databricks.com/en/genie/best-practices.html'},
-        {'label': 'WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)', 'url': 'https://github.com/Canner/WrenAI'},
+    'groups': [
+        ['This project', 'code-ink', [
+            ['README: evaluation results', 'Spider, BIRD, demo and safety runs at 7708295', 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md'],
+            ['Large-schema and retrieval results', 'evaluation/results/bird_train_large and retrieval', 'https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results'],
+            ['Decision log', 'docs/3_decisions.md: every default and why it was kept', 'https://github.com/tuannm3812/text-to-sql-agent/blob/main/docs/3_decisions.md'],
+            ['Live demo', 'aipa-text-to-sql-agent.streamlit.app', 'https://aipa-text-to-sql-agent.streamlit.app'],
+        ]],
+        ['Outside sources, read 6 November 2026', 'menu_book-ink', [
+            ['Spider: Yu et al. (2018), EMNLP', 'arXiv 1809.08887', 'https://arxiv.org/abs/1809.08887'],
+            ['BIRD: Li et al. (2023), NeurIPS; leaderboard', 'arXiv 2305.03111; bird-bench.github.io', 'https://bird-bench.github.io/'],
+            ['Spider 2.0: Lei et al. (2024)', 'arXiv 2411.07763', 'https://arxiv.org/abs/2411.07763'],
+            ['Snowflake, Databricks, WrenAI and Vanna', 'Product documentation and repositories (other tools slide)', 'https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst'],
+        ]],
     ],
-    'notes': notes('List where the audience can check the claims.', 'These are the sources behind every number in the deck.'),
+    'notes': notes('List where the audience can check the claims.', 'These are the sources behind every number in the deck: the repository on the left, outside sources on the right.'),
 }
 
 close = {
@@ -491,12 +496,15 @@ glossary = {
     'header_style': 'appendix',
     'title': 'terms used in this deck',
     'subtitle': 'Plain meanings for the words on the evidence slides',
-    'tables': [{'headers': ['Term', 'Meaning', 'Where it appears'], 'widths': W_A2, 'size': 10, 'row_height': 38,
+    'tables': [{'headers': ['Term', 'Meaning', 'Where it appears'], 'widths': W_A2, 'size': 10, 'row_height': 30,
         'rows': [
+            {'band': 'Schema and prompt', 'accent': 'slate', 'icon': 'assets/icons/schema-ink.png'},
             ['Schema', 'The tables, columns and keys of a database, without its rows.', 'Why it is hard, data boundary'],
             ['Value hints', 'Up to 6 stored values from text columns with at most 20 distinct values, sent with the schema.', 'Data boundary, large schemas'],
+            {'band': 'Table selection', 'accent': 'slate', 'icon': 'assets/icons/table_rows-ink.png'},
             ['Top 6 + neighbours', 'The six most relevant tables for a question, plus tables one foreign key away.', 'Architecture, large schemas'],
             ['Every table + hints', 'The whole schema with value hints; the baseline for table selection.', 'Large schemas, trials'],
+            {'band': 'Evaluation', 'accent': 'slate', 'icon': 'assets/icons/science-ink.png'},
             ['Evidence hints', 'BIRD’s own note for each question, such as which column a phrase refers to.', 'Benchmarks'],
             ['Paired change', 'The difference between two settings on the same questions, in accuracy points.', 'Method, trials'],
             ['95 % interval', 'The range the change could plausibly take; measurable when it sits clear of zero.', 'Method onwards'],
@@ -511,11 +519,14 @@ engines = {
     'header_style': 'appendix',
     'title': 'each engine enforces read-only in its own way',
     'subtitle': 'The engine layer of the safety slide; each mechanism is required, not optional',
-    'tables': [{'headers': ['Engine¹', 'Writes refused by', 'Files and internals', 'Work budget'], 'widths': W_A3, 'size': 10, 'row_height': 76,
+    'tables': [{'headers': ['In short¹', 'Writes refused by', 'Files and internals', 'Work budget'], 'widths': W_A3, 'size': 10, 'row_height': 62,
         'rows': [
-            ['SQLite', 'A read-only connection, query_only on, and an authorizer that denies every write action.', 'The authorizer also denies ATTACH, so other files cannot be opened.', '100,000 virtual-machine steps, then the query stops.'],
-            ['DuckDB', 'The read_only connect flag, which protects the database file.', 'External access off, so read_csv and other file readers are refused.', '5,000 ms, then the query stops.'],
-            ['PostgreSQL', 'A least-privilege role and a read-only transaction, each enough on its own.', 'A superuser or file-reading role is refused at connect.', '5,000 ms, then the query stops.'],
+            {'band': 'SQLite: files and the demo databases', 'accent': 'slate', 'icon': 'assets/logos/tech-sqlite.png'},
+            ['Two locks and an authorizer', 'A read-only connection, query_only on, and an authorizer that denies every write action.', 'The authorizer also denies ATTACH, so other files cannot be opened.', '100,000 virtual-machine steps, then the query stops.'],
+            {'band': 'DuckDB: analytical files', 'accent': 'slate', 'icon': 'assets/logos/tech-duckdb.png'},
+            ['A flag, no outside access', 'The read_only connect flag, which protects the database file.', 'External access off, so read_csv and other file readers are refused.', '5,000 ms, then the query stops.'],
+            {'band': 'PostgreSQL: a live server', 'accent': 'slate', 'icon': 'assets/logos/tech-postgresql.png'},
+            ['A role and a transaction', 'A least-privilege role and a read-only transaction, each enough on its own.', 'A superuser or file-reading role is refused at connect.', '5,000 ms, then the query stops.'],
         ]}],
     'note': '⁠¹ All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.',
     'takeaway': 'Read-only is **enforced by each engine**, not assumed from the application check.',
@@ -587,15 +598,14 @@ limits = {
 }
 
 serves = {
-    'id': 'serves', 'layout': 'comparison', 'section': 'Problem', 'topic': 'Who it serves', 'accent': 'slate',
+    'id': 'serves', 'layout': 'serves_page', 'section': 'Problem', 'topic': 'Who it serves', 'accent': 'slate',
     'title': 'Who it serves: people who know the question but not the schema',
     'subtitle': 'Where a first, inspectable answer helps, and where a governed tool fits better',
     'story': '**The store manager is one of them:** others share her need, and some are better served elsewhere.',
-    'columns': ['Who', 'Why it helps', 'Where it does not fit'],
-    'rows': [
-        ['Managers and analysts new to a database', ['An answer in seconds instead of a queue', 'The SQL teaches the schema as they go'], ['Metrics that must match across teams']],
-        ['Privacy-sensitive teams', ['A local model keeps the prompt on the machine', 'Result rows never reach the model'], ['Data where even 79 sample values must not be sent']],
-        ['Teams with large schemas', ['Choosing the top tables helped on 34- and 65-table databases'], ['Decisions taken with nobody reviewing the answer']],
+    'groups': [
+        ['person-ink', 'Managers and analysts new to a database', ['An answer in seconds instead of a queue', 'The SQL teaches the schema as they go', 'Like the store manager: knows the question, not the tables'], ['Metrics that must match across teams']],
+        ['verified_user-ink', 'Privacy-sensitive teams', ['A local model keeps the prompt on the machine', 'Result rows never reach the model', 'Read-only on every engine'], ['Data where even 79 sample values must not be sent']],
+        ['schema-ink', 'Teams with large schemas', ['Choosing the top tables helped on 34- and 65-table databases', 'Smaller prompts, 69 % fewer tokens'], ['Decisions taken with nobody reviewing the answer', 'Questions whose tables are often missed']],
     ],
     'takeaway': 'A **first, checkable answer** for people who know the question; governed dashboards stay for agreed metrics.',
     'source': src('Our aim, data boundary and large-schema slides; README.', 'README.md'),
@@ -608,7 +618,8 @@ persona = {
     'id': 'persona', 'layout': 'persona_page', 'section': 'Problem', 'topic': 'The store manager', 'accent': 'slate',
     'title': 'A store manager has a question, and no quick way to answer it',
     'subtitle': 'An illustrative persona, built on the demo’s real question and data',
-    'image': {'path': 'assets/figures/persona.png', 'alt': 'Illustration of a store manager at a counter with a laptop and a question bubble. Illustrative, not a real person.'},
+    'image': {'path': 'assets/figures/photo-shop-crop.jpg', 'alt': 'Interior of a small shop with wooden shelves of products (photograph, cropped).'},
+    'credit': {'label': 'Photo: Steffen Mokosch, Wikimedia Commons, CC BY-SA 4.0, cropped', 'url': 'https://commons.wikimedia.org/wiki/File:Sabor_Espana_shop_interior_Cala_Millor.jpg'},
     'who': 'She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table retail database.',
     'question': '“Which product categories generate the most revenue?”',
     'question_note': 'The question behind every slide that follows; the demo answers it on the retail database.',

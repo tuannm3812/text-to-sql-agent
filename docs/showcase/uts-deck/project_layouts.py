@@ -953,9 +953,11 @@ def flow_page(L, p, slide):
 
 def persona_page(L, p, slide):
     """The store manager's situation: her illustration at the left, her question, today's options and what she needs."""
-    ih = END - TOP
+    ih = END - TOP - 14
     iw = ih * 600 / 560
     L.image(p, slide['image'], LEFT, TOP, iw, ih)
+    if slide.get('credit'):
+        put(L, p, slide['credit']['label'], LEFT, END - 10, iw, 8, 'body', href=slide['credit']['url'])
     x = LEFT + iw + 20
     w = RIGHT - x
     qy = TOP + put(L, p, slide['who'], x, TOP, w, 10, 'body') + 8
@@ -1031,7 +1033,53 @@ def roadmap_page(L, p, slide):
     L.band(p, slide.get('takeaway'))
 
 
-LAYOUTS = {'persona_page': persona_page, 'answer_page': answer_page, 'roadmap_page': roadmap_page, 'flow_page': flow_page, 'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+def serves_page(L, p, slide):
+    """Who it serves: one card per group, with an icon, why it helps (ticks) and where it does not fit (crosses)."""
+    rows = slide['groups']
+    n = len(rows)
+    gap = 16
+    cw = (RIGHT - LEFT - gap * (n - 1)) / n
+    h = END - 56 - TOP
+    for k, (art, who, helps, nofit) in enumerate(rows):
+        x = LEFT + k * (cw + gap)
+        card(L, p, x, TOP, cw, h, weight=4)
+        p.rect(x + 14, TOP + 16, 34, 34, '#EAF0F6', 'ELLIPSE')
+        icon(L, p, f'assets/icons/{art}.png', who, x + 22, TOP + 24, 18)
+        put(L, p, who, x + 58, TOP + 18, cw - 72, 12, 'ink', True)
+        y = TOP + 66
+        cap(L, p, 'Why it helps', x + 14, y, cw - 28, 'body')
+        y += 16
+        for t in helps:
+            L.image(p, {'path': 'assets/project/icons/tick.svg', 'alt': ''}, x + 14, y + 2.5, 11, 11)
+            y += put(L, p, t, x + 30, y, cw - 44, 12, 'ink') + 12
+        y += 10
+        p.line(x + 14, y, x + cw - 14, y, L.t.color('hair'))
+        y += 14
+        cap(L, p, 'Where it does not fit', x + 14, y, cw - 28, 'body')
+        y += 16
+        for t in nofit:
+            L.image(p, {'path': 'assets/project/icons/cross.svg', 'alt': ''}, x + 14, y + 2.5, 11, 11)
+            y += put(L, p, t, x + 30, y, cw - 44, 12, 'ink') + 12
+    L.band(p, slide.get('takeaway'))
+
+
+def sources_page(L, p, slide):
+    """Sources in two groups, each line with an icon and a link."""
+    gap = 24
+    cw = (RIGHT - LEFT - gap) / 2
+    for k, (head, art, items) in enumerate(slide['groups']):
+        x = LEFT + k * (cw + gap)
+        icon(L, p, f'assets/icons/{art}.png', head, x, TOP + 2, 16)
+        put(L, p, head, x + 24, TOP + 2, cw - 24, 12, 'ink', True)
+        y = TOP + 30
+        for label, detail, url in items:
+            card(L, p, x, y, cw, 52, weight=0)
+            put(L, p, label, x + 14, y + 10, cw - 28, 10, 'ink', True, href=url)
+            put(L, p, detail, x + 14, y + 28, cw - 28, 8, 'body')
+            y += 60
+
+
+LAYOUTS = {'serves_page': serves_page, 'sources_page': sources_page, 'persona_page': persona_page, 'answer_page': answer_page, 'roadmap_page': roadmap_page, 'flow_page': flow_page, 'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
 
 
 def story_strip(L, p, slide):

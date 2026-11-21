@@ -4897,8 +4897,12 @@
       "title": "A store manager has a question, and no quick way to answer it",
       "subtitle": "An illustrative persona, built on the demo\u2019s real question and data",
       "image": {
-        "path": "assets/figures/persona.png",
-        "alt": "Illustration of a store manager at a counter with a laptop and a question bubble. Illustrative, not a real person."
+        "path": "assets/figures/photo-shop-crop.jpg",
+        "alt": "Interior of a small shop with wooden shelves of products (photograph, cropped)."
+      },
+      "credit": {
+        "label": "Photo: Steffen Mokosch, Wikimedia Commons, CC BY-SA 4.0, cropped",
+        "url": "https://commons.wikimedia.org/wiki/File:Sabor_Espana_shop_interior_Cala_Millor.jpg"
       },
       "who": "She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table retail database.",
       "question": "\u201cWhich product categories generate the most revenue?\u201d",
@@ -5319,21 +5323,43 @@
         {
           "op": "add-image",
           "id": "im21",
-          "path": "assets/figures/persona.png",
-          "alt": "Illustration of a store manager at a counter with a laptop and a question bubble. Illustrative, not a real person.",
+          "path": "assets/figures/photo-shop-crop.jpg",
+          "alt": "Interior of a small shop with wooden shelves of products (photograph, cropped).",
           "x": 43.5,
           "y": 132.0,
-          "width": 368.57142857142856,
-          "height": 344.0
+          "width": 353.57142857142856,
+          "height": 330.0
         },
         {
           "op": "add-textbox",
           "slide": "persona",
           "id": "t22",
-          "text": "She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table\nretail database.",
-          "x": 424.87142857142857,
+          "text": "Photo: Steffen Mokosch, Wikimedia Commons, CC BY-SA 4.0, cropped",
+          "x": 36.3,
+          "y": 458.8,
+          "width": 367.97142857142853,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false,
+          "href": "https://commons.wikimedia.org/wiki/File:Sabor_Espana_shop_interior_Cala_Millor.jpg"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t22",
+          "start": 0,
+          "end": 64,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "persona",
+          "id": "t23",
+          "text": "She runs a store, knows the business well, and does not write SQL. The data she needs sits in an 11-table retail\ndatabase.",
+          "x": 409.87142857142857,
           "y": 124.8,
-          "width": 501.3285714285714,
+          "width": 516.3285714285714,
           "height": 41.4,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -5342,7 +5368,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t22",
+          "element": "t23",
           "start": 0,
           "end": 122,
           "line_spacing": 135
@@ -5350,20 +5376,20 @@
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r23",
+          "id": "r24",
           "shape_type": "RECTANGLE",
-          "x": 432.07142857142856,
+          "x": 417.07142857142856,
           "y": 167.0,
-          "width": 486.92857142857144,
+          "width": 501.92857142857144,
           "height": 50,
           "background_color": "#E4F2F1"
         },
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r24",
+          "id": "r25",
           "shape_type": "RECTANGLE",
-          "x": 432.07142857142856,
+          "x": 417.07142857142856,
           "y": 167.0,
           "width": 3,
           "height": 50,
@@ -5372,11 +5398,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t25",
+          "id": "t26",
           "text": "\u201cWhich product categories generate the most revenue?\u201d",
-          "x": 438.87142857142857,
+          "x": 423.87142857142857,
           "y": 168.8,
-          "width": 473.3285714285714,
+          "width": 488.3285714285714,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5385,14 +5411,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t25",
+          "element": "t26",
           "start": 0,
           "end": 53,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t25",
+          "element": "t26",
           "start": 0,
           "end": 53,
           "bold": true
@@ -5400,11 +5426,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t26",
+          "id": "t27",
           "text": "The question behind every slide that follows; the demo answers it on the retail database.",
-          "x": 438.87142857142857,
+          "x": 423.87142857142857,
           "y": 189.8,
-          "width": 473.3285714285714,
+          "width": 488.3285714285714,
           "height": 25.200000000000003,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -5413,7 +5439,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t26",
+          "element": "t27",
           "start": 0,
           "end": 89,
           "line_spacing": 135
@@ -5421,31 +5447,31 @@
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r27",
+          "id": "r28",
           "shape_type": "RECTANGLE",
-          "x": 432.07142857142856,
+          "x": 417.07142857142856,
           "y": 233.0,
-          "width": 237.46428571428572,
+          "width": 244.96428571428572,
           "height": 187.0,
           "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r28",
+          "id": "r29",
           "shape_type": "RECTANGLE",
-          "x": 432.07142857142856,
+          "x": 417.07142857142856,
           "y": 233.0,
-          "width": 237.46428571428572,
+          "width": 244.96428571428572,
           "height": 3,
           "background_color": "#526174"
         },
         {
           "op": "add-image",
-          "id": "im29",
+          "id": "im30",
           "path": "assets/icons/timer-ink.png",
           "alt": "Her options today",
-          "x": 444.07142857142856,
+          "x": 429.07142857142856,
           "y": 245.0,
           "width": 16,
           "height": 16
@@ -5453,11 +5479,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t30",
+          "id": "t31",
           "text": "Her options today",
-          "x": 458.87142857142857,
+          "x": 443.87142857142857,
           "y": 237.8,
-          "width": 205.86428571428573,
+          "width": 213.36428571428573,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5466,24 +5492,24 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t30",
+          "element": "t31",
           "start": 0,
           "end": 17,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t30",
+          "element": "t31",
           "start": 0,
           "end": 17,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im31",
+          "id": "im32",
           "path": "assets/project/icons/cross.svg",
           "alt": "",
-          "x": 444.07142857142856,
+          "x": 429.07142857142856,
           "y": 279.0,
           "width": 10,
           "height": 10
@@ -5491,11 +5517,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t32",
+          "id": "t33",
           "text": "Wait about three days for an analyst",
-          "x": 450.87142857142857,
+          "x": 435.87142857142857,
           "y": 269.8,
-          "width": 213.86428571428573,
+          "width": 221.36428571428573,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5504,17 +5530,17 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t32",
+          "element": "t33",
           "start": 0,
           "end": 36,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im33",
+          "id": "im34",
           "path": "assets/project/icons/cross.svg",
           "alt": "",
-          "x": 444.07142857142856,
+          "x": 429.07142857142856,
           "y": 307.2,
           "width": 10,
           "height": 10
@@ -5522,11 +5548,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t34",
+          "id": "t35",
           "text": "Learn the schema and SQL herself",
-          "x": 450.87142857142857,
+          "x": 435.87142857142857,
           "y": 298.0,
-          "width": 213.86428571428573,
+          "width": 221.36428571428573,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5535,17 +5561,17 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t34",
+          "element": "t35",
           "start": 0,
           "end": 32,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im35",
+          "id": "im36",
           "path": "assets/project/icons/cross.svg",
           "alt": "",
-          "x": 444.07142857142856,
+          "x": 429.07142857142856,
           "y": 335.4,
           "width": 10,
           "height": 10
@@ -5553,11 +5579,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t36",
+          "id": "t37",
           "text": "A curated tool that needs weeks of\nsetup",
-          "x": 450.87142857142857,
+          "x": 435.87142857142857,
           "y": 326.2,
-          "width": 213.86428571428573,
+          "width": 221.36428571428573,
           "height": 46.800000000000004,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5566,7 +5592,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t36",
+          "element": "t37",
           "start": 0,
           "end": 40,
           "line_spacing": 135
@@ -5574,31 +5600,31 @@
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r37",
+          "id": "r38",
           "shape_type": "RECTANGLE",
-          "x": 681.5357142857142,
+          "x": 674.0357142857142,
           "y": 233.0,
-          "width": 237.46428571428572,
+          "width": 244.96428571428572,
           "height": 187.0,
           "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r38",
+          "id": "r39",
           "shape_type": "RECTANGLE",
-          "x": 681.5357142857142,
+          "x": 674.0357142857142,
           "y": 233.0,
-          "width": 237.46428571428572,
+          "width": 244.96428571428572,
           "height": 3,
           "background_color": "#526174"
         },
         {
           "op": "add-image",
-          "id": "im39",
+          "id": "im40",
           "path": "assets/icons/check_circle-ink.png",
           "alt": "What she needs",
-          "x": 693.5357142857142,
+          "x": 686.0357142857142,
           "y": 245.0,
           "width": 16,
           "height": 16
@@ -5606,11 +5632,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t40",
+          "id": "t41",
           "text": "What she needs",
-          "x": 708.3357142857142,
+          "x": 700.8357142857142,
           "y": 237.8,
-          "width": 205.86428571428573,
+          "width": 213.36428571428573,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5619,24 +5645,24 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t40",
+          "element": "t41",
           "start": 0,
           "end": 14,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t40",
+          "element": "t41",
           "start": 0,
           "end": 14,
           "bold": true
         },
         {
           "op": "add-image",
-          "id": "im41",
+          "id": "im42",
           "path": "assets/project/icons/tick.svg",
           "alt": "",
-          "x": 693.5357142857142,
+          "x": 686.0357142857142,
           "y": 279.0,
           "width": 10,
           "height": 10
@@ -5644,11 +5670,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t42",
+          "id": "t43",
           "text": "An answer she can use today",
-          "x": 700.3357142857142,
+          "x": 692.8357142857142,
           "y": 269.8,
-          "width": 213.86428571428573,
+          "width": 221.36428571428573,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5657,17 +5683,17 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t42",
+          "element": "t43",
           "start": 0,
           "end": 27,
           "line_spacing": 135
         },
         {
           "op": "add-image",
-          "id": "im43",
+          "id": "im44",
           "path": "assets/project/icons/tick.svg",
           "alt": "",
-          "x": 693.5357142857142,
+          "x": 686.0357142857142,
           "y": 307.2,
           "width": 10,
           "height": 10
@@ -5675,42 +5701,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t44",
-          "text": "The SQL behind it, so she can check\nit",
-          "x": 700.3357142857142,
+          "id": "t45",
+          "text": "The SQL behind it, so she can check it",
+          "x": 692.8357142857142,
           "y": 298.0,
-          "width": 213.86428571428573,
-          "height": 46.800000000000004,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t44",
-          "start": 0,
-          "end": 38,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-image",
-          "id": "im45",
-          "path": "assets/project/icons/tick.svg",
-          "alt": "",
-          "x": 693.5357142857142,
-          "y": 351.6,
-          "width": 10,
-          "height": 10
-        },
-        {
-          "op": "add-textbox",
-          "slide": "persona",
-          "id": "t46",
-          "text": "Her data never changed",
-          "x": 700.3357142857142,
-          "y": 342.40000000000003,
-          "width": 213.86428571428573,
+          "width": 221.36428571428573,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -5719,7 +5714,38 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t46",
+          "element": "t45",
+          "start": 0,
+          "end": 38,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im46",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 686.0357142857142,
+          "y": 335.4,
+          "width": 10,
+          "height": 10
+        },
+        {
+          "op": "add-textbox",
+          "slide": "persona",
+          "id": "t47",
+          "text": "Her data never changed",
+          "x": 692.8357142857142,
+          "y": 326.2,
+          "width": 221.36428571428573,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t47",
           "start": 0,
           "end": 22,
           "line_spacing": 135
@@ -5727,20 +5753,20 @@
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r47",
+          "id": "r48",
           "shape_type": "RECTANGLE",
-          "x": 432.07142857142856,
+          "x": 417.07142857142856,
           "y": 432.0,
-          "width": 486.92857142857144,
+          "width": 501.92857142857144,
           "height": 44,
           "background_color": "#F6F1E5"
         },
         {
           "op": "add-shape",
           "slide": "persona",
-          "id": "r48",
+          "id": "r49",
           "shape_type": "RECTANGLE",
-          "x": 432.07142857142856,
+          "x": 417.07142857142856,
           "y": 432.0,
           "width": 3,
           "height": 44,
@@ -5749,9 +5775,9 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t49",
+          "id": "t50",
           "text": "TAKEAWAY",
-          "x": 438.87142857142857,
+          "x": 423.87142857142857,
           "y": 442.05,
           "width": 99.4,
           "height": 26.4,
@@ -5762,14 +5788,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t49",
+          "element": "t50",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t49",
+          "element": "t50",
           "start": 0,
           "end": 8,
           "bold": true
@@ -5777,11 +5803,11 @@
         {
           "op": "add-textbox",
           "slide": "persona",
-          "id": "t50",
+          "id": "t51",
           "text": "She needs a fast, checkable answer, not a black box.",
-          "x": 535.8714285714285,
+          "x": 520.8714285714285,
           "y": 440.05,
-          "width": 373.3285714285714,
+          "width": 388.3285714285714,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -5790,14 +5816,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t50",
+          "element": "t51",
           "start": 0,
           "end": 52,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t50",
+          "element": "t51",
           "start": 12,
           "end": 27,
           "bold": true
@@ -12547,46 +12573,48 @@
     },
     {
       "id": "serves",
-      "layout": "comparison",
+      "layout": "serves_page",
       "section": "Problem",
       "topic": "Who it serves",
       "accent": "slate",
       "title": "Who it serves: people who know the question but not the schema",
       "subtitle": "Where a first, inspectable answer helps, and where a governed tool fits better",
       "story": "**The store manager is one of them:** others share her need, and some are better served elsewhere.",
-      "columns": [
-        "Who",
-        "Why it helps",
-        "Where it does not fit"
-      ],
-      "rows": [
+      "groups": [
         [
+          "person-ink",
           "Managers and analysts new to a database",
           [
             "An answer in seconds instead of a queue",
-            "The SQL teaches the schema as they go"
+            "The SQL teaches the schema as they go",
+            "Like the store manager: knows the question, not the tables"
           ],
           [
             "Metrics that must match across teams"
           ]
         ],
         [
+          "verified_user-ink",
           "Privacy-sensitive teams",
           [
             "A local model keeps the prompt on the machine",
-            "Result rows never reach the model"
+            "Result rows never reach the model",
+            "Read-only on every engine"
           ],
           [
             "Data where even 79 sample values must not be sent"
           ]
         ],
         [
+          "schema-ink",
           "Teams with large schemas",
           [
-            "Choosing the top tables helped on 34- and 65-table databases"
+            "Choosing the top tables helped on 34- and 65-table databases",
+            "Smaller prompts, 69 % fewer tokens"
           ],
           [
-            "Decisions taken with nobody reviewing the answer"
+            "Decisions taken with nobody reviewing the answer",
+            "Questions whose tables are often missed"
           ]
         ]
       ],
@@ -12632,12 +12660,6 @@
         }
       ],
       "_story_page": "serves",
-      "supporting_text_bounds": {
-        "x": 43.5,
-        "y": 401,
-        "width": 875.5,
-        "bottom": 411.8
-      },
       "ops": [
         {
           "op": "add-shape",
@@ -13025,266 +13047,265 @@
           "id": "r22",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 151,
-          "width": 220,
-          "height": 33,
-          "background_color": "#EDF0F3"
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 288.0,
+          "background_color": "#F4F5F6"
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "serves",
-          "id": "t23",
-          "text": "Who",
-          "x": 48.3,
-          "y": 151.8,
-          "width": 210.4,
-          "height": 34.4,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#526174",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t23",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t23",
-          "start": 0,
-          "end": 3,
-          "bold": true
+          "id": "r23",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 4,
+          "background_color": "#526174"
         },
         {
           "op": "add-shape",
           "slide": "serves",
           "id": "r24",
-          "shape_type": "RECTANGLE",
-          "x": 263.5,
-          "y": 151,
-          "width": 327.75,
-          "height": 33,
-          "background_color": "#EDF0F3"
+          "shape_type": "ELLIPSE",
+          "x": 57.5,
+          "y": 148.0,
+          "width": 34,
+          "height": 34,
+          "background_color": "#EAF0F6"
+        },
+        {
+          "op": "add-image",
+          "id": "im25",
+          "path": "assets/icons/person-ink.png",
+          "alt": "Managers and analysts new to a database",
+          "x": 65.5,
+          "y": 156.0,
+          "width": 18,
+          "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t25",
-          "text": "Why it helps",
-          "x": 268.3,
-          "y": 151.8,
-          "width": 318.15,
-          "height": 34.4,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#526174",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t25",
-          "start": 0,
-          "end": 12,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t25",
-          "start": 0,
-          "end": 12,
-          "bold": true
-        },
-        {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r26",
-          "shape_type": "RECTANGLE",
-          "x": 591.25,
-          "y": 151,
-          "width": 327.75,
-          "height": 33,
-          "background_color": "#EDF0F3"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "serves",
-          "id": "t27",
-          "text": "Where it does not fit",
-          "x": 596.05,
-          "y": 151.8,
-          "width": 318.15,
-          "height": 34.4,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#526174",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t27",
-          "start": 0,
-          "end": 21,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t27",
-          "start": 0,
-          "end": 21,
-          "bold": true
-        },
-        {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r28",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 184.0,
-          "width": 220,
-          "height": 66.0,
-          "background_color": "#F4F5F6"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "serves",
-          "id": "t29",
+          "id": "t26",
           "text": "Managers and analysts new to a\ndatabase",
-          "x": 48.3,
-          "y": 188.8,
-          "width": 210.4,
-          "height": 58.4,
-          "font_size": 10,
+          "x": 94.3,
+          "y": 142.8,
+          "width": 223.5666666666667,
+          "height": 46.800000000000004,
+          "font_size": 12,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": true
         },
         {
           "op": "style-paragraph",
-          "element": "t29",
+          "element": "t26",
           "start": 0,
           "end": 39,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t29",
+          "element": "t26",
           "start": 0,
           "end": 30,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t29",
+          "element": "t26",
           "start": 31,
           "end": 39,
           "bold": true
         },
         {
-          "op": "add-shape",
+          "op": "add-textbox",
           "slide": "serves",
-          "id": "r30",
-          "shape_type": "RECTANGLE",
-          "x": 263.5,
-          "y": 184.0,
-          "width": 327.75,
-          "height": 66.0,
-          "background_color": "#F4F5F6"
+          "id": "t27",
+          "text": "WHY IT HELPS",
+          "x": 50.3,
+          "y": 190.8,
+          "width": 267.56666666666666,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t27",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t27",
+          "start": 0,
+          "end": 12,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im28",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 57.5,
+          "y": 216.5,
+          "width": 11,
+          "height": 11
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t29",
+          "text": "An answer in seconds instead of a queue",
+          "x": 66.3,
+          "y": 206.8,
+          "width": 251.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t29",
+          "start": 0,
+          "end": 39,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im30",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 57.5,
+          "y": 244.7,
+          "width": 11,
+          "height": 11
         },
         {
           "op": "add-textbox",
           "slide": "serves",
           "id": "t31",
-          "text": "An answer in seconds instead of a queue",
-          "x": 277.3,
-          "y": 188.8,
-          "width": 309.15,
-          "height": 58.4,
-          "font_size": 10,
+          "text": "The SQL teaches the schema as they go",
+          "x": 66.3,
+          "y": 235.0,
+          "width": 251.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
           "element": "t31",
           "start": 0,
-          "end": 39,
+          "end": 37,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r32",
-          "shape_type": "ELLIPSE",
-          "x": 275.5,
-          "y": 201.0,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
+          "op": "add-image",
+          "id": "im32",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 57.5,
+          "y": 272.9,
+          "width": 11,
+          "height": 11
         },
         {
           "op": "add-textbox",
           "slide": "serves",
           "id": "t33",
-          "text": "The SQL teaches the schema as they go",
-          "x": 277.3,
-          "y": 209.3,
-          "width": 309.15,
-          "height": 37.9,
-          "font_size": 10,
+          "text": "Like the store manager: knows the\nquestion, not the tables",
+          "x": 66.3,
+          "y": 263.2,
+          "width": 251.5666666666667,
+          "height": 46.800000000000004,
+          "font_size": 12,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
           "element": "t33",
           "start": 0,
-          "end": 37,
+          "end": 58,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
+          "op": "add-line",
           "slide": "serves",
-          "id": "r34",
-          "shape_type": "ELLIPSE",
-          "x": 275.5,
-          "y": 221.5,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
-        },
-        {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r35",
-          "shape_type": "RECTANGLE",
-          "x": 591.25,
-          "y": 184.0,
-          "width": 327.75,
-          "height": 66.0,
-          "background_color": "#F4F5F6"
+          "id": "l34",
+          "x": 57.5,
+          "y": 324.79999999999995,
+          "width": 253.16666666666669,
+          "height": 0.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t36",
-          "text": "Metrics that must match across teams",
-          "x": 605.05,
-          "y": 188.8,
-          "width": 309.15,
-          "height": 58.4,
-          "font_size": 10,
+          "id": "t35",
+          "text": "WHERE IT DOES NOT FIT",
+          "x": 50.3,
+          "y": 331.59999999999997,
+          "width": 267.56666666666666,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t35",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t35",
+          "start": 0,
+          "end": 21,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im36",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "",
+          "x": 57.5,
+          "y": 357.29999999999995,
+          "width": 11,
+          "height": 11
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t37",
+          "text": "Metrics that must match across teams",
+          "x": 66.3,
+          "y": 347.59999999999997,
+          "width": 251.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t36",
+          "element": "t37",
           "start": 0,
           "end": 36,
           "line_spacing": 135
@@ -13292,156 +13313,261 @@
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r37",
-          "shape_type": "ELLIPSE",
-          "x": 603.25,
-          "y": 201.0,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
+          "id": "r38",
+          "shape_type": "RECTANGLE",
+          "x": 340.6666666666667,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 288.0,
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r38",
+          "id": "r39",
           "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 252.0,
-          "width": 220,
-          "height": 66.0,
-          "background_color": "#FFFFFF"
+          "x": 340.6666666666667,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 4,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-shape",
+          "slide": "serves",
+          "id": "r40",
+          "shape_type": "ELLIPSE",
+          "x": 354.6666666666667,
+          "y": 148.0,
+          "width": 34,
+          "height": 34,
+          "background_color": "#EAF0F6"
+        },
+        {
+          "op": "add-image",
+          "id": "im41",
+          "path": "assets/icons/verified_user-ink.png",
+          "alt": "Privacy-sensitive teams",
+          "x": 362.6666666666667,
+          "y": 156.0,
+          "width": 18,
+          "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t39",
+          "id": "t42",
           "text": "Privacy-sensitive teams",
-          "x": 48.3,
-          "y": 256.8,
-          "width": 210.4,
-          "height": 58.4,
-          "font_size": 10,
+          "x": 391.4666666666667,
+          "y": 142.8,
+          "width": 223.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": true
         },
         {
           "op": "style-paragraph",
-          "element": "t39",
+          "element": "t42",
           "start": 0,
           "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t39",
+          "element": "t42",
           "start": 0,
           "end": 23,
           "bold": true
         },
         {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r40",
-          "shape_type": "RECTANGLE",
-          "x": 263.5,
-          "y": 252.0,
-          "width": 327.75,
-          "height": 66.0,
-          "background_color": "#FFFFFF"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "serves",
-          "id": "t41",
-          "text": "A local model keeps the prompt on the machine",
-          "x": 277.3,
-          "y": 256.8,
-          "width": 309.15,
-          "height": 58.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t41",
-          "start": 0,
-          "end": 45,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r42",
-          "shape_type": "ELLIPSE",
-          "x": 275.5,
-          "y": 269.0,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
-        },
-        {
           "op": "add-textbox",
           "slide": "serves",
           "id": "t43",
-          "text": "Result rows never reach the model",
-          "x": 277.3,
-          "y": 277.3,
-          "width": 309.15,
-          "height": 37.9,
-          "font_size": 10,
+          "text": "WHY IT HELPS",
+          "x": 347.4666666666667,
+          "y": 190.8,
+          "width": 267.56666666666666,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t43",
           "start": 0,
-          "end": 33,
+          "end": 12,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r44",
-          "shape_type": "ELLIPSE",
-          "x": 275.5,
-          "y": 289.5,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
+          "op": "style-text",
+          "element": "t43",
+          "start": 0,
+          "end": 12,
+          "bold": true
         },
         {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r45",
-          "shape_type": "RECTANGLE",
-          "x": 591.25,
-          "y": 252.0,
-          "width": 327.75,
-          "height": 66.0,
-          "background_color": "#FFFFFF"
+          "op": "add-image",
+          "id": "im44",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 354.6666666666667,
+          "y": 216.5,
+          "width": 11,
+          "height": 11
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t46",
-          "text": "Data where even 79 sample values must not be sent",
-          "x": 605.05,
-          "y": 256.8,
-          "width": 309.15,
-          "height": 58.4,
-          "font_size": 10,
+          "id": "t45",
+          "text": "A local model keeps the prompt on the\nmachine",
+          "x": 363.4666666666667,
+          "y": 206.8,
+          "width": 251.5666666666667,
+          "height": 46.800000000000004,
+          "font_size": 12,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t46",
+          "element": "t45",
+          "start": 0,
+          "end": 45,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im46",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 354.6666666666667,
+          "y": 260.9,
+          "width": 11,
+          "height": 11
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t47",
+          "text": "Result rows never reach the model",
+          "x": 363.4666666666667,
+          "y": 251.2,
+          "width": 251.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t47",
+          "start": 0,
+          "end": 33,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im48",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 354.6666666666667,
+          "y": 289.09999999999997,
+          "width": 11,
+          "height": 11
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t49",
+          "text": "Read-only on every engine",
+          "x": 363.4666666666667,
+          "y": 279.4,
+          "width": 251.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t49",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "serves",
+          "id": "l50",
+          "x": 354.6666666666667,
+          "y": 324.79999999999995,
+          "width": 253.16666666666669,
+          "height": 0.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t51",
+          "text": "WHERE IT DOES NOT FIT",
+          "x": 347.4666666666667,
+          "y": 331.59999999999997,
+          "width": 267.56666666666666,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t51",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t51",
+          "start": 0,
+          "end": 21,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im52",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "",
+          "x": 354.6666666666667,
+          "y": 357.29999999999995,
+          "width": 11,
+          "height": 11
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t53",
+          "text": "Data where even 79 sample values must not\nbe sent",
+          "x": 363.4666666666667,
+          "y": 347.59999999999997,
+          "width": 251.5666666666667,
+          "height": 46.800000000000004,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t53",
           "start": 0,
           "end": 49,
           "line_spacing": 135
@@ -13449,173 +13575,269 @@
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r47",
-          "shape_type": "ELLIPSE",
-          "x": 603.25,
-          "y": 269.0,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
+          "id": "r54",
+          "shape_type": "RECTANGLE",
+          "x": 637.8333333333334,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 288.0,
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r48",
+          "id": "r55",
           "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 320.0,
-          "width": 220,
-          "height": 66.0,
-          "background_color": "#F4F5F6"
+          "x": 637.8333333333334,
+          "y": 132.0,
+          "width": 281.1666666666667,
+          "height": 4,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-shape",
+          "slide": "serves",
+          "id": "r56",
+          "shape_type": "ELLIPSE",
+          "x": 651.8333333333334,
+          "y": 148.0,
+          "width": 34,
+          "height": 34,
+          "background_color": "#EAF0F6"
+        },
+        {
+          "op": "add-image",
+          "id": "im57",
+          "path": "assets/icons/schema-ink.png",
+          "alt": "Teams with large schemas",
+          "x": 659.8333333333334,
+          "y": 156.0,
+          "width": 18,
+          "height": 18
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t49",
+          "id": "t58",
           "text": "Teams with large schemas",
-          "x": 48.3,
-          "y": 324.8,
-          "width": 210.4,
-          "height": 58.4,
-          "font_size": 10,
+          "x": 688.6333333333333,
+          "y": 142.8,
+          "width": 223.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": true
         },
         {
           "op": "style-paragraph",
-          "element": "t49",
+          "element": "t58",
           "start": 0,
           "end": 24,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t49",
+          "element": "t58",
           "start": 0,
           "end": 24,
           "bold": true
         },
         {
-          "op": "add-shape",
+          "op": "add-textbox",
           "slide": "serves",
-          "id": "r50",
-          "shape_type": "RECTANGLE",
-          "x": 263.5,
-          "y": 320.0,
-          "width": 327.75,
-          "height": 66.0,
-          "background_color": "#F4F5F6"
+          "id": "t59",
+          "text": "WHY IT HELPS",
+          "x": 644.6333333333333,
+          "y": 190.8,
+          "width": 267.56666666666666,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t59",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t59",
+          "start": 0,
+          "end": 12,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im60",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 651.8333333333334,
+          "y": 216.5,
+          "width": 11,
+          "height": 11
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t51",
-          "text": "Choosing the top tables helped on 34- and 65-table databases",
-          "x": 277.3,
-          "y": 324.8,
-          "width": 309.15,
-          "height": 58.4,
-          "font_size": 10,
+          "id": "t61",
+          "text": "Choosing the top tables helped on 34- and\n65-table databases",
+          "x": 660.6333333333333,
+          "y": 206.8,
+          "width": 251.5666666666667,
+          "height": 46.800000000000004,
+          "font_size": 12,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t51",
+          "element": "t61",
           "start": 0,
           "end": 60,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r52",
-          "shape_type": "ELLIPSE",
-          "x": 275.5,
-          "y": 337.0,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
-        },
-        {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r53",
-          "shape_type": "RECTANGLE",
-          "x": 591.25,
-          "y": 320.0,
-          "width": 327.75,
-          "height": 66.0,
-          "background_color": "#F4F5F6"
+          "op": "add-image",
+          "id": "im62",
+          "path": "assets/project/icons/tick.svg",
+          "alt": "",
+          "x": 651.8333333333334,
+          "y": 260.9,
+          "width": 11,
+          "height": 11
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t54",
-          "text": "Decisions taken with nobody reviewing the answer",
-          "x": 605.05,
-          "y": 324.8,
-          "width": 309.15,
-          "height": 58.4,
-          "font_size": 10,
+          "id": "t63",
+          "text": "Smaller prompts, 69 % fewer tokens",
+          "x": 660.6333333333333,
+          "y": 251.2,
+          "width": 251.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t54",
+          "element": "t63",
+          "start": 0,
+          "end": 34,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "serves",
+          "id": "l64",
+          "x": 651.8333333333334,
+          "y": 296.59999999999997,
+          "width": 253.16666666666663,
+          "height": 0.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t65",
+          "text": "WHERE IT DOES NOT FIT",
+          "x": 644.6333333333333,
+          "y": 303.4,
+          "width": 267.56666666666666,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t65",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t65",
+          "start": 0,
+          "end": 21,
+          "bold": true
+        },
+        {
+          "op": "add-image",
+          "id": "im66",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "",
+          "x": 651.8333333333334,
+          "y": 329.09999999999997,
+          "width": 11,
+          "height": 11
+        },
+        {
+          "op": "add-textbox",
+          "slide": "serves",
+          "id": "t67",
+          "text": "Decisions taken with nobody reviewing the\nanswer",
+          "x": 660.6333333333333,
+          "y": 319.4,
+          "width": 251.5666666666667,
+          "height": 46.800000000000004,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t67",
           "start": 0,
           "end": 48,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
-          "slide": "serves",
-          "id": "r55",
-          "shape_type": "ELLIPSE",
-          "x": 603.25,
-          "y": 337.0,
-          "width": 3,
-          "height": 3,
-          "background_color": "#5A6370"
+          "op": "add-image",
+          "id": "im68",
+          "path": "assets/project/icons/cross.svg",
+          "alt": "",
+          "x": 651.8333333333334,
+          "y": 373.5,
+          "width": 11,
+          "height": 11
         },
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t56",
-          "text": "Source: Our aim, data boundary and large-schema slides; README.",
-          "x": 36.3,
-          "y": 393.8,
-          "width": 889.9,
-          "height": 37.4,
-          "font_size": 8,
+          "id": "t69",
+          "text": "Questions whose tables are often missed",
+          "x": 660.6333333333333,
+          "y": 363.8,
+          "width": 251.5666666666667,
+          "height": 30.6,
+          "font_size": 12,
           "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
+          "color": "#1B2430",
+          "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t56",
+          "element": "t69",
           "start": 0,
-          "end": 63,
+          "end": 39,
           "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t56",
-          "start": 0,
-          "end": 7,
-          "bold": true,
-          "color": "#1B2430"
         },
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r57",
+          "id": "r70",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -13626,7 +13848,7 @@
         {
           "op": "add-shape",
           "slide": "serves",
-          "id": "r58",
+          "id": "r71",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -13637,7 +13859,7 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t59",
+          "id": "t72",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -13650,14 +13872,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t59",
+          "element": "t72",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t59",
+          "element": "t72",
           "start": 0,
           "end": 8,
           "bold": true
@@ -13665,7 +13887,7 @@
         {
           "op": "add-textbox",
           "slide": "serves",
-          "id": "t60",
+          "id": "t73",
           "text": "A first, checkable answer for people who know the question; governed dashboards stay for agreed metrics.",
           "x": 147.3,
           "y": 442.05,
@@ -13678,14 +13900,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t60",
+          "element": "t73",
           "start": 0,
           "end": 104,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t60",
+          "element": "t73",
           "start": 2,
           "end": 25,
           "bold": true
@@ -44250,7 +44472,7 @@
       "tables": [
         {
           "headers": [
-            "Engine\u00b9",
+            "In short\u00b9",
             "Writes refused by",
             "Files and internals",
             "Work budget"
@@ -44262,22 +44484,37 @@
             225.5
           ],
           "size": 10,
-          "row_height": 76,
+          "row_height": 62,
           "rows": [
+            {
+              "band": "SQLite: files and the demo databases",
+              "accent": "slate",
+              "icon": "assets/logos/tech-sqlite.png"
+            },
             [
-              "SQLite",
+              "Two locks and an authorizer",
               "A read-only connection, query_only on, and an authorizer that denies every write action.",
               "The authorizer also denies ATTACH, so other files cannot be opened.",
               "100,000 virtual-machine steps, then the query stops."
             ],
+            {
+              "band": "DuckDB: analytical files",
+              "accent": "slate",
+              "icon": "assets/logos/tech-duckdb.png"
+            },
             [
-              "DuckDB",
+              "A flag, no outside access",
               "The read_only connect flag, which protects the database file.",
               "External access off, so read_csv and other file readers are refused.",
               "5,000 ms, then the query stops."
             ],
+            {
+              "band": "PostgreSQL: a live server",
+              "accent": "slate",
+              "icon": "assets/logos/tech-postgresql.png"
+            },
             [
-              "PostgreSQL",
+              "A role and a transaction",
               "A least-privilege role and a read-only transaction, each enough on its own.",
               "A superuser or file-reading role is refused at connect.",
               "5,000 ms, then the query stops."
@@ -44510,7 +44747,7 @@
           "op": "add-textbox",
           "slide": "appendix-engines",
           "id": "t12",
-          "text": "Engine\u00b9",
+          "text": "In short\u00b9",
           "x": 36.3,
           "y": 124.8,
           "width": 136.4,
@@ -44524,14 +44761,14 @@
           "op": "style-paragraph",
           "element": "t12",
           "start": 0,
-          "end": 7,
+          "end": 9,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t12",
           "start": 0,
-          "end": 7,
+          "end": 9,
           "bold": true
         },
         {
@@ -44630,105 +44867,74 @@
           "line_weight": 0.75
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "appendix-engines",
-          "id": "t17",
-          "text": "SQLite",
-          "x": 36.3,
-          "y": 141.8,
-          "width": 136.4,
-          "height": 86.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
+          "id": "r17",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 146,
+          "width": 875.5,
+          "height": 18,
+          "background_color": "#EDF0F3"
         },
         {
-          "op": "style-paragraph",
-          "element": "t17",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t17",
-          "start": 0,
-          "end": 6,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "appendix-engines",
-          "id": "t18",
-          "text": "A read-only connection, query_only on, and an authorizer that\ndenies every write action.",
-          "x": 166.3,
-          "y": 141.8,
-          "width": 296.4,
-          "height": 86.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
+          "id": "r18",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 146,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#526174"
         },
         {
-          "op": "style-paragraph",
-          "element": "t18",
-          "start": 0,
-          "end": 88,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-engines",
-          "id": "t19",
-          "text": "The authorizer also denies ATTACH, so other files\ncannot be opened.",
-          "x": 456.3,
-          "y": 141.8,
-          "width": 236.4,
-          "height": 86.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t19",
-          "start": 0,
-          "end": 67,
-          "line_spacing": 135
+          "op": "add-image",
+          "id": "im19",
+          "path": "assets/logos/tech-sqlite.png",
+          "alt": "SQLite: files and the demo databases",
+          "x": 51.5,
+          "y": 149,
+          "width": 12,
+          "height": 12
         },
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
           "id": "t20",
-          "text": "100,000 virtual-machine steps, then the query\nstops.",
-          "x": 686.3,
+          "text": "SQLite: files and the demo databases",
+          "x": 64.3,
           "y": 141.8,
-          "width": 231.9,
-          "height": 86.4,
-          "font_size": 10,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
+          "color": "#1B2430",
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t20",
           "start": 0,
-          "end": 52,
+          "end": 36,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t20",
+          "start": 0,
+          "end": 36,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
           "id": "t21",
-          "text": "DuckDB",
+          "text": "Two locks and an\nauthorizer",
           "x": 36.3,
-          "y": 217.8,
+          "y": 159.8,
           "width": 136.4,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -44738,25 +44944,32 @@
           "op": "style-paragraph",
           "element": "t21",
           "start": 0,
-          "end": 6,
+          "end": 27,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t21",
           "start": 0,
-          "end": 6,
+          "end": 16,
+          "bold": true
+        },
+        {
+          "op": "style-text",
+          "element": "t21",
+          "start": 17,
+          "end": 27,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
           "id": "t22",
-          "text": "The read_only connect flag, which protects the database file.",
+          "text": "A read-only connection, query_only on, and an authorizer that\ndenies every write action.",
           "x": 166.3,
-          "y": 217.8,
+          "y": 159.8,
           "width": 296.4,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -44766,18 +44979,18 @@
           "op": "style-paragraph",
           "element": "t22",
           "start": 0,
-          "end": 61,
+          "end": 88,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
           "id": "t23",
-          "text": "External access off, so read_csv and other file\nreaders are refused.",
+          "text": "The authorizer also denies ATTACH, so other files\ncannot be opened.",
           "x": 456.3,
-          "y": 217.8,
+          "y": 159.8,
           "width": 236.4,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -44787,18 +45000,18 @@
           "op": "style-paragraph",
           "element": "t23",
           "start": 0,
-          "end": 68,
+          "end": 67,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
           "id": "t24",
-          "text": "5,000 ms, then the query stops.",
+          "text": "100,000 virtual-machine steps, then the query\nstops.",
           "x": 686.3,
-          "y": 217.8,
+          "y": 159.8,
           "width": 231.9,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -44808,18 +45021,78 @@
           "op": "style-paragraph",
           "element": "t24",
           "start": 0,
-          "end": 31,
+          "end": 52,
           "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "appendix-engines",
+          "id": "r25",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 226,
+          "width": 875.5,
+          "height": 18,
+          "background_color": "#EDF0F3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "appendix-engines",
+          "id": "r26",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 226,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-image",
+          "id": "im27",
+          "path": "assets/logos/tech-duckdb.png",
+          "alt": "DuckDB: analytical files",
+          "x": 51.5,
+          "y": 229,
+          "width": 12,
+          "height": 12
         },
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
-          "id": "t25",
-          "text": "PostgreSQL",
+          "id": "t28",
+          "text": "DuckDB: analytical files",
+          "x": 64.3,
+          "y": 221.8,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t28",
+          "start": 0,
+          "end": 24,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t28",
+          "start": 0,
+          "end": 24,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-engines",
+          "id": "t29",
+          "text": "A flag, no outside access",
           "x": 36.3,
-          "y": 293.8,
+          "y": 239.8,
           "width": 136.4,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -44827,27 +45100,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t25",
+          "element": "t29",
           "start": 0,
-          "end": 10,
+          "end": 25,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t25",
+          "element": "t29",
           "start": 0,
-          "end": 10,
+          "end": 25,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
-          "id": "t26",
-          "text": "A least-privilege role and a read-only transaction, each enough\non its own.",
+          "id": "t30",
+          "text": "The read_only connect flag, which protects the database file.",
           "x": 166.3,
-          "y": 293.8,
+          "y": 239.8,
           "width": 296.4,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -44855,7 +45128,158 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t26",
+          "element": "t30",
+          "start": 0,
+          "end": 61,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-engines",
+          "id": "t31",
+          "text": "External access off, so read_csv and other file\nreaders are refused.",
+          "x": 456.3,
+          "y": 239.8,
+          "width": 236.4,
+          "height": 72.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t31",
+          "start": 0,
+          "end": 68,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-engines",
+          "id": "t32",
+          "text": "5,000 ms, then the query stops.",
+          "x": 686.3,
+          "y": 239.8,
+          "width": 231.9,
+          "height": 72.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t32",
+          "start": 0,
+          "end": 31,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "appendix-engines",
+          "id": "r33",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 306,
+          "width": 875.5,
+          "height": 18,
+          "background_color": "#EDF0F3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "appendix-engines",
+          "id": "r34",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 306,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-image",
+          "id": "im35",
+          "path": "assets/logos/tech-postgresql.png",
+          "alt": "PostgreSQL: a live server",
+          "x": 51.5,
+          "y": 309,
+          "width": 12,
+          "height": 12
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-engines",
+          "id": "t36",
+          "text": "PostgreSQL: a live server",
+          "x": 64.3,
+          "y": 301.8,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t36",
+          "start": 0,
+          "end": 25,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t36",
+          "start": 0,
+          "end": 25,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-engines",
+          "id": "t37",
+          "text": "A role and a transaction",
+          "x": 36.3,
+          "y": 319.8,
+          "width": 136.4,
+          "height": 72.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t37",
+          "start": 0,
+          "end": 24,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t37",
+          "start": 0,
+          "end": 24,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-engines",
+          "id": "t38",
+          "text": "A least-privilege role and a read-only transaction, each enough\non its own.",
+          "x": 166.3,
+          "y": 319.8,
+          "width": 296.4,
+          "height": 72.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t38",
           "start": 0,
           "end": 75,
           "line_spacing": 135
@@ -44863,12 +45287,12 @@
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
-          "id": "t27",
+          "id": "t39",
           "text": "A superuser or file-reading role is refused at\nconnect.",
           "x": 456.3,
-          "y": 293.8,
+          "y": 319.8,
           "width": 236.4,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -44876,7 +45300,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t27",
+          "element": "t39",
           "start": 0,
           "end": 55,
           "line_spacing": 135
@@ -44884,12 +45308,12 @@
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
-          "id": "t28",
+          "id": "t40",
           "text": "5,000 ms, then the query stops.",
           "x": 686.3,
-          "y": 293.8,
+          "y": 319.8,
           "width": 231.9,
-          "height": 86.4,
+          "height": 72.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -44897,7 +45321,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t28",
+          "element": "t40",
           "start": 0,
           "end": 31,
           "line_spacing": 135
@@ -44905,9 +45329,9 @@
         {
           "op": "add-line",
           "slide": "appendix-engines",
-          "id": "l29",
+          "id": "l41",
           "x": 43.5,
-          "y": 374,
+          "y": 386,
           "width": 875.5,
           "height": 0,
           "color": "#89949D",
@@ -44916,10 +45340,10 @@
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
-          "id": "t30",
+          "id": "t42",
           "text": "Note: \u2060\u00b9 All three pass the same 15 conformance tests, 45 in all, none skipped. Every engine also caps results at 1,000 rows.",
           "x": 36.3,
-          "y": 370.8,
+          "y": 382.8,
           "width": 889.9,
           "height": 26.4,
           "font_size": 8,
@@ -44929,14 +45353,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t30",
+          "element": "t42",
           "start": 0,
           "end": 125,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t30",
+          "element": "t42",
           "start": 0,
           "end": 5,
           "bold": true
@@ -44944,7 +45368,7 @@
         {
           "op": "add-shape",
           "slide": "appendix-engines",
-          "id": "r31",
+          "id": "r43",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -44955,7 +45379,7 @@
         {
           "op": "add-shape",
           "slide": "appendix-engines",
-          "id": "r32",
+          "id": "r44",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -44966,7 +45390,7 @@
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
-          "id": "t33",
+          "id": "t45",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -44979,14 +45403,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t33",
+          "element": "t45",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t33",
+          "element": "t45",
           "start": 0,
           "end": 8,
           "bold": true
@@ -44994,7 +45418,7 @@
         {
           "op": "add-textbox",
           "slide": "appendix-engines",
-          "id": "t34",
+          "id": "t46",
           "text": "Read-only is enforced by each engine, not assumed from the application check.",
           "x": 147.3,
           "y": 442.05,
@@ -45007,14 +45431,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t34",
+          "element": "t46",
           "start": 0,
           "end": 77,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t34",
+          "element": "t46",
           "start": 13,
           "end": 36,
           "bold": true
@@ -46212,8 +46636,13 @@
             235.5
           ],
           "size": 10,
-          "row_height": 38,
+          "row_height": 30,
           "rows": [
+            {
+              "band": "Schema and prompt",
+              "accent": "slate",
+              "icon": "assets/icons/schema-ink.png"
+            },
             [
               "Schema",
               "The tables, columns and keys of a database, without its rows.",
@@ -46224,6 +46653,11 @@
               "Up to 6 stored values from text columns with at most 20 distinct values, sent with the schema.",
               "Data boundary, large schemas"
             ],
+            {
+              "band": "Table selection",
+              "accent": "slate",
+              "icon": "assets/icons/table_rows-ink.png"
+            },
             [
               "Top 6 + neighbours",
               "The six most relevant tables for a question, plus tables one foreign key away.",
@@ -46234,6 +46668,11 @@
               "The whole schema with value hints; the baseline for table selection.",
               "Large schemas, trials"
             ],
+            {
+              "band": "Evaluation",
+              "accent": "slate",
+              "icon": "assets/icons/science-ink.png"
+            },
             [
               "Evidence hints",
               "BIRD\u2019s own note for each question, such as which column a phrase refers to.",
@@ -46576,88 +47015,67 @@
           "x": 43.5,
           "y": 146,
           "width": 875.5,
-          "height": 38,
-          "background_color": "#F6F7F9"
+          "height": 18,
+          "background_color": "#EDF0F3"
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "appendix-glossary",
-          "id": "t17",
-          "text": "Schema",
-          "x": 36.3,
-          "y": 141.8,
-          "width": 176.4,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
+          "id": "r17",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 146,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#526174"
         },
         {
-          "op": "style-paragraph",
-          "element": "t17",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t17",
-          "start": 0,
-          "end": 6,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-glossary",
-          "id": "t18",
-          "text": "The tables, columns and keys of a database, without its rows.",
-          "x": 206.3,
-          "y": 141.8,
-          "width": 476.4,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t18",
-          "start": 0,
-          "end": 61,
-          "line_spacing": 135
+          "op": "add-image",
+          "id": "im18",
+          "path": "assets/icons/schema-ink.png",
+          "alt": "Schema and prompt",
+          "x": 51.5,
+          "y": 149,
+          "width": 12,
+          "height": 12
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t19",
-          "text": "Why it is hard, data boundary",
-          "x": 676.3,
+          "text": "Schema and prompt",
+          "x": 64.3,
           "y": 141.8,
-          "width": 241.9,
-          "height": 48.4,
-          "font_size": 10,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
           "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
+          "color": "#1B2430",
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t19",
           "start": 0,
-          "end": 29,
+          "end": 17,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t19",
+          "start": 0,
+          "end": 17,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t20",
-          "text": "Value hints",
+          "text": "Schema",
           "x": 36.3,
-          "y": 179.8,
+          "y": 159.8,
           "width": 176.4,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -46667,25 +47085,25 @@
           "op": "style-paragraph",
           "element": "t20",
           "start": 0,
-          "end": 11,
+          "end": 6,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t20",
           "start": 0,
-          "end": 11,
+          "end": 6,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t21",
-          "text": "Up to 6 stored values from text columns with at most 20 distinct values, sent with the schema.",
+          "text": "The tables, columns and keys of a database, without its rows.",
           "x": 206.3,
-          "y": 179.8,
+          "y": 159.8,
           "width": 476.4,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -46695,18 +47113,18 @@
           "op": "style-paragraph",
           "element": "t21",
           "start": 0,
-          "end": 94,
+          "end": 61,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t22",
-          "text": "Data boundary, large schemas",
+          "text": "Why it is hard, data boundary",
           "x": 676.3,
-          "y": 179.8,
+          "y": 159.8,
           "width": 241.9,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -46716,29 +47134,29 @@
           "op": "style-paragraph",
           "element": "t22",
           "start": 0,
-          "end": 28,
+          "end": 29,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
+          "op": "add-line",
           "slide": "appendix-glossary",
-          "id": "r23",
-          "shape_type": "RECTANGLE",
+          "id": "l23",
           "x": 43.5,
-          "y": 222,
+          "y": 194,
           "width": 875.5,
-          "height": 38,
-          "background_color": "#F6F7F9"
+          "height": 0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t24",
-          "text": "Top 6 + neighbours",
+          "text": "Value hints",
           "x": 36.3,
-          "y": 217.8,
+          "y": 189.8,
           "width": 176.4,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -46748,25 +47166,25 @@
           "op": "style-paragraph",
           "element": "t24",
           "start": 0,
-          "end": 18,
+          "end": 11,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t24",
           "start": 0,
-          "end": 18,
+          "end": 11,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t25",
-          "text": "The six most relevant tables for a question, plus tables one foreign key away.",
+          "text": "Up to 6 stored values from text columns with at most 20 distinct values, sent with the schema.",
           "x": 206.3,
-          "y": 217.8,
+          "y": 189.8,
           "width": 476.4,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -46776,18 +47194,18 @@
           "op": "style-paragraph",
           "element": "t25",
           "start": 0,
-          "end": 78,
+          "end": 94,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t26",
-          "text": "Architecture, large schemas",
+          "text": "Data boundary, large schemas",
           "x": 676.3,
-          "y": 217.8,
+          "y": 189.8,
           "width": 241.9,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -46797,99 +47215,78 @@
           "op": "style-paragraph",
           "element": "t26",
           "start": 0,
-          "end": 27,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-glossary",
-          "id": "t27",
-          "text": "Every table + hints",
-          "x": 36.3,
-          "y": 255.8,
-          "width": 176.4,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t27",
-          "start": 0,
-          "end": 19,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t27",
-          "start": 0,
-          "end": 19,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-glossary",
-          "id": "t28",
-          "text": "The whole schema with value hints; the baseline for table selection.",
-          "x": 206.3,
-          "y": 255.8,
-          "width": 476.4,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t28",
-          "start": 0,
-          "end": 68,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-glossary",
-          "id": "t29",
-          "text": "Large schemas, trials",
-          "x": 676.3,
-          "y": 255.8,
-          "width": 241.9,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t29",
-          "start": 0,
-          "end": 21,
+          "end": 28,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "appendix-glossary",
-          "id": "r30",
+          "id": "r27",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 298,
+          "y": 224,
           "width": 875.5,
-          "height": 38,
-          "background_color": "#F6F7F9"
+          "height": 18,
+          "background_color": "#EDF0F3"
+        },
+        {
+          "op": "add-shape",
+          "slide": "appendix-glossary",
+          "id": "r28",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 224,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-image",
+          "id": "im29",
+          "path": "assets/icons/table_rows-ink.png",
+          "alt": "Table selection",
+          "x": 51.5,
+          "y": 227,
+          "width": 12,
+          "height": 12
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t30",
+          "text": "Table selection",
+          "x": 64.3,
+          "y": 219.8,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t30",
+          "start": 0,
+          "end": 15,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t30",
+          "start": 0,
+          "end": 15,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t31",
-          "text": "Evidence hints",
+          "text": "Top 6 + neighbours",
           "x": 36.3,
-          "y": 293.8,
+          "y": 237.8,
           "width": 176.4,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -46899,25 +47296,25 @@
           "op": "style-paragraph",
           "element": "t31",
           "start": 0,
-          "end": 14,
+          "end": 18,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t31",
           "start": 0,
-          "end": 14,
+          "end": 18,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t32",
-          "text": "BIRD\u2019s own note for each question, such as which column a phrase refers to.",
+          "text": "The six most relevant tables for a question, plus tables one foreign key away.",
           "x": 206.3,
-          "y": 293.8,
+          "y": 237.8,
           "width": 476.4,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -46927,18 +47324,18 @@
           "op": "style-paragraph",
           "element": "t32",
           "start": 0,
-          "end": 75,
+          "end": 78,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t33",
-          "text": "Benchmarks",
+          "text": "Architecture, large schemas",
           "x": 676.3,
-          "y": 293.8,
+          "y": 237.8,
           "width": 241.9,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -46948,18 +47345,29 @@
           "op": "style-paragraph",
           "element": "t33",
           "start": 0,
-          "end": 10,
+          "end": 27,
           "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "appendix-glossary",
+          "id": "l34",
+          "x": 43.5,
+          "y": 272,
+          "width": 875.5,
+          "height": 0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
-          "id": "t34",
-          "text": "Paired change",
+          "id": "t35",
+          "text": "Every table + hints",
           "x": 36.3,
-          "y": 331.8,
+          "y": 267.8,
           "width": 176.4,
-          "height": 48.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
@@ -46967,48 +47375,27 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t34",
+          "element": "t35",
           "start": 0,
-          "end": 13,
+          "end": 19,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t34",
+          "element": "t35",
           "start": 0,
-          "end": 13,
+          "end": 19,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
-          "id": "t35",
-          "text": "The difference between two settings on the same questions, in accuracy points.",
-          "x": 206.3,
-          "y": 331.8,
-          "width": 476.4,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t35",
-          "start": 0,
-          "end": 78,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-glossary",
           "id": "t36",
-          "text": "Method, trials",
-          "x": 676.3,
-          "y": 331.8,
-          "width": 241.9,
-          "height": 48.4,
+          "text": "The whole schema with value hints; the baseline for table selection.",
+          "x": 206.3,
+          "y": 267.8,
+          "width": 476.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -47018,100 +47405,72 @@
           "op": "style-paragraph",
           "element": "t36",
           "start": 0,
-          "end": 14,
+          "end": 68,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t37",
+          "text": "Large schemas, trials",
+          "x": 676.3,
+          "y": 267.8,
+          "width": 241.9,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t37",
+          "start": 0,
+          "end": 21,
           "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "appendix-glossary",
-          "id": "r37",
+          "id": "r38",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 374,
+          "y": 302,
           "width": 875.5,
-          "height": 38,
-          "background_color": "#F6F7F9"
+          "height": 18,
+          "background_color": "#EDF0F3"
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "appendix-glossary",
-          "id": "t38",
-          "text": "95 % interval",
-          "x": 36.3,
-          "y": 369.8,
-          "width": 176.4,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
+          "id": "r39",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 302,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#526174"
         },
         {
-          "op": "style-paragraph",
-          "element": "t38",
-          "start": 0,
-          "end": 13,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t38",
-          "start": 0,
-          "end": 13,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-glossary",
-          "id": "t39",
-          "text": "The range the change could plausibly take; measurable when it sits clear of zero.",
-          "x": 206.3,
-          "y": 369.8,
-          "width": 476.4,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t39",
-          "start": 0,
-          "end": 81,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "appendix-glossary",
-          "id": "t40",
-          "text": "Method onwards",
-          "x": 676.3,
-          "y": 369.8,
-          "width": 241.9,
-          "height": 48.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t40",
-          "start": 0,
-          "end": 14,
-          "line_spacing": 135
+          "op": "add-image",
+          "id": "im40",
+          "path": "assets/icons/science-ink.png",
+          "alt": "Evaluation",
+          "x": 51.5,
+          "y": 305,
+          "width": 12,
+          "height": 12
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t41",
-          "text": "Conformance tests",
-          "x": 36.3,
-          "y": 407.8,
-          "width": 176.4,
-          "height": 48.4,
-          "font_size": 10,
+          "text": "Evaluation",
+          "x": 64.3,
+          "y": 297.8,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": true
@@ -47120,46 +47479,53 @@
           "op": "style-paragraph",
           "element": "t41",
           "start": 0,
-          "end": 17,
+          "end": 10,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t41",
           "start": 0,
-          "end": 17,
+          "end": 10,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t42",
-          "text": "The same 15 read-only tests run on each engine, none skipped.",
-          "x": 206.3,
-          "y": 407.8,
-          "width": 476.4,
-          "height": 48.4,
+          "text": "Evidence hints",
+          "x": 36.3,
+          "y": 315.8,
+          "width": 176.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
+          "color": "#1B2430",
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t42",
           "start": 0,
-          "end": 61,
+          "end": 14,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t42",
+          "start": 0,
+          "end": 14,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "appendix-glossary",
           "id": "t43",
-          "text": "Summary, safety",
-          "x": 676.3,
-          "y": 407.8,
-          "width": 241.9,
-          "height": 48.4,
+          "text": "BIRD\u2019s own note for each question, such as which column a phrase refers to.",
+          "x": 206.3,
+          "y": 315.8,
+          "width": 476.4,
+          "height": 40.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -47169,15 +47535,279 @@
           "op": "style-paragraph",
           "element": "t43",
           "start": 0,
+          "end": 75,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t44",
+          "text": "Benchmarks",
+          "x": 676.3,
+          "y": 315.8,
+          "width": 241.9,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t44",
+          "start": 0,
+          "end": 10,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "appendix-glossary",
+          "id": "l45",
+          "x": 43.5,
+          "y": 350,
+          "width": 875.5,
+          "height": 0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t46",
+          "text": "Paired change",
+          "x": 36.3,
+          "y": 345.8,
+          "width": 176.4,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t46",
+          "start": 0,
+          "end": 13,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t46",
+          "start": 0,
+          "end": 13,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t47",
+          "text": "The difference between two settings on the same questions, in accuracy points.",
+          "x": 206.3,
+          "y": 345.8,
+          "width": 476.4,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t47",
+          "start": 0,
+          "end": 78,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t48",
+          "text": "Method, trials",
+          "x": 676.3,
+          "y": 345.8,
+          "width": 241.9,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t48",
+          "start": 0,
+          "end": 14,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "appendix-glossary",
+          "id": "l49",
+          "x": 43.5,
+          "y": 380,
+          "width": 875.5,
+          "height": 0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t50",
+          "text": "95 % interval",
+          "x": 36.3,
+          "y": 375.8,
+          "width": 176.4,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t50",
+          "start": 0,
+          "end": 13,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t50",
+          "start": 0,
+          "end": 13,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t51",
+          "text": "The range the change could plausibly take; measurable when it sits clear of zero.",
+          "x": 206.3,
+          "y": 375.8,
+          "width": 476.4,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t51",
+          "start": 0,
+          "end": 81,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t52",
+          "text": "Method onwards",
+          "x": 676.3,
+          "y": 375.8,
+          "width": 241.9,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t52",
+          "start": 0,
+          "end": 14,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-line",
+          "slide": "appendix-glossary",
+          "id": "l53",
+          "x": 43.5,
+          "y": 410,
+          "width": 875.5,
+          "height": 0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t54",
+          "text": "Conformance tests",
+          "x": 36.3,
+          "y": 405.8,
+          "width": 176.4,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t54",
+          "start": 0,
+          "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t54",
+          "start": 0,
+          "end": 17,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t55",
+          "text": "The same 15 read-only tests run on each engine, none skipped.",
+          "x": 206.3,
+          "y": 405.8,
+          "width": 476.4,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t55",
+          "start": 0,
+          "end": 61,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "appendix-glossary",
+          "id": "t56",
+          "text": "Summary, safety",
+          "x": 676.3,
+          "y": 405.8,
+          "width": 241.9,
+          "height": 40.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t56",
+          "start": 0,
           "end": 15,
           "line_spacing": 135
         },
         {
           "op": "add-line",
           "slide": "appendix-glossary",
-          "id": "l44",
+          "id": "l57",
           "x": 43.5,
-          "y": 450,
+          "y": 440,
           "width": 875.5,
           "height": 0,
           "color": "#89949D",
@@ -47187,47 +47817,71 @@
     },
     {
       "id": "references",
-      "layout": "references",
+      "layout": "sources_page",
       "section": "Appendix",
       "topic": "Sources",
       "accent": "slate",
       "header_style": "appendix",
       "title": "Sources behind the claims",
       "subtitle": "Every number traces to the repository or to a source read on the date given. Detail for slides 5, 6 and 14.",
-      "items": [
-        {
-          "label": "Repository: README Evaluation Results; large-schema and retrieval results",
-          "url": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
-        },
-        {
-          "label": "Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887",
-          "url": "https://arxiv.org/abs/1809.08887"
-        },
-        {
-          "label": "BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026",
-          "url": "https://bird-bench.github.io/"
-        },
-        {
-          "label": "Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)",
-          "url": "https://arxiv.org/abs/2411.07763"
-        },
-        {
-          "label": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
-          "url": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
-        },
-        {
-          "label": "Databricks Genie best practices (read 6 November 2026)",
-          "url": "https://docs.databricks.com/en/genie/best-practices.html"
-        },
-        {
-          "label": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
-          "url": "https://github.com/Canner/WrenAI"
-        }
+      "groups": [
+        [
+          "This project",
+          "code-ink",
+          [
+            [
+              "README: evaluation results",
+              "Spider, BIRD, demo and safety runs at 7708295",
+              "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
+            ],
+            [
+              "Large-schema and retrieval results",
+              "evaluation/results/bird_train_large and retrieval",
+              "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
+            ],
+            [
+              "Decision log",
+              "docs/3_decisions.md: every default and why it was kept",
+              "https://github.com/tuannm3812/text-to-sql-agent/blob/main/docs/3_decisions.md"
+            ],
+            [
+              "Live demo",
+              "aipa-text-to-sql-agent.streamlit.app",
+              "https://aipa-text-to-sql-agent.streamlit.app"
+            ]
+          ]
+        ],
+        [
+          "Outside sources, read 6 November 2026",
+          "menu_book-ink",
+          [
+            [
+              "Spider: Yu et al. (2018), EMNLP",
+              "arXiv 1809.08887",
+              "https://arxiv.org/abs/1809.08887"
+            ],
+            [
+              "BIRD: Li et al. (2023), NeurIPS; leaderboard",
+              "arXiv 2305.03111; bird-bench.github.io",
+              "https://bird-bench.github.io/"
+            ],
+            [
+              "Spider 2.0: Lei et al. (2024)",
+              "arXiv 2411.07763",
+              "https://arxiv.org/abs/2411.07763"
+            ],
+            [
+              "Snowflake, Databricks, WrenAI and Vanna",
+              "Product documentation and repositories (other tools slide)",
+              "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
+            ]
+          ]
+        ]
       ],
       "notes": {
         "purpose": "List where the audience can check the claims.",
         "script": [
-          "These are the sources behind every number in the deck."
+          "These are the sources behind every number in the deck: the repository on the left, outside sources on the right."
         ],
         "references": [
           "sources.md",
@@ -47441,157 +48095,655 @@
           "line_spacing": 135
         },
         {
-          "op": "add-textbox",
-          "slide": "references",
-          "id": "t12",
-          "text": "Repository: README Evaluation Results; large-schema and retrieval results",
-          "x": 36.3,
-          "y": 143.8,
-          "width": 889.9,
-          "height": 339.4,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t12",
-          "start": 0,
-          "end": 73,
-          "line_spacing": 135
+          "op": "add-image",
+          "id": "im12",
+          "path": "assets/icons/code-ink.png",
+          "alt": "This project",
+          "x": 43.5,
+          "y": 134.0,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t13",
-          "text": "Spider: Yu et al. (2018), EMNLP, arXiv 1809.08887",
-          "x": 36.3,
-          "y": 176.0,
-          "width": 889.9,
-          "height": 307.2,
+          "text": "This project",
+          "x": 60.3,
+          "y": 126.8,
+          "width": 416.15,
+          "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://arxiv.org/abs/1809.08887"
+          "color": "#1B2430",
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t13",
           "start": 0,
-          "end": 49,
+          "end": 12,
           "line_spacing": 135
         },
         {
-          "op": "add-textbox",
-          "slide": "references",
-          "id": "t14",
-          "text": "BIRD: Li et al. (2023), NeurIPS, arXiv 2305.03111; leaderboard read 6 November 2026",
-          "x": 36.3,
-          "y": 208.2,
-          "width": 889.9,
-          "height": 275.0,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://bird-bench.github.io/"
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t14",
+          "op": "style-text",
+          "element": "t13",
           "start": 0,
-          "end": 83,
-          "line_spacing": 135
+          "end": 12,
+          "bold": true
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "references",
-          "id": "t15",
-          "text": "Spider 2.0: Lei et al. (2024), arXiv 2411.07763 (read 6 November 2026)",
-          "x": 36.3,
-          "y": 240.39999999999998,
-          "width": 889.9,
-          "height": 242.80000000000004,
-          "font_size": 12,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://arxiv.org/abs/2411.07763"
+          "id": "r14",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 162.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
         },
         {
-          "op": "style-paragraph",
-          "element": "t15",
-          "start": 0,
-          "end": 70,
-          "line_spacing": 135
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r15",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 162.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t16",
-          "text": "Snowflake Cortex Analyst documentation (read 6 November 2026)",
-          "x": 36.3,
-          "y": 272.59999999999997,
-          "width": 889.9,
-          "height": 210.60000000000005,
-          "font_size": 12,
+          "text": "README: evaluation results",
+          "x": 50.3,
+          "y": 164.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md"
         },
         {
           "op": "style-paragraph",
           "element": "t16",
           "start": 0,
-          "end": 61,
+          "end": 26,
           "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t16",
+          "start": 0,
+          "end": 26,
+          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "references",
           "id": "t17",
-          "text": "Databricks Genie best practices (read 6 November 2026)",
-          "x": 36.3,
-          "y": 304.79999999999995,
-          "width": 889.9,
-          "height": 178.40000000000006,
-          "font_size": 12,
+          "text": "Spider, BIRD, demo and safety runs at 7708295",
+          "x": 50.3,
+          "y": 182.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
-          "bold": false,
-          "href": "https://docs.databricks.com/en/genie/best-practices.html"
+          "bold": false
         },
         {
           "op": "style-paragraph",
           "element": "t17",
           "start": 0,
-          "end": 54,
+          "end": 45,
           "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r18",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 222.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r19",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 222.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
         },
         {
           "op": "add-textbox",
           "slide": "references",
-          "id": "t18",
-          "text": "WrenAI and Vanna repositories; Vanna archived 29 March 2026 (read 6 November 2026)",
-          "x": 36.3,
-          "y": 336.99999999999994,
-          "width": 889.9,
-          "height": 146.20000000000007,
-          "font_size": 12,
+          "id": "t20",
+          "text": "Large-schema and retrieval results",
+          "x": 50.3,
+          "y": 224.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false,
-          "href": "https://github.com/Canner/WrenAI"
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/tree/main/evaluation/results"
         },
         {
           "op": "style-paragraph",
-          "element": "t18",
+          "element": "t20",
           "start": 0,
-          "end": 82,
+          "end": 34,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t20",
+          "start": 0,
+          "end": 34,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t21",
+          "text": "evaluation/results/bird_train_large and retrieval",
+          "x": 50.3,
+          "y": 242.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t21",
+          "start": 0,
+          "end": 49,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r22",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 282.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r23",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 282.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t24",
+          "text": "Decision log",
+          "x": 50.3,
+          "y": 284.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/docs/3_decisions.md"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t24",
+          "start": 0,
+          "end": 12,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t24",
+          "start": 0,
+          "end": 12,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t25",
+          "text": "docs/3_decisions.md: every default and why it was kept",
+          "x": 50.3,
+          "y": 302.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t25",
+          "start": 0,
+          "end": 54,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r26",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 342.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r27",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 342.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t28",
+          "text": "Live demo",
+          "x": 50.3,
+          "y": 344.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://aipa-text-to-sql-agent.streamlit.app"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t28",
+          "start": 0,
+          "end": 9,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t28",
+          "start": 0,
+          "end": 9,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t29",
+          "text": "aipa-text-to-sql-agent.streamlit.app",
+          "x": 50.3,
+          "y": 362.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t29",
+          "start": 0,
+          "end": 36,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im30",
+          "path": "assets/icons/menu_book-ink.png",
+          "alt": "Outside sources, read 6 November 2026",
+          "x": 493.25,
+          "y": 134.0,
+          "width": 16,
+          "height": 16
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t31",
+          "text": "Outside sources, read 6 November 2026",
+          "x": 510.05,
+          "y": 126.8,
+          "width": 416.15,
+          "height": 30.6,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t31",
+          "start": 0,
+          "end": 37,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t31",
+          "start": 0,
+          "end": 37,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r32",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 162.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r33",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 162.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t34",
+          "text": "Spider: Yu et al. (2018), EMNLP",
+          "x": 500.05,
+          "y": 164.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://arxiv.org/abs/1809.08887"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t34",
+          "start": 0,
+          "end": 31,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t34",
+          "start": 0,
+          "end": 31,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t35",
+          "text": "arXiv 1809.08887",
+          "x": 500.05,
+          "y": 182.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t35",
+          "start": 0,
+          "end": 16,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r36",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 222.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r37",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 222.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t38",
+          "text": "BIRD: Li et al. (2023), NeurIPS; leaderboard",
+          "x": 500.05,
+          "y": 224.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://bird-bench.github.io/"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t38",
+          "start": 0,
+          "end": 44,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t38",
+          "start": 0,
+          "end": 44,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t39",
+          "text": "arXiv 2305.03111; bird-bench.github.io",
+          "x": 500.05,
+          "y": 242.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t39",
+          "start": 0,
+          "end": 38,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r40",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 282.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r41",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 282.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t42",
+          "text": "Spider 2.0: Lei et al. (2024)",
+          "x": 500.05,
+          "y": 284.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://arxiv.org/abs/2411.07763"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t42",
+          "start": 0,
+          "end": 29,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t42",
+          "start": 0,
+          "end": 29,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t43",
+          "text": "arXiv 2411.07763",
+          "x": 500.05,
+          "y": 302.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t43",
+          "start": 0,
+          "end": 16,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r44",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 342.0,
+          "width": 425.75,
+          "height": 52,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "references",
+          "id": "r45",
+          "shape_type": "RECTANGLE",
+          "x": 493.25,
+          "y": 342.0,
+          "width": 425.75,
+          "height": 0,
+          "background_color": "#526174"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t46",
+          "text": "Snowflake, Databricks, WrenAI and Vanna",
+          "x": 500.05,
+          "y": 344.8,
+          "width": 412.15,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true,
+          "href": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t46",
+          "start": 0,
+          "end": 39,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t46",
+          "start": 0,
+          "end": 39,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "references",
+          "id": "t47",
+          "text": "Product documentation and repositories (other tools slide)",
+          "x": 500.05,
+          "y": 362.8,
+          "width": 412.15,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t47",
+          "start": 0,
+          "end": 58,
           "line_spacing": 135
         }
       ]

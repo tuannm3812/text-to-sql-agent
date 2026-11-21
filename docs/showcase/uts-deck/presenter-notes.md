@@ -333,7 +333,7 @@ References:
 
 List where the audience can check the claims.
 
-These are the sources behind every number in the deck.
+These are the sources behind every number in the deck: the repository on the left, outside sources on the right.
 
 References:
 - sources.md
