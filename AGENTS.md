@@ -155,6 +155,9 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
   `docs/showcase/slides/build_body_slides.py`), poster rebuilt by `docs/showcase/build_poster.py`,
   speaker notes synced. Portfolio handoff: `docs/showcase/README.md`. The app's blue and amber design
   is committed. `1549` passed / `353` skipped without the DSN.
+- 2026-11-21: the deck is ported to the UTS deck kit (`docs/showcase/uts-deck/`, 24 pages, HTML and PDF;
+  slide text from `author_slides.py`, appendix flowchart from `make_flow.py`). All kit checks report 0 findings.
+  The Google Slides deck is unchanged.
 
 ## Open risks
 

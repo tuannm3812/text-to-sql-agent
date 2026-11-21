@@ -8626,3 +8626,12 @@ Poster header reworked after Mike's review: amber text on blue and navy replaced
   re-checked against `evaluation/results/` READMEs and the README v2 table.
 - Verified: kit build, export_pdf, check_deck, audit_layout and check_markers all report 0 findings. Not verified:
   owner review. Kit limitation found: a non-breaking space does not keep a number with its unit when wrapping.
+
+## 2026-11-21 — Claude: UTS deck refined in batches, ready to push
+
+- `docs/showcase/uts-deck/`: 24 pages refined with the owner over four batches: old deck's icons, logos and
+  diagrams restored; one Viridis-based colour key; superscript notes and ringed markers per the kit; new appendix
+  pages for the full flow (rendered by `make_flow.py`), scoring, engines, technology and glossary.
+- Verified: kit build, export, check_deck, audit_layout and check_markers report 0 findings; new numbers checked
+  against run reports and registered in `claims-register.md`. Not verified: the flowchart image's text by
+  check_deck (it is an image).

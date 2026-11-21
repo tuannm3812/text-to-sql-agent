@@ -246,6 +246,16 @@ def bars_page(L, p, slide):
     y = TOP
     if slide.get('legend'):
         y += legend(L, p, slide['legend'], LEFT, y, FIG_RIGHT - LEFT) + 10
+    if slide.get('boxes'):   # the groups a chart is split by, as a row of small cards above it
+        n = len(slide['boxes'])
+        bw = (FIG_RIGHT - LEFT - 10 * (n - 1)) / n
+        for k, (head, body, art) in enumerate(slide['boxes']):
+            bx = LEFT + k * (bw + 10)
+            card(L, p, bx, y, bw, 38, weight=0)
+            icon(L, p, f'assets/icons/{art}.png', head, bx + 10, y + 11, 16)
+            put(L, p, head, bx + 34, y + 6, bw - 44, 10, 'ink', True)
+            put(L, p, body, bx + 34, y + 21, bw - 44, 8, 'body')
+        y += 50
     panels = slide['panels']
     cap_h = need(L, slide['caption'], FIG_RIGHT - LEFT, L.size('caption')) + 8 if slide.get('caption') else 0
     rows = sum(len(pn['rows']) for pn in panels)
@@ -443,8 +453,11 @@ def close_page(L, p, slide):
         L.text(p, text, LEFT + 112, yy, 340, 14, 10, 'body')
         next(op for op in reversed(p.ops) if op['op'] == 'add-textbox')['href'] = url
         yy += 22
-    put(L, p, L.content['author'], LEFT, 410, 420, 12, 'ink', True)
-    put(L, p, f"{L.content['affiliation']}  \u00b7  {L.content['date']}", LEFT, 428, 420, 10, 'body')
+    put(L, p, L.content['author'], LEFT, 410, 330, 12, 'ink', True)
+    put(L, p, f"{L.content['affiliation']}  \u00b7  {L.content['date']}", LEFT, 428, 330, 10, 'body')
+    if slide.get('qr'):   # scan to try the live demo
+        L.image(p, slide['qr'], 405, 392, 64, 64)
+        put(L, p, 'Scan to try it', 405, 460, 64, 8, 'body', align='center')
     L.image(p, slide['image'], 505, 0, 455, 540)
 
 

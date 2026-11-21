@@ -27240,22 +27240,22 @@
           "marker": 1,
           "rows": [
             {
-              "label": "Easy",
+              "label": "Easy, 248 questions",
               "series": "d1",
               "value": 84.3
             },
             {
-              "label": "Medium",
+              "label": "Medium, 446",
               "series": "d2",
               "value": 65.9
             },
             {
-              "label": "Hard",
+              "label": "Hard, 174",
               "series": "d3",
               "value": 58.6
             },
             {
-              "label": "Extra hard",
+              "label": "Extra hard, 166",
               "series": "d4",
               "value": 38.0
             }
@@ -27271,7 +27271,7 @@
           "marker": 2,
           "rows": [
             {
-              "label": "Simple",
+              "label": "Simple, 860 questions",
               "value": 43.1,
               "series": "d1"
             },
@@ -27281,7 +27281,7 @@
               "series": "muted"
             },
             {
-              "label": "Challenging",
+              "label": "Challenging, 231",
               "value": 17.3,
               "series": "d3"
             },
@@ -27294,7 +27294,7 @@
         }
       ],
       "max_step": 22,
-      "caption": "**Source:** release runs at 7708295, qwen3.5 9B; this project\u2019s scorer, not leaderboard scores. Spider 1,034 and BIRD 1,534 questions.",
+      "caption": "**Source:** release runs at 7708295, qwen3.5 9B, on Spider dev (Yu et al., 2018; 1,034 questions) and BIRD dev (Li et al., 2023; 1,534); this project\u2019s scorer, not leaderboard scores.",
       "takeaway": "Harder questions score lower, and **a good demo proves little**.",
       "annotations": [
         {
@@ -27378,17 +27378,17 @@
         {
           "number": 1,
           "cx": 148.41666666666669,
-          "cy": 237.6909090909091
+          "cy": 234.7454545454545
         },
         {
           "number": 2,
           "cx": 272.83333333333337,
-          "cy": 357.94545454545454
+          "cy": 351.07272727272715
         },
         {
           "number": 3,
           "cx": 560.0333333333333,
-          "cy": 205.9090909090909
+          "cy": 203.4545454545454
         }
       ],
       "ops": [
@@ -27778,7 +27778,7 @@
           "id": "t22",
           "text": "Spider dev",
           "x": 36.3,
-          "y": 148.8318181818182,
+          "y": 148.3409090909091,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -27799,7 +27799,7 @@
           "id": "r23",
           "shape_type": "RECTANGLE",
           "x": 435.28,
-          "y": 161.53181818181818,
+          "y": 161.04090909090908,
           "width": 23.157500000000027,
           "height": 2.5,
           "background_color": "#21918C"
@@ -27810,7 +27810,7 @@
           "id": "r24",
           "shape_type": "RECTANGLE",
           "x": 434.53,
-          "y": 157.78181818181818,
+          "y": 157.29090909090908,
           "width": 1.5,
           "height": 10,
           "background_color": "#21918C"
@@ -27821,7 +27821,7 @@
           "id": "r25",
           "shape_type": "RECTANGLE",
           "x": 457.6875,
-          "y": 157.78181818181818,
+          "y": 157.29090909090908,
           "width": 1.5,
           "height": 10,
           "background_color": "#21918C"
@@ -27832,7 +27832,7 @@
           "id": "r26",
           "shape_type": "ELLIPSE",
           "x": 442.55499999999995,
-          "y": 158.28181818181818,
+          "y": 157.79090909090908,
           "width": 9,
           "height": 9,
           "background_color": "#21918C"
@@ -27843,7 +27843,7 @@
           "id": "t27",
           "text": "BIRD dev, with evidence",
           "x": 36.3,
-          "y": 170.39545454545456,
+          "y": 168.92272727272726,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -27864,7 +27864,7 @@
           "id": "r28",
           "shape_type": "RECTANGLE",
           "x": 322.6325,
-          "y": 183.09545454545454,
+          "y": 181.62272727272725,
           "width": 18.447500000000048,
           "height": 2.5,
           "background_color": "#21918C"
@@ -27875,7 +27875,7 @@
           "id": "r29",
           "shape_type": "RECTANGLE",
           "x": 321.8825,
-          "y": 179.34545454545454,
+          "y": 177.87272727272725,
           "width": 1.5,
           "height": 10,
           "background_color": "#21918C"
@@ -27886,7 +27886,7 @@
           "id": "r30",
           "shape_type": "RECTANGLE",
           "x": 340.33000000000004,
-          "y": 179.34545454545454,
+          "y": 177.87272727272725,
           "width": 1.5,
           "height": 10,
           "background_color": "#21918C"
@@ -27897,7 +27897,7 @@
           "id": "r31",
           "shape_type": "ELLIPSE",
           "x": 327.16,
-          "y": 179.84545454545454,
+          "y": 178.37272727272725,
           "width": 9,
           "height": 9,
           "background_color": "#21918C"
@@ -27908,7 +27908,7 @@
           "id": "t32",
           "text": "Demo suite, 4 of 12",
           "x": 36.3,
-          "y": 191.95909090909092,
+          "y": 189.50454545454542,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -27929,7 +27929,7 @@
           "id": "r33",
           "shape_type": "RECTANGLE",
           "x": 226.0775,
-          "y": 204.6590909090909,
+          "y": 202.2045454545454,
           "width": 196.25,
           "height": 2.5,
           "background_color": "#ADB5BD"
@@ -27940,7 +27940,7 @@
           "id": "r34",
           "shape_type": "RECTANGLE",
           "x": 225.3275,
-          "y": 200.9090909090909,
+          "y": 198.4545454545454,
           "width": 1.5,
           "height": 10,
           "background_color": "#ADB5BD"
@@ -27951,7 +27951,7 @@
           "id": "r35",
           "shape_type": "RECTANGLE",
           "x": 421.5775,
-          "y": 200.9090909090909,
+          "y": 198.4545454545454,
           "width": 1.5,
           "height": 10,
           "background_color": "#ADB5BD"
@@ -27962,7 +27962,7 @@
           "id": "r36",
           "shape_type": "ELLIPSE",
           "x": 319.7025,
-          "y": 201.4090909090909,
+          "y": 198.9545454545454,
           "width": 9,
           "height": 9,
           "background_color": "#ADB5BD"
@@ -27973,7 +27973,7 @@
           "id": "t37",
           "text": "Spider by difficulty",
           "x": 36.3,
-          "y": 223.4909090909091,
+          "y": 220.5454545454545,
           "width": 620.9,
           "height": 27.9,
           "font_size": 10,
@@ -27999,9 +27999,9 @@
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t38",
-          "text": "Easy",
+          "text": "Easy, 248 questions",
           "x": 36.3,
-          "y": 247.52272727272728,
+          "y": 244.0863636363636,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28013,7 +28013,7 @@
           "op": "style-paragraph",
           "element": "t38",
           "start": 0,
-          "end": 4,
+          "end": 19,
           "line_spacing": 135
         },
         {
@@ -28022,18 +28022,18 @@
           "id": "r39",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 253.69090909090912,
+          "y": 250.74545454545452,
           "width": 330.87750000000005,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t40",
-          "text": "Medium",
+          "text": "Medium, 446",
           "x": 36.3,
-          "y": 269.0863636363636,
+          "y": 264.6681818181818,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28045,7 +28045,7 @@
           "op": "style-paragraph",
           "element": "t40",
           "start": 0,
-          "end": 6,
+          "end": 11,
           "line_spacing": 135
         },
         {
@@ -28054,18 +28054,18 @@
           "id": "r41",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 275.25454545454545,
+          "y": 271.32727272727266,
           "width": 258.6575,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#21918C"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t42",
-          "text": "Hard",
+          "text": "Hard, 174",
           "x": 36.3,
-          "y": 290.65000000000003,
+          "y": 285.24999999999994,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28077,7 +28077,7 @@
           "op": "style-paragraph",
           "element": "t42",
           "start": 0,
-          "end": 4,
+          "end": 9,
           "line_spacing": 135
         },
         {
@@ -28086,18 +28086,18 @@
           "id": "r43",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 296.81818181818187,
+          "y": 291.9090909090908,
           "width": 230.005,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#3B528B"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t44",
-          "text": "Extra hard",
+          "text": "Extra hard, 166",
           "x": 36.3,
-          "y": 312.21363636363634,
+          "y": 305.8318181818181,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28109,7 +28109,7 @@
           "op": "style-paragraph",
           "element": "t44",
           "start": 0,
-          "end": 10,
+          "end": 15,
           "line_spacing": 135
         },
         {
@@ -28118,9 +28118,9 @@
           "id": "r45",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 318.3818181818182,
+          "y": 312.490909090909,
           "width": 149.14999999999998,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#440154"
         },
         {
@@ -28129,7 +28129,7 @@
           "id": "t46",
           "text": "BIRD by difficulty, with and without evidence",
           "x": 36.3,
-          "y": 343.74545454545455,
+          "y": 336.87272727272716,
           "width": 620.9,
           "height": 27.9,
           "font_size": 10,
@@ -28155,9 +28155,9 @@
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t47",
-          "text": "Simple",
+          "text": "Simple, 860 questions",
           "x": 36.3,
-          "y": 367.77727272727276,
+          "y": 360.4136363636363,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28169,7 +28169,7 @@
           "op": "style-paragraph",
           "element": "t47",
           "start": 0,
-          "end": 6,
+          "end": 21,
           "line_spacing": 135
         },
         {
@@ -28178,9 +28178,9 @@
           "id": "r48",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 373.9454545454546,
+          "y": 367.07272727272715,
           "width": 169.16750000000002,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#5EC962"
         },
         {
@@ -28189,7 +28189,7 @@
           "id": "t49",
           "text": "Simple, no evidence",
           "x": 36.3,
-          "y": 389.34090909090907,
+          "y": 380.99545454545444,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28210,18 +28210,18 @@
           "id": "r50",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 395.5090909090909,
+          "y": 387.6545454545453,
           "width": 134.235,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#ADB5BD"
         },
         {
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t51",
-          "text": "Challenging",
+          "text": "Challenging, 231",
           "x": 36.3,
-          "y": 410.9045454545455,
+          "y": 401.5772727272726,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28233,7 +28233,7 @@
           "op": "style-paragraph",
           "element": "t51",
           "start": 0,
-          "end": 11,
+          "end": 16,
           "line_spacing": 135
         },
         {
@@ -28242,9 +28242,9 @@
           "id": "r52",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 417.0727272727273,
+          "y": 408.2363636363635,
           "width": 67.90250000000003,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#3B528B"
         },
         {
@@ -28253,7 +28253,7 @@
           "id": "t53",
           "text": "Challenging, no evidence",
           "x": 36.3,
-          "y": 432.4681818181818,
+          "y": 422.15909090909076,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -28274,9 +28274,9 @@
           "id": "r54",
           "shape_type": "RECTANGLE",
           "x": 193.5,
-          "y": 438.6363636363636,
+          "y": 428.81818181818164,
           "width": 32.185,
-          "height": 15.563636363636363,
+          "height": 14.581818181818178,
           "background_color": "#ADB5BD"
         },
         {
@@ -28285,7 +28285,7 @@
           "id": "t55",
           "text": "64.6 %  [61.6 %, 67.5 %]",
           "x": 457.24,
-          "y": 149.0818181818182,
+          "y": 148.5909090909091,
           "width": 103.86666666666667,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -28313,7 +28313,7 @@
           "id": "t56",
           "text": "35.2 %  [32.9 %, 37.6 %]",
           "x": 341.45,
-          "y": 170.64545454545456,
+          "y": 169.17272727272726,
           "width": 104.0,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -28341,7 +28341,7 @@
           "id": "t57",
           "text": "4 of 12, interval 50 points wide",
           "x": 422.3,
-          "y": 192.20909090909092,
+          "y": 189.75454545454542,
           "width": 132.93333333333334,
           "height": 25.200000000000003,
           "font_size": 8,
@@ -28369,7 +28369,7 @@
           "id": "t58",
           "text": "84.3 %",
           "x": 523.18,
-          "y": 247.7727272727273,
+          "y": 244.33636363636361,
           "width": 48.15,
           "height": 27.9,
           "font_size": 10,
@@ -28397,7 +28397,7 @@
           "id": "t59",
           "text": "65.9 %",
           "x": 450.96000000000004,
-          "y": 269.3363636363636,
+          "y": 264.9181818181818,
           "width": 47.4,
           "height": 27.9,
           "font_size": 10,
@@ -28425,7 +28425,7 @@
           "id": "t60",
           "text": "58.6 %",
           "x": 422.3,
-          "y": 290.90000000000003,
+          "y": 285.49999999999994,
           "width": 47.65,
           "height": 27.9,
           "font_size": 10,
@@ -28453,7 +28453,7 @@
           "id": "t61",
           "text": "38.0 %",
           "x": 341.45,
-          "y": 312.46363636363634,
+          "y": 306.0818181818181,
           "width": 48.65,
           "height": 27.9,
           "font_size": 10,
@@ -28481,7 +28481,7 @@
           "id": "t62",
           "text": "43.1 %",
           "x": 361.47,
-          "y": 368.02727272727276,
+          "y": 360.6636363636363,
           "width": 46.73333333333333,
           "height": 27.9,
           "font_size": 10,
@@ -28509,7 +28509,7 @@
           "id": "t63",
           "text": "34.2 %",
           "x": 326.54,
-          "y": 389.59090909090907,
+          "y": 381.24545454545444,
           "width": 47.65,
           "height": 27.9,
           "font_size": 10,
@@ -28537,7 +28537,7 @@
           "id": "t64",
           "text": "17.3 %",
           "x": 260.2,
-          "y": 411.1545454545455,
+          "y": 401.8272727272726,
           "width": 46.06666666666667,
           "height": 27.9,
           "font_size": 10,
@@ -28565,7 +28565,7 @@
           "id": "t65",
           "text": "8.2 %",
           "x": 224.49,
-          "y": 432.7181818181818,
+          "y": 422.40909090909076,
           "width": 41.65,
           "height": 27.9,
           "font_size": 10,
@@ -28591,11 +28591,11 @@
           "op": "add-textbox",
           "slide": "benchmarks",
           "id": "t66",
-          "text": "Source: release runs at 7708295, qwen3.5 9B; this project\u2019s scorer, not leaderboard scores. Spider 1,034 and BIRD 1,534 questions.",
+          "text": "Source: release runs at 7708295, qwen3.5 9B, on Spider dev (Yu et al., 2018; 1,034 questions) and BIRD dev (Li et al., 2023; 1,534); this project\u2019s scorer, not leaderboard\nscores.",
           "x": 36.3,
-          "y": 458.0,
+          "y": 447.2,
           "width": 620.9,
-          "height": 25.200000000000003,
+          "height": 36.0,
           "font_size": 8,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -28606,7 +28606,7 @@
           "op": "style-paragraph",
           "element": "t66",
           "start": 0,
-          "end": 130,
+          "end": 179,
           "line_spacing": 135
         },
         {
@@ -28718,7 +28718,7 @@
           "id": "r72",
           "shape_type": "ELLIPSE",
           "x": 141.41666666666669,
-          "y": 230.6909090909091,
+          "y": 227.7454545454545,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -28729,7 +28729,7 @@
           "id": "r73",
           "shape_type": "ELLIPSE",
           "x": 142.41666666666669,
-          "y": 231.6909090909091,
+          "y": 228.7454545454545,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -28740,7 +28740,7 @@
           "id": "t74",
           "text": "1",
           "x": 135.2166666666667,
-          "y": 224.4909090909091,
+          "y": 221.5454545454545,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -28832,7 +28832,7 @@
           "id": "r79",
           "shape_type": "ELLIPSE",
           "x": 265.83333333333337,
-          "y": 350.94545454545454,
+          "y": 344.07272727272715,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -28843,7 +28843,7 @@
           "id": "r80",
           "shape_type": "ELLIPSE",
           "x": 266.83333333333337,
-          "y": 351.94545454545454,
+          "y": 345.07272727272715,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -28854,7 +28854,7 @@
           "id": "t81",
           "text": "2",
           "x": 259.6333333333334,
-          "y": 344.74545454545455,
+          "y": 337.87272727272716,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -28946,7 +28946,7 @@
           "id": "r86",
           "shape_type": "ELLIPSE",
           "x": 553.0333333333333,
-          "y": 198.9090909090909,
+          "y": 196.4545454545454,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -28957,7 +28957,7 @@
           "id": "r87",
           "shape_type": "ELLIPSE",
           "x": 554.0333333333333,
-          "y": 199.9090909090909,
+          "y": 197.4545454545454,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -28968,7 +28968,7 @@
           "id": "t88",
           "text": "3",
           "x": 546.8333333333333,
-          "y": 192.70909090909092,
+          "y": 190.25454545454542,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -30981,111 +30981,91 @@
     },
     {
       "id": "trials",
-      "layout": "table_page",
+      "layout": "bars_page",
       "section": "Evidence",
       "topic": "Trials",
       "accent": "plum",
       "title": "Later trials found trade-offs, not a further accuracy gain",
-      "subtitle": "1,222 large-schema questions; paired change against each row\u2019s own baseline",
-      "tables": [
+      "subtitle": "1,222 large-schema questions; each trial paired against its own baseline",
+      "label_width": 200,
+      "max_step": 40,
+      "panels": [
         {
-          "headers": [
-            "Trial",
-            "Change, and its baseline",
-            "Accuracy points\u00b9",
-            "Side effect",
-            "Decision"
+          "title": "Change in answers matched, accuracy points\u00b9",
+          "kind": "dot",
+          "scale": [
+            -6,
+            7
           ],
-          "widths": [
-            200,
-            230,
-            125.5,
-            200,
-            120
-          ],
-          "size": 10,
-          "row_height": 42,
+          "unit": "points",
           "rows": [
-            [
-              "Top 6 + neighbours",
-              "Send the best tables, vs every table + hints",
-              "+3.6 [+1.4, +5.8]",
-              "69 % fewer tokens, 2 s slower",
-              [
-                [
-                  "Default",
-                  "strength"
-                ]
-              ]
-            ],
-            [
-              "Question value matching",
-              "Add stored values the question names, vs top 6",
-              "+0.4 [\u22120.9, +1.6]",
-              "Reads row data at question time",
-              [
-                [
-                  "Off",
-                  "limit"
-                ]
-              ]
-            ],
-            [
-              "Scorer signals",
-              "Weight hints down, match plurals, vs top 6",
-              "+0.9 [\u22120.7, +2.4]",
-              "All needed tables sent: 1,055 to 1,094",
-              [
-                [
-                  "Kept",
-                  "strength"
-                ]
-              ]
-            ],
-            [
-              "Dense embeddings",
-              "Add sentence embeddings, vs the kept scorer",
-              "+0.2 [\u22121.6, +2.0]",
-              "All needed tables sent: 1,094 to 1,148",
-              [
-                [
-                  "Off",
-                  "limit"
-                ]
-              ]
-            ],
-            [
-              "Shared layout",
-              "Send every table, name the top 6, vs top 6",
-              "\u22122.4 [\u22124.6, \u22120.2]",
-              "58 % faster, 3 times the tokens",
-              [
-                [
-                  "Opt-in",
-                  "constraint"
-                ]
-              ]
-            ],
-            [
-              "Shared plus summaries",
-              "Also list their columns, vs top 6, not controlled",
-              "\u22122.1 [\u22124.3, +0.0]",
-              "Same speed as shared",
-              [
-                [
-                  "Opt-in",
-                  "constraint"
-                ]
-              ]
-            ]
+            {
+              "label": "**Top 6 + neighbours**, default",
+              "value": 3.6,
+              "lo": 1.4,
+              "hi": 5.8,
+              "marker": 1
+            },
+            {
+              "label": "Question value matching, off",
+              "value": 0.4,
+              "lo": -0.9,
+              "hi": 1.6,
+              "series": "muted"
+            },
+            {
+              "label": "Scorer signals, kept",
+              "value": 0.9,
+              "lo": -0.7,
+              "hi": 2.4,
+              "series": "muted",
+              "marker": 2
+            },
+            {
+              "label": "Dense embeddings, off",
+              "value": 0.2,
+              "lo": -1.6,
+              "hi": 2.0,
+              "series": "muted"
+            },
+            {
+              "label": "Shared layout, opt-in",
+              "value": -2.4,
+              "lo": -4.6,
+              "hi": -0.2,
+              "series": "loss",
+              "marker": 3
+            },
+            {
+              "label": "Shared plus summaries, opt-in\u00b2",
+              "value": -2.1,
+              "lo": -4.3,
+              "hi": 0.0,
+              "series": "muted"
+            }
           ]
+        }
+      ],
+      "caption": "**Note:** \u00b9 Paired 95 % intervals; top 6 against every table + hints, the others against top 6 or the kept scorer. \u00b2 Not controlled: the commit differs.",
+      "annotations": [
+        {
+          "title": "The one clear gain",
+          "text": "Top 6 sits clear of zero, with 69 % fewer tokens but about 2 s slower per answer."
+        },
+        {
+          "title": "Better retrieval, not better answers",
+          "text": "Scorer signals sent all needed tables more often, 1,055 to 1,094, but its interval crosses zero. Kept for the retrieval gain."
+        },
+        {
+          "title": "Faster, but a measurable loss",
+          "text": "The shared layout cut latency by 58 % and lost 2.4 points. Both shared layouts stay opt-in."
         }
       ],
       "takeaway": "Table selection is the **one clear gain**. Five later trials traded speed or recall, not accuracy.",
       "notes": {
         "purpose": "Show what the later trials found.",
         "script": [
-          "[Point: Top row] Each row shows what changed, the paired result, the side effect and the decision. Sending the best tables is the one clear gain. None of the five later trials added to it.",
+          "[Point: Top row, marker 1] Each dot is a trial\u2019s paired change and the line is its 95 percent interval. Sending the best tables is the one clear gain. None of the five later trials added to it.",
           "[Point: Scorer signals] The scorer change sent all needed tables more often, from 1,055 questions to 1,094. Its 0.9 points still spans zero, so better retrieval did not become measurably better answers. We kept it for the retrieval gain.",
           "[Point: Dense embeddings] Dense embeddings helped dropped-table questions, but other answers churned, so the whole suite moved only 0.2 points. [Point: Shared layout] The shared layout cut latency by 58 percent and lost 2.4 points. Both layouts stay opt-in.",
           "Reference: evaluation/results/value_matches, scorer_signals, dense_embeddings, shared_layout."
@@ -31095,12 +31075,34 @@
           "claims-register.md"
         ]
       },
-      "notes_on_face": [
-        "\u2060\u00b9 Paired 95 % intervals. Only the first row\u2019s interval sits clear of zero above it; the shared layout\u2019s sits clear below it. The others cross zero."
-      ],
       "n": 14,
       "takeaways": [],
-      "marker_pairs": [],
+      "marker_pairs": [
+        {
+          "number": 1,
+          "insight_heading": "The one clear gain",
+          "insight_anchor": {
+            "text": "The one clear gain",
+            "y": 237
+          }
+        },
+        {
+          "number": 2,
+          "insight_heading": "Better retrieval, not better answers",
+          "insight_anchor": {
+            "text": "Better retrieval, not better answers",
+            "y": 296.2
+          }
+        },
+        {
+          "number": 3,
+          "insight_heading": "Faster, but a measurable loss",
+          "insight_anchor": {
+            "text": "Faster, but a measurable loss",
+            "y": 368.9
+          }
+        }
+      ],
       "chapter_badges": [
         {
           "number": 1,
@@ -31121,6 +31123,23 @@
           "number": 4,
           "cx": 854,
           "cy": 39.28
+        }
+      ],
+      "figure_marks": [
+        {
+          "number": 1,
+          "cx": 636.18,
+          "cy": 172.0
+        },
+        {
+          "number": 2,
+          "cx": 548.61,
+          "cy": 252.0
+        },
+        {
+          "number": 3,
+          "cx": 479.6433333333333,
+          "cy": 332.0
         }
       ],
       "ops": [
@@ -31387,7 +31406,7 @@
           "op": "add-textbox",
           "slide": "trials",
           "id": "t16",
-          "text": "1,222 large-schema questions; paired change against each row\u2019s own baseline",
+          "text": "1,222 large-schema questions; each trial paired against its own baseline",
           "x": 36.3,
           "y": 92.8,
           "width": 889.9,
@@ -31401,7 +31420,7 @@
           "op": "style-paragraph",
           "element": "t16",
           "start": 0,
-          "end": 75,
+          "end": 72,
           "line_spacing": 135
         },
         {
@@ -31480,1021 +31499,38 @@
           "op": "add-textbox",
           "slide": "trials",
           "id": "t21",
-          "text": "Trial",
+          "text": "Change in answers matched, accuracy points\u00b9",
           "x": 36.3,
           "y": 124.8,
-          "width": 206.4,
-          "height": 26.4,
-          "font_size": 8,
+          "width": 620.9,
+          "height": 27.9,
+          "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t21",
           "start": 0,
-          "end": 5,
+          "end": 43,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t21",
           "start": 0,
-          "end": 5,
+          "end": 43,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "trials",
           "id": "t22",
-          "text": "Change, and its baseline",
-          "x": 236.3,
-          "y": 124.8,
-          "width": 236.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t22",
-          "start": 0,
-          "end": 24,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t22",
-          "start": 0,
-          "end": 24,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t23",
-          "text": "Accuracy points\u00b9",
-          "x": 466.3,
-          "y": 124.8,
-          "width": 131.9,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t23",
-          "start": 0,
-          "end": 16,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t23",
-          "start": 0,
-          "end": 16,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t24",
-          "text": "Side effect",
-          "x": 591.8,
-          "y": 124.8,
-          "width": 206.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t24",
-          "start": 0,
-          "end": 11,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t24",
-          "start": 0,
-          "end": 11,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t25",
-          "text": "Decision",
-          "x": 791.8,
-          "y": 124.8,
-          "width": 126.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t25",
-          "start": 0,
-          "end": 8,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t25",
-          "start": 0,
-          "end": 8,
-          "bold": true
-        },
-        {
-          "op": "add-line",
-          "slide": "trials",
-          "id": "l26",
-          "x": 43.5,
-          "y": 146,
-          "width": 875.5,
-          "height": 0,
-          "color": "#89949D",
-          "line_weight": 0.75
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r27",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 146,
-          "width": 875.5,
-          "height": 42,
-          "background_color": "#F6F7F9"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t28",
-          "text": "Top 6 + neighbours",
+          "text": "Top 6 + neighbours, default",
           "x": 36.3,
-          "y": 141.8,
+          "y": 158.05,
           "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t28",
-          "start": 0,
-          "end": 18,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t28",
-          "start": 0,
-          "end": 18,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t29",
-          "text": "Send the best tables, vs every table + hints",
-          "x": 236.3,
-          "y": 141.8,
-          "width": 236.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t29",
-          "start": 0,
-          "end": 44,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t30",
-          "text": "+3.6 [+1.4, +5.8]",
-          "x": 466.3,
-          "y": 141.8,
-          "width": 131.9,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t30",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t31",
-          "text": "69 % fewer tokens, 2 s slower",
-          "x": 591.8,
-          "y": 141.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t31",
-          "start": 0,
-          "end": 29,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r32",
-          "shape_type": "RECTANGLE",
-          "x": 799.0,
-          "y": 149.4,
-          "width": 45.53333333333333,
-          "height": 12,
-          "background_color": "#DFF3E7"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t33",
-          "text": "DEFAULT",
-          "x": 796.8,
-          "y": 141.8,
-          "width": 59.93333333333333,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#1F7A4F",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t33",
-          "start": 0,
-          "end": 7,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t34",
-          "text": "Question value matching",
-          "x": 36.3,
-          "y": 183.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t34",
-          "start": 0,
-          "end": 23,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t34",
-          "start": 0,
-          "end": 23,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t35",
-          "text": "Add stored values the question names, vs top 6",
-          "x": 236.3,
-          "y": 183.8,
-          "width": 236.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t35",
-          "start": 0,
-          "end": 46,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t36",
-          "text": "+0.4 [\u22120.9, +1.6]",
-          "x": 466.3,
-          "y": 183.8,
-          "width": 131.9,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t36",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t37",
-          "text": "Reads row data at question time",
-          "x": 591.8,
-          "y": 183.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t37",
-          "start": 0,
-          "end": 31,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r38",
-          "shape_type": "RECTANGLE",
-          "x": 799.0,
-          "y": 191.4,
-          "width": 25.933333333333334,
-          "height": 12,
-          "background_color": "#E9ECEF"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t39",
-          "text": "OFF",
-          "x": 796.8,
-          "y": 183.8,
-          "width": 40.333333333333336,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#526174",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t39",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r40",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 230,
-          "width": 875.5,
-          "height": 42,
-          "background_color": "#F6F7F9"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t41",
-          "text": "Scorer signals",
-          "x": 36.3,
-          "y": 225.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t41",
-          "start": 0,
-          "end": 14,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t41",
-          "start": 0,
-          "end": 14,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t42",
-          "text": "Weight hints down, match plurals, vs top 6",
-          "x": 236.3,
-          "y": 225.8,
-          "width": 236.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t42",
-          "start": 0,
-          "end": 42,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t43",
-          "text": "+0.9 [\u22120.7, +2.4]",
-          "x": 466.3,
-          "y": 225.8,
-          "width": 131.9,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t43",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t44",
-          "text": "All needed tables sent: 1,055 to 1,094",
-          "x": 591.8,
-          "y": 225.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t44",
-          "start": 0,
-          "end": 38,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r45",
-          "shape_type": "RECTANGLE",
-          "x": 799.0,
-          "y": 233.4,
-          "width": 29.6,
-          "height": 12,
-          "background_color": "#DFF3E7"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t46",
-          "text": "KEPT",
-          "x": 796.8,
-          "y": 225.8,
-          "width": 44.0,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#1F7A4F",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t46",
-          "start": 0,
-          "end": 4,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t47",
-          "text": "Dense embeddings",
-          "x": 36.3,
-          "y": 267.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t47",
-          "start": 0,
-          "end": 16,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t47",
-          "start": 0,
-          "end": 16,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t48",
-          "text": "Add sentence embeddings, vs the kept scorer",
-          "x": 236.3,
-          "y": 267.8,
-          "width": 236.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t48",
-          "start": 0,
-          "end": 43,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t49",
-          "text": "+0.2 [\u22121.6, +2.0]",
-          "x": 466.3,
-          "y": 267.8,
-          "width": 131.9,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t49",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t50",
-          "text": "All needed tables sent: 1,094 to 1,148",
-          "x": 591.8,
-          "y": 267.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t50",
-          "start": 0,
-          "end": 38,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r51",
-          "shape_type": "RECTANGLE",
-          "x": 799.0,
-          "y": 275.4,
-          "width": 25.933333333333334,
-          "height": 12,
-          "background_color": "#E9ECEF"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t52",
-          "text": "OFF",
-          "x": 796.8,
-          "y": 267.8,
-          "width": 40.333333333333336,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#526174",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t52",
-          "start": 0,
-          "end": 3,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r53",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 314,
-          "width": 875.5,
-          "height": 42,
-          "background_color": "#F6F7F9"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t54",
-          "text": "Shared layout",
-          "x": 36.3,
-          "y": 309.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t54",
-          "start": 0,
-          "end": 13,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t54",
-          "start": 0,
-          "end": 13,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t55",
-          "text": "Send every table, name the top 6, vs top 6",
-          "x": 236.3,
-          "y": 309.8,
-          "width": 236.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t55",
-          "start": 0,
-          "end": 42,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t56",
-          "text": "\u22122.4 [\u22124.6, \u22120.2]",
-          "x": 466.3,
-          "y": 309.8,
-          "width": 131.9,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t56",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t57",
-          "text": "58 % faster, 3 times the tokens",
-          "x": 591.8,
-          "y": 309.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t57",
-          "start": 0,
-          "end": 31,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r58",
-          "shape_type": "RECTANGLE",
-          "x": 799.0,
-          "y": 317.4,
-          "width": 38.266666666666666,
-          "height": 12,
-          "background_color": "#F6EBD3"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t59",
-          "text": "OPT-IN",
-          "x": 796.8,
-          "y": 309.8,
-          "width": 52.666666666666664,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#896521",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t59",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t60",
-          "text": "Shared plus summaries",
-          "x": 36.3,
-          "y": 351.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t60",
-          "start": 0,
-          "end": 21,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t60",
-          "start": 0,
-          "end": 21,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t61",
-          "text": "Also list their columns, vs top 6, not controlled",
-          "x": 236.3,
-          "y": 351.8,
-          "width": 236.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t61",
-          "start": 0,
-          "end": 49,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t62",
-          "text": "\u22122.1 [\u22124.3, +0.0]",
-          "x": 466.3,
-          "y": 351.8,
-          "width": 131.9,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t62",
-          "start": 0,
-          "end": 17,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t63",
-          "text": "Same speed as shared",
-          "x": 591.8,
-          "y": 351.8,
-          "width": 206.4,
-          "height": 52.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t63",
-          "start": 0,
-          "end": 20,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r64",
-          "shape_type": "RECTANGLE",
-          "x": 799.0,
-          "y": 359.4,
-          "width": 38.266666666666666,
-          "height": 12,
-          "background_color": "#F6EBD3"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t65",
-          "text": "OPT-IN",
-          "x": 796.8,
-          "y": 351.8,
-          "width": 52.666666666666664,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#896521",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t65",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-line",
-          "slide": "trials",
-          "id": "l66",
-          "x": 43.5,
-          "y": 398,
-          "width": 875.5,
-          "height": 0,
-          "color": "#89949D",
-          "line_weight": 0.75
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t67",
-          "text": "Note: \u2060\u00b9 Paired 95 % intervals. Only the first row\u2019s interval sits clear of zero above it; the shared layout\u2019s sits clear below it. The others cross zero.",
-          "x": 36.3,
-          "y": 394.8,
-          "width": 889.9,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t67",
-          "start": 0,
-          "end": 154,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t67",
-          "start": 0,
-          "end": 5,
-          "bold": true
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r68",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 436,
-          "width": 875.5,
-          "height": 40,
-          "background_color": "#F6F1E5"
-        },
-        {
-          "op": "add-shape",
-          "slide": "trials",
-          "id": "r69",
-          "shape_type": "RECTANGLE",
-          "x": 43.5,
-          "y": 436,
-          "width": 3,
-          "height": 40,
-          "background_color": "#B89245"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t70",
-          "text": "TAKEAWAY",
-          "x": 50.3,
-          "y": 444.05,
-          "width": 99.4,
-          "height": 26.4,
-          "font_size": 8,
-          "font_family": "Google Sans",
-          "color": "#765718",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t70",
-          "start": 0,
-          "end": 8,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t70",
-          "start": 0,
-          "end": 8,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "trials",
-          "id": "t71",
-          "text": "Table selection is the one clear gain. Five later trials traded speed or recall, not accuracy.",
-          "x": 147.3,
-          "y": 442.05,
-          "width": 761.9,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -32503,17 +31539,1024 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t71",
+          "element": "t22",
+          "start": 0,
+          "end": 27,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t22",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r23",
+          "shape_type": "RECTANGLE",
+          "x": 438.46153846153845,
+          "y": 170.75,
+          "width": 115.92307692307702,
+          "height": 2.5,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r24",
+          "shape_type": "RECTANGLE",
+          "x": 437.71153846153845,
+          "y": 167.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r25",
+          "shape_type": "RECTANGLE",
+          "x": 553.6346153846155,
+          "y": 167.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r26",
+          "shape_type": "ELLIPSE",
+          "x": 491.9230769230769,
+          "y": 167.5,
+          "width": 9,
+          "height": 9,
+          "background_color": "#21918C"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t27",
+          "text": "Question value matching, off",
+          "x": 36.3,
+          "y": 198.05,
+          "width": 206.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t27",
+          "start": 0,
+          "end": 28,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r28",
+          "shape_type": "RECTANGLE",
+          "x": 377.86538461538464,
+          "y": 210.75,
+          "width": 65.86538461538453,
+          "height": 2.5,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r29",
+          "shape_type": "RECTANGLE",
+          "x": 377.11538461538464,
+          "y": 207.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r30",
+          "shape_type": "RECTANGLE",
+          "x": 442.98076923076917,
+          "y": 207.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r31",
+          "shape_type": "ELLIPSE",
+          "x": 407.61538461538464,
+          "y": 207.5,
+          "width": 9,
+          "height": 9,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t32",
+          "text": "Scorer signals, kept",
+          "x": 36.3,
+          "y": 238.05,
+          "width": 206.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t32",
+          "start": 0,
+          "end": 20,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r33",
+          "shape_type": "RECTANGLE",
+          "x": 383.13461538461536,
+          "y": 250.75,
+          "width": 81.67307692307696,
+          "height": 2.5,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r34",
+          "shape_type": "RECTANGLE",
+          "x": 382.38461538461536,
+          "y": 247.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r35",
+          "shape_type": "RECTANGLE",
+          "x": 464.0576923076923,
+          "y": 247.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r36",
+          "shape_type": "ELLIPSE",
+          "x": 420.78846153846155,
+          "y": 247.5,
+          "width": 9,
+          "height": 9,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t37",
+          "text": "Dense embeddings, off",
+          "x": 36.3,
+          "y": 278.05,
+          "width": 206.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t37",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r38",
+          "shape_type": "RECTANGLE",
+          "x": 359.4230769230769,
+          "y": 290.75,
+          "width": 94.84615384615387,
+          "height": 2.5,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r39",
+          "shape_type": "RECTANGLE",
+          "x": 358.6730769230769,
+          "y": 287.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r40",
+          "shape_type": "RECTANGLE",
+          "x": 453.5192307692308,
+          "y": 287.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r41",
+          "shape_type": "ELLIPSE",
+          "x": 402.34615384615387,
+          "y": 287.5,
+          "width": 9,
+          "height": 9,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t42",
+          "text": "Shared layout, opt-in",
+          "x": 36.3,
+          "y": 318.05,
+          "width": 206.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t42",
+          "start": 0,
+          "end": 21,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r43",
+          "shape_type": "RECTANGLE",
+          "x": 280.3846153846154,
+          "y": 330.75,
+          "width": 115.92307692307685,
+          "height": 2.5,
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r44",
+          "shape_type": "RECTANGLE",
+          "x": 279.6346153846154,
+          "y": 327.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r45",
+          "shape_type": "RECTANGLE",
+          "x": 395.55769230769226,
+          "y": 327.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r46",
+          "shape_type": "ELLIPSE",
+          "x": 333.84615384615387,
+          "y": 327.5,
+          "width": 9,
+          "height": 9,
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t47",
+          "text": "Shared plus summaries, opt-in\u00b2",
+          "x": 36.3,
+          "y": 358.05,
+          "width": 206.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t47",
+          "start": 0,
+          "end": 30,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r48",
+          "shape_type": "RECTANGLE",
+          "x": 288.28846153846155,
+          "y": 370.75,
+          "width": 113.28846153846155,
+          "height": 2.5,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r49",
+          "shape_type": "RECTANGLE",
+          "x": 287.53846153846155,
+          "y": 367.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r50",
+          "shape_type": "RECTANGLE",
+          "x": 400.8269230769231,
+          "y": 367.0,
+          "width": 1.5,
+          "height": 10,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r51",
+          "shape_type": "ELLIPSE",
+          "x": 341.75,
+          "y": 367.5,
+          "width": 9,
+          "height": 9,
+          "background_color": "#ADB5BD"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r52",
+          "shape_type": "RECTANGLE",
+          "x": 401.0769230769231,
+          "y": 150.0,
+          "width": 1,
+          "height": 242.0,
+          "background_color": "#89949D"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t53",
+          "text": "+3.6  [+1.4, +5.8]",
+          "x": 553.18,
+          "y": 158.3,
+          "width": 78.2,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t53",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t53",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t54",
+          "text": "+0.4  [\u22120.9, +1.6]",
+          "x": 442.53000000000003,
+          "y": 198.3,
+          "width": 79.60000000000001,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t54",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t54",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t55",
+          "text": "+0.9  [\u22120.7, +2.4]",
+          "x": 463.61,
+          "y": 238.3,
+          "width": 80.2,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t55",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t55",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t56",
+          "text": "+0.2  [\u22121.6, +2.0]",
+          "x": 453.07,
+          "y": 278.3,
+          "width": 78.80000000000001,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t56",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t56",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t57",
+          "text": "\u22122.4  [\u22124.6, \u22120.2]",
+          "x": 395.11,
+          "y": 318.3,
+          "width": 79.73333333333335,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t57",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t57",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t58",
+          "text": "\u22122.1  [\u22124.3, 0.0]",
+          "x": 400.38,
+          "y": 358.3,
+          "width": 74.73333333333333,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t58",
+          "start": 0,
+          "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t58",
+          "start": 0,
+          "end": 17,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t59",
+          "text": "Note: \u00b9 Paired 95 % intervals; top 6 against every table + hints, the others against top 6 or the kept scorer. \u00b2 Not controlled: the commit differs.",
+          "x": 36.3,
+          "y": 458.0,
+          "width": 620.9,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t59",
+          "start": 0,
+          "end": 148,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t59",
+          "start": 0,
+          "end": 5,
+          "bold": true
+        },
+        {
+          "op": "add-line",
+          "slide": "trials",
+          "id": "l60",
+          "x": 658,
+          "y": 131,
+          "width": 0,
+          "height": 345.0,
+          "color": "#D8DEE3",
+          "line_weight": 0.75
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r61",
+          "shape_type": "RECTANGLE",
+          "x": 668,
+          "y": 131,
+          "width": 251,
+          "height": 94,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r62",
+          "shape_type": "RECTANGLE",
+          "x": 668,
+          "y": 131,
+          "width": 3,
+          "height": 94,
+          "background_color": "#B89245"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t63",
+          "text": "TAKEAWAY",
+          "x": 674.8,
+          "y": 135.8,
+          "width": 237.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#765718",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t63",
+          "start": 0,
+          "end": 8,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t63",
+          "start": 0,
+          "end": 8,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t64",
+          "text": "Table selection is the one clear gain. Five\nlater trials traded speed or recall, not\naccuracy.",
+          "x": 674.8,
+          "y": 155.8,
+          "width": 237.4,
+          "height": 66.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t64",
           "start": 0,
           "end": 94,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t71",
+          "element": "t64",
           "start": 23,
           "end": 37,
           "bold": true
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r65",
+          "shape_type": "ELLIPSE",
+          "x": 629.18,
+          "y": 165.0,
+          "width": 14,
+          "height": 14,
+          "background_color": "#FFFFFF"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r66",
+          "shape_type": "ELLIPSE",
+          "x": 630.18,
+          "y": 166.0,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t67",
+          "text": "1",
+          "x": 622.9799999999999,
+          "y": 158.8,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r68",
+          "shape_type": "ELLIPSE",
+          "x": 668,
+          "y": 238.64,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t69",
+          "text": "1",
+          "x": 660.8,
+          "y": 231.44,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t70",
+          "text": "The one clear gain",
+          "x": 680.8,
+          "y": 229.8,
+          "width": 245.4,
+          "height": 61.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t70",
+          "start": 0,
+          "end": 18,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t70",
+          "start": 0,
+          "end": 18,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t71",
+          "text": "Top 6 sits clear of zero, with 69 % fewer tokens but\nabout 2 s slower per answer.",
+          "x": 680.8,
+          "y": 250.0,
+          "width": 245.4,
+          "height": 233.20000000000002,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t71",
+          "start": 0,
+          "end": 81,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r72",
+          "shape_type": "ELLIPSE",
+          "x": 541.61,
+          "y": 245.0,
+          "width": 14,
+          "height": 14,
+          "background_color": "#FFFFFF"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r73",
+          "shape_type": "ELLIPSE",
+          "x": 542.61,
+          "y": 246.0,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t74",
+          "text": "2",
+          "x": 535.41,
+          "y": 238.8,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r75",
+          "shape_type": "ELLIPSE",
+          "x": 668,
+          "y": 297.84,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t76",
+          "text": "2",
+          "x": 660.8,
+          "y": 290.64,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t77",
+          "text": "Better retrieval, not better answers",
+          "x": 680.8,
+          "y": 289.0,
+          "width": 245.4,
+          "height": 61.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t77",
+          "start": 0,
+          "end": 36,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t77",
+          "start": 0,
+          "end": 36,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t78",
+          "text": "Scorer signals sent all needed tables more often,\n1,055 to 1,094, but its interval crosses zero. Kept\nfor the retrieval gain.",
+          "x": 680.8,
+          "y": 309.2,
+          "width": 245.4,
+          "height": 174.00000000000003,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t78",
+          "start": 0,
+          "end": 125,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r79",
+          "shape_type": "ELLIPSE",
+          "x": 472.6433333333333,
+          "y": 325.0,
+          "width": 14,
+          "height": 14,
+          "background_color": "#FFFFFF"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r80",
+          "shape_type": "ELLIPSE",
+          "x": 473.6433333333333,
+          "y": 326.0,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t81",
+          "text": "3",
+          "x": 466.4433333333333,
+          "y": 318.8,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-shape",
+          "slide": "trials",
+          "id": "r82",
+          "shape_type": "ELLIPSE",
+          "x": 668,
+          "y": 371.53999999999996,
+          "width": 12,
+          "height": 12,
+          "background_color": "#B8452E"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t83",
+          "text": "3",
+          "x": 660.8,
+          "y": 364.34,
+          "width": 26.4,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#FFFFFF",
+          "bold": true,
+          "alignment": "center",
+          "content_alignment": "MIDDLE"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t84",
+          "text": "Faster, but a measurable loss",
+          "x": 680.8,
+          "y": 361.7,
+          "width": 245.4,
+          "height": 61.4,
+          "font_size": 12,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t84",
+          "start": 0,
+          "end": 29,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t84",
+          "start": 0,
+          "end": 29,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "trials",
+          "id": "t85",
+          "text": "The shared layout cut latency by 58 % and lost 2.4\npoints. Both shared layouts stay opt-in.",
+          "x": 680.8,
+          "y": 381.9,
+          "width": 245.4,
+          "height": 101.30000000000004,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t85",
+          "start": 0,
+          "end": 91,
+          "line_spacing": 135
         }
       ]
     },
@@ -32525,6 +32568,19 @@
       "accent": "plum",
       "title": "Better table coverage did not measurably improve accuracy",
       "subtitle": "Correct answers gained and lost by each fix against selected tables, on 1,222 questions",
+      "boxes": [
+        [
+          "128 questions: a needed table was missed",
+          "8 answered correctly by top 6",
+          "cancel-red"
+        ],
+        [
+          "1,094 questions: every needed table was sent",
+          "359 answered correctly by top 6",
+          "check_circle-green"
+        ]
+      ],
+      "max_step": 22,
       "panels": [
         {
           "title": "Dense embeddings: net +2 answers\u00b9",
@@ -32680,17 +32736,17 @@
         {
           "number": 1,
           "cx": 229.0,
-          "cy": 139.0
+          "cy": 189.0
         },
         {
           "number": 2,
           "cx": 265.0833333333333,
-          "cy": 233.0
+          "cy": 267.0
         },
         {
           "number": 3,
           "cx": 251.08333333333334,
-          "cy": 327.0
+          "cy": 345.0
         }
       ],
       "ops": [
@@ -33047,115 +33103,174 @@
           "line_spacing": 135
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "retrieval",
-          "id": "t21",
-          "text": "Dense embeddings: net +2 answers\u00b9",
-          "x": 36.3,
-          "y": 124.8,
-          "width": 620.9,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t21",
-          "start": 0,
-          "end": 33,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t21",
-          "start": 0,
-          "end": 33,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t22",
-          "text": "Gained",
-          "x": 36.3,
-          "y": 153.05,
-          "width": 156.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t22",
-          "start": 0,
-          "end": 6,
-          "line_spacing": 135
+          "id": "r21",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 132.0,
+          "width": 298.25,
+          "height": 38,
+          "background_color": "#F4F5F6"
         },
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r23",
+          "id": "r22",
           "shape_type": "RECTANGLE",
-          "x": 455.16666666666663,
-          "y": 158.0,
-          "width": 94.20000000000005,
-          "height": 18,
-          "background_color": "#5EC962"
+          "x": 43.5,
+          "y": 132.0,
+          "width": 298.25,
+          "height": 0,
+          "background_color": "#825578"
+        },
+        {
+          "op": "add-image",
+          "id": "im23",
+          "path": "assets/icons/cancel-red.png",
+          "alt": "128 questions: a needed table was missed",
+          "x": 53.5,
+          "y": 143.0,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
           "id": "t24",
-          "text": "Lost",
-          "x": 36.3,
-          "y": 183.05,
-          "width": 156.4,
+          "text": "128 questions: a needed table was missed",
+          "x": 70.3,
+          "y": 130.8,
+          "width": 268.65,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#1B2430",
-          "bold": false
+          "bold": true
         },
         {
           "op": "style-paragraph",
           "element": "t24",
           "start": 0,
-          "end": 4,
+          "end": 40,
           "line_spacing": 135
         },
         {
-          "op": "add-shape",
+          "op": "style-text",
+          "element": "t24",
+          "start": 0,
+          "end": 40,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
           "slide": "retrieval",
-          "id": "r25",
-          "shape_type": "RECTANGLE",
-          "x": 371.43333333333334,
-          "y": 188.0,
-          "width": 83.73333333333329,
-          "height": 18,
-          "background_color": "#440154"
+          "id": "t25",
+          "text": "8 answered correctly by top 6",
+          "x": 70.3,
+          "y": 145.8,
+          "width": 268.65,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t25",
+          "start": 0,
+          "end": 29,
+          "line_spacing": 135
         },
         {
           "op": "add-shape",
           "slide": "retrieval",
           "id": "r26",
           "shape_type": "RECTANGLE",
-          "x": 454.66666666666663,
-          "y": 150.0,
-          "width": 1,
-          "height": 62.0,
-          "background_color": "#89949D"
+          "x": 351.75,
+          "y": 132.0,
+          "width": 298.25,
+          "height": 38,
+          "background_color": "#F4F5F6"
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r27",
+          "shape_type": "RECTANGLE",
+          "x": 351.75,
+          "y": 132.0,
+          "width": 298.25,
+          "height": 0,
+          "background_color": "#825578"
+        },
+        {
+          "op": "add-image",
+          "id": "im28",
+          "path": "assets/icons/check_circle-green.png",
+          "alt": "1,094 questions: every needed table was sent",
+          "x": 361.75,
+          "y": 143.0,
+          "width": 16,
+          "height": 16
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t27",
-          "text": "Every table, shared layout: net \u221229 answers",
+          "id": "t29",
+          "text": "1,094 questions: every needed table was sent",
+          "x": 378.55,
+          "y": 130.8,
+          "width": 268.65,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t29",
+          "start": 0,
+          "end": 44,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t29",
+          "start": 0,
+          "end": 44,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t30",
+          "text": "359 answered correctly by top 6",
+          "x": 378.55,
+          "y": 145.8,
+          "width": 268.65,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t30",
+          "start": 0,
+          "end": 31,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t31",
+          "text": "Dense embeddings: net +2 answers\u00b9",
           "x": 36.3,
-          "y": 218.8,
+          "y": 174.8,
           "width": 620.9,
           "height": 27.9,
           "font_size": 10,
@@ -33165,25 +33280,25 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t27",
+          "element": "t31",
           "start": 0,
-          "end": 43,
+          "end": 33,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t27",
+          "element": "t31",
           "start": 0,
-          "end": 43,
+          "end": 33,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t28",
+          "id": "t32",
           "text": "Gained",
           "x": 36.3,
-          "y": 247.05,
+          "y": 199.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -33193,7 +33308,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t28",
+          "element": "t32",
           "start": 0,
           "end": 6,
           "line_spacing": 135
@@ -33201,92 +33316,21 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r29",
+          "id": "r33",
           "shape_type": "RECTANGLE",
           "x": 455.16666666666663,
-          "y": 252.0,
-          "width": 78.50000000000011,
-          "height": 18,
+          "y": 205.0,
+          "width": 94.20000000000005,
+          "height": 16,
           "background_color": "#5EC962"
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t30",
+          "id": "t34",
           "text": "Lost",
           "x": 36.3,
-          "y": 277.05,
-          "width": 156.4,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t30",
-          "start": 0,
-          "end": 4,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-shape",
-          "slide": "retrieval",
-          "id": "r31",
-          "shape_type": "RECTANGLE",
-          "x": 224.9,
-          "y": 282.0,
-          "width": 230.26666666666662,
-          "height": 18,
-          "background_color": "#440154"
-        },
-        {
-          "op": "add-shape",
-          "slide": "retrieval",
-          "id": "r32",
-          "shape_type": "RECTANGLE",
-          "x": 454.66666666666663,
-          "y": 244.0,
-          "width": 1,
-          "height": 62.0,
-          "background_color": "#89949D"
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t33",
-          "text": "Shared plus summaries: net \u221226 answers",
-          "x": 36.3,
-          "y": 312.8,
-          "width": 620.9,
-          "height": 27.9,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t33",
-          "start": 0,
-          "end": 38,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t33",
-          "start": 0,
-          "end": 38,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "retrieval",
-          "id": "t34",
-          "text": "Gained",
-          "x": 36.3,
-          "y": 341.05,
+          "y": 221.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -33298,7 +33342,7 @@
           "op": "style-paragraph",
           "element": "t34",
           "start": 0,
-          "end": 6,
+          "end": 4,
           "line_spacing": 135
         },
         {
@@ -33306,19 +33350,58 @@
           "slide": "retrieval",
           "id": "r35",
           "shape_type": "RECTANGLE",
-          "x": 455.16666666666663,
-          "y": 346.0,
-          "width": 68.03333333333342,
-          "height": 18,
-          "background_color": "#5EC962"
+          "x": 371.43333333333334,
+          "y": 227.0,
+          "width": 83.73333333333329,
+          "height": 16,
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r36",
+          "shape_type": "RECTANGLE",
+          "x": 454.66666666666663,
+          "y": 200.0,
+          "width": 1,
+          "height": 46.0,
+          "background_color": "#89949D"
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t36",
-          "text": "Lost",
+          "id": "t37",
+          "text": "Every table, shared layout: net \u221229 answers",
           "x": 36.3,
-          "y": 371.05,
+          "y": 252.8,
+          "width": 620.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t37",
+          "start": 0,
+          "end": 43,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t37",
+          "start": 0,
+          "end": 43,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t38",
+          "text": "Gained",
+          "x": 36.3,
+          "y": 277.05,
           "width": 156.4,
           "height": 27.9,
           "font_size": 10,
@@ -33328,7 +33411,39 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t36",
+          "element": "t38",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r39",
+          "shape_type": "RECTANGLE",
+          "x": 455.16666666666663,
+          "y": 283.0,
+          "width": 78.50000000000011,
+          "height": 16,
+          "background_color": "#5EC962"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t40",
+          "text": "Lost",
+          "x": 36.3,
+          "y": 299.05,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t40",
           "start": 0,
           "end": 4,
           "line_spacing": 135
@@ -33336,32 +33451,135 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r37",
+          "id": "r41",
           "shape_type": "RECTANGLE",
-          "x": 251.06666666666666,
-          "y": 376.0,
-          "width": 204.09999999999997,
-          "height": 18,
+          "x": 224.9,
+          "y": 305.0,
+          "width": 230.26666666666662,
+          "height": 16,
           "background_color": "#440154"
         },
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r38",
+          "id": "r42",
           "shape_type": "RECTANGLE",
           "x": 454.66666666666663,
-          "y": 338.0,
+          "y": 278.0,
           "width": 1,
-          "height": 62.0,
+          "height": 46.0,
           "background_color": "#89949D"
         },
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t39",
+          "id": "t43",
+          "text": "Shared plus summaries: net \u221226 answers",
+          "x": 36.3,
+          "y": 330.8,
+          "width": 620.9,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t43",
+          "start": 0,
+          "end": 38,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t43",
+          "start": 0,
+          "end": 38,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t44",
+          "text": "Gained",
+          "x": 36.3,
+          "y": 355.05,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t44",
+          "start": 0,
+          "end": 6,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r45",
+          "shape_type": "RECTANGLE",
+          "x": 455.16666666666663,
+          "y": 361.0,
+          "width": 68.03333333333342,
+          "height": 16,
+          "background_color": "#5EC962"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t46",
+          "text": "Lost",
+          "x": 36.3,
+          "y": 377.05,
+          "width": 156.4,
+          "height": 27.9,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t46",
+          "start": 0,
+          "end": 4,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r47",
+          "shape_type": "RECTANGLE",
+          "x": 251.06666666666666,
+          "y": 383.0,
+          "width": 204.09999999999997,
+          "height": 16,
+          "background_color": "#440154"
+        },
+        {
+          "op": "add-shape",
+          "slide": "retrieval",
+          "id": "r48",
+          "shape_type": "RECTANGLE",
+          "x": 454.66666666666663,
+          "y": 356.0,
+          "width": 1,
+          "height": 46.0,
+          "background_color": "#89949D"
+        },
+        {
+          "op": "add-textbox",
+          "slide": "retrieval",
+          "id": "t49",
           "text": "+18",
           "x": 548.17,
-          "y": 153.3,
+          "y": 199.3,
           "width": 32.81666666666666,
           "height": 27.9,
           "font_size": 10,
@@ -33371,14 +33589,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t39",
+          "element": "t49",
           "start": 0,
           "end": 3,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t39",
+          "element": "t49",
           "start": 0,
           "end": 3,
           "bold": true
@@ -33386,10 +33604,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t40",
+          "id": "t50",
           "text": "\u221216",
           "x": 453.97,
-          "y": 183.3,
+          "y": 221.3,
           "width": 32.56666666666667,
           "height": 27.9,
           "font_size": 10,
@@ -33399,14 +33617,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t40",
+          "element": "t50",
           "start": 0,
           "end": 3,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t40",
+          "element": "t50",
           "start": 0,
           "end": 3,
           "bold": true
@@ -33414,10 +33632,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t41",
+          "id": "t51",
           "text": "+15",
           "x": 532.4699999999999,
-          "y": 247.3,
+          "y": 277.3,
           "width": 32.56666666666667,
           "height": 27.9,
           "font_size": 10,
@@ -33427,14 +33645,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t41",
+          "element": "t51",
           "start": 0,
           "end": 3,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t41",
+          "element": "t51",
           "start": 0,
           "end": 3,
           "bold": true
@@ -33442,10 +33660,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t42",
+          "id": "t52",
           "text": "\u221244",
           "x": 453.97,
-          "y": 277.3,
+          "y": 299.3,
           "width": 34.733333333333334,
           "height": 27.9,
           "font_size": 10,
@@ -33455,14 +33673,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t42",
+          "element": "t52",
           "start": 0,
           "end": 3,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t42",
+          "element": "t52",
           "start": 0,
           "end": 3,
           "bold": true
@@ -33470,10 +33688,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t43",
+          "id": "t53",
           "text": "+13",
           "x": 522.0,
-          "y": 341.3,
+          "y": 355.3,
           "width": 32.56666666666667,
           "height": 27.9,
           "font_size": 10,
@@ -33483,14 +33701,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t43",
+          "element": "t53",
           "start": 0,
           "end": 3,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t43",
+          "element": "t53",
           "start": 0,
           "end": 3,
           "bold": true
@@ -33498,10 +33716,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t44",
+          "id": "t54",
           "text": "\u221239",
           "x": 453.97,
-          "y": 371.3,
+          "y": 377.3,
           "width": 33.733333333333334,
           "height": 27.9,
           "font_size": 10,
@@ -33511,14 +33729,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t44",
+          "element": "t54",
           "start": 0,
           "end": 3,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t44",
+          "element": "t54",
           "start": 0,
           "end": 3,
           "bold": true
@@ -33526,7 +33744,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t45",
+          "id": "t55",
           "text": "Note: \u00b9 Gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.",
           "x": 36.3,
           "y": 458.0,
@@ -33540,14 +33758,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t45",
+          "element": "t55",
           "start": 0,
           "end": 150,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t45",
+          "element": "t55",
           "start": 0,
           "end": 5,
           "bold": true
@@ -33555,7 +33773,7 @@
         {
           "op": "add-line",
           "slide": "retrieval",
-          "id": "l46",
+          "id": "l56",
           "x": 658,
           "y": 131,
           "width": 0,
@@ -33566,7 +33784,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r47",
+          "id": "r57",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -33577,7 +33795,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r48",
+          "id": "r58",
           "shape_type": "RECTANGLE",
           "x": 668,
           "y": 131,
@@ -33588,7 +33806,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t49",
+          "id": "t59",
           "text": "TAKEAWAY",
           "x": 674.8,
           "y": 135.8,
@@ -33601,14 +33819,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t49",
+          "element": "t59",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t49",
+          "element": "t59",
           "start": 0,
           "end": 8,
           "bold": true
@@ -33616,7 +33834,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t50",
+          "id": "t60",
           "text": "Each fix helps where it aims, and the\nother questions pay.",
           "x": 674.8,
           "y": 155.8,
@@ -33629,21 +33847,21 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t50",
+          "element": "t60",
           "start": 0,
           "end": 58,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t50",
+          "element": "t60",
           "start": 34,
           "end": 37,
           "bold": true
         },
         {
           "op": "style-text",
-          "element": "t50",
+          "element": "t60",
           "start": 38,
           "end": 57,
           "bold": true
@@ -33651,10 +33869,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r51",
+          "id": "r61",
           "shape_type": "ELLIPSE",
           "x": 222.0,
-          "y": 132.0,
+          "y": 182.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -33662,10 +33880,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r52",
+          "id": "r62",
           "shape_type": "ELLIPSE",
           "x": 223.0,
-          "y": 133.0,
+          "y": 183.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -33673,10 +33891,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t53",
+          "id": "t63",
           "text": "1",
           "x": 215.8,
-          "y": 125.8,
+          "y": 175.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -33689,7 +33907,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r54",
+          "id": "r64",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 238.64,
@@ -33700,7 +33918,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t55",
+          "id": "t65",
           "text": "1",
           "x": 660.8,
           "y": 231.44,
@@ -33716,7 +33934,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t56",
+          "id": "t66",
           "text": "Fixes help where they aim",
           "x": 680.8,
           "y": 229.8,
@@ -33729,14 +33947,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t56",
+          "element": "t66",
           "start": 0,
           "end": 25,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t56",
+          "element": "t66",
           "start": 0,
           "end": 25,
           "bold": true
@@ -33744,7 +33962,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t57",
+          "id": "t67",
           "text": "Dense embeddings took the missed-table\nquestions from 8 to 26 correct.",
           "x": 680.8,
           "y": 250.0,
@@ -33757,7 +33975,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t57",
+          "element": "t67",
           "start": 0,
           "end": 70,
           "line_spacing": 135
@@ -33765,10 +33983,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r58",
+          "id": "r68",
           "shape_type": "ELLIPSE",
           "x": 258.0833333333333,
-          "y": 226.0,
+          "y": 260.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -33776,10 +33994,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r59",
+          "id": "r69",
           "shape_type": "ELLIPSE",
           "x": 259.0833333333333,
-          "y": 227.0,
+          "y": 261.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -33787,10 +34005,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t60",
+          "id": "t70",
           "text": "2",
           "x": 251.88333333333333,
-          "y": 219.8,
+          "y": 253.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -33803,7 +34021,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r61",
+          "id": "r71",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 297.84,
@@ -33814,7 +34032,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t62",
+          "id": "t72",
           "text": "2",
           "x": 660.8,
           "y": 290.64,
@@ -33830,7 +34048,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t63",
+          "id": "t73",
           "text": "The other questions pay",
           "x": 680.8,
           "y": 289.0,
@@ -33843,14 +34061,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t63",
+          "element": "t73",
           "start": 0,
           "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t63",
+          "element": "t73",
           "start": 0,
           "end": 23,
           "bold": true
@@ -33858,7 +34076,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t64",
+          "id": "t74",
           "text": "Sending every table won 15 answers and lost 44.\nEven reordering the same tables changed 22 of\n480 answers.",
           "x": 680.8,
           "y": 309.2,
@@ -33871,7 +34089,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t64",
+          "element": "t74",
           "start": 0,
           "end": 106,
           "line_spacing": 135
@@ -33879,10 +34097,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r65",
+          "id": "r75",
           "shape_type": "ELLIPSE",
           "x": 244.08333333333334,
-          "y": 320.0,
+          "y": 338.0,
           "width": 14,
           "height": 14,
           "background_color": "#FFFFFF"
@@ -33890,10 +34108,10 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r66",
+          "id": "r76",
           "shape_type": "ELLIPSE",
           "x": 245.08333333333334,
-          "y": 321.0,
+          "y": 339.0,
           "width": 12,
           "height": 12,
           "background_color": "#B8452E"
@@ -33901,10 +34119,10 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t67",
+          "id": "t77",
           "text": "3",
           "x": 237.88333333333335,
-          "y": 313.8,
+          "y": 331.8,
           "width": 26.4,
           "height": 26.4,
           "font_size": 8,
@@ -33917,7 +34135,7 @@
         {
           "op": "add-shape",
           "slide": "retrieval",
-          "id": "r68",
+          "id": "r78",
           "shape_type": "ELLIPSE",
           "x": 668,
           "y": 371.53999999999996,
@@ -33928,7 +34146,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t69",
+          "id": "t79",
           "text": "3",
           "x": 660.8,
           "y": 364.34,
@@ -33944,7 +34162,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t70",
+          "id": "t80",
           "text": "A live system cannot see the groups",
           "x": 680.8,
           "y": 361.7,
@@ -33957,14 +34175,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t70",
+          "element": "t80",
           "start": 0,
           "end": 35,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t70",
+          "element": "t80",
           "start": 0,
           "end": 35,
           "bold": true
@@ -33972,7 +34190,7 @@
         {
           "op": "add-textbox",
           "slide": "retrieval",
-          "id": "t71",
+          "id": "t81",
           "text": "The next test is targeted recovery: recover missed\ntables only where needed, and report both groups.",
           "x": 680.8,
           "y": 381.9,
@@ -33985,7 +34203,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t71",
+          "element": "t81",
           "start": 0,
           "end": 100,
           "line_spacing": 135
@@ -33999,47 +34217,68 @@
       "topic": "Next tests",
       "accent": "ochre",
       "title": "Four tests would close the main gaps in the evidence",
-      "subtitle": "Each needs a measured outcome before any default changes",
+      "subtitle": "Each needs a measured outcome before any default changes; the last column points to the slides that show the gap",
       "tables": [
         {
+          "bold_first": false,
           "headers": [
-            "Test",
             "Why it is needed",
             "What we would measure",
-            "What it decides\u00b9"
+            "What it decides\u00b9",
+            "Evidence so far"
           ],
           "widths": [
-            180,
-            260,
-            235.5,
-            200
+            255,
+            265,
+            225.5,
+            130
           ],
           "size": 10,
-          "row_height": 60,
+          "row_height": 44,
           "rows": [
+            {
+              "band": "1  Business definitions",
+              "accent": "ochre",
+              "icon": "assets/icons/menu_book-ink.png"
+            },
             [
-              "1  Business definitions",
               "Revenue stays ambiguous until a person checks it.",
               "Answers on ambiguous questions, with and without a few definitions.",
-              "Whether to carry a definitions layer."
+              "Whether to carry a definitions layer.",
+              "Slides 6 and 7"
             ],
+            {
+              "band": "2  Targeted table recovery",
+              "accent": "ochre",
+              "icon": "assets/icons/schema-ink.png"
+            },
             [
-              "2  Targeted table recovery",
               "On 128 questions a needed table is missed.",
               "Gains on those, and losses on the other 1,094.",
-              "Whether recovery keeps its gains."
+              "Whether recovery keeps its gains.",
+              "Slides 13 and 15"
             ],
+            {
+              "band": "3  New large schemas",
+              "accent": "ochre",
+              "icon": "assets/icons/table_rows-ink.png"
+            },
             [
-              "3  New large schemas",
               "The gain comes from 2 of 4 databases.",
               "Top 6 on databases outside these four, one by one.",
-              "Whether top 6 stays the default at every size."
+              "Whether top 6 stays the default at every size.",
+              "Slide 13"
             ],
+            {
+              "band": "4  A hosted model",
+              "accent": "ochre",
+              "icon": "assets/icons/chat-ink.png"
+            },
             [
-              "4  A hosted model",
               "All results use one local model.",
               "The same suites on a hosted model.",
-              "Whether it is worth sending it the prompt."
+              "Whether it is worth sending it the prompt.",
+              "Slides 8 and 12"
             ]
           ]
         }
@@ -34349,7 +34588,7 @@
           "op": "add-textbox",
           "slide": "next",
           "id": "t16",
-          "text": "Each needs a measured outcome before any default changes",
+          "text": "Each needs a measured outcome before any default changes; the last column points to the slides that show the gap",
           "x": 36.3,
           "y": 92.8,
           "width": 889.9,
@@ -34363,7 +34602,7 @@
           "op": "style-paragraph",
           "element": "t16",
           "start": 0,
-          "end": 56,
+          "end": 112,
           "line_spacing": 135
         },
         {
@@ -34442,10 +34681,10 @@
           "op": "add-textbox",
           "slide": "next",
           "id": "t21",
-          "text": "Test",
+          "text": "Why it is needed",
           "x": 36.3,
           "y": 124.8,
-          "width": 186.4,
+          "width": 261.4,
           "height": 26.4,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -34456,24 +34695,24 @@
           "op": "style-paragraph",
           "element": "t21",
           "start": 0,
-          "end": 4,
+          "end": 16,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t21",
           "start": 0,
-          "end": 4,
+          "end": 16,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "next",
           "id": "t22",
-          "text": "Why it is needed",
-          "x": 216.3,
+          "text": "What we would measure",
+          "x": 291.3,
           "y": 124.8,
-          "width": 266.4,
+          "width": 271.4,
           "height": 26.4,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -34484,24 +34723,24 @@
           "op": "style-paragraph",
           "element": "t22",
           "start": 0,
-          "end": 16,
+          "end": 21,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t22",
           "start": 0,
-          "end": 16,
+          "end": 21,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "next",
           "id": "t23",
-          "text": "What we would measure",
-          "x": 476.3,
+          "text": "What it decides\u00b9",
+          "x": 556.3,
           "y": 124.8,
-          "width": 241.9,
+          "width": 231.9,
           "height": 26.4,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -34512,24 +34751,24 @@
           "op": "style-paragraph",
           "element": "t23",
           "start": 0,
-          "end": 21,
+          "end": 16,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t23",
           "start": 0,
-          "end": 21,
+          "end": 16,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "next",
           "id": "t24",
-          "text": "What it decides\u00b9",
-          "x": 711.8,
+          "text": "Evidence so far",
+          "x": 781.8,
           "y": 124.8,
-          "width": 206.4,
+          "width": 136.4,
           "height": 26.4,
           "font_size": 8,
           "font_family": "Google Sans",
@@ -34540,14 +34779,14 @@
           "op": "style-paragraph",
           "element": "t24",
           "start": 0,
-          "end": 16,
+          "end": 15,
           "line_spacing": 135
         },
         {
           "op": "style-text",
           "element": "t24",
           "start": 0,
-          "end": 16,
+          "end": 15,
           "bold": true
         },
         {
@@ -34569,33 +34808,54 @@
           "x": 43.5,
           "y": 146,
           "width": 875.5,
-          "height": 60,
-          "background_color": "#F6F7F9"
+          "height": 18,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "next",
+          "id": "r27",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 146,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#896521"
+        },
+        {
+          "op": "add-image",
+          "id": "im28",
+          "path": "assets/icons/menu_book-ink.png",
+          "alt": "1  Business definitions",
+          "x": 51.5,
+          "y": 149,
+          "width": 12,
+          "height": 12
         },
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t27",
+          "id": "t29",
           "text": "1  Business definitions",
-          "x": 36.3,
+          "x": 64.3,
           "y": 141.8,
-          "width": 186.4,
-          "height": 70.4,
-          "font_size": 10,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": true
         },
         {
           "op": "style-paragraph",
-          "element": "t27",
+          "element": "t29",
           "start": 0,
           "end": 23,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t27",
+          "element": "t29",
           "start": 0,
           "end": 23,
           "bold": true
@@ -34603,20 +34863,20 @@
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t28",
+          "id": "t30",
           "text": "Revenue stays ambiguous until a person checks it.",
-          "x": 216.3,
-          "y": 141.8,
-          "width": 266.4,
-          "height": 70.4,
+          "x": 36.3,
+          "y": 159.8,
+          "width": 261.4,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
-          "element": "t28",
+          "element": "t30",
           "start": 0,
           "end": 49,
           "line_spacing": 135
@@ -34624,12 +34884,12 @@
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t29",
-          "text": "Answers on ambiguous questions, with and\nwithout a few definitions.",
-          "x": 476.3,
-          "y": 141.8,
-          "width": 241.9,
-          "height": 70.4,
+          "id": "t31",
+          "text": "Answers on ambiguous questions, with and without a\nfew definitions.",
+          "x": 291.3,
+          "y": 159.8,
+          "width": 271.4,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -34637,7 +34897,7 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t29",
+          "element": "t31",
           "start": 0,
           "end": 67,
           "line_spacing": 135
@@ -34645,61 +34905,12 @@
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t30",
-          "text": "Whether to carry a definitions layer.",
-          "x": 711.8,
-          "y": 141.8,
-          "width": 206.4,
-          "height": 70.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t30",
-          "start": 0,
-          "end": 37,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "next",
-          "id": "t31",
-          "text": "2  Targeted table recovery",
-          "x": 36.3,
-          "y": 201.8,
-          "width": 186.4,
-          "height": 70.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t31",
-          "start": 0,
-          "end": 26,
-          "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t31",
-          "start": 0,
-          "end": 26,
-          "bold": true
-        },
-        {
-          "op": "add-textbox",
-          "slide": "next",
           "id": "t32",
-          "text": "On 128 questions a needed table is missed.",
-          "x": 216.3,
-          "y": 201.8,
-          "width": 266.4,
-          "height": 70.4,
+          "text": "Whether to carry a definitions layer.",
+          "x": 556.3,
+          "y": 159.8,
+          "width": 231.9,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -34709,18 +34920,18 @@
           "op": "style-paragraph",
           "element": "t32",
           "start": 0,
-          "end": 42,
+          "end": 37,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "next",
           "id": "t33",
-          "text": "Gains on those, and losses on the other 1,094.",
-          "x": 476.3,
-          "y": 201.8,
-          "width": 241.9,
-          "height": 70.4,
+          "text": "Slides 6 and 7",
+          "x": 781.8,
+          "y": 159.8,
+          "width": 136.4,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -34730,29 +34941,19 @@
           "op": "style-paragraph",
           "element": "t33",
           "start": 0,
-          "end": 46,
+          "end": 14,
           "line_spacing": 135
         },
         {
-          "op": "add-textbox",
+          "op": "add-shape",
           "slide": "next",
-          "id": "t34",
-          "text": "Whether recovery keeps its gains.",
-          "x": 711.8,
-          "y": 201.8,
-          "width": 206.4,
-          "height": 70.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t34",
-          "start": 0,
-          "end": 33,
-          "line_spacing": 135
+          "id": "r34",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 208,
+          "width": 875.5,
+          "height": 18,
+          "background_color": "#F6F1E5"
         },
         {
           "op": "add-shape",
@@ -34760,90 +34961,79 @@
           "id": "r35",
           "shape_type": "RECTANGLE",
           "x": 43.5,
-          "y": 266,
-          "width": 875.5,
-          "height": 60,
-          "background_color": "#F6F7F9"
+          "y": 208,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#896521"
+        },
+        {
+          "op": "add-image",
+          "id": "im36",
+          "path": "assets/icons/schema-ink.png",
+          "alt": "2  Targeted table recovery",
+          "x": 51.5,
+          "y": 211,
+          "width": 12,
+          "height": 12
         },
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t36",
-          "text": "3  New large schemas",
-          "x": 36.3,
-          "y": 261.8,
-          "width": 186.4,
-          "height": 70.4,
-          "font_size": 10,
+          "id": "t37",
+          "text": "2  Targeted table recovery",
+          "x": 64.3,
+          "y": 203.8,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
           "font_family": "Google Sans",
           "color": "#1B2430",
           "bold": true
         },
         {
           "op": "style-paragraph",
-          "element": "t36",
+          "element": "t37",
           "start": 0,
-          "end": 20,
+          "end": 26,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t36",
+          "element": "t37",
           "start": 0,
-          "end": 20,
+          "end": 26,
           "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t37",
-          "text": "The gain comes from 2 of 4 databases.",
-          "x": 216.3,
-          "y": 261.8,
-          "width": 266.4,
-          "height": 70.4,
-          "font_size": 10,
-          "font_family": "Google Sans",
-          "color": "#5A6370",
-          "bold": false
-        },
-        {
-          "op": "style-paragraph",
-          "element": "t37",
-          "start": 0,
-          "end": 37,
-          "line_spacing": 135
-        },
-        {
-          "op": "add-textbox",
-          "slide": "next",
           "id": "t38",
-          "text": "Top 6 on databases outside these four, one by\none.",
-          "x": 476.3,
-          "y": 261.8,
-          "width": 241.9,
-          "height": 70.4,
+          "text": "On 128 questions a needed table is missed.",
+          "x": 36.3,
+          "y": 221.8,
+          "width": 261.4,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#5A6370",
+          "color": "#1B2430",
           "bold": false
         },
         {
           "op": "style-paragraph",
           "element": "t38",
           "start": 0,
-          "end": 50,
+          "end": 42,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "next",
           "id": "t39",
-          "text": "Whether top 6 stays the default at every\nsize.",
-          "x": 711.8,
-          "y": 261.8,
-          "width": 206.4,
-          "height": 70.4,
+          "text": "Gains on those, and losses on the other 1,094.",
+          "x": 291.3,
+          "y": 221.8,
+          "width": 271.4,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -34860,39 +35050,32 @@
           "op": "add-textbox",
           "slide": "next",
           "id": "t40",
-          "text": "4  A hosted model",
-          "x": 36.3,
-          "y": 321.8,
-          "width": 186.4,
-          "height": 70.4,
+          "text": "Whether recovery keeps its gains.",
+          "x": 556.3,
+          "y": 221.8,
+          "width": 231.9,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
-          "color": "#1B2430",
-          "bold": true
+          "color": "#5A6370",
+          "bold": false
         },
         {
           "op": "style-paragraph",
           "element": "t40",
           "start": 0,
-          "end": 17,
+          "end": 33,
           "line_spacing": 135
-        },
-        {
-          "op": "style-text",
-          "element": "t40",
-          "start": 0,
-          "end": 17,
-          "bold": true
         },
         {
           "op": "add-textbox",
           "slide": "next",
           "id": "t41",
-          "text": "All results use one local model.",
-          "x": 216.3,
-          "y": 321.8,
-          "width": 266.4,
-          "height": 70.4,
+          "text": "Slides 13 and 15",
+          "x": 781.8,
+          "y": 221.8,
+          "width": 136.4,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -34902,18 +35085,99 @@
           "op": "style-paragraph",
           "element": "t41",
           "start": 0,
-          "end": 32,
+          "end": 16,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "next",
+          "id": "r42",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 270,
+          "width": 875.5,
+          "height": 18,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "next",
+          "id": "r43",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 270,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#896521"
+        },
+        {
+          "op": "add-image",
+          "id": "im44",
+          "path": "assets/icons/table_rows-ink.png",
+          "alt": "3  New large schemas",
+          "x": 51.5,
+          "y": 273,
+          "width": 12,
+          "height": 12
+        },
+        {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t45",
+          "text": "3  New large schemas",
+          "x": 64.3,
+          "y": 265.8,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t45",
+          "start": 0,
+          "end": 20,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t45",
+          "start": 0,
+          "end": 20,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t46",
+          "text": "The gain comes from 2 of 4 databases.",
+          "x": 36.3,
+          "y": 283.8,
+          "width": 261.4,
+          "height": 54.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t46",
+          "start": 0,
+          "end": 37,
           "line_spacing": 135
         },
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t42",
-          "text": "The same suites on a hosted model.",
-          "x": 476.3,
-          "y": 321.8,
-          "width": 241.9,
-          "height": 70.4,
+          "id": "t47",
+          "text": "Top 6 on databases outside these four, one by one.",
+          "x": 291.3,
+          "y": 283.8,
+          "width": 271.4,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -34921,7 +35185,151 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t42",
+          "element": "t47",
+          "start": 0,
+          "end": 50,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t48",
+          "text": "Whether top 6 stays the default at every size.",
+          "x": 556.3,
+          "y": 283.8,
+          "width": 231.9,
+          "height": 54.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t48",
+          "start": 0,
+          "end": 46,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t49",
+          "text": "Slide 13",
+          "x": 781.8,
+          "y": 283.8,
+          "width": 136.4,
+          "height": 54.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t49",
+          "start": 0,
+          "end": 8,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-shape",
+          "slide": "next",
+          "id": "r50",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 332,
+          "width": 875.5,
+          "height": 18,
+          "background_color": "#F6F1E5"
+        },
+        {
+          "op": "add-shape",
+          "slide": "next",
+          "id": "r51",
+          "shape_type": "RECTANGLE",
+          "x": 43.5,
+          "y": 332,
+          "width": 2.5,
+          "height": 18,
+          "background_color": "#896521"
+        },
+        {
+          "op": "add-image",
+          "id": "im52",
+          "path": "assets/icons/chat-ink.png",
+          "alt": "4  A hosted model",
+          "x": 51.5,
+          "y": 335,
+          "width": 12,
+          "height": 12
+        },
+        {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t53",
+          "text": "4  A hosted model",
+          "x": 64.3,
+          "y": 327.8,
+          "width": 849.9,
+          "height": 26.4,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": true
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t53",
+          "start": 0,
+          "end": 17,
+          "line_spacing": 135
+        },
+        {
+          "op": "style-text",
+          "element": "t53",
+          "start": 0,
+          "end": 17,
+          "bold": true
+        },
+        {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t54",
+          "text": "All results use one local model.",
+          "x": 36.3,
+          "y": 345.8,
+          "width": 261.4,
+          "height": 54.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#1B2430",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t54",
+          "start": 0,
+          "end": 32,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t55",
+          "text": "The same suites on a hosted model.",
+          "x": 291.3,
+          "y": 345.8,
+          "width": 271.4,
+          "height": 54.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t55",
           "start": 0,
           "end": 34,
           "line_spacing": 135
@@ -34929,12 +35337,12 @@
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t43",
+          "id": "t56",
           "text": "Whether it is worth sending it the prompt.",
-          "x": 711.8,
-          "y": 321.8,
-          "width": 206.4,
-          "height": 70.4,
+          "x": 556.3,
+          "y": 345.8,
+          "width": 231.9,
+          "height": 54.4,
           "font_size": 10,
           "font_family": "Google Sans",
           "color": "#5A6370",
@@ -34942,17 +35350,38 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t43",
+          "element": "t56",
           "start": 0,
           "end": 42,
           "line_spacing": 135
         },
         {
+          "op": "add-textbox",
+          "slide": "next",
+          "id": "t57",
+          "text": "Slides 8 and 12",
+          "x": 781.8,
+          "y": 345.8,
+          "width": 136.4,
+          "height": 54.4,
+          "font_size": 10,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t57",
+          "start": 0,
+          "end": 15,
+          "line_spacing": 135
+        },
+        {
           "op": "add-line",
           "slide": "next",
-          "id": "l44",
+          "id": "l58",
           "x": 43.5,
-          "y": 386,
+          "y": 394,
           "width": 875.5,
           "height": 0,
           "color": "#89949D",
@@ -34961,10 +35390,10 @@
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t45",
+          "id": "t59",
           "text": "Note: \u2060\u00b9 Proposals, not results. Broader value hints would need a data-boundary decision first.",
           "x": 36.3,
-          "y": 382.8,
+          "y": 390.8,
           "width": 889.9,
           "height": 26.4,
           "font_size": 8,
@@ -34974,14 +35403,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t45",
+          "element": "t59",
           "start": 0,
           "end": 95,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t45",
+          "element": "t59",
           "start": 0,
           "end": 5,
           "bold": true
@@ -34989,7 +35418,7 @@
         {
           "op": "add-shape",
           "slide": "next",
-          "id": "r46",
+          "id": "r60",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -35000,7 +35429,7 @@
         {
           "op": "add-shape",
           "slide": "next",
-          "id": "r47",
+          "id": "r61",
           "shape_type": "RECTANGLE",
           "x": 43.5,
           "y": 436,
@@ -35011,7 +35440,7 @@
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t48",
+          "id": "t62",
           "text": "TAKEAWAY",
           "x": 50.3,
           "y": 444.05,
@@ -35024,14 +35453,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t48",
+          "element": "t62",
           "start": 0,
           "end": 8,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t48",
+          "element": "t62",
           "start": 0,
           "end": 8,
           "bold": true
@@ -35039,7 +35468,7 @@
         {
           "op": "add-textbox",
           "slide": "next",
-          "id": "t49",
+          "id": "t63",
           "text": "Measure first, then change a default only on evidence.",
           "x": 147.3,
           "y": 442.05,
@@ -35052,14 +35481,14 @@
         },
         {
           "op": "style-paragraph",
-          "element": "t49",
+          "element": "t63",
           "start": 0,
           "end": 54,
           "line_spacing": 135
         },
         {
           "op": "style-text",
-          "element": "t49",
+          "element": "t63",
           "start": 20,
           "end": 53,
           "bold": true
@@ -35671,6 +36100,10 @@
           "code"
         ]
       ],
+      "qr": {
+        "path": "assets/figures/qr-live-demo.svg",
+        "alt": "QR code for the live demo at aipa-text-to-sql-agent.streamlit.app"
+      },
       "image": {
         "path": "assets/figures/close-portrait.png",
         "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data."
@@ -35933,7 +36366,7 @@
           "text": "Manh Tuan (Mike) Nguyen",
           "x": 36.3,
           "y": 402.8,
-          "width": 434.4,
+          "width": 344.4,
           "height": 30.6,
           "font_size": 12,
           "font_family": "Google Sans",
@@ -35961,7 +36394,7 @@
           "text": "TD School, University of Technology Sydney  \u00b7  November 2026",
           "x": 36.3,
           "y": 420.8,
-          "width": 434.4,
+          "width": 344.4,
           "height": 27.9,
           "font_size": 10,
           "font_family": "Google Sans",
@@ -35978,6 +36411,38 @@
         {
           "op": "add-image",
           "id": "im24",
+          "path": "assets/figures/qr-live-demo.svg",
+          "alt": "QR code for the live demo at aipa-text-to-sql-agent.streamlit.app",
+          "x": 405,
+          "y": 392,
+          "width": 64,
+          "height": 64
+        },
+        {
+          "op": "add-textbox",
+          "slide": "close",
+          "id": "t25",
+          "text": "Scan to try it",
+          "x": 397.8,
+          "y": 452.8,
+          "width": 78.4,
+          "height": 25.200000000000003,
+          "font_size": 8,
+          "font_family": "Google Sans",
+          "color": "#5A6370",
+          "bold": false,
+          "alignment": "center"
+        },
+        {
+          "op": "style-paragraph",
+          "element": "t25",
+          "start": 0,
+          "end": 14,
+          "line_spacing": 135
+        },
+        {
+          "op": "add-image",
+          "id": "im26",
           "path": "assets/figures/close-portrait.png",
           "alt": "Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.",
           "x": 505,

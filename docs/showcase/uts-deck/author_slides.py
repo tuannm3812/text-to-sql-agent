@@ -246,16 +246,16 @@ benchmarks = {
             {'label': 'Demo suite, 4 of 12', 'value': 33.3, 'lo': 8.3, 'hi': 58.3, 'series': 'muted', 'text': '4 of 12, interval 50 points wide', 'marker': 3},
         ]},
         {'title': 'Spider by difficulty', 'scale': [0, 100], 'unit': '%', 'marker': 1, 'rows': [
-            {'label': 'Easy', 'series': 'd1', 'value': 84.3}, {'label': 'Medium', 'series': 'd2', 'value': 65.9},
-            {'label': 'Hard', 'series': 'd3', 'value': 58.6}, {'label': 'Extra hard', 'series': 'd4', 'value': 38.0},
+            {'label': 'Easy, 248 questions', 'series': 'd1', 'value': 84.3}, {'label': 'Medium, 446', 'series': 'd2', 'value': 65.9},
+            {'label': 'Hard, 174', 'series': 'd3', 'value': 58.6}, {'label': 'Extra hard, 166', 'series': 'd4', 'value': 38.0},
         ]},
         {'title': 'BIRD by difficulty, with and without evidence', 'scale': [0, 100], 'unit': '%', 'marker': 2, 'rows': [
-            {'label': 'Simple', 'value': 43.1, 'series': 'd1'}, {'label': 'Simple, no evidence', 'value': 34.2, 'series': 'muted'},
-            {'label': 'Challenging', 'value': 17.3, 'series': 'd3'}, {'label': 'Challenging, no evidence', 'value': 8.2, 'series': 'muted'},
+            {'label': 'Simple, 860 questions', 'value': 43.1, 'series': 'd1'}, {'label': 'Simple, no evidence', 'value': 34.2, 'series': 'muted'},
+            {'label': 'Challenging, 231', 'value': 17.3, 'series': 'd3'}, {'label': 'Challenging, no evidence', 'value': 8.2, 'series': 'muted'},
         ]},
     ],
     'max_step': 22,
-    'caption': '**Source:** release runs at 7708295, qwen3.5 9B; this project’s scorer, not leaderboard scores. Spider 1,034 and BIRD 1,534 questions.',
+    'caption': '**Source:** release runs at 7708295, qwen3.5 9B, on Spider dev (Yu et al., 2018; 1,034 questions) and BIRD dev (Li et al., 2023; 1,534); this project’s scorer, not leaderboard scores.',
     'takeaway': 'Harder questions score lower, and **a good demo proves little**.',
     'annotations': [
         {'title': 'Harder questions score lower', 'text': 'Spider sets the level from how many SQL parts a query needs. Scores fall from 84.3 % to 38.0 %.'},
@@ -309,24 +309,28 @@ large = {
 
 W14 = [200, 230, 125.5, 200, 120]
 trials = {
-    'id': 'trials', 'layout': 'table_page', 'section': 'Evidence', 'topic': 'Trials', 'accent': 'plum',
+    'id': 'trials', 'layout': 'bars_page', 'section': 'Evidence', 'topic': 'Trials', 'accent': 'plum',
     'title': 'Later trials found trade-offs, not a further accuracy gain',
-    'subtitle': '1,222 large-schema questions; paired change against each row’s own baseline',
-    'tables': [{
-        'headers': ['Trial', 'Change, and its baseline', 'Accuracy points¹', 'Side effect', 'Decision'],
-        'widths': W14, 'size': 10, 'row_height': 42,
-        'rows': [
-            ['Top 6 + neighbours', 'Send the best tables, vs every table + hints', '+3.6 [+1.4, +5.8]', '69 % fewer tokens, 2 s slower', [['Default', 'strength']]],
-            ['Question value matching', 'Add stored values the question names, vs top 6', '+0.4 [−0.9, +1.6]', 'Reads row data at question time', [['Off', 'limit']]],
-            ['Scorer signals', 'Weight hints down, match plurals, vs top 6', '+0.9 [−0.7, +2.4]', 'All needed tables sent: 1,055 to 1,094', [['Kept', 'strength']]],
-            ['Dense embeddings', 'Add sentence embeddings, vs the kept scorer', '+0.2 [−1.6, +2.0]', 'All needed tables sent: 1,094 to 1,148', [['Off', 'limit']]],
-            ['Shared layout', 'Send every table, name the top 6, vs top 6', '−2.4 [−4.6, −0.2]', '58 % faster, 3 times the tokens', [['Opt-in', 'constraint']]],
-            ['Shared plus summaries', 'Also list their columns, vs top 6, not controlled', '−2.1 [−4.3, +0.0]', 'Same speed as shared', [['Opt-in', 'constraint']]],
-        ]}],
-    'note': '⁠¹ Paired 95 % intervals. Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.',
+    'subtitle': '1,222 large-schema questions; each trial paired against its own baseline',
+    'label_width': 200,
+    'max_step': 40,
+    'panels': [{'title': 'Change in answers matched, accuracy points¹', 'kind': 'dot', 'scale': [-6, 7], 'unit': 'points', 'rows': [
+        {'label': '**Top 6 + neighbours**, default', 'value': 3.6, 'lo': 1.4, 'hi': 5.8, 'marker': 1},
+        {'label': 'Question value matching, off', 'value': 0.4, 'lo': -0.9, 'hi': 1.6, 'series': 'muted'},
+        {'label': 'Scorer signals, kept', 'value': 0.9, 'lo': -0.7, 'hi': 2.4, 'series': 'muted', 'marker': 2},
+        {'label': 'Dense embeddings, off', 'value': 0.2, 'lo': -1.6, 'hi': 2.0, 'series': 'muted'},
+        {'label': 'Shared layout, opt-in', 'value': -2.4, 'lo': -4.6, 'hi': -0.2, 'series': 'loss', 'marker': 3},
+        {'label': 'Shared plus summaries, opt-in²', 'value': -2.1, 'lo': -4.3, 'hi': 0.0, 'series': 'muted'},
+    ]}],
+    'caption': '**Note:** ¹ Paired 95 % intervals; top 6 against every table + hints, the others against top 6 or the kept scorer. ² Not controlled: the commit differs.',
+    'annotations': [
+        {'title': 'The one clear gain', 'text': 'Top 6 sits clear of zero, with 69 % fewer tokens but about 2 s slower per answer.'},
+        {'title': 'Better retrieval, not better answers', 'text': 'Scorer signals sent all needed tables more often, 1,055 to 1,094, but its interval crosses zero. Kept for the retrieval gain.'},
+        {'title': 'Faster, but a measurable loss', 'text': 'The shared layout cut latency by 58 % and lost 2.4 points. Both shared layouts stay opt-in.'},
+    ],
     'takeaway': 'Table selection is the **one clear gain**. Five later trials traded speed or recall, not accuracy.',
     'notes': notes('Show what the later trials found.',
-        '[Point: Top row] Each row shows what changed, the paired result, the side effect and the decision. Sending the best tables is the one clear gain. None of the five later trials added to it.',
+        '[Point: Top row, marker 1] Each dot is a trial’s paired change and the line is its 95 percent interval. Sending the best tables is the one clear gain. None of the five later trials added to it.',
         '[Point: Scorer signals] The scorer change sent all needed tables more often, from 1,055 questions to 1,094. Its 0.9 points still spans zero, so better retrieval did not become measurably better answers. We kept it for the retrieval gain.',
         '[Point: Dense embeddings] Dense embeddings helped dropped-table questions, but other answers churned, so the whole suite moved only 0.2 points. [Point: Shared layout] The shared layout cut latency by 58 percent and lost 2.4 points. Both layouts stay opt-in.',
         'Reference: evaluation/results/value_matches, scorer_signals, dense_embeddings, shared_layout.'),
@@ -336,6 +340,9 @@ retrieval = {
     'id': 'retrieval', 'layout': 'bars_page', 'section': 'Evidence', 'topic': 'Retrieval', 'accent': 'plum',
     'title': 'Better table coverage did not measurably improve accuracy',
     'subtitle': 'Correct answers gained and lost by each fix against selected tables, on 1,222 questions',
+    'boxes': [['128 questions: a needed table was missed', '8 answered correctly by top 6', 'cancel-red'],
+              ['1,094 questions: every needed table was sent', '359 answered correctly by top 6', 'check_circle-green']],
+    'max_step': 22,
     'panels': [
         {'title': 'Dense embeddings: net +2 answers¹', 'scale': [-50, 25], 'unit': '', 'marker': 1, 'rows': [
             {'label': 'Gained', 'value': 18, 'series': 'secondary', 'text': '+18'},
@@ -364,19 +371,24 @@ retrieval = {
         'Reference: evaluation/results/dense_embeddings, shared_layout, scorer_signals. Baseline 367 of 1,222 (8 + 359).'),
 }
 
-W16 = [180, 260, 235.5, 200]
+W16 = [255, 265, 225.5, 130]
 next_tests = {
     'id': 'next', 'layout': 'table_page', 'section': 'Next steps', 'topic': 'Next tests', 'accent': 'ochre',
     'title': 'Four tests would close the main gaps in the evidence',
-    'subtitle': 'Each needs a measured outcome before any default changes',
+    'subtitle': 'Each needs a measured outcome before any default changes; the last column points to the slides that show the gap',
     'tables': [{
-        'headers': ['Test', 'Why it is needed', 'What we would measure', 'What it decides¹'],
-        'widths': W16, 'size': 10, 'row_height': 60,
+        'bold_first': False,
+        'headers': ['Why it is needed', 'What we would measure', 'What it decides¹', 'Evidence so far'],
+        'widths': W16, 'size': 10, 'row_height': 44,
         'rows': [
-            ['1  Business definitions', 'Revenue stays ambiguous until a person checks it.', 'Answers on ambiguous questions, with and without a few definitions.', 'Whether to carry a definitions layer.'],
-            ['2  Targeted table recovery', 'On 128 questions a needed table is missed.', 'Gains on those, and losses on the other 1,094.', 'Whether recovery keeps its gains.'],
-            ['3  New large schemas', 'The gain comes from 2 of 4 databases.', 'Top 6 on databases outside these four, one by one.', 'Whether top 6 stays the default at every size.'],
-            ['4  A hosted model', 'All results use one local model.', 'The same suites on a hosted model.', 'Whether it is worth sending it the prompt.'],
+            {'band': '1  Business definitions', 'accent': 'ochre', 'icon': 'assets/icons/menu_book-ink.png'},
+            ['Revenue stays ambiguous until a person checks it.', 'Answers on ambiguous questions, with and without a few definitions.', 'Whether to carry a definitions layer.', 'Slides 6 and 7'],
+            {'band': '2  Targeted table recovery', 'accent': 'ochre', 'icon': 'assets/icons/schema-ink.png'},
+            ['On 128 questions a needed table is missed.', 'Gains on those, and losses on the other 1,094.', 'Whether recovery keeps its gains.', 'Slides 13 and 15'],
+            {'band': '3  New large schemas', 'accent': 'ochre', 'icon': 'assets/icons/table_rows-ink.png'},
+            ['The gain comes from 2 of 4 databases.', 'Top 6 on databases outside these four, one by one.', 'Whether top 6 stays the default at every size.', 'Slide 13'],
+            {'band': '4  A hosted model', 'accent': 'ochre', 'icon': 'assets/icons/chat-ink.png'},
+            ['All results use one local model.', 'The same suites on a hosted model.', 'Whether it is worth sending it the prompt.', 'Slides 8 and 12'],
         ]}],
     'note': '⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first.',
     'takeaway': 'Measure first, then **change a default only on evidence**.',
@@ -411,6 +423,7 @@ close = {
         ['Live demo', 'aipa-text-to-sql-agent.streamlit.app', 'https://aipa-text-to-sql-agent.streamlit.app', 'query_stats'],
         ['Code and runs', 'github.com/tuannm3812/text-to-sql-agent', 'https://github.com/tuannm3812/text-to-sql-agent', 'code'],
     ],
+    'qr': {'path': 'assets/figures/qr-live-demo.svg', 'alt': 'QR code for the live demo at aipa-text-to-sql-agent.streamlit.app'},
     'image': {'path': 'assets/figures/close-portrait.png', 'alt': 'Illustration: table cards around a lens showing a small bar chart. Decorative, no real data.'},
     'notes': notes('Close on the contribution.',
         'The contribution is an inspectable SQL application and an evaluation record that makes its trade-offs visible. The default keeps table selection because it improved the large-schema comparison. Answer accuracy remains limited, and better retrieval alone has not added a gain.',

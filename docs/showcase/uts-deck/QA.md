@@ -28,3 +28,13 @@ See the [agent workflow](https://github.com/tuannm3812/uts-deck-kit/blob/main/AG
 - Links: live demo and repository on the close; eight source links on page 17.
 - Colour: Viridis key in DESIGN.project.md on every figure; cover and close art keep the earlier palette-A colours at the owner's request.
 - Limitations: the demo is a still screenshot, not the GIF; numbers carried from the Google deck were spot-checked, not all re-derived.
+
+## Review record, 21 November 2026 (final pass before push)
+
+- 24 pages: cover, agenda, summary, 13 body slides, sources, close, six appendix slides (schema selection, full flow, scoring, engines, technology, glossary).
+- Kit v0.6.0 (latest; dc2f12f). build, export_pdf, check_deck, audit_layout and check_markers: 0 findings.
+- Every number on the slides is in claims-register.md; per-difficulty question counts verified against the 2026-10-10 run reports.
+- Notes follow the kit's **Note:** ¹ rule; red markers carry a white ring; ticks green and crosses red.
+- Speaker notes present on every slide; notes for changed slides (architecture, trials) rewritten to match.
+- Links: tool docs on other tools, chart sources to result pages, Spider 2.0 paper, live demo and repository on the close, QR codes on demo and close.
+- Limitations: the demo is a still crop, not the GIF; the appendix flowchart is a rendered image (make_flow.py), so its text is not checked by check_deck; some carried-over numbers were spot-checked rather than re-derived.

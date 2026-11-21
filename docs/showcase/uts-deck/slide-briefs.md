@@ -659,14 +659,14 @@ Exact face text:
 - BIRD dev, with evidence
 - Demo suite, 4 of 12
 - Spider by difficulty
-- Easy
-- Medium
-- Hard
-- Extra hard
+- Easy, 248 questions
+- Medium, 446
+- Hard, 174
+- Extra hard, 166
 - BIRD by difficulty, with and without evidence
-- Simple
+- Simple, 860 questions
 - Simple, no evidence
-- Challenging
+- Challenging, 231
 - Challenging, no evidence
 - 64.6 %  [61.6 %, 67.5 %]
 - 35.2 %  [32.9 %, 37.6 %]
@@ -679,7 +679,7 @@ Exact face text:
 - 34.2 %
 - 17.3 %
 - 8.2 %
-- Source: release runs at 7708295, qwen3.5 9B; this project’s scorer, not leaderboard scores. Spider 1,034 and BIRD 1,534 questions.
+- Source: release runs at 7708295, qwen3.5 9B, on Spider dev (Yu et al., 2018; 1,034 questions) and BIRD dev (Li et al., 2023; 1,534); this project’s scorer, not leaderboard / scores.
 - TAKEAWAY
 - Harder questions score lower, and a / good demo proves little.
 - 1
@@ -758,7 +758,7 @@ Exact face text:
 
 ## 14. Later trials found trade-offs, not a further accuracy gain
 
-Layout: table_page
+Layout: bars_page
 
 Reader question: 
 
@@ -773,47 +773,37 @@ Exact face text:
 - EVIDENCE
 - Trials
 - Later trials found trade-offs, not a further accuracy gain
-- 1,222 large-schema questions; paired change against each row’s own baseline
+- 1,222 large-schema questions; each trial paired against its own baseline
 - Text-to-SQL Agent
 - 14
-- Trial
-- Change, and its baseline
-- Accuracy points¹
-- Side effect
-- Decision
-- Top 6 + neighbours
-- Send the best tables, vs every table + hints
-- +3.6 [+1.4, +5.8]
-- 69 % fewer tokens, 2 s slower
-- DEFAULT
-- Question value matching
-- Add stored values the question names, vs top 6
-- +0.4 [−0.9, +1.6]
-- Reads row data at question time
-- OFF
-- Scorer signals
-- Weight hints down, match plurals, vs top 6
-- +0.9 [−0.7, +2.4]
-- All needed tables sent: 1,055 to 1,094
-- KEPT
-- Dense embeddings
-- Add sentence embeddings, vs the kept scorer
-- +0.2 [−1.6, +2.0]
-- All needed tables sent: 1,094 to 1,148
-- OFF
-- Shared layout
-- Send every table, name the top 6, vs top 6
-- −2.4 [−4.6, −0.2]
-- 58 % faster, 3 times the tokens
-- OPT-IN
-- Shared plus summaries
-- Also list their columns, vs top 6, not controlled
-- −2.1 [−4.3, +0.0]
-- Same speed as shared
-- OPT-IN
-- Note: ⁠¹ Paired 95 % intervals. Only the first row’s interval sits clear of zero above it; the shared layout’s sits clear below it. The others cross zero.
+- Change in answers matched, accuracy points¹
+- Top 6 + neighbours, default
+- Question value matching, off
+- Scorer signals, kept
+- Dense embeddings, off
+- Shared layout, opt-in
+- Shared plus summaries, opt-in²
+- +3.6  [+1.4, +5.8]
+- +0.4  [−0.9, +1.6]
+- +0.9  [−0.7, +2.4]
+- +0.2  [−1.6, +2.0]
+- −2.4  [−4.6, −0.2]
+- −2.1  [−4.3, 0.0]
+- Note: ¹ Paired 95 % intervals; top 6 against every table + hints, the others against top 6 or the kept scorer. ² Not controlled: the commit differs.
 - TAKEAWAY
-- Table selection is the one clear gain. Five later trials traded speed or recall, not accuracy.
+- Table selection is the one clear gain. Five / later trials traded speed or recall, not / accuracy.
+- 1
+- 1
+- The one clear gain
+- Top 6 sits clear of zero, with 69 % fewer tokens but / about 2 s slower per answer.
+- 2
+- 2
+- Better retrieval, not better answers
+- Scorer signals sent all needed tables more often, / 1,055 to 1,094, but its interval crosses zero. Kept / for the retrieval gain.
+- 3
+- 3
+- Faster, but a measurable loss
+- The shared layout cut latency by 58 % and lost 2.4 / points. Both shared layouts stay opt-in.
 
 ## 15. Better table coverage did not measurably improve accuracy
 
@@ -835,6 +825,10 @@ Exact face text:
 - Correct answers gained and lost by each fix against selected tables, on 1,222 questions
 - Text-to-SQL Agent
 - 15
+- 128 questions: a needed table was missed
+- 8 answered correctly by top 6
+- 1,094 questions: every needed table was sent
+- 359 answered correctly by top 6
 - Dense embeddings: net +2 answers¹
 - Gained
 - Lost
@@ -883,29 +877,33 @@ Exact face text:
 - NEXT STEPS
 - Next tests
 - Four tests would close the main gaps in the evidence
-- Each needs a measured outcome before any default changes
+- Each needs a measured outcome before any default changes; the last column points to the slides that show the gap
 - Text-to-SQL Agent
 - 16
-- Test
 - Why it is needed
 - What we would measure
 - What it decides¹
+- Evidence so far
 - 1  Business definitions
 - Revenue stays ambiguous until a person checks it.
-- Answers on ambiguous questions, with and / without a few definitions.
+- Answers on ambiguous questions, with and without a / few definitions.
 - Whether to carry a definitions layer.
+- Slides 6 and 7
 - 2  Targeted table recovery
 - On 128 questions a needed table is missed.
 - Gains on those, and losses on the other 1,094.
 - Whether recovery keeps its gains.
+- Slides 13 and 15
 - 3  New large schemas
 - The gain comes from 2 of 4 databases.
-- Top 6 on databases outside these four, one by / one.
-- Whether top 6 stays the default at every / size.
+- Top 6 on databases outside these four, one by one.
+- Whether top 6 stays the default at every size.
+- Slide 13
 - 4  A hosted model
 - All results use one local model.
 - The same suites on a hosted model.
 - Whether it is worth sending it the prompt.
+- Slides 8 and 12
 - Note: ⁠¹ Proposals, not results. Broader value hints would need a data-boundary decision first.
 - TAKEAWAY
 - Measure first, then change a default only on evidence.
@@ -957,6 +955,7 @@ Exact face text:
 - github.com/tuannm3812/text-to-sql-agent
 - Manh Tuan (Mike) Nguyen
 - TD School, University of Technology Sydney  ·  November 2026
+- Scan to try it
 
 ## 19. Backup: how the top 6 tables are chosen
 

@@ -172,7 +172,7 @@ References:
 
 Show what the later trials found.
 
-[Point: Top row] Each row shows what changed, the paired result, the side effect and the decision. Sending the best tables is the one clear gain. None of the five later trials added to it.
+[Point: Top row, marker 1] Each dot is a trial’s paired change and the line is its 95 percent interval. Sending the best tables is the one clear gain. None of the five later trials added to it.
 [Point: Scorer signals] The scorer change sent all needed tables more often, from 1,055 questions to 1,094. Its 0.9 points still spans zero, so better retrieval did not become measurably better answers. We kept it for the retrieval gain.
 [Point: Dense embeddings] Dense embeddings helped dropped-table questions, but other answers churned, so the whole suite moved only 0.2 points. [Point: Shared layout] The shared layout cut latency by 58 percent and lost 2.4 points. Both layouts stay opt-in.
 Reference: evaluation/results/value_matches, scorer_signals, dense_embeddings, shared_layout.
