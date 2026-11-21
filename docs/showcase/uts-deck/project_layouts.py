@@ -928,4 +928,11 @@ def arch_rows(L, p, slide):
         y += rh + gap
 
 
-LAYOUTS = {'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}
+def flow_page(L, p, slide):
+    """A full-width rendered flowchart (make_flow.py) under the header, no takeaway column."""
+    h = END - TOP
+    w = h * 1000 / 395
+    L.image(p, slide['image'], LEFT + (RIGHT - LEFT - w) / 2, TOP, w, h)
+
+
+LAYOUTS = {'flow_page': flow_page, 'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}

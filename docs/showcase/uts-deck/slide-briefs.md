@@ -1012,9 +1012,9 @@ Exact face text:
 - Neighbours are added
 - orders ranks tenth, yet arrives through a foreign / key from order_items. The benchmark’s answer / needs it.
 
-## 20. Backup: how one question flows through the app, stage by stage
+## 20. Backup: one question’s path through the app, as a flowchart
 
-Layout: arch_rows
+Layout: flow_page
 
 Reader question: 
 
@@ -1023,51 +1023,11 @@ Message: Backup for questions about the full flow.
 Exact face text:
 
 - APPENDIX
-- Full architecture
-- Backup: how one question flows through the app, stage by stage
+- Full flow
+- Backup: one question’s path through the app, as a flowchart
 - 
 - Text-to-SQL Agent
 - 20
-- STAGE
-- WHAT HAPPENS
-- WHERE IN THE CODE
-- GUARANTEES AND LIMITS
-- 1
-- Ask
-- App, no model
-- Pick a demo database, a file, a connection string or CSV uploads, and a model: / Gemini, hosted, or Ollama, local. Then ask in plain English. Each question is / answered on its own; earlier questions are not sent.
-- app.py, ui/connection.py; the whole turn runs / through pipeline.answer_question
-- A connection string with a password is redacted / before any error is shown.
-- 2
-- Prepare
-- App, no model
-- Read tables, columns and keys, with up to 6 values from text columns of at most 20 / distinct values. Score every table against the question, keep the top 6 plus tables / one foreign key away, and build the prompt.
-- schema.get_schema_chunks, / rag.retrieve_schema_context, / llm.build_user_prompt
-- No result rows ever enter the prompt. The schema and / its index are cached per schema version, so retrieval / takes about 4 ms.
-- 3
-- Generate
-- The model: behaviour
-- The one model call. The model writes one SQL statement for the engine’s dialect, or / returns a refusal for a write or a question the schema cannot answer. Thinking is off / by default.
-- llm.generate_sql; gemini_manager.py for / Gemini; LangChain for Ollama
-- Behaviour, not a guarantee: 14 of 15 safety cases / ended in its own decline. A hosted model receives the / whole prompt.
-- 4
-- Validate
-- In code: gate 1
-- sqlglot parses the SQL in the engine’s dialect. It accepts one SELECT or WITH / statement and refuses writes, engine internals and unsafe functions.
-- safety.query_refusal, / safety.is_safe_query
-- A refused query never reaches the engine; it returns / BLOCKED_UNSAFE_SQL with a plain explanation.
-- 5
-- Run
-- In code: gate 2
-- The engine runs the query on a read-only connection with a work budget and cuts / the result at 1,000 rows. A query error goes back to the model once, and the repair / passes gates 1 and 2 again.
-- execution.execute_query; / engines/sqlite.py, duckdb.py, postgres.py
-- Budgets: 100,000 VM steps on SQLite, 5,000 ms on / DuckDB and PostgreSQL; a budget stop is not retried. / Each engine passes the same 15 conformance tests.
-- 6
-- Show
-- App, for the person
-- A one-line answer, the table, a bar chart when the result suits one, the highlighted / SQL and the tables chosen. Errors are shown in plain language.
-- ui/results.py: render_answer, bar_chart, / describe_error
-- No layer checks meaning: the person reads the SQL / before trusting the answer.
 
 ## 21. Backup: matched means the same rows as the reference
 

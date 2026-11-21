@@ -32,7 +32,7 @@
     }
   },
   "engine": {
-    "commit": "96bf255f7defb8ddacffcfec7b4df2b4f69f0c5d",
+    "commit": "45405fca21faf1b408fa01ceaaa42cf76a629fe1",
     "dirty": true,
     "files": {
       "deck_kit/__init__.py": "30d66c386cfab55c6a617a8835b251afed9fbb4c0e4744dd5fd5b61857c3cfc7",
@@ -50,11 +50,11 @@
     }
   },
   "inputs": {
-    "brief-content.json": "2a371b6df9cec92b420115856691ebf7936ae5b626945d4250403b3bf3e8401e",
+    "brief-content.json": "36b02ec0c1abb35c973cde00efec10bb466e97b0bab87b33a64d384fc84c4035",
     "deck-kit.json": "d62d69af77f4c56d573abdbc345e8c3faf148bf029a35d4d841b73db02ed0ac0",
-    "claims-register.md": "76b082ecade4a272fa6e20485f0fb6628f97e7b658fd83a00ec792d995187806",
+    "claims-register.md": "1f6ce921ade5ca3447e10c615ddc240d117185cc16b87a53e0ec7d4c524f547f",
     "kit-pin.json": "fab1758a95b0a452fc8b028ebeaf27783a75db5e2d2a0b587ca79501de3b43c6",
-    "project_layouts.py": "9941f7cf6a5ebe061f4e8122b915fac275caa1f6c9fe19d6cf0d9148fb3555b3"
+    "project_layouts.py": "0d56f4fa89c9e928db9855d4d837848ce0ad726a2d786c5fa729f7b42f3928b4"
   },
   "assets": {
     "assets/PROVENANCE.md": "5fca3195bdc91ba0f25ad38c2ab9a87f11523d9ed939e66c43699ac33d323f96",
@@ -68,6 +68,7 @@
     "assets/figures/cover-portrait.png": "322b31def29068eb75040e1726d188bfc032c34171b99f0b4c4598e4329c89ac",
     "assets/figures/demo-answer.png": "7a30c11583d737965b171f99f3be7b0a5923087cd2b2bcffcfc1ad84a7c7c8d4",
     "assets/figures/demo-app.png": "89d3e331de6f977566df71125289b3b5c6fac3889465abbae343583c69da43ea",
+    "assets/figures/flowchart.png": "91b6c67930edf73e13c48227e18c524e174a44821a3d1b369ac03919b6a3b6bf",
     "assets/figures/qr-live-demo.svg": "8401b0db58c108ac45cda7ce8caceb93c75a96b1b8bae990f13429d0ca39edfd",
     "assets/figures/ring-35-2.png": "3c24235d123460a23d8ad26c5ebc9139e331474b168facf80303cfc3fe7908ef",
     "assets/figures/ring-64-6.png": "c1306a49077dba49666d6ea3426e23d42f3c47f72b0ee619a7dd5d1f7eb0d809",
@@ -300,8 +301,8 @@
     "assets/project/icons/yes.svg": "dbff942ec1c85811264a97caae3f850a35cc004310cc37f7c7e58b6ca734d52d"
   },
   "outputs": {
-    "deck.html": "cba7d5031c0732413e7b822f868da14b22ce9f6e46b11ca412e22432e5e7f122",
-    "deck.pdf": "09c9269bf0ece04989b52921bd68985555c0637174e5b49aa34989fd56122740"
+    "deck.html": "2587e7a7a18aa034e97eeff65864d47cf55a81a7cf345cc4f69e75f8da183839",
+    "deck.pdf": "e81820a5f9d5d9ba2a2ddb87f6b76f8a6050171fb8231264d9fc2244496e1275"
   },
   "slide_count": 24
 }
