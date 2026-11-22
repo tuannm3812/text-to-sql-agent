@@ -32,7 +32,7 @@ SPEC = {
     'logo': '../assets/brand/uts-logo.svg',
     'css': 'uts_poster.css',
     'plugin': 'uts_poster_blocks.py',
-    'footer': '**Text-to-SQL Agent**  ·  github.com/tuannm3812/text-to-sql-agent',
+    'footer': '**Text-to-SQL Agent**  ·  Manh Tuan (Mike) Nguyen',
     'strict': True,
     'size': 'A1',
     'columns': 12,
@@ -42,7 +42,7 @@ SPEC = {
 }
 
 TAKE = {'type': 'ptake', 'span': 12, 'value': '173,366',
-        'value_label': 'her answer, in seconds,<br>with the SQL behind it',
+        'value_label': 'her answer in seconds, with the SQL behind it',
         'verdict': 'Read-only and inspectable; a person still checks the meaning',
         'lines': ['The SQL comes with every answer; **45 of 45** read-only tests passed. About **one answer in three** still did not match on Spider.'],
         'next': [['Definitions', 'one meaning of revenue'],
@@ -50,12 +50,15 @@ TAKE = {'type': 'ptake', 'span': 12, 'value': '173,366',
                  ['New schemas', 'and a hosted model']]}
 
 PROBLEM = [
-    {'type': 'photo', 'span': 4, 'image': '../assets/figures/photo-shop.jpg',
+    {'type': 'photo', 'span': 4, 'image': '../assets/figures/photo-shop-wide.jpg',
      'alt': 'Interior of a small shop with wooden shelves (photograph).',
-     'credit': 'Photo: Steffen Mokosch, Wikimedia Commons, CC BY-SA 4.0, cropped. The store manager is an illustrative persona.'},
+     'credit': 'Photo: Steffen Mokosch, CC BY-SA 4.0. An illustrative persona.'},
     {'type': 'checks', 'span': 8, 'role': 'slate', 'columns': 2, 'compact': True,
-     'heading': 'A store manager asks: **which product categories generate the most revenue?**',
+     'heading': 'Her question is simple; **a trustworthy answer is not**',
      'items': [
+         {'question': 'Her question', 'icon': I + 'chat-ink.png', 'role': 'slate',
+          'text': '“Which product categories generate the most revenue?”',
+          'action': 'She knows the business, not SQL; the data sits in an 11-table database.'},
          {'question': 'Her options today', 'icon': I + 'timer-ink.png', 'role': 'slate',
           'text': 'Wait about **three days** for an analyst, or **weeks** for a curated tool to be set up.',
           'action': 'Or learn the schema and SQL herself.'},
@@ -65,9 +68,7 @@ PROBLEM = [
          {'question': 'Why it is hard', 'icon': I + 'help-ink.png', 'role': 'slate',
           'text': 'Published scores fall from **91.2 %** on Spider 1.0 to **21.3 %** on enterprise tasks.',
           'action': '“Revenue” is not a column: meaning is the hard part.'},
-         {'question': 'Who else it serves', 'icon': I + 'person-ink.png', 'role': 'slate',
-          'text': 'Managers new to a database, privacy-sensitive teams and teams with large schemas.',
-          'action': 'Not for metrics that must match across teams.'}]},
+         ]},
 ]
 
 HOW = [
@@ -82,10 +83,10 @@ HOW = [
      'code': [['SELECT category, SUM(unit_price * quantity', False], ['+   * (1 - discount_pct)', True],
               ['FROM order_items JOIN products ...', False], ['+ JOIN orders ...', True],
               ["+ WHERE order_status = 'Completed'", True], ['GROUP BY category', False]],
-     'bars': [{'label': 'All 220 orders, list price', 'value': 173366, 'text': '173,366', 'colour': '#21918C'},
-              {'label': '179 completed, discounted', 'value': 136984, 'text': '136,984', 'colour': '#3B528B',
+     'bars': [{'label': 'All orders, list price', 'value': 173366, 'text': '173,366', 'colour': '#21918C'},
+              {'label': 'Completed, discounted', 'value': 136984, 'text': '136,984', 'colour': '#3B528B',
                'gap': '21 % lower'}],
-     'caption': 'Electronics revenue, same top category. Neither is wrong: the SQL shows the choice, and **she decides**.'},
+     'caption': 'Electronics revenue: all **220** orders, or the **179** completed ones after discounts. Neither is wrong: the SQL shows the choice, and **she decides**.'},
 ]
 
 EVIDENCE = [

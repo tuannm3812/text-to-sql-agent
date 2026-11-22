@@ -240,7 +240,7 @@ header .logo { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
   left: calc(var(--lw) + 2mm + 3mm + (100% - var(--lw) - var(--vw) - 4mm - 6mm) * var(--x)); }
 .parrows .caption { margin-top: auto; padding-top: 1.5mm; }
 footer { display: flex; }
-footer::after { content: "github.com/tuannm3812"; margin-left: auto; color: var(--body); }
+footer::after { content: "github.com/tuannm3812/text-to-sql-agent"; margin-left: auto; color: var(--body); }
 .parrows .arows { --lw: 56mm; }
 .parrows .arow { height: 10mm; }
 .parrows .arow { height: 9.5mm; } .parrows .apanel { padding: 4mm; }
@@ -317,7 +317,7 @@ footer::after { content: "github.com/tuannm3812"; margin-left: auto; color: var(
 
 /* Text-to-SQL poster (22 November 2026): horizontal bars in the deck's colour key: grey for the comparison arms,
    teal for this project's default; a wider label column so arm names stay on one line. */
-.hrow { grid-template-columns: 58mm 1fr; font-size: 20pt; margin-bottom: 2.5mm; }
+.hrow { grid-template-columns: 66mm 1fr; font-size: 20pt; margin-bottom: 2.5mm; white-space: nowrap; }
 .hfill { background: #ADB5BD; height: 26pt; }
 .hrow.hl .hfill, .hbars.ours .hfill { background: #21918C; }
 .htext { font-size: 20pt; }
@@ -331,9 +331,19 @@ footer::after { content: "github.com/tuannm3812"; margin-left: auto; color: var(
               text-transform: uppercase; color: #D8DEE3; margin-bottom: 2mm; }
 .ptrap .tl.add { color: #5EC962; font-weight: 700; }
 .ptrap .tbars { display: flex; flex-direction: column; gap: 2.5mm; }
-.ptrap .tbar { display: grid; grid-template-columns: 50mm 1fr; gap: 3mm; align-items: center; font-size: 18pt; }
+.ptrap .tbar { display: grid; grid-template-columns: 68mm 1fr; gap: 3mm; align-items: center; font-size: 18pt; white-space: nowrap; }
 .ptrap .ttrack { display: flex; height: 30pt; }
 .ptrap .tfill { display: flex; align-items: center; height: 100%; padding-left: 2mm; color: #FFFFFF; font-size: 20pt; }
 .ptrap .tgap { display: flex; align-items: center; padding-left: 2mm; background: #FDF3A6; color: #1B2430;
                font-size: 18pt; font-weight: 700; height: 100%; white-space: nowrap; }
 .ptrap .tval { font-size: 22pt; color: #1B2430; }
+
+/* Text-to-SQL poster format pass (22 November 2026), after the Synogize reference: card headings on one line where
+   possible, bullet text left-aligned under its heading, cards in a row stretched to equal height. */
+.checks ul { align-content: start; }
+.checks li p { margin: .8mm 0 0; }
+.grid > .card { align-self: stretch; }
+/* the photo fills its row and keeps its credit inside the block */
+.block.photo { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.block.photo img { flex: 1 1 0; min-height: 0; width: 100%; object-fit: cover; }
+.block.photo .caption { flex: none; margin-top: 1.5mm; }
