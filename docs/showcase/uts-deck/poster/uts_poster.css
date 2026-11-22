@@ -314,3 +314,10 @@ footer::after { content: "github.com/tuannm3812"; margin-left: auto; color: var(
 .ploop .lstage .lret { position: absolute; left: 0; right: 0; text-align: center; font-size: 18pt; color: var(--body); white-space: nowrap; }
 .ploop .lstage .lmodel { padding: 0 3.5mm !important; justify-content: center !important; }
 .ploop .lstage .lmodel b { line-height: 1.1; }
+
+/* Text-to-SQL poster (22 November 2026): horizontal bars in the deck's colour key: grey for the comparison arms,
+   teal for this project's default; a wider label column so arm names stay on one line. */
+.hrow { grid-template-columns: 58mm 1fr; font-size: 20pt; margin-bottom: 2.5mm; }
+.hfill { background: #ADB5BD; height: 26pt; }
+.hrow.hl .hfill, .hbars.ours .hfill { background: #21918C; }
+.htext { font-size: 20pt; }

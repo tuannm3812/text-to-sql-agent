@@ -1,0 +1,264 @@
+{
+  "eyebrow": "36121 Artificial Intelligence Principles and Applications | Capstone project",
+  "title": "Ask your data. Inspect the answer.",
+  "subtitle": "Can a text-to-SQL agent give a store manager a fast answer she can check, without risking her data?",
+  "authors": "Manh Tuan (Mike) Nguyen · TD School, University of Technology Sydney",
+  "logo": "../assets/brand/uts-logo.svg",
+  "css": "uts_poster.css",
+  "plugin": "uts_poster_blocks.py",
+  "footer": "**Text-to-SQL Agent**  ·  github.com/tuannm3812/text-to-sql-agent",
+  "strict": true,
+  "size": "A1",
+  "columns": 12,
+  "landscape": false,
+  "scale": {
+    "title": 64,
+    "subtitle": 26,
+    "eyebrow": 20,
+    "figure": 48,
+    "heading": 28,
+    "body": 22,
+    "caption": 18,
+    "marker": 24,
+    "margin_mm": 18,
+    "gap_mm": 5
+  },
+  "blocks": [
+    {
+      "type": "ptake",
+      "span": 12,
+      "value": "+3.6 pts",
+      "value_label": "top 6 tables against every table,<br>on 21- to 65-table databases",
+      "verdict": "Read-only and inspectable; a person still checks the meaning",
+      "lines": [
+        "The SQL comes with every answer; **45 of 45** read-only tests passed. About **one answer in three** still did not match on Spider."
+      ],
+      "next": [
+        [
+          "Definitions",
+          "one meaning of revenue"
+        ],
+        [
+          "Table recovery",
+          "128 missed-table questions"
+        ],
+        [
+          "New schemas",
+          "and a hosted model"
+        ]
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "The problem",
+      "span": 12
+    },
+    {
+      "type": "photo",
+      "span": 4,
+      "image": "../assets/figures/photo-shop.jpg",
+      "alt": "Interior of a small shop with wooden shelves (photograph).",
+      "credit": "Photo: Steffen Mokosch, Wikimedia Commons, CC BY-SA 4.0, cropped. The store manager is an illustrative persona."
+    },
+    {
+      "type": "checks",
+      "span": 8,
+      "role": "slate",
+      "columns": 2,
+      "compact": true,
+      "heading": "A store manager asks: which product categories generate the most revenue?",
+      "items": [
+        {
+          "question": "Her options today",
+          "icon": "../assets/icons/timer-ink.png",
+          "role": "slate",
+          "text": "Wait about **three days** for an analyst, learn the schema and SQL herself, or wait weeks for a curated tool.",
+          "action": "Published scores fall from **91.2 %** on Spider 1.0 to **21.3 %** on enterprise tasks: a good demo is not evidence."
+        },
+        {
+          "question": "What she needs",
+          "icon": "../assets/icons/check_circle-ink.png",
+          "role": "slate",
+          "text": "An answer **today**, the **SQL behind it** so she can check it, and her data **never changed**.",
+          "action": "Other tools pay for meaning in setup; this project pays in **review**."
+        },
+        {
+          "question": "Why it is hard",
+          "icon": "../assets/icons/help-ink.png",
+          "role": "slate",
+          "text": "Words like “revenue” are not columns; real schemas can exceed **1,000** columns.",
+          "action": "And generated SQL runs on real data, so it must never change it."
+        },
+        {
+          "question": "Who else it serves",
+          "icon": "../assets/icons/person-ink.png",
+          "role": "slate",
+          "text": "Managers new to a database, privacy-sensitive teams and teams with large schemas.",
+          "action": "Not for metrics that must match across teams."
+        }
+      ],
+      "highlight": [
+        "which product categories generate the most revenue?"
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "How it works",
+      "span": 12
+    },
+    {
+      "type": "figure",
+      "span": 8,
+      "role": "blue",
+      "image": "../assets/figures/flowchart.png",
+      "heading": "One question’s path: one model call, two gates in code, then back to her",
+      "alt": "Flowchart of the app in four stage lanes: prepare, generate, check and run, answer.",
+      "caption": "Stages left to right, steps top to bottom. Yellow is the model, teal is enforced in code.",
+      "highlight": [
+        "one model call"
+      ]
+    },
+    {
+      "type": "key_figures",
+      "span": 4,
+      "direction": "rows",
+      "items": [
+        {
+          "heading": "Her answer",
+          "icon": "../assets/icons/check_circle-ink.png",
+          "value": "173,366",
+          "role": "blue",
+          "label": "Electronics; the SQL shows it counts **all 220 orders**."
+        },
+        {
+          "heading": "What the model saw",
+          "icon": "../assets/icons/fact_check-ink.png",
+          "value": "79 of 608",
+          "role": "blue",
+          "label": "stored values; **result rows never**."
+        },
+        {
+          "heading": "Read-only, tested",
+          "icon": "../assets/icons/verified_user-ink.png",
+          "value": "45 of 45",
+          "role": "blue",
+          "label": "tests passed on **3 engines**."
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "What we measured",
+      "span": 12
+    },
+    {
+      "type": "hbars",
+      "span": 6,
+      "role": "plum",
+      "heading": "Local 9B model: 64.6 % on Spider, 35.2 % on BIRD",
+      "items": [
+        {
+          "label": "Spider dev",
+          "value": 64.6,
+          "text": "**64.6 %** of 1,034",
+          "highlight": true
+        },
+        {
+          "label": "BIRD dev",
+          "value": 35.2,
+          "text": "**35.2 %** of 1,534, with evidence",
+          "highlight": true
+        },
+        {
+          "label": "Demo suite",
+          "value": 33.3,
+          "text": "**4 of 12**: too small to judge"
+        }
+      ],
+      "caption": "Answers matching the reference rows; this project’s scorer, not leaderboard scoring.",
+      "highlight": [
+        "64.6 %",
+        "35.2 %"
+      ]
+    },
+    {
+      "type": "hbars",
+      "span": 6,
+      "role": "plum",
+      "heading": "On large databases, fewer tables scored higher",
+      "items": [
+        {
+          "label": "Every table + hints",
+          "value": 25.5,
+          "text": "**25.5 %**, 8,501 tokens"
+        },
+        {
+          "label": "Every table",
+          "value": 26.8,
+          "text": "**26.8 %**, 6,221 tokens"
+        },
+        {
+          "label": "Top 6 + neighbours",
+          "value": 29.1,
+          "text": "**29.1 %**, 2,670 tokens",
+          "highlight": true
+        }
+      ],
+      "caption": "1,222 questions: **+3.6 [+1.4, +5.8]**, about 2 s slower. A dropped table cut top 6 to **5.4 %**; five later trials added no accuracy.",
+      "highlight": [
+        "fewer tables scored higher"
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "What is next",
+      "span": 12
+    },
+    {
+      "type": "checks",
+      "span": 12,
+      "role": "ochre",
+      "columns": 4,
+      "compact": true,
+      "heading": "Four tests would close the main gaps before any default changes",
+      "items": [
+        {
+          "question": "Business definitions",
+          "icon": "../assets/icons/menu_book-ink.png",
+          "role": "ochre",
+          "text": "Revenue stays ambiguous.",
+          "action": "Carry a definitions layer?"
+        },
+        {
+          "question": "Targeted table recovery",
+          "icon": "../assets/icons/schema-ink.png",
+          "role": "ochre",
+          "text": "**128** questions miss a table.",
+          "action": "Does recovery keep its gains?"
+        },
+        {
+          "question": "New large schemas",
+          "icon": "../assets/icons/table_rows-ink.png",
+          "role": "ochre",
+          "text": "The gain is from **2 of 4** databases.",
+          "action": "Top 6 at every size?"
+        },
+        {
+          "question": "A hosted model",
+          "icon": "../assets/icons/chat-ink.png",
+          "role": "ochre",
+          "text": "All results use **one local model**.",
+          "action": "Worth sending it the prompt?"
+        }
+      ]
+    },
+    {
+      "type": "band",
+      "span": 12,
+      "tone": "ink",
+      "text": "**A first, checkable answer** for people who know the question but not the schema.",
+      "qr": "https://aipa-text-to-sql-agent.streamlit.app",
+      "qr_label": "Try the live demo"
+    }
+  ]
+}
