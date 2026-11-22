@@ -360,3 +360,22 @@ def parrows(block, base, t):
 
 
 PLUGIN_BLOCKS['parrows'] = parrows
+
+
+def ptrap(block, base, t):
+    """Text-to-SQL poster (22 November 2026): the 21 % trap. One question, the SQL the model wrote with the lines a
+    completed-revenue question adds, and the two revenue figures on one scale, the gap marked."""
+    code = ''.join(f'<div class="tl{" add" if add else ""}">{html.escape(line)}</div>' for line, add in block['code'])
+    top = max(b['value'] for b in block['bars'])
+    bars = ''.join(
+        f'<div class="tbar"><span class="tlab">{rich(b["label"], t)}</span><span class="ttrack">'
+        f'<span class="tfill" style="width:{b["value"] / top * 100:.2f}%;background:{b["colour"]}"><b>{html.escape(b["text"])}</b></span>'
+        + (f'<span class="tgap" style="width:{(top - b["value"]) / top * 100:.2f}%">{rich(b["gap"], t)}</span>' if b.get('gap') else '')
+        + '</span></div>' for b in block['bars'])
+    return (f'<section class="block card ptrap" style="grid-column: span {block.get("span", 12)}" data-role="{block.get("role", "blue")}">'
+            f'{head(block, t)}<p class="tq">{rich(block["question"], t)}</p>'
+            f'<div class="tcode"><span class="tct">{html.escape(block["code_title"])}</span>{code}</div>'
+            f'<div class="tbars">{bars}</div><p class="caption">{rich(block["caption"], t)}</p></section>')
+
+
+PLUGIN_BLOCKS['ptrap'] = ptrap

@@ -41,8 +41,8 @@ SPEC = {
               'marker': 24, 'margin_mm': 18, 'gap_mm': 5},
 }
 
-TAKE = {'type': 'ptake', 'span': 12, 'value': '+3.6 pts',
-        'value_label': 'top 6 tables against every table,<br>on 21- to 65-table databases',
+TAKE = {'type': 'ptake', 'span': 12, 'value': '173,366',
+        'value_label': 'her answer, in seconds,<br>with the SQL behind it',
         'verdict': 'Read-only and inspectable; a person still checks the meaning',
         'lines': ['The SQL comes with every answer; **45 of 45** read-only tests passed. About **one answer in three** still did not match on Spider.'],
         'next': [['Definitions', 'one meaning of revenue'],
@@ -57,31 +57,35 @@ PROBLEM = [
      'heading': 'A store manager asks: **which product categories generate the most revenue?**',
      'items': [
          {'question': 'Her options today', 'icon': I + 'timer-ink.png', 'role': 'slate',
-          'text': 'Wait about **three days** for an analyst, learn the schema and SQL herself, or wait weeks for a curated tool.',
-          'action': 'Published scores fall from **91.2 %** on Spider 1.0 to **21.3 %** on enterprise tasks: a good demo is not evidence.'},
+          'text': 'Wait about **three days** for an analyst, or **weeks** for a curated tool to be set up.',
+          'action': 'Or learn the schema and SQL herself.'},
          {'question': 'What she needs', 'icon': I + 'check_circle-ink.png', 'role': 'slate',
           'text': 'An answer **today**, the **SQL behind it** so she can check it, and her data **never changed**.',
           'action': 'Other tools pay for meaning in setup; this project pays in **review**.'},
          {'question': 'Why it is hard', 'icon': I + 'help-ink.png', 'role': 'slate',
-          'text': 'Words like “revenue” are not columns; real schemas can exceed **1,000** columns.',
-          'action': 'And generated SQL runs on real data, so it must never change it.'},
+          'text': 'Published scores fall from **91.2 %** on Spider 1.0 to **21.3 %** on enterprise tasks.',
+          'action': '“Revenue” is not a column: meaning is the hard part.'},
          {'question': 'Who else it serves', 'icon': I + 'person-ink.png', 'role': 'slate',
           'text': 'Managers new to a database, privacy-sensitive teams and teams with large schemas.',
           'action': 'Not for metrics that must match across teams.'}]},
 ]
 
 HOW = [
-    {'type': 'figure', 'span': 8, 'role': 'blue', 'image': '../assets/figures/flowchart.png',
-     'heading': 'One question’s path: **one model call**, two gates in code, then back to her',
+    {'type': 'figure', 'span': 7, 'role': 'blue', 'image': '../assets/figures/flowchart.png',
+     'heading': 'One question’s path: **one model call**, two gates in code',
      'alt': 'Flowchart of the app in four stage lanes: prepare, generate, check and run, answer.',
-     'caption': 'Stages left to right, steps top to bottom. Yellow is the model, teal is enforced in code.'},
-    {'type': 'key_figures', 'span': 4, 'direction': 'rows', 'items': [
-        {'heading': 'Her answer', 'icon': I + 'check_circle-ink.png', 'value': '173,366', 'role': 'blue',
-         'label': 'Electronics; the SQL shows it counts **all 220 orders**.'},
-        {'heading': 'What the model saw', 'icon': I + 'fact_check-ink.png', 'value': '79 of 608', 'role': 'blue',
-         'label': 'stored values; **result rows never**.'},
-        {'heading': 'Read-only, tested', 'icon': I + 'verified_user-ink.png', 'value': '45 of 45', 'role': 'blue',
-         'label': 'tests passed on **3 engines**.'}]},
+     'caption': 'Yellow is the model, teal is enforced in code. Only **79 of 608** stored values reach the model, never result rows; **45 of 45** read-only tests passed on 3 engines.'},
+    {'type': 'ptrap', 'span': 5, 'role': 'blue',
+     'heading': 'The **21 % trap**: why she needs the SQL',
+     'question': '“Which product categories generate the most revenue?”',
+     'code_title': 'The SQL, and what “completed revenue” adds',
+     'code': [['SELECT category, SUM(unit_price * quantity', False], ['+   * (1 - discount_pct)', True],
+              ['FROM order_items JOIN products ...', False], ['+ JOIN orders ...', True],
+              ["+ WHERE order_status = 'Completed'", True], ['GROUP BY category', False]],
+     'bars': [{'label': 'All 220 orders, list price', 'value': 173366, 'text': '173,366', 'colour': '#21918C'},
+              {'label': '179 completed, discounted', 'value': 136984, 'text': '136,984', 'colour': '#3B528B',
+               'gap': '21 % lower'}],
+     'caption': 'Electronics revenue, same top category. Neither is wrong: the SQL shows the choice, and **she decides**.'},
 ]
 
 EVIDENCE = [
@@ -100,8 +104,17 @@ EVIDENCE = [
 ]
 
 NEXT = [
+    {'type': 'checks', 'span': 12, 'role': 'ochre', 'columns': 2, 'compact': True,
+     'heading': 'What the store manager should know **before she trusts it**',
+     'items': [
+         {'question': 'Measured limits', 'icon': I + 'cancel-ink.png', 'role': 'ochre',
+          'text': 'About **one answer in three** did not match on Spider; **nothing checks meaning**.',
+          'action': 'A missed table usually means a wrong answer; table selection is about **2 s** slower.'},
+         {'question': 'Not yet tested', 'icon': I + 'help-ink.png', 'role': 'ochre',
+          'text': '**Follow-up questions**, other languages, and **real company schemas** of hundreds of tables.',
+          'action': 'No user study yet, and running cost is not measured.'}]},
     {'type': 'checks', 'span': 12, 'role': 'ochre', 'columns': 4, 'compact': True,
-     'heading': 'Four tests would close the main gaps before any default changes',
+     'heading': 'About one answer in three is still wrong: **four tests** come before any default changes',
      'items': [
          {'question': 'Business definitions', 'icon': I + 'menu_book-ink.png', 'role': 'ochre',
           'text': 'Revenue stays ambiguous.', 'action': 'Carry a definitions layer?'},
