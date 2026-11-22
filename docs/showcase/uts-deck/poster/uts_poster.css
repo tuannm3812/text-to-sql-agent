@@ -367,3 +367,12 @@ footer::after { content: "github.com/tuannm3812/text-to-sql-agent"; margin-left:
 .pcols .plegend .sw { width: 6mm; height: 4mm; display: inline-block; } .pcols .plegend .sw + span { margin-right: 4mm; }
 .checks ul[style*="repeat(1,"] li, .checks ul[style*="repeat(1,"] li + li { border-left: 0; padding-left: 0; margin-left: 0; border-top: .3mm solid var(--hair); padding-top: 2mm; }
 .checks ul[style*="repeat(1,"] li:first-child { border-top: 0; padding-top: 0; }
+.pslope, .pdots { display: flex; flex-direction: column; gap: 2mm; }
+.pslope .sframe, .pdots .sframe { flex: 1; min-height: 0; display: flex; align-items: center; }
+.pslope .sframe svg, .pdots .sframe svg { flex: none; }
+.pslope .sframe, .pdots .sframe { justify-content: center; }
+.pslope .plegend { display: flex; align-items: center; gap: 2mm; font-size: 18pt; color: #5A6370; }
+.pslope .plegend .sw { width: 8mm; height: 1.4mm; display: inline-block; } .pslope .plegend .sw + span { margin-right: 5mm; }
+.pslope svg, .pdots svg { overflow: visible; }
+.pwaffle .wtop { flex-direction: column; align-items: flex-start; gap: 1mm; }
+.pwaffle .wtop b { white-space: nowrap; }

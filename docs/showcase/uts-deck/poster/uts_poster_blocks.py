@@ -405,3 +405,75 @@ def pcols(block, base, t):
 
 
 PLUGIN_BLOCKS.update({'pwaffle': pwaffle, 'pcols': pcols})
+
+
+K = 4 / 3   # px per pt: chart geometry is given in pt and drawn in px, so text sizes read as their pt level
+
+
+def _svgtext(x, y, s, size=18, colour='#1B2430', weight=400, anchor='start'):
+    return (f'<text x="{x * K:.1f}" y="{y * K:.1f}" font-size="{size * K:.2f}" font-weight="{weight}" fill="{colour}" '
+            f'text-anchor="{anchor}" font-family="Google Sans">{html.escape(s)}</text>')
+
+
+def pslope(block, base, t):
+    """Text-to-SQL poster: a slope chart. Each series is a line between two (or more) named points on one scale;
+    labels at both ends; an optional note where lines cross. Drawn as SVG in poster points."""
+    W, H = block.get('w', 520), block.get('h', 230)
+    lo, hi = block['scale']
+    pad_l, pad_r, pad_t, pad_b = block.get('pad', (150, 150, 30, 36))
+    xs = [pad_l + i * (W - pad_l - pad_r) / (len(block['points']) - 1) for i in range(len(block['points']))]
+    Y = lambda v: pad_t + (hi - v) / (hi - lo) * (H - pad_t - pad_b)
+    out = [f'<line x1="{x:.1f}" y1="{pad_t - 6}" x2="{x:.1f}" y2="{H - pad_b + 4}" stroke="#D8DEE3" stroke-width="1.5"/>' for x in xs]
+    out += [_svgtext(x, H - 8, p, 18, '#5A6370', 700, 'middle') for x, p in zip(xs, block['points'])]
+    for s in block['series']:
+        pts = [(x, Y(v)) for x, v in zip(xs, s['values'])]
+        out.append(f'<polyline points="{" ".join(f"{x:.1f},{y:.1f}" for x, y in pts)}" fill="none" stroke="{s["colour"]}" stroke-width="{s.get("width", 5)}"/>')
+        out += [f'<circle cx="{x:.1f}" cy="{y:.1f}" r="8" fill="{s["colour"]}"/>' for x, y in pts]
+        (x0, y0), (x1, y1) = pts[0], pts[-1]
+        out.append(_svgtext(x0 - 14, y0 + 6, s['start'], 20, s['colour'], 700, 'end'))
+        out.append(_svgtext(x1 + 14, y1 + 6, s['end'], 20, s['colour'], 700, 'start'))
+        for (x, y), m in zip(pts[1:-1], s.get('mids', [])):
+            out.append(_svgtext(x, y - 16, m, 20, s['colour'], 700, 'middle'))
+    if block.get('note'):
+        nx, ny, txt = block['note']
+        out.append(_svgtext(nx, ny, txt, 18, '#B8452E', 700, 'middle'))
+    shapes = ''.join(o for o in out if not o.startswith('<text'))
+    texts = ''.join(o for o in out if o.startswith('<text'))
+    svg = (f'<svg viewBox="0 0 {W * K:.1f} {H * K:.1f}" width="{W * K:.1f}px" height="{H * K:.1f}px">'
+           f'<g transform="scale({K:.6f})">{shapes}</g>{texts}</svg>')
+    legend = ''.join(f'<span class="sw" style="background:{s["colour"]}"></span><span>{html.escape(s["name"])}</span>' for s in block['series'] if s.get('name'))
+    return (f'<section class="block card pslope" style="grid-column: span {block.get("span", 6)}" data-role="{block.get("role", "plum")}">'
+            f'{head(block, t)}' + (f'<div class="plegend">{legend}</div>' if legend else '')
+            + f'<div class="sframe">{svg}</div><p class="caption">{rich(block["caption"], t)}</p></section>')
+
+
+def pdots(block, base, t):
+    """Text-to-SQL poster: one row per item, a dot on a shared scale; dot area sized by a second measure (tokens)."""
+    W = block.get('w', 520)
+    rows = block['rows']
+    lo, hi = block['scale']
+    lab, right = block.get('label_w', 170), block.get('right_w', 120)
+    rh = block.get('row_h', 54)
+    H = rh * len(rows) + 34
+    X = lambda v: lab + (v - lo) / (hi - lo) * (W - lab - right)
+    out = []
+    for tick in block.get('ticks', []):
+        out.append(f'<line x1="{X(tick):.1f}" y1="6" x2="{X(tick):.1f}" y2="{H - 26}" stroke="#D8DEE3" stroke-width="1.2"/>')
+        out.append(_svgtext(X(tick), H - 6, f'{tick:g}{block.get("unit", "")}', 18, '#5A6370', 400, 'middle'))
+    smax = max(r['size'] for r in rows)
+    for i, r in enumerate(rows):
+        y = 10 + rh * i + rh / 2
+        rad = 6 + 20 * (r['size'] / smax) ** .5
+        out.append(f'<line x1="{lab}" y1="{y:.1f}" x2="{X(r["value"]):.1f}" y2="{y:.1f}" stroke="{r["colour"]}" stroke-width="2" stroke-dasharray="4 4"/>')
+        out.append(f'<circle cx="{X(r["value"]):.1f}" cy="{y:.1f}" r="{rad:.1f}" fill="{r["colour"]}" fill-opacity=".85"/>')
+        out.append(_svgtext(lab - 12, y + 6, r['label'], 20, '#1B2430', 700 if r.get('bold') else 400, 'end'))
+        out.append(_svgtext(W - right + 10, y + 6, r['text'], 20, '#1B2430', 700, 'start'))
+    shapes = ''.join(o for o in out if not o.startswith('<text'))
+    texts = ''.join(o for o in out if o.startswith('<text'))
+    svg = (f'<svg viewBox="0 0 {W * K:.1f} {H * K:.1f}" width="{W * K:.1f}px" height="{H * K:.1f}px">'
+           f'<g transform="scale({K:.6f})">{shapes}</g>{texts}</svg>')
+    return (f'<section class="block card pdots" style="grid-column: span {block.get("span", 6)}" data-role="{block.get("role", "plum")}">'
+            f'{head(block, t)}<div class="sframe">{svg}</div><p class="caption">{rich(block["caption"], t)}</p></section>')
+
+
+PLUGIN_BLOCKS.update({'pslope': pslope, 'pdots': pdots})

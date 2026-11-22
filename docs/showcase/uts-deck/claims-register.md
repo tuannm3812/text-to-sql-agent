@@ -77,3 +77,4 @@ large-schema, demo and retrieval rows were spot-checked again on 18 November 202
 | Analyst queue in the persona | about three days | illustrative, not measured |
 | Trials with a clear accuracy gain | 1 of 6 | trials slide: only top 6 sits clear of zero |
 | Subject code | 36121 | subject name on the cover and poster |
+| Poster chart scales | 24 to 30 %; 30 to 90 %; 0 to 36 %; 0 to 100 % | drawn scale, not a result |

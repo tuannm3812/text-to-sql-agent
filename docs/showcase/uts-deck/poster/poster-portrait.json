@@ -95,32 +95,43 @@
       ]
     },
     {
-      "type": "pcols",
+      "type": "pslope",
       "span": 3,
       "role": "slate",
-      "max": 100,
+      "scale": [
+        0,
+        100
+      ],
+      "w": 300,
+      "h": 230,
+      "pad": [
+        78,
+        78,
+        34,
+        34
+      ],
       "heading": "Why it is hard: scores fall on real tasks",
-      "cols": [
+      "points": [
+        "Spider",
+        "BIRD",
+        "Spider 2.0"
+      ],
+      "series": [
         {
-          "label": "Spider 1.0",
-          "value": 91.2,
-          "text": "91.2 %",
-          "colour": "#3B528B"
-        },
-        {
-          "label": "BIRD",
-          "value": 73.0,
-          "text": "73.0 %",
-          "colour": "#3B528B"
-        },
-        {
-          "label": "Spider 2.0 enterprise",
-          "value": 21.3,
-          "text": "21.3 %",
-          "colour": "#440154"
+          "values": [
+            91.2,
+            73.0,
+            21.3
+          ],
+          "colour": "#440154",
+          "start": "91.2 %",
+          "end": "21.3 %",
+          "mids": [
+            "73.0 %"
+          ]
         }
       ],
-      "caption": "Share of tasks solved, Spider 2.0 paper; “revenue” is not a column.",
+      "caption": "Tasks solved, Spider 2.0 paper; “revenue” is not a column.",
       "highlight": [
         "scores fall"
       ]
@@ -201,41 +212,61 @@
       "span": 12
     },
     {
-      "type": "hbars",
-      "span": 6,
+      "type": "pdots",
+      "span": 3,
       "role": "plum",
-      "heading": "On large databases, fewer tables scored higher",
-      "items": [
+      "scale": [
+        24,
+        30
+      ],
+      "ticks": [
+        24,
+        27,
+        30
+      ],
+      "unit": " %",
+      "w": 330,
+      "label_w": 120,
+      "right_w": 66,
+      "row_h": 62,
+      "heading": "Large databases: fewer tables scored higher",
+      "rows": [
         {
-          "label": "Every table + hints",
+          "label": "All + hints",
           "value": 25.5,
-          "text": "**25.5 %**, 8,501 tokens"
+          "size": 8501,
+          "text": "25.5 %",
+          "colour": "#ADB5BD"
         },
         {
           "label": "Every table",
           "value": 26.8,
-          "text": "**26.8 %**, 6,221 tokens"
+          "size": 6221,
+          "text": "26.8 %",
+          "colour": "#ADB5BD"
         },
         {
-          "label": "Top 6 + neighbours",
+          "label": "Top 6",
           "value": 29.1,
-          "text": "**29.1 %**, 2,670 tokens",
-          "highlight": true
+          "size": 2670,
+          "text": "29.1 %",
+          "colour": "#21918C",
+          "bold": true
         }
       ],
-      "caption": "1,222 questions: **+3.6 [+1.4, +5.8]**, about 2 s slower. A dropped table cut top 6 to **5.4 %**; five later trials added no accuracy.",
+      "caption": "Dot area is prompt size: **8,501**, **6,221**, **2,670** tokens. **+3.6 [+1.4, +5.8]**, about 2 s slower.",
       "highlight": [
-        "fewer tables scored higher"
+        "fewer tables"
       ]
     },
     {
       "type": "pwaffle",
-      "span": 6,
+      "span": 3,
       "role": "plum",
       "total": 608,
       "count": 79,
       "colour": "#21918C",
-      "per_row": 76,
+      "per_row": 32,
       "heading": "What the model saw of her shop",
       "value": "79 of 608",
       "label": "stored text values",
@@ -245,89 +276,106 @@
       ]
     },
     {
-      "type": "pcols",
-      "span": 6,
+      "type": "pdots",
+      "span": 3,
       "role": "plum",
-      "max": 100,
-      "heading": "64.6 % on Spider, 35.2 % on BIRD; harder questions score lower",
-      "cols": [
+      "scale": [
+        30,
+        90
+      ],
+      "ticks": [
+        30,
+        60,
+        90
+      ],
+      "unit": " %",
+      "w": 330,
+      "label_w": 104,
+      "right_w": 70,
+      "row_h": 46,
+      "heading": "64.6 % Spider, 35.2 % BIRD",
+      "rows": [
         {
           "label": "Easy",
           "value": 84.3,
-          "text": "84.3",
+          "size": 248,
+          "text": "84.3 %",
           "colour": "#5EC962"
         },
         {
           "label": "Medium",
           "value": 65.9,
-          "text": "65.9",
+          "size": 446,
+          "text": "65.9 %",
           "colour": "#21918C"
         },
         {
           "label": "Hard",
           "value": 58.6,
-          "text": "58.6",
+          "size": 174,
+          "text": "58.6 %",
           "colour": "#3B528B"
         },
         {
           "label": "Extra hard",
           "value": 38.0,
-          "text": "38.0",
+          "size": 166,
+          "text": "38.0 %",
           "colour": "#440154"
         }
       ],
-      "caption": "Spider dev answers matched, %, by difficulty; local 9B model, this project’s scorer.",
+      "caption": "Spider by difficulty; dot area is questions (248, 446, 174, 166).",
       "highlight": [
         "64.6 %",
         "35.2 %"
       ]
     },
     {
-      "type": "pcols",
-      "span": 6,
+      "type": "pslope",
+      "span": 3,
       "role": "plum",
-      "max": 40,
-      "heading": "The real risk: a dropped table",
-      "legend": [
-        [
-          "#21918C",
-          "Top 6"
-        ],
-        [
-          "#ADB5BD",
-          "Every table"
-        ]
+      "scale": [
+        0,
+        36
       ],
-      "cols": [
+      "w": 330,
+      "h": 240,
+      "pad": [
+        76,
+        76,
+        16,
+        32
+      ],
+      "heading": "A dropped table: the lines cross",
+      "points": [
+        "All sent",
+        "One dropped"
+      ],
+      "series": [
         {
-          "label": "All sent",
-          "value": 32.9,
-          "text": "32.9",
-          "colour": "#21918C"
-        },
-        {
-          "label": "All sent",
-          "value": 26.7,
-          "text": "26.7",
-          "colour": "#ADB5BD"
-        },
-        {
-          "label": "Dropped",
-          "value": 5.4,
-          "text": "5.4",
+          "name": "Top 6",
+          "values": [
+            32.9,
+            5.4
+          ],
           "colour": "#21918C",
-          "gap_before": true
+          "start": "32.9 %",
+          "end": "5.4 %"
         },
         {
-          "label": "Dropped",
-          "value": 18.0,
-          "text": "18.0",
-          "colour": "#ADB5BD"
+          "name": "Every table",
+          "values": [
+            26.7,
+            18.0
+          ],
+          "colour": "#ADB5BD",
+          "start": "26.7 %",
+          "end": "18.0 %"
         }
       ],
-      "caption": "Answers matched, %, on 1,055 and 167 large-schema questions.",
+      "caption": "Answers matched on 1,055 and 167 questions.",
       "highlight": [
-        "a dropped table"
+        "the lines cross"
       ]
     },
     {
@@ -341,7 +389,7 @@
       "role": "ochre",
       "columns": 4,
       "compact": true,
-      "heading": "About one answer in three is still wrong: four tests come before any default changes",
+      "heading": "One answer in three is still wrong, and follow-ups and real schemas are untested: four tests come first",
       "items": [
         {
           "question": "Business definitions",
