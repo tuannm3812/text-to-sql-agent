@@ -55,16 +55,16 @@
     },
     {
       "type": "photo",
-      "span": 4,
+      "span": 3,
       "image": "../assets/figures/photo-shop-wide.jpg",
       "alt": "Interior of a small shop with wooden shelves (photograph).",
       "credit": "Photo: Steffen Mokosch, CC BY-SA 4.0. An illustrative persona."
     },
     {
       "type": "checks",
-      "span": 8,
+      "span": 6,
       "role": "slate",
-      "columns": 2,
+      "columns": 1,
       "compact": true,
       "heading": "Her question is simple; a trustworthy answer is not",
       "items": [
@@ -88,17 +88,41 @@
           "role": "slate",
           "text": "An answer **today**, the **SQL behind it** so she can check it, and her data **never changed**.",
           "action": "Other tools pay for meaning in setup; this project pays in **review**."
-        },
-        {
-          "question": "Why it is hard",
-          "icon": "../assets/icons/help-ink.png",
-          "role": "slate",
-          "text": "Published scores fall from **91.2 %** on Spider 1.0 to **21.3 %** on enterprise tasks.",
-          "action": "“Revenue” is not a column: meaning is the hard part."
         }
       ],
       "highlight": [
         "a trustworthy answer is not"
+      ]
+    },
+    {
+      "type": "pcols",
+      "span": 3,
+      "role": "slate",
+      "max": 100,
+      "heading": "Why it is hard: scores fall on real tasks",
+      "cols": [
+        {
+          "label": "Spider 1.0",
+          "value": 91.2,
+          "text": "91.2 %",
+          "colour": "#3B528B"
+        },
+        {
+          "label": "BIRD",
+          "value": 73.0,
+          "text": "73.0 %",
+          "colour": "#3B528B"
+        },
+        {
+          "label": "Spider 2.0 enterprise",
+          "value": 21.3,
+          "text": "21.3 %",
+          "colour": "#440154"
+        }
+      ],
+      "caption": "Share of tasks solved, Spider 2.0 paper; “revenue” is not a column.",
+      "highlight": [
+        "scores fall"
       ]
     },
     {
@@ -180,36 +204,6 @@
       "type": "hbars",
       "span": 6,
       "role": "plum",
-      "heading": "Local 9B model: 64.6 % on Spider, 35.2 % on BIRD",
-      "items": [
-        {
-          "label": "Spider dev",
-          "value": 64.6,
-          "text": "**64.6 %** of 1,034",
-          "highlight": true
-        },
-        {
-          "label": "BIRD dev",
-          "value": 35.2,
-          "text": "**35.2 %** of 1,534, with evidence",
-          "highlight": true
-        },
-        {
-          "label": "Demo suite",
-          "value": 33.3,
-          "text": "**4 of 12**: too small to judge"
-        }
-      ],
-      "caption": "Answers matching the reference rows; this project’s scorer, not leaderboard scoring.",
-      "highlight": [
-        "64.6 %",
-        "35.2 %"
-      ]
-    },
-    {
-      "type": "hbars",
-      "span": 6,
-      "role": "plum",
       "heading": "On large databases, fewer tables scored higher",
       "items": [
         {
@@ -235,36 +229,111 @@
       ]
     },
     {
+      "type": "pwaffle",
+      "span": 6,
+      "role": "plum",
+      "total": 608,
+      "count": 79,
+      "colour": "#21918C",
+      "per_row": 76,
+      "heading": "What the model saw of her shop",
+      "value": "79 of 608",
+      "label": "stored text values",
+      "caption": "One square per distinct stored value; **no result row** ever reaches the model.",
+      "highlight": [
+        "her shop"
+      ]
+    },
+    {
+      "type": "pcols",
+      "span": 6,
+      "role": "plum",
+      "max": 100,
+      "heading": "64.6 % on Spider, 35.2 % on BIRD; harder questions score lower",
+      "cols": [
+        {
+          "label": "Easy",
+          "value": 84.3,
+          "text": "84.3",
+          "colour": "#5EC962"
+        },
+        {
+          "label": "Medium",
+          "value": 65.9,
+          "text": "65.9",
+          "colour": "#21918C"
+        },
+        {
+          "label": "Hard",
+          "value": 58.6,
+          "text": "58.6",
+          "colour": "#3B528B"
+        },
+        {
+          "label": "Extra hard",
+          "value": 38.0,
+          "text": "38.0",
+          "colour": "#440154"
+        }
+      ],
+      "caption": "Spider dev answers matched, %, by difficulty; local 9B model, this project’s scorer.",
+      "highlight": [
+        "64.6 %",
+        "35.2 %"
+      ]
+    },
+    {
+      "type": "pcols",
+      "span": 6,
+      "role": "plum",
+      "max": 40,
+      "heading": "The real risk: a dropped table",
+      "legend": [
+        [
+          "#21918C",
+          "Top 6"
+        ],
+        [
+          "#ADB5BD",
+          "Every table"
+        ]
+      ],
+      "cols": [
+        {
+          "label": "All sent",
+          "value": 32.9,
+          "text": "32.9",
+          "colour": "#21918C"
+        },
+        {
+          "label": "All sent",
+          "value": 26.7,
+          "text": "26.7",
+          "colour": "#ADB5BD"
+        },
+        {
+          "label": "Dropped",
+          "value": 5.4,
+          "text": "5.4",
+          "colour": "#21918C",
+          "gap_before": true
+        },
+        {
+          "label": "Dropped",
+          "value": 18.0,
+          "text": "18.0",
+          "colour": "#ADB5BD"
+        }
+      ],
+      "caption": "Answers matched, %, on 1,055 and 167 large-schema questions.",
+      "highlight": [
+        "a dropped table"
+      ]
+    },
+    {
       "type": "divider",
       "label": "What is next",
       "span": 12
-    },
-    {
-      "type": "checks",
-      "span": 12,
-      "role": "ochre",
-      "columns": 2,
-      "compact": true,
-      "heading": "What the store manager should know before she trusts it",
-      "items": [
-        {
-          "question": "Measured limits",
-          "icon": "../assets/icons/cancel-ink.png",
-          "role": "ochre",
-          "text": "About **one answer in three** did not match on Spider; **nothing checks meaning**.",
-          "action": "A missed table usually means a wrong answer; table selection is about **2 s** slower."
-        },
-        {
-          "question": "Not yet tested",
-          "icon": "../assets/icons/help-ink.png",
-          "role": "ochre",
-          "text": "**Follow-up questions**, other languages, and **real company schemas** of hundreds of tables.",
-          "action": "No user study yet, and running cost is not measured."
-        }
-      ],
-      "highlight": [
-        "before she trusts it"
-      ]
     },
     {
       "type": "checks",

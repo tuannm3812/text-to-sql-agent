@@ -379,3 +379,29 @@ def ptrap(block, base, t):
 
 
 PLUGIN_BLOCKS['ptrap'] = ptrap
+
+
+def pwaffle(block, base, t):
+    """Text-to-SQL poster: one square per item, the counted ones in colour, a big number beside it."""
+    n, k, per = block['total'], block['count'], block.get('per_row', 38)
+    cells = ''.join(f'<i style="background:{block["colour"] if i < k else "#D8DEE3"}"></i>' for i in range(n))
+    return (f'<section class="block card pwaffle" style="grid-column: span {block.get("span", 4)}" data-role="{block.get("role", "blue")}">'
+            f'{head(block, t)}<div class="wtop"><b>{html.escape(block["value"])}</b><span>{rich(block["label"], t)}</span></div>'
+            f'<div class="wgrid" style="grid-template-columns: repeat({per}, 1fr)">{cells}</div>'
+            f'<p class="caption">{rich(block["caption"], t)}</p></section>')
+
+
+def pcols(block, base, t):
+    """Text-to-SQL poster: vertical columns, each with its own colour, value on top and label below; optional groups."""
+    top = block.get('max') or max(c['value'] for c in block['cols'])
+    cols = ''.join(
+        f'<div class="pc{" gap" if c.get("gap_before") else ""}"><b>{html.escape(c["text"])}</b>'
+        f'<span class="pbar" style="height:{c["value"] / top * 100:.1f}%;background:{c["colour"]}"></span>'
+        f'<em>{rich(c["label"], t)}</em></div>' for c in block['cols'])
+    legend = ''.join(f'<span class="sw" style="background:{c}"></span><span>{html.escape(l)}</span>' for c, l in block.get('legend', []))
+    return (f'<section class="block card pcols" style="grid-column: span {block.get("span", 4)}" data-role="{block.get("role", "plum")}">'
+            f'{head(block, t)}' + (f'<div class="plegend">{legend}</div>' if legend else '')
+            + f'<div class="pcrow">{cols}</div><p class="caption">{rich(block["caption"], t)}</p></section>')
+
+
+PLUGIN_BLOCKS.update({'pwaffle': pwaffle, 'pcols': pcols})

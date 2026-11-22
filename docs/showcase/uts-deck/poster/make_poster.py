@@ -50,10 +50,10 @@ TAKE = {'type': 'ptake', 'span': 12, 'value': '173,366',
                  ['New schemas', 'and a hosted model']]}
 
 PROBLEM = [
-    {'type': 'photo', 'span': 4, 'image': '../assets/figures/photo-shop-wide.jpg',
+    {'type': 'photo', 'span': 3, 'image': '../assets/figures/photo-shop-wide.jpg',
      'alt': 'Interior of a small shop with wooden shelves (photograph).',
      'credit': 'Photo: Steffen Mokosch, CC BY-SA 4.0. An illustrative persona.'},
-    {'type': 'checks', 'span': 8, 'role': 'slate', 'columns': 2, 'compact': True,
+    {'type': 'checks', 'span': 6, 'role': 'slate', 'columns': 1, 'compact': True,
      'heading': 'Her question is simple; **a trustworthy answer is not**',
      'items': [
          {'question': 'Her question', 'icon': I + 'chat-ink.png', 'role': 'slate',
@@ -65,10 +65,13 @@ PROBLEM = [
          {'question': 'What she needs', 'icon': I + 'check_circle-ink.png', 'role': 'slate',
           'text': 'An answer **today**, the **SQL behind it** so she can check it, and her data **never changed**.',
           'action': 'Other tools pay for meaning in setup; this project pays in **review**.'},
-         {'question': 'Why it is hard', 'icon': I + 'help-ink.png', 'role': 'slate',
-          'text': 'Published scores fall from **91.2 %** on Spider 1.0 to **21.3 %** on enterprise tasks.',
-          'action': '“Revenue” is not a column: meaning is the hard part.'},
          ]},
+    {'type': 'pcols', 'span': 3, 'role': 'slate', 'max': 100,
+     'heading': 'Why it is hard: **scores fall** on real tasks',
+     'cols': [{'label': 'Spider 1.0', 'value': 91.2, 'text': '91.2 %', 'colour': '#3B528B'},
+              {'label': 'BIRD', 'value': 73.0, 'text': '73.0 %', 'colour': '#3B528B'},
+              {'label': 'Spider 2.0 enterprise', 'value': 21.3, 'text': '21.3 %', 'colour': '#440154'}],
+     'caption': 'Share of tasks solved, Spider 2.0 paper; “revenue” is not a column.'},
 ]
 
 HOW = [
@@ -91,29 +94,33 @@ HOW = [
 
 EVIDENCE = [
     {'type': 'hbars', 'span': 6, 'role': 'plum',
-     'heading': 'Local 9B model: **64.6 %** on Spider, **35.2 %** on BIRD',
-     'items': [{'label': 'Spider dev', 'value': 64.6, 'text': '**64.6 %** of 1,034', 'highlight': True},
-               {'label': 'BIRD dev', 'value': 35.2, 'text': '**35.2 %** of 1,534, with evidence', 'highlight': True},
-               {'label': 'Demo suite', 'value': 33.3, 'text': '**4 of 12**: too small to judge'}],
-     'caption': 'Answers matching the reference rows; this project’s scorer, not leaderboard scoring.'},
-    {'type': 'hbars', 'span': 6, 'role': 'plum',
      'heading': 'On large databases, **fewer tables scored higher**',
      'items': [{'label': 'Every table + hints', 'value': 25.5, 'text': '**25.5 %**, 8,501 tokens'},
                {'label': 'Every table', 'value': 26.8, 'text': '**26.8 %**, 6,221 tokens'},
                {'label': 'Top 6 + neighbours', 'value': 29.1, 'text': '**29.1 %**, 2,670 tokens', 'highlight': True}],
      'caption': '1,222 questions: **+3.6 [+1.4, +5.8]**, about 2 s slower. A dropped table cut top 6 to **5.4 %**; five later trials added no accuracy.'},
+    {'type': 'pwaffle', 'span': 6, 'role': 'plum', 'total': 608, 'count': 79, 'colour': '#21918C', 'per_row': 76,
+     'heading': 'What the model saw of **her shop**',
+     'value': '79 of 608', 'label': 'stored text values',
+     'caption': 'One square per distinct stored value; **no result row** ever reaches the model.'},
+    {'type': 'pcols', 'span': 6, 'role': 'plum', 'max': 100,
+     'heading': '**64.6 %** on Spider, **35.2 %** on BIRD; harder questions score lower',
+     'cols': [{'label': 'Easy', 'value': 84.3, 'text': '84.3', 'colour': '#5EC962'},
+              {'label': 'Medium', 'value': 65.9, 'text': '65.9', 'colour': '#21918C'},
+              {'label': 'Hard', 'value': 58.6, 'text': '58.6', 'colour': '#3B528B'},
+              {'label': 'Extra hard', 'value': 38.0, 'text': '38.0', 'colour': '#440154'}],
+     'caption': 'Spider dev answers matched, %, by difficulty; local 9B model, this project’s scorer.'},
+    {'type': 'pcols', 'span': 6, 'role': 'plum', 'max': 40,
+     'heading': 'The real risk: **a dropped table**',
+     'legend': [['#21918C', 'Top 6'], ['#ADB5BD', 'Every table']],
+     'cols': [{'label': 'All sent', 'value': 32.9, 'text': '32.9', 'colour': '#21918C'},
+              {'label': 'All sent', 'value': 26.7, 'text': '26.7', 'colour': '#ADB5BD'},
+              {'label': 'Dropped', 'value': 5.4, 'text': '5.4', 'colour': '#21918C', 'gap_before': True},
+              {'label': 'Dropped', 'value': 18.0, 'text': '18.0', 'colour': '#ADB5BD'}],
+     'caption': 'Answers matched, %, on 1,055 and 167 large-schema questions.'},
 ]
 
 NEXT = [
-    {'type': 'checks', 'span': 12, 'role': 'ochre', 'columns': 2, 'compact': True,
-     'heading': 'What the store manager should know **before she trusts it**',
-     'items': [
-         {'question': 'Measured limits', 'icon': I + 'cancel-ink.png', 'role': 'ochre',
-          'text': 'About **one answer in three** did not match on Spider; **nothing checks meaning**.',
-          'action': 'A missed table usually means a wrong answer; table selection is about **2 s** slower.'},
-         {'question': 'Not yet tested', 'icon': I + 'help-ink.png', 'role': 'ochre',
-          'text': '**Follow-up questions**, other languages, and **real company schemas** of hundreds of tables.',
-          'action': 'No user study yet, and running cost is not measured.'}]},
     {'type': 'checks', 'span': 12, 'role': 'ochre', 'columns': 4, 'compact': True,
      'heading': 'About one answer in three is still wrong: **four tests** come before any default changes',
      'items': [
