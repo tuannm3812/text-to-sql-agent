@@ -449,6 +449,7 @@ Exact face text:
 - Her question, answered: Electronics leads with 173,366, and the SQL shows which orders that counts.
 - Text-to-SQL Agent
 - 9
+- Her question
 - Try it live
 - aipa-text-to-sql-agent.streamlit.app: the same question on / the same demo database
 - THE SQL, AND WHAT COMPLETED REVENUE ADDS²
@@ -471,6 +472,8 @@ Exact face text:
 - Note: ¹ Electronics revenue, recomputed on data/retail_analytics.db; this illustrates inspection, not a benchmark failure. ² Lines marked + are added by the benchmark’s / completed-revenue question.
 - TAKEAWAY
 - Neither figure is wrong. The question did / not say which revenue, so a person / decides.
+- 173,366
+- Electronics revenue: the answer to her question, / all 220 orders
 - 1
 - 1
 - The answer looks finished
@@ -517,6 +520,7 @@ Exact face text:
 - -- gender sample values: Female, Other, Male
 - ### User question
 - Which product categories generate the most revenue?
+- Her question
 - IN THE PROMPT
 - Tables, columns, keys
 - 79 stored values as hints
@@ -581,6 +585,8 @@ Exact face text:
 - sqlglot allows one read only; the / engine runs it read-only with a / budget and a row cap.
 - Answer
 - The answer, table, chart, the / SQL and why those tables, for / the person to inspect.
+- Her question
+- Back to her
 - One repair try on a query error
 - Database engine
 - Set by the connection string; read-only on all three.
@@ -717,6 +723,8 @@ Exact face text:
 - Note: ¹ Results are compared by value and type, so the SQL’s wording does not matter. Intervals are 95 % paired bootstrap, 10,000 resamples. Not leaderboard scoring.
 - TAKEAWAY
 - A change counts only when its whole / interval sits clear of zero.
+- 3,817
+- questions in five suites, 37 recorded runs
 - 1
 - 1
 - Each suite answers one question
@@ -779,6 +787,8 @@ Exact face text:
 - Source: release runs at 7708295, qwen3.5 9B, on Spider dev (Yu et al., 2018; 1,034 questions) and BIRD dev (Li et al., 2023; 1,534); this project’s scorer, not leaderboard / scores.
 - TAKEAWAY
 - Harder questions score lower, and a / good demo proves little.
+- 64.6 %
+- of Spider answers matched; 35.2 % on BIRD
 - 1
 - 1
 - Harder questions score lower
@@ -841,6 +851,8 @@ Exact face text:
 - Source: evaluation/results/bird_train_large at 47284f5. Paired 95 % intervals; the dropped-table split is observed, not causal.
 - TAKEAWAY
 - +3.6 points [+1.4, +5.8] with 69 % fewer / tokens, but about 2 s slower per answer.
+- +3.6 pts
+- [+1.4, +5.8] with 69 % fewer prompt tokens
 - 1
 - 1
 - The gain is concentrated
@@ -891,6 +903,8 @@ Exact face text:
 - Note: ¹ Paired 95 % intervals; top 6 against every table + hints, the others against top 6 or the kept scorer. ² Not controlled: the commit differs.
 - TAKEAWAY
 - Table selection is the one clear gain. Five / later trials traded speed or recall, not / accuracy.
+- 1 of 6
+- trials gave a clear accuracy gain: table selection
 - 1
 - 1
 - The one clear gain
@@ -947,6 +961,8 @@ Exact face text:
 - Note: ¹ Gained and lost are net changes per group, not flip counts. Baseline: selected tables with the kept scorer, 8 of 128 and 359 of 1,094 correct.
 - TAKEAWAY
 - Each fix helps where it aims, and the / other questions pay.
+- 8 → 26
+- correct on the 128 missed-table questions, but net / +2 overall
 - 1
 - 1
 - Fixes help where they aim

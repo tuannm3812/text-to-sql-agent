@@ -125,6 +125,14 @@ def right_column(L, p, slide, marks, halo=True):
     p.line(658, 131, 658, END, L.t.color('hair'))
     L.band(p, slide.get('takeaway', ''), 668, 131, 251, 94)
     y = 237
+    if slide.get('hero'):   # one big number under the takeaway, before the numbered notes
+        number, label = slide['hero']
+        nw = width_of(L, number, 18, True) + 2
+        paint(L, p, number, 668, y - 4, nw, 18, '#14605C', True)
+        lh = put(L, p, label, 668 + nw + 8, y - 1, 251 - nw - 8, 8, 'body')
+        y += max(24, lh) + 4
+        p.line(668, y, 919, y, L.t.color('hair'))
+        y += 10
     slide['figure_marks'] = []
     for number, item in enumerate(slide['annotations'], 1):
         if number not in marks:
@@ -493,6 +501,7 @@ def demo_page(L, p, slide):
     p.line(LEFT, TOP, LEFT + iw, TOP, L.t.color('hair'))
     p.line(LEFT, TOP + ah, LEFT + iw, TOP + ah, L.t.color('hair'))
     marks[1] = (LEFT + iw * 0.56, TOP + ah * 0.2)
+    her_tag(L, p, 'Her question', LEFT + iw - 84, TOP + 6.5)
     qy = TOP + ah + 12
     qs = ih - ah - 12
     card(L, p, LEFT, qy, iw, qs, weight=0)
@@ -540,6 +549,7 @@ def boundary_page(L, p, slide):
     pw = 330
     end = code_panel(L, p, LEFT, y, pw, 152, slide['code_title'], slide['code'], 14)
     marks[2] = (LEFT + 10 + width_of(L, slide['code_title'].upper(), 8, True) + 12, y + 13.5)
+    her_tag(L, p, 'Her question', LEFT + pw - 84, y + 6.5)
     lx = LEFT + pw + 14
     lw = FIG_RIGHT - lx
     ly = y
@@ -773,6 +783,8 @@ def arch_summary(L, p, slide):
             marks[st['marker']] = (tx + width_of(L, st['title'], 12, True) + 12, y0 + 18)
         if k < 3:
             p.connector(xs[k] + bw + 3, y0 + bh / 2, xs[k + 1] - 3, y0 + bh / 2, color=L.t.color('ink'))
+    her_tag(L, p, 'Her question', xs[0] + 8, y0 + bh - 22)
+    her_tag(L, p, 'Back to her', xs[3] + 8, y0 + bh - 22)
     # one repair try: dashed from Check and run back to Generate, above the row
     ry = y0 - 12
     a, b = xs[2] + bw / 2, xs[1] + bw / 2
@@ -1090,6 +1102,15 @@ def sources_page(L, p, slide):
             put(L, p, label, x + 14, y + 10, cw - 28, 10, 'ink', True, href=url)
             put(L, p, detail, x + 14, y + 28, cw - 28, 8, 'body')
             y += 60
+
+
+def her_tag(L, p, text, x, y):
+    """A small teal tag that marks the store manager's question inside a figure."""
+    w = width_of(L, text, 8, True) + 24
+    p.rect(x, y, w, 14, '#21918C')
+    L.image(p, {'path': 'assets/icons/person-white.png', 'alt': ''}, x + 4, y + 2.5, 9, 9)
+    paint(L, p, text, x + 16, y + 1.5, w - 18, 8, '#FFFFFF', True)
+    return w
 
 
 LAYOUTS = {'serves_page': serves_page, 'sources_page': sources_page, 'persona_page': persona_page, 'answer_page': answer_page, 'roadmap_page': roadmap_page, 'flow_page': flow_page, 'arch_rows': arch_rows, 'arch_board': arch_board, 'arch_summary': arch_summary, 'arch_detail': arch_detail, 'summary_page': summary_page, 'stack_page': stack_page, 'demo_page': demo_page, 'boundary_page': boundary_page, 'arch_page': arch_page, 'tools_page': tools_page, 'close_page': close_page, 'hard_page': hard_page, 'bars_page': bars_page, 'aim_page': aim_page}

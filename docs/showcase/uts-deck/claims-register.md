@@ -75,3 +75,4 @@ large-schema, demo and retrieval rows were spot-checked again on 18 November 202
 | Store manager persona | (none) | illustrative persona on the demo's real question; not a real user |
 | Retail demo database tables | 11 | rag.retrieve_schema_context measurement, 6 Nov 2026 (all 11 tables) |
 | Analyst queue in the persona | about three days | illustrative, not measured |
+| Trials with a clear accuracy gain | 1 of 6 | trials slide: only top 6 sits clear of zero |

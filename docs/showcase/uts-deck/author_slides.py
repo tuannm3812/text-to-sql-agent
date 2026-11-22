@@ -757,6 +757,12 @@ large['story'] = '**If her company’s database has 60 tables:** choosing the ta
 trials['story'] = '**What did not help her further:** five later ideas changed speed or recall, not how often she gets the right answer.'
 retrieval['story'] = '**If a table she needs is missed,** her answer is likely wrong; the fixes tried so far trade one group for another.'
 summary['story'] = '**A store manager asks:** which product categories generate the most revenue? The analyst queue is three days. Here is what this agent offers her.'
+demo['hero'] = ('173,366', 'Electronics revenue: the answer to her question, all 220 orders')
+method['hero'] = ('3,817', 'questions in five suites, 37 recorded runs')
+benchmarks['hero'] = ('64.6 %', 'of Spider answers matched; 35.2 % on BIRD')
+large['hero'] = ('+3.6 pts', '[+1.4, +5.8] with 69 % fewer prompt tokens')
+trials['hero'] = ('1 of 6', 'trials gave a clear accuracy gain: table selection')
+retrieval['hero'] = ('8 → 26', 'correct on the 128 missed-table questions, but net +2 overall')
 brief['slides'] = [cover, agenda, summary, persona, hard, other_tools, aim, serves, demo, boundary, architecture, safety, method,
                    benchmarks, large, trials, retrieval, limits, next_tests, answer, close, appendix, arch_full, scoring, engines, stack, glossary, references]
 for sl in brief['slides']:   # the kit's table_page reads its face notes from notes_on_face, not note

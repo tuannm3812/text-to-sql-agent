@@ -1015,7 +1015,11 @@
           "claims-register.md"
         ]
       },
-      "story": "**Her question, answered:** Electronics leads with 173,366, and the SQL shows which orders that counts."
+      "story": "**Her question, answered:** Electronics leads with 173,366, and the SQL shows which orders that counts.",
+      "hero": [
+        "173,366",
+        "Electronics revenue: the answer to her question, all 220 orders"
+      ]
     },
     {
       "id": "boundary",
@@ -1617,7 +1621,11 @@
         ]
       },
       "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results",
-      "story": "**How we know how often she would be right:** thousands of benchmark questions, each change measured against a baseline."
+      "story": "**How we know how often she would be right:** thousands of benchmark questions, each change measured against a baseline.",
+      "hero": [
+        "3,817",
+        "questions in five suites, 37 recorded runs"
+      ]
     },
     {
       "id": "benchmarks",
@@ -1754,7 +1762,11 @@
         ]
       },
       "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/README.md",
-      "story": "**On questions like hers:** about 2 in 3 matched on the easier test, about 1 in 3 on the harder one."
+      "story": "**On questions like hers:** about 2 in 3 matched on the easier test, about 1 in 3 on the harder one.",
+      "hero": [
+        "64.6 %",
+        "of Spider answers matched; 35.2 % on BIRD"
+      ]
     },
     {
       "id": "large",
@@ -1896,7 +1908,11 @@
         ]
       },
       "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/bird_train_large/README.md",
-      "story": "**If her company’s database has 60 tables:** choosing the tables first gave more right answers from less context."
+      "story": "**If her company’s database has 60 tables:** choosing the tables first gave more right answers from less context.",
+      "hero": [
+        "+3.6 pts",
+        "[+1.4, +5.8] with 69 % fewer prompt tokens"
+      ]
     },
     {
       "id": "trials",
@@ -1994,7 +2010,11 @@
           "claims-register.md"
         ]
       },
-      "story": "**What did not help her further:** five later ideas changed speed or recall, not how often she gets the right answer."
+      "story": "**What did not help her further:** five later ideas changed speed or recall, not how often she gets the right answer.",
+      "hero": [
+        "1 of 6",
+        "trials gave a clear accuracy gain: table selection"
+      ]
     },
     {
       "id": "retrieval",
@@ -2118,7 +2138,11 @@
         ]
       },
       "caption_url": "https://github.com/tuannm3812/text-to-sql-agent/blob/main/evaluation/results/dense_embeddings/README.md",
-      "story": "**If a table she needs is missed,** her answer is likely wrong; the fixes tried so far trade one group for another."
+      "story": "**If a table she needs is missed,** her answer is likely wrong; the fixes tried so far trade one group for another.",
+      "hero": [
+        "8 → 26",
+        "correct on the 128 missed-table questions, but net +2 overall"
+      ]
     },
     {
       "id": "limits",
