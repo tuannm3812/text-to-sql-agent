@@ -57,8 +57,7 @@
       "type": "photo",
       "span": 3,
       "image": "../assets/figures/photo-shop-wide.jpg",
-      "alt": "Interior of a small shop with wooden shelves (photograph).",
-      "credit": "Photo: Steffen Mokosch, CC BY-SA 4.0. An illustrative persona."
+      "alt": "Interior of a small shop with wooden shelves (photograph)."
     },
     {
       "type": "checks",
@@ -88,6 +87,13 @@
           "role": "slate",
           "text": "An answer **today**, the **SQL behind it** so she can check it, and her data **never changed**.",
           "action": "Other tools pay for meaning in setup; this project pays in **review**."
+        },
+        {
+          "question": "Who else it serves",
+          "icon": "../assets/icons/person-ink.png",
+          "role": "slate",
+          "text": "Managers new to a database, **privacy-sensitive** teams and teams with **large schemas**.",
+          "action": "Not for metrics that must match across teams."
         }
       ],
       "highlight": [

@@ -1,0 +1,430 @@
+{
+  "eyebrow": "36121 Artificial Intelligence Principles and Applications | Capstone project",
+  "title": "Ask your data. Inspect the answer.",
+  "subtitle": "Can a text-to-SQL agent give a store manager a fast answer she can check, without risking her data?",
+  "authors": "Manh Tuan (Mike) Nguyen · TD School, University of Technology Sydney",
+  "logo": "../assets/brand/uts-logo.svg",
+  "css": "uts_poster_land.css",
+  "plugin": "uts_poster_blocks.py",
+  "footer": "**Text-to-SQL Agent**  ·  Manh Tuan (Mike) Nguyen",
+  "strict": true,
+  "size": "A1",
+  "columns": 12,
+  "landscape": true,
+  "scale": {
+    "title": 64,
+    "subtitle": 26,
+    "eyebrow": 20,
+    "figure": 48,
+    "heading": 28,
+    "body": 22,
+    "caption": 18,
+    "marker": 24,
+    "margin_mm": 18,
+    "gap_mm": 5
+  },
+  "blocks": [
+    {
+      "type": "ptake",
+      "span": 12,
+      "value": "173,366",
+      "value_label": "her answer in seconds, with the SQL behind it",
+      "verdict": "Read-only and inspectable; a person still checks the meaning",
+      "lines": [
+        "The SQL comes with every answer; **45 of 45** read-only tests passed. About **one answer in three** still did not match on Spider."
+      ],
+      "next": [
+        [
+          "Definitions",
+          "one meaning of revenue"
+        ],
+        [
+          "Table recovery",
+          "128 missed-table questions"
+        ],
+        [
+          "New schemas",
+          "and a hosted model"
+        ]
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "Her question, and how the app answers it",
+      "span": 12
+    },
+    {
+      "type": "checks",
+      "span": 3,
+      "role": "slate",
+      "columns": 1,
+      "compact": true,
+      "heading": "Her question is simple; a trustworthy answer is not",
+      "items": [
+        {
+          "question": "Her question",
+          "icon": "../assets/icons/chat-ink.png",
+          "role": "slate",
+          "text": "“Which product categories generate the most revenue?”",
+          "action": "She knows the business, not SQL; the data sits in an 11-table database."
+        },
+        {
+          "question": "Her options today",
+          "icon": "../assets/icons/timer-ink.png",
+          "role": "slate",
+          "text": "Wait about **three days** for an analyst, or **weeks** for a curated tool to be set up.",
+          "action": "Or learn the schema and SQL herself."
+        },
+        {
+          "question": "What she needs",
+          "icon": "../assets/icons/check_circle-ink.png",
+          "role": "slate",
+          "text": "An answer **today**, the **SQL behind it** so she can check it, and her data **never changed**.",
+          "action": ""
+        }
+      ],
+      "highlight": [
+        "a trustworthy answer is not"
+      ]
+    },
+    {
+      "type": "figure",
+      "span": 5,
+      "role": "blue",
+      "image": "../assets/figures/flowchart.png",
+      "heading": "One question’s path: one model call, two gates in code",
+      "alt": "Flowchart of the app in four stage lanes: prepare, generate, check and run, answer.",
+      "caption": "Yellow is the model; teal is enforced in code.",
+      "highlight": [
+        "one model call"
+      ]
+    },
+    {
+      "type": "ptrap",
+      "span": 4,
+      "role": "blue",
+      "heading": "The 21 % trap: why she needs the SQL",
+      "question": "“Which product categories generate the most revenue?”",
+      "code_title": "The SQL, and what “completed revenue” adds",
+      "code": [
+        [
+          "SELECT category, SUM(unit_price * quantity",
+          false
+        ],
+        [
+          "+   * (1 - discount_pct)",
+          true
+        ],
+        [
+          "FROM order_items JOIN products ...",
+          false
+        ],
+        [
+          "+ JOIN orders ...",
+          true
+        ],
+        [
+          "+ WHERE order_status = 'Completed'",
+          true
+        ],
+        [
+          "GROUP BY category",
+          false
+        ]
+      ],
+      "bars": [
+        {
+          "label": "All orders, list price",
+          "value": 173366,
+          "text": "173,366",
+          "colour": "#21918C"
+        },
+        {
+          "label": "Completed, discounted",
+          "value": 136984,
+          "text": "136,984",
+          "colour": "#3B528B",
+          "gap": "21 % lower"
+        }
+      ],
+      "caption": "Electronics revenue: all **220** orders, or the **179** completed ones after discounts. Neither is wrong: the SQL shows the choice, and **she decides**.",
+      "highlight": [
+        "21 % trap"
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "Why it is hard, and what we measured",
+      "span": 12
+    },
+    {
+      "type": "photo",
+      "span": 2,
+      "image": "../assets/figures/photo-shop-wide.jpg",
+      "alt": "Interior of a small shop with wooden shelves (photograph)."
+    },
+    {
+      "type": "pslope",
+      "span": 2,
+      "role": "slate",
+      "scale": [
+        0,
+        100
+      ],
+      "w": 300,
+      "h": 230,
+      "pad": [
+        78,
+        78,
+        34,
+        34
+      ],
+      "heading": "Why it is hard: scores fall on real tasks",
+      "points": [
+        "Spider",
+        "BIRD",
+        "Spider 2.0"
+      ],
+      "series": [
+        {
+          "values": [
+            91.2,
+            73.0,
+            21.3
+          ],
+          "colour": "#440154",
+          "start": "91.2 %",
+          "end": "21.3 %",
+          "mids": [
+            "73.0 %"
+          ]
+        }
+      ],
+      "caption": "Tasks solved, Spider 2.0 paper; “revenue” is not a column.",
+      "highlight": [
+        "scores fall"
+      ]
+    },
+    {
+      "type": "pdots",
+      "span": 2,
+      "role": "plum",
+      "scale": [
+        24,
+        30
+      ],
+      "ticks": [
+        24,
+        27,
+        30
+      ],
+      "unit": " %",
+      "w": 330,
+      "label_w": 120,
+      "right_w": 66,
+      "row_h": 62,
+      "heading": "Large databases: fewer tables scored higher",
+      "rows": [
+        {
+          "label": "All + hints",
+          "value": 25.5,
+          "size": 8501,
+          "text": "25.5 %",
+          "colour": "#ADB5BD"
+        },
+        {
+          "label": "Every table",
+          "value": 26.8,
+          "size": 6221,
+          "text": "26.8 %",
+          "colour": "#ADB5BD"
+        },
+        {
+          "label": "Top 6",
+          "value": 29.1,
+          "size": 2670,
+          "text": "29.1 %",
+          "colour": "#21918C",
+          "bold": true
+        }
+      ],
+      "caption": "Dot area is prompt size: **8,501**, **6,221**, **2,670** tokens. **+3.6 [+1.4, +5.8]**, about 2 s slower.",
+      "highlight": [
+        "fewer tables"
+      ]
+    },
+    {
+      "type": "pwaffle",
+      "span": 2,
+      "role": "plum",
+      "total": 608,
+      "count": 79,
+      "colour": "#21918C",
+      "per_row": 32,
+      "heading": "What the model saw of her shop",
+      "value": "79 of 608",
+      "label": "stored text values",
+      "caption": "One square per distinct stored value; **no result row** ever reaches the model.",
+      "highlight": [
+        "her shop"
+      ]
+    },
+    {
+      "type": "pdots",
+      "span": 2,
+      "role": "plum",
+      "scale": [
+        30,
+        90
+      ],
+      "ticks": [
+        30,
+        60,
+        90
+      ],
+      "unit": " %",
+      "w": 330,
+      "label_w": 104,
+      "right_w": 70,
+      "row_h": 46,
+      "heading": "64.6 % Spider, 35.2 % BIRD",
+      "rows": [
+        {
+          "label": "Easy",
+          "value": 84.3,
+          "size": 248,
+          "text": "84.3 %",
+          "colour": "#5EC962"
+        },
+        {
+          "label": "Medium",
+          "value": 65.9,
+          "size": 446,
+          "text": "65.9 %",
+          "colour": "#21918C"
+        },
+        {
+          "label": "Hard",
+          "value": 58.6,
+          "size": 174,
+          "text": "58.6 %",
+          "colour": "#3B528B"
+        },
+        {
+          "label": "Extra hard",
+          "value": 38.0,
+          "size": 166,
+          "text": "38.0 %",
+          "colour": "#440154"
+        }
+      ],
+      "caption": "Spider by difficulty; dot area is questions (248, 446, 174, 166).",
+      "highlight": [
+        "64.6 %",
+        "35.2 %"
+      ]
+    },
+    {
+      "type": "pslope",
+      "span": 2,
+      "role": "plum",
+      "scale": [
+        0,
+        36
+      ],
+      "w": 330,
+      "h": 240,
+      "pad": [
+        76,
+        76,
+        16,
+        32
+      ],
+      "heading": "A dropped table: the lines cross",
+      "points": [
+        "All sent",
+        "One dropped"
+      ],
+      "series": [
+        {
+          "name": "Top 6",
+          "values": [
+            32.9,
+            5.4
+          ],
+          "colour": "#21918C",
+          "start": "32.9 %",
+          "end": "5.4 %"
+        },
+        {
+          "name": "Every table",
+          "values": [
+            26.7,
+            18.0
+          ],
+          "colour": "#ADB5BD",
+          "start": "26.7 %",
+          "end": "18.0 %"
+        }
+      ],
+      "caption": "Answers matched on 1,055 and 167 questions.",
+      "highlight": [
+        "the lines cross"
+      ]
+    },
+    {
+      "type": "divider",
+      "label": "What is next",
+      "span": 12
+    },
+    {
+      "type": "checks",
+      "span": 8,
+      "role": "ochre",
+      "columns": 4,
+      "compact": true,
+      "heading": "One answer in three is still wrong, and follow-ups and real schemas are untested: four tests come first",
+      "items": [
+        {
+          "question": "Business definitions",
+          "icon": "../assets/icons/menu_book-ink.png",
+          "role": "ochre",
+          "text": "Revenue stays ambiguous.",
+          "action": "Carry a definitions layer?"
+        },
+        {
+          "question": "Targeted table recovery",
+          "icon": "../assets/icons/schema-ink.png",
+          "role": "ochre",
+          "text": "**128** questions miss a table.",
+          "action": "Does recovery keep its gains?"
+        },
+        {
+          "question": "New large schemas",
+          "icon": "../assets/icons/table_rows-ink.png",
+          "role": "ochre",
+          "text": "The gain is from **2 of 4** databases.",
+          "action": "Top 6 at every size?"
+        },
+        {
+          "question": "A hosted model",
+          "icon": "../assets/icons/chat-ink.png",
+          "role": "ochre",
+          "text": "All results use **one local model**.",
+          "action": "Worth sending it the prompt?"
+        }
+      ],
+      "highlight": [
+        "four tests"
+      ]
+    },
+    {
+      "type": "band",
+      "span": 4,
+      "tone": "ink",
+      "text": "**A first, checkable answer** for people who know the question but not the schema.",
+      "qr": "https://aipa-text-to-sql-agent.streamlit.app",
+      "qr_label": "Try the live demo"
+    }
+  ]
+}

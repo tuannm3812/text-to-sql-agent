@@ -52,7 +52,7 @@ TAKE = {'type': 'ptake', 'span': 12, 'value': '173,366',
 PROBLEM = [
     {'type': 'photo', 'span': 3, 'image': '../assets/figures/photo-shop-wide.jpg',
      'alt': 'Interior of a small shop with wooden shelves (photograph).',
-     'credit': 'Photo: Steffen Mokosch, CC BY-SA 4.0. An illustrative persona.'},
+     },
     {'type': 'checks', 'span': 6, 'role': 'slate', 'columns': 1, 'compact': True,
      'heading': 'Her question is simple; **a trustworthy answer is not**',
      'items': [
@@ -65,6 +65,9 @@ PROBLEM = [
          {'question': 'What she needs', 'icon': I + 'check_circle-ink.png', 'role': 'slate',
           'text': 'An answer **today**, the **SQL behind it** so she can check it, and her data **never changed**.',
           'action': 'Other tools pay for meaning in setup; this project pays in **review**.'},
+         {'question': 'Who else it serves', 'icon': I + 'person-ink.png', 'role': 'slate',
+          'text': 'Managers new to a database, **privacy-sensitive** teams and teams with **large schemas**.',
+          'action': 'Not for metrics that must match across teams.'},
          ]},
     {'type': 'pslope', 'span': 3, 'role': 'slate', 'scale': [0, 100], 'w': 300, 'h': 230, 'pad': (78, 78, 34, 34),
      'heading': 'Why it is hard: **scores fall** on real tasks',
@@ -158,6 +161,42 @@ def portrait():
     return spec
 
 
+def stack(span, blocks):
+    return {'type': 'stack', 'span': span, 'blocks': blocks}
+
+
+def landscape():
+    """A1 landscape: the answer band, then problem | how it works | what we measured in three columns, then next."""
+    import copy
+    spec = dict(SPEC)
+    spec['landscape'] = True
+    # landscape stylesheet: the portrait one plus a figure that shrinks to its row
+    (HERE / 'uts_poster_land.css').write_text((HERE / 'uts_poster.css').read_text() + '''
+/* landscape only: the flowchart scales to the row height instead of pushing the row taller */
+.figure { display: flex; flex-direction: column; }
+.figure .frame { flex: 1 1 0; min-height: 0; display: flex; justify-content: center; }
+.figure .frame img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+''')
+    spec['css'] = 'uts_poster_land.css'
+    P, H, E, N = (copy.deepcopy(x) for x in (PROBLEM, HOW, EVIDENCE, NEXT))
+    for b in P + H + E:
+        b['span'] = 12
+    N[0]['span'], N[0]['columns'] = 12, 4
+    P[1]['span'], H[0]['span'], H[1]['span'] = 3, 5, 4
+    P[1]['items'] = [dict(i) for i in P[1]['items'][:3]]
+    P[1]['items'][2]['action'] = ''
+    H[0]['caption'] = 'Yellow is the model; teal is enforced in code.'
+    P[0]['span'], P[2]['span'] = 2, 2
+    for e in E:
+        e['span'] = 2
+    N[0]['span'], N[1]['span'] = 8, 4
+    spec['blocks'] = [highlights(b) for b in [
+        TAKE, divider('Her question, and how the app answers it'), P[1], H[0], H[1],
+        divider('Why it is hard, and what we measured'), P[0], P[2], E[0], E[1], E[2], E[3],
+        divider('What is next'), N[0], N[1]]]
+    return spec
+
+
 def render(name, spec):
     path = HERE / f'{name}.json'
     path.write_text(json.dumps(spec, indent=2, ensure_ascii=False) + '\n')
@@ -169,7 +208,7 @@ def render(name, spec):
                          cwd=KIT, capture_output=True, text=True)
     print(name, run.stdout.strip(), run.stderr.strip()[-1500:])
     if run.returncode == 0:
-        dpi = round(6000 / (841 / 25.4))
+        dpi = round(6000 / (841 / 25.4))   # the long side is 841 mm in both orientations
         subprocess.run(['pdftoppm', '-r', str(dpi), '-png', '-singlefile', str(pdf), str(out / f'{name}-linkedin')],
                        check=True)
     return run.returncode
@@ -179,7 +218,11 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--render', action='store_true')
     args = ap.parse_args()
-    spec = portrait()
-    if args.render:
-        sys.exit(render('poster-portrait', spec))
-    (HERE / 'poster-portrait.json').write_text(json.dumps(spec, indent=2, ensure_ascii=False) + '\n')
+    codes = []
+    for name, make in (('poster-portrait', portrait), ('poster-landscape', landscape)):
+        spec = make()
+        if args.render:
+            codes.append(render(name, spec))
+        else:
+            (HERE / f'{name}.json').write_text(json.dumps(spec, indent=2, ensure_ascii=False) + '\n')
+    sys.exit(max(codes or [0]))
