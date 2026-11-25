@@ -8726,3 +8726,32 @@ record Antigravity as the reviewer in AGENTS.md.
 AGENTS.md also records the reviewer switch. Gates: pytest 1,549 passed / 353 skipped; ruff check: all passed;
 ruff format --check: 207 files already formatted; mypy: success, 59 files. `docs/showcase/poster.html` and the
 untracked showcase files are still other work and are not included.
+
+## 2026-11-25 — Antigravity to Claude: review of b231316..HEAD
+
+Waiting for the quality gates (`pytest`, `ruff`, and `mypy`) to finish before writing the review entry.
+## 2026-11-25 — Antigravity to Claude: round-1 findings closed and quality gates green
+
+**Scope:** Reviewed the single commit in `b231316..HEAD` (`3149975`, 17 files changed, 59 insertions and 15 deletions plus the re-rendered `poster-landscape.pdf` and `poster-portrait.pdf`), [AGENTS.md](../AGENTS.md), [docs/0_coding_standards.md](../docs/0_coding_standards.md), and Claude's 2026-11-25 round-2 handoff in [docs/6_agent_log.md](../docs/6_agent_log.md#L8710-L8728) against the open items from round 1 (`269ed8f..cc890bb`). Confirmed no files in `text_to_sql_agent/`, `ui/`, `tests/`, `app.py`, or `scripts/` changed in this range. Could not check: live PostgreSQL tests (`TEXT_TO_SQL_TEST_POSTGRES_DSN` unset), visual inspection of the re-rendered poster PDFs, live Streamlit Community Cloud deployment, or uncommitted working-tree files (`docs/showcase/poster.html` and untracked showcase/run-log files).
+
+**What is closed / verified:**
+
+1. **Ruff quality gates (round-1 P2) closed per owner decision.** [pyproject.toml](../pyproject.toml#L46-L48) adds `extend-exclude = ["docs/showcase"]`, and [docs/0_coding_standards.md](../docs/0_coding_standards.md#L105-L109) documents the rationale and 2026-11-25 owner decision. Both `uv run ruff check .` and `uv run ruff format --check .` now exit `0` across all 207 checked repository files while keeping product code, `tests/`, `app.py`, and `scripts/` in scope.
+2. **28-page `uts-deck` provenance, A1 posters, and reviewer record (round-1 P3) closed.** [AGENTS.md](../AGENTS.md#L161-L166) records the 2026-11-23 restructure to 28 pages, the A1 portrait/landscape posters, the Antigravity reviewer switch, and the `docs/showcase/` ruff exclusion. [docs/showcase/uts-deck/DESIGN.project.md](../docs/showcase/uts-deck/DESIGN.project.md#L43) and the new 2026-11-25 record in [docs/showcase/uts-deck/QA.md](../docs/showcase/uts-deck/QA.md#L42-L47) match [docs/showcase/uts-deck/output/qa-report.json](../docs/showcase/uts-deck/output/qa-report.json#L2-L10) (`"pages": 28`, `"problems": []`, `"pdf_sha256": "1aaf6a5790248c0ade2a34b821aefc71304ec8b9697320285be321256f5900e8"`), and `QA.md` explicitly records that a page-by-page eye review of the 28-page deck was not performed in that pass.
+3. **Deployment branch and showcase index (round-1 P3) closed.** [README.md](../README.md#L589) and [docs/5_deployment.md](../docs/5_deployment.md#L8) both specify `Branch: main`, and [docs/showcase/README.md](../docs/showcase/README.md#L4-L14) is updated to 25 November 2026 with links to the 28-page UTS deck (`uts-deck/output/deck.pdf`, `deck.html`, `QA.md`) and A1 portrait/landscape posters.
+4. **Poster dot-chart caption wording (round-1 P3) closed.** [docs/showcase/uts-deck/poster/make_poster.py](../docs/showcase/uts-deck/poster/make_poster.py#L104), [make_poster.py](../docs/showcase/uts-deck/poster/make_poster.py#L116), [poster-landscape.json](../docs/showcase/uts-deck/poster/poster-landscape.json#L251), [poster-portrait.json](../docs/showcase/uts-deck/poster/poster-portrait.json#L263), [uts_poster_blocks.py](../docs/showcase/uts-deck/poster/uts_poster_blocks.py#L451), and the re-rendered HTML/PDF outputs (`poster-landscape.html`, `poster-portrait.html`, `poster-landscape.pdf`, `poster-portrait.pdf`) replace `"Dot area is ..."` / `"dot area is ..."` with `"Bigger dot, longer prompt: ..."` and `"bigger dots, more questions ..."`, with no remaining `"dot area"` occurrences in the poster sources or generated HTML.
+
+**Findings:** None.
+
+**Checks:** All four quality gates ran on `3149975` (`HEAD`) with `UV_CACHE_DIR=/private/tmp/aipa-review-uv` and exited `0`:
+
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run pytest -o addopts='' -q`: **1549 passed, 353 skipped** in 29.89 s (no `TEXT_TO_SQL_TEST_POSTGRES_DSN` set).
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run ruff check .`: **All checks passed!** (exit 0).
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run ruff format --check .`: **207 files already formatted** (exit 0).
+- `UV_CACHE_DIR=/private/tmp/aipa-review-uv uv run mypy`: **Success: no issues found in 59 source files** (exit 0).
+
+**Next handoff:** Ready to push `main` and proceed with the next planned phase (or a quick eye-check of the 28-page `uts-deck` PDF and portrait poster spacing if presenting them directly).
+
+**Verdict: no further findings.**
+
+_Antigravity CLI (agy), model gemini-4-hydrogen-high, plan mode (read-only), on b231316..HEAD (3149975); appended by antigravity_review.sh._

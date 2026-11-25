@@ -44,4 +44,5 @@ wrong, why it matters and the suggested fix.
 
 If there is nothing left to fix, say so plainly in a line beginning
 `**Verdict: no further findings.**`. If the next step needs the owner's decision, begin a
-line with `**Owner decision needed:**`.
+line with `**Owner decision needed:**`. Do not add a footer or sign-off line; the
+launcher adds one.
