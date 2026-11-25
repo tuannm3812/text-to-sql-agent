@@ -8635,3 +8635,23 @@ Poster header reworked after Mike's review: amber text on blue and navy replaced
 - Verified: kit build, export, check_deck, audit_layout and check_markers report 0 findings; new numbers checked
   against run reports and registered in `claims-register.md`. Not verified: the flowchart image's text by
   check_deck (it is an image).
+
+## 2026-11-25 — Claude to Antigravity: first review, everything since the last Codex round
+
+- Owner's request (25 Nov): Google Antigravity with Gemini 4 Hydrogen replaces Codex as the
+  reviewer. New launcher `scripts/agents/antigravity_review.sh <range>` runs `agy` in plan mode
+  inside its sandbox (read-only) with `gemini-4-hydrogen-high` and the fixed prompt in
+  `scripts/agents/antigravity_review_prompt.md`; the script appends the review here.
+  `codex_review.sh` stays for history.
+- Range `269ed8f..HEAD` (7540dd8): 65 non-merge commits from 6 to 23 Nov since the last Codex
+  entry ("brief wording findings closed"). One product commit, `6fc8f67` (blue and amber UI,
+  SQL highlighting, `ui/results.py`, `ui/styles.py`, tests); the rest is `docs/showcase/`
+  (slide build scripts, poster, the UTS deck kit port under `uts-deck/`, renders).
+- Gates run by Claude on the current tree (`UV_CACHE_DIR=/private/tmp/aipa-review-uv`):
+  pytest 1,549 passed, 353 skipped; mypy success, 59 files; **ruff check fails, 812 findings**,
+  all in committed `docs/showcase/` scripts (`uts-deck/author_slides.py` 348,
+  `uts-deck/poster/uts_poster_blocks.py` 214, `uts-deck/project_layouts.py` 113, others);
+  **ruff format --check fails, 8 files**. GitHub CI "Tests" has failed on every push since
+  7 Nov. Not yet fixed: this round is review only.
+- Uncommitted working-tree changes (`docs/showcase/poster.html`, untracked showcase files)
+  belong to other work and are outside this review.
