@@ -1,7 +1,7 @@
 # Showcase handoff
 
 The current poster and deck for Text-to-SQL Agent, and what a portfolio page should reuse.
-Updated 7 November 2026.
+Updated 25 November 2026.
 
 ## Assets
 
@@ -10,6 +10,8 @@ Updated 7 November 2026.
 | Poster PDF and PNG | [PDF](text-to-sql-agent-poster.pdf), [PNG](text-to-sql-agent-poster.png) | Current, exported from the live poster |
 | Live poster | [Google Slides](https://docs.google.com/presentation/d/1yxVBZCk7Zh2Udt_QASjhZaXw7yb2Thw1TbFnN3KOYAg/edit), private | Slide 1 is current; slide 2 is the old poster, kept to compare |
 | Live deck | [Google Slides](https://docs.google.com/presentation/d/1SeYPeuPEcVqbDjtHdlR_SI9SbVt-82hCeHe5eEaDRow/edit), private | 18 slides; amber "PENDING" tags stay until release |
+| UTS deck | [uts-deck/output/deck.pdf](uts-deck/output/deck.pdf), [HTML](uts-deck/output/deck.html), [QA record](uts-deck/QA.md) | 28 pages on the UTS deck kit, built from `uts-deck/` |
+| UTS posters | [A1 portrait](uts-deck/poster/output/poster-portrait.pdf), [A1 landscape](uts-deck/poster/output/poster-landscape.pdf) | Built by `uts-deck/poster/make_poster.py --render` |
 | Speaker notes | [speaker-notes.md](speaker-notes.md) | Synced from the deck on 7 November |
 | Demo clip | [GIF](slides/captures/2026-11-06-retail-demo.gif), [details](slides/captures/2026-11-06-retail-demo.json) | A real run on a local model |
 | App screenshots | [docs/screenshots/](../screenshots/) | Current app design |

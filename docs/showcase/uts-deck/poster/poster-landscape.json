@@ -248,7 +248,7 @@
           "bold": true
         }
       ],
-      "caption": "Dot area is prompt size: **8,501**, **6,221**, **2,670** tokens. **+3.6 [+1.4, +5.8]**, about 2 s slower.",
+      "caption": "Bigger dot, longer prompt: **8,501**, **6,221**, **2,670** tokens. **+3.6 [+1.4, +5.8]**, about 2 s slower.",
       "highlight": [
         "fewer tables"
       ]
@@ -318,7 +318,7 @@
           "colour": "#440154"
         }
       ],
-      "caption": "Spider by difficulty; dot area is questions (248, 446, 174, 166).",
+      "caption": "Spider by difficulty; bigger dots, more questions (248, 446, 174, 166).",
       "highlight": [
         "64.6 %",
         "35.2 %"

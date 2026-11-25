@@ -40,4 +40,4 @@ UTS identity use: identity uts (UTS subject deliverable).
 
 Slide content: `author_slides.py` writes slides 2 and 4 to 19 into brief-content.json from the live deck's bodies and notes; edit it and rerun rather than editing the JSON by hand.
 
-Final output checks and unperformed checks: 24 pages; all five kit checks report 0 findings (21 November 2026). See QA.md for the review record and limitations.
+Final output checks and unperformed checks: 28 pages since the 22 to 23 November restructure (output/qa-report.json, 0 problems), plus A1 portrait and landscape posters in poster/; all five kit checks reported 0 findings on 21 November 2026. See QA.md for the review record and limitations.

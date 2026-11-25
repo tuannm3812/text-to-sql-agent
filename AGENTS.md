@@ -158,6 +158,12 @@ Project-specific rules and deliberate overrides: @docs/0_coding_standards.md
 - 2026-11-21: the deck is ported to the UTS deck kit (`docs/showcase/uts-deck/`, 24 pages, HTML and PDF;
   slide text from `author_slides.py`, appendix flowchart from `make_flow.py`). All kit checks report 0 findings.
   The Google Slides deck is unchanged.
+- 2026-11-23: UTS deck restructured around the store manager to 28 pages, plus A1 portrait and landscape posters
+  (`docs/showcase/uts-deck/poster/`, `make_poster.py --render`).
+- 2026-11-25: Google Antigravity (`agy`, model `gemini-4-hydrogen-high`) replaces Codex as the external reviewer:
+  `scripts/agents/antigravity_review.sh <range>` runs it read-only in plan mode and appends an "Antigravity to
+  Claude" entry to `docs/6_agent_log.md`; `codex_review.sh` is kept for history. `docs/showcase/` is excluded from
+  ruff, which turns the CI quality job green again.
 
 ## Open risks
 

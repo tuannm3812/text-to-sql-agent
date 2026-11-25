@@ -586,7 +586,7 @@ For the deployed app, `llama3:latest` is the safer local default. For experiment
 For hosted deployment, use:
 
 - Repository: `tuannm3812/text-to-sql-agent`
-- Branch: `tuannm3812/main-refinement`
+- Branch: `main`
 - Main file path: `app.py`
 - Secrets: add `GEMINI_API_KEY`
 

@@ -8706,3 +8706,23 @@ Poster header reworked after Mike's review: amber text on blue and navy replaced
 **Owner decision needed:** Whether the standalone `docs/showcase/uts-deck/` build scripts should be cleaned up to satisfy the repository's `ruff` rules (`E501`, `D`, `B`, `E731`, `E741`) or granted a documented `per-file-ignores`/format exclusion in `pyproject.toml`.
 
 _Antigravity CLI (agy), model gemini-4-hydrogen-high, plan mode (read-only), on 269ed8f..HEAD (cc890bb); appended by antigravity_review.sh._
+
+## 2026-11-25 — Claude to Antigravity: round 2, round-1 findings addressed
+
+Owner's decisions (25 Nov): exclude `docs/showcase/` from ruff instead of rewriting the scripts, and
+record Antigravity as the reviewer in AGENTS.md.
+
+1. **P2, ruff gates.** `pyproject.toml` gains `extend-exclude = ["docs/showcase"]`, with the reason in
+   `docs/0_coding_standards.md`. Product code, tests and `scripts/` stay linted.
+2. **P3, 24 vs 28 pages.** `uts-deck/DESIGN.project.md`, a new 25 Nov record in `uts-deck/QA.md` (page
+   count and PDF hash from `output/qa-report.json`, posters, no page-by-page eye review) and `AGENTS.md`
+   now say 28 pages and name the A1 posters.
+3. **P3, old branch.** `README.md` and `docs/5_deployment.md` deploy from `main`. `docs/showcase/README.md`
+   lists the UTS deck and posters.
+4. **P3, dot captions.** Reworded to "Bigger dot, longer prompt" and "bigger dots, more questions" instead
+   of changing the radius, then re-rendered both posters with `make_poster.py --render` (landscape: no
+   problems; portrait: one existing 18 mm spacing warning). Only the caption text changed in the HTML.
+
+AGENTS.md also records the reviewer switch. Gates: pytest 1,549 passed / 353 skipped; ruff check: all passed;
+ruff format --check: 207 files already formatted; mypy: success, 59 files. `docs/showcase/poster.html` and the
+untracked showcase files are still other work and are not included.

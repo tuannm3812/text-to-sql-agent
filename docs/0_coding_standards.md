@@ -102,6 +102,12 @@ reworked anyway" — see `docs/superpowers/specs/2026-09-10-refactor-roadmap.md`
   `text_to_sql_agent_mvp.ipynb` and invalidate its saved outputs. It does not
   cover `ruff check --fix`; see the notebook bullet above.
 
+- **`docs/showcase/` is excluded from ruff (`extend-exclude`).** It holds one-off
+  deck and poster build scripts (slide layouts, long literal strings, lambdas in
+  tables), not product code. They broke `ruff check .` and `ruff format --check .`
+  and kept CI red from 7 to 25 Nov 2026; the owner chose an exclusion over
+  rewriting them (2026-11-25). Product code, tests and `scripts/` stay fully linted.
+
 - **`E501` is off for `text_to_sql_agent/llm.py`.** Its long lines are all inside
   `SQL_TRANSLATION_SYSTEM_PROMPT`, where a line break is content the model reads.
   Rewrapping would change behaviour. Revisit if the prompt moves to its own file.

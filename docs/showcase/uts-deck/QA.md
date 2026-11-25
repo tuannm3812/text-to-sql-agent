@@ -38,3 +38,10 @@ See the [agent workflow](https://github.com/tuannm3812/uts-deck-kit/blob/main/AG
 - Speaker notes present on every slide; notes for changed slides (architecture, trials) rewritten to match.
 - Links: tool docs on other tools, chart sources to result pages, Spider 2.0 paper, live demo and repository on the close, QR codes on demo and close.
 - Limitations: the demo is a still crop, not the GIF; the appendix flowchart is a rendered image (make_flow.py), so its text is not checked by check_deck; some carried-over numbers were spot-checked rather than re-derived.
+
+## Review record, 25 November 2026 (after the 22 to 23 November restructure)
+
+- 28 pages (output/qa-report.json: 0 problems, PDF SHA-256 1aaf6a5790248c0ade2a34b821aefc71304ec8b9697320285be321256f5900e8).
+- A1 posters, portrait and landscape, built by poster/make_poster.py --render; output/poster-portrait.pdf and output/poster-landscape.pdf.
+- Poster dot-chart captions reworded from "dot area is" to "bigger dot" wording, because the radius has a 6 pt floor, so area is not proportional (external review, 25 November). Posters re-rendered; the landscape poster reports no automated problems, the portrait poster one spacing warning (18 mm unused at the bottom of the 21 % trap card).
+- Not done in this record: a page-by-page review by eye of the 28-page deck.

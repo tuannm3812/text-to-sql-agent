@@ -448,7 +448,7 @@ def pslope(block, base, t):
 
 
 def pdots(block, base, t):
-    """Text-to-SQL poster: one row per item, a dot on a shared scale; dot area sized by a second measure (tokens)."""
+    """Text-to-SQL poster: one row per item, a dot on a shared scale; dot size grows with a second measure (tokens)."""
     W = block.get('w', 520)
     rows = block['rows']
     lo, hi = block['scale']
